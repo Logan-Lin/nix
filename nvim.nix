@@ -9,6 +9,7 @@
       nvim-treesitter.withAllGrammars
       lualine-nvim
       nvim-web-devicons
+      gruvbox-nvim
     ];
     extraLuaConfig = ''
       -- Basic settings
@@ -31,7 +32,8 @@
       vim.g.mapleader = " "
 
       -- Set gruvbox colorscheme to match lualine theme
-      vim.cmd('colorscheme default')  -- Use a simple colorscheme that works with lualine
+      vim.opt.background = "dark"
+      vim.cmd('colorscheme gruvbox')
 
       -- Nvim-tree setup
       require("nvim-tree").setup({})

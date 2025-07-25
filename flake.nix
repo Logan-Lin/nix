@@ -52,6 +52,9 @@
         enable = true;
         defaultKeymap = "viins";
         enableVteIntegration = true;
+        sessionVariables = {
+          COLORTERM = "truecolor";
+        };
       };
     };
   in
