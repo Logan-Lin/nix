@@ -10,6 +10,7 @@
       lualine-nvim
       nvim-web-devicons
       gruvbox-nvim
+      vim-fugitive
     ];
     extraLuaConfig = ''
       -- Basic settings
@@ -67,6 +68,12 @@
       -- Basic keymaps
       vim.keymap.set("n", "<leader>w", ":w<CR>", { desc = "Save file" })
       vim.keymap.set("n", "<leader>q", ":q<CR>", { desc = "Quit" })
+      
+      -- Git keymaps (vim-fugitive)
+      vim.keymap.set("n", "<leader>gs", ":Git<CR>", { desc = "Git status" })
+      vim.keymap.set("n", "<leader>gd", ":Git diff<CR>", { desc = "Git diff" })
+      vim.keymap.set("n", "<leader>gc", ":Git commit<CR>", { desc = "Git commit" })
+      vim.keymap.set("n", "<leader>gp", ":Git push<CR>", { desc = "Git push" })
     '';
   };
 }
