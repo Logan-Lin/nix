@@ -7,6 +7,7 @@
     baseIndex = 1;   # Start windows and panes at 1, not 0
     mouse = true;    # Enable mouse support
     keyMode = "vi";  # Use vi key bindings in copy mode
+    terminal = "screen-256color";  # Force 256 color support
     
     extraConfig = ''
       # Terminal settings
