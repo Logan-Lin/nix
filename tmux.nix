@@ -14,7 +14,7 @@
       set -g default-terminal "screen-256color"
       set -ga terminal-overrides ",xterm-256color:Tc"
       
-      # Gruvbox Dark Theme
+      # Gruvbox Dark Theme (Truecolor)
       # Status bar colors
       set -g status-style 'bg=#282828,fg=#ebdbb2'
       set -g status-left-style 'bg=#a89984,fg=#282828'

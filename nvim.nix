@@ -31,7 +31,10 @@
       -- Leader key
       vim.g.mapleader = " "
 
-      -- Set gruvbox colorscheme to match lualine theme
+      -- Configure gruvbox with hard contrast for darker background
+      require("gruvbox").setup({
+        contrast = "hard", -- Makes background much darker (#1d2021 instead of #282828)
+      })
       vim.opt.background = "dark"
       vim.cmd('colorscheme gruvbox')
 
@@ -52,7 +55,7 @@
         auto_install = false,
       })
 
-      -- Lualine setup
+      -- Lualine setup with gruvbox theme
       require('lualine').setup({
         options = {
           theme = 'gruvbox_dark',
