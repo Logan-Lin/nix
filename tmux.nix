@@ -12,7 +12,7 @@
     extraConfig = ''
       # Terminal settings
       set -g default-terminal "screen-256color"
-      set -ga terminal-overrides ",*256col*:Tc"
+      set -ga terminal-overrides ",xterm-256color:Tc"
       
       # Gruvbox Dark Theme
       # Status bar colors
