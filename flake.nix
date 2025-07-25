@@ -60,6 +60,10 @@
       modules = [ configuration ];
     };
 
+    darwinConfigurations."mba" = nix-darwin.lib.darwinSystem {
+      modules = [ configuration ];
+    };
+
     homeConfigurations.yanlin = home-manager.lib.homeManagerConfiguration {
       pkgs = nixpkgs.legacyPackages.aarch64-darwin;
       modules = [ homeConfiguration ];
