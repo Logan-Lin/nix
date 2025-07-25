@@ -30,7 +30,8 @@
       -- Leader key
       vim.g.mapleader = " "
 
-      -- Use terminal default colors - no custom colorscheme
+      -- Set gruvbox colorscheme to match lualine theme
+      vim.cmd('colorscheme default')  -- Use a simple colorscheme that works with lualine
 
       -- Nvim-tree setup
       require("nvim-tree").setup({})
