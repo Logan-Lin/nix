@@ -42,6 +42,7 @@
         claude-code.packages.aarch64-darwin.claude-code
         nerd-fonts.fira-code
         nerd-fonts.jetbrains-mono
+        gitui
       ];
 
       fonts.fontconfig.enable = true;
