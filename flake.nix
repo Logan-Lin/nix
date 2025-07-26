@@ -57,7 +57,7 @@
       modules = [ configuration ];
     };
 
-    darwinConfigurations."Macbook-Air" = nix-darwin.lib.darwinSystem {
+    darwinConfigurations."MacBook-Air" = nix-darwin.lib.darwinSystem {
       modules = [ configuration ];
     };
 
