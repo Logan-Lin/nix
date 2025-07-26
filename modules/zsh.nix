@@ -2,7 +2,7 @@
 
 let
   projectsConfig = import ../config/projects.nix;
-  projectLauncher = ../scripts/project-launcher.sh;
+  projectLauncher = "/Users/yanlin/.config/nix/scripts/project-launcher.sh";
 in
 {
   programs.zsh = {
