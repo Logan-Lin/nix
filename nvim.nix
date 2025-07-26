@@ -79,6 +79,11 @@
       vim.keymap.set("n", "<leader>w", ":w<CR>", { desc = "Save file" })
       vim.keymap.set("n", "<leader>q", ":q<CR>", { desc = "Quit" })
       
+      -- System clipboard keymaps
+      vim.keymap.set({"n", "v"}, "<leader>y", "\"+y", { desc = "Copy to system clipboard" })
+      vim.keymap.set("n", "<leader>p", "\"+p", { desc = "Paste from system clipboard" })
+      vim.keymap.set("v", "<leader>p", "\"+p", { desc = "Replace selection with system clipboard" })
+      
       -- Git keymaps (vim-fugitive)
       vim.keymap.set("n", "<leader>gs", ":Git<CR>", { desc = "Git status" })
       vim.keymap.set("n", "<leader>gd", ":Git diff<CR>", { desc = "Git diff" })
