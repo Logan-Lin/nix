@@ -9,9 +9,36 @@ PROJECTS_JSON="$CONFIG_DIR/projects.json"
 TEMPLATES_DIR="$(dirname "$0")/templates"
 
 if [ -z "$PROJECT_NAME" ]; then
-    echo "Available projects:"
+    printf "📋 \033[1;36mAvailable Projects:\033[0m\n\n"
+    
     if [ -f "$PROJECTS_JSON" ]; then
-        jq -r '.projects | keys[]' "$PROJECTS_JSON" 2>/dev/null || echo "No projects configured"
+        # Check if jq is available and JSON is valid
+        if ! command -v jq >/dev/null 2>&1; then
+            echo "Error: jq not found. Please install jq or run 'home-manager switch'."
+            exit 1
+        fi
+        
+        # Parse and display projects with descriptions and icons
+        jq -r '.projects | to_entries[] | "\(.key)|\(.value.description)|\(.value.template)"' "$PROJECTS_JSON" 2>/dev/null | \
+        while IFS='|' read -r name desc template; do
+            # Assign icons based on template type
+            case "$template" in
+                "content") icon="🚀" ;;
+                "research") icon="🔬" ;;
+                "basic") icon="⚙️" ;;
+                *) icon="📁" ;;
+            esac
+            
+            # Format with consistent spacing
+            printf "  %s \033[1;32m%-12s\033[0m %-35s \033[2m[%s]\033[0m\n" \
+                "$icon" "$name" "$desc" "$template"
+        done
+        
+        if [ $? -ne 0 ]; then
+            echo "No projects configured"
+        else
+            printf "\n\033[2mUsage: proj <name> or just type the project name directly\033[0m\n"
+        fi
     else
         echo "No projects configured - run 'home-manager switch' to generate config"
     fi
