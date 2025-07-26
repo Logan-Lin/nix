@@ -223,27 +223,3 @@ sudo darwin-rebuild switch --flake .#MacBook-Air
 sudo darwin-rebuild switch --flake .#iMac
 ```
 
-## 🎯 Workflow Optimization
-
-### Cross-Application Consistency
-- **Vim keybindings**: Available in zsh, tmux, and neovim
-- **Gruvbox theme**: Consistent dark theme across all applications
-- **Leader key patterns**: Space-based shortcuts in neovim
-- **System clipboard**: Unified clipboard access across all tools
-
-### Productivity Features
-- **Fast fuzzy finding**: fzf integration in zsh and file operations
-- **Smart completion**: Context-aware completions with history
-- **Visual indicators**: Mode indicators, prefix indicators, and status information
-- **Modern replacements**: Enhanced versions of common CLI tools
-
-## 🚀 Getting Started
-
-1. **Install**: Use the quick install commands above
-2. **Refresh**: Run `exec zsh` to load the new shell
-3. **Configure**: Powerlevel10k will auto-configure on first run
-4. **Explore**: Try the keybindings and modern CLI tools
-
----
-
-*Generated and maintained with [Claude Code](https://claude.ai/code) 🤖*
