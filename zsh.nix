@@ -3,6 +3,7 @@
 {
   programs.zsh = {
     enable = true;
+    defaultKeymap = "viins";
     enableVteIntegration = true;
     enableCompletion = true;
     autosuggestion.enable = true;
@@ -41,6 +42,40 @@
       
       # Load Powerlevel10k configuration (managed by Nix)
       source ~/.p10k.zsh
+      
+      # Vim mode configuration
+      # Reduce delay when switching modes (10ms instead of 400ms)
+      export KEYTIMEOUT=1
+      
+      # Cursor shape changes for vim modes
+      function zle-keymap-select {
+        case $KEYMAP in
+          vicmd)      echo -ne '\e[1 q';;  # block cursor for normal mode
+          viins|main) echo -ne '\e[5 q';;  # line cursor for insert mode
+        esac
+      }
+      zle -N zle-keymap-select
+      
+      # Ensure we start with line cursor in insert mode
+      function zle-line-init {
+        echo -ne '\e[5 q'
+      }
+      zle -N zle-line-init
+      
+      # Fix cursor after each command
+      function preexec {
+        echo -ne '\e[5 q'
+      }
+      
+      # Additional vim-like bindings
+      bindkey -M vicmd 'k' history-search-backward
+      bindkey -M vicmd 'j' history-search-forward
+      bindkey -M vicmd '/' history-incremental-search-backward
+      bindkey -M vicmd '?' history-incremental-search-forward
+      
+      # Better word movement in insert mode
+      bindkey '^[[1;5C' forward-word      # Ctrl+Right
+      bindkey '^[[1;5D' backward-word     # Ctrl+Left
     '';
   };
   
