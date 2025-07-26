@@ -174,6 +174,7 @@ Launch with `gitui` in any git repository for:
 - **ripgrep (rg)**: Fast text search
 - **bat**: Syntax-highlighted cat replacement
 - **btop**: Modern system monitor
+- **httpie**: Modern HTTP client for API testing
 - **zoxide**: Smart cd with frecency algorithm
 
 #### fd Usage Examples
@@ -204,6 +205,36 @@ fzf --preview 'bat --style=numbers --color=always {}'
 - `Ctrl+T` - Insert selected files/directories into command line
 - `Ctrl+R` - Search command history interactively  
 - `Alt+C` - Change to selected directory
+
+#### httpie Usage Examples
+```bash
+# Simple HTTP requests
+http GET api.example.com/users
+http POST api.example.com/users name="John" email="john@example.com"
+http PUT api.example.com/users/1 name="Jane"
+http DELETE api.example.com/users/1
+
+# With authentication headers
+http GET api.example.com/protected Authorization:"Bearer your-token"
+http GET api.example.com/api X-API-Key:"your-api-key"
+
+# File uploads
+http --form POST api.example.com/upload file@document.pdf
+http --multipart POST api.example.com/upload file@image.jpg description="Profile photo"
+
+# JSON data with custom headers
+http POST api.example.com/data Content-Type:application/json name="test" status:=true count:=42
+
+# Sessions for persistent authentication
+http --session=myapp POST api.example.com/login username=admin password=secret
+http --session=myapp GET api.example.com/dashboard
+
+# Download files
+http --download GET api.example.com/files/report.pdf
+
+# Pretty print and filter JSON responses
+http GET api.example.com/users | jq '.data[].name'
+```
 
 #### Powerful Tool Combinations
 ```bash
