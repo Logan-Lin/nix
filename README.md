@@ -212,6 +212,8 @@ Launch with `gitui` in any git repository for:
 - **bat**: Syntax-highlighted cat replacement
 - **btop**: Modern system monitor
 - **httpie**: Modern HTTP client for API testing
+- **lftp**: Scriptable FTP client for automation
+- **termscp**: Comprehensive TUI file transfer client (FTP/SFTP/SCP/S3)
 - **zoxide**: Smart cd with frecency algorithm
 
 #### fd Usage Examples
@@ -254,24 +256,31 @@ http DELETE api.example.com/users/1
 # With authentication headers
 http GET api.example.com/protected Authorization:"Bearer your-token"
 http GET api.example.com/api X-API-Key:"your-api-key"
-
-# File uploads
-http --form POST api.example.com/upload file@document.pdf
-http --multipart POST api.example.com/upload file@image.jpg description="Profile photo"
-
-# JSON data with custom headers
-http POST api.example.com/data Content-Type:application/json name="test" status:=true count:=42
-
-# Sessions for persistent authentication
-http --session=myapp POST api.example.com/login username=admin password=secret
-http --session=myapp GET api.example.com/dashboard
-
-# Download files
-http --download GET api.example.com/files/report.pdf
-
-# Pretty print and filter JSON responses
-http GET api.example.com/users | jq '.data[].name'
 ```
+
+#### termscp Usage Examples
+```bash
+# Launch TUI file transfer client
+termscp
+ftp                  # Alias for termscp
+
+# Quick connections
+termscp ftp://user@host.com
+termscp sftp://user@host.com:2222
+termscp scp://user@host.com
+
+# Advanced features
+termscp --config     # Configure settings and bookmarks
+termscp --version    # Show version information
+```
+
+**Key termscp features:**
+- **Rich TUI**: Interactive file browser with dual-pane view
+- **Multi-protocol**: FTP, SFTP, SCP, S3, WebDAV support
+- **Bookmarks**: Save frequently accessed servers
+- **File operations**: Create, rename, delete, search, edit files
+- **Synchronization**: Sync directories between local and remote
+- **Themes**: Customizable interface themes
 
 #### Powerful Tool Combinations
 ```bash

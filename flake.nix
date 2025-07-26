@@ -46,6 +46,7 @@
         python312Packages.pip
         python312Packages.virtualenv
         lftp
+        termscp
         httpie
         claude-code.packages.aarch64-darwin.claude-code
         nerd-fonts.fira-code
