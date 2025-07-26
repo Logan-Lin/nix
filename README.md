@@ -205,6 +205,24 @@ fzf --preview 'bat --style=numbers --color=always {}'
 - `Ctrl+R` - Search command history interactively  
 - `Alt+C` - Change to selected directory
 
+#### Powerful Tool Combinations
+```bash
+# Find and open file with nvim using interactive selection
+nvim $(fd --type f | fzf)
+
+# Find and edit Nix configuration files
+nvim $(fd "*.nix" | fzf)
+
+# Search text content and open matching file
+nvim $(rg -l "search_term" | fzf)
+
+# Preview files while selecting which one to edit
+nvim $(fd --type f | fzf --preview 'bat --color=always {}')
+
+# Find and edit files in specific directory
+nvim $(fd --type f . ~/.config | fzf)
+```
+
 ### Fonts
 - **Nerd Fonts**: FiraCode and JetBrains Mono with icon support
 
