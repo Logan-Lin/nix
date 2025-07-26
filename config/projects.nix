@@ -29,5 +29,12 @@
       codePath = "/Users/yanlin/Documents/Projects/Homepage/";
       description = "Personal Homepage";
     };
+
+    daki3 = {
+      template = "basic";
+      name = "DAKI3";
+      codePath = "/Users/yanlin/Documents/Projects/AI systems & infrastructure/Codes";
+      description = "DAKI3 course Demo code";
+    };
   };
 }
