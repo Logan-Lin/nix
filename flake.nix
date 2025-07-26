@@ -7,10 +7,12 @@
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    nixvim.url = "github:nix-community/nixvim";
+    nixvim.inputs.nixpkgs.follows = "nixpkgs";
     claude-code.url = "github:sadjow/claude-code-nix";
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, claude-code }:
+  outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, nixvim, claude-code }:
   let
     configuration = { pkgs, ... }: {
       environment.systemPackages =
@@ -26,7 +28,12 @@
     };
 
     homeConfiguration = { pkgs, ... }: {
-      imports = [ ./nvim.nix ./tmux.nix ./zsh.nix ];
+      imports = [ 
+        nixvim.homeManagerModules.nixvim
+        ./nvim.nix 
+        ./tmux.nix 
+        ./zsh.nix 
+      ];
 
       home.username = "yanlin";
       home.homeDirectory = "/Users/yanlin";
@@ -64,7 +71,7 @@
     homeConfigurations.yanlin = home-manager.lib.homeManagerConfiguration {
       pkgs = nixpkgs.legacyPackages.aarch64-darwin;
       modules = [ homeConfiguration ];
-      extraSpecialArgs = { inherit claude-code; };
+      extraSpecialArgs = { inherit claude-code nixvim; };
     };
   };
 }
