@@ -47,6 +47,7 @@ home-manager switch --flake github:Logan-Lin/nix-config#yanlin
 - **Git Integration**: vim-fugitive for git operations
 - **Status Line**: lualine with gruvbox theme and relative paths
 - **System Clipboard**: Seamless integration for copy/paste
+- **Markdown Rendering**: render-markdown.nvim for beautiful in-buffer markdown preview
 
 #### Keybindings:
 
@@ -63,6 +64,7 @@ home-manager switch --flake github:Logan-Lin/nix-config#yanlin
 | `<Space>gd` | Normal | Git diff |
 | `<Space>gc` | Normal | Git commit |
 | `<Space>gp` | Normal | Git push |
+| `<Space>md` | Normal | Toggle markdown rendering |
 
 ### 🖥️ Tmux
 
