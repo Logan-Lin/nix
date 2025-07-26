@@ -46,6 +46,7 @@
         python312Packages.pip
         python312Packages.virtualenv
         lftp
+        httpie
         claude-code.packages.aarch64-darwin.claude-code
         nerd-fonts.fira-code
         nerd-fonts.jetbrains-mono
