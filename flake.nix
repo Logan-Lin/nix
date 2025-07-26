@@ -26,7 +26,7 @@
     };
 
     homeConfiguration = { pkgs, ... }: {
-      imports = [ ./nvim.nix ./tmux.nix ];
+      imports = [ ./nvim.nix ./tmux.nix ./zsh.nix ];
 
       home.username = "yanlin";
       home.homeDirectory = "/Users/yanlin";
@@ -49,14 +49,7 @@
 
       programs.home-manager.enable = true;
 
-      programs.zsh = {
-        enable = true;
-        defaultKeymap = "viins";
-        enableVteIntegration = true;
-        sessionVariables = {
-          COLORTERM = "truecolor";
-        };
-      };
+
     };
   in
   {
@@ -64,7 +57,7 @@
       modules = [ configuration ];
     };
 
-    darwinConfigurations."mba" = nix-darwin.lib.darwinSystem {
+    darwinConfigurations."Macbook-Air" = nix-darwin.lib.darwinSystem {
       modules = [ configuration ];
     };
 
