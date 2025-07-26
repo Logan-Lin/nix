@@ -1,94 +1,173 @@
 { pkgs, ... }:
 
 {
-  programs.neovim = {
+  programs.nixvim = {
     enable = true;
     defaultEditor = true;
-    plugins = with pkgs.vimPlugins; [
-      nvim-tree-lua
-      nvim-treesitter.withAllGrammars
-      lualine-nvim
-      nvim-web-devicons
-      gruvbox-nvim
+
+    # Global settings
+    globals.mapleader = " ";
+
+    # Vim options
+    opts = {
+      number = true;
+      relativenumber = false;
+      expandtab = true;
+      shiftwidth = 2;
+      tabstop = 2;
+      smartindent = true;
+      wrap = false;
+      linebreak = true;      # Don't break words when wrapping
+      breakindent = true;    # Preserve indentation when wrapping
+      termguicolors = true;
+    };
+
+    # Enable filetype detection
+    viAlias = true;
+    vimAlias = true;
+
+    # Gruvbox colorscheme with hard contrast
+    colorschemes.gruvbox = {
+      enable = true;
+      settings = {
+        contrast = "hard";  # Makes background much darker (#1d2021 instead of #282828)
+        background = "dark";
+      };
+    };
+
+    # Plugins
+    plugins = {
+      # File explorer
+      nvim-tree = {
+        enable = true;
+        # NixVim nvim-tree uses extraConfig for detailed settings
+      };
+
+      # Syntax highlighting
+      treesitter = {
+        enable = true;
+        settings = {
+          highlight = {
+            enable = true;
+            additional_vim_regex_highlighting = true;
+          };
+          indent = {
+            enable = true;
+          };
+          ensure_installed = [];  # Managed by Nix
+          auto_install = false;
+        };
+        grammarPackages = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
+          bash c cpp css dockerfile go html javascript json lua markdown nix python rust typescript yaml
+        ];
+      };
+
+      # Status line with gruvbox theme and relative paths
+      lualine = {
+        enable = true;
+        settings = {
+          options = {
+            theme = "gruvbox_dark";
+            component_separators = { left = "|"; right = "|"; };
+            section_separators = { left = " "; right = " "; };
+          };
+          sections = {
+            lualine_c = [{ __unkeyed-1 = "filename"; path = 1; }];
+          };
+        };
+      };
+
+      # Web dev icons
+      web-devicons = {
+        enable = true;
+      };
+    };
+
+    # Extra plugins that don't have dedicated modules
+    extraPlugins = with pkgs.vimPlugins; [
       vim-fugitive
     ];
-    extraLuaConfig = ''
-      -- Basic settings
-      vim.opt.number = true
-      vim.opt.relativenumber = false
-      vim.opt.expandtab = true
-      vim.opt.shiftwidth = 2
-      vim.opt.tabstop = 2
-      vim.opt.smartindent = true
-      vim.opt.wrap = false
-      vim.opt.linebreak = true      -- Don't break words when wrapping
-      vim.opt.breakindent = true    -- Preserve indentation when wrapping
-      vim.opt.termguicolors = true
 
-      -- Enable filetype detection and syntax
-      vim.cmd('filetype on')
-      vim.cmd('filetype plugin on')
-      vim.cmd('filetype indent on')
-      vim.cmd('syntax enable')
+    # Keymaps
+    keymaps = [
+      # File explorer
+      {
+        mode = "n";
+        key = "<leader>e";
+        action = ":NvimTreeToggle<CR>";
+        options = { desc = "Toggle file explorer"; };
+      }
 
-      -- Leader key
-      vim.g.mapleader = " "
+      # Basic keymaps
+      {
+        mode = "n";
+        key = "<leader>w";
+        action = ":w<CR>";
+        options = { desc = "Save file"; };
+      }
+      {
+        mode = "n";
+        key = "<leader>q";
+        action = ":q<CR>";
+        options = { desc = "Quit"; };
+      }
 
-      -- Configure gruvbox with hard contrast for darker background
-      require("gruvbox").setup({
-        contrast = "hard", -- Makes background much darker (#1d2021 instead of #282828)
-      })
-      vim.opt.background = "dark"
-      vim.cmd('colorscheme gruvbox')
+      # System clipboard keymaps
+      {
+        mode = ["n" "v"];
+        key = "<leader>y";
+        action = "\"+y";
+        options = { desc = "Copy to system clipboard"; };
+      }
+      {
+        mode = "n";
+        key = "<leader>p";
+        action = "\"+p";
+        options = { desc = "Paste from system clipboard"; };
+      }
+      {
+        mode = "v";
+        key = "<leader>p";
+        action = "\"+p";
+        options = { desc = "Replace selection with system clipboard"; };
+      }
 
-      -- Nvim-tree setup
+      # Git keymaps (vim-fugitive)
+      {
+        mode = "n";
+        key = "<leader>gs";
+        action = ":Git<CR>";
+        options = { desc = "Git status"; };
+      }
+      {
+        mode = "n";
+        key = "<leader>gd";
+        action = ":Git diff<CR>";
+        options = { desc = "Git diff"; };
+      }
+      {
+        mode = "n";
+        key = "<leader>gc";
+        action = ":Git commit<CR>";
+        options = { desc = "Git commit"; };
+      }
+      {
+        mode = "n";
+        key = "<leader>gp";
+        action = ":Git push<CR>";
+        options = { desc = "Git push"; };
+      }
+    ];
+
+    # Additional Lua configuration for plugins that need custom setup
+    extraConfigLua = ''
+      -- Nvim-tree setup with filters
       require("nvim-tree").setup({
         filters = {
-          dotfiles = true,      -- Hide dotfiles by default (Ctrl+H to toggle)
-          git_ignored = false,  -- Show gitignored files by default (Ctrl+I to toggle)
+          dotfiles = true,      -- Hide dotfiles by default (H to toggle)
+          git_ignored = false,  -- Show gitignored files by default (I to toggle)
         },
       })
-      vim.keymap.set("n", "<leader>e", ":NvimTreeToggle<CR>", { desc = "Toggle file explorer" })
-
-      -- Treesitter setup
-      require('nvim-treesitter.configs').setup({
-        highlight = {
-          enable = true,
-          additional_vim_regex_highlighting = true,
-        },
-        indent = {
-          enable = true,
-        },
-        ensure_installed = {}, -- Managed by Nix
-        auto_install = false,
-      })
-
-      -- Lualine setup with gruvbox theme
-      require('lualine').setup({
-        options = {
-          theme = 'gruvbox_dark',
-          component_separators = { left = '|', right = '|'},
-          section_separators = { left = ' ', right = ' '},
-        },
-        sections = {
-          lualine_c = { { 'filename', path = 1 } },
-        },
-      })
-
-      -- Basic keymaps
-      vim.keymap.set("n", "<leader>w", ":w<CR>", { desc = "Save file" })
-      vim.keymap.set("n", "<leader>q", ":q<CR>", { desc = "Quit" })
-      
-      -- System clipboard keymaps
-      vim.keymap.set({"n", "v"}, "<leader>y", "\"+y", { desc = "Copy to system clipboard" })
-      vim.keymap.set("n", "<leader>p", "\"+p", { desc = "Paste from system clipboard" })
-      vim.keymap.set("v", "<leader>p", "\"+p", { desc = "Replace selection with system clipboard" })
-      
-      -- Git keymaps (vim-fugitive)
-      vim.keymap.set("n", "<leader>gs", ":Git<CR>", { desc = "Git status" })
-      vim.keymap.set("n", "<leader>gd", ":Git diff<CR>", { desc = "Git diff" })
-      vim.keymap.set("n", "<leader>gc", ":Git commit<CR>", { desc = "Git commit" })
-      vim.keymap.set("n", "<leader>gp", ":Git push<CR>", { desc = "Git push" })
     '';
   };
 }
