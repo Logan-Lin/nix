@@ -55,6 +55,7 @@ home-manager switch --flake github:Logan-Lin/nix-config#yanlin
 | `<Space>e` | Normal | Toggle file explorer |
 | `<Space>w` | Normal | Save file |
 | `<Space>q` | Normal | Quit |
+| `<Space>o` | Normal | Open file with system default app |
 | `<Space>y` | Normal/Visual | Copy to system clipboard |
 | `<Space>p` | Normal/Visual | Paste from system clipboard |
 | `<Space>gs` | Normal | Git status |
