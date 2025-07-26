@@ -132,6 +132,14 @@
         options = { desc = "Replace selection with system clipboard"; };
       }
 
+      # System integration
+      {
+        mode = "n";
+        key = "<leader>o";
+        action = ":silent !open %<CR>";
+        options = { desc = "Open file with system default app"; };
+      }
+
       # Git keymaps (vim-fugitive)
       {
         mode = "n";
