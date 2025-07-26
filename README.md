@@ -187,6 +187,24 @@ fd -H hidden        # Include hidden files (-H)
 fd | fzf            # Pipe to fzf for interactive selection
 ```
 
+#### fzf Usage Examples
+```bash
+fzf                  # Interactive file finder
+ls | fzf            # Fuzzy find from any list
+history | fzf       # Search command history
+fd | fzf            # Fast file finding with fuzzy selection
+fd -t d | fzf       # Find and select directories only
+rg "pattern" | fzf  # Search text then fuzzy filter results
+
+# Preview files while browsing
+fzf --preview 'bat --style=numbers --color=always {}'
+```
+
+**Built-in zsh keybindings:**
+- `Ctrl+T` - Insert selected files/directories into command line
+- `Ctrl+R` - Search command history interactively  
+- `Alt+C` - Change to selected directory
+
 ### Fonts
 - **Nerd Fonts**: FiraCode and JetBrains Mono with icon support
 
