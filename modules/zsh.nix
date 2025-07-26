@@ -1,5 +1,9 @@
 { pkgs, ... }:
 
+let
+  projectsConfig = import ../config/projects.nix;
+  projectLauncher = ../scripts/project-launcher.sh;
+in
 {
   programs.zsh = {
     enable = true;
@@ -32,7 +36,18 @@
       # Nix helpers
       hm = "home-manager";
       hms = "home-manager switch --flake ~/.config/nix#yanlin";
-    };
+      
+      # Project shortcuts
+      proj = "${projectLauncher}";
+    } // (
+      # Generate project aliases dynamically
+      builtins.listToAttrs (
+        builtins.map (projectName: {
+          name = projectName;
+          value = "${projectLauncher} ${projectName}";
+        }) (builtins.attrNames projectsConfig.projects)
+      )
+    );
     
     initContent = ''
       # Load Powerlevel10k theme
@@ -95,4 +110,7 @@
   
   # Manage Powerlevel10k configuration
   home.file.".p10k.zsh".source = ../config/p10k.zsh;
+  
+  # Generate projects.json for shell scripts
+  home.file.".config/nix/config/projects.json".text = builtins.toJSON projectsConfig;
 }
