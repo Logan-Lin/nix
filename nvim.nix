@@ -81,6 +81,11 @@
       web-devicons = {
         enable = true;
       };
+
+      # Markdown rendering
+      render-markdown = {
+        enable = true;
+      };
     };
 
     # Extra plugins that don't have dedicated modules
@@ -170,6 +175,14 @@
         key = "<leader>gp";
         action = ":Git push<CR>";
         options = { desc = "Git push"; };
+      }
+
+      # Markdown rendering
+      {
+        mode = "n";
+        key = "<leader>md";
+        action = ":RenderMarkdown toggle<CR>";
+        options = { desc = "Toggle markdown rendering"; };
       }
     ];
 
