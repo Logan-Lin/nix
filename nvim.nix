@@ -139,6 +139,12 @@
         action = ":silent !open %<CR>";
         options = { desc = "Open file with system default app"; };
       }
+      {
+        mode = "n";
+        key = "<leader>f";
+        action = ":silent !open -R %<CR>";
+        options = { desc = "Show current file in Finder"; };
+      }
 
       # Git keymaps (vim-fugitive)
       {
