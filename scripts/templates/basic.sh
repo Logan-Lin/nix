@@ -19,14 +19,14 @@ fi
 tmux new-session -d -s $SESSION_NAME -c "$CODE_PATH"
 tmux rename-window -t $SESSION_NAME:1 "nvim"
 tmux send-keys -t $SESSION_NAME:1 "nvim" C-m
-tmux new-window -t $SESSION_NAME:2 -n "ai"
+tmux new-window -t $SESSION_NAME:2 -n "ai" -c "$CODE_PATH"
 tmux send-keys -t $SESSION_NAME:2 "claude -r" C-m
-tmux split-window -t $SESSION_NAME:2 -h
-tmux split-window -t $SESSION_NAME:2.2 -v
+tmux split-window -t $SESSION_NAME:2 -h -c "$CODE_PATH"
+tmux split-window -t $SESSION_NAME:2.2 -v -c "$CODE_PATH"
 tmux select-pane -t $SESSION_NAME:2.1
-tmux new-window -t $SESSION_NAME:3 -n "git"
+tmux new-window -t $SESSION_NAME:3 -n "git" -c "$CODE_PATH"
 tmux send-keys -t $SESSION_NAME:3 "gitui" C-m
-tmux new-window -t $SESSION_NAME:4 -n "shell"
+tmux new-window -t $SESSION_NAME:4 -n "shell" -c "$CODE_PATH"
 
 tmux select-window -t $SESSION_NAME:1
 
