@@ -21,6 +21,8 @@
       vim.opt.tabstop = 2
       vim.opt.smartindent = true
       vim.opt.wrap = false
+      vim.opt.linebreak = true      -- Don't break words when wrapping
+      vim.opt.breakindent = true    -- Preserve indentation when wrapping
       vim.opt.termguicolors = true
 
       -- Enable filetype detection and syntax
@@ -40,7 +42,12 @@
       vim.cmd('colorscheme gruvbox')
 
       -- Nvim-tree setup
-      require("nvim-tree").setup({})
+      require("nvim-tree").setup({
+        filters = {
+          dotfiles = true,      -- Hide dotfiles by default (Ctrl+H to toggle)
+          git_ignored = false,  -- Show gitignored files by default (Ctrl+I to toggle)
+        },
+      })
       vim.keymap.set("n", "<leader>e", ":NvimTreeToggle<CR>", { desc = "Toggle file explorer" })
 
       -- Treesitter setup
