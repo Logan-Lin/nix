@@ -176,6 +176,17 @@ Launch with `gitui` in any git repository for:
 - **btop**: Modern system monitor
 - **zoxide**: Smart cd with frecency algorithm
 
+#### fd Usage Examples
+```bash
+fd filename          # Find files/directories named "filename"
+fd "*.nix"          # Find all Nix files
+fd -t f config      # Only files (-t f = type file)
+fd -t d config      # Only directories (-t d = type directory)
+fd -e js            # All files with .js extension
+fd -H hidden        # Include hidden files (-H)
+fd | fzf            # Pipe to fzf for interactive selection
+```
+
 ### Fonts
 - **Nerd Fonts**: FiraCode and JetBrains Mono with icon support
 
