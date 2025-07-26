@@ -16,7 +16,9 @@ tmux send-keys -t $SESSION_NAME:2 "claude -r" C-m
 tmux split-window -t $SESSION_NAME:2 -h
 tmux split-window -t $SESSION_NAME:2.2 -v
 tmux select-pane -t $SESSION_NAME:2.1
-tmux new-window -t $SESSION_NAME:3 -n "bash"
+tmux new-window -t $SESSION_NAME:3 -n "git"
+tmux send-keys -t $SESSION_NAME:3 "gitui" C-m
+tmux new-window -t $SESSION_NAME:4 -n "shell"
 
 tmux select-window -t $SESSION_NAME:1
 
