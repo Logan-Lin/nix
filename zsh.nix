@@ -3,7 +3,6 @@
 {
   programs.zsh = {
     enable = true;
-    defaultKeymap = "viins";
     enableVteIntegration = true;
     enableCompletion = true;
     autosuggestion.enable = true;
@@ -34,7 +33,7 @@
       hms = "home-manager switch --flake ~/.config/nix#yanlin";
     };
     
-    initExtra = ''
+    initContent = ''
       # Load Powerlevel10k theme
       if [[ -f ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme ]]; then
         source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
