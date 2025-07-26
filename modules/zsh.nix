@@ -101,6 +101,7 @@ in
     fd
     ripgrep
     bat
+    jq
   ];
   
   programs.fzf = {
