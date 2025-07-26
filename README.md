@@ -32,8 +32,15 @@ home-manager switch --flake github:Logan-Lin/nix-config#yanlin
 │   ├── nvim.nix       # Neovim configuration with plugins and keymaps
 │   ├── tmux.nix       # Tmux setup with vim-like navigation
 │   └── zsh.nix        # Zsh with Powerlevel10k and modern CLI tools
-└── config/            # Configuration files
-    └── p10k.zsh       # Powerlevel10k theme configuration
+├── config/            # Configuration files
+│   ├── p10k.zsh       # Powerlevel10k theme configuration
+│   └── projects.nix   # Project shortcuts configuration
+└── scripts/           # Utility scripts
+    ├── project-launcher.sh  # Universal project launcher
+    └── templates/     # Tmux session templates
+        ├── basic.sh   # Basic development template
+        ├── content.sh # Content workflow template
+        └── research.sh # Research workflow template
 ```
 
 ## 🛠️ Software Configurations
@@ -154,6 +161,32 @@ top → btop         # Beautiful system monitor
 hm                 # home-manager shortcut
 hms                # Quick home-manager switch
 ```
+
+### 🚀 Project Shortcuts
+
+**Configuration**: `config/projects.nix`
+**Purpose**: Quick access to project workspaces with tmux sessions
+
+#### Available Projects:
+- **`blog`**: Personal blog with code + content workflow
+- **`mdshortcut`**: Material Design Shortcut research project (code + paper)  
+- **`nix-config`**: Nix configuration with basic development workflow
+
+#### Usage:
+```bash
+proj              # List all available projects
+blog              # Launch blog project tmux session
+mdshortcut        # Launch MDShortcut project tmux session
+nix-config        # Launch nix-config project tmux session
+```
+
+#### Template Types:
+- **Basic**: Single directory (nvim + ai + git + shell)
+- **Content**: Code directory + separate content directory
+- **Research**: Code directory + separate paper directory
+
+#### Adding New Projects:
+Edit `config/projects.nix` and run `hms` to rebuild configuration.
 
 ### 🌟 Git Visualization
 
