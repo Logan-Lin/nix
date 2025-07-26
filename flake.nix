@@ -30,9 +30,9 @@
     homeConfiguration = { pkgs, ... }: {
       imports = [ 
         nixvim.homeManagerModules.nixvim
-        ./nvim.nix 
-        ./tmux.nix 
-        ./zsh.nix 
+        ./modules/nvim.nix 
+        ./modules/tmux.nix 
+        ./modules/zsh.nix 
       ];
 
       home.username = "yanlin";
