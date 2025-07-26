@@ -22,5 +22,12 @@
       codePath = "/Users/yanlin/.config/nix";
       description = "Nix configuration";
     };
+
+    homepage = {
+      template = "basic";
+      name = "homepage";
+      codePath = "/Users/yanlin/Documents/Projects/Homepage/";
+      description = "Personal Homepage";
+    };
   };
 }

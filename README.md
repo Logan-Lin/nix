@@ -167,16 +167,14 @@ hms                # Quick home-manager switch
 **Configuration**: `config/projects.nix`
 **Purpose**: Quick access to project workspaces with tmux sessions
 
-#### Available Projects:
+#### Example Projects:
 - **`blog`**: Personal blog with code + content workflow
-- **`mdshortcut`**: Material Design Shortcut research project (code + paper)  
 - **`nix-config`**: Nix configuration with basic development workflow
 
 #### Usage:
 ```bash
 proj              # List all available projects
 blog              # Launch blog project tmux session
-mdshortcut        # Launch MDShortcut project tmux session
 nix-config        # Launch nix-config project tmux session
 ```
 
