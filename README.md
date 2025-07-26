@@ -27,11 +27,13 @@ home-manager switch --flake github:Logan-Lin/nix-config#yanlin
 ```
 .
 ├── flake.nix          # Main flake configuration and package definitions
-├── nvim.nix           # Neovim configuration with plugins and keymaps
-├── tmux.nix           # Tmux setup with vim-like navigation
-├── zsh.nix            # Zsh with Powerlevel10k and modern CLI tools
-├── p10k.zsh           # Powerlevel10k theme configuration (managed by Nix)
-└── tmux.sh            # Tmux session automation script
+├── tmux.sh            # Tmux session automation script
+├── modules/           # Nix configuration modules
+│   ├── nvim.nix       # Neovim configuration with plugins and keymaps
+│   ├── tmux.nix       # Tmux setup with vim-like navigation
+│   └── zsh.nix        # Zsh with Powerlevel10k and modern CLI tools
+└── config/            # Configuration files
+    └── p10k.zsh       # Powerlevel10k theme configuration
 ```
 
 ## 🛠️ Software Configurations
