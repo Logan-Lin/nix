@@ -3,7 +3,7 @@
 {
   programs.tmux = {
     enable = true;
-    shortcut = "b";
+    shortcut = "a";
     baseIndex = 1;   # Start windows and panes at 1, not 0
     mouse = true;    # Enable mouse support
     keyMode = "vi";  # Use vi key bindings in copy mode
