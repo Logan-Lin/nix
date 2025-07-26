@@ -33,6 +33,9 @@ in
       gl = "git pull";
       gd = "git diff";
       
+      # Modern CLI tools
+      ftp = "termscp";
+      
       # Nix helpers
       hm = "home-manager";
       hms = "home-manager switch --flake ~/.config/nix#yanlin";
