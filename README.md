@@ -181,7 +181,24 @@ nix-config        # Launch nix-config project tmux session
 #### Template Types:
 - **Basic**: Single directory (nvim + ai + git + shell)
 - **Content**: Code directory + separate content directory
-- **Research**: Code directory + separate paper directory
+- **Research**: Code directory + separate paper directory + optional remote server
+
+#### Research Template Remote Server Support:
+The research template supports optional remote server connections with these features:
+- **Remote Server Window**: Window 7 with dual horizontal panes for parallel remote work
+- **Automatic Connection**: SSH to configured server with automatic directory navigation
+- **Reconnect Alias**: Type `r` in any remote pane to easily reconnect after network drops
+- **Configuration**: Add `server` and `remoteDir` fields to research projects
+
+**Example Configuration:**
+```nix
+mdshortcut = {
+  template = "research";
+  # ... other fields ...
+  server = "aicloud";      # SSH host from ~/.ssh/config
+  remoteDir = "~/MDS";     # Remote directory path
+};
+```
 
 #### Adding New Projects:
 Edit `config/projects.nix` and run `hms` to rebuild configuration.
