@@ -5,6 +5,7 @@
     enable = true;
     
     matchBlocks = {
+
       "aicloud" = {
         hostname = "aicloud";
         user = "hb05nk@cs.aau.dk";
@@ -34,12 +35,6 @@
         hostname = "personal.vps.yanlincs.com";
         user = "root";
         identityFile = "~/.ssh/keys/hetzner";
-      };
-
-      "zero" = {
-        hostname = "zero.hw.yanlincs.com";
-        user = "yanlin";
-        identityFile = "~/.ssh/keys/pi";
       };
 
     };
