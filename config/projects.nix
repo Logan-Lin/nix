@@ -35,6 +35,8 @@
       codePath = "/Users/yanlin/Documents/Projects/Material Design Shortcut/MDShortcut-dev";
       paperPath = "/Users/yanlin/Documents/Projects/Material Design Shortcut/MDShortcut-paper";
       description = "Material Design Shortcut research project";
+      server = "aicloud";
+      remoteDir = "~/MDS";
     };
 
     daki3 = {
@@ -42,6 +44,16 @@
       name = "DAKI3";
       codePath = "/Users/yanlin/Documents/Projects/AI systems & infrastructure/Codes";
       description = "DAKI3 course Demo code";
+    };
+
+    diffdismatter = {
+      template = "research";
+      name = "DiffDisMatter";
+      codePath = "/Users/yanlin/Documents/Projects/Inverse Design of Disordered Materials/DiffDisMatter-dev";
+      paperPath = "/Users/yanlin/Documents/Projects/Inverse Design of Disordered Materials/mc-denoising-paper";
+      description = "Inverse material design";
+      server = "aicloud";
+      remoteDir = "~/DiffDisMatter";
     };
   };
 }

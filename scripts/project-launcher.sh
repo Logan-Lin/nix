@@ -64,6 +64,8 @@ SESSION_NAME=$(echo "$PROJECT_CONFIG" | jq -r '.name')
 CODE_PATH=$(echo "$PROJECT_CONFIG" | jq -r '.codePath')
 CONTENT_PATH=$(echo "$PROJECT_CONFIG" | jq -r '.contentPath // empty')
 PAPER_PATH=$(echo "$PROJECT_CONFIG" | jq -r '.paperPath // empty')
+SERVER=$(echo "$PROJECT_CONFIG" | jq -r '.server // empty')
+REMOTE_DIR=$(echo "$PROJECT_CONFIG" | jq -r '.remoteDir // empty')
 
 # Launch appropriate template
 case "$TEMPLATE" in
@@ -82,7 +84,11 @@ case "$TEMPLATE" in
             echo "Error: Research template requires paperPath"
             exit 1
         fi
-        exec "$TEMPLATES_DIR/research.sh" "$SESSION_NAME" "$CODE_PATH" "$PAPER_PATH"
+        if [ -n "$SERVER" ] && [ -n "$REMOTE_DIR" ]; then
+            exec "$TEMPLATES_DIR/research.sh" "$SESSION_NAME" "$CODE_PATH" "$PAPER_PATH" "$SERVER" "$REMOTE_DIR"
+        else
+            exec "$TEMPLATES_DIR/research.sh" "$SESSION_NAME" "$CODE_PATH" "$PAPER_PATH"
+        fi
         ;;
     *)
         echo "Error: Unknown template '$TEMPLATE'"
