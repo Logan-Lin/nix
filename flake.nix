@@ -66,6 +66,7 @@
         nerd-fonts.fira-code
         nerd-fonts.jetbrains-mono
         gitui
+        ncdu
       ];
 
       fonts.fontconfig.enable = true;
