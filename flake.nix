@@ -44,6 +44,7 @@
         ./modules/tmux.nix 
         ./modules/zsh.nix 
         ./modules/ssh.nix
+        ./modules/git.nix
       ];
 
       home.username = "yanlin";
