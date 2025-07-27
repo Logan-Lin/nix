@@ -93,7 +93,7 @@ home-manager switch --flake github:Logan-Lin/nix-config#yanlin
 | Key | Action |
 |-----|--------|
 | `Ctrl+a` | Prefix key |
-| `Ctrl+a` | Split window vertically |
+| `Ctrl+a |` | Split window vertically |
 | `Ctrl+a -` | Split window horizontally |
 | `Ctrl+a h/j/k/l` | Navigate panes (vim-style) |
 | `Ctrl+a H/J/K/L` | Resize panes |
