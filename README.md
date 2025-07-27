@@ -29,6 +29,7 @@ home-manager switch --flake github:Logan-Lin/nix-config#yanlin
 ├── flake.nix          # Main flake configuration and package definitions
 ├── tmux.sh            # Tmux session automation script
 ├── modules/           # Nix configuration modules
+│   ├── git.nix        # Git configuration with aliases and settings
 │   ├── nvim.nix       # Neovim configuration with plugins and keymaps
 │   ├── ssh.nix        # SSH client configuration and host management
 │   ├── tmux.nix       # Tmux setup with vim-like navigation
@@ -105,6 +106,43 @@ home-manager switch --flake github:Logan-Lin/nix-config#yanlin
 | `v` | Begin selection |
 | `y` | Copy selection to system clipboard |
 | `r` | Toggle rectangle selection |
+
+### 🌟 Git Configuration
+
+**Configuration**: `modules/git.nix`
+**Purpose**: Declarative git configuration with user info, aliases, and sensible defaults
+
+#### Key Features:
+- **User Identity**: Name and email managed declaratively
+- **SSH Integration**: Disabled credential helper to use SSH keys
+- **Comprehensive Aliases**: Shortcuts for common git operations
+- **Sensible Defaults**: Cross-platform compatible settings
+
+#### Useful Aliases:
+```bash
+git st          # status
+git co          # checkout  
+git br          # branch
+git ci          # commit
+git lg          # beautiful log with graph
+git lga         # log all branches
+git up          # pull --rebase
+git cm "msg"    # commit -m "msg"
+git d           # diff
+git dc          # diff --cached
+```
+
+#### Configuration Management:
+Edit git settings in `modules/git.nix`, then apply:
+```bash
+home-manager switch --flake .#yanlin
+```
+
+#### Benefits:
+- ✅ **Reproducible**: Same git config across all machines
+- ✅ **Version Controlled**: Git settings tracked with other configurations  
+- ✅ **SSH Integration**: Works seamlessly with SSH module
+- ✅ **Override Defaults**: Properly disables nix's default credential helper
 
 ### 🔐 SSH Configuration
 
