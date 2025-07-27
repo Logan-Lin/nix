@@ -118,19 +118,28 @@ home-manager switch --flake github:Logan-Lin/nix-config#yanlin
 - **Comprehensive Aliases**: Shortcuts for common git operations
 - **Sensible Defaults**: Cross-platform compatible settings
 
-#### Useful Aliases:
-```bash
-git st          # status
-git co          # checkout  
-git br          # branch
-git ci          # commit
-git lg          # beautiful log with graph
-git lga         # log all branches
-git up          # pull --rebase
-git cm "msg"    # commit -m "msg"
-git d           # diff
-git dc          # diff --cached
-```
+#### Complete Aliases Reference:
+
+| Alias | Command | Description |
+|-------|---------|-------------|
+| `git st` | `status` | Show working tree status |
+| `git co` | `checkout` | Switch branches or restore files |
+| `git br` | `branch` | List, create, or delete branches |
+| `git ci` | `commit` | Record changes to repository |
+| `git cm "msg"` | `commit -m` | Quick commit with message |
+| `git ca` | `commit --amend` | Amend the last commit |
+| `git up` | `pull --rebase` | Pull and rebase (cleaner history) |
+| `git d` | `diff` | Show unstaged changes |
+| `git dc` | `diff --cached` | Show staged changes |
+| `git ds` | `diff --stat` | Show diff statistics |
+| `git lg` | `log --color --graph...` | Beautiful colored log with graph |
+| `git lga` | `log --color --graph... --all` | Same as lg but all branches |
+| `git last` | `log -1 HEAD` | Show the last commit |
+| `git sl` | `stash list` | List all stashes |
+| `git sp` | `stash pop` | Apply and remove latest stash |
+| `git ss` | `stash save` | Save current changes to stash |
+| `git unstage` | `reset HEAD --` | Remove files from staging area |
+| `git visual` | `!gitk` | Launch gitk GUI |
 
 #### Configuration Management:
 Edit git settings in `modules/git.nix`, then apply:
