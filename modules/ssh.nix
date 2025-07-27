@@ -42,19 +42,6 @@
         identityFile = "~/.ssh/keys/pi";
       };
 
-      "ucloud-a40" = {
-        hostname = "130.225.38.194";
-        user = "ucloud";
-        identityFile = "~/.ssh/keys/ucloud";
-        proxyJump = "imac";
-      };
-
-      "ucloud-h100" = {
-        hostname = "ssh.cloud.sdu.dk";
-        user = "ucloud";
-        port = 2281;
-        identityFile = "~/.ssh/keys/ucloud";
-      };
     };
   };
 }
