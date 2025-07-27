@@ -212,6 +212,8 @@ Launch with `gitui` in any git repository for:
 - **bat**: Syntax-highlighted cat replacement
 - **btop**: Modern system monitor
 - **httpie**: Modern HTTP client for API testing
+- **lazysql**: LazyGit-style TUI database management tool
+- **sqlite3**: Official SQLite command-line interface
 - **lftp**: Scriptable FTP client for automation
 - **termscp**: Comprehensive TUI file transfer client (FTP/SFTP/SCP/S3)
 - **zoxide**: Smart cd with frecency algorithm
@@ -257,6 +259,76 @@ http DELETE api.example.com/users/1
 http GET api.example.com/protected Authorization:"Bearer your-token"
 http GET api.example.com/api X-API-Key:"your-api-key"
 ```
+
+#### lazysql Usage Examples
+```bash
+# Launch TUI database management (LazyGit-style interface)
+lazysql
+
+# Connect to different databases
+lazysql -h localhost -u username -p password -d database_name  # MySQL
+lazysql --url postgres://user:pass@localhost/dbname           # PostgreSQL  
+lazysql --url sqlite://./database.db                          # SQLite
+lazysql --url "mysql://user:pass@localhost/db"                # MySQL URL format
+
+# With config file (recommended for credentials)
+lazysql --config ~/.config/lazysql/config.yml
+
+# Interactive TUI operations:
+# - Navigate tables with j/k (vim-style)
+# - View table structure and data
+# - Execute SQL queries in editor mode
+# - Export query results
+# - Browse database schema
+```
+
+**Key lazysql features:**
+- **LazyGit-inspired interface**: Familiar navigation for developers
+- **Multi-database support**: MySQL, PostgreSQL, SQLite
+- **SQL editor**: Syntax highlighting and query execution
+- **Export capabilities**: Save query results to files
+- **Connection management**: Save and reuse database connections
+
+#### sqlite3 Usage Examples
+```bash
+# Connect to SQLite database
+sqlite3 ai.db
+
+# One-liner queries (no interactive session)
+sqlite3 ai.db "SELECT COUNT(*) FROM users;"
+sqlite3 ai.db "SELECT * FROM users WHERE active = 1;"
+
+# Common SQLite dot commands (inside sqlite3 shell)
+.tables                    # List all tables
+.schema                    # Show all table schemas
+.schema users              # Show specific table schema
+.mode csv                  # Set output format (csv, json, html, etc.)
+.headers on                # Show column headers
+.output results.csv        # Redirect output to file
+.output stdout             # Reset output to terminal
+
+# Import/Export operations
+.backup backup.db          # Create database backup
+.restore backup.db         # Restore from backup
+.dump                      # Export entire database as SQL
+.dump users               # Export specific table as SQL
+
+# Execute SQL script file
+.read script.sql          # Run SQL commands from file
+sqlite3 ai.db < script.sql # Alternative: pipe script to sqlite3
+
+# Database inspection
+.dbinfo                   # Show database information
+.indices table_name       # Show indexes for table
+.exit                     # Exit sqlite3 shell
+```
+
+**Key sqlite3 features:**
+- **Universal compatibility**: Works with any SQLite database
+- **Scriptable**: Perfect for automation and batch operations
+- **Lightweight**: Minimal overhead for quick queries
+- **Import/Export**: Built-in CSV, JSON, and SQL dump capabilities
+- **Backup tools**: Simple database backup and restore operations
 
 #### termscp Usage Examples
 ```bash
