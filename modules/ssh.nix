@@ -6,6 +6,13 @@
     
     matchBlocks = {
 
+      "github.com" = {
+        hostname = "github.com";
+        user = "git";
+        identityFile = "~/.ssh/keys/github";
+      };
+
+
       "aicloud" = {
         hostname = "aicloud";
         user = "hb05nk@cs.aau.dk";
