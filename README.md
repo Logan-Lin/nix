@@ -30,6 +30,7 @@ home-manager switch --flake github:Logan-Lin/nix-config#yanlin
 ├── tmux.sh            # Tmux session automation script
 ├── modules/           # Nix configuration modules
 │   ├── nvim.nix       # Neovim configuration with plugins and keymaps
+│   ├── ssh.nix        # SSH client configuration and host management
 │   ├── tmux.nix       # Tmux setup with vim-like navigation
 │   └── zsh.nix        # Zsh with Powerlevel10k and modern CLI tools
 ├── config/            # Configuration files
@@ -91,7 +92,7 @@ home-manager switch --flake github:Logan-Lin/nix-config#yanlin
 | Key | Action |
 |-----|--------|
 | `Ctrl+a` | Prefix key |
-| `Ctrl+a |` | Split window vertically |
+| `Ctrl+a` | Split window vertically |
 | `Ctrl+a -` | Split window horizontally |
 | `Ctrl+a h/j/k/l` | Navigate panes (vim-style) |
 | `Ctrl+a H/J/K/L` | Resize panes |
@@ -104,6 +105,40 @@ home-manager switch --flake github:Logan-Lin/nix-config#yanlin
 | `v` | Begin selection |
 | `y` | Copy selection to system clipboard |
 | `r` | Toggle rectangle selection |
+
+### 🔐 SSH Configuration
+
+**Configuration**: `modules/ssh.nix`
+**Purpose**: Declarative SSH client configuration and host management
+
+#### Key Features:
+- **Declarative Hosts**: All SSH hosts defined in nix configuration
+- **Version Controlled**: SSH config tracked with git alongside other configurations
+- **Reproducible**: Same SSH setup deployable across multiple machines
+- **Security**: Private keys remain local and untracked
+
+#### Host Management:
+Edit SSH hosts in `modules/ssh.nix`, then apply changes:
+```bash
+home-manager switch --flake .#yanlin
+```
+
+#### Configured Hosts:
+- **aicloud**: Development server via proxy jump
+- **nas**: Network storage server
+- **pi**: Raspberry Pi home server
+- **cm**: Compute module
+- **personal-vps**: Cloud VPS instance
+- **zero**: Pi Zero device
+- **ucloud-a40**: A40 GPU cluster
+- **ucloud-h100**: H100 GPU cluster
+
+#### Security Best Practices:
+- ✅ **SSH configuration**: Managed by nix (hosts, ports, usernames)
+- ❌ **Private keys**: Keep local in `~/.ssh/keys/` (not tracked by nix)
+- ❌ **known_hosts**: Generated locally (not synced)
+
+**Important**: Only the SSH client configuration is managed by nix. Private keys and sensitive data remain local and secure.
 
 ### 🐚 Zsh with Powerlevel10k
 
