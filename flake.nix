@@ -43,6 +43,7 @@
         ./modules/nvim.nix 
         ./modules/tmux.nix 
         ./modules/zsh.nix 
+        ./modules/ssh.nix
       ];
 
       home.username = "yanlin";
