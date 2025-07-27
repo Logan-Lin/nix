@@ -45,6 +45,7 @@
         ./modules/zsh.nix 
         ./modules/ssh.nix
         ./modules/git.nix
+        ./modules/termscp.nix
       ];
 
       home.username = "yanlin";
