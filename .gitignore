@@ -17,3 +17,6 @@ Thumbs.db
 #*#
 *.swp
 *.swo
+
+# Auto-generated files
+config/projects.json
