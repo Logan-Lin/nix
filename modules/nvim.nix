@@ -193,6 +193,19 @@
         filters = {
           dotfiles = true,      -- Hide dotfiles by default (H to toggle)
           git_ignored = false,  -- Show gitignored files by default (I to toggle)
+          custom = {            -- Hide macOS system files
+            ".DS_Store",
+            ".AppleDouble",
+            ".LSOverride",
+            "._.*",
+            ".DocumentRevisions-V100",
+            ".fseventsd",
+            ".Spotlight-V100",
+            ".TemporaryItems",
+            ".Trashes",
+            ".VolumeIcon.icns",
+            ".com.apple.timemachine.donotpresent",
+          },
         },
       })
     '';
