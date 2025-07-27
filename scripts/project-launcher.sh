@@ -9,7 +9,7 @@ PROJECTS_JSON="$CONFIG_DIR/projects.json"
 TEMPLATES_DIR="$(dirname "$0")/templates"
 
 if [ -z "$PROJECT_NAME" ]; then
-    printf "📋 \033[1;36mAvailable Projects:\033[0m\n\n"
+    printf "\033[1;36mAvailable Projects:\033[0m\n\n"
     
     if [ -f "$PROJECTS_JSON" ]; then
         # Check if jq is available and JSON is valid
@@ -18,20 +18,12 @@ if [ -z "$PROJECT_NAME" ]; then
             exit 1
         fi
         
-        # Parse and display projects with descriptions and icons
+        # Parse and display projects with descriptions
         jq -r '.projects | to_entries[] | "\(.key)|\(.value.description)|\(.value.template)"' "$PROJECTS_JSON" 2>/dev/null | \
         while IFS='|' read -r name desc template; do
-            # Assign icons based on template type
-            case "$template" in
-                "content") icon="🚀" ;;
-                "research") icon="🔬" ;;
-                "basic") icon="⚙️" ;;
-                *) icon="📁" ;;
-            esac
-            
             # Format with consistent spacing
-            printf "  %s \033[1;32m%-12s\033[0m %-35s \033[2m[%s]\033[0m\n" \
-                "$icon" "$name" "$desc" "$template"
+            printf "  \033[1;32m%-12s\033[0m \033[2m[%-8s]\033[0m %s\n" \
+                "$name" "$template" "$desc"
         done
         
         if [ $? -ne 0 ]; then
