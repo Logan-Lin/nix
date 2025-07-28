@@ -71,6 +71,7 @@
         ncdu
         git-credential-oauth
         rsync
+        gnumake
       ];
 
       fonts.fontconfig.enable = true;
