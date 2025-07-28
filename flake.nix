@@ -68,6 +68,7 @@
         nerd-fonts.jetbrains-mono
         gitui
         ncdu
+        git-credential-oauth
       ];
 
       fonts.fontconfig.enable = true;
