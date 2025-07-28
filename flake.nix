@@ -46,6 +46,7 @@
         ./modules/ssh.nix
         ./modules/git.nix
         ./modules/termscp.nix
+        ./modules/rsync.nix
       ];
 
       home.username = "yanlin";
@@ -69,6 +70,7 @@
         lazygit
         ncdu
         git-credential-oauth
+        rsync
       ];
 
       fonts.fontconfig.enable = true;
