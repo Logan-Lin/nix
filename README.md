@@ -343,10 +343,87 @@ rsync -avh --progress --exclude-from=~/.rsync-exclude source/ dest/
 - Safety options including partial transfers and dry-run capability
 - Preserves extended attributes and ACLs on macOS
 
+### 🌟 Python Development & Package Management
+
+**Tool**: uv
+**Purpose**: Extremely fast Python package installer and resolver, written in Rust
+
+A modern replacement for pip, virtualenv, pip-tools, and more - providing 10-100x faster performance:
+
+#### Key Features:
+- **Unified toolchain**: Single tool replaces pip, virtualenv, pip-tools, poetry, and more
+- **High performance**: 10-100x faster than pip with global caching and Rust implementation
+- **Drop-in compatibility**: Works with existing requirements.txt files and PyPI packages
+- **Modern dependency resolution**: Better handling of complex dependency trees
+- **Virtual environment management**: Automatic venv creation and management
+
+#### Usage Examples:
+
+**Project initialization and management:**
+```bash
+# Create a new Python project
+uv init my-project
+cd my-project
+
+# Add dependencies (creates/updates pyproject.toml)
+uv add requests pandas numpy
+
+# Add development dependencies
+uv add --dev pytest black isort
+
+# Install dependencies from requirements.txt or pyproject.toml
+uv sync
+```
+
+**Virtual environment management:**
+```bash
+# Create virtual environment (automatic when needed)
+uv venv
+
+# Activate virtual environment
+source .venv/bin/activate
+
+# Install packages in virtual environment
+uv pip install package-name
+
+# Run commands in virtual environment context
+uv run python script.py
+uv run pytest
+```
+
+**Package installation and management:**
+```bash
+# Install packages (faster than pip)
+uv pip install requests
+uv pip install -r requirements.txt
+
+# Upgrade packages
+uv pip install --upgrade package-name
+
+# Install specific versions
+uv pip install "django>=4.0,<5.0"
+```
+
+**Tool usage (like pipx):**
+```bash
+# Install and run CLI tools
+uv tool install black
+uv tool run black --help
+
+# Run tools without installing
+uv tool run ruff check .
+```
+
+**Migration from pip/virtualenv:**
+- Replace `pip install` with `uv pip install` for faster installs
+- Replace `python -m venv` with `uv venv` for faster environment creation
+- Use `uv add` instead of manually editing requirements.txt
+- Use `uv sync` to install from lock files for reproducible environments
+
 ## 📦 Included Packages
 
 ### Development Tools
-- **Python 3.12**: With pip and virtualenv
+- **Python 3.12**: With uv (modern Python package manager)
 - **LaTeX**: Full TeXLive distribution
 - **Claude Code**: AI-powered coding assistant
 - **Git UI**: Beautiful git graph visualization
