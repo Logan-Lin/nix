@@ -59,6 +59,39 @@ PAPER_PATH=$(echo "$PROJECT_CONFIG" | jq -r '.paperPath // empty')
 SERVER=$(echo "$PROJECT_CONFIG" | jq -r '.server // empty')
 REMOTE_DIR=$(echo "$PROJECT_CONFIG" | jq -r '.remoteDir // empty')
 
+# Create directories if they don't exist
+create_directory() {
+    local dir_path="$1"
+    local dir_name="$2"
+    
+    if [ -n "$dir_path" ] && [ "$dir_path" != "null" ]; then
+        if [ ! -d "$dir_path" ]; then
+            if mkdir -p "$dir_path" 2>/dev/null; then
+                printf "\033[2mCreated %s directory: %s\033[0m\n" "$dir_name" "$dir_path"
+            else
+                echo "Warning: Could not create $dir_name directory: $dir_path"
+                echo "Please check permissions or create it manually."
+            fi
+        fi
+    fi
+}
+
+# Ensure required directories exist
+create_directory "$CODE_PATH" "code"
+create_directory "$CONTENT_PATH" "content"
+create_directory "$PAPER_PATH" "paper"
+
+# Create remote directory if server connection is configured
+if [ -n "$SERVER" ] && [ -n "$REMOTE_DIR" ]; then
+    printf "\033[2mEnsuring remote directory exists: %s:%s\033[0m\n" "$SERVER" "$REMOTE_DIR"
+    if ssh "$SERVER" "mkdir -p \"$REMOTE_DIR\"" 2>/dev/null; then
+        printf "\033[2mRemote directory ready: %s:%s\033[0m\n" "$SERVER" "$REMOTE_DIR"
+    else
+        echo "Warning: Could not create or verify remote directory: $SERVER:$REMOTE_DIR"
+        echo "Please check SSH connection and permissions."
+    fi
+fi
+
 # Launch appropriate template
 case "$TEMPLATE" in
     "basic")
