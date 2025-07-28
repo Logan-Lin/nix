@@ -14,6 +14,13 @@
       description = "Homelab Deployment";
     };
 
+    note = {
+      template = "basic";
+      name = "note";
+      codePath = "/Users/yanlin/Obsidian/Personal";
+      description = "Obsidian notes";
+    };
+
     blog = {
       template = "content";
       name = "blog";
