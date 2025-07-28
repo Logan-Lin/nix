@@ -297,6 +297,63 @@ Launch with `lazygit` in any git repository for:
 - File tree navigation with git status
 - Intuitive keyboard shortcuts and help system
 
+### 🌟 Code Editing & Auto-completion
+
+**Tool**: Neovim with NixVim
+**Purpose**: Modern text editor with declarative configuration and basic auto-completion
+
+Configured with essential plugins and basic auto-completion for improved productivity:
+
+#### Key Features:
+- **Gruvbox theme**: Dark theme with hard contrast for better readability
+- **Tree-sitter**: Advanced syntax highlighting for multiple languages
+- **File explorer**: nvim-tree for project navigation
+- **Auto-completion**: Basic word and path completion without language servers
+- **Git integration**: vim-fugitive for version control operations
+- **Markdown rendering**: Live preview for documentation
+
+#### Auto-completion Usage:
+
+**Basic completion:**
+```
+Ctrl+Space    # Trigger completion menu manually
+Tab           # Navigate to next completion item
+Shift+Tab     # Navigate to previous completion item
+Enter         # Accept selected completion
+Ctrl+e        # Close completion menu
+```
+
+**Completion sources:**
+- **Buffer completion**: Suggests words from currently open files
+- **Path completion**: Suggests file and directory paths when typing paths
+
+#### Essential Keybindings:
+
+**File operations:**
+```
+<leader>e     # Toggle file explorer (nvim-tree)
+<leader>w     # Save current file
+<leader>q     # Quit current buffer
+<leader>o     # Open file with system default app
+<leader>f     # Show current file in Finder
+```
+
+**System clipboard:**
+```
+<leader>y     # Copy selection to system clipboard
+<leader>p     # Paste from system clipboard
+```
+
+**Git operations:**
+```
+<leader>gs    # Git status
+<leader>gd    # Git diff
+<leader>gc    # Git commit
+<leader>gp    # Git push
+```
+
+**Note**: Leader key is set to spacebar. Basic auto-completion provides word suggestions from open files and path completion without requiring language server setup.
+
 ### 🌟 File Synchronization & Backup
 
 **Tool**: rsync
