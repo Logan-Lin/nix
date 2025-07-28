@@ -41,7 +41,7 @@
       name = "MDShortcut";
       codePath = "/Users/yanlin/Documents/Projects/Material Design Shortcut/MDShortcut-dev";
       paperPath = "/Users/yanlin/Documents/Projects/Material Design Shortcut/MDShortcut-paper";
-      description = "Material Design Shortcut research project";
+      description = "Material design shortcut";
       server = "aicloud";
       remoteDir = "~/MDS";
     };
@@ -53,7 +53,7 @@
       description = "DAKI3 course Demo code";
     };
 
-    diffdismatter = {
+    ddm = {
       template = "research";
       name = "DiffDisMatter";
       codePath = "/Users/yanlin/Documents/Projects/Inverse Design of Disordered Materials/DiffDisMatter-dev";

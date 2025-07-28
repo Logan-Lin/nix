@@ -8,6 +8,12 @@ CONFIG_DIR="$(dirname "$0")/../config"
 PROJECTS_JSON="$CONFIG_DIR/projects.json"
 TEMPLATES_DIR="$(dirname "$0")/templates"
 
+# Check if tmux session is running
+is_session_running() {
+    local session_name="$1"
+    tmux has-session -t "$session_name" 2>/dev/null
+}
+
 if [ -z "$PROJECT_NAME" ]; then
     printf "\033[1;36mAvailable Projects:\033[0m\n\n"
     
@@ -19,11 +25,16 @@ if [ -z "$PROJECT_NAME" ]; then
         fi
         
         # Parse and display projects with descriptions
-        jq -r '.projects | to_entries[] | "\(.key)|\(.value.description)|\(.value.template)"' "$PROJECTS_JSON" 2>/dev/null | \
-        while IFS='|' read -r name desc template; do
-            # Format with consistent spacing
-            printf "  \033[1;32m%-12s\033[0m \033[2m[%-8s]\033[0m %s\n" \
-                "$name" "$template" "$desc"
+        jq -r '.projects | to_entries[] | "\(.key)|\(.value.description)|\(.value.template)|\(.value.name)"' "$PROJECTS_JSON" 2>/dev/null | \
+        while IFS='|' read -r name desc template session_name; do
+            # Check if session is running and format accordingly
+            if is_session_running "$session_name"; then
+                printf "  \033[1;32m%-12s\033[0m \033[2m[%-8s]\033[0m %s\033[1;32m • Running\033[0m\n" \
+                    "$name" "$template" "$desc"
+            else
+                printf "  \033[1;32m%-12s\033[0m \033[2m[%-8s]\033[0m %s\n" \
+                    "$name" "$template" "$desc"
+            fi
         done
         
         if [ $? -ne 0 ]; then
