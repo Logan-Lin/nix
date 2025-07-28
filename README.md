@@ -297,6 +297,52 @@ Launch with `lazygit` in any git repository for:
 - File tree navigation with git status
 - Intuitive keyboard shortcuts and help system
 
+### 🌟 File Synchronization & Backup
+
+**Tool**: rsync
+**Purpose**: Declarative file synchronization and backup management
+
+Configured with comprehensive exclude patterns and backup presets:
+
+#### Configuration Files:
+- `~/.rsync-exclude` - Common exclude patterns (macOS metadata, temp files)
+- `~/.rsync-backup.conf` - Standard backup options with safety features
+- `~/.local/bin/rsync-backup` - Convenient backup wrapper script
+- `~/.rsync-aliases` - Shell aliases for common operations
+
+#### Usage Examples:
+
+**Using the backup wrapper:**
+```bash
+# Quick backup with progress and safety
+rsync-backup ~/Documents/ /backup/documents/
+
+# The script automatically applies exclude patterns and safety options
+```
+
+**Using shell aliases (source ~/.rsync-aliases first):**
+```bash
+rsync-quick source/ dest/     # Basic backup with progress
+rsync-dry source/ dest/       # Dry run for testing (safe)
+rsync-sync source/ dest/      # Sync without deleting files
+rsync-mirror source/ dest/    # Mirror with delete (exact copy)
+```
+
+**Manual rsync with config:**
+```bash
+# Use the backup configuration file
+rsync $(cat ~/.rsync-backup.conf | grep -v '^#' | tr '\n' ' ') source/ dest/
+
+# Or with custom exclude patterns
+rsync -avh --progress --exclude-from=~/.rsync-exclude source/ dest/
+```
+
+**Features:**
+- Automatic exclusion of temporary files and macOS metadata
+- Progress indication and compression for network transfers
+- Safety options including partial transfers and dry-run capability
+- Preserves extended attributes and ACLs on macOS
+
 ## 📦 Included Packages
 
 ### Development Tools
@@ -316,6 +362,7 @@ Launch with `lazygit` in any git repository for:
 - **sqlite3**: Official SQLite command-line interface
 - **lftp**: Scriptable FTP client for automation
 - **termscp**: Comprehensive TUI file transfer client (FTP/SFTP/SCP/S3)
+- **rsync**: Fast file synchronization and backup with comprehensive configuration
 - **zoxide**: Smart cd with frecency algorithm
 
 #### fd Usage Examples
