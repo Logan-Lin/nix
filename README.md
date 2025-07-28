@@ -287,14 +287,15 @@ Edit `config/projects.nix` and run `hms` to rebuild configuration.
 
 ### 🌟 Git Visualization
 
-**Tool**: gitui
-**Purpose**: Beautiful, interactive TUI for git operations
+**Tool**: lazygit
+**Purpose**: Simple terminal UI for git commands with intuitive interface
 
-Launch with `gitui` in any git repository for:
-- Interactive commit graph visualization
-- Diff viewing and staging
-- Branch management
-- Vim-like navigation (j/k for movement, h/l for tabs)
+Launch with `lazygit` in any git repository for:
+- Interactive commit graph and branch visualization
+- Streamlined staging, committing, and diff viewing
+- Easy branch management and merging
+- File tree navigation with git status
+- Intuitive keyboard shortcuts and help system
 
 ## 📦 Included Packages
 
