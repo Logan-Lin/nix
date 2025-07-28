@@ -22,7 +22,7 @@ tmux new-session -d -s $SESSION_NAME -c "$CODE_PATH"
 tmux rename-window -t $SESSION_NAME:1 "code"
 tmux send-keys -t $SESSION_NAME:1 "nvim" C-m
 tmux new-window -t $SESSION_NAME:2 -n "code-ai" -c "$CODE_PATH"
-tmux send-keys -t $SESSION_NAME:2 "claude -r" C-m
+tmux send-keys -t $SESSION_NAME:2 "claude -c" C-m
 tmux split-window -t $SESSION_NAME:2 -h -c "$CODE_PATH"
 tmux split-window -t $SESSION_NAME:2.2 -v -c "$CODE_PATH"
 tmux select-pane -t $SESSION_NAME:2.1
@@ -31,7 +31,7 @@ tmux send-keys -t $SESSION_NAME:3 "lazygit" C-m
 
 # Create windows for content
 tmux new-window -t $SESSION_NAME:4 -n "content-ai" -c "$CONTENT_PATH"
-tmux send-keys -t $SESSION_NAME:4 "claude -r" C-m
+tmux send-keys -t $SESSION_NAME:4 "claude -c" C-m
 tmux split-window -t $SESSION_NAME:4 -h -c "$CONTENT_PATH"
 tmux split-window -t $SESSION_NAME:4.2 -v -c "$CONTENT_PATH"
 tmux select-pane -t $SESSION_NAME:4.1
