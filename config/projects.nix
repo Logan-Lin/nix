@@ -62,5 +62,13 @@
       server = "aicloud";
       remoteDir = "~/DiffDisMatter";
     };
+
+    mllm-traj = {
+      template = "basic";
+      name = "MLLM-Traj";
+      codePath = "/Users/yanlin/Documents/Projects/Multimodal LLM for Trajectory Modeling/mllm-traj-paper";
+      description = "MLLM for Trajectory";
+    };
+
   };
 }
