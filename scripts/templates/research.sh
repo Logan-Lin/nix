@@ -29,7 +29,7 @@ tmux split-window -t $SESSION_NAME:2 -h -c "$CODE_PATH"
 tmux split-window -t $SESSION_NAME:2.2 -v -c "$CODE_PATH"
 tmux select-pane -t $SESSION_NAME:2.1
 tmux new-window -t $SESSION_NAME:3 -n "code-git" -c "$CODE_PATH"
-tmux send-keys -t $SESSION_NAME:3 "gitui" C-m
+tmux send-keys -t $SESSION_NAME:3 "lazygit" C-m
 
 # Create windows for paper
 tmux new-window -t $SESSION_NAME:4 -n "paper" -c "$PAPER_PATH"
@@ -41,7 +41,7 @@ tmux split-window -t $SESSION_NAME:5 -h -c "$PAPER_PATH"
 tmux split-window -t $SESSION_NAME:5.2 -v -c "$PAPER_PATH"
 tmux select-pane -t $SESSION_NAME:5.1
 tmux new-window -t $SESSION_NAME:6 -n "paper-git" -c "$PAPER_PATH"
-tmux send-keys -t $SESSION_NAME:6 "gitui" C-m
+tmux send-keys -t $SESSION_NAME:6 "lazygit" C-m
 
 # Create remote server window if server details are provided
 if [ -n "$SERVER" ] && [ -n "$REMOTE_DIR" ]; then
