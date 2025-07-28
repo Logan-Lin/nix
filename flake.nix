@@ -57,8 +57,7 @@
         texlive.combined.scheme-full
         btop
         python312
-        python312Packages.pip
-        python312Packages.virtualenv
+        uv
         lftp
         termscp
         httpie
