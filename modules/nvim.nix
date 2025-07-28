@@ -86,6 +86,27 @@
       render-markdown = {
         enable = true;
       };
+
+      # Basic auto-completion
+      cmp = {
+        enable = true;
+        autoEnableSources = true;
+        
+        settings = {
+          sources = [
+            { name = "buffer"; }     # Words from open buffers
+            { name = "path"; }       # File system paths
+          ];
+          
+          mapping = {
+            "<C-Space>" = "cmp.mapping.complete()";          # Trigger completion manually
+            "<C-e>" = "cmp.mapping.close()";                 # Close completion menu
+            "<CR>" = "cmp.mapping.confirm({ select = true })"; # Accept selected completion
+            "<Tab>" = "cmp.mapping.select_next_item()";      # Navigate down in menu
+            "<S-Tab>" = "cmp.mapping.select_prev_item()";    # Navigate up in menu
+          };
+        };
+      };
     };
 
     # Extra plugins that don't have dedicated modules
