@@ -27,13 +27,15 @@ home-manager switch --flake github:Logan-Lin/nix-config#yanlin
 ```
 .
 ├── flake.nix          # Main flake configuration and package definitions
-├── tmux.sh            # Tmux session automation script
 ├── modules/           # Nix configuration modules
 │   ├── git.nix        # Git configuration with aliases and settings
 │   ├── nvim.nix       # Neovim configuration with plugins and keymaps
 │   ├── ssh.nix        # SSH client configuration and host management
 │   ├── tmux.nix       # Tmux setup with vim-like navigation
-│   └── zsh.nix        # Zsh with Powerlevel10k and modern CLI tools
+│   ├── zsh.nix        # Zsh with Powerlevel10k and modern CLI tools
+│   ├── papis.nix      # Reference management system
+│   ├── rsync.nix      # File synchronization and backup
+│   └── termscp.nix    # Terminal file transfer client
 ├── config/            # Configuration files
 │   ├── p10k.zsh       # Powerlevel10k theme configuration
 │   └── projects.nix   # Project shortcuts configuration
@@ -41,55 +43,65 @@ home-manager switch --flake github:Logan-Lin/nix-config#yanlin
     ├── project-launcher.sh  # Universal project launcher
     └── templates/     # Tmux session templates
         ├── basic.sh   # Basic development template
-        ├── content.sh # Content workflow template
         └── research.sh # Research workflow template
 ```
 
-## 🛠️ Software Configurations
+## 🔄 Core Workflow
 
-### 📝 Neovim
+The configuration creates an integrated development environment with a clear workflow progression:
 
-**Theme**: Gruvbox dark with hard contrast
-**Leader Key**: `<Space>`
+**Terminal (zsh)** → **Session Management (tmux)** → **Code Editing (nvim)** → **Version Control (git)**
+
+### 🐚 Terminal: Zsh with Powerlevel10k
+
+**Theme**: Powerlevel10k lean style with 2-line prompt  
+**Vim Mode**: Enabled with visual indicators
 
 #### Key Features:
-- **File Explorer**: nvim-tree with dotfile filtering
-- **Syntax Highlighting**: Treesitter with all grammar support
-- **Git Integration**: vim-fugitive for git operations
-- **Status Line**: lualine with gruvbox theme and relative paths
-- **System Clipboard**: Seamless integration for copy/paste
-- **Markdown Rendering**: render-markdown.nvim for beautiful in-buffer markdown preview
+- **Smart Completion**: Case-insensitive with menu selection
+- **Autosuggestions**: Fish-like command suggestions  
+- **Syntax Highlighting**: Real-time command syntax highlighting
+- **History Management**: Shared history with deduplication
+- **Vim Mode Indicators**: Cursor shape changes and prompt symbols
 
-#### Keybindings:
+#### Vim Mode Indicators:
+- **Insert Mode**: Line cursor `|` + `❯` prompt (green)
+- **Normal Mode**: Block cursor `█` + `❮` prompt  
+- **Fast Switching**: 10ms escape timeout for responsive mode changes
 
-| Key | Mode | Action |
-|-----|------|--------|
-| `<Space>e` | Normal | Toggle file explorer |
-| `<Space>w` | Normal | Save file |
-| `<Space>q` | Normal | Quit |
-| `<Space>o` | Normal | Open file with system default app |
-| `<Space>f` | Normal | Show current file in Finder |
-| `<Space>y` | Normal/Visual | Copy to system clipboard |
-| `<Space>p` | Normal/Visual | Paste from system clipboard |
-| `<Space>gs` | Normal | Git status |
-| `<Space>gd` | Normal | Git diff |
-| `<Space>gc` | Normal | Git commit |
-| `<Space>gp` | Normal | Git push |
-| `<Space>md` | Normal | Toggle markdown rendering |
+#### Essential Aliases:
+```bash
+# Navigation with zoxide (smart cd replacement)
+cd [query]         # Smart directory jumping with frecency
+zi [query]         # Interactive directory selection with fzf
+.., ..., ....      # Quick directory navigation
 
-### 🖥️ Tmux
+# Modern CLI tools
+cat → bat          # Syntax highlighted file viewing
+find → fd          # Fast file finding  
+grep → rg          # Ripgrep for fast searching
+top → btop         # Beautiful system monitor
 
-**Prefix Key**: `Ctrl+a` (instead of default `Ctrl+b`)
+# Git shortcuts
+g, gs, ga, gc, gp, gl, gd, gco, gb  # Git operations
+
+# Nix management
+hm                 # home-manager shortcut
+hms                # Quick home-manager switch (rebuild)
+```
+
+### 🖥️ Session Management: Tmux
+
+**Prefix Key**: `Ctrl+a` (instead of default `Ctrl+b`)  
 **Theme**: Gruvbox dark with visual prefix indicator
 
 #### Key Features:
 - **Prefix Indicator**: Shows `<Prefix>` in status bar when prefix is active
 - **Vim-like Navigation**: hjkl for pane movement
 - **Smart Splitting**: Maintains current directory when creating panes
-- **Copy Mode**: System clipboard integration with pbcopy
+- **Copy Mode**: System clipboard integration
 
-#### Keybindings:
-
+#### Essential Keybindings:
 | Key | Action |
 |-----|--------|
 | `Ctrl+a` | Prefix key |
@@ -107,16 +119,104 @@ home-manager switch --flake github:Logan-Lin/nix-config#yanlin
 | `y` | Copy selection to system clipboard |
 | `r` | Toggle rectangle selection |
 
-### 🌟 Git Configuration
+### 🚀 Project Management
 
-**Configuration**: `modules/git.nix`
-**Purpose**: Declarative git configuration with user info, aliases, and sensible defaults
+**Configuration**: `config/projects.nix`  
+**Purpose**: Quick access to project workspaces with tmux sessions
+
+#### Example Projects:
+- **`website`**: Web project with code + content workflow  
+- **`nix-config`**: System configuration with basic development workflow
+- **`research-project`**: Academic project with code + paper workflow
+
+#### Usage:
+```bash
+proj              # List all available projects
+website           # Launch website project tmux session  
+research-project  # Launch research project tmux session
+nix-config        # Launch nix-config project tmux session
+```
+
+#### Template Types:
+- **Basic**: Single directory (nvim + git + shell)
+- **Research**: Code directory + separate paper directory + optional remote server
+
+#### Research Template Remote Server Support:
+The research template supports optional remote server connections:
+- **Remote Server Window**: Dual horizontal panes for parallel remote work
+- **Automatic Connection**: SSH to configured server with automatic directory navigation
+- **Reconnect Alias**: Type `r` in any remote pane to easily reconnect
+
+**Example Configuration:**
+```nix
+research-project = {
+  template = "research";
+  name = "Research Project";
+  codePath = "~/Projects/research-code";
+  paperPath = "~/Projects/research-paper";
+  description = "Academic research project";
+  server = "dev-server";        # SSH host from ~/.ssh/config  
+  remoteDir = "~/research";     # Remote directory path
+};
+```
+
+### 📝 Code Editing: Neovim
+
+**Theme**: Gruvbox dark with hard contrast  
+**Leader Key**: `<Space>`
 
 #### Key Features:
-- **User Identity**: Name and email managed declaratively
-- **SSH Integration**: Disabled credential helper to use SSH keys
-- **Comprehensive Aliases**: Shortcuts for common git operations
-- **Sensible Defaults**: Cross-platform compatible settings
+- **File Explorer**: nvim-tree with dotfile filtering
+- **Syntax Highlighting**: Treesitter with comprehensive language support
+- **Git Integration**: vim-fugitive for git operations
+- **Status Line**: lualine with gruvbox theme and relative paths
+- **System Clipboard**: Seamless integration for copy/paste  
+- **Markdown Rendering**: render-markdown.nvim for beautiful in-buffer preview
+- **Auto-completion**: Basic word and path completion
+
+#### Essential Keybindings:
+
+**File Operations:**
+| Key | Action |
+|-----|--------|
+| `<Space>e` | Toggle file explorer |
+| `<Space>w` | Save file |
+| `<Space>q` | Quit |
+| `<Space>o` | Open file with system default app |
+| `<Space>f` | Show current file in Finder |
+
+**System Clipboard:**
+| Key | Action |
+|-----|--------|
+| `<Space>y` | Copy to system clipboard |
+| `<Space>p` | Paste from system clipboard |
+
+**Git Operations:**
+| Key | Action |
+|-----|--------|
+| `<Space>gs` | Git status |
+| `<Space>gd` | Git diff |
+| `<Space>gc` | Git commit |
+| `<Space>gp` | Git push |
+
+**Other:**
+| Key | Action |
+|-----|--------|
+| `<Space>md` | Toggle markdown rendering |
+
+#### Auto-completion:
+```
+Ctrl+Space    # Trigger completion menu
+Tab           # Navigate to next completion item
+Shift+Tab     # Navigate to previous completion item  
+Enter         # Accept selected completion
+Ctrl+e        # Close completion menu
+```
+
+### 🌟 Version Control: Git
+
+**Configuration**: `modules/git.nix`  
+**Purpose**: Declarative git configuration with comprehensive aliases
 
 #### Complete Aliases Reference:
 
@@ -141,21 +241,16 @@ home-manager switch --flake github:Logan-Lin/nix-config#yanlin
 | `git unstage` | `reset HEAD --` | Remove files from staging area |
 | `git visual` | `!gitk` | Launch gitk GUI |
 
-#### Configuration Management:
-Edit git settings in `modules/git.nix`, then apply:
-```bash
-home-manager switch --flake .#yanlin
-```
+#### Git Visualization with lazygit
+Launch `lazygit` in any git repository for:
+- Interactive commit graph and branch visualization
+- Streamlined staging, committing, and diff viewing
+- Easy branch management and merging
+- File tree navigation with git status
 
-#### Benefits:
-- ✅ **Reproducible**: Same git config across all machines
-- ✅ **Version Controlled**: Git settings tracked with other configurations  
-- ✅ **SSH Integration**: Works seamlessly with SSH module
-- ✅ **Override Defaults**: Properly disables nix's default credential helper
+## 🔐 SSH Configuration
 
-### 🔐 SSH Configuration
-
-**Configuration**: `modules/ssh.nix`
+**Configuration**: `modules/ssh.nix`  
 **Purpose**: Declarative SSH client configuration and host management
 
 #### Key Features:
@@ -164,202 +259,127 @@ home-manager switch --flake .#yanlin
 - **Reproducible**: Same SSH setup deployable across multiple machines
 - **Security**: Private keys remain local and untracked
 
+#### Example Host Configuration:
+- **dev-server**: Development server with proxy jump
+- **storage**: Network storage server  
+- **homelab**: Home server setup
+- **cloud-vps**: Cloud VPS instance
+
 #### Host Management:
 Edit SSH hosts in `modules/ssh.nix`, then apply changes:
 ```bash
 home-manager switch --flake .#yanlin
 ```
 
-#### Configured Hosts:
-- **aicloud**: Development server via proxy jump
-- **nas**: Network storage server
-- **pi**: Raspberry Pi home server
-- **cm**: Compute module
-- **personal-vps**: Cloud VPS instance
-- **zero**: Pi Zero device
-- **ucloud-a40**: A40 GPU cluster
-- **ucloud-h100**: H100 GPU cluster
-
 #### Security Best Practices:
 - ✅ **SSH configuration**: Managed by nix (hosts, ports, usernames)
 - ❌ **Private keys**: Keep local in `~/.ssh/keys/` (not tracked by nix)
 - ❌ **known_hosts**: Generated locally (not synced)
 
-**Important**: Only the SSH client configuration is managed by nix. Private keys and sensitive data remain local and secure.
+## 🛠️ Development Tools
 
-### 🐚 Zsh with Powerlevel10k
+### Enhanced CLI Utilities
 
-**Theme**: Powerlevel10k lean style with 2-line prompt
-**Vim Mode**: Enabled with visual indicators
+- **fzf**: Fuzzy finder for files, commands, and history with built-in zsh keybindings
+- **fd**: Fast, user-friendly alternative to find
+- **ripgrep (rg)**: Fast text search across codebases
+- **bat**: Syntax-highlighted cat replacement with git integration
+- **btop**: Modern system monitor with vim-like navigation
+- **zoxide**: Smart cd replacement with frecency algorithm
+- **httpie**: Modern HTTP client for API testing and development
+
+#### Powerful Tool Combinations:
+```bash
+# Find and open file with interactive selection
+nvim $(fd --type f | fzf)
+
+# Search text content and open matching file  
+nvim $(rg -l "search_term" | fzf)
+
+# Preview files while selecting which one to edit
+nvim $(fd --type f | fzf --preview 'bat --color=always {}')
+
+# Smart directory navigation with zoxide
+cd proj && nvim .        # Jump to project directory and edit
+zi && fd "*.md" | fzf    # Interactive directory select, then find markdown files
+```
+
+#### Built-in zsh keybindings:
+- `Ctrl+T` - Insert selected files/directories into command line
+- `Ctrl+R` - Search command history interactively  
+- `Alt+C` - Change to selected directory
+
+### Database Management
+
+- **sqlite3**: Official SQLite command-line interface for local databases
+- **lazysql**: LazyGit-style TUI database management tool for MySQL, PostgreSQL, and SQLite
+
+### Development Languages & Tools
+
+- **Python 3.12**: With uv (modern Python package manager providing 10-100x faster performance)
+- **LaTeX**: Full TeXLive distribution for document preparation
+- **Claude Code**: AI-powered coding assistant
+
+#### uv (Python Package Management):
+```bash
+# Project initialization
+uv init my-project && cd my-project
+uv add requests pandas numpy        # Add dependencies
+uv add --dev pytest black isort     # Add dev dependencies
+uv sync                            # Install from lock file
+
+# Virtual environment management
+uv venv                            # Create virtual environment
+uv run python script.py           # Run in venv context
+uv tool run black --help          # Run tools without installing
+```
+
+## 🌟 Specialized Tools
+
+### 📚 Reference Management: papis
+
+**Purpose**: Command-line reference manager for academic papers and documents
+
+A powerful bibliography manager with centralized storage at `~/Documents/Library/papis`:
 
 #### Key Features:
-- **Smart Completion**: Case-insensitive with menu selection
-- **Autosuggestions**: Fish-like command suggestions
-- **Syntax Highlighting**: Real-time command syntax highlighting
-- **History Management**: Shared history with deduplication
-- **Vim Mode Indicators**: Cursor shape changes and prompt symbols
+- **Document Library**: Centralized storage with human-readable YAML metadata
+- **BibTeX Integration**: Import/export references in standard academic formats
+- **PDF Management**: Automatic file organization and retrieval
+- **Search & Filter**: Fast document discovery with fuzzy finding (fzf)
+- **Editor Integration**: Configured with nvim for editing document metadata
 
-#### Vim Mode Indicators:
-- **Insert Mode**: Line cursor `|` + `❯` prompt (green)
-- **Normal Mode**: Block cursor `█` + `❮` prompt
-- **Fast Switching**: 10ms escape timeout for responsive mode changes
-
-#### Vim Mode Keybindings:
-| Key | Mode | Action |
-|-----|------|--------|
-| `Esc` | Insert | Switch to normal mode |
-| `i/a/I/A` | Normal | Switch to insert mode |
-| `k/j` | Normal | History search backward/forward |
-| `/` | Normal | History incremental search backward |
-| `?` | Normal | History incremental search forward |
-| `Ctrl+Right/Left` | Insert | Word movement |
-
-#### Aliases:
-
-**Navigation:**
+#### Usage Examples:
 ```bash
-l, ll, la          # Enhanced ls commands
-.., ..., ....      # Quick directory navigation
-cd [query]         # Smart directory jumping with zoxide (replaces cd)
-zi [query]         # Interactive directory selection with fzf
+# Adding documents
+papis add --from doi 10.1000/example.doi
+papis add paper.pdf                    # Interactive metadata entry
+papis add --from arxiv 2301.12345
+papis add --from url https://example.com/paper.pdf
+
+# Searching and browsing  
+papis list "machine learning"
+papis list author:smith year:2023
+papis open                             # Uses fzf picker
+papis open bohm
+
+# Document management
+papis edit bohm                        # Edit metadata with nvim
+papis export --format bibtex query_term > references.bib
 ```
 
-**Git:**
+#### Workflow Aliases:
 ```bash
-g, gs, ga, gc, gp, gl, gd, gco, gb  # Git shortcuts
-glog               # Beautiful git log with graph
+pals                          # List documents with formatted template
+pafile filename.pdf           # Add file from ~/Downloads/
+paopen                        # Open documents interactively  
+pafinder "query"              # Open document directory in Finder
+patag "tag1#tag2" "query"     # Add multiple tags using # separator
 ```
 
-**Modern CLI:**
-```bash
-cat → bat          # Syntax highlighted file viewing
-find → fd          # Fast file finding
-grep → rg          # Ripgrep for fast searching
-top → btop         # Beautiful system monitor
-```
+### 🔄 File Synchronization: rsync
 
-**Nix:**
-```bash
-hm                 # home-manager shortcut
-hms                # Quick home-manager switch
-```
-
-### 🚀 Project Shortcuts
-
-**Configuration**: `config/projects.nix`
-**Purpose**: Quick access to project workspaces with tmux sessions
-
-#### Example Projects:
-- **`blog`**: Personal blog with code + content workflow
-- **`nix-config`**: Nix configuration with basic development workflow
-
-#### Usage:
-```bash
-proj              # List all available projects
-blog              # Launch blog project tmux session
-nix-config        # Launch nix-config project tmux session
-```
-
-#### Template Types:
-- **Basic**: Single directory (nvim + ai + git + shell)
-- **Content**: Code directory + separate content directory
-- **Research**: Code directory + separate paper directory + optional remote server
-
-#### Research Template Remote Server Support:
-The research template supports optional remote server connections with these features:
-- **Remote Server Window**: Window 7 with dual horizontal panes for parallel remote work
-- **Automatic Connection**: SSH to configured server with automatic directory navigation
-- **Reconnect Alias**: Type `r` in any remote pane to easily reconnect after network drops
-- **Configuration**: Add `server` and `remoteDir` fields to research projects
-
-**Example Configuration:**
-```nix
-mdshortcut = {
-  template = "research";
-  # ... other fields ...
-  server = "aicloud";      # SSH host from ~/.ssh/config
-  remoteDir = "~/MDS";     # Remote directory path
-};
-```
-
-#### Adding New Projects:
-Edit `config/projects.nix` and run `hms` to rebuild configuration.
-
-### 🌟 Git Visualization
-
-**Tool**: lazygit
-**Purpose**: Simple terminal UI for git commands with intuitive interface
-
-Launch with `lazygit` in any git repository for:
-- Interactive commit graph and branch visualization
-- Streamlined staging, committing, and diff viewing
-- Easy branch management and merging
-- File tree navigation with git status
-- Intuitive keyboard shortcuts and help system
-
-### 🌟 Code Editing & Auto-completion
-
-**Tool**: Neovim with NixVim
-**Purpose**: Modern text editor with declarative configuration and basic auto-completion
-
-Configured with essential plugins and basic auto-completion for improved productivity:
-
-#### Key Features:
-- **Gruvbox theme**: Dark theme with hard contrast for better readability
-- **Tree-sitter**: Advanced syntax highlighting for multiple languages
-- **File explorer**: nvim-tree for project navigation
-- **Auto-completion**: Basic word and path completion without language servers
-- **Git integration**: vim-fugitive for version control operations
-- **Markdown rendering**: Live preview for documentation
-
-#### Auto-completion Usage:
-
-**Basic completion:**
-```
-Ctrl+Space    # Trigger completion menu manually
-Tab           # Navigate to next completion item
-Shift+Tab     # Navigate to previous completion item
-Enter         # Accept selected completion
-Ctrl+e        # Close completion menu
-```
-
-**Completion sources:**
-- **Buffer completion**: Suggests words from currently open files
-- **Path completion**: Suggests file and directory paths when typing paths
-
-#### Essential Keybindings:
-
-**File operations:**
-```
-<leader>e     # Toggle file explorer (nvim-tree)
-<leader>w     # Save current file
-<leader>q     # Quit current buffer
-<leader>o     # Open file with system default app
-<leader>f     # Show current file in Finder
-```
-
-**System clipboard:**
-```
-<leader>y     # Copy selection to system clipboard
-<leader>p     # Paste from system clipboard
-```
-
-**Git operations:**
-```
-<leader>gs    # Git status
-<leader>gd    # Git diff
-<leader>gc    # Git commit
-<leader>gp    # Git push
-```
-
-**Note**: Leader key is set to spacebar. Basic auto-completion provides word suggestions from open files and path completion without requiring language server setup.
-
-### 🌟 File Synchronization & Backup
-
-**Tool**: rsync
 **Purpose**: Declarative file synchronization and backup management
-
-Configured with comprehensive exclude patterns and backup presets:
 
 #### Configuration Files:
 - `~/.rsync-exclude` - Common exclude patterns (macOS metadata, temp files)
@@ -368,427 +388,48 @@ Configured with comprehensive exclude patterns and backup presets:
 - `~/.rsync-aliases` - Shell aliases for common operations
 
 #### Usage Examples:
-
-**Using the backup wrapper:**
 ```bash
-# Quick backup with progress and safety
+# Using the backup wrapper
 rsync-backup ~/Documents/ /backup/documents/
 
-# The script automatically applies exclude patterns and safety options
-```
-
-**Using shell aliases (source ~/.rsync-aliases first):**
-```bash
+# Using shell aliases (source ~/.rsync-aliases first)
 rsync-quick source/ dest/     # Basic backup with progress
 rsync-dry source/ dest/       # Dry run for testing (safe)
 rsync-sync source/ dest/      # Sync without deleting files
 rsync-mirror source/ dest/    # Mirror with delete (exact copy)
 ```
 
-**Manual rsync with config:**
-```bash
-# Use the backup configuration file
-rsync $(cat ~/.rsync-backup.conf | grep -v '^#' | tr '\n' ' ') source/ dest/
+### 📁 File Transfer: termscp
 
-# Or with custom exclude patterns
-rsync -avh --progress --exclude-from=~/.rsync-exclude source/ dest/
-```
+**Purpose**: Comprehensive TUI file transfer client
 
-**Features:**
-- Automatic exclusion of temporary files and macOS metadata
-- Progress indication and compression for network transfers
-- Safety options including partial transfers and dry-run capability
-- Preserves extended attributes and ACLs on macOS
+A rich terminal UI file transfer client with multi-protocol support:
 
-### 🌟 Reference Management
-
-**Tool**: papis
-**Purpose**: Command-line reference manager for academic papers and documents
-
-A powerful bibliography manager that stores documents and metadata in a human-readable format:
-
-#### Key Features:
-- **Document Library**: Centralized storage at `~/Documents/Library/papis`
-- **BibTeX Integration**: Import/export references in standard academic formats
-- **PDF Management**: Automatic file organization and retrieval
-- **Search & Filter**: Fast document discovery with fuzzy finding (fzf)
-- **Metadata Storage**: Human-readable YAML files for bibliographic data
-- **Editor Integration**: Configured with nvim for editing document metadata
-
-#### Usage Examples:
-
-**Adding documents:**
-```bash
-# Add a paper from DOI
-papis add --from doi 10.1000/example.doi
-
-# Add a PDF file with interactive metadata entry
-papis add paper.pdf
-
-# Add from arXiv
-papis add --from arxiv 2301.12345
-
-# Add from URL
-papis add --from url https://example.com/paper.pdf
-```
-
-**Searching and browsing:**
-```bash
-# List/search documents
-papis list
-papis list "machine learning" 
-papis list author:smith year:2023
-
-# Open documents (uses fzf picker)
-papis open
-papis open bohm
-
-# Open document folder
-papis open -d einstein
-```
-
-**Document management:**
-```bash
-# Edit document metadata
-papis edit bohm
-
-# Export to BibTeX
-papis export --all --format bibtex > references.bib
-papis export --format bibtex query_term > references.bib
-
-# List documents with custom format
-papis list --format '{doc[author]} - {doc[title]} ({doc[year]})'
-```
-
-**Workflow Aliases and Functions:**
-```bash
-# Bibliography formatting
-pals                          # List documents with formatted template
-pals "machine learning"       # Search and format specific documents
-
-# File operations (shell functions)
-pafile filename.pdf           # Add file from ~/Downloads/ (interactive selection)
-pafile filename.pdf "query"   # Add file from ~/Downloads/ to matching entry
-pafile /path/to/file.pdf      # Add file using absolute path
-paurl [url] [query]           # Add file from URL to existing entry
-
-# Document access
-paopen                        # Open documents interactively
-paopen "query"                # Open documents matching query
-
-# Directory access (shell function)
-pafinder                      # Open first document directory in Finder
-pafinder "query"              # Open first matching document directory
-pafinder author:einstein      # Open first Einstein paper directory
-pafinder --sort year smith    # Open newest Smith paper directory
-
-# Tagging (shell function)
-patag "tag1#tag2" "query"     # Add multiple tags using # separator
-patag "materials#ai4science" amorphous  # Example: add two tags to matching docs
-```
-
-**Configuration location**: `modules/papis.nix` with embedded configuration
-**Main library**: `~/Documents/Library/papis`
-**Editor**: nvim (configured automatically)
-**Picker**: fzf for interactive document selection
-
-### 🌟 Python Development & Package Management
-
-**Tool**: uv
-**Purpose**: Extremely fast Python package installer and resolver, written in Rust
-
-A modern replacement for pip, virtualenv, pip-tools, and more - providing 10-100x faster performance:
-
-#### Key Features:
-- **Unified toolchain**: Single tool replaces pip, virtualenv, pip-tools, poetry, and more
-- **High performance**: 10-100x faster than pip with global caching and Rust implementation
-- **Drop-in compatibility**: Works with existing requirements.txt files and PyPI packages
-- **Modern dependency resolution**: Better handling of complex dependency trees
-- **Virtual environment management**: Automatic venv creation and management
-
-#### Usage Examples:
-
-**Project initialization and management:**
-```bash
-# Create a new Python project
-uv init my-project
-cd my-project
-
-# Add dependencies (creates/updates pyproject.toml)
-uv add requests pandas numpy
-
-# Add development dependencies
-uv add --dev pytest black isort
-
-# Install dependencies from requirements.txt or pyproject.toml
-uv sync
-```
-
-**Virtual environment management:**
-```bash
-# Create virtual environment (automatic when needed)
-uv venv
-
-# Activate virtual environment
-source .venv/bin/activate
-
-# Install packages in virtual environment
-uv pip install package-name
-
-# Run commands in virtual environment context
-uv run python script.py
-uv run pytest
-```
-
-**Package installation and management:**
-```bash
-# Install packages (faster than pip)
-uv pip install requests
-uv pip install -r requirements.txt
-
-# Upgrade packages
-uv pip install --upgrade package-name
-
-# Install specific versions
-uv pip install "django>=4.0,<5.0"
-```
-
-**Tool usage (like pipx):**
-```bash
-# Install and run CLI tools
-uv tool install black
-uv tool run black --help
-
-# Run tools without installing
-uv tool run ruff check .
-```
-
-**Migration from pip/virtualenv:**
-- Replace `pip install` with `uv pip install` for faster installs
-- Replace `python -m venv` with `uv venv` for faster environment creation
-- Use `uv add` instead of manually editing requirements.txt
-- Use `uv sync` to install from lock files for reproducible environments
-
-## 📦 Included Packages
-
-### Development Tools
-- **Python 3.12**: With uv (modern Python package manager)
-- **LaTeX**: Full TeXLive distribution
-- **Claude Code**: AI-powered coding assistant
-- **Git UI**: Beautiful git graph visualization
-
-### CLI Utilities
-- **fzf**: Fuzzy finder for files, commands, and history
-- **fd**: Fast, user-friendly alternative to find
-- **ripgrep (rg)**: Fast text search
-- **bat**: Syntax-highlighted cat replacement
-- **btop**: Modern system monitor
-- **httpie**: Modern HTTP client for API testing
-- **lazysql**: LazyGit-style TUI database management tool
-- **sqlite3**: Official SQLite command-line interface
-- **lftp**: Scriptable FTP client for automation
-- **termscp**: Comprehensive TUI file transfer client (FTP/SFTP/SCP/S3)
-- **rsync**: Fast file synchronization and backup with comprehensive configuration
-- **zoxide**: Smart cd replacement with frecency algorithm
-
-#### fd Usage Examples
-```bash
-fd filename          # Find files/directories named "filename"
-fd "*.nix"          # Find all Nix files
-fd -t f config      # Only files (-t f = type file)
-fd -t d config      # Only directories (-t d = type directory)
-fd -e js            # All files with .js extension
-fd -H hidden        # Include hidden files (-H)
-fd | fzf            # Pipe to fzf for interactive selection
-```
-
-#### fzf Usage Examples
-```bash
-fzf                  # Interactive file finder
-ls | fzf            # Fuzzy find from any list
-history | fzf       # Search command history
-fd | fzf            # Fast file finding with fuzzy selection
-fd -t d | fzf       # Find and select directories only
-rg "pattern" | fzf  # Search text then fuzzy filter results
-
-# Preview files while browsing
-fzf --preview 'bat --style=numbers --color=always {}'
-```
-
-**Built-in zsh keybindings:**
-- `Ctrl+T` - Insert selected files/directories into command line
-- `Ctrl+R` - Search command history interactively  
-- `Alt+C` - Change to selected directory
-
-#### httpie Usage Examples
-```bash
-# Simple HTTP requests
-http GET api.example.com/users
-http POST api.example.com/users name="John" email="john@example.com"
-http PUT api.example.com/users/1 name="Jane"
-http DELETE api.example.com/users/1
-
-# With authentication headers
-http GET api.example.com/protected Authorization:"Bearer your-token"
-http GET api.example.com/api X-API-Key:"your-api-key"
-```
-
-#### lazysql Usage Examples
-```bash
-# Launch TUI database management (LazyGit-style interface)
-lazysql
-
-# Connect to different databases
-lazysql -h localhost -u username -p password -d database_name  # MySQL
-lazysql --url postgres://user:pass@localhost/dbname           # PostgreSQL  
-lazysql --url sqlite://./database.db                          # SQLite
-lazysql --url "mysql://user:pass@localhost/db"                # MySQL URL format
-
-# With config file (recommended for credentials)
-lazysql --config ~/.config/lazysql/config.yml
-
-# Interactive TUI operations:
-# - Navigate tables with j/k (vim-style)
-# - View table structure and data
-# - Execute SQL queries in editor mode
-# - Export query results
-# - Browse database schema
-```
-
-**Key lazysql features:**
-- **LazyGit-inspired interface**: Familiar navigation for developers
-- **Multi-database support**: MySQL, PostgreSQL, SQLite
-- **SQL editor**: Syntax highlighting and query execution
-- **Export capabilities**: Save query results to files
-- **Connection management**: Save and reuse database connections
-
-#### zoxide Usage Examples
-```bash
-# Smart directory navigation (replaces cd)
-cd ~/Documents          # Adds ~/Documents to zoxide database
-cd ~/Projects/myproject  # Adds ~/Projects/myproject to database
-cd myproj               # Jumps to ~/Projects/myproject (fuzzy match)
-cd doc                  # Jumps to ~/Documents (fuzzy match)
-
-# Interactive directory selection with fzf
-zi                      # Show interactive directory picker
-zi proj                 # Show interactive picker filtered by "proj"
-
-# Query the database
-zoxide query doc        # Show paths containing "doc"
-zoxide query -l         # List all paths in database (sorted by frequency)
-
-# Remove paths from database
-zoxide remove ~/old-project
-```
-
-**Key zoxide features:**
-- **Frecency algorithm**: Combines frequency and recency for smart suggestions
-- **Fuzzy matching**: Type partial directory names to jump quickly
-- **fzf integration**: Interactive directory selection with zi command
-- **Automatic learning**: Builds database of visited directories over time
-- **Cross-session**: Remembers directories across terminal sessions
-- **cd replacement**: Drop-in replacement for traditional cd command
-
-#### sqlite3 Usage Examples
-```bash
-# Connect to SQLite database
-sqlite3 ai.db
-
-# One-liner queries (no interactive session)
-sqlite3 ai.db "SELECT COUNT(*) FROM users;"
-sqlite3 ai.db "SELECT * FROM users WHERE active = 1;"
-
-# Common SQLite dot commands (inside sqlite3 shell)
-.tables                    # List all tables
-.schema                    # Show all table schemas
-.schema users              # Show specific table schema
-.mode csv                  # Set output format (csv, json, html, etc.)
-.headers on                # Show column headers
-.output results.csv        # Redirect output to file
-.output stdout             # Reset output to terminal
-
-# Import/Export operations
-.backup backup.db          # Create database backup
-.restore backup.db         # Restore from backup
-.dump                      # Export entire database as SQL
-.dump users               # Export specific table as SQL
-
-# Execute SQL script file
-.read script.sql          # Run SQL commands from file
-sqlite3 ai.db < script.sql # Alternative: pipe script to sqlite3
-
-# Database inspection
-.dbinfo                   # Show database information
-.indices table_name       # Show indexes for table
-.exit                     # Exit sqlite3 shell
-```
-
-**Key sqlite3 features:**
-- **Universal compatibility**: Works with any SQLite database
-- **Scriptable**: Perfect for automation and batch operations
-- **Lightweight**: Minimal overhead for quick queries
-- **Import/Export**: Built-in CSV, JSON, and SQL dump capabilities
-- **Backup tools**: Simple database backup and restore operations
-
-#### termscp Usage Examples
-```bash
-# Launch TUI file transfer client
-termscp
-ftp                  # Alias for termscp
-
-# Quick connections
-termscp ftp://user@host.com
-termscp sftp://user@host.com:2222
-termscp scp://user@host.com
-
-# Advanced features
-termscp --config     # Configure settings and bookmarks
-termscp --version    # Show version information
-```
-
-**Key termscp features:**
+#### Features:
 - **Rich TUI**: Interactive file browser with dual-pane view
-- **Multi-protocol**: FTP, SFTP, SCP, S3, WebDAV support
+- **Multi-protocol**: FTP, SFTP, SCP, S3, WebDAV support  
 - **Bookmarks**: Save frequently accessed servers
-- **File operations**: Create, rename, delete, search, edit files
+- **File Operations**: Create, rename, delete, search, edit files
 - **Synchronization**: Sync directories between local and remote
-- **Themes**: Customizable interface themes
 
-#### Powerful Tool Combinations
 ```bash
-# Find and open file with nvim using interactive selection
-nvim $(fd --type f | fzf)
-
-# Find and edit Nix configuration files
-nvim $(fd "*.nix" | fzf)
-
-# Search text content and open matching file
-nvim $(rg -l "search_term" | fzf)
-
-# Preview files while selecting which one to edit
-nvim $(fd --type f | fzf --preview 'bat --color=always {}')
-
-# Find and edit files in specific directory
-nvim $(fd --type f . ~/.config | fzf)
-
-# Smart directory navigation with zoxide
-cd proj && nvim .        # Jump to project directory and edit
-zi && fd "*.md" | fzf    # Interactive directory select, then find markdown files
+termscp                       # Launch TUI client
+ftp                          # Alias for termscp
+termscp ftp://user@host.com  # Quick connection
 ```
 
-### Fonts
-- **Nerd Fonts**: FiraCode and JetBrains Mono with icon support
+## 💻 Daily Workflow
 
-## 🔄 Usage & Workflow
+### Typical Development Session:
 
-### Daily Workflow
-1. **Terminal**: Beautiful zsh with vim mode and modern tools
-2. **Tmux**: Session management with vim navigation
-3. **Neovim**: Code editing with git integration
-4. **Git UI**: Visual git operations and branch management
+1. **Start Terminal**: Beautiful zsh with vim mode and modern tools
+2. **Navigate to Project**: Use `zi` (zoxide + fzf) for smart directory jumping
+3. **Launch Project Session**: Use project shortcuts (e.g., `website`, `research-project`)
+4. **Tmux Environment**: Automatic session with nvim, git, and shell panes
+5. **Code & Commit**: Integrated vim-style editing with git operations
+6. **File Operations**: Use fzf + fd/rg for fast file finding and content search
 
-### Environment Management
+### Environment Management:
 ```bash
 # Refresh shell environment after nix changes
 exec zsh
@@ -802,10 +443,9 @@ home-manager switch --flake .#yanlin
 hms
 ```
 
-### Clipboard Integration
-The configuration provides seamless clipboard integration:
+### Clipboard Integration:
 - **Neovim**: `<Space>y/p` for system clipboard
-- **Tmux**: Copy mode automatically uses system clipboard
+- **Tmux**: Copy mode automatically uses system clipboard  
 - **Terminal**: Standard Cmd+C/V works everywhere
 
 ## 💻 Machine Configurations
@@ -824,3 +464,32 @@ sudo darwin-rebuild switch --flake .#MacBook-Air
 sudo darwin-rebuild switch --flake .#iMac
 ```
 
+## 📦 Complete Package List
+
+### Core Development Tools
+- **Python 3.12** with uv package manager
+- **LaTeX** (Full TeXLive distribution)
+- **Claude Code** (AI-powered coding assistant)
+- **Git** with comprehensive aliases and lazygit visualization
+
+### CLI Utilities
+- **fzf** (Fuzzy finder)
+- **fd** (Fast file finding)  
+- **ripgrep** (Fast text search)
+- **bat** (Syntax-highlighted file viewing)
+- **btop** (Modern system monitor)
+- **zoxide** (Smart directory navigation)
+- **httpie** (Modern HTTP client)
+
+### Database & File Management
+- **sqlite3** (SQLite command-line interface)
+- **lazysql** (TUI database management)
+- **rsync** (File synchronization and backup)
+- **termscp** (Terminal file transfer client)  
+- **lftp** (Scriptable FTP client)
+
+### Academic & Documentation
+- **papis** (Reference management system)
+
+### Fonts
+- **Nerd Fonts**: FiraCode and JetBrains Mono with icon support
