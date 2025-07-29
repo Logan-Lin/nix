@@ -92,6 +92,11 @@ create_directory "$CODE_PATH" "code"
 create_directory "$CONTENT_PATH" "content"
 create_directory "$PAPER_PATH" "paper"
 
+# Record directories in zoxide for smart navigation
+[ -n "$CODE_PATH" ] && [ "$CODE_PATH" != "null" ] && [ -d "$CODE_PATH" ] && zoxide add "$CODE_PATH" 2>/dev/null || true
+[ -n "$CONTENT_PATH" ] && [ "$CONTENT_PATH" != "null" ] && [ -d "$CONTENT_PATH" ] && zoxide add "$CONTENT_PATH" 2>/dev/null || true
+[ -n "$PAPER_PATH" ] && [ "$PAPER_PATH" != "null" ] && [ -d "$PAPER_PATH" ] && zoxide add "$PAPER_PATH" 2>/dev/null || true
+
 # Create remote directory if server connection is configured
 if [ -n "$SERVER" ] && [ -n "$REMOTE_DIR" ]; then
     printf "\033[2mEnsuring remote directory exists: %s:%s\033[0m\n" "$SERVER" "$REMOTE_DIR"
