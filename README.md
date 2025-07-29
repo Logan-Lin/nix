@@ -460,21 +460,31 @@ papis export --format bibtex query_term > references.bib
 papis list --format '{doc[author]} - {doc[title]} ({doc[year]})'
 ```
 
-**Workflow Aliases:**
+**Workflow Aliases and Functions:**
 ```bash
 # Bibliography formatting
 pals                          # List documents with formatted template
 pals "machine learning"       # Search and format specific documents
 
-# File operations  
-pafile filename.pdf [query]   # Add file from ~/Downloads/ to existing entry
+# File operations (shell functions)
+pafile filename.pdf           # Add file from ~/Downloads/ (interactive selection)
+pafile filename.pdf "query"   # Add file from ~/Downloads/ to matching entry
+pafile /path/to/file.pdf      # Add file using absolute path
 paurl [url] [query]           # Add file from URL to existing entry
+
+# Document access
+paopen                        # Open documents interactively
+paopen "query"                # Open documents matching query
 
 # Directory access (shell function)
 pafinder                      # Open first document directory in Finder
 pafinder "query"              # Open first matching document directory
 pafinder author:einstein      # Open first Einstein paper directory
 pafinder --sort year smith    # Open newest Smith paper directory
+
+# Tagging (shell function)
+patag "tag1#tag2" "query"     # Add multiple tags using # separator
+patag "materials#ai4science" amorphous  # Example: add two tags to matching docs
 ```
 
 **Configuration location**: `modules/papis.nix` with embedded configuration
