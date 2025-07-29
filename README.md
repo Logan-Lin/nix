@@ -434,29 +434,30 @@ papis add --from url https://example.com/paper.pdf
 
 **Searching and browsing:**
 ```bash
-# Search documents (uses fzf picker)
-papis open
-papis search "machine learning"
-papis search author:smith year:2023
-
-# List all documents
+# List/search documents
 papis list
+papis list "machine learning" 
+papis list author:smith year:2023
 
-# Open specific document
-papis open smith2023
+# Open documents (uses fzf picker)
+papis open
+papis open bohm
+
+# Open document folder
+papis open -d einstein
 ```
 
 **Document management:**
 ```bash
 # Edit document metadata
-papis edit
+papis edit bohm
 
 # Export to BibTeX
 papis export --all --format bibtex > references.bib
-papis export search_term --format bibtex
+papis export --format bibtex query_term > references.bib
 
-# Show document information
-papis show document_key
+# List documents with custom format
+papis list --format '{doc[author]} - {doc[title]} ({doc[year]})'
 ```
 
 **Configuration location**: `modules/papis.nix` with embedded configuration
