@@ -100,7 +100,18 @@ in
       bindkey '^H' backward-delete-char   # Ctrl+H (alternative backspace)
       
       # Prevent Shift+A from triggering autocomplete in vim insert mode
-      bindkey -M viins '^[[1;2A' vi-add-eol
+      # Try multiple potential key sequences for Shift+A across different terminals
+      bindkey -M viins 'A' self-insert
+      bindkey -M viins '^[[1;2A' self-insert
+      bindkey -M viins '^[[65;2u' self-insert
+      
+      # Disable expand-or-complete on potential problematic keys in vim insert mode
+      bindkey -M viins '^I' expand-or-complete   # Keep tab completion but be explicit
+      
+      # Configure autosuggestions to not interfere with vim mode
+      ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=(vi-add-eol)
+      ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=(vi-add-next)
+      ZSH_AUTOSUGGEST_ACCEPT_WIDGETS=(end-of-line vi-end-of-line vi-add-eol)
     '';
   };
   
