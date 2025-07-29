@@ -108,13 +108,6 @@ case "$TEMPLATE" in
     "basic")
         exec "$TEMPLATES_DIR/basic.sh" "$SESSION_NAME" "$CODE_PATH"
         ;;
-    "content")
-        if [ -z "$CONTENT_PATH" ]; then
-            echo "Error: Content template requires contentPath"
-            exit 1
-        fi
-        exec "$TEMPLATES_DIR/content.sh" "$SESSION_NAME" "$CODE_PATH" "$CONTENT_PATH"
-        ;;
     "research")
         if [ -z "$PAPER_PATH" ]; then
             echo "Error: Research template requires paperPath"
