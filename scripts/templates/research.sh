@@ -14,11 +14,6 @@ if [ -z "$SESSION_NAME" ] || [ -z "$CODE_PATH" ] || [ -z "$PAPER_PATH" ]; then
     exit 1
 fi
 
-if tmux has-session -t $SESSION_NAME 2>/dev/null; then
-    tmux attach-session -t $SESSION_NAME
-    exit 0
-fi
-
 # Create windows for code
 tmux new-session -d -s $SESSION_NAME -c "$CODE_PATH"
 tmux rename-window -t $SESSION_NAME:1 "code"

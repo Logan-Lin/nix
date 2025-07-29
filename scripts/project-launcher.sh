@@ -103,6 +103,16 @@ if [ -n "$SERVER" ] && [ -n "$REMOTE_DIR" ]; then
     fi
 fi
 
+# Check if session already exists and attach if it does
+if is_session_running "$SESSION_NAME"; then
+    printf "\033[1;32mAttaching to existing session: %s\033[0m\n" "$SESSION_NAME"
+    tmux attach-session -t "$SESSION_NAME"
+    exit 0
+fi
+
+# Update papis cache
+papis cache reset > /dev/null 2>&1
+
 # Launch appropriate template
 case "$TEMPLATE" in
     "basic")
