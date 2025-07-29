@@ -124,28 +124,18 @@ hms                # Quick home-manager switch (rebuild)
 **Configuration**: `config/projects.nix`  
 **Purpose**: Quick access to project workspaces with tmux sessions
 
-#### Example Projects:
-- **`website`**: Web project with code + content workflow  
-- **`nix-config`**: System configuration with basic development workflow
-- **`research-project`**: Academic project with code + paper workflow
-
 #### Usage:
 ```bash
 proj              # List all available projects
-website           # Launch website project tmux session  
-research-project  # Launch research project tmux session
 nix-config        # Launch nix-config project tmux session
 ```
 
 #### Template Types:
 - **Basic**: Single directory (nvim + git + shell)
 - **Research**: Code directory + separate paper directory + optional remote server
-
-#### Research Template Remote Server Support:
-The research template supports optional remote server connections:
-- **Remote Server Window**: Dual horizontal panes for parallel remote work
-- **Automatic Connection**: SSH to configured server with automatic directory navigation
-- **Reconnect Alias**: Type `r` in any remote pane to easily reconnect
+  - **Remote Server Window**: Dual horizontal panes for parallel remote work
+  - **Automatic Connection**: SSH to configured server with automatic directory navigation
+  - **Reconnect Alias**: Type `r` in any remote pane to easily reconnect
 
 **Example Configuration:**
 ```nix
@@ -258,23 +248,6 @@ Launch `lazygit` in any git repository for:
 - **Version Controlled**: SSH config tracked with git alongside other configurations
 - **Reproducible**: Same SSH setup deployable across multiple machines
 - **Security**: Private keys remain local and untracked
-
-#### Example Host Configuration:
-- **dev-server**: Development server with proxy jump
-- **storage**: Network storage server  
-- **homelab**: Home server setup
-- **cloud-vps**: Cloud VPS instance
-
-#### Host Management:
-Edit SSH hosts in `modules/ssh.nix`, then apply changes:
-```bash
-home-manager switch --flake .#yanlin
-```
-
-#### Security Best Practices:
-- ✅ **SSH configuration**: Managed by nix (hosts, ports, usernames)
-- ❌ **Private keys**: Keep local in `~/.ssh/keys/` (not tracked by nix)
-- ❌ **known_hosts**: Generated locally (not synced)
 
 ## 🛠️ Development Tools
 
@@ -464,32 +437,3 @@ sudo darwin-rebuild switch --flake .#MacBook-Air
 sudo darwin-rebuild switch --flake .#iMac
 ```
 
-## 📦 Complete Package List
-
-### Core Development Tools
-- **Python 3.12** with uv package manager
-- **LaTeX** (Full TeXLive distribution)
-- **Claude Code** (AI-powered coding assistant)
-- **Git** with comprehensive aliases and lazygit visualization
-
-### CLI Utilities
-- **fzf** (Fuzzy finder)
-- **fd** (Fast file finding)  
-- **ripgrep** (Fast text search)
-- **bat** (Syntax-highlighted file viewing)
-- **btop** (Modern system monitor)
-- **zoxide** (Smart directory navigation)
-- **httpie** (Modern HTTP client)
-
-### Database & File Management
-- **sqlite3** (SQLite command-line interface)
-- **lazysql** (TUI database management)
-- **rsync** (File synchronization and backup)
-- **termscp** (Terminal file transfer client)  
-- **lftp** (Scriptable FTP client)
-
-### Academic & Documentation
-- **papis** (Reference management system)
-
-### Fonts
-- **Nerd Fonts**: FiraCode and JetBrains Mono with icon support
