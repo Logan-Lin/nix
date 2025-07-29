@@ -100,5 +100,12 @@
       description = "Multi-agent trajectory prediction";
     };
 
+    stpcn = {
+      template = "basic";
+      name = "ST-PCN";
+      codePath = "/Users/yanlin/Documents/Projects/Spatio-temporal Uncertainty Forecasting/ripcn-paper";
+      description = "PCN-based ST prediction";
+    };
+
   };
 }
