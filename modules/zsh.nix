@@ -36,6 +36,9 @@ in
       # Modern CLI tools
       ftp = "termscp";
       
+      # Zoxide aliases
+      zi = "z -i";  # Interactive selection with fzf
+      
       # Nix helpers
       hm = "home-manager";
       hms = "home-manager switch --flake ~/.config/nix#yanlin";
@@ -112,6 +115,9 @@ in
       ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=(vi-add-eol)
       ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=(vi-add-next)
       ZSH_AUTOSUGGEST_ACCEPT_WIDGETS=(end-of-line vi-end-of-line vi-add-eol)
+      
+      # Zoxide configuration - replace cd with z for smart directory jumping
+      eval "$(zoxide init zsh --cmd cd)"
     '';
   };
   
@@ -126,6 +132,11 @@ in
   ];
   
   programs.fzf = {
+    enable = true;
+    enableZshIntegration = true;
+  };
+  
+  programs.zoxide = {
     enable = true;
     enableZshIntegration = true;
   };
