@@ -86,5 +86,19 @@
       description = "Weight completion";
     };
 
+    forcetraj = {
+      template = "basic";
+      name = "ForceTraj";
+      codePath = "/Users/yanlin/Documents/Projects/Electric Field-based Lane Changing Modeling/forcetraj-paper";
+      description = "Force-based trajectory model";
+    };
+
+    trajar = {
+      template = "basic";
+      name = "TrajAR";
+      codePath = "/Users/yanlin/Documents/Projects/Multi-agent Video-derived Trajectory Prediction/trajar-paper";
+      description = "Multi-agent trajectory prediction";
+    };
+
   };
 }
