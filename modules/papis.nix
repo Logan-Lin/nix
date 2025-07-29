@@ -49,13 +49,13 @@
   # Shell aliases for papis workflow
   programs.zsh.shellAliases = {
     # Bibliography formatting
-    papis-info = "papis list --template \"$HOME/Library/Application Support/papis/templates/bibitem.template\"";
+    pals = "papis list --template \"$HOME/Library/Application Support/papis/templates/bibitem.template\"";
     
     # File operations
-    papis-add-file = "papis addto -f ~/Downloads/";
-    papis-add-url = "papis addto -u";
+    pafile = "papis addto -f ~/Downloads/";
+    paurl = "papis addto -u";
     
     # Finder integration
-    papis-finder = "open -R $(papis list)";
+    pafinder = "open -R $(papis list)";
   };
 }
