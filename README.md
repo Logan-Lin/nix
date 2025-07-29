@@ -220,8 +220,8 @@ home-manager switch --flake .#yanlin
 ```bash
 l, ll, la          # Enhanced ls commands
 .., ..., ....      # Quick directory navigation
-home, config       # Jump to common directories
-nix-config         # Jump to nix configuration
+cd [query]         # Smart directory jumping with zoxide (replaces cd)
+zi [query]         # Interactive directory selection with fzf
 ```
 
 **Git:**
@@ -589,7 +589,7 @@ uv tool run ruff check .
 - **lftp**: Scriptable FTP client for automation
 - **termscp**: Comprehensive TUI file transfer client (FTP/SFTP/SCP/S3)
 - **rsync**: Fast file synchronization and backup with comprehensive configuration
-- **zoxide**: Smart cd with frecency algorithm
+- **zoxide**: Smart cd replacement with frecency algorithm
 
 #### fd Usage Examples
 ```bash
@@ -661,6 +661,34 @@ lazysql --config ~/.config/lazysql/config.yml
 - **SQL editor**: Syntax highlighting and query execution
 - **Export capabilities**: Save query results to files
 - **Connection management**: Save and reuse database connections
+
+#### zoxide Usage Examples
+```bash
+# Smart directory navigation (replaces cd)
+cd ~/Documents          # Adds ~/Documents to zoxide database
+cd ~/Projects/myproject  # Adds ~/Projects/myproject to database
+cd myproj               # Jumps to ~/Projects/myproject (fuzzy match)
+cd doc                  # Jumps to ~/Documents (fuzzy match)
+
+# Interactive directory selection with fzf
+zi                      # Show interactive directory picker
+zi proj                 # Show interactive picker filtered by "proj"
+
+# Query the database
+zoxide query doc        # Show paths containing "doc"
+zoxide query -l         # List all paths in database (sorted by frequency)
+
+# Remove paths from database
+zoxide remove ~/old-project
+```
+
+**Key zoxide features:**
+- **Frecency algorithm**: Combines frequency and recency for smart suggestions
+- **Fuzzy matching**: Type partial directory names to jump quickly
+- **fzf integration**: Interactive directory selection with zi command
+- **Automatic learning**: Builds database of visited directories over time
+- **Cross-session**: Remembers directories across terminal sessions
+- **cd replacement**: Drop-in replacement for traditional cd command
 
 #### sqlite3 Usage Examples
 ```bash
@@ -743,6 +771,10 @@ nvim $(fd --type f | fzf --preview 'bat --color=always {}')
 
 # Find and edit files in specific directory
 nvim $(fd --type f . ~/.config | fzf)
+
+# Smart directory navigation with zoxide
+cd proj && nvim .        # Jump to project directory and edit
+zi && fd "*.md" | fzf    # Interactive directory select, then find markdown files
 ```
 
 ### Fonts
