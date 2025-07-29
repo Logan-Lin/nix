@@ -22,11 +22,13 @@
     };
 
     blog = {
-      template = "content";
+      template = "research";
       name = "blog";
       codePath = "/Users/yanlin/Documents/Projects/personal-blog";
-      contentPath = "/Users/yanlin/Documents/Projects/personal-blog/content";
+      paperPath = "/Users/yanlin/Documents/Projects/personal-blog/content";
       description = "Personal blog project";
+      server = "personal-vps";
+      remoteDir = "~/blog";
     };
 
     homepage = {
