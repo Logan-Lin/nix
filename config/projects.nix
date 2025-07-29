@@ -41,7 +41,7 @@
     mdshortcut = {
       template = "research";
       name = "MDShortcut";
-      codePath = "/Users/yanlin/Documents/Projects/Material Design Shortcut/MDShortcut-dev";
+      codePath = "/Users/yanlin/Documents/Projects/Material Design Shortcut/MDShortcut-code";
       paperPath = "/Users/yanlin/Documents/Projects/Material Design Shortcut/MDShortcut-paper";
       description = "Material design shortcut";
       server = "aicloud";
