@@ -74,6 +74,7 @@
         git-credential-oauth
         rsync
         gnumake
+        zoxide
       ];
 
       fonts.fontconfig.enable = true;
