@@ -463,8 +463,8 @@ papis list --format '{doc[author]} - {doc[title]} ({doc[year]})'
 **Workflow Aliases:**
 ```bash
 # Bibliography formatting
-papis-bib                    # List documents with formatted template
-papis-bib "machine learning" # Search and format specific documents
+papis-info                    # List documents with formatted template
+papis-info "machine learning" # Search and format specific documents
 
 # File operations  
 papis-add-file filename.pdf [query]  # Add file from ~/Downloads/ to existing entry
