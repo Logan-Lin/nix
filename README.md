@@ -400,6 +400,70 @@ rsync -avh --progress --exclude-from=~/.rsync-exclude source/ dest/
 - Safety options including partial transfers and dry-run capability
 - Preserves extended attributes and ACLs on macOS
 
+### 🌟 Reference Management
+
+**Tool**: papis
+**Purpose**: Command-line reference manager for academic papers and documents
+
+A powerful bibliography manager that stores documents and metadata in a human-readable format:
+
+#### Key Features:
+- **Document Library**: Centralized storage at `~/Documents/Library/papis`
+- **BibTeX Integration**: Import/export references in standard academic formats
+- **PDF Management**: Automatic file organization and retrieval
+- **Search & Filter**: Fast document discovery with fuzzy finding (fzf)
+- **Metadata Storage**: Human-readable YAML files for bibliographic data
+- **Editor Integration**: Configured with nvim for editing document metadata
+
+#### Usage Examples:
+
+**Adding documents:**
+```bash
+# Add a paper from DOI
+papis add --from doi 10.1000/example.doi
+
+# Add a PDF file with interactive metadata entry
+papis add paper.pdf
+
+# Add from arXiv
+papis add --from arxiv 2301.12345
+
+# Add from URL
+papis add --from url https://example.com/paper.pdf
+```
+
+**Searching and browsing:**
+```bash
+# Search documents (uses fzf picker)
+papis open
+papis search "machine learning"
+papis search author:smith year:2023
+
+# List all documents
+papis list
+
+# Open specific document
+papis open smith2023
+```
+
+**Document management:**
+```bash
+# Edit document metadata
+papis edit
+
+# Export to BibTeX
+papis export --all --format bibtex > references.bib
+papis export search_term --format bibtex
+
+# Show document information
+papis show document_key
+```
+
+**Configuration location**: `modules/papis.nix` with embedded configuration
+**Main library**: `~/Documents/Library/papis`
+**Editor**: nvim (configured automatically)
+**Picker**: fzf for interactive document selection
+
 ### 🌟 Python Development & Package Management
 
 **Tool**: uv
