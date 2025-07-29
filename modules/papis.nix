@@ -54,8 +54,19 @@
     # File operations
     pafile = "papis addto -f ~/Downloads/";
     paurl = "papis addto -u";
-    
-    # Finder integration
-    pafinder = "open -R $(papis list)";
   };
+
+  # Shell functions for papis workflow
+  programs.zsh.initExtra = ''
+    # Papis finder function - open document directory in Finder with query support
+    pafinder() {
+      local result=$(papis list "$@" | head -1)
+      if [ -n "$result" ]; then
+        open -R "$result"
+      else
+        echo "No documents found"
+        return 1
+      fi
+    }
+  '';
 }
