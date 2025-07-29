@@ -64,6 +64,7 @@
         httpie
         lazysql
         sqlite
+        openssh
         papis
         claude-code.packages.aarch64-darwin.claude-code
         nerd-fonts.fira-code
