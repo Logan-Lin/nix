@@ -45,6 +45,7 @@
         ./modules/zsh.nix 
         ./modules/ssh.nix
         ./modules/git.nix
+        ./modules/papis.nix
         ./modules/termscp.nix
         ./modules/rsync.nix
       ];
@@ -63,6 +64,7 @@
         httpie
         lazysql
         sqlite
+        papis
         claude-code.packages.aarch64-darwin.claude-code
         nerd-fonts.fira-code
         nerd-fonts.jetbrains-mono

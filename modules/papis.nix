@@ -1,11 +1,6 @@
 { pkgs, ... }:
 
 {
-  # Install papis package
-  home.packages = with pkgs; [
-    papis
-  ];
-
   # Papis configuration
   home.file.".config/papis/config".text = ''
     [settings]
