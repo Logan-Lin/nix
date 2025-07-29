@@ -52,8 +52,10 @@
     pals = "papis list --template \"$HOME/Library/Application Support/papis/templates/bibitem.template\"";
     
     # File operations
-    pafile = "papis addto -f ~/Downloads/";
     paurl = "papis addto -u";
+
+    # Open documents
+    paopen = "papis open";
   };
 
   # Shell functions for papis workflow
@@ -66,6 +68,38 @@
       else
         echo "No documents found"
         return 1
+      fi
+    }
+    
+    # Papis add file function - add file to existing document with proper parameter handling
+    pafile() {
+      if [ $# -lt 1 ]; then
+        echo "Usage: pafile <filename> [query]"
+        echo "Example: pafile paper.pdf                    # Interactive selection"
+        echo "Example: pafile paper.pdf \"einstein relativity\"  # Direct match"
+        echo "Example: pafile /path/to/paper.pdf \"quantum\"     # Absolute path"
+        return 1
+      fi
+      
+      local filename="$1"
+      shift  # Remove first argument
+      local query="$*"  # All remaining arguments as query (empty if none)
+      
+      # Check if filename is absolute path or relative to Downloads
+      if [[ "$filename" == /* ]]; then
+        # Absolute path
+        if [ -n "$query" ]; then
+          papis addto -f "$filename" "$query"
+        else
+          papis addto -f "$filename"
+        fi
+      else
+        # Relative to Downloads
+        if [ -n "$query" ]; then
+          papis addto -f "$HOME/Downloads/$filename" "$query"
+        else
+          papis addto -f "$HOME/Downloads/$filename"
+        fi
       fi
     }
   '';
