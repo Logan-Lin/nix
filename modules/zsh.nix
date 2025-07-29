@@ -94,6 +94,13 @@ in
       # Better word movement in insert mode
       bindkey '^[[1;5C' forward-word      # Ctrl+Right
       bindkey '^[[1;5D' backward-word     # Ctrl+Left
+      
+      # Fix backspace in vim insert mode
+      bindkey '^?' backward-delete-char   # Backspace
+      bindkey '^H' backward-delete-char   # Ctrl+H (alternative backspace)
+      
+      # Prevent Shift+A from triggering autocomplete in vim insert mode
+      bindkey -M viins '^[[1;2A' vi-add-eol
     '';
   };
   
