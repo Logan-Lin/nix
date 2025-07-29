@@ -1,0 +1,5 @@
+## Nix Configuration System
+
+- This is my nix configuration system. Whenever you need to introduce update to my config, remember to check the current config.
+- When you are going to introduce update to my nix config, do it on a experimental branch (use 'nightly'), and commit to that branch after you perform test to check the updates work as intended. Never work on the master branch which I will perform merge manually.
+- After you introduce updates, remember to reflect those updates in the readme, should they bring any changes.

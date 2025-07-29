@@ -115,16 +115,18 @@
       local tags_string="$1"
       local query="$2"
       
-      # Split tags by # and build --add arguments
+      # Build --add arguments by processing each tag
       local add_args=""
-      IFS='#' read -ra tags <<< "$tags_string"
-      for tag in "${tags[@]}"; do
-        # Trim whitespace and add to arguments
+      local oldIFS="$IFS"
+      IFS='#'
+      for tag in $tags_string; do
+        # Trim whitespace
         tag=$(echo "$tag" | xargs)
         if [ -n "$tag" ]; then
           add_args="$add_args --add \"$tag\""
         fi
       done
+      IFS="$oldIFS"
       
       # Execute the papis tag command
       eval "papis tag $add_args \"$query\""
