@@ -4,3 +4,7 @@
 - When you are going to introduce update to my nix config, do it on `nightly` branch, (and remember that `master` branch might be newer), and commit and push to that branch after you perform test to check the updates work as intended. Never work on the master branch which I will perform merge manually.
 - After you introduce updates, remember to reflect those updates in the readme, should they bring any changes.
 - You can use `hms` to perform home-manager switch and `exec zsh` to refresh shell environment
+
+## Testing Considerations
+
+- When you perform testing, remember you are in a non-interactive shell so things work for me might not work for your testing, unless you take your special testing environment into consideration
