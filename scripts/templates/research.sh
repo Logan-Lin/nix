@@ -16,6 +16,10 @@ fi
 
 # Create windows for code
 tmux new-session -d -s $SESSION_NAME -c "$CODE_PATH"
+
+# Record directories in zoxide for smart navigation
+zoxide add "$CODE_PATH" 2>/dev/null || true
+zoxide add "$PAPER_PATH" 2>/dev/null || true
 tmux rename-window -t $SESSION_NAME:1 "code"
 tmux send-keys -t $SESSION_NAME:1 "nvim" C-m
 tmux new-window -t $SESSION_NAME:2 -n "code-ai" -c "$CODE_PATH"
