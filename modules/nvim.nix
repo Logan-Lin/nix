@@ -20,6 +20,7 @@
       linebreak = true;      # Don't break words when wrapping
       breakindent = true;    # Preserve indentation when wrapping
       termguicolors = true;
+      autoread = true;       # Automatically reload files when changed externally
     };
 
     # Enable filetype detection
