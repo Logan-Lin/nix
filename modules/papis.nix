@@ -103,7 +103,7 @@
       fi
     }
     
-    # Papis tag function - add multiple tags using hash-separated format
+    # Papis tag function - rewrite tags using hash-separated format
     patag() {
       if [ $# -ne 2 ]; then
         echo "Usage: patag \"tag1#tag2#tag3\" <query>"
@@ -115,21 +115,17 @@
       local tags_string="$1"
       local query="$2"
       
-      # Build --add arguments by processing each tag
-      local add_args=""
-      local oldIFS="$IFS"
-      IFS='#'
-      for tag in $tags_string; do
+      # First, drop all existing tags
+      papis tag --drop "$query"
+      
+      # Add each tag individually by splitting on #
+      echo "$tags_string" | tr '#' '\n' | while read tag; do
         # Trim whitespace
         tag=$(echo "$tag" | xargs)
         if [ -n "$tag" ]; then
-          add_args="$add_args --add \"$tag\""
+          papis tag --add "$tag" "$query"
         fi
       done
-      IFS="$oldIFS"
-      
-      # Execute the papis tag command
-      eval "papis tag $add_args \"$query\""
     }
   '';
 }
