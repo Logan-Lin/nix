@@ -72,5 +72,12 @@
       description = "MLLM for Trajectory";
     };
 
+    pathfm = {
+      template = "basic";
+      name = "PathFM";
+      codePath = "/Users/yanlin/Documents/Projects/Path Foundation Model/pathfm-paper";
+      description = "Path Foundation Model";
+    };
+
   };
 }
