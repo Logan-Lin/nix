@@ -57,7 +57,7 @@
   };
 
   # Shell functions for papis workflow
-  programs.zsh.initExtra = ''
+  programs.zsh.initContent = ''
     # Papis finder function - open document directory in Finder with query support
     pafinder() {
       local result=$(papis list "$@" | head -1)
