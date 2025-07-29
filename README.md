@@ -463,15 +463,18 @@ papis list --format '{doc[author]} - {doc[title]} ({doc[year]})'
 **Workflow Aliases:**
 ```bash
 # Bibliography formatting
-papis-info                    # List documents with formatted template
-papis-info "machine learning" # Search and format specific documents
+pals                          # List documents with formatted template
+pals "machine learning"       # Search and format specific documents
 
 # File operations  
-papis-add-file filename.pdf [query]  # Add file from ~/Downloads/ to existing entry
-papis-add-url [url] [query]          # Add file from URL to existing entry
+pafile filename.pdf [query]   # Add file from ~/Downloads/ to existing entry
+paurl [url] [query]           # Add file from URL to existing entry
 
-# Directory access
-papis-finder [query]                 # Open document directory in Finder
+# Directory access (shell function)
+pafinder                      # Open first document directory in Finder
+pafinder "query"              # Open first matching document directory
+pafinder author:einstein      # Open first Einstein paper directory
+pafinder --sort year smith    # Open newest Smith paper directory
 ```
 
 **Configuration location**: `modules/papis.nix` with embedded configuration
