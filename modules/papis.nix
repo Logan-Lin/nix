@@ -48,8 +48,16 @@
     ---
   '';
 
-  # Shell alias for convenient bibliography formatting
+  # Shell aliases for papis workflow
   programs.zsh.shellAliases = {
-    papis-bib = "papis list --template \"$HOME/Library/Application Support/papis/templates/bibitem.template\"";
+    # Bibliography formatting
+    papis-info = "papis list --template \"$HOME/Library/Application Support/papis/templates/bibitem.template\"";
+    
+    # File operations
+    papis-add-file = "papis addto -f ~/Downloads/";
+    papis-add-url = "papis addto -u";
+    
+    # Finder integration
+    papis-finder = "open -R $(papis list)";
   };
 }

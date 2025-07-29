@@ -460,6 +460,20 @@ papis export --format bibtex query_term > references.bib
 papis list --format '{doc[author]} - {doc[title]} ({doc[year]})'
 ```
 
+**Workflow Aliases:**
+```bash
+# Bibliography formatting
+papis-bib                    # List documents with formatted template
+papis-bib "machine learning" # Search and format specific documents
+
+# File operations  
+papis-add-file filename.pdf [query]  # Add file from ~/Downloads/ to existing entry
+papis-add-url [url] [query]          # Add file from URL to existing entry
+
+# Directory access
+papis-finder [query]                 # Open document directory in Finder
+```
+
 **Configuration location**: `modules/papis.nix` with embedded configuration
 **Main library**: `~/Documents/Library/papis`
 **Editor**: nvim (configured automatically)
