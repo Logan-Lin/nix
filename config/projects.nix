@@ -79,5 +79,12 @@
       description = "Path Foundation Model";
     };
 
+    weightcomp = {
+      template = "basic";
+      name = "WeightComp";
+      codePath = "/Users/yanlin/Documents/Projects/Microscopic Weights on Road Networks/FENCE-paper";
+      description = "Weight completion";
+    };
+
   };
 }
