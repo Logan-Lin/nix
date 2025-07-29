@@ -10,8 +10,6 @@
     file-browser = open
     
     # Document management
-    add-folder-name = {doc[author]}-{doc[year]}-{doc[title]}
-    add-file-name = {doc[author]}-{doc[year]}-{doc[title]}
     ref-format = {doc[author]}{doc[year]}
     
     # Search and display
