@@ -102,5 +102,32 @@
         fi
       fi
     }
+    
+    # Papis tag function - add multiple tags using hash-separated format
+    patag() {
+      if [ $# -ne 2 ]; then
+        echo "Usage: patag \"tag1#tag2#tag3\" <query>"
+        echo "Example: patag \"materials#ai4science\" amorphous"
+        echo "Example: patag \"quantum#computing\" \"author:einstein\""
+        return 1
+      fi
+      
+      local tags_string="$1"
+      local query="$2"
+      
+      # Split tags by # and build --add arguments
+      local add_args=""
+      IFS='#' read -ra tags <<< "$tags_string"
+      for tag in "${tags[@]}"; do
+        # Trim whitespace and add to arguments
+        tag=$(echo "$tag" | xargs)
+        if [ -n "$tag" ]; then
+          add_args="$add_args --add \"$tag\""
+        fi
+      done
+      
+      # Execute the papis tag command
+      eval "papis tag $add_args \"$query\""
+    }
   '';
 }
