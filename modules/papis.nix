@@ -56,6 +56,9 @@
 
     # Open documents
     paopen = "papis open";
+    
+    # Cache management
+    pareset = "papis cache reset";
   };
 
   # Shell functions for papis workflow
