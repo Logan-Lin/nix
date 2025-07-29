@@ -2,7 +2,8 @@
   "permissions": {
     "allow": [
       "Bash(git:*)",
-      "Bash(exec zsh)"
+      "Bash(exec:*)",
+      "Bash(hms:*)"
     ],
     "deny": []
   }
