@@ -2,7 +2,7 @@
 
 {
   # Papis configuration
-  home.file.".config/papis/config".text = ''
+  home.file."Library/Application Support/papis/config".text = ''
     [settings]
     default-library = main
     editor = nvim
@@ -38,4 +38,18 @@
   home.activation.createPapisDir = ''
     mkdir -p ~/Documents/Library/papis
   '';
+
+  # Papis bibliography template
+  home.file."Library/Application Support/papis/templates/bibitem.template".text = ''
+    {doc[title]} ({doc[year]}). {doc[author]}.
+    Venue: {doc[journal]} {doc[booktitle]} {doc[eprinttype]} {doc[eprint]} {doc[eventtitle]}
+    Tags: {doc[tags]}
+    URL: {doc[url]}
+    ---
+  '';
+
+  # Shell alias for convenient bibliography formatting
+  programs.zsh.shellAliases = {
+    papis-bib = "papis list --template \"$HOME/Library/Application Support/papis/templates/bibitem.template\"";
+  };
 }
