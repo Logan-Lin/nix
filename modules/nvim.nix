@@ -163,13 +163,13 @@
       {
         mode = "n";
         key = "<leader>o";
-        action = ":silent !open %<CR>";
+        action = ":lua open_file_with_system_app()<CR>";
         options = { desc = "Open file with system default app"; };
       }
       {
         mode = "n";
         key = "<leader>f";
-        action = ":silent !open -R %<CR>";
+        action = ":lua show_file_in_finder()<CR>";
         options = { desc = "Show current file in Finder"; };
       }
 
@@ -220,6 +220,27 @@
           },
         },
       })
+
+      -- Unicode-safe file operations for macOS
+      function open_file_with_system_app()
+        local filepath = vim.fn.expand('%:p')
+        if filepath ~= "" then
+          local escaped_path = vim.fn.shellescape(filepath)
+          vim.fn.system('open ' .. escaped_path)
+        else
+          print("No file to open")
+        end
+      end
+
+      function show_file_in_finder()
+        local filepath = vim.fn.expand('%:p')
+        if filepath ~= "" then
+          local escaped_path = vim.fn.shellescape(filepath)
+          vim.fn.system('open -R ' .. escaped_path)
+        else
+          print("No file to show")
+        end
+      end
     '';
   };
 }
