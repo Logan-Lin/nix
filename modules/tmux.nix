@@ -36,8 +36,8 @@
       # Status bar content
       set -g status-left-length 40
       set -g status-right-length 30
-      set -g status-left ' #S '
-      set -g status-right '#{?client_prefix,#[reverse]<Prefix>#[noreverse] ,} %H:%M '
+      set -g status-left '#{?client_prefix,#[bg=#fabd2f],#[bg=#a89984]}#[fg=#282828] #S #[default]'
+      set -g status-right ' %H:%M '
       
       # Window status format
       set -g window-status-format ' #I:#W '
