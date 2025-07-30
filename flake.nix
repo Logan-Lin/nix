@@ -15,6 +15,10 @@
   outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, nixvim, claude-code }:
   let
     configuration = { pkgs, ... }: {
+      imports = [
+        ./system
+      ];
+
       environment.systemPackages =
         [ pkgs.vim
           pkgs.git
