@@ -22,6 +22,8 @@ zoxide add "$CODE_PATH" 2>/dev/null || true
 zoxide add "$PAPER_PATH" 2>/dev/null || true
 tmux rename-window -t $SESSION_NAME:1 "code"
 tmux send-keys -t $SESSION_NAME:1 "nvim" C-m
+sleep 0.5  # Brief delay to ensure nvim loads
+tmux send-keys -t $SESSION_NAME:1 " e"
 tmux new-window -t $SESSION_NAME:2 -n "code-ai" -c "$CODE_PATH"
 tmux send-keys -t $SESSION_NAME:2 "claude -c" C-m
 tmux split-window -t $SESSION_NAME:2 -h -c "$CODE_PATH"
@@ -34,6 +36,8 @@ tmux send-keys -t $SESSION_NAME:3 "lazygit" C-m
 tmux new-window -t $SESSION_NAME:4 -n "paper" -c "$PAPER_PATH"
 tmux select-window -t $SESSION_NAME:4
 tmux send-keys -t $SESSION_NAME:4 "nvim" C-m
+sleep 0.5  # Brief delay to ensure nvim loads
+tmux send-keys -t $SESSION_NAME:4 " e"
 tmux new-window -t $SESSION_NAME:5 -n "paper-ai" -c "$PAPER_PATH"
 tmux send-keys -t $SESSION_NAME:5 "claude -c" C-m
 tmux split-window -t $SESSION_NAME:5 -h -c "$PAPER_PATH"
