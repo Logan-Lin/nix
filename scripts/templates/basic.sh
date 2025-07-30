@@ -17,6 +17,8 @@ tmux new-session -d -s $SESSION_NAME -c "$CODE_PATH"
 zoxide add "$CODE_PATH" 2>/dev/null || true
 tmux rename-window -t $SESSION_NAME:1 "nvim"
 tmux send-keys -t $SESSION_NAME:1 "nvim" C-m
+sleep 0.5  # Brief delay to ensure nvim loads
+tmux send-keys -t $SESSION_NAME:1 " e"
 tmux new-window -t $SESSION_NAME:2 -n "ai" -c "$CODE_PATH"
 tmux send-keys -t $SESSION_NAME:2 "claude -c" C-m
 tmux split-window -t $SESSION_NAME:2 -h -c "$CODE_PATH"
