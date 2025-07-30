@@ -45,6 +45,12 @@
         identityFile = "~/.ssh/keys/hetzner";
       };
 
+      "imac" = {
+        hostname = "imac.hw.yanlincs.com";
+        user = "yanlin";
+        identityFile = "~/.ssh/keys/imac";
+      };
+
     };
   };
 }
