@@ -37,7 +37,7 @@
       set -g status-left-length 40
       set -g status-right-length 30
       set -g status-left ' #S '
-      set -g status-right '#{?client_prefix,#[reverse]<Prefix>#[noreverse] ,}%H:%M '
+      set -g status-right '#{?client_prefix,#[reverse]<Prefix>#[noreverse] ,} %H:%M '
       
       # Window status format
       set -g window-status-format ' #I:#W '
