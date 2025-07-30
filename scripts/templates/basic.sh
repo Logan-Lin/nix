@@ -26,6 +26,7 @@ tmux split-window -t $SESSION_NAME:2.2 -v -c "$CODE_PATH"
 tmux select-pane -t $SESSION_NAME:2.1
 tmux new-window -t $SESSION_NAME:3 -n "git" -c "$CODE_PATH"
 tmux send-keys -t $SESSION_NAME:3 "lazygit" C-m
+tmux setw -t $SESSION_NAME:3 monitor-activity off
 tmux new-window -t $SESSION_NAME:4 -n "shell" -c "$CODE_PATH"
 
 tmux select-window -t $SESSION_NAME:1

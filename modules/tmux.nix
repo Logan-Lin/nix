@@ -97,25 +97,6 @@
       setw -g monitor-activity on
       set -g visual-activity off
       
-      # Smart activity monitoring - disable for noisy programs
-      set-hook -g after-new-window {
-        if -F '#{||:#{||:#{||:#{||:#{==:#{pane_current_command},lazygit},#{==:#{pane_current_command},btop}},#{==:#{pane_current_command},htop}},#{==:#{pane_current_command},watch}},#{==:#{pane_current_command},tail}}' {
-          setw monitor-activity off
-        }
-      }
-      
-      set-hook -g window-pane-changed {
-        if -F '#{||:#{||:#{||:#{||:#{==:#{pane_current_command},lazygit},#{==:#{pane_current_command},btop}},#{==:#{pane_current_command},htop}},#{==:#{pane_current_command},watch}},#{==:#{pane_current_command},tail}}' {
-          setw monitor-activity off
-        } {
-          setw monitor-activity on
-        }
-      }
-      
-      set-hook -g pane-exited {
-        setw monitor-activity on
-      }
-      
       # Manual toggle for activity monitoring
       bind A setw monitor-activity \; display-message "Activity monitoring: #{?monitor-activity,ON,OFF}"
       
