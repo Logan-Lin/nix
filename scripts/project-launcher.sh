@@ -97,6 +97,16 @@ create_directory "$PAPER_PATH" "paper"
 [ -n "$CONTENT_PATH" ] && [ "$CONTENT_PATH" != "null" ] && [ -d "$CONTENT_PATH" ] && zoxide add "$CONTENT_PATH" 2>/dev/null || true
 [ -n "$PAPER_PATH" ] && [ "$PAPER_PATH" != "null" ] && [ -d "$PAPER_PATH" ] && zoxide add "$PAPER_PATH" 2>/dev/null || true
 
+# Check if session already exists and attach if it does
+if is_session_running "$SESSION_NAME"; then
+    printf "\033[1;32mAttaching to existing session: %s\033[0m\n" "$SESSION_NAME"
+    tmux attach-session -t "$SESSION_NAME"
+    exit 0
+fi
+
+# Update papis cache
+papis cache reset > /dev/null 2>&1
+
 # Create remote directory if server connection is configured
 if [ -n "$SERVER" ] && [ -n "$REMOTE_DIR" ]; then
     printf "\033[2mEnsuring remote directory exists: %s:%s\033[0m\n" "$SERVER" "$REMOTE_DIR"
@@ -107,16 +117,6 @@ if [ -n "$SERVER" ] && [ -n "$REMOTE_DIR" ]; then
         echo "Please check SSH connection and permissions."
     fi
 fi
-
-# Check if session already exists and attach if it does
-if is_session_running "$SESSION_NAME"; then
-    printf "\033[1;32mAttaching to existing session: %s\033[0m\n" "$SESSION_NAME"
-    tmux attach-session -t "$SESSION_NAME"
-    exit 0
-fi
-
-# Update papis cache
-papis cache reset > /dev/null 2>&1
 
 # Launch appropriate template
 case "$TEMPLATE" in
