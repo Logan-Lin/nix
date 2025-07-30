@@ -116,6 +116,7 @@ hms                # Quick home-manager switch (rebuild)
 | `Ctrl+a H/J/K/L` | Resize panes |
 | `Ctrl+a r` | Reload tmux config |
 | `Ctrl+a Ctrl+a` | Quick pane cycling |
+| `Ctrl+a A` | Toggle activity monitoring (useful for silencing noisy programs) |
 
 #### Copy Mode (Ctrl+a [):
 | Key | Action |
