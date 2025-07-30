@@ -102,6 +102,10 @@
       
       # Automatically renumber windows
       set -g renumber-windows on
+      
+      # Quick window movement
+      bind-key -n C-S-Left swap-window -t -1\; select-window -t -1
+      bind-key -n C-S-Right swap-window -t +1\; select-window -t +1
     '';
   };
 }
