@@ -107,15 +107,34 @@ hms                # Quick home-manager switch (rebuild)
 - **Copy Mode**: System clipboard integration
 
 #### Essential Keybindings:
+
+**Pane Management:**
 | Key | Action |
 |-----|--------|
 | `Ctrl+a` | Prefix key |
 | `Ctrl+a \|` | Split window vertically |
 | `Ctrl+a -` | Split window horizontally |
 | `Ctrl+a h/j/k/l` | Navigate panes (vim-style) |
-| `Ctrl+a H/J/K/L` | Resize panes |
-| `Ctrl+a r` | Reload tmux config |
+| `Ctrl+a H/J/K/L` | Resize panes (5 chars at a time) |
 | `Ctrl+a Ctrl+a` | Quick pane cycling |
+
+**Window Management:**
+| Key | Action |
+|-----|--------|
+| `Ctrl+a c` | Create new window (preserves current path) |
+| `Ctrl+a 1-9` | Switch to window by number |
+| `Ctrl+a n` | Next window |
+| `Ctrl+a p` | Previous window |
+| `Ctrl+Shift+Left` | Move window left and follow |
+| `Ctrl+Shift+Right` | Move window right and follow |
+| `Ctrl+a .` | Move window (prompts for new index) |
+
+**Session & Config:**
+| Key | Action |
+|-----|--------|
+| `Ctrl+a d` | Detach from current session |
+| `Ctrl+a s` | List and switch sessions |
+| `Ctrl+a r` | Reload tmux config |
 | `Ctrl+a A` | Toggle activity monitoring (useful for silencing noisy programs) |
 
 #### Copy Mode (Ctrl+a [):
