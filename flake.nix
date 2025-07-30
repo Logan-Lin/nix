@@ -52,6 +52,7 @@
         ./modules/papis.nix
         ./modules/termscp.nix
         ./modules/rsync.nix
+        ./modules/btop.nix
       ];
 
       home.username = "yanlin";
@@ -60,6 +61,7 @@
 
       home.packages = with pkgs; [
         texlive.combined.scheme-full
+        btop
         python312
         uv
         lftp
