@@ -107,5 +107,12 @@
       description = "PCN-based ST prediction";
     };
 
+    trajmamba = {
+      template = "basic";
+      name = "TrajMamba";
+      codePath = "/Users/yanlin/Documents/Projects/Pre-trained Trajectory-Mamba/rebuttal";
+      description = "Trajectory Mamba";
+    };
+
   };
 }
