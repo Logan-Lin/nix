@@ -258,18 +258,8 @@ Launch `lazygit` in any git repository for:
 #### Menu Bar Spacing Configuration
 Customizes macOS menu bar item spacing for a cleaner look, especially useful on machines with notches:
 
-- **NSStatusItemSpacing**: Controls horizontal spacing between menu bar items (set to 12)
-- **NSStatusItemSelectionPadding**: Controls padding inside selection overlay (set to 6)
-- **Host-specific**: Uses `-currentHost` preferences for machine-specific settings
-- **Activation**: Applied automatically during `darwin-rebuild switch`
-
-#### Implementation Details:
-```nix
-system.activationScripts.extraActivation.text = ''
-  sudo -u yanlin defaults -currentHost write -globalDomain NSStatusItemSpacing -int 12
-  sudo -u yanlin defaults -currentHost write -globalDomain NSStatusItemSelectionPadding -int 6
-'';
-```
+- **NSStatusItemSpacing**: Controls horizontal spacing between menu bar items
+- **NSStatusItemSelectionPadding**: Controls padding inside selection overlay
 
 This configuration runs during system activation to apply menu bar spacing preferences without requiring manual `defaults` commands.
 
