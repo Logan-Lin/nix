@@ -5,12 +5,12 @@
   system.primaryUser = "yanlin";
   
   # Menu bar spacing configuration using activation scripts
-  # Uses -currentHost to write host-specific preferences
+  # Uses sudo to run as user since activation now runs as root
   # NSStatusItemSpacing controls horizontal spacing between menu bar items
   # NSStatusItemSelectionPadding controls padding inside selection overlay
-  system.activationScripts.postUserActivation.text = ''
+  system.activationScripts.extraActivation.text = ''
     echo "Setting menu bar spacing preferences..."
-    defaults -currentHost write -globalDomain NSStatusItemSpacing -int 12
-    defaults -currentHost write -globalDomain NSStatusItemSelectionPadding -int 6
+    sudo -u yanlin defaults -currentHost write -globalDomain NSStatusItemSpacing -int 12
+    sudo -u yanlin defaults -currentHost write -globalDomain NSStatusItemSelectionPadding -int 6
   '';
 }
