@@ -61,7 +61,6 @@
 
       home.packages = with pkgs; [
         texlive.combined.scheme-full
-        btop
         python312
         uv
         lftp
