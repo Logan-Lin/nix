@@ -34,14 +34,14 @@
       set -g message-command-style 'bg=#fabd2f,fg=#282828'
       
       # Copy mode colors
-      set -g mode-style 'bg=#d3869b,fg=#282828'
+      set -g mode-style 'bg=#fabd2f,fg=#282828'
       set -g copy-mode-match-style 'bg=#fabd2f,fg=#282828'
       set -g copy-mode-current-match-style 'bg=#fb4934,fg=#282828'
       
       # Status bar content
       set -g status-left-length 40
       set -g status-right-length 30
-      set -g status-left '#{?client_prefix,#[bg=#d3869b],#[bg=#a89984]}#[fg=#282828] #S #[default]'
+      set -g status-left '#{?client_prefix,#[bg=#fb4934],#[bg=#a89984]}#[fg=#282828] #S #[default]'
       set -g status-right '#{?pane_in_mode,[COPY],} %H:%M '
       
       # Window status format
