@@ -97,6 +97,7 @@
           sources = [
             { name = "buffer"; }     # Words from open buffers
             { name = "path"; }       # File system paths
+            { name = "dictionary"; keyword_length = 2; } # English dictionary words
           ];
           
           mapping = {
@@ -113,6 +114,7 @@
     # Extra plugins that don't have dedicated modules
     extraPlugins = with pkgs.vimPlugins; [
       vim-fugitive
+      cmp-dictionary
     ];
 
     # Keymaps
@@ -219,6 +221,13 @@
             ".DS_Store",
           },
         },
+      })
+
+      -- Dictionary completion setup
+      require("cmp_dictionary").setup({
+        paths = { "/usr/share/dict/words" },  -- Standard dictionary path
+        exact_length = 2,                     -- Minimum length before completion
+        first_case_insensitive = true,        -- Case insensitive matching
       })
 
       -- Unicode-safe file operations for macOS
