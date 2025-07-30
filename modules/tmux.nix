@@ -23,7 +23,7 @@
       # Window status colors
       set -g window-status-style 'bg=#3c3836,fg=#a89984'
       set -g window-status-current-style 'bg=#fabd2f,fg=#282828'
-      set -g window-status-activity-style 'bg=#fb4934,fg=#282828'
+      set -g window-status-activity-style 'bg=#d3869b,fg=#282828'
       
       # Pane border colors
       set -g pane-border-style 'fg=#3c3836'
