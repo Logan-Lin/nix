@@ -9,6 +9,8 @@ A comprehensive Nix configuration for macOS using nix-darwin and home-manager, f
 - **🚀 Modern CLI**: Enhanced tools with fuzzy finding, syntax highlighting, and smart completion
 - **📦 Modular Design**: Separate configuration files for easy maintenance
 - **🔄 Portable**: Reproducible across machines with a single command
+- **⚙️ System Integration**: macOS customizations and system-level preferences via nix-darwin
+- **🎨 Typography**: Nerd Fonts with programming ligatures and icon support
 
 ## 🚀 Quick Install
 
@@ -27,7 +29,7 @@ home-manager switch --flake github:Logan-Lin/nix-config#yanlin
 ```
 .
 ├── flake.nix          # Main flake configuration and package definitions
-├── modules/           # Nix configuration modules
+├── modules/           # Home Manager configuration modules
 │   ├── git.nix        # Git configuration with aliases and settings
 │   ├── nvim.nix       # Neovim configuration with plugins and keymaps
 │   ├── ssh.nix        # SSH client configuration and host management
@@ -36,6 +38,9 @@ home-manager switch --flake github:Logan-Lin/nix-config#yanlin
 │   ├── papis.nix      # Reference management system
 │   ├── rsync.nix      # File synchronization and backup
 │   └── termscp.nix    # Terminal file transfer client
+├── system/            # System-level nix-darwin configurations
+│   ├── default.nix    # System module imports
+│   └── macos-defaults.nix # macOS system preferences and customizations
 ├── config/            # Configuration files
 │   ├── p10k.zsh       # Powerlevel10k theme configuration
 │   └── projects.nix   # Project shortcuts configuration
@@ -231,12 +236,42 @@ Ctrl+e        # Close completion menu
 | `git unstage` | `reset HEAD --` | Remove files from staging area |
 | `git visual` | `!gitk` | Launch gitk GUI |
 
+#### Git Authentication with git-credential-oauth
+Modern OAuth-based authentication for Git operations:
+- Secure token-based authentication without storing passwords
+- Support for GitHub, GitLab, and other OAuth providers
+- Automatic token refresh and management
+- Integration with system keychain for secure credential storage
+
 #### Git Visualization with lazygit
 Launch `lazygit` in any git repository for:
 - Interactive commit graph and branch visualization
 - Streamlined staging, committing, and diff viewing
 - Easy branch management and merging
 - File tree navigation with git status
+
+## ⚙️ System Customizations (macOS)
+
+**Configuration**: `system/macos-defaults.nix`  
+**Purpose**: System-level macOS customizations and preferences via nix-darwin
+
+#### Menu Bar Spacing Configuration
+Customizes macOS menu bar item spacing for a cleaner look, especially useful on machines with notches:
+
+- **NSStatusItemSpacing**: Controls horizontal spacing between menu bar items (set to 12)
+- **NSStatusItemSelectionPadding**: Controls padding inside selection overlay (set to 6)
+- **Host-specific**: Uses `-currentHost` preferences for machine-specific settings
+- **Activation**: Applied automatically during `darwin-rebuild switch`
+
+#### Implementation Details:
+```nix
+system.activationScripts.extraActivation.text = ''
+  sudo -u yanlin defaults -currentHost write -globalDomain NSStatusItemSpacing -int 12
+  sudo -u yanlin defaults -currentHost write -globalDomain NSStatusItemSelectionPadding -int 6
+'';
+```
+
+This configuration runs during system activation to apply menu bar spacing preferences without requiring manual `defaults` commands.
 
 ## 🔐 SSH Configuration
 
@@ -292,6 +327,7 @@ zi && fd "*.md" | fzf    # Interactive directory select, then find markdown file
 - **Python 3.12**: With uv (modern Python package manager providing 10-100x faster performance)
 - **LaTeX**: Full TeXLive distribution for document preparation
 - **Claude Code**: AI-powered coding assistant
+- **GNU Make**: Essential build automation tool for C/C++ and other projects
 
 #### uv (Python Package Management):
 ```bash
@@ -306,6 +342,56 @@ uv venv                            # Create virtual environment
 uv run python script.py           # Run in venv context
 uv tool run black --help          # Run tools without installing
 ```
+
+### File Transfer & Network Tools
+
+- **lftp**: Advanced command-line FTP/SFTP client with scripting capabilities and parallel transfers
+- **ncdu**: NCurses Disk Usage analyzer for exploring directory sizes interactively
+
+#### lftp Usage Examples:
+```bash
+# Connect to FTP/SFTP server
+lftp ftp://user@server.com
+lftp sftp://user@server.com
+
+# Advanced operations
+lftp -c "connect sftp://server; mirror -R local/ remote/"  # Sync directories
+lftp -c "connect ftp://server; pget -n 4 large-file.zip"  # Parallel download
+```
+
+#### ncdu Usage:
+```bash
+ncdu                    # Analyze current directory
+ncdu /                  # Analyze entire filesystem
+ncdu -x                 # Stay on same filesystem (don't cross mount points)
+```
+
+## 🎨 Fonts & Typography
+
+**Configuration**: Declaratively managed via Home Manager  
+**Purpose**: Programming fonts with icon support and enhanced readability
+
+### Nerd Fonts Collection
+
+The configuration includes carefully selected programming fonts with icon patches:
+
+- **Fira Code**: Coding font with programming ligatures and clean aesthetics
+- **JetBrains Mono**: Modern monospace font designed specifically for developers
+
+#### Features:
+- **Icon Support**: Thousands of glyphs from popular icon fonts (Font Awesome, Devicons, etc.)
+- **Programming Ligatures**: Enhanced code readability with connected character combinations
+- **Terminal Integration**: Optimized for terminal emulators and code editors
+- **Cross-platform**: Consistent appearance across different applications
+
+#### Usage in Applications:
+```bash
+# Terminal applications automatically use configured fonts
+# Neovim, tmux, and other TUI apps benefit from icon support
+# Programming ligatures enhance code readability in editors
+```
+
+The fonts are automatically installed and configured system-wide through the nix configuration, ensuring consistency across all development tools.
 
 ## 🌟 Specialized Tools
 
