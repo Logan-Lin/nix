@@ -37,7 +37,8 @@ home-manager switch --flake github:Logan-Lin/nix-config#yanlin
 │   ├── zsh.nix        # Zsh with Powerlevel10k and modern CLI tools
 │   ├── papis.nix      # Reference management system
 │   ├── rsync.nix      # File synchronization and backup
-│   └── termscp.nix    # Terminal file transfer client
+│   ├── termscp.nix    # Terminal file transfer client
+│   └── firefox.nix    # Firefox browser with extensions and bookmarks
 ├── system/            # System-level nix-darwin configurations
 │   ├── default.nix    # System module imports
 │   └── macos-defaults.nix # macOS system preferences and customizations
@@ -402,6 +403,38 @@ The configuration includes carefully selected programming fonts with icon patche
 ```
 
 The fonts are automatically installed and configured system-wide through the nix configuration, ensuring consistency across all development tools.
+
+## 🌐 Web Browser: Firefox
+
+**Configuration**: `modules/firefox.nix`  
+**Purpose**: Declarative Firefox configuration with extensions, bookmarks, and privacy settings
+
+### Key Features:
+- **Extensions Management**: Declarative installation of browser extensions via Nix
+- **Bookmarks**: Pre-configured bookmarks with keywords for quick access
+- **Privacy Settings**: Enhanced tracking protection and telemetry disabled
+- **Search Engines**: Custom search engines with convenient aliases
+- **Performance**: Hardware acceleration and WebRender enabled
+
+### Configured Extensions:
+- **uBlock Origin**: Advanced ad and tracker blocking
+
+### Search Engine Aliases:
+- `@np [query]` - Search Nix packages
+- `@nw [query]` - Search NixOS Wiki
+
+### Privacy & Security:
+- HTTPS-only mode enabled by default
+- Enhanced tracking protection active
+- All telemetry and experiments disabled
+- Pocket integration removed
+
+### Usage:
+```bash
+# Firefox is managed declaratively through Nix
+# Extensions are automatically installed and updated
+# Bookmarks and settings sync across rebuilds
+```
 
 ## 🌟 Specialized Tools
 

@@ -10,9 +10,13 @@
     nixvim.url = "github:nix-community/nixvim";
     nixvim.inputs.nixpkgs.follows = "nixpkgs";
     claude-code.url = "github:sadjow/claude-code-nix";
+    firefox-addons = {
+      url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, nixvim, claude-code }:
+  outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, nixvim, claude-code, firefox-addons }:
   let
     configuration = { pkgs, ... }: {
       imports = [
@@ -53,6 +57,7 @@
         ./modules/termscp.nix
         ./modules/rsync.nix
         ./modules/btop.nix
+        ./modules/firefox.nix
       ];
 
       home.username = "yanlin";
@@ -80,6 +85,7 @@
         gnumake
         zoxide
       ];
+      
 
       fonts.fontconfig.enable = true;
 
@@ -100,7 +106,7 @@
     homeConfigurations.yanlin = home-manager.lib.homeManagerConfiguration {
       pkgs = nixpkgs.legacyPackages.aarch64-darwin;
       modules = [ homeConfiguration ];
-      extraSpecialArgs = { inherit claude-code nixvim; };
+      extraSpecialArgs = { inherit claude-code nixvim firefox-addons; };
     };
   };
 }
