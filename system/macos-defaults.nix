@@ -10,7 +10,7 @@
   # NSStatusItemSelectionPadding controls padding inside selection overlay
   system.activationScripts.extraActivation.text = ''
     echo "Setting menu bar spacing preferences..."
-    sudo -u yanlin defaults -currentHost write -globalDomain NSStatusItemSpacing -int 12
-    sudo -u yanlin defaults -currentHost write -globalDomain NSStatusItemSelectionPadding -int 6
+    sudo -u yanlin defaults -currentHost write -globalDomain NSStatusItemSpacing -int 10
+    sudo -u yanlin defaults -currentHost write -globalDomain NSStatusItemSelectionPadding -int 5
   '';
 }
