@@ -21,6 +21,7 @@
       breakindent = true;    # Preserve indentation when wrapping
       termguicolors = true;
       autoread = true;       # Automatically reload files when changed externally
+      clipboard = "unnamedplus";  # Use system clipboard by default
     };
 
     # Enable filetype detection
@@ -142,12 +143,6 @@
       }
 
       # System clipboard keymaps
-      {
-        mode = ["n" "v"];
-        key = "<leader>y";
-        action = "\"+y";
-        options = { desc = "Copy to system clipboard"; };
-      }
       {
         mode = "n";
         key = "<leader>p";
