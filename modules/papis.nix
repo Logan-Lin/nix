@@ -46,10 +46,31 @@
     ---
   '';
 
+  # Papis BibTeX template
+  home.file."Library/Application Support/papis/templates/bibtex.template".text = ''
+    @{doc[type]}{doc[ref],
+      author = {doc[author]},
+      title = {doc[title]},
+      year = {doc[year]},
+      journal = {doc[journal]},
+      booktitle = {doc[booktitle]},
+      publisher = {doc[publisher]},
+      volume = {doc[volume]},
+      number = {doc[number]},
+      pages = {doc[pages]},
+      doi = {doc[doi]},
+      url = {doc[url]},
+      abstract = {doc[abstract]}
+    }
+  '';
+
   # Shell aliases for papis workflow
   programs.zsh.shellAliases = {
     # Bibliography formatting
     pals = "papis list --template \"$HOME/Library/Application Support/papis/templates/bibitem.template\"";
+    
+    # BibTeX export
+    pabib = "papis export --format bibtex";
     
     # File operations
     paurl = "papis addto -u";
