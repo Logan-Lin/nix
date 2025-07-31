@@ -70,7 +70,7 @@
     pals = "papis list --template \"$HOME/Library/Application Support/papis/templates/bibitem.template\"";
     
     # BibTeX export
-    pabib = "papis export --format bibtex";
+    pabib = "papis list --template \"$HOME/Library/Application Support/papis/templates/bibtex.template\"";
     
     # File operations
     paurl = "papis addto -u";
