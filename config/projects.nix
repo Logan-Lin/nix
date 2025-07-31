@@ -21,6 +21,13 @@
       description = "Obsidian notes";
     };
 
+    acapro = {
+      template = "basic";
+      name = "aca-programs";
+      codePath = "/Users/yanlin/Documents/Programs";
+      description = "Academic programs";
+    };
+
     blog = {
       template = "research";
       name = "blog";
