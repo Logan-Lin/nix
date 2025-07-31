@@ -48,20 +48,17 @@
 
   # Papis BibTeX template
   home.file."Library/Application Support/papis/templates/bibtex.template".text = ''
-    @{doc[type]}{doc[ref],
-      author = {doc[author]},
-      title = {doc[title]},
-      year = {doc[year]},
-      journal = {doc[journal]},
-      booktitle = {doc[booktitle]},
-      publisher = {doc[publisher]},
-      volume = {doc[volume]},
-      number = {doc[number]},
-      pages = {doc[pages]},
-      doi = {doc[doi]},
-      url = {doc[url]},
-      abstract = {doc[abstract]}
-    }
+    @article{{{doc[ref]},
+      author = {{{doc[author]}}},
+      title = {{{doc[title]}}},
+      year = {{{doc[year]}}},
+      journal = {{{doc[journal]}}},
+      volume = {{{doc[volume]}}},
+      number = {{{doc[number]}}},
+      pages = {{{doc[pages]}}},
+      doi = {{{doc[doi]}}},
+      url = {{{doc[url]}}}
+    }}
   '';
 
   # Shell aliases for papis workflow
