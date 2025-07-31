@@ -10,8 +10,12 @@
           url = "https://link.nas.yanlincs.com";
         }
         {
-          name = "RSS";
-          url = "https://rss.nas.yanlincs.com";
+          name = "Perplexity";
+          url = "https://www.perplexity.ai/";
+        }
+        {
+          name = "Claude";
+          url = "https://claude.ai";
         }
         {
           name = "Overleaf";
@@ -45,6 +49,10 @@
               url = "https://teams.microsoft.com/v2/";
             }
           ];
+        }
+        {
+          name = "RSS";
+          url = "https://rss.nas.yanlincs.com";
         }
         {
           name = "My Home";
