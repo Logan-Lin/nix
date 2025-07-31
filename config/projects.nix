@@ -121,5 +121,12 @@
       description = "Trajectory Mamba";
     };
 
+    blocktraj = {
+      template = "basic";
+      name = "BlockTraj";
+      codePath = "/Users/yanlin/Documents/Projects/Block-diffusion Path Generation/blocktraj-paper";
+      description = "Block Diffusion for Trajectory";
+    };
+
   };
 }
