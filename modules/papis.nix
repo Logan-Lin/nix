@@ -48,7 +48,7 @@
 
   # Papis BibTeX template
   home.file."Library/Application Support/papis/templates/bibtex.template".text = ''
-    @{{doc[type]}}{{{doc[ref]},
+    @{doc[type]}{{{doc[ref]},
       author = {{{doc[author]}}},
       title = {{{doc[title]}}},
       year = {{{doc[year]}}},
