@@ -18,6 +18,7 @@
             with firefox-addons.packages.${pkgs.system}; [
               ublock-origin
               linkding-extension
+              vimium
             ]
           else [];
       };
