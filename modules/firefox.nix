@@ -17,89 +17,38 @@
           if firefox-addons != null then
             with firefox-addons.packages.${pkgs.system}; [
               ublock-origin
+              linkding-extension
             ]
           else [];
       };
       
       # Bookmarks
-      bookmarks = {
-        force = true;
-        settings = [
-          {
-            name = "Toolbar";
-            toolbar = true;
-            bookmarks = [
-              {
-                name = "My Home";
-                url = "https://home.nas.yanlincs.com/lovelace/0";
-              }
-              {
-                name = "Media";
-                bookmarks = [
-                  {
-                    name = "Immich";
-                    url = "https://photo.nas.yanlincs.com/photos";
-                  }
-                  {
-                    name = "Plex";
-                    url = "https://plex.nas.yanlincs.com";
-                  }
-                  {
-                    name = "Emby";
-                    url = "https://emby.nas.yanlincs.com";
-                  }
-                  {
-                    name = "Library";
-                    bookmarks = [
-                      {
-                        name = "Sonnar";
-                        url = "https://sonnar.nas.yanlincs.com";
-                      }
-                      {
-                        name = "Radarr";
-                        url = "https://radarr.nas.yanlincs.com";
-                      }
-                      {
-                        name = "qBittorrent";
-                        url = "https://qbit.nas.yanlincs.com";
-                      }
-                      {
-                        name = "MeTube";
-                        url = "https://metube.nas.yanlincs.com";
-                      }
-                    ];
-                  }
-                ];
-              }
-            ];
-          }
-        ];
-      };
+      bookmarks = import ../config/firefox-bookmarks.nix;
       
       # Search configuration
       search = {
         force = true;
         default = "ddg";
         
-        engines = {
-          "Nix Packages" = {
-            urls = [{
-              template = "https://search.nixos.org/packages";
-              params = [
-                { name = "channel"; value = "unstable"; }
-                { name = "query"; value = "{searchTerms}"; }
-              ];
-            }];
-            icon = "''${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
-            definedAliases = [ "@np" ];
-          };
-          
-          "NixOS Wiki" = {
-            urls = [{ template = "https://wiki.nixos.org/index.php?search={searchTerms}"; }];
-            icon = "https://wiki.nixos.org/favicon.png";
-            definedAliases = [ "@nw" ];
-          };
-        };
+        # engines = {
+        #   "Nix Packages" = {
+        #     urls = [{
+        #       template = "https://search.nixos.org/packages";
+        #       params = [
+        #         { name = "channel"; value = "unstable"; }
+        #         { name = "query"; value = "{searchTerms}"; }
+        #       ];
+        #     }];
+        #     icon = "''${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
+        #     definedAliases = [ "@np" ];
+        #   };
+        #   
+        #   "NixOS Wiki" = {
+        #     urls = [{ template = "https://wiki.nixos.org/index.php?search={searchTerms}"; }];
+        #     icon = "https://wiki.nixos.org/favicon.png";
+        #     definedAliases = [ "@nw" ];
+        #   };
+        # };
       };
       
       # Firefox settings
@@ -164,6 +113,20 @@
         # Disable Pocket
         "extensions.pocket.enabled" = false;
         "browser.newtabpage.activity-stream.section.highlights.includePocket" = false;
+        
+        # Password Manager - disable all functionality
+        "signon.rememberSignons" = false;
+        "signon.autofillForms" = false;
+        "signon.prefillForms" = false;
+        
+        # Form Auto-complete - disable all form history and suggestions
+        "browser.formfill.enable" = false;
+        "browser.formfill.saveHttpsForms" = false;
+        
+        # Additional Auto-fill features - disable address and credit card autofill
+        "extensions.formautofill.addresses.enabled" = false;
+        "extensions.formautofill.creditCards.enabled" = false;
+        "extensions.formautofill.heuristics.enabled" = false;
       };
     };
   };
