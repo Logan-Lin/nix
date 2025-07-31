@@ -53,7 +53,7 @@ if [ -n "$SERVER" ] && [ -n "$REMOTE_DIR" ]; then
     tmux new-window -t $SESSION_NAME:7 -n "remote" -c "$CODE_PATH"
     tmux send-keys -t $SESSION_NAME:7 "alias r='ssh $SERVER -t \"cd $REMOTE_DIR && exec \\\$SHELL\"'" C-m
     tmux send-keys -t $SESSION_NAME:7 "ssh $SERVER -t 'cd $REMOTE_DIR && exec \$SHELL'" C-m
-    tmux split-window -t $SESSION_NAME:7 -v -c "$CODE_PATH"
+    tmux split-window -t $SESSION_NAME:7 -h -c "$CODE_PATH"
     tmux send-keys -t $SESSION_NAME:7.2 "alias r='ssh $SERVER -t \"cd $REMOTE_DIR && exec \\\$SHELL\"'" C-m
     tmux send-keys -t $SESSION_NAME:7.2 "ssh $SERVER -t 'cd $REMOTE_DIR && exec \$SHELL'" C-m
     tmux select-pane -t $SESSION_NAME:7.1
