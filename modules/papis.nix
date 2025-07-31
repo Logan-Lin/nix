@@ -48,11 +48,12 @@
 
   # Papis BibTeX template
   home.file."Library/Application Support/papis/templates/bibtex.template".text = ''
-    @article{{{doc[ref]},
+    @{{doc[type]}}{{{doc[ref]},
       author = {{{doc[author]}}},
       title = {{{doc[title]}}},
       year = {{{doc[year]}}},
       journal = {{{doc[journal]}}},
+      booktitle = {{{doc[booktitle]}}},
       volume = {{{doc[volume]}}},
       number = {{{doc[number]}}},
       pages = {{{doc[pages]}}},
