@@ -127,6 +127,10 @@
         "extensions.formautofill.addresses.enabled" = false;
         "extensions.formautofill.creditCards.enabled" = false;
         "extensions.formautofill.heuristics.enabled" = false;
+        
+        # Hide UI elements
+        "browser.tabs.firefox-view" = false;
+        "identity.fxaccounts.enabled" = false;
       };
     };
   };
