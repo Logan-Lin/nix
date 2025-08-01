@@ -63,7 +63,7 @@
     };
 
     matmeet = {
-      template = "baisc";
+      template = "basic";
       name = "MaterialMeet";
       codePath = "/Users/yanlin/Documents/Projects/Material Project Group Meeting";
       description = "Material Meeting Slides";
