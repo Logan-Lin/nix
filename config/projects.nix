@@ -62,6 +62,13 @@
       description = "DAKI3 course Demo code";
     };
 
+    matmeet = {
+      template = "baisc";
+      name = "MaterialMeet";
+      codePath = "/Users/yanlin/Documents/Projects/Material Project Group Meeting";
+      description = "Material Meeting Slides";
+    };
+
     ddm = {
       template = "research";
       name = "DiffDisMatter";
