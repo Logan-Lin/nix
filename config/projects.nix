@@ -56,10 +56,11 @@
     };
 
     daki3 = {
-      template = "basic";
+      template = "research";
       name = "DAKI3";
       codePath = "/Users/yanlin/Documents/Projects/AI systems & infrastructure/Codes";
-      description = "DAKI3 course Demo code";
+      paperPath = "/Users/yanlin/Documents/Projects/AI systems & infrastructure/Slides";
+      description = "DAKI3 course";
     };
 
     matmeet = {
@@ -77,62 +78,6 @@
       description = "Inverse material design";
       server = "aicloud";
       remoteDir = "~/DiffDisMatter";
-    };
-
-    mllm-traj = {
-      template = "basic";
-      name = "MLLM-Traj";
-      codePath = "/Users/yanlin/Documents/Projects/Multimodal LLM for Trajectory Modeling/mllm-traj-paper";
-      description = "MLLM for Trajectory";
-    };
-
-    pathfm = {
-      template = "basic";
-      name = "PathFM";
-      codePath = "/Users/yanlin/Documents/Projects/Path Foundation Model/pathfm-paper";
-      description = "Path Foundation Model";
-    };
-
-    weightcomp = {
-      template = "basic";
-      name = "WeightComp";
-      codePath = "/Users/yanlin/Documents/Projects/Microscopic Weights on Road Networks/FENCE-paper";
-      description = "Weight completion";
-    };
-
-    forcetraj = {
-      template = "basic";
-      name = "ForceTraj";
-      codePath = "/Users/yanlin/Documents/Projects/Electric Field-based Lane Changing Modeling/forcetraj-paper";
-      description = "Force-based trajectory model";
-    };
-
-    trajar = {
-      template = "basic";
-      name = "TrajAR";
-      codePath = "/Users/yanlin/Documents/Projects/Multi-agent Video-derived Trajectory Prediction/trajar-paper";
-      description = "Multi-agent trajectory prediction";
-    };
-
-    stpcn = {
-      template = "basic";
-      name = "ST-PCN";
-      codePath = "/Users/yanlin/Documents/Projects/Spatio-temporal Uncertainty Forecasting/ripcn-paper";
-      description = "PCN-based ST prediction";
-    };
-
-    trajmamba = {
-      template = "basic";
-      name = "TrajMamba";
-      codePath = "/Users/yanlin/Documents/Projects/Pre-trained Trajectory-Mamba/rebuttal";
-      description = "Trajectory Mamba";
-    };
-
-    blocktraj = {
-      template = "basic";
-      name = "BlockTraj";
-      codePath = "/Users/yanlin/Documents/Projects/Block-diffusion Path Generation/blocktraj-paper";
-      description = "Block Diffusion for Trajectory";
     };
 
   };
