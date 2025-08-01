@@ -56,6 +56,7 @@
       settings = {
         # General preferences
         "browser.startup.homepage" = "about:home";
+        "browser.startup.page" = 3; # Restore previous windows and tabs
         "browser.newtabpage.enabled" = true;
         
         # New tab page - show only search bar
@@ -132,6 +133,23 @@
         # Hide UI elements
         "browser.tabs.firefox-view" = false;
         "identity.fxaccounts.enabled" = false;
+        
+        # Disable all search suggestions
+        "browser.urlbar.suggest.searches" = false;
+        "browser.urlbar.suggest.engines" = false;
+        "browser.urlbar.quicksuggest.enabled" = false;
+        "browser.urlbar.quicksuggest.sponsored" = false;
+        "browser.urlbar.quicksuggest.dataCollection.enabled" = false;
+        "browser.search.suggest.enabled" = false;
+        
+        # Additional search-related privacy settings
+        "browser.urlbar.suggest.clipboard" = false;
+        "browser.urlbar.suggest.topsites" = false;
+        "browser.urlbar.speculativeConnect.enabled" = false;
+        
+        # Disable recent searches
+        "browser.urlbar.suggest.history" = false;
+        "browser.urlbar.maxHistoricalSearchSuggestions" = 0;
       };
     };
   };
