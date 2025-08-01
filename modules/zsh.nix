@@ -42,6 +42,7 @@ in
       # Nix helpers
       hm = "home-manager";
       hms = "home-manager switch --flake ~/.config/nix#yanlin";
+      hms-offline = "home-manager switch --flake ~/.config/nix#yanlin --option substitute false";
       
       # Project shortcuts
       proj = "${projectLauncher}";
