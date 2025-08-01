@@ -46,10 +46,7 @@ home-manager switch --flake github:Logan-Lin/nix-config#yanlin
 │   ├── p10k.zsh       # Powerlevel10k theme configuration
 │   └── projects.nix   # Project shortcuts configuration
 └── scripts/           # Utility scripts
-    ├── project-launcher.sh  # Universal project launcher
-    └── templates/     # Tmux session templates
-        ├── basic.sh   # Basic development template
-        └── research.sh # Research workflow template
+    └── project-launcher.sh  # Dynamic project launcher with window configuration
 ```
 
 ## 🔄 Core Workflow
@@ -156,23 +153,39 @@ proj              # List all available projects
 nix-config        # Launch nix-config project tmux session
 ```
 
-#### Template Types:
-- **Basic**: Single directory (nvim + git + shell)
-- **Research**: Code directory + separate paper directory + optional remote server
-  - **Remote Server Window**: Dual horizontal panes for parallel remote work
-  - **Automatic Connection**: SSH to configured server with automatic directory navigation
-  - **Reconnect Alias**: Type `r` in any remote pane to easily reconnect
+#### Window-Based Configuration:
+Projects are configured with flexible window groups, allowing multiple working directories and customized window types per project.
+
+**Window Types:**
+- **nvim**: Code editing with Neovim (created by default)
+- **ai**: AI assistant with three-pane layout
+- **git**: Git management with lazygit
+- **shell**: Plain shell window
+- **remote**: SSH connection with dual panes
 
 **Example Configuration:**
 ```nix
-research-project = {
-  template = "research";
-  name = "Research Project";
-  codePath = "~/Projects/research-code";
-  paperPath = "~/Projects/research-paper";
-  description = "Academic research project";
-  server = "dev-server";        # SSH host from ~/.ssh/config  
-  remoteDir = "~/research";     # Remote directory path
+blog = {
+  session = "blog";
+  description = "Personal blog project";
+  windows = [
+    {
+      name = "code";
+      path = "~/Projects/personal-blog";
+      ai = true;
+      git = true;
+      remote = {
+        server = "personal-vps";     # SSH host from ~/.ssh/config
+        remoteDir = "~/blog";        # Remote directory path
+      };
+    }
+    {
+      name = "content";
+      path = "~/Projects/personal-blog/content";
+      ai = true;
+      git = true;
+    }
+  ];
 };
 ```
 

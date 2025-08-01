@@ -1,83 +1,178 @@
 {
   projects = {
     nix-config = {
-      template = "basic";
-      name = "nix";
-      codePath = "/Users/yanlin/.config/nix";
+      session = "nix";
       description = "Nix configuration";
+      windows = [
+        {
+          name = "nix";
+          path = "/Users/yanlin/.config/nix";
+          ai = true;
+          git = true;
+          shell = true;
+        }
+      ];
     };
 
     homelab = {
-      template = "basic";
-      name = "homelab";
-      codePath = "/Users/yanlin/Documents/Projects/Homelab-deploy";
+      session = "homelab";
       description = "Homelab Deployment";
+      windows = [
+        {
+          name = "homelab";
+          path = "/Users/yanlin/Documents/Projects/Homelab-deploy";
+          ai = true;
+          git = true;
+          shell = true;
+        }
+      ];
     };
 
     note = {
-      template = "basic";
-      name = "note";
-      codePath = "/Users/yanlin/Obsidian/Personal";
+      session = "note";
       description = "Obsidian notes";
+      windows = [
+        {
+          name = "note";
+          path = "/Users/yanlin/Obsidian/Personal";
+          ai = true;
+          git = true;
+          shell = false;
+        }
+      ];
     };
 
     acapro = {
-      template = "basic";
-      name = "aca-programs";
-      codePath = "/Users/yanlin/Documents/Programs";
+      session = "aca-programs";
       description = "Academic programs";
+      windows = [
+        {
+          name = "pro";
+          path = "/Users/yanlin/Documents/Programs";
+          ai = true;
+          git = true;
+          shell = false;
+        }
+      ];
     };
 
     blog = {
-      template = "research";
-      name = "blog";
-      codePath = "/Users/yanlin/Documents/Projects/personal-blog";
-      paperPath = "/Users/yanlin/Documents/Projects/personal-blog/content";
+      session = "blog";
       description = "Personal blog project";
-      server = "personal-vps";
-      remoteDir = "~/blog";
+      windows = [
+        {
+          name = "code";
+          path = "/Users/yanlin/Documents/Projects/personal-blog";
+          ai = true;
+          git = true;
+          shell = true;
+        }
+        {
+          name = "content";
+          path = "/Users/yanlin/Documents/Projects/personal-blog/content";
+          ai = true;
+          git = false;
+        }
+      ];
     };
 
     homepage = {
-      template = "basic";
-      name = "homepage";
-      codePath = "/Users/yanlin/Documents/Projects/Homepage/";
+      session = "homepage";
       description = "Personal Homepage";
+      windows = [
+        {
+          name = "homepage";
+          path = "/Users/yanlin/Documents/Projects/Homepage/";
+          ai = true;
+          git = true;
+          shell = true;
+        }
+      ];
     };
 
     mdshortcut = {
-      template = "research";
-      name = "MDShortcut";
-      codePath = "/Users/yanlin/Documents/Projects/Material Design Shortcut/MDShortcut-code";
-      paperPath = "/Users/yanlin/Documents/Projects/Material Design Shortcut/MDShortcut-paper";
+      session = "MDShortcut";
       description = "Material design shortcut";
-      server = "aicloud";
-      remoteDir = "~/MDS";
+      windows = [
+        {
+          name = "code";
+          path = "/Users/yanlin/Documents/Projects/Material Design Shortcut/MDShortcut-code";
+          ai = true;
+          git = true;
+          remote = {
+            server = "aicloud";
+            remoteDir = "~/MDS";
+          };
+          shell = true;
+        }
+        {
+          name = "paper";
+          path = "/Users/yanlin/Documents/Projects/Material Design Shortcut/MDShortcut-paper";
+          ai = true;
+          git = true;
+          shell = false;
+        }
+      ];
     };
 
     daki3 = {
-      template = "research";
-      name = "DAKI3";
-      codePath = "/Users/yanlin/Documents/Projects/AI systems & infrastructure/Codes";
-      paperPath = "/Users/yanlin/Documents/Projects/AI systems & infrastructure/Slides";
+      session = "DAKI3";
       description = "DAKI3 course";
+      windows = [
+        {
+          name = "code";
+          path = "/Users/yanlin/Documents/Projects/AI systems & infrastructure/Codes";
+          ai = true;
+          git = true;
+          shell = true;
+        }
+        {
+          name = "slides";
+          path = "/Users/yanlin/Documents/Projects/AI systems & infrastructure/Slides";
+          ai = true;
+          git = true;
+          shell = false;
+        }
+      ];
     };
 
     matmeet = {
-      template = "basic";
-      name = "MaterialMeet";
-      codePath = "/Users/yanlin/Documents/Projects/Material Project Group Meeting";
+      session = "MaterialMeet";
       description = "Material Meeting Slides";
+      windows = [
+        {
+          name = "slides";
+          path = "/Users/yanlin/Documents/Projects/Material Project Group Meeting";
+          ai = true;
+          git = true;
+          shell = false;
+        }
+      ];
     };
 
     ddm = {
-      template = "research";
-      name = "DiffDisMatter";
-      codePath = "/Users/yanlin/Documents/Projects/Inverse Design of Disordered Materials/DiffDisMatter-dev";
-      paperPath = "/Users/yanlin/Documents/Projects/Inverse Design of Disordered Materials/mc-denoising-paper";
+      session = "DiffDisMatter";
       description = "Inverse material design";
-      server = "aicloud";
-      remoteDir = "~/DiffDisMatter";
+      windows = [
+        {
+          name = "code";
+          path = "/Users/yanlin/Documents/Projects/Inverse Design of Disordered Materials/DiffDisMatter-dev";
+          ai = true;
+          git = true;
+          shell = true;
+          remote = {
+            server = "aicloud";
+            remoteDir = "~/DiffDisMatter";
+          };
+        }
+        {
+          name = "paper";
+          path = "/Users/yanlin/Documents/Projects/Inverse Design of Disordered Materials/mc-denoising-paper";
+          ai = true;
+          git = true;
+          shell = false;
+        }
+      ];
     };
 
   };
