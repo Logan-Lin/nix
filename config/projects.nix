@@ -167,5 +167,19 @@
       ];
     };
 
+    pathfm = {
+      session = "PathFM";
+      description = "Path foundation model";
+      windows = [
+        {
+          name = "paper";
+          path = "/Users/yanlin/Documents/Projects/Path Foundation Model/pathfm-paper";
+          ai = true;
+          git = true;
+          shell = false;
+        }
+      ];
+    };
+
   };
 }

@@ -96,6 +96,19 @@
             }
           ];
         }
+        {
+          name = "Social";
+          bookmarks = [
+            {
+              name = "WhatsApp";
+              url = "https://web.whatsapp.com/";
+            }
+            {
+              name = "Messager";
+              url = "https://www.facebook.com/messages/";
+            }
+          ];
+        }
       ];
     }
   ];
