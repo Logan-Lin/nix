@@ -121,19 +121,16 @@ while IFS= read -r window_config; do
     WINDOW_NAME=$(echo "$window_config" | jq -r '.name')
     WINDOW_PATH=$(echo "$window_config" | jq -r '.path')
     
-    # Create directory if it doesn't exist (for subsequent windows)
-    if [ "$WINDOW_INDEX" -gt 1 ]; then
-        create_directory "$WINDOW_PATH" "$WINDOW_NAME"
-        # Record directory in zoxide for smart navigation
-        [ -n "$WINDOW_PATH" ] && [ "$WINDOW_PATH" != "null" ] && [ -d "$WINDOW_PATH" ] && zoxide add "$WINDOW_PATH" 2>/dev/null || true
-    fi
+    # Create directory if it doesn't exist (for all window entries)
+    create_directory "$WINDOW_PATH" "$WINDOW_NAME"
+    # Record directory in zoxide for smart navigation
+    [ -n "$WINDOW_PATH" ] && [ "$WINDOW_PATH" != "null" ] && [ -d "$WINDOW_PATH" ] && zoxide add "$WINDOW_PATH" 2>/dev/null || true
     
     # Check window options
     NVIM_ENABLED=$(echo "$window_config" | jq -r '.nvim // true')
     AI_ENABLED=$(echo "$window_config" | jq -r '.ai // false')
     GIT_ENABLED=$(echo "$window_config" | jq -r '.git // false')
     SHELL_ENABLED=$(echo "$window_config" | jq -r '.shell // false')
-    REMOTE_CONFIG=$(echo "$window_config" | jq -r '.remote // empty')
     
     # Create nvim window (default behavior unless explicitly disabled)
     if [ "$NVIM_ENABLED" != "false" ]; then
@@ -174,31 +171,6 @@ while IFS= read -r window_config; do
         WINDOW_INDEX=$((WINDOW_INDEX + 1))
     fi
     
-    # Create remote window if configured
-    if [ -n "$REMOTE_CONFIG" ] && [ "$REMOTE_CONFIG" != "null" ]; then
-        SERVER=$(echo "$REMOTE_CONFIG" | jq -r '.server // empty')
-        REMOTE_DIR=$(echo "$REMOTE_CONFIG" | jq -r '.remoteDir // empty')
-        
-        if [ -n "$SERVER" ] && [ -n "$REMOTE_DIR" ]; then
-            # Ensure remote directory exists
-            printf "\033[2mEnsuring remote directory exists: %s:%s\033[0m\n" "$SERVER" "$REMOTE_DIR"
-            if ssh "$SERVER" "mkdir -p \"$REMOTE_DIR\"" 2>/dev/null; then
-                printf "\033[2mRemote directory ready: %s:%s\033[0m\n" "$SERVER" "$REMOTE_DIR"
-            else
-                echo "Warning: Could not create or verify remote directory: $SERVER:$REMOTE_DIR"
-                echo "Please check SSH connection and permissions."
-            fi
-            
-            tmux new-window -t "$SESSION_NAME:$WINDOW_INDEX" -n "${WINDOW_NAME}-remote" -c "$WINDOW_PATH"
-            tmux send-keys -t "$SESSION_NAME:$WINDOW_INDEX" "alias r='ssh $SERVER -t \"cd $REMOTE_DIR && exec \\\$SHELL\"'" C-m
-            tmux send-keys -t "$SESSION_NAME:$WINDOW_INDEX" "ssh $SERVER -t 'cd $REMOTE_DIR && exec \$SHELL'" C-m
-            tmux split-window -t "$SESSION_NAME:$WINDOW_INDEX" -h -c "$WINDOW_PATH"
-            tmux send-keys -t "$SESSION_NAME:$WINDOW_INDEX.2" "alias r='ssh $SERVER -t \"cd $REMOTE_DIR && exec \\\$SHELL\"'" C-m
-            tmux send-keys -t "$SESSION_NAME:$WINDOW_INDEX.2" "ssh $SERVER -t 'cd $REMOTE_DIR && exec \$SHELL'" C-m
-            tmux select-pane -t "$SESSION_NAME:$WINDOW_INDEX.1"
-            WINDOW_INDEX=$((WINDOW_INDEX + 1))
-        fi
-    fi
 done <<< "$WINDOWS"
 
 # Select the first window

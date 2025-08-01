@@ -99,10 +99,6 @@
           path = "/Users/yanlin/Documents/Projects/Material Design Shortcut/MDShortcut-code";
           ai = true;
           git = true;
-          remote = {
-            server = "aicloud";
-            remoteDir = "~/MDS";
-          };
           shell = true;
         }
         {
@@ -160,10 +156,6 @@
           ai = true;
           git = true;
           shell = true;
-          remote = {
-            server = "aicloud";
-            remoteDir = "~/DiffDisMatter";
-          };
         }
         {
           name = "paper";
