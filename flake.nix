@@ -58,6 +58,7 @@
         ./modules/rsync.nix
         ./modules/btop.nix
         ./modules/firefox.nix
+        ./config/fonts.nix
       ];
 
       home.username = "yanlin";
@@ -76,8 +77,6 @@
         openssh
         papis
         claude-code.packages.aarch64-darwin.claude-code
-        nerd-fonts.fira-code
-        nerd-fonts.jetbrains-mono
         lazygit
         ncdu
         git-credential-oauth
@@ -85,9 +84,6 @@
         gnumake
         zoxide
       ];
-      
-
-      fonts.fontconfig.enable = true;
 
       programs.home-manager.enable = true;
 
