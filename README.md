@@ -44,7 +44,8 @@ home-manager switch --flake github:Logan-Lin/nix-config#yanlin
 │   └── macos-defaults.nix # macOS system preferences and customizations
 ├── config/            # Configuration files
 │   ├── p10k.zsh       # Powerlevel10k theme configuration
-│   └── projects.nix   # Project shortcuts configuration
+│   ├── projects.nix   # Project shortcuts configuration
+│   └── fonts.nix      # Font packages and configuration
 └── scripts/           # Utility scripts
     └── project-launcher.sh  # Dynamic project launcher with window configuration
 ```
@@ -399,6 +400,7 @@ ncdu -x                 # Stay on same filesystem (don't cross mount points)
 
 The configuration includes carefully selected programming fonts with icon patches:
 
+- **DejaVu Fonts**: Complete font family with excellent Unicode coverage and readability
 - **Fira Code**: Coding font with programming ligatures and clean aesthetics
 - **JetBrains Mono**: Modern monospace font designed specifically for developers
 
