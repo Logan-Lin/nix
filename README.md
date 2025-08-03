@@ -486,6 +486,8 @@ papis export --format bibtex query_term > references.bib
 #### Workflow Aliases:
 ```bash
 pals                          # List documents with formatted template
+pabib                         # Export documents in BibTeX format
+pacite                        # Format documents as citation strings
 pafile filename.pdf           # Add file from ~/Downloads/
 paopen                        # Open documents interactively  
 pafinder "query"              # Open document directory in Finder

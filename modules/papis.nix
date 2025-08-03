@@ -62,6 +62,11 @@
     }}
   '';
 
+  # Papis citation template
+  home.file."Library/Application Support/papis/templates/citation.template".text = ''
+    {doc[author]}. "{doc[title]}." {doc[journal]}{doc[booktitle]} ({doc[year]}).
+  '';
+
   # Shell aliases for papis workflow
   programs.zsh.shellAliases = {
     # Bibliography formatting
@@ -69,6 +74,9 @@
     
     # BibTeX export
     pabib = "papis list --template \"$HOME/Library/Application Support/papis/templates/bibtex.template\"";
+    
+    # Citation formatting
+    pacite = "papis list --template \"$HOME/Library/Application Support/papis/templates/citation.template\"";
     
     # File operations
     paurl = "papis addto -u";
