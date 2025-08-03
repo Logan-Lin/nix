@@ -167,17 +167,17 @@
       ];
     };
 
-    pathfm = {
-      session = "PathFM";
-      description = "Path foundation model";
+    pncs = {
+      session = "PNCS";
+      description = "PNCS17 presentation";
       windows = [
         {
-          name = "paper";
-          path = "/Users/yanlin/Documents/Projects/Path Foundation Model/pathfm-paper";
+          name = "slides";
+          path = "/Users/yanlin/Documents/Projects/AMDEN Presentation/presentation";
           ai = true;
           git = true;
           shell = false;
-        }
+       }
       ];
     };
 
