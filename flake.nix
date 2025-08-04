@@ -23,10 +23,9 @@
         ./system
       ];
 
-      environment.systemPackages =
-        [ pkgs.vim
-          pkgs.git
-        ];
+      environment.systemPackages = [
+        # System-level packages only
+      ];
 
       nix.settings.experimental-features = "nix-command flakes";
       nix.settings.substituters = [
