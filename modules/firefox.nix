@@ -148,8 +148,14 @@
         "browser.urlbar.speculativeConnect.enabled" = false;
         
         # Disable recent searches
-        "browser.urlbar.suggest.history" = false;
-        "browser.urlbar.maxHistoricalSearchSuggestions" = 0;
+        "browser.urlbar.suggest.history" = true;
+        "browser.urlbar.maxHistoricalSearchSuggestions" = 3;
+        
+        # Disable sidebar and Firefox tools
+        "sidebar.revamp" = false; # Completely disable the new sidebar feature
+        "sidebar.verticalTabs" = false; # Disable vertical tabs in sidebar
+        "sidebar.visibility" = "hide"; # Ensure sidebar is hidden
+        "browser.toolbarbuttons.introduced.sidebar-button" = false; # Prevent sidebar button introduction
       };
     };
   };
