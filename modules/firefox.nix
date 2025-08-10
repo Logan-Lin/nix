@@ -156,6 +156,10 @@
         "sidebar.verticalTabs" = false; # Disable vertical tabs in sidebar
         "sidebar.visibility" = "hide"; # Ensure sidebar is hidden
         "browser.toolbarbuttons.introduced.sidebar-button" = false; # Prevent sidebar button introduction
+        
+        # Language and translation settings
+        "intl.accept_languages" = "en-US,en,zh-CN,zh-TW,zh-HK,zh"; # Accept English and all Chinese variants
+        "browser.translations.automaticallyPopup" = false; # Prevent automatic translation suggestions
       };
     };
   };
