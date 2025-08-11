@@ -181,19 +181,5 @@
       ];
     };
 
-    pncs = {
-      session = "PNCS";
-      description = "PNCS17 presentation";
-      windows = [
-        {
-          name = "slides";
-          path = "/Users/yanlin/Documents/Projects/AMDEN Presentation/presentation";
-          ai = true;
-          git = true;
-          shell = false;
-       }
-      ];
-    };
-
   };
 }
