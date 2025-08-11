@@ -1,6 +1,20 @@
 { config, pkgs, lib, ... }@args:
 
 {
+  # Create userChrome.css to hide Firefox View button
+  home.file.".mozilla/firefox/yanlin/chrome/userChrome.css".text = ''
+    /* Hide Firefox View button */
+    #firefox-view-button {
+      display: none !important;
+    }
+    
+    /* Also hide from tab context menu */
+    #context_moveTabOptions > menuitem[data-l10n-id="tab-context-send-tabs-to-device"] + menuseparator,
+    #context_moveTabOptions > menuitem[command="Browser:SendTabToDevice"] {
+      display: none !important;
+    }
+  '';
+
   programs.firefox = {
     enable = true;
     
@@ -132,6 +146,10 @@
         
         # Hide UI elements
         "browser.tabs.firefox-view" = false;
+        "browser.tabs.firefox-view-max-entries" = 0;
+        "browser.tabs.firefox-view-next" = false;
+        "browser.firefox-view.feature-tour" = "{\"screen\":\"\",\"complete\":true}";
+        "browser.firefox-view.view-count" = 0;
         "identity.fxaccounts.enabled" = false;
         
         # Disable all search suggestions
@@ -160,6 +178,9 @@
         # Language and translation settings
         "intl.accept_languages" = "en-US,en,zh-CN,zh-TW,zh-HK,zh"; # Accept English and all Chinese variants
         "browser.translations.automaticallyPopup" = false; # Prevent automatic translation suggestions
+        
+        # Enable userChrome.css support
+        "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
       };
     };
   };

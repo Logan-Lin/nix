@@ -111,8 +111,8 @@
       ];
     };
 
-    daki3 = {
-      session = "DAKI3";
+    daki3c = {
+      session = "DAKI3-C";
       description = "DAKI3 course";
       windows = [
         {
@@ -125,6 +125,20 @@
         {
           name = "slides";
           path = "/Users/yanlin/Documents/Projects/AI systems & infrastructure/Slides";
+          ai = true;
+          git = true;
+          shell = false;
+        }
+      ];
+    };
+
+    daki3g = {
+      session = "DAKI3-G";
+      description = "DAKI3 group supervision";
+      windows = [
+        {
+          name = "group";
+          path = "/Users/yanlin/Documents/Projects/DAKI3 Semester Project Group";
           ai = true;
           git = true;
           shell = false;
