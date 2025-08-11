@@ -443,6 +443,13 @@ The fonts are automatically installed and configured system-wide through the nix
 - Enhanced tracking protection active
 - All telemetry and experiments disabled
 - Pocket integration removed
+- Firefox View completely disabled (button hidden via userChrome.css)
+
+### UI Customizations:
+- Firefox View functionality and button removed entirely
+- Password manager and form autofill disabled
+- Search suggestions disabled for privacy
+- Sidebar features hidden
 
 ### Usage:
 ```bash

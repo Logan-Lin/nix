@@ -51,6 +51,19 @@
           ];
         }
         {
+          name = "Scholar";
+          bookmarks = [
+            {
+              name = "OpenReview";
+              url = "https://openreview.net/";
+            }
+            {
+              name = "CMT";
+              url = "https://cmt3.research.microsoft.com/Conference/Recent";
+            }
+          ];
+        }
+        {
           name = "RSS";
           url = "https://rss.nas.yanlincs.com";
         }
