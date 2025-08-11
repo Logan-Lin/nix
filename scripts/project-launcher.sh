@@ -91,6 +91,22 @@ create_directory() {
     fi
 }
 
+# Initialize git repository if it doesn't exist
+init_git_if_needed() {
+    local dir_path="$1"
+    local window_name="$2"
+    
+    if [ -n "$dir_path" ] && [ "$dir_path" != "null" ] && [ -d "$dir_path" ]; then
+        if [ ! -d "$dir_path/.git" ]; then
+            if git -C "$dir_path" init >/dev/null 2>&1; then
+                printf "\033[2mInitialized git repository for %s: %s\033[0m\n" "$window_name" "$dir_path"
+            else
+                echo "Warning: Could not initialize git repository in: $dir_path"
+            fi
+        fi
+    fi
+}
+
 # Get windows configuration
 WINDOWS=$(echo "$PROJECT_CONFIG" | jq -c '.windows[]' 2>/dev/null)
 
@@ -131,6 +147,11 @@ while IFS= read -r window_config; do
     AI_ENABLED=$(echo "$window_config" | jq -r '.ai // false')
     GIT_ENABLED=$(echo "$window_config" | jq -r '.git // false')
     SHELL_ENABLED=$(echo "$window_config" | jq -r '.shell // false')
+    
+    # Initialize git repository if git is enabled and repo doesn't exist
+    if [ "$GIT_ENABLED" = "true" ]; then
+        init_git_if_needed "$WINDOW_PATH" "$WINDOW_NAME"
+    fi
     
     # Create nvim window (default behavior unless explicitly disabled)
     if [ "$NVIM_ENABLED" != "false" ]; then
