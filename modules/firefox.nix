@@ -2,7 +2,7 @@
 
 {
   # Create userChrome.css to hide Firefox View button
-  home.file.".mozilla/firefox/yanlin/chrome/userChrome.css".text = ''
+  home.file."${config.home.homeDirectory}/.mozilla/firefox/yanlin/chrome/userChrome.css".text = ''
     /* Hide Firefox View button */
     #firefox-view-button {
       display: none !important;
