@@ -1,3 +1,8 @@
+{ homeDirectory }:
+
+let
+  homePath = path: "${homeDirectory}/${path}";
+in
 {
   projects = {
     nix-config = {
@@ -6,7 +11,7 @@
       windows = [
         {
           name = "nix";
-          path = "/Users/yanlin/.config/nix";
+          path = "${homeDirectory}/.config/nix";
           ai = true;
           git = true;
           shell = true;
@@ -20,7 +25,7 @@
       windows = [
         {
           name = "homelab";
-          path = "/Users/yanlin/Documents/Projects/Homelab-deploy";
+          path = homePath "Documents/Projects/Homelab-deploy";
           ai = true;
           git = true;
           shell = true;
@@ -34,7 +39,7 @@
       windows = [
         {
           name = "note";
-          path = "/Users/yanlin/Obsidian/Personal";
+          path = homePath "Obsidian/Personal";
           ai = true;
           git = true;
           shell = false;
@@ -48,7 +53,7 @@
       windows = [
         {
           name = "pro";
-          path = "/Users/yanlin/Documents/Programs";
+          path = homePath "Documents/Programs";
           ai = true;
           git = true;
           shell = false;
@@ -62,14 +67,14 @@
       windows = [
         {
           name = "code";
-          path = "/Users/yanlin/Documents/Projects/personal-blog";
+          path = homePath "Documents/Projects/personal-blog";
           ai = true;
           git = true;
           shell = true;
         }
         {
           name = "content";
-          path = "/Users/yanlin/Documents/Projects/personal-blog/content";
+          path = homePath "Documents/Projects/personal-blog/content";
           ai = true;
           git = false;
         }
@@ -82,7 +87,7 @@
       windows = [
         {
           name = "homepage";
-          path = "/Users/yanlin/Documents/Projects/Homepage/";
+          path = homePath "Documents/Projects/Homepage";
           ai = true;
           git = true;
           shell = true;
@@ -96,14 +101,14 @@
       windows = [
         {
           name = "code";
-          path = "/Users/yanlin/Documents/Projects/Material Design Shortcut/MDShortcut-code";
+          path = homePath "Documents/Projects/Material Design Shortcut/MDShortcut-code";
           ai = true;
           git = true;
           shell = true;
         }
         {
           name = "paper";
-          path = "/Users/yanlin/Documents/Projects/Material Design Shortcut/MDShortcut-paper";
+          path = homePath "Documents/Projects/Material Design Shortcut/MDShortcut-paper";
           ai = true;
           git = true;
           shell = false;
@@ -117,14 +122,14 @@
       windows = [
         {
           name = "code";
-          path = "/Users/yanlin/Documents/Projects/AI systems & infrastructure/Codes";
+          path = homePath "Documents/Projects/AI systems & infrastructure/Codes";
           ai = true;
           git = true;
           shell = true;
         }
         {
           name = "slides";
-          path = "/Users/yanlin/Documents/Projects/AI systems & infrastructure/Slides";
+          path = homePath "Documents/Projects/AI systems & infrastructure/Slides";
           ai = true;
           git = true;
           shell = false;
@@ -138,7 +143,7 @@
       windows = [
         {
           name = "group";
-          path = "/Users/yanlin/Documents/Projects/DAKI3 Semester Project Group";
+          path = homePath "Documents/Projects/DAKI3 Semester Project Group";
           ai = true;
           git = true;
           shell = false;
@@ -152,7 +157,7 @@
       windows = [
         {
           name = "slides";
-          path = "/Users/yanlin/Documents/Projects/Material Project Group Meeting";
+          path = homePath "Documents/Projects/Material Project Group Meeting";
           ai = true;
           git = true;
           shell = false;
@@ -166,14 +171,14 @@
       windows = [
         {
           name = "code";
-          path = "/Users/yanlin/Documents/Projects/Inverse Design of Disordered Materials/DiffDisMatter-dev";
+          path = homePath "Documents/Projects/Inverse Design of Disordered Materials/DiffDisMatter-dev";
           ai = true;
           git = true;
           shell = true;
         }
         {
           name = "paper";
-          path = "/Users/yanlin/Documents/Projects/Inverse Design of Disordered Materials/mc-denoising-paper";
+          path = homePath "Documents/Projects/Inverse Design of Disordered Materials/mc-denoising-paper";
           ai = true;
           git = true;
           shell = false;
@@ -187,7 +192,7 @@
       windows = [
         {
           name = "slides";
-          path = "/Users/yanlin/Documents/Projects/AMDEN Presentation/presentation";
+          path = homePath "Documents/Projects/AMDEN Presentation/presentation";
           ai = true;
           git = true;
           shell = false;

@@ -1,8 +1,8 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 
 let
-  projectsConfig = import ../config/projects.nix;
-  projectLauncher = "/Users/yanlin/.config/nix/scripts/project-launcher.sh";
+  projectsConfig = import ../config/projects.nix { homeDirectory = config.home.homeDirectory; };
+  projectLauncher = "${config.home.homeDirectory}/.config/nix/scripts/project-launcher.sh";
 in
 {
   programs.zsh = {
