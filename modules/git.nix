@@ -17,69 +17,16 @@
       
       # macOS
       ".DS_Store"
-      ".AppleDouble"
-      ".LSOverride"
-      "Icon"
-      "._*"
-      ".DocumentRevisions-V100"
-      ".fseventsd"
-      ".Spotlight-V100"
-      ".TemporaryItems"
-      ".Trashes"
-      ".VolumeIcon.icns"
-      ".com.apple.timemachine.donotpresent"
       
       # Editors
       ".vscode/"
       ".idea/"
-      "*.swp"
-      "*.swo"
-      "*~"
-      ".vim/"
       
       # Development
       "node_modules/"
       ".env"
       ".env.local"
       ".env.*.local"
-      "*.log"
-      "npm-debug.log*"
-      "yarn-debug.log*"
-      "yarn-error.log*"
-      
-      # Python
-      "__pycache__/"
-      "*.py[cod]"
-      "*$py.class"
-      ".Python"
-      "build/"
-      "develop-eggs/"
-      "dist/"
-      "downloads/"
-      "eggs/"
-      ".eggs/"
-      "lib/"
-      "lib64/"
-      "parts/"
-      "sdist/"
-      "var/"
-      "wheels/"
-      "*.egg-info/"
-      ".installed.cfg"
-      "*.egg"
-      
-      # Temporary files
-      "*.tmp"
-      "*.temp"
-      "*.bak"
-      "*.backup"
-      "*~"
-      
-      # OS generated files
-      "Thumbs.db"
-      "ehthumbs.db"
-      "Desktop.ini"
-      "$RECYCLE.BIN/"
     ];
     
     extraConfig = {
