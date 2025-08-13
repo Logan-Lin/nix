@@ -186,5 +186,19 @@ in
       ];
     };
 
+    ai4mat = {
+      session = "AI4Mat";
+      description = "AI4Material workshop";
+      windows = [
+        {
+          name = "paper";
+          path = homePath "Documents/Projects/Inverse Design of Disordered Materials/AI4Mat-NeurIPS_2025";
+          ai = true;
+          git = true;
+          shell = false;
+        }
+      ];
+    };
+
   };
 }
