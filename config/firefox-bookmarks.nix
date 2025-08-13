@@ -10,10 +10,6 @@
           url = "https://link.nas.yanlincs.com";
         }
         {
-          name = "Perplexity";
-          url = "https://www.perplexity.ai/";
-        }
-        {
           name = "Claude";
           url = "https://claude.ai";
         }
@@ -87,6 +83,10 @@
               url = "https://emby.nas.yanlincs.com";
             }
             {
+              name = "AudioBookShelf";
+              url = "https://audio.nas.yanlincs.com";
+            }
+            {
               name = "Library";
               bookmarks = [
                 {
@@ -100,10 +100,6 @@
                 {
                   name = "qBittorrent";
                   url = "https://qbit.nas.yanlincs.com";
-                }
-                {
-                  name = "MeTube";
-                  url = "https://metube.nas.yanlincs.com";
                 }
               ];
             }
