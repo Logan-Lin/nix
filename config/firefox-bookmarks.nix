@@ -79,10 +79,6 @@
               url = "https://plex.nas.yanlincs.com";
             }
             {
-              name = "Emby";
-              url = "https://emby.nas.yanlincs.com";
-            }
-            {
               name = "AudioBookShelf";
               url = "https://audio.nas.yanlincs.com";
             }

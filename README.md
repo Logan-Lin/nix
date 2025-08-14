@@ -225,10 +225,8 @@ blog = {
 **Fuzzy Finding (Telescope):**
 | Key | Action |
 |-----|--------|
-| `<Space>ff` | Find files in current directory |
-| `<Space>fg` | Live grep - search text in all files |
-| `<Space>fb` | Browse open buffers |
-| `<Space>fh` | Search help documentation |
+| `<Space>t` | Find files in current directory |
+| `<Space>g` | Live grep - search text in all files |
 
 **Telescope Navigation:**
 | Key | Action |

@@ -116,18 +116,14 @@
         enable = true;
         keymaps = {
           # Find files using Telescope command-line sugar
-          "<leader>ff" = "find_files";
-          "<leader>fg" = "live_grep";
-          "<leader>fb" = "buffers";
-          "<leader>fh" = "help_tags";
+          "<leader>t" = "find_files";
+          "<leader>g" = "live_grep";
         };
         settings = {
           defaults = {
             file_ignore_patterns = [
               "^.git/"
               "^node_modules/"
-              "^target/"
-              "^dist/"
               ".DS_Store"
             ];
             layout_config = {
