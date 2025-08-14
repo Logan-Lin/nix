@@ -196,32 +196,6 @@
         options = { desc = "Show current file in Finder"; };
       }
 
-      # Git keymaps (vim-fugitive)
-      {
-        mode = "n";
-        key = "<leader>gs";
-        action = ":Git<CR>";
-        options = { desc = "Git status"; };
-      }
-      {
-        mode = "n";
-        key = "<leader>gd";
-        action = ":Git diff<CR>";
-        options = { desc = "Git diff"; };
-      }
-      {
-        mode = "n";
-        key = "<leader>gc";
-        action = ":Git commit<CR>";
-        options = { desc = "Git commit"; };
-      }
-      {
-        mode = "n";
-        key = "<leader>gp";
-        action = ":Git push<CR>";
-        options = { desc = "Git push"; };
-      }
-
       # Markdown rendering
       {
         mode = "n";
