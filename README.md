@@ -236,13 +236,6 @@ blog = {
 | `<C-q>` | Send results to quickfix list |
 | `<Esc>` | Close Telescope |
 
-**Git Operations:**
-| Key | Action |
-|-----|--------|
-| `<Space>gs` | Git status |
-| `<Space>gd` | Git diff |
-| `<Space>gc` | Git commit (vim-fugitive) |
-| `<Space>gp` | Git push |
 
 **Other:**
 | Key | Action |
