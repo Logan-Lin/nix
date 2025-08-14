@@ -197,6 +197,7 @@ blog = {
 
 #### Key Features:
 - **File Explorer**: nvim-tree with dotfile filtering
+- **Fuzzy Finder**: Telescope for fast file finding, text search, and navigation
 - **Syntax Highlighting**: Treesitter with comprehensive language support
 - **Git Integration**: vim-fugitive for git operations
 - **Status Line**: lualine with gruvbox theme and relative paths
@@ -221,12 +222,28 @@ blog = {
 | `<Space>y` | Copy to system clipboard |
 | `<Space>p` | Paste from system clipboard |
 
+**Fuzzy Finding (Telescope):**
+| Key | Action |
+|-----|--------|
+| `<Space>ff` | Find files in current directory |
+| `<Space>fg` | Live grep - search text in all files |
+| `<Space>fb` | Browse open buffers |
+| `<Space>fh` | Search help documentation |
+
+**Telescope Navigation:**
+| Key | Action |
+|-----|--------|
+| `<C-j>/<C-k>` | Navigate up/down in results |
+| `<CR>` | Open selected file |
+| `<C-q>` | Send results to quickfix list |
+| `<Esc>` | Close Telescope |
+
 **Git Operations:**
 | Key | Action |
 |-----|--------|
 | `<Space>gs` | Git status |
 | `<Space>gd` | Git diff |
-| `<Space>gc` | Git commit |
+| `<Space>gc` | Git commit (vim-fugitive) |
 | `<Space>gp` | Git push |
 
 **Other:**
