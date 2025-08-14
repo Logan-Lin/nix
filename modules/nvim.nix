@@ -110,12 +110,42 @@
           };
         };
       };
+
+      # Telescope - Fuzzy finder
+      telescope = {
+        enable = true;
+        keymaps = {
+          # Find files using Telescope command-line sugar
+          "<leader>ff" = "find_files";
+          "<leader>fg" = "live_grep";
+          "<leader>fb" = "buffers";
+          "<leader>fh" = "help_tags";
+        };
+        settings = {
+          defaults = {
+            file_ignore_patterns = [
+              "^.git/"
+              "^node_modules/"
+              "^target/"
+              "^dist/"
+              ".DS_Store"
+            ];
+            layout_config = {
+              prompt_position = "bottom";
+              horizontal = {
+                preview_width = 0.55;
+              };
+            };
+          };
+        };
+      };
     };
 
     # Extra plugins that don't have dedicated modules
     extraPlugins = with pkgs.vimPlugins; [
       vim-fugitive
       cmp-dictionary
+      plenary-nvim  # Required dependency for telescope
     ];
 
     # Keymaps
@@ -224,6 +254,22 @@
         exact_length = 2,                     -- Minimum length before completion
         first_case_insensitive = true,        -- Case insensitive matching
       })
+
+      -- Telescope setup for better file finding
+      local telescope = require('telescope')
+      local actions = require('telescope.actions')
+
+      telescope.setup{
+        defaults = {
+          mappings = {
+            i = {
+              ["<C-j>"] = actions.move_selection_next,
+              ["<C-k>"] = actions.move_selection_previous,
+              ["<C-q>"] = actions.send_selected_to_qflist + actions.open_qflist,
+            }
+          }
+        }
+      }
 
       -- Unicode-safe file operations for macOS
       function open_file_with_system_app()
