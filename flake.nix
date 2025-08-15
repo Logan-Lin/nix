@@ -57,6 +57,7 @@
         ./modules/rsync.nix
         ./modules/btop.nix
         ./modules/firefox.nix
+        ./modules/ghostty.nix
         ./config/fonts.nix
       ];
 
