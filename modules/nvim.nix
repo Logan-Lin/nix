@@ -168,20 +168,6 @@
         options = { desc = "Quit"; };
       }
 
-      # System clipboard keymaps
-      {
-        mode = "n";
-        key = "<leader>p";
-        action = "\"+p";
-        options = { desc = "Paste from system clipboard"; };
-      }
-      {
-        mode = "v";
-        key = "<leader>p";
-        action = "\"+p";
-        options = { desc = "Replace selection with system clipboard"; };
-      }
-
       # System integration
       {
         mode = "n";

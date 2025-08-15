@@ -82,10 +82,18 @@
         "browser.newtabpage.activity-stream.showSponsored" = false;
         "browser.newtabpage.activity-stream.showSponsoredTopSites" = false;
         
-        # Privacy settings
-        "privacy.trackingprotection.enabled" = true;
-        "privacy.trackingprotection.socialtracking.enabled" = true;
-        "privacy.donottrackheader.enabled" = true;
+        # Privacy settings - Disable all tracking protection
+        "privacy.trackingprotection.enabled" = false;
+        "privacy.trackingprotection.socialtracking.enabled" = false;
+        "privacy.trackingprotection.pbmode.enabled" = false;  # Disable in private browsing
+        "privacy.trackingprotection.cryptomining.enabled" = false;
+        "privacy.trackingprotection.fingerprinting.enabled" = false;
+        "privacy.trackingprotection.annotate_channels" = false;
+        "privacy.donottrackheader.enabled" = false;
+        "browser.contentblocking.category" = "custom";  # Set to custom to ensure our settings apply
+        "network.cookie.cookieBehavior" = 0;  # 0 = Accept all cookies
+        "privacy.firstparty.isolate" = false;
+        "privacy.resistFingerprinting" = false;
         
         # Performance
         "gfx.webrender.all" = true;

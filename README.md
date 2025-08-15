@@ -216,11 +216,6 @@ blog = {
 | `<Space>o` | Open file with system default app |
 | `<Space>f` | Show current file in Finder |
 
-**System Clipboard:**
-| Key | Action |
-|-----|--------|
-| `<Space>y` | Copy to system clipboard |
-| `<Space>p` | Paste from system clipboard |
 
 **Fuzzy Finding (Telescope):**
 | Key | Action |
