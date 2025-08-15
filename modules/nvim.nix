@@ -193,14 +193,29 @@
 
     # Additional Lua configuration for plugins that need custom setup
     extraConfigLua = ''
-      -- Nvim-tree setup with filters
+      -- Nvim-tree setup with filters and auto-sync
       require("nvim-tree").setup({
+        sync_root_with_cwd = true,
+        respect_buf_cwd = true,
+        update_focused_file = {
+          enable = true,
+          update_root = true,
+          ignore_list = {},
+        },
         filters = {
           dotfiles = true,      -- Hide dotfiles by default (H to toggle)
           git_ignored = false,  -- Show gitignored files by default (I to toggle)
           custom = {            -- Hide macOS system files
             ".DS_Store",
           },
+        },
+        view = {
+          width = 30,
+          side = "left",
+        },
+        renderer = {
+          highlight_opened_files = "all",
+          highlight_modified = "all",
         },
       })
 
