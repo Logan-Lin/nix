@@ -52,6 +52,7 @@
         ./modules/zsh.nix 
         ./modules/ssh.nix
         ./modules/git.nix
+        ./modules/lazygit.nix
         ./modules/papis.nix
         ./modules/termscp.nix
         ./modules/rsync.nix
@@ -77,7 +78,6 @@
         openssh
         papis
         claude-code.packages.aarch64-darwin.claude-code
-        lazygit
         ncdu
         git-credential-oauth
         rsync
