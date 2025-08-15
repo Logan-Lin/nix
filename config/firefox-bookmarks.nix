@@ -64,16 +64,16 @@
           url = "https://rss.nas.yanlincs.com";
         }
         {
+          name = "Immich";
+          url = "https://photo.nas.yanlincs.com/photos";
+        }
+        {
           name = "My Home";
           url = "https://home.nas.yanlincs.com/lovelace/0";
         }
         {
           name = "Media";
           bookmarks = [
-            {
-              name = "Immich";
-              url = "https://photo.nas.yanlincs.com/photos";
-            }
             {
               name = "Plex";
               url = "https://plex.nas.yanlincs.com";
@@ -83,21 +83,16 @@
               url = "https://audio.nas.yanlincs.com";
             }
             {
-              name = "Library";
-              bookmarks = [
-                {
-                  name = "Sonarr";
-                  url = "https://sonarr.nas.yanlincs.com";
-                }
-                {
-                  name = "Radarr";
-                  url = "https://radarr.nas.yanlincs.com";
-                }
-                {
-                  name = "qBittorrent";
-                  url = "https://qbit.nas.yanlincs.com";
-                }
-              ];
+              name = "Sonarr";
+              url = "https://sonarr.nas.yanlincs.com";
+            }
+            {
+              name = "Radarr";
+              url = "https://radarr.nas.yanlincs.com";
+            }
+            {
+              name = "qBittorrent";
+              url = "https://qbit.nas.yanlincs.com";
             }
           ];
         }
