@@ -91,6 +91,10 @@
               url = "https://radarr.nas.yanlincs.com";
             }
             {
+              name = "Bazarr";
+              url = "https://bazarr.nas.yanlincs.com";
+            }
+            {
               name = "qBittorrent";
               url = "https://qbit.nas.yanlincs.com";
             }
