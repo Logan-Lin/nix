@@ -83,6 +83,7 @@
         rsync
         gnumake
         zoxide
+        delta
       ];
 
       programs.home-manager.enable = true;
