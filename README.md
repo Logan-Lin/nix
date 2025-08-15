@@ -31,6 +31,7 @@ home-manager switch --flake github:Logan-Lin/nix-config#yanlin
 ├── flake.nix          # Main flake configuration and package definitions
 ├── modules/           # Home Manager configuration modules
 │   ├── git.nix        # Git configuration with aliases and settings
+│   ├── lazygit.nix    # Lazygit with gruvbox theme and custom keybindings
 │   ├── nvim.nix       # Neovim configuration with plugins and keymaps
 │   ├── ssh.nix        # SSH client configuration and host management
 │   ├── tmux.nix       # Tmux setup with vim-like navigation
@@ -38,7 +39,9 @@ home-manager switch --flake github:Logan-Lin/nix-config#yanlin
 │   ├── papis.nix      # Reference management system
 │   ├── rsync.nix      # File synchronization and backup
 │   ├── termscp.nix    # Terminal file transfer client
-│   └── firefox.nix    # Firefox browser with extensions and bookmarks
+│   ├── firefox.nix    # Firefox browser with extensions and bookmarks
+│   ├── btop.nix       # Modern system monitor
+│   └── ghostty.nix    # GPU-accelerated terminal emulator
 ├── system/            # System-level nix-darwin configurations
 │   ├── default.nix    # System module imports
 │   └── macos-defaults.nix # macOS system preferences and customizations
@@ -54,7 +57,25 @@ home-manager switch --flake github:Logan-Lin/nix-config#yanlin
 
 The configuration creates an integrated development environment with a clear workflow progression:
 
-**Terminal (zsh)** → **Session Management (tmux)** → **Code Editing (nvim)** → **Version Control (git)**
+**Terminal Emulator (ghostty)** → **Shell (zsh)** → **Session Management (tmux)** → **Code Editing (nvim)** → **Version Control (git)**
+
+### 🖥️ Terminal Emulator: Ghostty
+
+**Configuration**: `modules/ghostty.nix`  
+**Purpose**: GPU-accelerated terminal with native performance
+
+#### Key Features:
+- **GPU Acceleration**: Native performance with metal rendering on macOS
+- **Gruvbox Theme**: Dark background (#14191f) matching the entire stack
+- **Font**: JetBrainsMono Nerd Font for icon support and ligatures
+- **Shell Integration**: Smart cursor, sudo awareness, and dynamic titles
+- **Optimized Padding**: 4px window padding for clean appearance
+
+#### Configuration Highlights:
+- **10,000 lines scrollback** for extensive history
+- **Mouse hide while typing** for distraction-free input
+- **No bell notifications** for quiet operation
+- **System Ghostty**: Uses system-installed version (install from ghostty.org)
 
 ### 🐚 Terminal: Zsh with Powerlevel10k
 
@@ -283,10 +304,12 @@ Modern OAuth-based authentication for Git operations:
 
 #### Git Visualization with lazygit
 Launch `lazygit` in any git repository for:
-- Interactive commit graph and branch visualization
-- Streamlined staging, committing, and diff viewing
-- Easy branch management and merging
-- File tree navigation with git status
+- **Gruvbox Theme**: Consistent dark theme matching nvim and tmux
+- **Interactive UI**: Commit graph, branch visualization, and file tree
+- **Vim Keybindings**: j/k navigation, h/l for panels
+- **Enhanced Diff Viewing**: Delta integration for syntax-highlighted diffs
+- **Smart Operations**: Stage hunks, commit, push, pull, rebase interactively
+- **Managed Configuration**: Settings versioned in nix for reproducibility
 
 ## ⚙️ System Customizations (macOS)
 
