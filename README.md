@@ -41,7 +41,8 @@ home-manager switch --flake github:Logan-Lin/nix-config#yanlin
 │   ├── termscp.nix    # Terminal file transfer client
 │   ├── firefox.nix    # Firefox browser with extensions and bookmarks
 │   ├── btop.nix       # Modern system monitor
-│   └── ghostty.nix    # GPU-accelerated terminal emulator
+│   ├── ghostty.nix    # GPU-accelerated terminal emulator
+│   └── syncthing.nix  # File synchronization service
 ├── system/            # System-level nix-darwin configurations
 │   ├── default.nix    # System module imports
 │   └── macos-defaults.nix # macOS system preferences and customizations
@@ -346,6 +347,16 @@ This configuration runs during system activation to apply menu bar spacing prefe
 - **btop**: Modern system monitor with vim-like navigation
 - **zoxide**: Smart cd replacement with frecency algorithm
 - **httpie**: Modern HTTP client for API testing and development
+
+### macOS Applications
+
+Nix-managed GUI applications available in `/Applications`:
+
+- **Maccy**: Lightweight clipboard manager with search (Shift+Cmd+C)
+- **AppCleaner**: Thoroughly uninstall applications and their support files
+- **IINA**: Modern media player with native macOS design
+- **KeePassXC**: Cross-platform password manager
+- **Syncthing**: Continuous file synchronization (managed as a service)
 
 #### Powerful Tool Combinations:
 ```bash
