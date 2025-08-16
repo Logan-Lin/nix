@@ -84,6 +84,7 @@
         gnumake
         zoxide
         delta
+        maccy
       ];
 
       programs.home-manager.enable = true;
