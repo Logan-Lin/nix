@@ -357,6 +357,7 @@ Nix-managed GUI applications available in `/Applications`:
 - **IINA**: Modern media player with native macOS design
 - **KeePassXC**: Cross-platform password manager
 - **Syncthing**: Continuous file synchronization (managed as a service)
+- **Hidden Bar**: Hide menu bar items for a cleaner desktop
 
 #### Powerful Tool Combinations:
 ```bash

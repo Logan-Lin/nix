@@ -92,6 +92,7 @@
         iina
         keepassxc
         syncthing
+        hidden-bar
       ];
 
       programs.home-manager.enable = true;
