@@ -59,8 +59,11 @@
         ./modules/btop.nix
         ./modules/firefox.nix
         ./modules/ghostty.nix
+        ./modules/syncthing.nix
         ./config/fonts.nix
       ];
+
+      nixpkgs.config.allowUnfree = true;
 
       home.username = "yanlin";
       home.homeDirectory = "/Users/yanlin";
@@ -85,6 +88,10 @@
         zoxide
         delta
         maccy
+        appcleaner
+        iina
+        keepassxc
+        syncthing
       ];
 
       programs.home-manager.enable = true;
