@@ -121,6 +121,17 @@
         };
         settings = {
           defaults = {
+            vimgrep_arguments = [
+              "rg"
+              "--color=never"
+              "--no-heading"
+              "--with-filename"
+              "--line-number"
+              "--column"
+              "--smart-case"
+              "--hidden"
+              "--no-ignore"
+            ];
             file_ignore_patterns = [
               "^.git/"
               "^node_modules/"
@@ -131,6 +142,12 @@
               horizontal = {
                 preview_width = 0.55;
               };
+            };
+          };
+          pickers = {
+            find_files = {
+              hidden = true;
+              no_ignore = true;
             };
           };
         };
