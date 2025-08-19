@@ -20,25 +20,18 @@ in
     
     shellAliases = {
       ll = "ls -alF";
-      la = "ls -A";
-      l = "ls -CF";
-      ".." = "cd ..";
-      "..." = "cd ../..";
-      
-      # Git aliases
-      gs = "git status";
-      ga = "git add";
-      gc = "git commit";
-      gp = "git push";
-      gl = "git pull";
-      gd = "git diff";
-      
-      # Modern CLI tools
-      ftp = "termscp";
-      
-      # Zoxide aliases
       zi = "z -i";  # Interactive selection with fzf
-      
+      preview = "open -a Preview";
+      iina = "open -a IINA";
+      dict = "open -a 'WordWeb Pro'";
+      slide = "open -a SlidePilot";
+      ovito = "open -a Ovito";
+      appcleaner = "open -a AppCleaner";
+      wechat = "open -a WeChat";
+      tmeet = "open -a TencentMeeting";
+      pixel = "open -a 'Pixelmator Pro'";
+      keepass = "open -a KeePassXC";
+
       # Nix helpers
       hm = "home-manager";
       hms = "home-manager switch --flake ~/.config/nix#yanlin";

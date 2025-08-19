@@ -134,6 +134,13 @@ in
           git = true;
           shell = false;
         }
+        {
+          name = "blog";
+          path = homePath "Documents/Projects/personal-blog/content/ai-system";
+          ai = true;
+          git = true;
+          shell = false;
+        }
       ];
     };
 
