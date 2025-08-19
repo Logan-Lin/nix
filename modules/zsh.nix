@@ -31,6 +31,7 @@ in
       tmeet = "open -a TencentMeeting";
       pixel = "open -a 'Pixelmator Pro'";
       keepass = "open -a KeePassXC";
+      inkscape = "open -a Inkscape";
 
       # Nix helpers
       hm = "home-manager";
