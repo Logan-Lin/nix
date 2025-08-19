@@ -137,8 +137,8 @@ in
         {
           name = "blog";
           path = homePath "Documents/Projects/personal-blog/content/ai-system";
-          ai = true;
-          git = true;
+          ai = false;
+          git = false;
           shell = false;
         }
       ];
