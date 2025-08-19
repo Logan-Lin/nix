@@ -1,9 +1,32 @@
 #!/bin/bash
 
 # Universal project launcher - reads project config and launches dynamic windows
-# Usage: project-launcher.sh PROJECT_NAME
+# Usage: project-launcher.sh [OPTIONS] PROJECT_NAME
+# Options:
+#   -r, --reopen    Kill existing session and recreate it
 
-PROJECT_NAME="$1"
+# Parse command line arguments
+REOPEN_SESSION=false
+PROJECT_NAME=""
+
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        -r|--reopen)
+            REOPEN_SESSION=true
+            shift
+            ;;
+        -*)
+            echo "Unknown option: $1"
+            echo "Usage: $0 [-r|--reopen] PROJECT_NAME"
+            exit 1
+            ;;
+        *)
+            PROJECT_NAME="$1"
+            shift
+            ;;
+    esac
+done
+
 CONFIG_DIR="$(dirname "$0")/../config"
 PROJECTS_JSON="$CONFIG_DIR/projects.json"
 
@@ -39,7 +62,8 @@ if [ -z "$PROJECT_NAME" ]; then
         if [ $? -ne 0 ]; then
             echo "No projects configured"
         else
-            printf "\n\033[2mUsage: proj <name> or just type the project name directly\033[0m\n"
+            printf "\n\033[2mUsage: proj [-r|--reopen] <name> or just type the project name directly\033[0m\n"
+            printf "\033[2m  -r, --reopen    Kill existing session and recreate it\033[0m\n"
         fi
     else
         echo "No projects configured - run 'home-manager switch' to generate config"
@@ -64,11 +88,19 @@ fi
 SESSION_NAME=$(echo "$PROJECT_CONFIG" | jq -r '.session')
 DESCRIPTION=$(echo "$PROJECT_CONFIG" | jq -r '.description // empty')
 
-# Check if session already exists and attach if it does
+# Check if session already exists
 if is_session_running "$SESSION_NAME"; then
-    printf "\033[1;32mAttaching to existing session: %s\033[0m\n" "$SESSION_NAME"
-    tmux attach-session -t "$SESSION_NAME"
-    exit 0
+    if [ "$REOPEN_SESSION" = "true" ]; then
+        # Kill the existing session if reopen flag is set
+        printf "\033[1;33mKilling existing session: %s\033[0m\n" "$SESSION_NAME"
+        tmux kill-session -t "$SESSION_NAME"
+        sleep 0.5  # Brief delay to ensure session is fully killed
+    else
+        # Attach to existing session if reopen flag is not set
+        printf "\033[1;32mAttaching to existing session: %s\033[0m\n" "$SESSION_NAME"
+        tmux attach-session -t "$SESSION_NAME"
+        exit 0
+    fi
 fi
 
 # Update papis cache
