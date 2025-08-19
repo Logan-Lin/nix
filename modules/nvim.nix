@@ -184,6 +184,12 @@
         action = ":q<CR>";
         options = { desc = "Quit"; };
       }
+      {
+        mode = "n";
+        key = "<leader>r";
+        action = ":e<CR>";
+        options = { desc = "Refresh"; };
+      }
 
       # System integration
       {
