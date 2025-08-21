@@ -71,6 +71,9 @@
   programs.zsh.shellAliases = {
     # Bibliography formatting
     pals = "papis list --template \"$HOME/Library/Application Support/papis/templates/bibitem.template\"";
+
+    # Add new entry with bibtex
+    paadd = "papis add --from bibtex";
     
     # BibTeX export
     pabib = "papis list --template \"$HOME/Library/Application Support/papis/templates/bibtex.template\"";
