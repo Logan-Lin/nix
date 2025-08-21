@@ -533,12 +533,14 @@ papis export --format bibtex query_term > references.bib
 #### Workflow Aliases:
 ```bash
 pals                          # List documents with formatted template
-pabib                         # Export documents in BibTeX format
-pacite                        # Format documents as citation strings
+paadd                         # Add a new entry with BibTeX string
+pabib                         # Print documents in BibTeX format
+pacite                        # Print documents as citation strings
 pafile filename.pdf           # Add file from ~/Downloads/
 paopen                        # Open documents interactively  
 pafinder "query"              # Open document directory in Finder
 patag "tag1#tag2" "query"     # Add multiple tags using # separator
+pareset                       # Reset and rebuild papis database
 ```
 
 ### 🔄 File Synchronization: rsync
