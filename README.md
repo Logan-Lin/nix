@@ -328,6 +328,30 @@ Customizes macOS menu bar item spacing for a cleaner look, especially useful on 
 
 This configuration runs during system activation to apply menu bar spacing preferences without requiring manual `defaults` commands.
 
+#### Spotlight Indexing (Disabled)
+Spotlight indexing is completely disabled in this configuration to:
+- Reduce CPU usage and battery drain
+- Free up disk space (index can be several GB)
+- Prevent unwanted file scanning
+
+**⚠️ Warning**: Disabling Spotlight affects:
+- Mail.app search functionality
+- Time Machine file restoration interface
+- App Store search
+- Some third-party apps that rely on Spotlight
+
+**Management Commands**:
+```bash
+# Check Spotlight status
+sudo mdutil -a -s
+
+# Re-enable Spotlight if needed
+sudo mdutil -a -i on
+
+# Rebuild index after re-enabling
+sudo mdutil -E /
+```
+
 ## 🔐 SSH Configuration
 
 **Configuration**: `modules/ssh.nix`  
