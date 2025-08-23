@@ -114,6 +114,9 @@ g, gs, ga, gc, gp, gl, gd, gco, gb  # Git operations
 # Nix management
 hm                 # home-manager shortcut
 hms                # Quick home-manager switch (rebuild)
+
+# Directory navigation helpers
+cdf [pattern]      # Find file/directory and cd to its location
 ```
 
 ### 🖥️ Session Management: Tmux
@@ -373,6 +376,9 @@ nvim $(fd --type f | fzf --preview 'bat --color=always {}')
 # Smart directory navigation with zoxide
 cd proj && nvim .        # Jump to project directory and edit
 zi && fd "*.md" | fzf    # Interactive directory select, then find markdown files
+
+# Find and navigate to directories containing specific files
+cdf "Universal Sparse"   # Search for files/dirs matching pattern and cd there
 ```
 
 #### Built-in zsh keybindings:

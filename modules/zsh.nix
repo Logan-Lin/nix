@@ -113,6 +113,19 @@ in
       
       # Zoxide configuration - replace cd with z for smart directory jumping
       eval "$(zoxide init zsh --cmd cd)"
+      
+      # Function to cd to directory containing a file selected with fzf
+      function cdf() {
+        local file
+        file=$(fd "$@" ~ | fzf)
+        if [[ -n "$file" ]]; then
+          if [[ -d "$file" ]]; then
+            cd "$file"
+          else
+            cd "$(dirname "$file")"
+          fi
+        fi
+      }
     '';
   };
   
