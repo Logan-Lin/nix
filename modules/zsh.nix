@@ -33,6 +33,9 @@ in
       pixel = "open -a 'Pixelmator Pro'";
       keepass = "open -a KeePassXC";
       inkscape = "open -a Inkscape";
+      powerpoint = "open -a 'Microsoft PowerPoint'";
+      word = "open -a 'Microsoft Word'";
+      excel = "open -a 'Microsoft Excel'";
 
       # Nix helpers
       hm = "home-manager";
