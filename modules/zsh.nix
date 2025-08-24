@@ -28,6 +28,7 @@ in
       ovito = "open -a Ovito";
       appcleaner = "open -a AppCleaner";
       wechat = "open -a WeChat";
+      message = "open -a Messages";
       tmeet = "open -a TencentMeeting";
       pixel = "open -a 'Pixelmator Pro'";
       keepass = "open -a KeePassXC";
