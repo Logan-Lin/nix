@@ -193,15 +193,15 @@ in
       ];
     };
 
-    ai4mat = {
-      session = "AI4Mat";
-      description = "AI4Material workshop";
+    misc = {
+      session = "Misc";
+      description = "Temp misc project";
       windows = [
         {
-          name = "paper";
-          path = homePath "Documents/Projects/Inverse Design of Disordered Materials/AI4Mat-NeurIPS_2025";
+          name = "misc";
+          path = homePath "Documents/Misc/2025/AI model train and infer-Wan";
           ai = true;
-          git = true;
+          git = false;
           shell = false;
         }
       ];
