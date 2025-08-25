@@ -175,8 +175,10 @@ cdf [pattern]      # Find file/directory and cd to its location
 
 #### Usage:
 ```bash
-proj              # List all available projects
-nix-config        # Launch nix-config project tmux session
+proj                  # List all available projects
+proj nix-config       # Launch nix-config project tmux session
+proj blog             # Launch blog project tmux session
+proj homelab          # Launch homelab project tmux session
 ```
 
 #### Window-Based Configuration:
