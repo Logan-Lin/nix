@@ -44,15 +44,7 @@ in
       
       # Project shortcuts
       proj = "${projectLauncher}";
-    } // (
-      # Generate project aliases dynamically
-      builtins.listToAttrs (
-        builtins.map (projectName: {
-          name = projectName;
-          value = "${projectLauncher} ${projectName}";
-        }) (builtins.attrNames projectsConfig.projects)
-      )
-    );
+    };
     
     initContent = ''
       # Load Powerlevel10k theme

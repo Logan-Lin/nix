@@ -47,10 +47,10 @@ if [ -z "$PROJECT_NAME" ]; then
         fi
         
         # Parse and display projects with descriptions
-        jq -r '.projects | to_entries[] | "\(.key)|\(.value.description)|\(.value.session)"' "$PROJECTS_JSON" 2>/dev/null | \
-        while IFS='|' read -r name desc session_name; do
+        jq -r '.projects | to_entries[] | "\(.key)|\(.value.description)"' "$PROJECTS_JSON" 2>/dev/null | \
+        while IFS='|' read -r name desc; do
             # Check if session is running and format accordingly
-            if is_session_running "$session_name"; then
+            if is_session_running "$name"; then
                 printf "  \033[1;32m%-12s\033[0m %s\033[1;32m • Running\033[0m\n" \
                     "$name" "$desc"
             else
@@ -85,7 +85,7 @@ if [ "$PROJECT_CONFIG" = "null" ]; then
     exit 1
 fi
 
-SESSION_NAME=$(echo "$PROJECT_CONFIG" | jq -r '.session')
+SESSION_NAME="$PROJECT_NAME"
 DESCRIPTION=$(echo "$PROJECT_CONFIG" | jq -r '.description // empty')
 
 # Check if session already exists

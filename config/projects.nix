@@ -5,8 +5,7 @@ let
 in
 {
   projects = {
-    nix-config = {
-      session = "nix";
+    nix = {
       description = "Nix configuration";
       windows = [
         {
@@ -20,7 +19,6 @@ in
     };
 
     homelab = {
-      session = "homelab";
       description = "Homelab Deployment";
       windows = [
         {
@@ -34,7 +32,6 @@ in
     };
 
     note = {
-      session = "note";
       description = "Obsidian notes";
       windows = [
         {
@@ -48,7 +45,6 @@ in
     };
 
     acapro = {
-      session = "aca-programs";
       description = "Academic programs";
       windows = [
         {
@@ -62,7 +58,6 @@ in
     };
 
     blog = {
-      session = "blog";
       description = "Personal blog project";
       windows = [
         {
@@ -82,7 +77,6 @@ in
     };
 
     homepage = {
-      session = "homepage";
       description = "Personal Homepage";
       windows = [
         {
@@ -96,7 +90,6 @@ in
     };
 
     mdshortcut = {
-      session = "MDShortcut";
       description = "Material design shortcut";
       windows = [
         {
@@ -117,7 +110,6 @@ in
     };
 
     daki3c = {
-      session = "DAKI3-C";
       description = "DAKI3 course";
       windows = [
         {
@@ -145,7 +137,6 @@ in
     };
 
     daki3g = {
-      session = "DAKI3-G";
       description = "DAKI3 group supervision";
       windows = [
         {
@@ -159,7 +150,6 @@ in
     };
 
     matmeet = {
-      session = "MaterialMeet";
       description = "Material Meeting Slides";
       windows = [
         {
@@ -173,7 +163,6 @@ in
     };
 
     ddm = {
-      session = "DiffDisMatter";
       description = "Inverse material design";
       windows = [
         {
@@ -194,7 +183,6 @@ in
     };
 
     misc = {
-      session = "Misc";
       description = "Temp misc project";
       windows = [
         {
