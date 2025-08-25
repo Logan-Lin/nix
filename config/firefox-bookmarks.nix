@@ -33,6 +33,10 @@
           name = "Productivity";
           bookmarks = [
             {
+              name = "iCloud";
+              url = "https://www.icloud.com/mail/";
+            }
+            {
               name = "Outlook";
               url = "https://outlook.office.com/mail/";
             }
