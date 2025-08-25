@@ -21,6 +21,7 @@ in
     shellAliases = {
       ll = "ls -alF";
       zi = "z -i";  # Interactive selection with fzf
+      firefox = "open -a Firefox";
       preview = "open -a Preview";
       iina = "open -a IINA";
       dict = "open -a 'WordWeb Pro'";
