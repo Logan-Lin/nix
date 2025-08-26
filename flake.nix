@@ -21,6 +21,7 @@
     configuration = { pkgs, ... }: {
       imports = [
         ./system
+        ./modules/tailscale.nix
       ];
 
       environment.systemPackages = [

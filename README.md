@@ -42,7 +42,8 @@ home-manager switch --flake github:Logan-Lin/nix-config#yanlin
 │   ├── firefox.nix    # Firefox browser with extensions and bookmarks
 │   ├── btop.nix       # Modern system monitor
 │   ├── ghostty.nix    # GPU-accelerated terminal emulator
-│   └── syncthing.nix  # File synchronization service
+│   ├── syncthing.nix  # File synchronization service
+│   └── tailscale.nix  # Secure networking and VPN service
 ├── system/            # System-level nix-darwin configurations
 │   ├── default.nix    # System module imports
 │   └── macos-defaults.nix # macOS system preferences and customizations
@@ -645,6 +646,70 @@ hms
 - **Neovim**: `<Space>y/p` for system clipboard
 - **Tmux**: Copy mode automatically uses system clipboard  
 - **Terminal**: Standard Cmd+C/V works everywhere
+
+## 🔒 Secure Networking: Tailscale
+
+**Configuration**: `modules/tailscale.nix`  
+**Purpose**: Secure mesh VPN for private networking across devices
+
+### Key Features:
+- **Automatic Startup**: Runs as a system service at boot
+- **MagicDNS**: Access devices by name instead of IP addresses
+- **Secure Connectivity**: Zero-configuration encrypted connections
+- **Exit Nodes**: Route traffic through specific devices
+
+### Command Line Usage:
+
+#### Basic Operations:
+```bash
+# Check connection status and see all devices
+tailscale status
+
+# Connect to your Tailscale network (first-time setup)
+tailscale up
+
+# Disconnect temporarily
+tailscale down
+
+# View current Tailscale IP address
+tailscale ip -4
+```
+
+#### Exit Node Management:
+```bash
+# List available exit nodes
+tailscale exit-node list
+
+# Use a specific exit node
+tailscale set --exit-node=<hostname>
+# or
+tailscale up --exit-node=<hostname>
+
+# Stop using exit node
+tailscale set --exit-node=
+# or
+tailscale up --exit-node=
+
+# Allow LAN access while using exit node
+tailscale set --exit-node=<hostname> --exit-node-allow-lan-access
+```
+
+#### Advanced Usage:
+```bash
+# Get suggested exit node
+tailscale exit-node suggest
+
+# Check detailed network diagnostics
+tailscale netcheck
+
+# Show network configuration
+tailscale debug netmap
+```
+
+### Configuration Details:
+- **Auto-start**: Enabled via nix-darwin service management
+- **DNS Override**: Uses Tailscale's MagicDNS (100.100.100.100) for name resolution
+- **System Integration**: Runs as a daemon accessible to all users
 
 ## 💻 Machine Configurations
 
