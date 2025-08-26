@@ -13,7 +13,6 @@
         identityFile = "~/.ssh/keys/github";
       };
 
-
       "aicloud" = {
         hostname = "aicloud";
         user = "hb05nk@cs.aau.dk";
@@ -43,12 +42,6 @@
         hostname = "personal.vps.yanlincs.com";
         user = "root";
         identityFile = "~/.ssh/keys/hetzner";
-      };
-
-      "imac" = {
-        hostname = "imac.hw.yanlincs.com";
-        user = "yanlin";
-        identityFile = "~/.ssh/keys/imac";
       };
 
     };
