@@ -8,4 +8,4 @@
     # This ensures Tailscale DNS resolution works properly on macOS
     overrideLocalDns = false;
   };
-
+}
