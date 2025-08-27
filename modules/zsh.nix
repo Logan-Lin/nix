@@ -31,8 +31,6 @@ in
       hms = "home-manager switch --flake ~/.config/nix#yanlin";
       hms-offline = "home-manager switch --flake ~/.config/nix#yanlin --option substitute false";
       
-      # Project shortcuts
-      proj = "${projectLauncher}";
     };
     
     initContent = ''
@@ -130,6 +128,41 @@ in
             open "$app_path"
           fi
         fi
+      }
+      
+      # Interactive project launcher with fzf
+      function proj() {
+        local project_json="$HOME/.config/nix/config/projects.json"
+        local launcher="${projectLauncher}"
+        
+        # If arguments provided, pass directly to launcher
+        if [[ $# -gt 0 ]]; then
+          "$launcher" "$@"
+          return
+        fi
+        
+        # Interactive mode with fzf
+        local project=$(jq -r '.projects | keys[]' "$project_json" 2>/dev/null | \
+          fzf --header="Select project (ESC to cancel)" \
+              --preview="echo '==== {} ====' && \
+                         jq -r '.projects.\"{}\" | \"Description: \" + .description' \"$project_json\" && \
+                         echo && \
+                         echo 'Windows:' && \
+                         jq -r '.projects.\"{}\" | .windows[] | \"  - \" + .name + \": \" + .path' \"$project_json\" && \
+                         echo && \
+                         if tmux has-session -t {} 2>/dev/null; then \
+                           echo 'Status: \033[32mRunning\033[0m' && \
+                           echo && \
+                           echo 'Tmux windows:' && \
+                           tmux list-windows -t {} -F \"  #{window_index}: #{window_name}\" 2>/dev/null; \
+                         else \
+                           echo 'Status: \033[33mNot running\033[0m'; \
+                         fi" \
+              --preview-window=right:60%:wrap \
+              --height=80% \
+              --ansi)
+        
+        [[ -n "$project" ]] && "$launcher" "$project"
       }
     '';
   };
