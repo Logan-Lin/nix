@@ -25,47 +25,13 @@
       name = "yanlin";
       
       # Extensions
-      extensions = {
-        packages = let
-          firefox-addons = args.firefox-addons or null;
-        in
-          if firefox-addons != null then
-            with firefox-addons.packages.${pkgs.system}; [
-              ublock-origin
-              linkding-extension
-              vimium
-            ]
-          else [];
-      };
+      extensions = import ../config/firefox/extensions.nix args;
       
       # Bookmarks
-      bookmarks = import ../config/firefox-bookmarks.nix;
+      bookmarks = import ../config/firefox/bookmarks.nix;
       
       # Search configuration
-      search = {
-        force = true;
-        default = "ddg";
-        
-        # engines = {
-        #   "Nix Packages" = {
-        #     urls = [{
-        #       template = "https://search.nixos.org/packages";
-        #       params = [
-        #         { name = "channel"; value = "unstable"; }
-        #         { name = "query"; value = "{searchTerms}"; }
-        #       ];
-        #     }];
-        #     icon = "''${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
-        #     definedAliases = [ "@np" ];
-        #   };
-        #   
-        #   "NixOS Wiki" = {
-        #     urls = [{ template = "https://wiki.nixos.org/index.php?search={searchTerms}"; }];
-        #     icon = "https://wiki.nixos.org/favicon.png";
-        #     definedAliases = [ "@nw" ];
-        #   };
-        # };
-      };
+      search = import ../config/firefox/search.nix;
       
       # Firefox settings
       settings = {
