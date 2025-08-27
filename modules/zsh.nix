@@ -113,14 +113,10 @@ in
       
       # Function to cd to directory containing a file selected with fzf
       function cdf() {
-        local file
-        file=$(fd "$@" ~ | fzf)
-        if [[ -n "$file" ]]; then
-          if [[ -d "$file" ]]; then
-            cd "$file"
-          else
-            cd "$(dirname "$file")"
-          fi
+        local target
+        target=$(echo "" | fzf --bind "change:reload:fd --hidden --follow --exclude .git {q} ~ 2>/dev/null || true" --header="Type to search, Enter to cd" --preview '([[ -d {} ]] && ls -la {}) || ([[ -f {} ]] && head -20 {})' --height 40% --ansi)
+        if [[ -n "$target" ]]; then
+          [[ -d "$target" ]] && cd "$target" || cd "$(dirname "$target")"
         fi
       }
     '';
