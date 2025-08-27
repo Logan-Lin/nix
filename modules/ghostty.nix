@@ -12,8 +12,13 @@
     package = null;  # Use system-installed Ghostty
     
     settings = {
-      # Font settings
-      font-family = "JetBrainsMono Nerd Font Mono";
+      # Font settings with CJK fallback
+      font-family = [
+        "JetBrainsMono Nerd Font Mono"  # Primary font for Latin + symbols
+        "Noto Sans CJK SC"              # Simplified Chinese fallback
+        "Noto Sans CJK TC"              # Traditional Chinese fallback
+        "Source Han Sans"               # Alternative CJK fallback
+      ];
       font-size = 14;
       
       # Gruvbox Dark Theme (matching tmux theme)
