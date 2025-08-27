@@ -21,22 +21,10 @@ in
     shellAliases = {
       ll = "ls -alF";
       zi = "z -i";  # Interactive selection with fzf
-      firefox = "open -a Firefox";
       preview = "open -a Preview";
-      iina = "open -a IINA";
-      dict = "open -a 'WordWeb Pro'";
       slide = "open -a SlidePilot";
-      ovito = "open -a Ovito";
-      appcleaner = "open -a AppCleaner";
-      wechat = "open -a WeChat";
-      message = "open -a Messages";
-      tmeet = "open -a TencentMeeting";
       pixel = "open -a 'Pixelmator Pro'";
-      keepass = "open -a KeePassXC";
       inkscape = "open -a Inkscape";
-      powerpoint = "open -a 'Microsoft PowerPoint'";
-      word = "open -a 'Microsoft Word'";
-      excel = "open -a 'Microsoft Excel'";
 
       # Nix helpers
       hm = "home-manager";
@@ -117,6 +105,30 @@ in
         target=$(echo "" | fzf --bind "change:reload:fd --hidden --follow --exclude .git {q} ~ 2>/dev/null || true" --header="Type to search, Enter to cd" --preview '([[ -d {} ]] && ls -la {}) || ([[ -f {} ]] && head -20 {})' --height 40% --ansi)
         if [[ -n "$target" ]]; then
           [[ -d "$target" ]] && cd "$target" || cd "$(dirname "$target")"
+        fi
+      }
+      
+      # Function to search and open all macOS applications
+      function app() {
+        local app_path
+        local file_to_open="$1"
+        
+        app_path=$( (find -L /Applications -name "*.app" -maxdepth 2 2>/dev/null; \
+                     find -L ~/Applications -name "*.app" -maxdepth 3 2>/dev/null; \
+                     find /System/Applications -name "*.app" -maxdepth 2 2>/dev/null; \
+                     find /System/Applications/Utilities -name "*.app" -maxdepth 1 2>/dev/null) | 
+          sort | uniq | 
+          fzf --header="Select app to open''${file_to_open:+ file: $file_to_open}" \
+              --preview 'basename {} .app' \
+              --preview-window=up:1 \
+              --height=40%)
+        
+        if [[ -n "$app_path" ]]; then
+          if [[ -n "$file_to_open" ]]; then
+            open -a "$app_path" "$file_to_open"
+          else
+            open "$app_path"
+          fi
         fi
       }
     '';
