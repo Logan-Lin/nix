@@ -14,8 +14,13 @@
       # Example: "wget"
     ];
     casks = [
-      # GUI applications go here  
-      # Example: "google-chrome"
+      # GUI applications - manually installed apps now managed by Homebrew
+      "inkscape"
+      "firefox"
+      "obsidian"
+      "snipaste"
+      "ghostty"
+      "slidepilot"
     ];
     taps = [
       # Additional repositories if needed
