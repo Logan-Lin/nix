@@ -2,8 +2,7 @@
 
 {
   imports = [
-    ../modules/homebrew.nix
-    ../modules/nix-homebrew.nix
+    ../../modules/homebrew.nix
   ];
 
   # Set primary user for system preferences
