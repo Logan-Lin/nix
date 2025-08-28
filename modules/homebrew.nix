@@ -23,6 +23,7 @@
       "slidepilot"
       "tencent-meeting"
       "ovito"
+      "wechat"
     ];
     taps = [
       # Additional repositories if needed
