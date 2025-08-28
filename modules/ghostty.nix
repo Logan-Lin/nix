@@ -52,6 +52,9 @@
       
       # Bell
       desktop-notifications = false;
+      
+      # Quit behavior
+      confirm-close-surface = false;
     };
 
   };
