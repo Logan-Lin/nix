@@ -63,6 +63,8 @@
         ./modules/ghostty.nix
         ./modules/syncthing.nix
         ./config/fonts.nix
+        ./config/packages-common.nix
+        ./config/packages-macos.nix
       ];
 
       nixpkgs.config.allowUnfree = true;
@@ -70,32 +72,6 @@
       home.username = "yanlin";
       home.homeDirectory = "/Users/yanlin";
       home.stateVersion = "24.05";
-
-      home.packages = with pkgs; [
-        texlive.combined.scheme-full
-        python312
-        uv
-        lftp
-        termscp
-        httpie
-        lazysql
-        sqlite
-        openssh
-        papis
-        claude-code.packages.aarch64-darwin.claude-code
-        ncdu
-        git-credential-oauth
-        rsync
-        gnumake
-        zoxide
-        delta
-        maccy
-        appcleaner
-        iina
-        keepassxc
-        syncthing
-        hidden-bar
-      ];
 
       programs.home-manager.enable = true;
 
