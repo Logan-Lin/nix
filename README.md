@@ -29,6 +29,10 @@ home-manager switch --flake github:Logan-Lin/nix-config#yanlin
 ```
 .
 ├── flake.nix          # Main flake configuration and package definitions
+├── hosts/             # Host-specific configurations
+│   └── darwin/        # macOS hosts
+│       ├── iMac/      # iMac configuration
+│       └── MacBook-Air/ # MacBook Air configuration
 ├── modules/           # Home Manager configuration modules
 │   ├── git.nix        # Git configuration with aliases and settings
 │   ├── lazygit.nix    # Lazygit with gruvbox theme and custom keybindings
@@ -43,14 +47,24 @@ home-manager switch --flake github:Logan-Lin/nix-config#yanlin
 │   ├── btop.nix       # Modern system monitor
 │   ├── ghostty.nix    # GPU-accelerated terminal emulator
 │   ├── syncthing.nix  # File synchronization service
-│   └── tailscale.nix  # Secure networking and VPN service
-├── system/            # System-level nix-darwin configurations
-│   ├── default.nix    # System module imports
-│   └── macos-defaults.nix # macOS system preferences and customizations
+│   ├── tailscale.nix  # Secure networking and VPN service
+│   └── homebrew.nix   # Homebrew and nix-homebrew configuration
+├── system/            # System-level configurations
+│   ├── default.nix    # System module imports with platform detection
+│   └── darwin/        # macOS-specific system configurations
+│       └── defaults.nix # macOS system preferences and customizations
 ├── config/            # Configuration files
+│   ├── firefox/       # Firefox browser configuration
+│   │   ├── bookmarks.nix
+│   │   ├── extensions.nix
+│   │   └── search.nix
+│   ├── packages/      # Package configurations
+│   │   ├── common.nix # Common packages across platforms
+│   │   └── darwin.nix # macOS-specific packages
+│   ├── fonts.nix      # Font packages and configuration
 │   ├── p10k.zsh       # Powerlevel10k theme configuration
-│   ├── projects.nix   # Project shortcuts configuration
-│   └── fonts.nix      # Font packages and configuration
+│   ├── projects.json  # Project definitions
+│   └── projects.nix   # Project shortcuts configuration
 └── scripts/           # Utility scripts
     └── project-launcher.sh  # Dynamic project launcher with window configuration
 ```
@@ -117,7 +131,12 @@ hm                 # home-manager shortcut
 hms                # Quick home-manager switch (rebuild)
 
 # Directory navigation helpers
-cdf [pattern]      # Find file/directory and cd to its location
+cdf                # Interactive file/directory search with real-time preview
+                   # Type to search, Enter to cd to selection or parent
+
+# Application launcher
+app [file]         # Interactive macOS app selector with fzf
+                   # Optional: open file with selected app
 ```
 
 ### 🖥️ Session Management: Tmux
@@ -176,10 +195,11 @@ cdf [pattern]      # Find file/directory and cd to its location
 
 #### Usage:
 ```bash
-proj                  # List all available projects
-proj nix-config       # Launch nix-config project tmux session
-proj blog             # Launch blog project tmux session
-proj homelab          # Launch homelab project tmux session
+proj                  # Interactive project selector with fzf
+                      # Shows description, windows, and live tmux status
+                      # Preview includes running/not running status
+proj nix-config       # Direct launch (non-interactive mode)
+proj blog             # Direct launch (non-interactive mode)
 ```
 
 #### Window-Based Configuration:
@@ -355,6 +375,43 @@ sudo mdutil -a -i on
 sudo mdutil -E /
 ```
 
+## 📦 Package Management: Homebrew Integration
+
+**Configuration**: `modules/homebrew.nix`  
+**Purpose**: Declarative management of GUI applications via Homebrew on macOS
+
+### Key Features:
+- **Declarative Management**: GUI applications defined in nix configuration
+- **Automatic Updates**: Apps update with system rebuilds
+- **Cleanup on Rebuild**: Removes unlisted applications (zap mode)
+- **nix-homebrew Integration**: Homebrew itself managed by Nix
+
+### Managed Applications:
+- **Firefox**: Web browser
+- **Ghostty**: GPU-accelerated terminal emulator  
+- **Obsidian**: Note-taking and knowledge management
+- **Inkscape**: Vector graphics editor
+- **Snipaste**: Screenshot and annotation tool
+- **SlidePilot**: Presentation remote control
+- **Tencent Meeting**: Video conferencing
+- **Ovito**: Scientific visualization software
+- **WeChat**: Messaging and communication
+
+### Management Commands:
+```bash
+# All managed through darwin-rebuild
+sudo darwin-rebuild switch --flake .
+
+# Manual Homebrew operations (if needed)
+brew list              # List installed formulae and casks
+brew info <cask>      # Get info about a specific application
+```
+
+### Integration Details:
+- Applications install to `/Applications` automatically
+- Homebrew managed by nix-homebrew for reproducibility
+- Both Intel and Apple Silicon apps supported via Rosetta
+
 ## 🔐 SSH Configuration
 
 **Configuration**: `modules/ssh.nix`  
@@ -404,8 +461,10 @@ nvim $(fd --type f | fzf --preview 'bat --color=always {}')
 cd proj && nvim .        # Jump to project directory and edit
 zi && fd "*.md" | fzf    # Interactive directory select, then find markdown files
 
-# Find and navigate to directories containing specific files
-cdf "Universal Sparse"   # Search for files/dirs matching pattern and cd there
+# Interactive directory navigation with real-time search
+cdf                      # Type to search files/directories across your home
+                         # Shows preview of directories and file contents
+                         # Enter to cd to selection or its parent directory
 ```
 
 #### Built-in zsh keybindings:

@@ -19,9 +19,9 @@
 
   outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, nixvim, claude-code, firefox-addons, nix-homebrew }:
   let
-    configuration = { pkgs, ... }: {
+    # Common system configuration shared across all Darwin systems
+    commonSystemConfig = { pkgs, ... }: {
       imports = [
-        ./system
         ./modules/tailscale.nix
       ];
 
@@ -63,8 +63,8 @@
         ./modules/ghostty.nix
         ./modules/syncthing.nix
         ./config/fonts.nix
-        ./config/packages-common.nix
-        ./config/packages-macos.nix
+        ./config/packages/common.nix
+        ./config/packages/darwin.nix
       ];
 
       nixpkgs.config.allowUnfree = true;
@@ -81,14 +81,16 @@
   {
     darwinConfigurations."iMac" = nix-darwin.lib.darwinSystem {
       modules = [ 
-        configuration 
+        commonSystemConfig
+        ./hosts/darwin/iMac
         nix-homebrew.darwinModules.nix-homebrew
       ];
     };
 
     darwinConfigurations."MacBook-Air" = nix-darwin.lib.darwinSystem {
       modules = [ 
-        configuration 
+        commonSystemConfig
+        ./hosts/darwin/MacBook-Air
         nix-homebrew.darwinModules.nix-homebrew
       ];
     };
