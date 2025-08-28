@@ -14,9 +14,10 @@
       url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nix-homebrew.url = "github:zhaofengli/nix-homebrew";
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, nixvim, claude-code, firefox-addons }:
+  outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, nixvim, claude-code, firefox-addons, nix-homebrew }:
   let
     configuration = { pkgs, ... }: {
       imports = [
@@ -103,11 +104,17 @@
   in
   {
     darwinConfigurations."iMac" = nix-darwin.lib.darwinSystem {
-      modules = [ configuration ];
+      modules = [ 
+        configuration 
+        nix-homebrew.darwinModules.nix-homebrew
+      ];
     };
 
     darwinConfigurations."MacBook-Air" = nix-darwin.lib.darwinSystem {
-      modules = [ configuration ];
+      modules = [ 
+        configuration 
+        nix-homebrew.darwinModules.nix-homebrew
+      ];
     };
 
     homeConfigurations.yanlin = home-manager.lib.homeManagerConfiguration {

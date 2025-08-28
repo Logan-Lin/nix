@@ -1,6 +1,11 @@
 { config, pkgs, ... }:
 
 {
+  imports = [
+    ../modules/homebrew.nix
+    ../modules/nix-homebrew.nix
+  ];
+
   # Set primary user for system preferences
   system.primaryUser = "yanlin";
   
