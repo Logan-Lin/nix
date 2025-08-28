@@ -113,6 +113,8 @@ in
         
         app_path=$( (find -L /Applications -name "*.app" -maxdepth 2 2>/dev/null; \
                      find -L ~/Applications -name "*.app" -maxdepth 3 2>/dev/null; \
+                     find -L /opt/homebrew/Caskroom -name "*.app" -maxdepth 3 2>/dev/null; \
+                     find -L /usr/local/Caskroom -name "*.app" -maxdepth 3 2>/dev/null; \
                      find /System/Applications -name "*.app" -maxdepth 2 2>/dev/null; \
                      find /System/Applications/Utilities -name "*.app" -maxdepth 1 2>/dev/null) | 
           sort | uniq | 
