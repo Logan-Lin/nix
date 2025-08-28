@@ -21,6 +21,8 @@
       "snipaste"
       "ghostty"
       "slidepilot"
+      "tencent-meeting"
+      "ovito"
     ];
     taps = [
       # Additional repositories if needed
