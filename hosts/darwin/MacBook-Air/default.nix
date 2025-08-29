@@ -8,5 +8,6 @@
   # Import common Darwin configuration
   imports = [
     ../../../system
+    ../../../system/darwin
   ];
 }

@@ -65,6 +65,8 @@
         ./config/fonts.nix
         ./config/packages/common.nix
         ./config/packages/darwin.nix
+        ./config/packages/dev.nix
+        ./config/packages/productivity.nix
       ];
 
       nixpkgs.config.allowUnfree = true;
