@@ -227,7 +227,7 @@
         },
         filters = {
           dotfiles = true,      -- Hide dotfiles by default (H to toggle)
-          git_ignored = false,  -- Show gitignored files by default (I to toggle)
+          git_ignored = true,  -- Show gitignored files by default (I to toggle)
           custom = {            -- Hide macOS system files
             ".DS_Store",
           },
