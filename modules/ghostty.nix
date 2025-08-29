@@ -29,8 +29,7 @@
       window-theme = "dark";
       window-width = 150;
       window-height = 40;
-      window-padding-x = 4;
-      window-padding-y = 4;
+      window-padding-balance = true;
       
       # Shell integration
       shell-integration = "detect";
