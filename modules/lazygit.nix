@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
   programs.lazygit = {
@@ -334,8 +334,8 @@
       
       # OS settings
       os = {
-        open = "open {{filename}}";
-        openLink = "open {{link}}";
+        open = if pkgs.stdenv.isDarwin then "open {{filename}}" else "xdg-open {{filename}}";
+        openLink = if pkgs.stdenv.isDarwin then "open {{link}}" else "xdg-open {{link}}";
       };
       
       # Disable startup popup

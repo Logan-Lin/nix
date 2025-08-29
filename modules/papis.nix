@@ -1,13 +1,13 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 
 {
   # Papis configuration
-  home.file."Library/Application Support/papis/config".text = ''
+  home.file.${if pkgs.stdenv.isDarwin then "Library/Application Support/papis/config" else ".config/papis/config"}.text = ''
     [settings]
     default-library = main
     editor = nvim
-    opentool = open
-    file-browser = open
+    opentool = ${if pkgs.stdenv.isDarwin then "open" else "xdg-open"}
+    file-browser = ${if pkgs.stdenv.isDarwin then "open" else "xdg-open"}
     
     # Document management
     ref-format = {doc[author]}{doc[year]}
@@ -93,16 +93,29 @@
 
   # Shell functions for papis workflow
   programs.zsh.initContent = ''
-    # Papis finder function - open document directory in Finder with query support
-    pafinder() {
-      local result=$(papis list "$@" | head -1)
-      if [ -n "$result" ]; then
-        open -R "$result"
-      else
-        echo "No documents found"
-        return 1
-      fi
-    }
+    # Papis finder function - open document directory with query support
+    ${lib.optionalString pkgs.stdenv.isDarwin ''
+      pafinder() {
+        local result=$(papis list "$@" | head -1)
+        if [ -n "$result" ]; then
+          open -R "$result"
+        else
+          echo "No documents found"
+          return 1
+        fi
+      }
+    ''}
+    ${lib.optionalString (!pkgs.stdenv.isDarwin) ''
+      pafinder() {
+        local result=$(papis list "$@" | head -1)
+        if [ -n "$result" ]; then
+          xdg-open "$(dirname "$result")"
+        else
+          echo "No documents found"
+          return 1
+        fi
+      }
+    ''}
     
     # Papis add file function - add file to existing document with proper parameter handling
     pafile() {

@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 
 {
   programs.nixvim = {
@@ -265,26 +265,31 @@
         }
       }
 
-      -- Unicode-safe file operations for macOS
+      -- Unicode-safe file operations
       function open_file_with_system_app()
         local filepath = vim.fn.expand('%:p')
         if filepath ~= "" then
           local escaped_path = vim.fn.shellescape(filepath)
-          vim.fn.system('open ' .. escaped_path)
+          ${if pkgs.stdenv.isDarwin then 
+            "vim.fn.system('open ' .. escaped_path)" 
+          else 
+            "vim.fn.system('xdg-open ' .. escaped_path)"}
         else
           print("No file to open")
         end
       end
 
-      function show_file_in_finder()
-        local filepath = vim.fn.expand('%:p')
-        if filepath ~= "" then
-          local escaped_path = vim.fn.shellescape(filepath)
-          vim.fn.system('open -R ' .. escaped_path)
-        else
-          print("No file to show")
+      ${lib.optionalString pkgs.stdenv.isDarwin ''
+        function show_file_in_finder()
+          local filepath = vim.fn.expand('%:p')
+          if filepath ~= "" then
+            local escaped_path = vim.fn.shellescape(filepath)
+            vim.fn.system('open -R ' .. escaped_path)
+          else
+            print("No file to show")
+          end
         end
-      end
+      ''}
     '';
   };
 }
