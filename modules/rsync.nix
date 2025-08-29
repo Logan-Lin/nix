@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
   # Rsync exclude patterns for common files and directories
@@ -40,9 +40,11 @@
     --partial
     --partial-dir=.rsync-partial
     
-    # Preserve extended attributes and ACLs (macOS)
-    --extended-attributes
-    --acls
+    ${lib.optionalString pkgs.stdenv.isDarwin ''
+      # Preserve extended attributes and ACLs (macOS)
+      --extended-attributes
+      --acls
+    ''}
     
     # Network optimization
     --compress
