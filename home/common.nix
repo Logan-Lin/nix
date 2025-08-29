@@ -17,10 +17,6 @@
     ../modules/ghostty.nix
     ../modules/syncthing.nix
     ../config/fonts.nix
-    ../config/packages/common.nix
-    ../config/packages/darwin.nix
-    ../config/packages/dev.nix
-    ../config/packages/productivity.nix
   ];
 
   nixpkgs.config.allowUnfree = true;
@@ -30,4 +26,39 @@
   home.stateVersion = "24.05";
 
   programs.home-manager.enable = true;
+
+  home.packages = with pkgs; [
+    # Network and file transfer
+    lftp
+    termscp
+    httpie
+    openssh
+    rsync
+    gnumake
+    
+    # Command-line utilities
+    ncdu
+    git-credential-oauth
+    zoxide
+    delta
+
+    # macOS-specific GUI applications
+    maccy          # Clipboard manager (macOS-only)
+    appcleaner     # Application uninstaller (macOS-only)
+    iina           # Media player (macOS-optimized)
+    hidden-bar     # Menu bar organizer (macOS-only)
+
+    # Development and build tools
+    texlive.combined.scheme-full
+    python312
+    uv
+    claude-code.packages.aarch64-darwin.claude-code
+    lazysql
+    sqlite
+
+    # Productivity apps
+    papis
+    keepassxc      # Password manager (Linux/Windows/macOS)
+    syncthing      # File synchronization (cross-platform)
+  ];
 }
