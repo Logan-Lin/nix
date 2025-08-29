@@ -24,8 +24,8 @@ in
 
       # Nix helpers
       hm = "home-manager";
-      hms = "home-manager switch --flake ~/.config/nix#yanlin";
-      hms-offline = "home-manager switch --flake ~/.config/nix#yanlin --option substitute false";
+      hms = "home-manager switch --flake ~/.config/nix#$(whoami)@$(hostname)";
+      hms-offline = "home-manager switch --flake ~/.config/nix#$(whoami)@$(hostname) --option substitute false";
       
     } // lib.optionalAttrs pkgs.stdenv.isDarwin {
       # macOS-specific app aliases
