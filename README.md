@@ -133,6 +133,8 @@ hms                # Quick home-manager switch (rebuild)
 # Directory navigation helpers
 cdf                # Interactive file/directory search with real-time preview
                    # Type to search, Enter to cd to selection or parent
+pwdf               # Same as cdf but prints the full path instead of cd
+                   # Returns file path for files, directory path for dirs
 
 # Application launcher
 app [file]         # Interactive macOS app selector with fzf
@@ -465,6 +467,12 @@ zi && fd "*.md" | fzf    # Interactive directory select, then find markdown file
 cdf                      # Type to search files/directories across your home
                          # Shows preview of directories and file contents
                          # Enter to cd to selection or its parent directory
+
+# Get file/directory path without changing location
+pwdf                     # Search and print full path
+cp "$(pwdf)" .           # Copy selected file
+cat "$(pwdf)"            # Read selected file
+cd "$(dirname "$(pwdf)")" # cd to parent of selected file
 ```
 
 #### Built-in zsh keybindings:
