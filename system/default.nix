@@ -2,7 +2,6 @@
 
 {
   imports = [
-    ./darwin/defaults.nix
   ];
 
 }
