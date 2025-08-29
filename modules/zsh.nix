@@ -106,6 +106,15 @@ in
         fi
       }
       
+      # Function to print path of file/directory selected with fzf
+      function pwdf() {
+        local target
+        target=$(echo "" | fzf --bind "change:reload:fd --hidden --follow --exclude .git {q} ~ 2>/dev/null || true" --header="Type to search, Enter to print path" --preview '([[ -d {} ]] && ls -la {}) || ([[ -f {} ]] && head -20 {})' --height 40% --ansi)
+        if [[ -n "$target" ]]; then
+          echo "$target"
+        fi
+      }
+      
       # Function to search and open all macOS applications
       function app() {
         local app_path

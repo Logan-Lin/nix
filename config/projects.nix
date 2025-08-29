@@ -38,7 +38,7 @@ in
           name = "note";
           path = homePath "Obsidian/Personal";
           ai = true;
-          git = true;
+          git = false;
           shell = false;
         }
       ];
