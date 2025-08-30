@@ -32,12 +32,6 @@
         identityFile = "~/.ssh/keys/pi";
       };
 
-      "cm" = {
-        hostname = "cm.hw.yanlincs.com";
-        user = "yanlin";
-        identityFile = "~/.ssh/keys/pi";
-      };
-
       "personal-vps" = {
         hostname = "personal.vps.yanlincs.com";
         user = "root";
