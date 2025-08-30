@@ -242,12 +242,14 @@
         },
       })
 
-      -- Dictionary completion setup
-      require("cmp_dictionary").setup({
-        paths = { "/usr/share/dict/words" },  -- Standard dictionary path
-        exact_length = 2,                     -- Minimum length before completion
-        first_case_insensitive = true,        -- Case insensitive matching
-      })
+      -- Dictionary completion setup (macOS only)
+      ${lib.optionalString pkgs.stdenv.isDarwin ''
+        require("cmp_dictionary").setup({
+          paths = { "/usr/share/dict/words" },  -- Standard dictionary path on macOS
+          exact_length = 2,                     -- Minimum length before completion
+          first_case_insensitive = true,        -- Case insensitive matching
+        })
+      ''}
 
       -- Telescope setup for better file finding
       local telescope = require('telescope')
