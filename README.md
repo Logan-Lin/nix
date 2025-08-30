@@ -21,7 +21,7 @@ Install directly from GitHub without cloning:
 sudo darwin-rebuild switch --flake github:Logan-Lin/nix-config
 
 # Home Manager configuration  
-home-manager switch --flake github:Logan-Lin/nix-config#yanlin
+home-manager switch --flake github:Logan-Lin/nix-config#yanlin@iMac
 ```
 
 ## 📁 Configuration Architecture
@@ -29,10 +29,16 @@ home-manager switch --flake github:Logan-Lin/nix-config#yanlin
 ```
 .
 ├── flake.nix          # Main flake configuration and package definitions
+├── home/              # Home Manager base configuration
+│   └── common.nix     # Common home configuration imported by all hosts
 ├── hosts/             # Host-specific configurations
 │   └── darwin/        # macOS hosts
 │       ├── iMac/      # iMac configuration
+│       │   ├── default.nix  # System configuration
+│       │   └── home.nix     # Home configuration (imports home/common.nix)
 │       └── MacBook-Air/ # MacBook Air configuration
+│           ├── default.nix  # System configuration
+│           └── home.nix     # Home configuration (imports home/common.nix)
 ├── modules/           # Home Manager configuration modules
 │   ├── git.nix        # Git configuration with aliases and settings
 │   ├── lazygit.nix    # Lazygit with gruvbox theme and custom keybindings
@@ -40,27 +46,24 @@ home-manager switch --flake github:Logan-Lin/nix-config#yanlin
 │   ├── ssh.nix        # SSH client configuration and host management
 │   ├── tmux.nix       # Tmux setup with vim-like navigation
 │   ├── zsh.nix        # Zsh with Powerlevel10k and modern CLI tools
-│   ├── papis.nix      # Reference management system
-│   ├── rsync.nix      # File synchronization and backup
-│   ├── termscp.nix    # Terminal file transfer client
+│   ├── papis.nix      # Reference management system (includes package)
+│   ├── rsync.nix      # File synchronization and backup (includes package)
+│   ├── termscp.nix    # Terminal file transfer client (includes package)
 │   ├── firefox.nix    # Firefox browser with extensions and bookmarks
-│   ├── btop.nix       # Modern system monitor
+│   ├── btop.nix       # Modern system monitor (includes package)
 │   ├── ghostty.nix    # GPU-accelerated terminal emulator
-│   ├── syncthing.nix  # File synchronization service
+│   ├── syncthing.nix  # File synchronization service (includes package)
 │   ├── tailscale.nix  # Secure networking and VPN service
 │   └── homebrew.nix   # Homebrew and nix-homebrew configuration
 ├── system/            # System-level configurations
-│   ├── default.nix    # System module imports with platform detection
+│   ├── default.nix    # Base system configuration (currently empty)
 │   └── darwin/        # macOS-specific system configurations
-│       └── defaults.nix # macOS system preferences and customizations
+│       └── default.nix # macOS system preferences, homebrew, and nix-homebrew
 ├── config/            # Configuration files
 │   ├── firefox/       # Firefox browser configuration
 │   │   ├── bookmarks.nix
 │   │   ├── extensions.nix
 │   │   └── search.nix
-│   ├── packages/      # Package configurations
-│   │   ├── common.nix # Common packages across platforms
-│   │   └── darwin.nix # macOS-specific packages
 │   ├── fonts.nix      # Font packages and configuration
 │   ├── p10k.zsh       # Powerlevel10k theme configuration
 │   ├── projects.json  # Project definitions
@@ -68,6 +71,14 @@ home-manager switch --flake github:Logan-Lin/nix-config#yanlin
 └── scripts/           # Utility scripts
     └── project-launcher.sh  # Dynamic project launcher with window configuration
 ```
+
+## 📦 Module Unification
+
+Starting with the btop.nix pattern, modules now handle both configuration and package installation. This eliminates duplication between module imports and package lists:
+
+- **Unified Modules**: `btop.nix`, `papis.nix`, `rsync.nix`, `termscp.nix`, `syncthing.nix`
+- **Pattern**: Each module includes `home.packages = [ pkgs.packageName ];`
+- **Benefits**: Single source of truth, no version conflicts, cleaner configuration
 
 ## 🔄 Core Workflow
 
@@ -342,8 +353,8 @@ Launch `lazygit` in any git repository for:
 
 ## ⚙️ System Customizations (macOS)
 
-**Configuration**: `system/macos-defaults.nix`  
-**Purpose**: System-level macOS customizations and preferences via nix-darwin
+**Configuration**: `system/darwin/default.nix`  
+**Purpose**: System-level macOS customizations, preferences, and homebrew integration via nix-darwin
 
 #### Menu Bar Spacing Configuration
 Customizes macOS menu bar item spacing for a cleaner look, especially useful on machines with notches:
@@ -785,12 +796,24 @@ tailscale debug netmap
 
 Both machines use the same base configuration with potential for machine-specific customizations.
 
+### Configuration Structure:
+Each host has two configuration files:
+- **`default.nix`**: System-level Darwin configuration (imports system modules)
+- **`home.nix`**: Home Manager configuration (imports `home/common.nix`)
+
+The `home/common.nix` file contains all shared home configuration, including:
+- Module imports (which now handle both configuration and package installation)
+- Common packages not managed by modules
+- Base home settings
+
 ### Machine-specific Usage:
 ```bash
 # For MacBook Air
 sudo darwin-rebuild switch --flake .#MacBook-Air
+home-manager switch --flake .#yanlin@MacBook-Air
 
 # For iMac  
 sudo darwin-rebuild switch --flake .#iMac
+home-manager switch --flake .#yanlin@iMac
 ```
 
