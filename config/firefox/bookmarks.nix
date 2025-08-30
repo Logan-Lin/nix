@@ -72,7 +72,7 @@
           url = "https://photo.nas.yanlincs.com/photos";
         }
         {
-          name = "My Home";
+          name = "Home";
           url = "https://home.nas.yanlincs.com/lovelace/0";
         }
         {
@@ -81,10 +81,6 @@
             {
               name = "Plex";
               url = "https://plex.nas.yanlincs.com";
-            }
-            {
-              name = "AudioBookShelf";
-              url = "https://audio.nas.yanlincs.com";
             }
             {
               name = "Sonarr";
