@@ -30,10 +30,8 @@
   home.packages = with pkgs; [
     # Network and file transfer
     lftp
-    termscp
     httpie
     openssh
-    rsync
     gnumake
     
     # Command-line utilities
@@ -57,8 +55,6 @@
     sqlite
 
     # Productivity apps
-    papis
     keepassxc      # Password manager (Linux/Windows/macOS)
-    syncthing      # File synchronization (cross-platform)
   ];
 }
