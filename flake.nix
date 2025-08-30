@@ -52,16 +52,16 @@
       modules = [ 
         commonSystemConfig
         ./hosts/darwin/iMac
-        nix-homebrew.darwinModules.nix-homebrew
       ];
+      specialArgs = { inherit nix-homebrew; };
     };
 
     darwinConfigurations."MacBook-Air" = nix-darwin.lib.darwinSystem {
       modules = [ 
         commonSystemConfig
         ./hosts/darwin/MacBook-Air
-        nix-homebrew.darwinModules.nix-homebrew
       ];
+      specialArgs = { inherit nix-homebrew; };
     };
 
     homeConfigurations = {
