@@ -1,6 +1,8 @@
 { pkgs, lib, ... }:
 
 {
+  # Install papis package
+  home.packages = [ pkgs.papis ];
   # Papis configuration
   home.file.${if pkgs.stdenv.isDarwin then "Library/Application Support/papis/config" else ".config/papis/config"}.text = ''
     [settings]

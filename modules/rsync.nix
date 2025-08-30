@@ -1,6 +1,8 @@
 { config, pkgs, lib, ... }:
 
 {
+  # Install rsync package
+  home.packages = [ pkgs.rsync ];
   # Rsync exclude patterns for common files and directories
   home.file.".rsync-exclude".text = ''
     # macOS specific
