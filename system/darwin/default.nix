@@ -27,6 +27,11 @@
   # Set primary user for system preferences
   system.primaryUser = "yanlin";
   
+  # Security configuration - passwordless sudo for yanlin
+  security.sudo.extraConfig = ''
+    yanlin ALL=(ALL) NOPASSWD: ALL
+  '';
+  
   # Menu bar spacing configuration using activation scripts
   # Uses sudo to run as user since activation now runs as root
   # NSStatusItemSpacing controls horizontal spacing between menu bar items
