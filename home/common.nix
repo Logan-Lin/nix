@@ -42,7 +42,6 @@
 
     # macOS-specific GUI applications
     maccy          # Clipboard manager (macOS-only)
-    appcleaner     # Application uninstaller (macOS-only)
     iina           # Media player (macOS-optimized)
     hidden-bar     # Menu bar organizer (macOS-only)
 

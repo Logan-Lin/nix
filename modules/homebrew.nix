@@ -25,6 +25,9 @@
       "tencent-meeting"
       "ovito"
       "wechat"
+      "microsoft-powerpoint"
+      "microsoft-word"
+      "microsoft-excel"
     ];
     taps = [
       # Additional repositories if needed
