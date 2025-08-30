@@ -1,8 +1,9 @@
-{ config, pkgs, ... }:
+{ config, pkgs, nix-homebrew, ... }:
 
 {
   imports = [
     ../../modules/homebrew.nix
+    nix-homebrew.darwinModules.nix-homebrew
   ];
 
   # Set primary user for system preferences
