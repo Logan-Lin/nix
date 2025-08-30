@@ -4,7 +4,6 @@
   imports = [
     ../../modules/homebrew.nix
     nix-homebrew.darwinModules.nix-homebrew
-    ../../modules/tailscale.nix
   ];
 
   # Nix configuration
