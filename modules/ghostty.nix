@@ -27,7 +27,7 @@
 
       # Window config
       window-theme = "dark";
-      window-width = 150;
+      window-width = 160;
       window-height = 40;
       window-padding-balance = true;
       
