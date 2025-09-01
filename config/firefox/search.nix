@@ -31,6 +31,16 @@
       }];
       definedAliases = [ "@link" ];
     };
+
+    "Google" = {
+      urls = [{
+        template = "https://www.google.com/search";
+        params = [
+          { name = "q"; value = "{searchTerms}"; }
+        ];
+      }];
+      definedAliases = [ "@g" ];
+    };
     
     # Hide unwanted default search engines
     "google".metaData.hidden = true;
