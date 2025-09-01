@@ -187,12 +187,19 @@ while IFS= read -r window_config; do
     
     # Create nvim window (default behavior unless explicitly disabled)
     if [ "$NVIM_ENABLED" != "false" ]; then
+        # Determine window name based on whether WINDOW_NAME is empty or "none"
+        if [ -z "$WINDOW_NAME" ] || [ "$WINDOW_NAME" = "none" ]; then
+            NVIM_WINDOW_NAME="nvim"
+        else
+            NVIM_WINDOW_NAME="${WINDOW_NAME}-nvim"
+        fi
+        
         if [ "$WINDOW_INDEX" = 1 ]; then
             # First window - rename the existing session window
-            tmux rename-window -t "$SESSION_NAME:$WINDOW_INDEX" "${WINDOW_NAME}-nvim"
+            tmux rename-window -t "$SESSION_NAME:$WINDOW_INDEX" "$NVIM_WINDOW_NAME"
         else
             # Subsequent windows - create new window
-            tmux new-window -t "$SESSION_NAME:$WINDOW_INDEX" -n "${WINDOW_NAME}-nvim" -c "$WINDOW_PATH"
+            tmux new-window -t "$SESSION_NAME:$WINDOW_INDEX" -n "$NVIM_WINDOW_NAME" -c "$WINDOW_PATH"
         fi
         tmux send-keys -t "$SESSION_NAME:$WINDOW_INDEX" "nvim" C-m
         sleep 0.5  # Brief delay to ensure nvim loads
@@ -202,7 +209,14 @@ while IFS= read -r window_config; do
     
     # Create AI window if enabled
     if [ "$AI_ENABLED" = "true" ]; then
-        tmux new-window -t "$SESSION_NAME:$WINDOW_INDEX" -n "${WINDOW_NAME}-ai" -c "$WINDOW_PATH"
+        # Determine window name based on whether WINDOW_NAME is empty or "none"
+        if [ -z "$WINDOW_NAME" ] || [ "$WINDOW_NAME" = "none" ]; then
+            AI_WINDOW_NAME="ai"
+        else
+            AI_WINDOW_NAME="${WINDOW_NAME}-ai"
+        fi
+        
+        tmux new-window -t "$SESSION_NAME:$WINDOW_INDEX" -n "$AI_WINDOW_NAME" -c "$WINDOW_PATH"
         tmux send-keys -t "$SESSION_NAME:$WINDOW_INDEX" "claude -c" C-m
         tmux split-window -t "$SESSION_NAME:$WINDOW_INDEX" -h -c "$WINDOW_PATH"
         tmux split-window -t "$SESSION_NAME:$WINDOW_INDEX.2" -v -c "$WINDOW_PATH"
@@ -212,7 +226,14 @@ while IFS= read -r window_config; do
     
     # Create git window if enabled
     if [ "$GIT_ENABLED" = "true" ]; then
-        tmux new-window -t "$SESSION_NAME:$WINDOW_INDEX" -n "${WINDOW_NAME}-git" -c "$WINDOW_PATH"
+        # Determine window name based on whether WINDOW_NAME is empty or "none"
+        if [ -z "$WINDOW_NAME" ] || [ "$WINDOW_NAME" = "none" ]; then
+            GIT_WINDOW_NAME="git"
+        else
+            GIT_WINDOW_NAME="${WINDOW_NAME}-git"
+        fi
+        
+        tmux new-window -t "$SESSION_NAME:$WINDOW_INDEX" -n "$GIT_WINDOW_NAME" -c "$WINDOW_PATH"
         tmux send-keys -t "$SESSION_NAME:$WINDOW_INDEX" "lazygit" C-m
         tmux setw -t "$SESSION_NAME:$WINDOW_INDEX" monitor-activity off
         WINDOW_INDEX=$((WINDOW_INDEX + 1))
@@ -220,7 +241,14 @@ while IFS= read -r window_config; do
     
     # Create shell window if enabled
     if [ "$SHELL_ENABLED" = "true" ]; then
-        tmux new-window -t "$SESSION_NAME:$WINDOW_INDEX" -n "${WINDOW_NAME}-shell" -c "$WINDOW_PATH"
+        # Determine window name based on whether WINDOW_NAME is empty or "none"
+        if [ -z "$WINDOW_NAME" ] || [ "$WINDOW_NAME" = "none" ]; then
+            SHELL_WINDOW_NAME="shell"
+        else
+            SHELL_WINDOW_NAME="${WINDOW_NAME}-shell"
+        fi
+        
+        tmux new-window -t "$SESSION_NAME:$WINDOW_INDEX" -n "$SHELL_WINDOW_NAME" -c "$WINDOW_PATH"
         WINDOW_INDEX=$((WINDOW_INDEX + 1))
     fi
     

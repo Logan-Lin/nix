@@ -9,7 +9,7 @@ in
       description = "Nix configuration";
       windows = [
         {
-          name = "nix";
+          name = "";
           path = "${homeDirectory}/.config/nix";
           ai = true;
           git = true;
@@ -22,7 +22,7 @@ in
       description = "Homelab Deployment";
       windows = [
         {
-          name = "homelab";
+          name = "";
           path = homePath "Documents/Projects/Homelab-deploy";
           ai = true;
           git = true;
@@ -35,7 +35,7 @@ in
       description = "Obsidian notes";
       windows = [
         {
-          name = "note";
+          name = "";
           path = homePath "Obsidian/Personal";
           ai = true;
           git = false;
@@ -48,7 +48,7 @@ in
       description = "Academic programs";
       windows = [
         {
-          name = "pro";
+          name = "";
           path = homePath "Documents/Programs";
           ai = true;
           git = true;
@@ -61,14 +61,14 @@ in
       description = "Personal blog project";
       windows = [
         {
-          name = "code";
+          name = "c";
           path = homePath "Documents/Projects/personal-blog";
           ai = true;
           git = true;
           shell = true;
         }
         {
-          name = "content";
+          name = "p";
           path = homePath "Documents/Projects/personal-blog/content";
           ai = true;
           git = false;
@@ -80,7 +80,7 @@ in
       description = "Personal Homepage";
       windows = [
         {
-          name = "homepage";
+          name = "";
           path = homePath "Documents/Projects/Homepage";
           ai = true;
           git = true;
@@ -93,14 +93,14 @@ in
       description = "Material design shortcut";
       windows = [
         {
-          name = "code";
+          name = "c";
           path = homePath "Documents/Projects/Material Design Shortcut/MDShortcut-code";
           ai = true;
           git = true;
           shell = true;
         }
         {
-          name = "paper";
+          name = "p";
           path = homePath "Documents/Projects/Material Design Shortcut/MDShortcut-paper";
           ai = true;
           git = true;
@@ -113,21 +113,21 @@ in
       description = "DAKI3 course";
       windows = [
         {
-          name = "code";
+          name = "c";
           path = homePath "Documents/Projects/AI systems & infrastructure/Codes";
           ai = true;
           git = true;
           shell = true;
         }
         {
-          name = "slides";
+          name = "s";
           path = homePath "Documents/Projects/AI systems & infrastructure/Slides";
           ai = true;
           git = true;
           shell = false;
         }
         {
-          name = "blog";
+          name = "b";
           path = homePath "Documents/Projects/personal-blog/content/ai-system";
           ai = false;
           git = false;
@@ -140,7 +140,7 @@ in
       description = "DAKI3 group supervision";
       windows = [
         {
-          name = "group";
+          name = "";
           path = homePath "Documents/Projects/DAKI3 Semester Project Group";
           ai = true;
           git = true;
@@ -153,7 +153,7 @@ in
       description = "Material Meeting Slides";
       windows = [
         {
-          name = "slides";
+          name = "";
           path = homePath "Documents/Projects/Material Project Group Meeting";
           ai = true;
           git = true;
@@ -166,14 +166,14 @@ in
       description = "Inverse material design";
       windows = [
         {
-          name = "code";
+          name = "c";
           path = homePath "Documents/Projects/Inverse Design of Disordered Materials/DiffDisMatter-dev";
           ai = true;
           git = true;
           shell = true;
         }
         {
-          name = "paper";
+          name = "p";
           path = homePath "Documents/Projects/Inverse Design of Disordered Materials/mc-denoising-paper";
           ai = true;
           git = true;
@@ -186,7 +186,7 @@ in
       description = "Temp misc project";
       windows = [
         {
-          name = "misc";
+          name = "";
           path = homePath "Documents/Misc/2025/AI model train and infer-Wan";
           ai = true;
           git = false;
