@@ -28,6 +28,7 @@
       "microsoft-powerpoint"
       "microsoft-word"
       "microsoft-excel"
+      "rectangle"
     ];
     taps = [
       # Additional repositories if needed
