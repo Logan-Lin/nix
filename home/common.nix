@@ -2,7 +2,7 @@
 
 {
   imports = [ 
-    nixvim.homeManagerModules.nixvim
+    nixvim.homeModules.nixvim
     ../modules/nvim.nix 
     ../modules/tmux.nix 
     ../modules/zsh.nix 
