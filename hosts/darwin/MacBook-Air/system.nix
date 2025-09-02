@@ -7,7 +7,6 @@
   
   # Import common Darwin configuration
   imports = [
-    ../../../system
-    ../../../system/darwin
+    ../system-default.nix
   ];
 }

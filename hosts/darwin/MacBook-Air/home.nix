@@ -2,7 +2,7 @@
 
 {
   imports = [
-    ../../../home/common.nix
+    ../home-default.nix
   ];
 
   # MacBook Air-specific home configuration

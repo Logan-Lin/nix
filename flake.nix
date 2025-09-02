@@ -21,14 +21,14 @@
   {
     darwinConfigurations."iMac" = nix-darwin.lib.darwinSystem {
       modules = [ 
-        ./hosts/darwin/iMac
+        ./hosts/darwin/iMac/system.nix
       ];
       specialArgs = { inherit nix-homebrew; };
     };
 
     darwinConfigurations."MacBook-Air" = nix-darwin.lib.darwinSystem {
       modules = [ 
-        ./hosts/darwin/MacBook-Air
+        ./hosts/darwin/MacBook-Air/system.nix
       ];
       specialArgs = { inherit nix-homebrew; };
     };

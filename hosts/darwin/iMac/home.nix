@@ -2,7 +2,7 @@
 
 {
   imports = [
-    ../../../home/common.nix
+    ../home-default.nix
   ];
 
   # iMac-specific home configuration
