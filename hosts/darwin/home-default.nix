@@ -3,20 +3,20 @@
 {
   imports = [ 
     nixvim.homeModules.nixvim
-    ../modules/nvim.nix 
-    ../modules/tmux.nix 
-    ../modules/zsh.nix 
-    ../modules/ssh.nix
-    ../modules/git.nix
-    ../modules/lazygit.nix
-    ../modules/papis.nix
-    ../modules/termscp.nix
-    ../modules/rsync.nix
-    ../modules/btop.nix
-    ../modules/firefox.nix
-    ../modules/ghostty.nix
-    ../modules/syncthing.nix
-    ../config/fonts.nix
+    ../../modules/nvim.nix 
+    ../../modules/tmux.nix 
+    ../../modules/zsh.nix 
+    ../../modules/ssh.nix
+    ../../modules/git.nix
+    ../../modules/lazygit.nix
+    ../../modules/papis.nix
+    ../../modules/termscp.nix
+    ../../modules/rsync.nix
+    ../../modules/btop.nix
+    ../../modules/firefox.nix
+    ../../modules/ghostty.nix
+    ../../modules/syncthing.nix
+    ../../config/fonts.nix
   ];
 
   nixpkgs.config.allowUnfree = true;
