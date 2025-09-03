@@ -2,8 +2,8 @@
 
 {
   # iMac-specific configuration
-  networking.computerName = "iMac";
-  networking.hostName = "iMac";
+  networking.computerName = "imac";
+  networking.hostName = "imac";
   
   # Import common Darwin configuration
   imports = [

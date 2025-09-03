@@ -19,30 +19,30 @@
 
   outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, nixvim, claude-code, firefox-addons, nix-homebrew }:
   {
-    darwinConfigurations."iMac" = nix-darwin.lib.darwinSystem {
+    darwinConfigurations."imac" = nix-darwin.lib.darwinSystem {
       modules = [ 
-        ./hosts/darwin/iMac/system.nix
+        ./hosts/darwin/imac/system.nix
       ];
       specialArgs = { inherit nix-homebrew; };
     };
 
-    darwinConfigurations."MacBook-Air" = nix-darwin.lib.darwinSystem {
+    darwinConfigurations."mba" = nix-darwin.lib.darwinSystem {
       modules = [ 
-        ./hosts/darwin/MacBook-Air/system.nix
+        ./hosts/darwin/mba/system.nix
       ];
       specialArgs = { inherit nix-homebrew; };
     };
 
     homeConfigurations = {
-      "yanlin@iMac" = home-manager.lib.homeManagerConfiguration {
+      "yanlin@imac" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.aarch64-darwin;
-        modules = [ ./hosts/darwin/iMac/home.nix ];
+        modules = [ ./hosts/darwin/imac/home.nix ];
         extraSpecialArgs = { inherit claude-code nixvim firefox-addons; };
       };
 
-      "yanlin@MacBook-Air" = home-manager.lib.homeManagerConfiguration {
+      "yanlin@mba" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.aarch64-darwin;
-        modules = [ ./hosts/darwin/MacBook-Air/home.nix ];
+        modules = [ ./hosts/darwin/mba/home.nix ];
         extraSpecialArgs = { inherit claude-code nixvim firefox-addons; };
       };
     };
