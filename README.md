@@ -29,16 +29,16 @@ home-manager switch --flake github:Logan-Lin/nix-config#yanlin@iMac
 ```
 .
 ├── flake.nix          # Main flake configuration and package definitions
-├── home/              # Home Manager base configuration
-│   └── common.nix     # Common home configuration imported by all hosts
 ├── hosts/             # Host-specific configurations
 │   └── darwin/        # macOS hosts
+│       ├── home-default.nix    # Common home configuration imported by all hosts
+│       ├── system-default.nix  # Common system configuration for macOS
 │       ├── iMac/      # iMac configuration
-│       │   ├── default.nix  # System configuration
-│       │   └── home.nix     # Home configuration (imports home/common.nix)
+│       │   ├── system.nix  # System configuration
+│       │   └── home.nix    # Home configuration (imports ../home-default.nix)
 │       └── MacBook-Air/ # MacBook Air configuration
-│           ├── default.nix  # System configuration
-│           └── home.nix     # Home configuration (imports home/common.nix)
+│           ├── system.nix  # System configuration
+│           └── home.nix    # Home configuration (imports ../home-default.nix)
 ├── modules/           # Home Manager configuration modules
 │   ├── git.nix        # Git configuration with aliases and settings
 │   ├── lazygit.nix    # Lazygit with gruvbox theme and custom keybindings
@@ -55,10 +55,6 @@ home-manager switch --flake github:Logan-Lin/nix-config#yanlin@iMac
 │   ├── syncthing.nix  # File synchronization service (includes package)
 │   ├── tailscale.nix  # Secure networking and VPN service
 │   └── homebrew.nix   # Homebrew and nix-homebrew configuration
-├── system/            # System-level configurations
-│   ├── default.nix    # Base system configuration (currently empty)
-│   └── darwin/        # macOS-specific system configurations
-│       └── default.nix # macOS system preferences, homebrew, and nix-homebrew
 ├── config/            # Configuration files
 │   ├── firefox/       # Firefox browser configuration
 │   │   ├── bookmarks.nix
@@ -103,10 +99,11 @@ The configuration creates an integrated development environment with a clear wor
 - **Mouse hide while typing** for distraction-free input
 - **No bell notifications** for quiet operation
 - **System Ghostty**: Uses system-installed version (install from ghostty.org)
+- **Window Size**: Configured with larger default dimensions for comfortable workspace
 
 ### 🐚 Terminal: Zsh with Powerlevel10k
 
-**Theme**: Powerlevel10k lean style with 2-line prompt  
+**Theme**: Powerlevel10k lean style with 2-line prompt showing `user@hostname`  
 **Vim Mode**: Enabled with visual indicators
 
 #### Key Features:
@@ -155,7 +152,7 @@ app [file]         # Interactive macOS app selector with fzf
 ### 🖥️ Session Management: Tmux
 
 **Prefix Key**: `Ctrl+a` (instead of default `Ctrl+b`)  
-**Theme**: Gruvbox dark with visual prefix indicator
+**Theme**: Gruvbox dark with visual prefix indicator and hostname display
 
 #### Key Features:
 - **Prefix Indicator**: Shows `<Prefix>` in status bar when prefix is active
@@ -409,6 +406,8 @@ sudo mdutil -E /
 - **Tencent Meeting**: Video conferencing
 - **Ovito**: Scientific visualization software
 - **WeChat**: Messaging and communication
+- **Microsoft Office**: Word, Excel, and PowerPoint productivity suite
+- **Rectangle**: Window management and organization tool
 
 ### Management Commands:
 ```bash
@@ -435,6 +434,7 @@ brew info <cask>      # Get info about a specific application
 - **Version Controlled**: SSH config tracked with git alongside other configurations
 - **Reproducible**: Same SSH setup deployable across multiple machines
 - **Security**: Private keys remain local and untracked
+- **Agent Configuration**: SSH keys automatically added to agent with wildcard host matching
 
 ## 🛠️ Development Tools
 
@@ -586,6 +586,7 @@ The fonts are automatically installed and configured system-wide through the nix
 ### Search Engine Aliases:
 - `@np [query]` - Search Nix packages
 - `@nw [query]` - Search NixOS Wiki
+- `@g [query]` - Google search (manually configured for macOS compatibility)
 
 ### Privacy & Security:
 - HTTPS-only mode enabled by default
@@ -797,11 +798,15 @@ tailscale debug netmap
 Both machines use the same base configuration with potential for machine-specific customizations.
 
 ### Configuration Structure:
-Each host has two configuration files:
-- **`default.nix`**: System-level Darwin configuration (imports system modules)
-- **`home.nix`**: Home Manager configuration (imports `home/common.nix`)
+The configuration has been reorganized for better clarity:
+- **`hosts/darwin/`**: Contains all host-related configurations
+  - **`home-default.nix`**: Common home configuration shared by all hosts
+  - **`system-default.nix`**: Common system configuration for macOS
+  - **Per-host directories**: Each host has its own directory with:
+    - **`system.nix`**: Host-specific system configuration (imports ../system-default.nix)
+    - **`home.nix`**: Host-specific home configuration (imports ../home-default.nix)
 
-The `home/common.nix` file contains all shared home configuration, including:
+The `home-default.nix` file contains all shared home configuration, including:
 - Module imports (which now handle both configuration and package installation)
 - Common packages not managed by modules
 - Base home settings
