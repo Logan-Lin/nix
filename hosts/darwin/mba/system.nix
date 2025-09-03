@@ -2,8 +2,8 @@
 
 {
   # MacBook Air-specific configuration
-  networking.computerName = "MacBook-Air";
-  networking.hostName = "MacBook-Air";
+  networking.computerName = "mba";
+  networking.hostName = "mba";
   
   # Import common Darwin configuration
   imports = [
