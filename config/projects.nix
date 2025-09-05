@@ -170,7 +170,7 @@ in
           path = homePath "Documents/Projects/Inverse Design of Disordered Materials/DiffDisMatter-dev";
           ai = true;
           git = true;
-          shell = true;
+          shell = false;
         }
         {
           name = "pc";
