@@ -610,6 +610,42 @@ The fonts are automatically installed and configured system-wide through the nix
 
 ## 🌟 Specialized Tools
 
+### 📖 Offline Dictionary: sdcv
+
+**Configuration**: `modules/dictionary.nix`  
+**Purpose**: Command-line offline dictionary system with English and Japanese dictionaries
+
+A declarative offline dictionary system using sdcv (StarDict Console Version):
+
+#### Key Features:
+- **Complete Offline Access**: No internet required for dictionary lookups
+- **Multiple Dictionary Types**: English-English, Japanese-English, and English-Japanese
+- **Declarative Downloads**: Dictionary files automatically downloaded and configured
+- **Shell Integration**: Convenient aliases for different dictionary types
+- **Reproducible Setup**: Dictionary configuration managed through Nix
+
+#### Available Dictionary Aliases:
+```bash
+# English-English dictionary (primary)
+def word                    # Look up English word
+define word                 # Same as def
+
+# Japanese-English dictionary
+j2e 単語                    # Short alias for Japanese-English
+e2j word                    # English to Japanese lookup
+
+# Utility commands
+dict-list                   # List all available dictionaries
+dict-setup                  # Manually download/setup dictionary files
+dict-disable-auto-setup     # Disable automatic dictionary setup
+```
+
+#### Features:
+- **Automatic Download**: Dictionary files downloaded from archive.org sources
+- **Smart Caching**: Files only downloaded once, marked as extracted
+- **Environment Integration**: `STARDICT_DATA_DIR` configured automatically
+- **Multiple Formats**: Supports .ifo, .dict, and .idx StarDict format files
+
 ### 📚 Reference Management: papis
 
 **Purpose**: Command-line reference manager for academic papers and documents
