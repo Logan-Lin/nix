@@ -16,6 +16,7 @@
     ../../modules/firefox.nix
     ../../modules/ghostty.nix
     ../../modules/syncthing.nix
+    ../../modules/dictionary.nix
     ../../config/fonts.nix
   ];
 
@@ -39,6 +40,7 @@
     git-credential-oauth
     zoxide
     delta
+    fastfetch
 
     # macOS-specific GUI applications
     maccy          # Clipboard manager (macOS-only)
