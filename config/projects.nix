@@ -173,6 +173,13 @@ in
           shell = true;
         }
         {
+          name = "pc";
+          path = homePath "Documents/Projects/Inverse Design of Disordered Materials/AMDEN-code";
+          ai = true;
+          git = true;
+          shell = false;
+        }
+        {
           name = "p";
           path = homePath "Documents/Projects/Inverse Design of Disordered Materials/mc-denoising-paper";
           ai = true;
