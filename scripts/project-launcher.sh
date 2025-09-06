@@ -1,5 +1,3 @@
-#!/bin/bash
-
 # Universal project launcher - reads project config and launches dynamic windows
 # Usage: project-launcher.sh [OPTIONS] PROJECT_NAME
 # Options:
