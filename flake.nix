@@ -42,6 +42,7 @@
         ./hosts/nixos/hs/system.nix
         ./hosts/nixos/hs/disk-config.nix
       ];
+      specialArgs = { inherit home-manager nixvim claude-code; };
     };
 
     nixosConfigurations."hs-iso" = nixpkgs.lib.nixosSystem {
@@ -63,6 +64,12 @@
         pkgs = nixpkgs.legacyPackages.aarch64-darwin;
         modules = [ ./hosts/darwin/mba/home.nix ];
         extraSpecialArgs = { inherit claude-code nixvim firefox-addons; };
+      };
+
+      "yanlin@hs" = home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages.x86_64-linux;
+        modules = [ ./hosts/nixos/hs/home.nix ];
+        extraSpecialArgs = { inherit claude-code nixvim; };
       };
     };
   };
