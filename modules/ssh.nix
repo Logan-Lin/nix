@@ -24,9 +24,9 @@
         proxyJump = "pi";
       };
 
-      "nas" = {
-        hostname = "nas.hw.yanlincs.com";
-        user = "root";
+      "hs" = {
+        hostname = "hs.hw.yanlincs.com";
+        user = "yanlin";
         identityFile = "~/.ssh/keys/nas";
       };
 
