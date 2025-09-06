@@ -4,6 +4,8 @@
     ./disk-config.nix
     home-manager.nixosModules.home-manager
     ../../../modules/tailscale.nix
+    ../../../modules/podman.nix
+    ../../../modules/traefik.nix
   ];
 
   # GRUB bootloader with ZFS support
@@ -63,8 +65,7 @@
     hostName = "hs";
     hostId = "8425e349"; # Required for ZFS, good practice for any system
     networkmanager.enable = true;
-    firewall.enable = false;
-    # firewall.allowedTCPPorts = [ 22 ]; # SSH
+    firewall = { enable = false; };
   };
 
   # Set your time zone
@@ -154,46 +155,6 @@
     };
   };
 
-  # Container virtualization with Podman
-  virtualisation = {
-    podman = {
-      enable = true;
-      # Create a `docker` alias for podman, to use it as a drop-in replacement
-      dockerCompat = true;
-      # Required for containers under podman-compose to be able to talk to each other
-      defaultNetwork.settings.dns_enabled = true;
-      # Create macvlan network for Home Assistant
-      extraPackages = [ pkgs.netavark pkgs.aardvark-dns ];
-    };
-    # Enable OCI container support
-    oci-containers = {
-      backend = "podman";
-      
-      containers.homeassistant = {
-        image = "ghcr.io/home-assistant/home-assistant:stable";
-        
-        volumes = [
-          "/home/yanlin/deploy/data/home/config:/config"
-          "/etc/localtime:/etc/localtime:ro"
-          "/run/dbus:/run/dbus:ro"
-        ];
-        
-        environment = {
-          TZ = "Europe/Copenhagen";
-        };
-        
-        extraOptions = [
-          "--privileged"  # Required for USB device access
-          "--network=host"  # Use host networking
-          "--device=/dev/ttyUSB0:/dev/ttyUSB0"  # Sky Connect Zigbee dongle
-          "--device=/dev/dri:/dev/dri"  # Hardware acceleration
-        ];
-        
-        autoStart = true;
-      };
-    };
-  };
-
   # SnapRAID configuration for parity protection
   services.snapraid = {
     enable = true;
@@ -240,7 +201,6 @@
       "*.temp"
     ];
   };
-
 
   # Enable smartd for disk health monitoring
   services.smartd = {
