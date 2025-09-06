@@ -28,6 +28,9 @@
         hostname = "hs.hw.yanlincs.com";
         user = "yanlin";
         identityFile = "~/.ssh/keys/nas";
+        setEnv = {
+          TERM = "xterm-256color";
+        };
       };
 
       "pi" = {

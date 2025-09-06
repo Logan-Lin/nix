@@ -16,6 +16,7 @@ in
     sessionVariables = {
       COLORTERM = "truecolor";
       EDITOR = "nvim";
+      TERM = "xterm-256color";
     };
     
     shellAliases = {
@@ -26,6 +27,7 @@ in
       hm = "home-manager";
       hms = "home-manager switch --flake ~/.config/nix#$(whoami)@$(hostname)";
       hms-offline = "home-manager switch --flake ~/.config/nix#$(whoami)@$(hostname) --option substitute false";
+      nreb = "sudo nixos-rebuild switch --flake ~/.config/nix#$(hostname)";
       
     } // lib.optionalAttrs pkgs.stdenv.isDarwin {
       # macOS-specific app aliases
