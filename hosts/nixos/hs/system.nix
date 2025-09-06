@@ -1,7 +1,8 @@
-{ config, pkgs, ... }: {
+{ config, pkgs, home-manager, nixvim, claude-code, ... }: {
   imports = [
     ./hardware-configuration.nix
     ./disk-config.nix
+    home-manager.nixosModules.home-manager
   ];
 
   # GRUB bootloader with ZFS support
@@ -24,7 +25,7 @@
   # Network configuration
   networking = {
     hostName = "hs";
-    hostId = "12345678"; # Required for ZFS, good practice for any system
+    hostId = "8425e349"; # Required for ZFS, good practice for any system
     networkmanager.enable = true;
     firewall.enable = false;
     # firewall.allowedTCPPorts = [ 22 ]; # SSH
@@ -49,6 +50,12 @@
 
   # Define a user account
   users.users.root = {
+    # Clear any inherited password settings
+    hashedPassword = null;
+    hashedPasswordFile = null;
+    password = null;
+    initialHashedPassword = null;
+    initialPassword = null;
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG35m0DgTrEOAM+1wAlYZ8mvLelNTcx65cFccGPQcxmo yanlin@imac"
     ];
@@ -108,6 +115,17 @@
   services.smartd = {
     enable = true;
     autodetect = true;
+  };
+
+  # Allow unfree packages globally
+  nixpkgs.config.allowUnfree = true;
+
+  # Home Manager configuration
+  home-manager = {
+    useGlobalPkgs = true;
+    useUserPackages = true;
+    users.yanlin = import ./home.nix;
+    extraSpecialArgs = { inherit claude-code nixvim; };
   };
 
   # This value determines the NixOS release from which the default
