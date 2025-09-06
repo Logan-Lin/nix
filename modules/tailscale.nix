@@ -1,11 +1,22 @@
 { config, pkgs, lib, ... }:
 
 {
-  # Enable Tailscale service
+  # Enable Tailscale service for NixOS
   services.tailscale = {
     enable = true;
-    # Override local DNS to use Tailscale's MagicDNS
-    # This ensures Tailscale DNS resolution works properly on macOS
-    overrideLocalDns = false;
+    # Enable MagicDNS for better name resolution on NixOS server
+    useRoutingFeatures = "server";
+    extraUpFlags = [
+      "--advertise-routes=10.1.1.0/24"
+      "--advertise-exit-node"
+    ];
+  };
+
+  # Allow Tailscale through the firewall if enabled
+  networking.firewall = {
+    # Allow Tailscale UDP port
+    allowedUDPPorts = [ 41641 ];
+    # Allow traffic from Tailscale subnet
+    trustedInterfaces = [ "tailscale0" ];
   };
 }
