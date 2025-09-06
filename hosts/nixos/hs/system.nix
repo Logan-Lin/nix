@@ -19,8 +19,43 @@
 
   # Enable systemd stage-1 and ZFS support
   boot.initrd.systemd.enable = true;
-  boot.supportedFilesystems = [ "zfs" ];
+  boot.supportedFilesystems = [ "zfs" "xfs" ];
   boot.zfs.forceImportRoot = false;
+  boot.zfs.extraPools = [ "cache" ]; # Auto-import additional pools
+
+  # XFS drive mounts
+  fileSystems."/mnt/wd-12t-1" = {
+    device = "/dev/disk/by-id/ata-HGST_HUH721212ALE604_5PK2N4GB-part1";
+    fsType = "xfs";
+    options = [ "defaults" "noatime" ];
+  };
+
+  fileSystems."/mnt/wd-12t-2" = {
+    device = "/dev/disk/by-id/ata-HGST_HUH721212ALE604_5PJ7Z3LE-part1";
+    fsType = "xfs";
+    options = [ "defaults" "noatime" ];
+  };
+
+  # Parity drive for SnapRAID
+  fileSystems."/mnt/parity" = {
+    device = "/dev/disk/by-id/ata-ST16000NM000J-2TW103_WRS0F8BE-part1";
+    fsType = "xfs";
+    options = [ "defaults" "noatime" ];
+  };
+
+  # MergerFS union mount (needs to be after XFS mounts)
+  fileSystems."/mnt/storage" = {
+    device = "/mnt/wd-12t-1:/mnt/wd-12t-2";
+    fsType = "mergerfs";
+    options = [ 
+      "defaults"
+      "allow_other"
+      "use_ino"
+      "cache.files=partial"
+      "dropcacheonclose=true"
+      "category.create=mfs"
+    ];
+  };
 
   # Network configuration
   networking = {
@@ -93,6 +128,8 @@
     zfs # ZFS utilities
     zsh # Shell
     home-manager # Enable standalone home-manager command
+    mergerfs # Union filesystem for combining multiple drives
+    snapraid # Parity-based backup tool
   ];
 
   # ZFS services configuration
@@ -100,6 +137,7 @@
     autoScrub = {
       enable = true;
       interval = "monthly";
+      pools = [ "rpool" "cache" ];
     };
     autoSnapshot = {
       enable = true;
@@ -113,6 +151,53 @@
       enable = true;
       interval = "weekly";
     };
+  };
+
+  # SnapRAID configuration for parity protection
+  services.snapraid = {
+    enable = true;
+    
+    # Parity file location on 16TB drive
+    parityFiles = [
+      "/mnt/parity/snapraid.parity"
+    ];
+    
+    # Content files for metadata (stored on multiple drives for redundancy)
+    contentFiles = [
+      "/var/snapraid.content"
+      "/mnt/parity/.snapraid.content"
+      "/mnt/wd-12t-1/.snapraid.content"
+      "/mnt/wd-12t-2/.snapraid.content"
+    ];
+    
+    # Data disks to protect
+    dataDisks = {
+      d1 = "/mnt/wd-12t-1/";
+      d2 = "/mnt/wd-12t-2/";
+    };
+    
+    # Sync schedule (daily at 3 AM)
+    sync.interval = "03:00";
+    
+    # Scrub schedule (weekly verification)
+    scrub.interval = "weekly";
+    
+    # Files and directories to exclude from parity
+    exclude = [
+      "*.unrecoverable"
+      "/tmp/"
+      "/lost+found/"
+      "*.!sync"
+      ".DS_Store"
+      "._.DS_Store"
+      ".Spotlight-V100/"
+      ".TemporaryItems/"
+      ".Trashes/"
+      ".fseventsd/"
+      "Thumbs.db"
+      "*.tmp"
+      "*.temp"
+    ];
   };
 
   # Enable smartd for disk health monitoring
