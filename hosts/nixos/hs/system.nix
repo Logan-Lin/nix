@@ -44,6 +44,7 @@
       PermitRootLogin = "yes";
       PasswordAuthentication = false;
       KbdInteractiveAuthentication = false;
+      AcceptEnv = "LANG LC_* TERM COLORTERM TMUX TMUX_PANE";
     };
     openFirewall = true;
   };
@@ -66,6 +67,7 @@
     isNormalUser = true;
     description = "yanlin";
     extraGroups = [ "networkmanager" "wheel" ];
+    shell = pkgs.zsh;
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG35m0DgTrEOAM+1wAlYZ8mvLelNTcx65cFccGPQcxmo yanlin@imac"
     ];
@@ -89,6 +91,8 @@
     iotop
     smartmontools # For monitoring disk health
     zfs # ZFS utilities
+    zsh # Shell
+    home-manager # Enable standalone home-manager command
   ];
 
   # ZFS services configuration
@@ -119,6 +123,12 @@
 
   # Allow unfree packages globally
   nixpkgs.config.allowUnfree = true;
+
+  # Enable zsh system-wide (required when set as user shell)
+  programs.zsh.enable = true;
+
+  # Enable experimental nix features
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   # Home Manager configuration
   home-manager = {
