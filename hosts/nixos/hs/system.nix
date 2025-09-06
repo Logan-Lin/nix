@@ -3,6 +3,7 @@
     ./hardware-configuration.nix
     ./disk-config.nix
     home-manager.nixosModules.home-manager
+    ../../../modules/tailscale.nix
   ];
 
   # GRUB bootloader with ZFS support
