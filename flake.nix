@@ -15,9 +15,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nix-homebrew.url = "github:zhaofengli/nix-homebrew";
+    disko.url = "github:nix-community/disko";
+    disko.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, nixvim, claude-code, firefox-addons, nix-homebrew }:
+  outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, nixvim, claude-code, firefox-addons, nix-homebrew, disko }:
   {
     darwinConfigurations."imac" = nix-darwin.lib.darwinSystem {
       modules = [ 
@@ -31,6 +33,23 @@
         ./hosts/darwin/mba/system.nix
       ];
       specialArgs = { inherit nix-homebrew; };
+    };
+
+    nixosConfigurations."hs" = nixpkgs.lib.nixosSystem {
+      system = "x86_64-linux";
+      modules = [
+        disko.nixosModules.disko
+        ./hosts/nixos/hs/system.nix
+        ./hosts/nixos/hs/disk-config.nix
+      ];
+    };
+
+    nixosConfigurations."hs-iso" = nixpkgs.lib.nixosSystem {
+      system = "x86_64-linux";
+      modules = [
+        disko.nixosModules.disko
+        ./hosts/nixos/hs/iso.nix
+      ];
     };
 
     homeConfigurations = {
