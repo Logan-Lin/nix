@@ -50,6 +50,7 @@
     fastfetch
 
     # Development and build tools
+    texlive.combined.scheme-full
     python312
     uv
     claude-code.packages.x86_64-linux.claude-code
