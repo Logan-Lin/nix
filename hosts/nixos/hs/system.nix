@@ -6,6 +6,7 @@
     ../../../modules/tailscale.nix
     ../../../modules/podman.nix
     ../../../modules/traefik.nix
+    ../../../modules/samba.nix
   ];
 
   # GRUB bootloader with ZFS support
