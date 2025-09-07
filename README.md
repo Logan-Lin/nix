@@ -73,6 +73,7 @@ home-manager switch --flake github:Logan-Lin/nix-config#yanlin@hs
 │   ├── ghostty.nix    # GPU-accelerated terminal emulator
 │   ├── syncthing.nix  # File synchronization service (includes package)
 │   ├── tailscale.nix  # Secure networking and VPN service
+│   ├── borg.nix       # Borg backup system with automated scheduling
 │   └── homebrew.nix   # Homebrew and nix-homebrew configuration
 ├── config/            # Configuration files
 │   ├── firefox/       # Firefox browser configuration
@@ -781,6 +782,75 @@ hms
 - **Neovim**: `<Space>y/p` for system clipboard
 - **Tmux**: Copy mode automatically uses system clipboard  
 - **Terminal**: Standard Cmd+C/V works everywhere
+
+## 📦 Automated Backups: Borg
+
+**Configuration**: `modules/borg.nix`  
+**Purpose**: Deduplicating archiver with compression and encryption for automated backups
+
+### Key Features:
+- **Encrypted Backups**: Repository encrypted with passphrase for security
+- **Deduplication**: Space-efficient incremental backups
+- **Automated Scheduling**: Systemd timer for unattended daily backups
+- **Flexible Configuration**: Host-specific backup paths, retention policies, and frequencies
+- **Progress Monitoring**: Detailed logging and status reporting
+
+### Default Configuration (Home Server):
+- **Backup Paths**: `/home` and `/var/lib/containers`
+- **Repository**: `ssh://storage-box/./hs` (Hetzner Storage Box via SSH)
+- **Schedule**: Daily backups with 30-minute random delay
+- **Retention**: 7 daily, 4 weekly, 6 monthly, 2 yearly
+- **Compression**: LZ4 with level 6 (balanced speed/size)
+
+### Command Line Usage:
+
+#### Manual Backup Operations:
+```bash
+# Initialize repository (first-time setup)
+borg-init                      # Initialize encrypted repository
+
+# Start manual backup
+borg-backup-now                # Trigger immediate backup
+
+# Check backup status  
+borg-status                    # View service and timer status
+borg-logs                      # Follow backup logs in real-time
+```
+
+#### Direct Borg Commands:
+```bash
+# Set up environment for direct borg commands
+export BORG_REPO=ssh://storage-box/./hs
+export BORG_RSH="ssh -F /home/yanlin/.ssh/config"
+
+# Browse backup contents
+borg list                      # List all archives
+borg list ::<archive-name>     # List files in specific archive
+
+# Extract files
+borg extract ::<archive-name>  # Extract entire archive
+borg extract ::<archive-name> path/to/file  # Extract specific files
+
+# Repository maintenance
+borg check                     # Verify repository consistency
+borg info ::<archive-name>     # Show archive details and statistics
+```
+
+### Configuration Options:
+- **repositoryUrl**: Local path or remote SSH URL for backup storage
+- **backupPaths**: List of directories to include in backups
+- **backupFrequency**: Systemd timer frequency (daily, hourly, or OnCalendar format)
+- **retention**: Flexible policy for keeping daily/weekly/monthly/yearly backups
+- **excludePatterns**: Comprehensive list of files/directories to skip
+- **compressionLevel**: Balance between backup speed and storage efficiency
+
+### Security Setup:
+```bash
+# Create passphrase file (required for repository encryption)
+# Format: BORG_PASSPHRASE=yourpassphrase
+echo "BORG_PASSPHRASE=your-secure-passphrase" | sudo tee /etc/borg-passphrase
+sudo chmod 600 /etc/borg-passphrase
+```
 
 ## 🔒 Secure Networking: Tailscale
 
