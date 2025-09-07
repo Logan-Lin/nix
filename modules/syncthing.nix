@@ -96,4 +96,8 @@
   launchd.agents.syncthing = lib.mkIf (pkgs.stdenv.isDarwin && config.services.syncthing.enable) {
     config.RunAtLoad = true;
   };
+
+  # For NixOS systems, we need to add Syncthing as a manual service in Traefik
+  # Since Syncthing runs as a systemd service (not container), we'll handle routing via static config
+  # or create a container wrapper for it to use with service discovery
 }
