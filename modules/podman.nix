@@ -365,6 +365,58 @@
         
         autoStart = true;
       };
+
+      # Nextcloud cloud storage and file sharing
+      containers.cloud = {
+        image = "docker.io/linuxserver/nextcloud:latest";
+        
+        volumes = [
+          "/home/yanlin/deploy/data/cloud/config:/config"
+          "/mnt/storage/appbulk/cloud:/data"
+        ];
+        
+        environment = {
+          PUID = "1000";
+          PGID = "100";
+          TZ = "Europe/Copenhagen";
+        };
+        
+        ports = [
+          "5001:80"
+        ];
+        
+        extraOptions = [
+          "--network=podman"
+        ];
+        
+        dependsOn = [ "cloud-db" ];
+        autoStart = true;
+      };
+
+      # MariaDB database for Nextcloud
+      containers.cloud-db = {
+        image = "docker.io/linuxserver/mariadb:latest";
+        
+        volumes = [
+          "/home/yanlin/deploy/data/cloud/db:/config"
+        ];
+        
+        environment = {
+          PUID = "1000";
+          PGID = "100";
+          TZ = "Europe/Copenhagen";
+          MYSQL_ROOT_PASSWORD = "nextcloud";
+          MYSQL_DATABASE = "nextcloud";
+          MYSQL_USER = "nextcloud";
+          MYSQL_PASSWORD = "nextcloud";
+        };
+        
+        extraOptions = [
+          "--network=podman"
+        ];
+        
+        autoStart = true;
+      };
     };
   };
 }

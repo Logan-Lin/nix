@@ -171,6 +171,16 @@
               }];
             };
           };
+          cloud = {
+            rule = "Host(`cloud.hs.yanlincs.com`)";
+            service = "cloud";
+            tls = {
+              certResolver = "cloudflare";
+              domains = [{
+                main = "*.hs.yanlincs.com";
+              }];
+            };
+          };
         };
         services = {
           homeassistant = {
@@ -247,6 +257,13 @@
             loadBalancer = {
               servers = [{
                 url = "http://localhost:9090";
+              }];
+            };
+          };
+          cloud = {
+            loadBalancer = {
+              servers = [{
+                url = "http://localhost:5001";
               }];
             };
           };
