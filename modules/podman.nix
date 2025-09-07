@@ -20,7 +20,7 @@
         image = "ghcr.io/home-assistant/home-assistant:stable";
         
         volumes = [
-          "/home/yanlin/deploy/data/home/config:/config"
+          "/var/lib/containers/home/config:/config"
           "/etc/localtime:/etc/localtime:ro"
           "/run/dbus:/run/dbus:ro"
         ];
@@ -48,7 +48,7 @@
         image = "ghcr.io/imagegenius/immich:latest";
         
         volumes = [
-          "/home/yanlin/deploy/data/immich/config:/config"
+          "/var/lib/containers/immich/config:/config"
           "/mnt/storage/appbulk/immich:/photos"
           "/mnt/storage/Media/DCIM:/libraries"
         ];
@@ -88,7 +88,7 @@
         image = "docker.io/tensorchord/pgvecto-rs:pg14-v0.2.0";
         
         volumes = [
-          "/home/yanlin/deploy/data/immich/db:/var/lib/postgresql/data"
+          "/var/lib/containers/immich/db:/var/lib/postgresql/data"
         ];
         
         environment = {
@@ -120,7 +120,7 @@
         image = "docker.io/linuxserver/plex:latest";
         
         volumes = [
-          "/home/yanlin/deploy/data/plex/config:/config"
+          "/var/lib/containers/plex/config:/config"
           "/mnt/storage/appbulk/plex-transcode:/transcode"
           "/mnt/storage/Media:/data"
         ];
@@ -149,7 +149,7 @@
         image = "docker.io/linuxserver/sonarr:latest";
         
         volumes = [
-          "/home/yanlin/deploy/data/sonarr/config:/config"
+          "/var/lib/containers/sonarr/config:/config"
           "/mnt/storage/Media:/data"
         ];
         
@@ -175,7 +175,7 @@
         image = "docker.io/linuxserver/radarr:latest";
         
         volumes = [
-          "/home/yanlin/deploy/data/radarr/config:/config"
+          "/var/lib/containers/radarr/config:/config"
           "/mnt/storage/Media:/data"
         ];
         
@@ -201,7 +201,7 @@
         image = "docker.io/linuxserver/bazarr:latest";
         
         volumes = [
-          "/home/yanlin/deploy/data/bazarr/config:/config"
+          "/var/lib/containers/bazarr/config:/config"
           "/mnt/storage/Media:/data"
         ];
         
@@ -227,7 +227,7 @@
         image = "docker.io/linuxserver/qbittorrent:4.6.7";
         
         volumes = [
-          "/home/yanlin/deploy/data/qbit/config:/config"
+          "/var/lib/containers/qbit/config:/config"
           "/mnt/storage/Media:/data"
         ];
         
@@ -251,7 +251,7 @@
         image = "ghcr.io/paperless-ngx/paperless-ngx:latest";
         
         volumes = [
-          "/home/yanlin/deploy/data/paperless/config:/usr/src/paperless/data"
+          "/var/lib/containers/paperless/config:/usr/src/paperless/data"
           "/mnt/storage/appbulk/Paperless/media:/usr/src/paperless/media"
           "/mnt/storage/appbulk/Paperless/consume:/usr/src/paperless/consume"
           "/mnt/storage/appbulk/Paperless/export:/usr/src/paperless/export"
@@ -331,7 +331,7 @@
         image = "docker.io/postgres:17-alpine";
         
         volumes = [
-          "/home/yanlin/deploy/data/rss/db:/var/lib/postgresql/data"
+          "/var/lib/containers/rss/db:/var/lib/postgresql/data"
         ];
         
         environment = {
@@ -352,7 +352,7 @@
         image = "docker.io/sissbruecker/linkding:latest-plus";
         
         volumes = [
-          "/home/yanlin/deploy/data/link:/etc/linkding/data"
+          "/var/lib/containers/link:/etc/linkding/data"
         ];
         
         ports = [
@@ -371,7 +371,7 @@
         image = "docker.io/linuxserver/nextcloud:latest";
         
         volumes = [
-          "/home/yanlin/deploy/data/cloud/config:/config"
+          "/var/lib/containers/cloud/config:/config"
           "/mnt/storage/appbulk/cloud:/data"
         ];
         
@@ -398,7 +398,7 @@
         image = "docker.io/linuxserver/mariadb:latest";
         
         volumes = [
-          "/home/yanlin/deploy/data/cloud/db:/config"
+          "/var/lib/containers/cloud/db:/config"
         ];
         
         environment = {
