@@ -1,6 +1,6 @@
 # Personal Nix Configuration
 
-A comprehensive Nix configuration for macOS using nix-darwin and home-manager, featuring a modern development environment with vim-centric workflows and beautiful aesthetics. Largely generated and maintained with Claude Code.
+A comprehensive Nix configuration for macOS and NixOS using nix-darwin and home-manager, featuring a modern development environment with vim-centric workflows and beautiful aesthetics. Includes a powerful NixOS home server configuration with ZFS storage, containerized services, and automated monitoring. Largely generated and maintained with Claude Code.
 
 ## ✨ Features
 
@@ -14,6 +14,7 @@ A comprehensive Nix configuration for macOS using nix-darwin and home-manager, f
 
 ## 🚀 Quick Install
 
+### macOS (Darwin)
 Install directly from GitHub without cloning:
 
 ```bash
@@ -22,6 +23,17 @@ sudo darwin-rebuild switch --flake github:Logan-Lin/nix-config
 
 # Home Manager configuration  
 home-manager switch --flake github:Logan-Lin/nix-config#yanlin@iMac
+```
+
+### NixOS
+For NixOS systems (like the `hs` home server):
+
+```bash
+# NixOS system configuration
+sudo nixos-rebuild switch --flake github:Logan-Lin/nix-config#hs
+
+# Home Manager configuration
+home-manager switch --flake github:Logan-Lin/nix-config#yanlin@hs
 ```
 
 ## 📁 Configuration Architecture
@@ -159,10 +171,11 @@ app [file]         # Interactive macOS app selector with fzf
 ### 🖥️ Session Management: Tmux
 
 **Prefix Key**: `Ctrl+a` (instead of default `Ctrl+b`)  
-**Theme**: Gruvbox dark with visual prefix indicator and hostname display
+**Theme**: Gruvbox dark with visual prefix indicator, hostname display, and remote host indicator
 
 #### Key Features:
-- **Prefix Indicator**: Shows `<Prefix>` in status bar when prefix is active
+- **Prefix Indicator**: Shows `<Prefix>` in status bar when prefix is active (red background)
+- **Remote Host Indicator**: Status bar background turns yellow when connected via SSH
 - **Vim-like Navigation**: hjkl for pane movement
 - **Smart Splitting**: Maintains current directory when creating panes
 - **Copy Mode**: System clipboard integration
@@ -833,6 +846,114 @@ tailscale debug netmap
 - **DNS Override**: Uses Tailscale's MagicDNS (100.100.100.100) for name resolution
 - **System Integration**: Runs as a daemon accessible to all users
 
+## 🏠 Home Server (`hs` Host)
+
+The `hs` NixOS configuration provides a comprehensive home server solution with enterprise-grade storage, containerized services, and automated monitoring.
+
+### 💾 Storage Architecture
+
+#### ZFS Configuration
+- **Boot Pool (`rpool`)**: Mirrored ZFS pool across two 1TB NVMe SSDs
+  - GRUB bootloader with ZFS support on both drives
+  - Automatic snapshots: 4 frequent (15min), 24 hourly, 7 daily, 4 weekly, 12 monthly
+  - Monthly scrub for data integrity verification
+  - Weekly TRIM for SSD optimization
+
+- **Cache Pool**: Additional ZFS pool for high-performance caching
+  - Configured with optimized ARC settings for 32GB system (16GB max ARC, 2GB min)
+
+#### Data Storage
+- **Primary Storage**: Two 12TB HGST drives formatted with XFS
+  - Mounted at `/mnt/wd-12t-1` and `/mnt/wd-12t-2`
+  - Optimized with `noatime` for better performance
+  - Combined into unified storage via MergerFS at `/mnt/storage`
+
+- **MergerFS Union Filesystem**: 
+  - Intelligent file placement using "most free space" policy
+  - Partial file caching for improved performance
+  - Transparent access to combined storage pool
+
+#### Data Protection
+- **SnapRAID Parity**: 16TB Seagate drive provides parity protection
+  - Automated daily sync at 3:00 AM
+  - Weekly scrub for verification and error correction
+  - Content files stored redundantly across multiple drives
+  - Excludes temporary files, system files, and macOS metadata
+
+### 🐳 Containerized Services
+
+Comprehensive suite of self-hosted services managed via Podman with automatic startup:
+
+#### Media & Entertainment
+- **Plex Media Server**: Personal media streaming with hardware transcoding
+- **Immich**: Photo and video backup with AI-powered organization
+- **Sonarr/Radarr/Bazarr**: Automated TV show, movie, and subtitle management
+- **qBittorrent**: BitTorrent client with web interface
+
+#### Home Automation & Monitoring
+- **Home Assistant**: Smart home automation with USB Zigbee integration
+- **Syncthing**: Secure file synchronization across devices
+
+#### Productivity & Knowledge Management
+- **Nextcloud**: Private cloud storage and collaboration platform
+- **Paperless-NGX**: Document management with OCR (English/Chinese)
+- **Miniflux (RSS)**: Feed reader with clean interface
+- **Linkding**: Bookmark manager with tagging
+
+#### Supporting Services
+- **Traefik**: Reverse proxy with automatic SSL certificates
+- **PostgreSQL**: Database backend for Immich and Miniflux
+- **MariaDB**: Database backend for Nextcloud
+- **Redis**: Caching for Immich and Paperless
+
+### 🌐 Network & Security
+
+#### Reverse Proxy (Traefik)
+- **Automatic SSL**: Cloudflare DNS challenge for `*.hs.yanlincs.com` certificates
+- **Service Discovery**: Automatic routing to containerized services
+- **HTTPS Enforcement**: Automatic HTTP to HTTPS redirect
+- **Subdomains**: Each service accessible via dedicated subdomain
+
+#### File Sharing (Samba)
+- **SMB Protocol**: Modern Samba configuration for cross-platform access
+- **Security**: User authentication required, guest access disabled
+- **Performance**: Optimized socket options and sendfile support
+- **Shares**: Media directory accessible to authenticated users
+
+### 🔍 Monitoring & Maintenance
+
+#### Disk Health Monitoring
+- **SMART Monitoring**: Real-time disk health tracking via smartd
+- **Automated Alerts**: Notifications for disk issues or failures
+- **Daily Reports**: Comprehensive SMART status reports
+- **Temperature Monitoring**: Alerts for overheating drives
+- **Proactive Replacement**: Early warning system for failing drives
+
+#### System Services
+- **Automatic Updates**: NixOS configuration management
+- **Log Rotation**: Automated cleanup of system and service logs
+- **Service Health**: Container monitoring and automatic restart
+- **Performance Monitoring**: System resource tracking
+
+### 📍 Service Access
+
+All services accessible via Tailscale VPN with SSL certificates:
+
+| Service | URL | Purpose |
+|---------|-----|---------|
+| Home Assistant | `home.hs.yanlincs.com` | Smart home automation |
+| Immich | `photo.hs.yanlincs.com` | Photo/video backup |
+| Plex | `plex.hs.yanlincs.com` | Media streaming |
+| Nextcloud | `cloud.hs.yanlincs.com` | File sync and sharing |
+| Paperless | `paperless.hs.yanlincs.com` | Document management |
+| RSS Reader | `rss.hs.yanlincs.com` | Feed aggregation |
+| Bookmarks | `link.hs.yanlincs.com` | Link management |
+| Sonarr | `sonarr.hs.yanlincs.com` | TV show management |
+| Radarr | `radarr.hs.yanlincs.com` | Movie management |
+| Bazarr | `bazarr.hs.yanlincs.com` | Subtitle management |
+| qBittorrent | `qbit.hs.yanlincs.com` | BitTorrent client |
+| Syncthing | `syncthing.hs.yanlincs.com` | File synchronization |
+
 ## 💻 Machine Configurations
 
 ### Darwin Hosts (macOS)
@@ -840,9 +961,15 @@ tailscale debug netmap
 - **`MacBook-Air`**: MacBook Air configuration
 
 ### NixOS Host
-- **`hs`**: Home server configuration with ZFS, storage management, and services
+- **`hs`**: Home server configuration featuring:
+  - **ZFS Storage**: Mirrored boot pool with cache pool and auto-snapshots
+  - **Data Protection**: SnapRAID parity across 12TB drives with 16TB parity drive
+  - **Containerized Services**: Comprehensive media, automation, and productivity services
+  - **Network Services**: Traefik reverse proxy, Samba shares, Tailscale networking
+  - **Monitoring**: Automated disk health monitoring with alerts
+  - **Storage**: MergerFS union filesystem combining multiple drives
 
-All hosts now use a consistent configuration structure with separate system and home management.
+All hosts use a consistent configuration structure with separate system and home management.
 
 ### Configuration Structure:
 The configuration has been reorganized for better clarity and consistency:
