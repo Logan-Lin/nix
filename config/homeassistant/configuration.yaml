@@ -1,0 +1,25 @@
+# Home Assistant Main Configuration
+# This configuration is used by the Home Assistant container
+# Documentation: https://www.home-assistant.io/docs/configuration/
+
+# HTTP configuration for reverse proxy (Traefik)
+http:
+  # Enable X-Forwarded-For header support for reverse proxy
+  use_x_forwarded_for: true
+  # Trust these proxies to set the X-Forwarded-For header
+  trusted_proxies: 
+    - 127.0.0.1    # Local Traefik proxy
+    - ::1          # IPv6 localhost
+
+# Loads default set of integrations. Do not remove.
+# This includes: sun, mobile_app, met, radio_browser, etc.
+default_config:
+
+# Load frontend themes from the themes folder
+frontend:
+  themes: !include_dir_merge_named themes
+
+# External configuration files
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml

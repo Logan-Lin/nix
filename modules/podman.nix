@@ -33,6 +33,11 @@ in
           "/var/lib/containers/home/config:/config"
           "/etc/localtime:/etc/localtime:ro"
           "/run/dbus:/run/dbus:ro"
+          # Mount declarative configuration files
+          "/home/yanlin/.config/nix/config/homeassistant/configuration.yaml:/config/configuration.yaml:ro"
+          "/home/yanlin/.config/nix/config/homeassistant/automations.yaml:/config/automations.yaml:ro"
+          "/home/yanlin/.config/nix/config/homeassistant/scenes.yaml:/config/scenes.yaml:ro"
+          "/home/yanlin/.config/nix/config/homeassistant/scripts.yaml:/config/scripts.yaml:ro"
         ];
         
         environment = {

@@ -1,0 +1,234 @@
+# Home Assistant Automations
+# This file contains all automation definitions for the smart home
+# Documentation: https://www.home-assistant.io/docs/automation/yaml/
+
+# Bedroom Light Control Automation
+# Controls bedroom lights via Zigbee switch with multiple button actions
+- id: '1749663887767'
+  alias: Bedroom light - switch control
+  triggers:
+  - device_id: 9041a8cd641d55436de6b8645b20e3c8
+    domain: zha
+    type: remote_button_short_press
+    subtype: button_1
+    trigger: device
+    id: first_btn
+  - device_id: 9041a8cd641d55436de6b8645b20e3c8
+    domain: zha
+    type: remote_button_short_press
+    subtype: button_2
+    trigger: device
+    id: second_btn
+  - device_id: 9041a8cd641d55436de6b8645b20e3c8
+    domain: zha
+    type: remote_button_double_press
+    subtype: button_1
+    trigger: device
+    id: first_btn_double
+  - device_id: 9041a8cd641d55436de6b8645b20e3c8
+    domain: zha
+    type: remote_button_double_press
+    subtype: button_2
+    trigger: device
+    id: second_btn_double
+  conditions: []
+  actions:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id:
+        - first_btn
+      sequence:
+      - choose:
+        - conditions:
+          - condition: state
+            entity_id: light.cell_light
+            state: 'off'
+          sequence:
+          - action: light.turn_on
+            data:
+              color_temp_kelvin: 2000
+              brightness_pct: 70
+            target:
+              entity_id: light.cell_light
+        - conditions:
+          - condition: state
+            entity_id: light.cell_light
+            state: 'on'
+          sequence:
+          - action: light.turn_off
+            target:
+              entity_id:
+              - light.cell_light
+            data: {}
+    - conditions:
+      - condition: trigger
+        id:
+        - second_btn
+      sequence:
+      - choose:
+        - conditions:
+          - condition: state
+            entity_id: light.table_lights_bed_lights
+            state: 'off'
+          sequence:
+          - action: light.turn_on
+            metadata: {}
+            data:
+              color_temp_kelvin: 2000
+              brightness_pct: 50
+            target:
+              entity_id: light.table_lights_bed_lights
+        - conditions:
+          - condition: state
+            entity_id: light.table_lights_bed_lights
+            state: 'on'
+          sequence:
+          - action: light.turn_off
+            metadata: {}
+            data: {}
+            target:
+              entity_id: light.table_lights_bed_lights
+    - conditions:
+      - condition: trigger
+        id:
+        - first_btn_double
+      sequence:
+      - action: light.turn_on
+        metadata: {}
+        data:
+          color_temp_kelvin: 3000
+          brightness_pct: 100
+        target:
+          entity_id: light.cell_light
+    - conditions:
+      - condition: trigger
+        id:
+        - second_btn_double
+      sequence:
+      - action: light.turn_on
+        metadata: {}
+        data:
+          color_temp_kelvin: 2000
+          brightness_pct: 75
+        target:
+          entity_id: light.table_lights_bed_lights
+  mode: single
+
+- id: '1750278561179'
+  alias: Living room lights - switch control
+  description: ''
+  triggers:
+  - device_id: 5da7507dbe1988ee34fbdd3ade9d7645
+    domain: zha
+    type: remote_button_short_press
+    subtype: turn_on
+    trigger: device
+    id: 'on'
+  - device_id: 5da7507dbe1988ee34fbdd3ade9d7645
+    domain: zha
+    type: remote_button_short_press
+    subtype: turn_off
+    trigger: device
+    id: 'off'
+  - device_id: 5da7507dbe1988ee34fbdd3ade9d7645
+    domain: zha
+    type: remote_button_short_press
+    subtype: left
+    trigger: device
+    id: left
+  - device_id: 5da7507dbe1988ee34fbdd3ade9d7645
+    domain: zha
+    type: remote_button_short_press
+    subtype: right
+    trigger: device
+    id: right
+  - device_id: c22d300c7e66e004dfa848be57affe86
+    domain: zha
+    type: remote_button_short_press
+    subtype: turn_on
+    trigger: device
+    id: 'on'
+  - device_id: c22d300c7e66e004dfa848be57affe86
+    domain: zha
+    type: remote_button_short_press
+    subtype: turn_off
+    trigger: device
+    id: 'off'
+  - device_id: c22d300c7e66e004dfa848be57affe86
+    domain: zha
+    type: remote_button_short_press
+    subtype: left
+    trigger: device
+    id: left
+  - device_id: c22d300c7e66e004dfa848be57affe86
+    domain: zha
+    type: remote_button_short_press
+    subtype: right
+    trigger: device
+    id: right
+  conditions: []
+  actions:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id:
+        - 'on'
+      sequence:
+      - action: light.turn_on
+        metadata: {}
+        data: {}
+        target:
+          area_id: living_room
+    - conditions:
+      - condition: trigger
+        id:
+        - 'off'
+      sequence:
+      - action: light.turn_off
+        metadata: {}
+        data: {}
+        target:
+          area_id: living_room
+    - conditions:
+      - condition: and
+        conditions:
+        - condition: trigger
+          id:
+          - left
+          - right
+        - condition: state
+          entity_id: light.zbt_1_table_light
+          state: 'on'
+      sequence:
+      - choose:
+        - conditions:
+          - condition: trigger
+            id:
+            - left
+          sequence:
+          - action: light.turn_on
+            metadata: {}
+            data:
+              color_temp_kelvin: 2000
+              brightness_pct: 70
+            target:
+              area_id: living_room
+        - conditions:
+          - condition: trigger
+            id:
+            - right
+          sequence:
+          - action: light.turn_on
+            metadata: {}
+            data:
+              color_temp_kelvin: 3000
+              brightness_pct: 100
+            target:
+              area_id: living_room
+  - action: input_boolean.turn_off
+    metadata: {}
+    data: {}
+    target:
+      entity_id: input_boolean.motion_light_automation_active
+  mode: single

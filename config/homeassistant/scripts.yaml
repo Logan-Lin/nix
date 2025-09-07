@@ -1,0 +1,15 @@
+# Home Assistant Scripts
+# This file contains script definitions for the smart home
+# Documentation: https://www.home-assistant.io/integrations/script/
+
+# Scripts will be added here as needed
+# Example:
+# bedtime:
+#   alias: "Bedtime Routine"
+#   sequence:
+#     - action: light.turn_off
+#       target:
+#         entity_id: all
+#     - action: switch.turn_off
+#       target:
+#         entity_id: switch.living_room_tv
