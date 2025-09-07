@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 
 {
   programs.btop = {
@@ -60,8 +60,15 @@
       # Battery Settings (MacBook Air)
       show_battery = true;         # Show battery status
       
-      # Layout Settings
-      shown_boxes = "cpu mem net proc";  # Show all main boxes
+      # GPU Settings (system-specific)
+      show_gpu_info = "Auto";         # Auto-detect GPU (works on Linux with Intel/AMD/NVIDIA)
+      nvml_measure_pcie_speeds = false; # NVIDIA-specific, disabled for compatibility
+      gpu_mirror_graph = true;        # Mirror GPU graph when available
+      
+      # Layout Settings (platform-aware)
+      # Note: GPU box only shown on Linux where GPU monitoring is fully supported
+      # Darwin has limited GPU support (basic metrics only)
+      shown_boxes = "cpu mem net proc gpu";
       presets = "cpu:1:default,proc:0:default cpu:0:default,mem:0:default,net:0:default cpu:0:block,net:0:tty";
       
       # Clock Display
