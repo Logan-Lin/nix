@@ -226,6 +226,11 @@
     # Use SSH alias from SSH config for remote backup
     repositoryUrl = "ssh://storage-box/./hs";
     backupPaths = [ "/home" "/var/lib/containers" ];
+    # Examples:
+    # backupFrequency = "daily";           # Midnight (default)
+    # backupFrequency = "*-*-* 03:00:00";  # Every day at 3:00 AM
+    # backupFrequency = "*-*-* 22:30:00";  # Every day at 10:30 PM
+    # backupFrequency = "Mon,Wed,Fri 02:00:00"; # Mon/Wed/Fri at 2:00 AM
     backupFrequency = "daily";
     retention = {
       keepDaily = 7;
