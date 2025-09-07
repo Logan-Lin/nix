@@ -7,7 +7,7 @@
       bookmarks = [
         {
           name = "Links";
-          url = "https://link.nas.yanlincs.com";
+          url = "https://link.hs.yanlincs.com";
         }
         {
           name = "Claude";
@@ -23,11 +23,11 @@
         }
         {
           name = "Paperless";
-          url = "https://paperless.nas.yanlincs.com";
+          url = "https://paperless.hs.yanlincs.com";
         }
         {
           name = "Nextcloud";
-          url = "https://cloud.nas.yanlincs.com";
+          url = "https://cloud.hs.yanlincs.com";
         }
         {
           name = "Productivity";
@@ -65,38 +65,38 @@
         }
         {
           name = "RSS";
-          url = "https://rss.nas.yanlincs.com";
+          url = "https://rss.hs.yanlincs.com";
         }
         {
           name = "Immich";
-          url = "https://photo.nas.yanlincs.com/photos";
+          url = "https://photo.hs.yanlincs.com/photos";
         }
         {
           name = "Home";
-          url = "https://home.nas.yanlincs.com/lovelace/0";
+          url = "https://home.hs.yanlincs.com/lovelace/0";
         }
         {
           name = "Media";
           bookmarks = [
             {
               name = "Plex";
-              url = "https://plex.nas.yanlincs.com";
+              url = "https://plex.hs.yanlincs.com";
             }
             {
               name = "Sonarr";
-              url = "https://sonarr.nas.yanlincs.com";
+              url = "https://sonarr.hs.yanlincs.com";
             }
             {
               name = "Radarr";
-              url = "https://radarr.nas.yanlincs.com";
+              url = "https://radarr.hs.yanlincs.com";
             }
             {
               name = "Bazarr";
-              url = "https://bazarr.nas.yanlincs.com";
+              url = "https://bazarr.hs.yanlincs.com";
             }
             {
               name = "qBittorrent";
-              url = "https://qbit.nas.yanlincs.com";
+              url = "https://qbit.hs.yanlincs.com";
             }
           ];
         }
