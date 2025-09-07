@@ -141,6 +141,36 @@
               }];
             };
           };
+          paperless = {
+            rule = "Host(`paperless.hs.yanlincs.com`)";
+            service = "paperless";
+            tls = {
+              certResolver = "cloudflare";
+              domains = [{
+                main = "*.hs.yanlincs.com";
+              }];
+            };
+          };
+          rss = {
+            rule = "Host(`rss.hs.yanlincs.com`)";
+            service = "rss";
+            tls = {
+              certResolver = "cloudflare";
+              domains = [{
+                main = "*.hs.yanlincs.com";
+              }];
+            };
+          };
+          linkding = {
+            rule = "Host(`link.hs.yanlincs.com`)";
+            service = "linkding";
+            tls = {
+              certResolver = "cloudflare";
+              domains = [{
+                main = "*.hs.yanlincs.com";
+              }];
+            };
+          };
         };
         services = {
           homeassistant = {
@@ -196,6 +226,27 @@
             loadBalancer = {
               servers = [{
                 url = "http://localhost:8080";
+              }];
+            };
+          };
+          paperless = {
+            loadBalancer = {
+              servers = [{
+                url = "http://localhost:8001";
+              }];
+            };
+          };
+          rss = {
+            loadBalancer = {
+              servers = [{
+                url = "http://localhost:8002";
+              }];
+            };
+          };
+          linkding = {
+            loadBalancer = {
+              servers = [{
+                url = "http://localhost:9090";
               }];
             };
           };
