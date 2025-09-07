@@ -45,14 +45,6 @@
       specialArgs = { inherit home-manager nixvim claude-code; };
     };
 
-    nixosConfigurations."hs-iso" = nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
-      modules = [
-        disko.nixosModules.disko
-        ./hosts/nixos/hs/iso.nix
-      ];
-    };
-
     homeConfigurations = {
       "yanlin@imac" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.aarch64-darwin;
