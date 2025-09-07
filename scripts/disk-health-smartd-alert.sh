@@ -1,5 +1,3 @@
-#!/usr/bin/env bash
-
 # SMART daemon alert script for Gotify notifications
 # Called by smartd when SMART issues are detected
 # No arguments needed - uses SMARTD_DEVICE environment variable

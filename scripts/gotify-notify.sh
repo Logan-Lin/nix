@@ -1,5 +1,3 @@
-#!/usr/bin/env bash
-
 # Gotify notification script for disk health monitoring
 # Usage: gotify-notify.sh <url> <token> <priority> <title> <message>
 

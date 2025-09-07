@@ -62,6 +62,11 @@
         StandardError = "journal";
         # Add timeout to prevent hanging
         TimeoutStartSec = "300";  # 5 minutes max
+        # Set PATH to include system binaries for smartctl and curl
+        Environment = "PATH=/run/current-system/sw/bin";
+        # Allow access to block devices for SMART commands
+        DeviceAllow = [ "/dev/disk/by-id/* rw" "/dev/sd* rw" "/dev/nvme* rw" "char-* rw" "block-* rw" ];
+        DevicePolicy = "closed";
       };
     };
   };
