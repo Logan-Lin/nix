@@ -9,6 +9,11 @@ let
   
   # Write config file to a location accessible by the container
   immichConfigFile = pkgs.writeText "immich.json" immichConfigJson;
+  
+  # Universal container configuration
+  commonUID = "1000";
+  commonGID = "100";
+  systemTZ = config.time.timeZone;
 in
 {
   # Container virtualization with Podman
@@ -51,7 +56,7 @@ in
         };
         
         environment = {
-          TZ = "Europe/Copenhagen";
+          TZ = systemTZ;
           # Configure Home Assistant to trust reverse proxy
           HASS_HTTP_TRUSTED_PROXY_1 = "127.0.0.1";
           HASS_HTTP_TRUSTED_PROXY_2 = "::1";
@@ -91,9 +96,9 @@ in
         };
         
         environment = {
-          PUID = "1000";
-          PGID = "100";
-          TZ = "Europe/Copenhagen";
+          PUID = commonUID;
+          PGID = commonGID;
+          TZ = systemTZ;
           # Point to the mounted config file
           IMMICH_CONFIG_FILE = "/config/immich.json";
           # Database connection (keep as env vars for security)
@@ -178,9 +183,9 @@ in
         };
         
         environment = {
-          PUID = "1000";
-          PGID = "100";
-          TZ = "Europe/Copenhagen";
+          PUID = commonUID;
+          PGID = commonGID;
+          TZ = systemTZ;
           VERSION = "docker";
         };
         
@@ -212,9 +217,9 @@ in
         };
         
         environment = {
-          PUID = "1000";
-          PGID = "100";
-          TZ = "Europe/Copenhagen";
+          PUID = commonUID;
+          PGID = commonGID;
+          TZ = systemTZ;
         };
         
         extraOptions = [
@@ -244,9 +249,9 @@ in
         };
         
         environment = {
-          PUID = "1000";
-          PGID = "100";
-          TZ = "Europe/Copenhagen";
+          PUID = commonUID;
+          PGID = commonGID;
+          TZ = systemTZ;
         };
         
         extraOptions = [
@@ -276,9 +281,9 @@ in
         };
         
         environment = {
-          PUID = "1000";
-          PGID = "100";
-          TZ = "Europe/Copenhagen";
+          PUID = commonUID;
+          PGID = commonGID;
+          TZ = systemTZ;
         };
         
         extraOptions = [
@@ -308,9 +313,9 @@ in
         };
         
         environment = {
-          PUID = "1000";
-          PGID = "100";
-          TZ = "Europe/Copenhagen";
+          PUID = commonUID;
+          PGID = commonGID;
+          TZ = systemTZ;
           TORRENTING_PORT = "41234";
           WEBUI_PORT = "8080";
         };
@@ -354,8 +359,8 @@ in
           PAPERLESS_ALLOWED_HOSTS = "paperless.${config.networking.hostName}.yanlincs.com";
           PAPERLESS_CORS_ALLOWED_HOSTS = "https://paperless.${config.networking.hostName}.yanlincs.com";
           PAPERLESS_SECRET_KEY = "e11fl1oa-*ytql8p)(06fbj4ukrlo+n7k&q5+$1md7i+mge=ee";
-          USERMAP_UID = "1000";
-          USERMAP_GID = "100";
+          USERMAP_UID = commonUID;
+          USERMAP_GID = commonGID;
           CA_TS_FALLBACK_DIR = "/usr/src/paperless/data";
         };
         
@@ -480,9 +485,9 @@ in
         };
         
         environment = {
-          PUID = "1000";
-          PGID = "100";
-          TZ = "Europe/Copenhagen";
+          PUID = commonUID;
+          PGID = commonGID;
+          TZ = systemTZ;
         };
         
         ports = [
@@ -506,9 +511,9 @@ in
         ];
         
         environment = {
-          PUID = "1000";
-          PGID = "100";
-          TZ = "Europe/Copenhagen";
+          PUID = commonUID;
+          PGID = commonGID;
+          TZ = systemTZ;
           MYSQL_ROOT_PASSWORD = "nextcloud";
           MYSQL_DATABASE = "nextcloud";
           MYSQL_USER = "nextcloud";
