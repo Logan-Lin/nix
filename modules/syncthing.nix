@@ -29,23 +29,26 @@
         "imac" = {
           id = "5FVPJMW-ZK2NSM7-H747PTY-XWOJPHC-MBJZWJW-WKAB5BE-KSMQAXQ-QQP6JAG";
         };
+        "hs" = {
+          id = "GH5D3DJ-PAGKBL6-3VDZJRT-QG4ZMRD-GHCCA3Y-HM2H5CE-NAMJYRR-VHLOOQH";
+        };
       };
       
       # Define shared folders
       folders = {
         "Credentials" = {
           path = "~/Credentials";
-          devices = [ "ipad" "mba" "iphone" "imac" ];
+          devices = [ "ipad" "mba" "iphone" "imac" "hs" ];
           ignorePerms = true;
         };
         "Documents" = {
           path = "~/Documents";
-          devices = [ "mba" "imac" ];
+          devices = [ "mba" "imac" "hs" ];
           ignorePerms = true;
         };
         "Obsidian" = {
           path = "~/Obsidian";
-          devices = [ "ipad" "mba" "iphone" "imac" ];
+          devices = [ "ipad" "mba" "iphone" "imac" "hs" ];
           ignorePerms = true;
         };
       };
