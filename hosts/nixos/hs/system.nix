@@ -226,11 +226,6 @@
     # Use SSH alias from SSH config for remote backup
     repositoryUrl = "ssh://storage-box/./hs";
     backupPaths = [ "/home" "/var/lib/containers" ];
-    # Examples:
-    # backupFrequency = "daily";           # Midnight (default)
-    # backupFrequency = "*-*-* 03:00:00";  # Every day at 3:00 AM
-    # backupFrequency = "*-*-* 22:30:00";  # Every day at 10:30 PM
-    # backupFrequency = "Mon,Wed,Fri 02:00:00"; # Mon/Wed/Fri at 2:00 AM
     backupFrequency = "daily";
     retention = {
       keepDaily = 7;
@@ -239,12 +234,17 @@
       keepYearly = 2;
     };
     passphraseFile = "/etc/borg-passphrase";
+    
+    # Gotify notifications
+    enableNotifications = true;
+    gotifyUrl = "https://notify.yanlincs.com";
+    gotifyToken = "Ac9qKFH5cA.7Yly";
+    
     preHook = ''
       echo "$(date): Starting Borg backup of ${config.networking.hostName}"
     '';
     postHook = ''
       echo "$(date): Borg backup of ${config.networking.hostName} completed successfully"
-      # Optional: Send notification or update monitoring system
     '';
   };
 

@@ -139,6 +139,26 @@ in
       example = "echo 'Backup completed.'";
       description = "Commands to run after successful backup";
     };
+
+    enableNotifications = mkOption {
+      type = types.bool;
+      default = false;
+      description = "Enable Gotify notifications for backup status";
+    };
+
+    gotifyUrl = mkOption {
+      type = types.str;
+      default = "";
+      example = "https://notify.yanlincs.com";
+      description = "Gotify server URL for notifications";
+    };
+
+    gotifyToken = mkOption {
+      type = types.str;
+      default = "";
+      example = "Ac9qKFH5cA.7Yly";
+      description = "Gotify API token for notifications";
+    };
   };
 
   config = mkIf cfg.enable {
@@ -159,8 +179,8 @@ in
       wants = [ "network-online.target" ];
       after = [ "network-online.target" ];
       
-      # Add borg to the service's PATH
-      path = [ pkgs.borgbackup pkgs.openssh ];
+      # Add borg and required tools to the service's PATH
+      path = [ pkgs.borgbackup pkgs.openssh pkgs.curl ];
 
       serviceConfig = {
         Type = "oneshot";
@@ -194,6 +214,36 @@ in
           "--keep-yearly ${toString keepYearly}"
         ];
       in ''
+        # Error handling function for notifications
+        send_error_notification() {
+          local error_msg="$1"
+          echo "ERROR: $error_msg" >&2
+          if [ "${toString cfg.enableNotifications}" = "1" ] && [ -n "${cfg.gotifyUrl}" ] && [ -n "${cfg.gotifyToken}" ]; then
+            /home/yanlin/.config/nix/scripts/gotify-notify.sh \
+              "${cfg.gotifyUrl}" \
+              "${cfg.gotifyToken}" \
+              "critical" \
+              "Backup Failed" \
+              "$error_msg" || echo "Failed to send error notification" >&2
+          fi
+        }
+        
+        # Helper function for safe notifications (non-blocking)
+        send_success_notification() {
+          local message="$1"
+          echo "INFO: $message"
+          if [ "${toString cfg.enableNotifications}" = "1" ] && [ -n "${cfg.gotifyUrl}" ] && [ -n "${cfg.gotifyToken}" ]; then
+            /home/yanlin/.config/nix/scripts/gotify-notify.sh \
+              "${cfg.gotifyUrl}" \
+              "${cfg.gotifyToken}" \
+              "normal" \
+              "Backup Completed" \
+              "$message" || echo "Failed to send success notification (non-critical)" >&2
+          fi
+        }
+        
+        # Only trap critical failures - not notification or parsing failures
+        trap 'send_error_notification "Critical backup failure with exit code $? at line $LINENO"; exit 1' ERR
         set -e
         
         # Set SSH command for remote repositories
@@ -235,6 +285,8 @@ in
         ARCHIVE_NAME="backup-$(date +%Y-%m-%d_%H-%M-%S)"
         echo "Creating backup archive: $ARCHIVE_NAME"
         
+        # Capture borg create output for statistics
+        BACKUP_START=$(date +%s)
         borg create \
           --verbose \
           --stats \
@@ -243,24 +295,81 @@ in
           --exclude-caches \
           ${excludeArgs} \
           "::$ARCHIVE_NAME" \
-          ${backupPathsStr}
+          ${backupPathsStr} 2>&1 | tee /tmp/borg-create-output.log
+        BACKUP_END=$(date +%s)
+        BACKUP_DURATION=$((BACKUP_END - BACKUP_START))
         
-        # Prune old backups
+        # Disable error trap for non-critical operations
+        set +e
+        
+        # Prune old backups (non-critical)
         echo "Pruning old backups..."
-        borg prune \
+        if ! borg prune \
           --list \
           --prefix 'backup-' \
           --show-rc \
-          ${retentionArgs}
+          ${retentionArgs}; then
+          echo "WARNING: Pruning failed, but backup archive was created successfully" >&2
+        fi
         
-        # Compact repository to free space
+        # Compact repository to free space (non-critical)
         echo "Compacting repository..."
-        borg compact
+        if ! borg compact; then
+          echo "WARNING: Compacting failed, but backup archive was created successfully" >&2
+        fi
         
-        # Post-hook
-        ${cfg.postHook}
+        # Re-enable error trap for critical operations only if needed
+        # set -e
         
-        echo "Backup completed successfully"
+        # Post-hook (allow failures)
+        if [ -n "${cfg.postHook}" ]; then
+          echo "Running post-hook..."
+          (
+            ${cfg.postHook}
+          ) || echo "WARNING: Post-hook execution failed" >&2
+        fi
+        
+        # Extract and send success notification (non-blocking)
+        {
+          echo "Extracting backup statistics..."
+          
+          # Robust statistics parsing with multiple fallbacks
+          BACKUP_STATS="Duration: ''${BACKUP_DURATION}s"
+          
+          if [ -f /tmp/borg-create-output.log ]; then
+            # Try to extract archive size
+            ARCHIVE_SIZE=$(grep -E "This archive:" /tmp/borg-create-output.log | awk '{print $3, $4}' 2>/dev/null || echo "")
+            if [ -n "''$ARCHIVE_SIZE" ]; then
+              BACKUP_STATS="''$BACKUP_STATS, Archive: ''$ARCHIVE_SIZE"
+            fi
+            
+            # Try to extract deduplicated size  
+            DEDUPE_SIZE=$(grep -E "This archive:.*Deduplicated size" /tmp/borg-create-output.log | awk '{for(i=1;i<=NF;i++) if($i~/[0-9]/) print $(i) " " $(i+1); break}' 2>/dev/null || echo "")
+            if [ -z "''$DEDUPE_SIZE" ]; then
+              # Alternative pattern matching
+              DEDUPE_SIZE=$(grep -A 1 -E "This archive:" /tmp/borg-create-output.log | tail -1 | awk '{print ''$NF-1, ''$NF}' 2>/dev/null || echo "")
+            fi
+            if [ -n "''$DEDUPE_SIZE" ]; then
+              BACKUP_STATS="''$BACKUP_STATS, Deduplicated: ''$DEDUPE_SIZE"
+            fi
+            
+            rm -f /tmp/borg-create-output.log 2>/dev/null || true
+          fi
+          
+          # Add basic success info
+          BACKUP_STATS="Backup completed successfully. ''$BACKUP_STATS"
+          
+          echo "Backup statistics: ''$BACKUP_STATS"
+          
+          # Send notification (non-blocking)
+          send_success_notification "''$BACKUP_STATS"
+          
+        } || {
+          echo "WARNING: Statistics extraction or notification failed, but backup succeeded" >&2
+          send_success_notification "Backup completed successfully for ${config.networking.hostName}"
+        }
+        
+        echo "Backup process completed successfully"
       '';
     };
 
