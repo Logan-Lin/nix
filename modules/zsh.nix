@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, ... }:
 
 let
   projectsConfig = import ../config/projects.nix { homeDirectory = config.home.homeDirectory; };
@@ -27,17 +27,6 @@ in
       hm = "home-manager";
       hms = "home-manager switch --flake ~/.config/nix#$(whoami)@$(hostname)";
       hms-offline = "home-manager switch --flake ~/.config/nix#$(whoami)@$(hostname) --option substitute false";
-      doss = "sudo darwin-rebuild switch --flake ~/.config/nix#$(hostname)";
-      noss = "sudo nixos-rebuild switch --flake ~/.config/nix#$(hostname)";
-      # Disk health monitoring
-      smart-report = "sudo /home/yanlin/.config/nix/scripts/daily-smart-report.sh";
-      
-    } // lib.optionalAttrs pkgs.stdenv.isDarwin {
-      # macOS-specific app aliases
-      preview = "open -a Preview";
-      slide = "open -a SlidePilot";
-      pixel = "open -a 'Pixelmator Pro'";
-      inkscape = "open -a Inkscape";
     };
     
     initContent = ''
@@ -122,31 +111,6 @@ in
         fi
       }
       
-      # Function to search and open all macOS applications (macOS only)
-      ${lib.optionalString pkgs.stdenv.isDarwin ''
-        function app() {
-          local app_path
-          local file_to_open="$1"
-          
-          app_path=$( (find -L /Applications -name "*.app" -maxdepth 2 2>/dev/null; \
-                       find -L ~/Applications -name "*.app" -maxdepth 3 2>/dev/null; \
-                       find /System/Applications -name "*.app" -maxdepth 2 2>/dev/null; \
-                       find /System/Applications/Utilities -name "*.app" -maxdepth 1 2>/dev/null) | 
-            sort | uniq | 
-            fzf --header="Select app to open''${file_to_open:+ file: $file_to_open}" \
-                --preview 'basename {} .app' \
-                --preview-window=up:1 \
-                --height=40%)
-          
-          if [[ -n "$app_path" ]]; then
-            if [[ -n "$file_to_open" ]]; then
-              open -a "$app_path" "$file_to_open"
-            else
-              open "$app_path"
-            fi
-          fi
-        }
-      ''}
       
       # Interactive project launcher with fzf
       function proj() {
