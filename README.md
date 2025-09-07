@@ -81,6 +81,11 @@ home-manager switch --flake github:Logan-Lin/nix-config#yanlin@hs
 │   │   ├── extensions.nix
 │   │   └── search.nix
 │   ├── fonts.nix      # Font packages and configuration
+│   ├── homeassistant/ # Home Assistant smart home configuration
+│   │   ├── configuration.yaml  # Main HA configuration with reverse proxy
+│   │   ├── automations.yaml    # Bedroom lighting automation via Zigbee
+│   │   ├── scenes.yaml         # Scene definitions (empty, ready for use)
+│   │   └── scripts.yaml        # Script definitions (empty, ready for use)
 │   ├── immich.nix     # Immich photo management service configuration
 │   ├── p10k.zsh       # Powerlevel10k theme configuration
 │   ├── projects.json  # Project definitions
@@ -968,6 +973,10 @@ Comprehensive suite of self-hosted services managed via Podman with automatic st
 
 #### Home Automation & Monitoring
 - **Home Assistant**: Smart home automation with USB Zigbee integration
+  - Declarative configuration in `config/homeassistant/`
+  - Bedroom lighting automation via Zigbee switch
+  - Reverse proxy trust configuration for Traefik
+  - Configuration and automations version-controlled and backed up
 - **Syncthing**: Secure file synchronization across devices
 
 #### Productivity & Knowledge Management
