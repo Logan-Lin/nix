@@ -245,6 +245,126 @@
         
         autoStart = true;
       };
+
+      # Paperless document management system
+      containers.paperless = {
+        image = "ghcr.io/paperless-ngx/paperless-ngx:latest";
+        
+        volumes = [
+          "/home/yanlin/deploy/data/paperless/config:/usr/src/paperless/data"
+          "/mnt/storage/appbulk/Paperless/media:/usr/src/paperless/media"
+          "/mnt/storage/appbulk/Paperless/consume:/usr/src/paperless/consume"
+          "/mnt/storage/appbulk/Paperless/export:/usr/src/paperless/export"
+        ];
+        
+        environment = {
+          PAPERLESS_REDIS = "redis://paperless-redis:6379";
+          PAPERLESS_OCR_LANGUAGE = "eng+chi_sim";
+          PAPERLESS_OCR_LANGUAGES = "chi-sim";
+          PAPERLESS_FILENAME_FORMAT = "{{ created }}-{{ correspondent }}-{{ title }}";
+          PAPERLESS_TIME_ZONE = "Europe/Copenhagen";
+          PAPERLESS_URL = "https://paperless.hs.yanlincs.com";
+          PAPERLESS_CSRF_TRUSTED_ORIGINS = "https://paperless.hs.yanlincs.com";
+          PAPERLESS_ALLOWED_HOSTS = "paperless.hs.yanlincs.com";
+          PAPERLESS_CORS_ALLOWED_HOSTS = "https://paperless.hs.yanlincs.com";
+          PAPERLESS_SECRET_KEY = "e11fl1oa-*ytql8p)(06fbj4ukrlo+n7k&q5+$1md7i+mge=ee";
+          USERMAP_UID = "1000";
+          USERMAP_GID = "100";
+          CA_TS_FALLBACK_DIR = "/usr/src/paperless/data";
+        };
+        
+        ports = [
+          "8001:8000"
+        ];
+        
+        extraOptions = [
+          "--network=podman"
+        ];
+        
+        dependsOn = [ "paperless-redis" ];
+        autoStart = true;
+      };
+
+      # Redis cache for Paperless
+      containers.paperless-redis = {
+        image = "docker.io/redis:7.2-alpine";
+        
+        extraOptions = [
+          "--network=podman"
+        ];
+        
+        autoStart = true;
+      };
+
+      # RSS reader (Miniflux)
+      containers.rss = {
+        image = "docker.io/miniflux/miniflux:latest";
+        
+        environment = {
+          DATABASE_URL = "postgres://miniflux:miniflux@rss-db/miniflux?sslmode=disable";
+          ADMIN_USERNAME = "yanlin";
+          ADMIN_PASSWORD = "1Hayashi-2Hiko";
+          BASE_URL = "https://rss.hs.yanlincs.com";
+          CREATE_ADMIN = "1";
+          RUN_MIGRATIONS = "1";
+          HTTP_CLIENT_TIMEOUT = "50000";
+          POLLING_FREQUENCY = "60";
+          CLEANUP_FREQUENCY_HOURS = "24";
+          CLEANUP_ARCHIVE_READ_DAYS = "60";
+          CLEANUP_REMOVE_SESSIONS_DAYS = "30";
+        };
+        
+        ports = [
+          "8002:8080"
+        ];
+        
+        extraOptions = [
+          "--network=podman"
+        ];
+        
+        dependsOn = [ "rss-db" ];
+        autoStart = true;
+      };
+
+      # PostgreSQL database for RSS (Miniflux)
+      containers.rss-db = {
+        image = "docker.io/postgres:17-alpine";
+        
+        volumes = [
+          "/home/yanlin/deploy/data/rss/db:/var/lib/postgresql/data"
+        ];
+        
+        environment = {
+          POSTGRES_USER = "miniflux";
+          POSTGRES_PASSWORD = "miniflux";
+          POSTGRES_DB = "miniflux";
+        };
+        
+        extraOptions = [
+          "--network=podman"
+        ];
+        
+        autoStart = true;
+      };
+
+      # Linkding bookmark manager
+      containers.linkding = {
+        image = "docker.io/sissbruecker/linkding:latest-plus";
+        
+        volumes = [
+          "/home/yanlin/deploy/data/link:/etc/linkding/data"
+        ];
+        
+        ports = [
+          "9090:9090"
+        ];
+        
+        extraOptions = [
+          "--network=podman"
+        ];
+        
+        autoStart = true;
+      };
     };
   };
 }
