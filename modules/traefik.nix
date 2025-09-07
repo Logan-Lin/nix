@@ -81,6 +81,16 @@
               }];
             };
           };
+          syncthing = {
+            rule = "Host(`syncthing.hs.yanlincs.com`)";
+            service = "syncthing";
+            tls = {
+              certResolver = "cloudflare";
+              domains = [{
+                main = "*.hs.yanlincs.com";
+              }];
+            };
+          };
         };
         services = {
           homeassistant = {
@@ -94,6 +104,13 @@
             loadBalancer = {
               servers = [{
                 url = "http://localhost:5000";
+              }];
+            };
+          };
+          syncthing = {
+            loadBalancer = {
+              servers = [{
+                url = "http://localhost:8384";
               }];
             };
           };
