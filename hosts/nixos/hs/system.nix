@@ -7,6 +7,7 @@
     ../../../modules/traefik.nix
     ../../../modules/samba.nix
     ../../../modules/disk-health.nix
+    ../../../modules/borg.nix
   ];
 
   # GRUB bootloader with ZFS support
@@ -218,6 +219,34 @@
 
   # Enable experimental nix features
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
+  # Borg backup configuration
+  services.borgbackup-custom = {
+    enable = true;
+    # Use SSH alias from SSH config for remote backup
+    repositoryUrl = "ssh://storage-box/./hs";
+    backupPaths = [ "/home" "/var/lib/containers" ];
+    # Examples:
+    # backupFrequency = "daily";           # Midnight (default)
+    # backupFrequency = "*-*-* 03:00:00";  # Every day at 3:00 AM
+    # backupFrequency = "*-*-* 22:30:00";  # Every day at 10:30 PM
+    # backupFrequency = "Mon,Wed,Fri 02:00:00"; # Mon/Wed/Fri at 2:00 AM
+    backupFrequency = "daily";
+    retention = {
+      keepDaily = 7;
+      keepWeekly = 4;
+      keepMonthly = 6;
+      keepYearly = 2;
+    };
+    passphraseFile = "/etc/borg-passphrase";
+    preHook = ''
+      echo "$(date): Starting Borg backup of ${config.networking.hostName}"
+    '';
+    postHook = ''
+      echo "$(date): Borg backup of ${config.networking.hostName} completed successfully"
+      # Optional: Send notification or update monitoring system
+    '';
+  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
