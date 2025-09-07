@@ -71,12 +71,29 @@
               }];
             };
           };
+          immich = {
+            rule = "Host(`photo.hs.yanlincs.com`)";
+            service = "immich";
+            tls = {
+              certResolver = "cloudflare";
+              domains = [{
+                main = "*.hs.yanlincs.com";
+              }];
+            };
+          };
         };
         services = {
           homeassistant = {
             loadBalancer = {
               servers = [{
                 url = "http://localhost:8123";
+              }];
+            };
+          };
+          immich = {
+            loadBalancer = {
+              servers = [{
+                url = "http://localhost:5000";
               }];
             };
           };
