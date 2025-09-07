@@ -231,6 +231,7 @@
       "/mnt/storage/appbulk/immich/library/"
       "/mnt/storage/appbulk/Paperless/media/documents"
       "/mnt/storage/Media/DCIM"
+      "/mnt/storage/Media/NSFW"
     ];
     # Examples:
     # backupFrequency = "daily";           # Midnight (default)
