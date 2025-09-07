@@ -91,6 +91,56 @@
               }];
             };
           };
+          plex = {
+            rule = "Host(`plex.hs.yanlincs.com`)";
+            service = "plex";
+            tls = {
+              certResolver = "cloudflare";
+              domains = [{
+                main = "*.hs.yanlincs.com";
+              }];
+            };
+          };
+          sonarr = {
+            rule = "Host(`sonarr.hs.yanlincs.com`)";
+            service = "sonarr";
+            tls = {
+              certResolver = "cloudflare";
+              domains = [{
+                main = "*.hs.yanlincs.com";
+              }];
+            };
+          };
+          radarr = {
+            rule = "Host(`radarr.hs.yanlincs.com`)";
+            service = "radarr";
+            tls = {
+              certResolver = "cloudflare";
+              domains = [{
+                main = "*.hs.yanlincs.com";
+              }];
+            };
+          };
+          bazarr = {
+            rule = "Host(`bazarr.hs.yanlincs.com`)";
+            service = "bazarr";
+            tls = {
+              certResolver = "cloudflare";
+              domains = [{
+                main = "*.hs.yanlincs.com";
+              }];
+            };
+          };
+          qbittorrent = {
+            rule = "Host(`qbit.hs.yanlincs.com`)";
+            service = "qbittorrent";
+            tls = {
+              certResolver = "cloudflare";
+              domains = [{
+                main = "*.hs.yanlincs.com";
+              }];
+            };
+          };
         };
         services = {
           homeassistant = {
@@ -111,6 +161,41 @@
             loadBalancer = {
               servers = [{
                 url = "http://localhost:8384";
+              }];
+            };
+          };
+          plex = {
+            loadBalancer = {
+              servers = [{
+                url = "http://localhost:32400";
+              }];
+            };
+          };
+          sonarr = {
+            loadBalancer = {
+              servers = [{
+                url = "http://localhost:8989";
+              }];
+            };
+          };
+          radarr = {
+            loadBalancer = {
+              servers = [{
+                url = "http://localhost:7878";
+              }];
+            };
+          };
+          bazarr = {
+            loadBalancer = {
+              servers = [{
+                url = "http://localhost:6767";
+              }];
+            };
+          };
+          qbittorrent = {
+            loadBalancer = {
+              servers = [{
+                url = "http://localhost:8080";
               }];
             };
           };
