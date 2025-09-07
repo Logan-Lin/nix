@@ -34,6 +34,14 @@
     openssh
     gnumake
     
+    # Network diagnostic tools
+    bind           # DNS utilities (dig, nslookup, mdig)
+    iputils        # Core network tools (ping, traceroute)
+    inetutils      # Network utilities (telnet)
+    netcat-gnu     # Network connection utility
+    curl           # HTTP client
+    wget           # Web downloader
+    
     # Command-line utilities
     ncdu
     git-credential-oauth
