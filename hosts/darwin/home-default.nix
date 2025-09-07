@@ -39,7 +39,7 @@
   };
 
   # Darwin-specific zsh functions
-  programs.zsh.initExtra = ''
+  programs.zsh.initContent = ''
     # Function to search and open all macOS applications
     function app() {
       local app_path
