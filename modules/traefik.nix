@@ -7,6 +7,12 @@
     
     # Static configuration
     staticConfigOptions = {
+      # Enable Docker provider for automatic service discovery
+      providers.docker = {
+        endpoint = "unix:///var/run/docker.sock";
+        exposedByDefault = false;  # Only expose containers with traefik.enable=true
+        network = "podman";  # Use podman network
+      };
       # Entry points for HTTP and HTTPS
       entrypoints = {
         web = {
@@ -57,213 +63,26 @@
       };
     };
 
-    # Dynamic configuration for services
+    # Dynamic configuration for services not running in containers
     dynamicConfigOptions = {
       http = {
         routers = {
-          homeassistant = {
-            rule = "Host(`home.hs.yanlincs.com`)";
-            service = "homeassistant";
-            tls = {
-              certResolver = "cloudflare";
-              domains = [{
-                main = "*.hs.yanlincs.com";
-              }];
-            };
-          };
-          immich = {
-            rule = "Host(`photo.hs.yanlincs.com`)";
-            service = "immich";
-            tls = {
-              certResolver = "cloudflare";
-              domains = [{
-                main = "*.hs.yanlincs.com";
-              }];
-            };
-          };
           syncthing = {
-            rule = "Host(`syncthing.hs.yanlincs.com`)";
+            rule = "Host(`syncthing.${config.networking.hostName}.yanlincs.com`)";
             service = "syncthing";
             tls = {
               certResolver = "cloudflare";
               domains = [{
-                main = "*.hs.yanlincs.com";
-              }];
-            };
-          };
-          plex = {
-            rule = "Host(`plex.hs.yanlincs.com`)";
-            service = "plex";
-            tls = {
-              certResolver = "cloudflare";
-              domains = [{
-                main = "*.hs.yanlincs.com";
-              }];
-            };
-          };
-          sonarr = {
-            rule = "Host(`sonarr.hs.yanlincs.com`)";
-            service = "sonarr";
-            tls = {
-              certResolver = "cloudflare";
-              domains = [{
-                main = "*.hs.yanlincs.com";
-              }];
-            };
-          };
-          radarr = {
-            rule = "Host(`radarr.hs.yanlincs.com`)";
-            service = "radarr";
-            tls = {
-              certResolver = "cloudflare";
-              domains = [{
-                main = "*.hs.yanlincs.com";
-              }];
-            };
-          };
-          bazarr = {
-            rule = "Host(`bazarr.hs.yanlincs.com`)";
-            service = "bazarr";
-            tls = {
-              certResolver = "cloudflare";
-              domains = [{
-                main = "*.hs.yanlincs.com";
-              }];
-            };
-          };
-          qbittorrent = {
-            rule = "Host(`qbit.hs.yanlincs.com`)";
-            service = "qbittorrent";
-            tls = {
-              certResolver = "cloudflare";
-              domains = [{
-                main = "*.hs.yanlincs.com";
-              }];
-            };
-          };
-          paperless = {
-            rule = "Host(`paperless.hs.yanlincs.com`)";
-            service = "paperless";
-            tls = {
-              certResolver = "cloudflare";
-              domains = [{
-                main = "*.hs.yanlincs.com";
-              }];
-            };
-          };
-          rss = {
-            rule = "Host(`rss.hs.yanlincs.com`)";
-            service = "rss";
-            tls = {
-              certResolver = "cloudflare";
-              domains = [{
-                main = "*.hs.yanlincs.com";
-              }];
-            };
-          };
-          linkding = {
-            rule = "Host(`link.hs.yanlincs.com`)";
-            service = "linkding";
-            tls = {
-              certResolver = "cloudflare";
-              domains = [{
-                main = "*.hs.yanlincs.com";
-              }];
-            };
-          };
-          cloud = {
-            rule = "Host(`cloud.hs.yanlincs.com`)";
-            service = "cloud";
-            tls = {
-              certResolver = "cloudflare";
-              domains = [{
-                main = "*.hs.yanlincs.com";
+                main = "*.${config.networking.hostName}.yanlincs.com";
               }];
             };
           };
         };
         services = {
-          homeassistant = {
-            loadBalancer = {
-              servers = [{
-                url = "http://localhost:8123";
-              }];
-            };
-          };
-          immich = {
-            loadBalancer = {
-              servers = [{
-                url = "http://localhost:5000";
-              }];
-            };
-          };
           syncthing = {
             loadBalancer = {
               servers = [{
                 url = "http://localhost:8384";
-              }];
-            };
-          };
-          plex = {
-            loadBalancer = {
-              servers = [{
-                url = "http://localhost:32400";
-              }];
-            };
-          };
-          sonarr = {
-            loadBalancer = {
-              servers = [{
-                url = "http://localhost:8989";
-              }];
-            };
-          };
-          radarr = {
-            loadBalancer = {
-              servers = [{
-                url = "http://localhost:7878";
-              }];
-            };
-          };
-          bazarr = {
-            loadBalancer = {
-              servers = [{
-                url = "http://localhost:6767";
-              }];
-            };
-          };
-          qbittorrent = {
-            loadBalancer = {
-              servers = [{
-                url = "http://localhost:8080";
-              }];
-            };
-          };
-          paperless = {
-            loadBalancer = {
-              servers = [{
-                url = "http://localhost:8001";
-              }];
-            };
-          };
-          rss = {
-            loadBalancer = {
-              servers = [{
-                url = "http://localhost:8002";
-              }];
-            };
-          };
-          linkding = {
-            loadBalancer = {
-              servers = [{
-                url = "http://localhost:9090";
-              }];
-            };
-          };
-          cloud = {
-            loadBalancer = {
-              servers = [{
-                url = "http://localhost:5001";
               }];
             };
           };
@@ -273,6 +92,13 @@
 
     # Environment variables for Cloudflare
     environmentFiles = [ "/run/secrets/traefik-env" ];
+  };
+
+  # Ensure Traefik can access Docker socket
+  systemd.services.traefik.serviceConfig = {
+    SupplementaryGroups = [ "podman" ];
+    # Mount Docker/Podman socket for service discovery
+    BindPaths = [ "/run/podman/podman.sock:/var/run/docker.sock" ];
   };
 
   # Create environment file for Traefik Cloudflare credentials
