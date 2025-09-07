@@ -114,6 +114,137 @@
         
         autoStart = true;
       };
+
+      # Plex Media Server
+      containers.plex = {
+        image = "docker.io/linuxserver/plex:latest";
+        
+        volumes = [
+          "/home/yanlin/deploy/data/plex/config:/config"
+          "/mnt/storage/appbulk/plex-transcode:/transcode"
+          "/mnt/storage/Media:/data"
+        ];
+        
+        environment = {
+          PUID = "1000";
+          PGID = "100";
+          TZ = "Europe/Copenhagen";
+          VERSION = "docker";
+        };
+        
+        ports = [
+          "32400:32400"
+        ];
+        
+        extraOptions = [
+          "--network=podman"
+          "--device=/dev/dri:/dev/dri"  # Hardware acceleration
+        ];
+        
+        autoStart = true;
+      };
+
+      # Sonarr TV show management
+      containers.sonarr = {
+        image = "docker.io/linuxserver/sonarr:latest";
+        
+        volumes = [
+          "/home/yanlin/deploy/data/sonarr/config:/config"
+          "/mnt/storage/Media:/data"
+        ];
+        
+        environment = {
+          PUID = "1000";
+          PGID = "100";
+          TZ = "Europe/Copenhagen";
+        };
+        
+        ports = [
+          "8989:8989"
+        ];
+        
+        extraOptions = [
+          "--network=podman"
+        ];
+        
+        autoStart = true;
+      };
+
+      # Radarr movie management
+      containers.radarr = {
+        image = "docker.io/linuxserver/radarr:latest";
+        
+        volumes = [
+          "/home/yanlin/deploy/data/radarr/config:/config"
+          "/mnt/storage/Media:/data"
+        ];
+        
+        environment = {
+          PUID = "1000";
+          PGID = "100";
+          TZ = "Europe/Copenhagen";
+        };
+        
+        ports = [
+          "7878:7878"
+        ];
+        
+        extraOptions = [
+          "--network=podman"
+        ];
+        
+        autoStart = true;
+      };
+
+      # Bazarr subtitle management
+      containers.bazarr = {
+        image = "docker.io/linuxserver/bazarr:latest";
+        
+        volumes = [
+          "/home/yanlin/deploy/data/bazarr/config:/config"
+          "/mnt/storage/Media:/data"
+        ];
+        
+        environment = {
+          PUID = "1000";
+          PGID = "100";
+          TZ = "Europe/Copenhagen";
+        };
+        
+        ports = [
+          "6767:6767"
+        ];
+        
+        extraOptions = [
+          "--network=podman"
+        ];
+        
+        autoStart = true;
+      };
+
+      # qBittorrent torrent client with host networking
+      containers.qbittorrent = {
+        image = "docker.io/linuxserver/qbittorrent:4.6.7";
+        
+        volumes = [
+          "/home/yanlin/deploy/data/qbit/config:/config"
+          "/mnt/storage/Media:/data"
+        ];
+        
+        environment = {
+          PUID = "1000";
+          PGID = "100";
+          TZ = "Europe/Copenhagen";
+          TORRENTING_PORT = "41234";
+          WEBUI_PORT = "8080";
+        };
+        
+        extraOptions = [
+          "--network=host"  # Use host networking as requested
+        ];
+        
+        autoStart = true;
+      };
     };
   };
 }
