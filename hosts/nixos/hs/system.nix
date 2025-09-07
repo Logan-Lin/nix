@@ -225,7 +225,13 @@
     enable = true;
     # Use SSH alias from SSH config for remote backup
     repositoryUrl = "ssh://storage-box/./hs";
-    backupPaths = [ "/home" "/var/lib/containers" ];
+    backupPaths = [
+      "/home"
+      "/var/lib/containers" 
+      "/mnt/storage/appbulk/immich/library/"
+      "/mnt/storage/appbulk/Paperless/media/documents"
+      "/mnt/storage/Media/DCIM"
+    ];
     # Examples:
     # backupFrequency = "daily";           # Midnight (default)
     # backupFrequency = "*-*-* 03:00:00";  # Every day at 3:00 AM
