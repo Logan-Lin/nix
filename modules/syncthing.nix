@@ -40,17 +40,46 @@
           path = "~/Credentials";
           devices = [ "ipad" "mba" "iphone" "imac" "hs" ];
           ignorePerms = true;
+          versioning = {
+            type = "staggered";
+            params = {
+              maxAge = "15552000"; # 180 days in seconds
+              cleanInterval = "3600"; # Clean every hour
+            };
+          };
         };
         "Documents" = {
           path = "~/Documents";
           devices = [ "mba" "imac" "hs" ];
           ignorePerms = true;
+          versioning = {
+            type = "staggered";
+            params = {
+              maxAge = "15552000"; # 180 days in seconds
+              cleanInterval = "3600"; # Clean every hour
+            };
+          };
         };
         "Obsidian" = {
           path = "~/Obsidian";
           devices = [ "ipad" "mba" "iphone" "imac" "hs" ];
           ignorePerms = true;
+          versioning = {
+            type = "staggered";
+            params = {
+              maxAge = "15552000"; # 180 days in seconds
+              cleanInterval = "3600"; # Clean every hour
+            };
+          };
         };
+      };
+      
+      # GUI settings with authentication
+      gui = {
+        enabled = true;
+        user = "yanlin";
+        password = "1Hayashi-2Hiko"; # You should change this password
+        useTLS = false; # TLS is handled by Traefik
       };
       
       # Additional settings
