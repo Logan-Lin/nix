@@ -81,6 +81,7 @@ home-manager switch --flake github:Logan-Lin/nix-config#yanlin@hs
 │   │   ├── extensions.nix
 │   │   └── search.nix
 │   ├── fonts.nix      # Font packages and configuration
+│   ├── immich.nix     # Immich photo management service configuration
 │   ├── p10k.zsh       # Powerlevel10k theme configuration
 │   ├── projects.json  # Project definitions
 │   └── projects.nix   # Project shortcuts configuration
@@ -957,6 +958,11 @@ Comprehensive suite of self-hosted services managed via Podman with automatic st
 #### Media & Entertainment
 - **Plex Media Server**: Personal media streaming with hardware transcoding
 - **Immich**: Photo and video backup with AI-powered organization
+  - Declarative configuration in `config/immich.nix`
+  - Intel QuickSync Video hardware acceleration for transcoding
+  - Facial recognition and smart search enabled
+  - Automatic nightly maintenance tasks
+  - File organization by date pattern: `{{y}}/{{y}}-{{MM}}-{{dd}}/{{filename}}`
 - **Sonarr/Radarr/Bazarr**: Automated TV show, movie, and subtitle management
 - **qBittorrent**: BitTorrent client with web interface
 
