@@ -1,5 +1,3 @@
-#!/usr/bin/env bash
-
 # Simple daily SMART report script - plain text version
 # Only checks SMART attributes and sends report via Gotify
 
