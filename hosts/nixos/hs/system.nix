@@ -6,6 +6,7 @@
     ../../../modules/podman.nix
     ../../../modules/traefik.nix
     ../../../modules/samba.nix
+    ../../../modules/disk-health.nix
   ];
 
   # GRUB bootloader with ZFS support
@@ -208,11 +209,6 @@
     ];
   };
 
-  # Enable smartd for disk health monitoring
-  services.smartd = {
-    enable = true;
-    autodetect = true;
-  };
 
   # Allow unfree packages globally
   nixpkgs.config.allowUnfree = true;
