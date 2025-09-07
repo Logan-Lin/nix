@@ -29,6 +29,8 @@ in
       hms-offline = "home-manager switch --flake ~/.config/nix#$(whoami)@$(hostname) --option substitute false";
       doss = "sudo darwin-rebuild switch --flake ~/.config/nix#$(hostname)";
       noss = "sudo nixos-rebuild switch --flake ~/.config/nix#$(hostname)";
+      # Disk health monitoring
+      smart-report = "sudo /home/yanlin/.config/nix/scripts/daily-smart-report.sh";
       
     } // lib.optionalAttrs pkgs.stdenv.isDarwin {
       # macOS-specific app aliases
