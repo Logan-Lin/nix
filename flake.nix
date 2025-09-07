@@ -42,7 +42,6 @@
         ./hosts/nixos/hs/system.nix
         ./hosts/nixos/hs/disk-config.nix
       ];
-      specialArgs = { inherit home-manager nixvim claude-code; };
     };
 
     homeConfigurations = {

@@ -1,8 +1,7 @@
-{ config, pkgs, home-manager, nixvim, claude-code, ... }: {
+{ config, pkgs, ... }: {
   imports = [
     ./hardware-configuration.nix
     ./disk-config.nix
-    home-manager.nixosModules.home-manager
     ../../../modules/tailscale.nix
     ../../../modules/podman.nix
     ../../../modules/traefik.nix
@@ -217,14 +216,6 @@
 
   # Enable experimental nix features
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
-  # Home Manager configuration
-  home-manager = {
-    useGlobalPkgs = true;
-    useUserPackages = true;
-    users.yanlin = import ./home.nix;
-    extraSpecialArgs = { inherit claude-code nixvim; };
-  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
