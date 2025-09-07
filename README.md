@@ -30,15 +30,22 @@ home-manager switch --flake github:Logan-Lin/nix-config#yanlin@iMac
 .
 ├── flake.nix          # Main flake configuration and package definitions
 ├── hosts/             # Host-specific configurations
-│   └── darwin/        # macOS hosts
-│       ├── home-default.nix    # Common home configuration imported by all hosts
-│       ├── system-default.nix  # Common system configuration for macOS
-│       ├── iMac/      # iMac configuration
-│       │   ├── system.nix  # System configuration
-│       │   └── home.nix    # Home configuration (imports ../home-default.nix)
-│       └── MacBook-Air/ # MacBook Air configuration
-│           ├── system.nix  # System configuration
-│           └── home.nix    # Home configuration (imports ../home-default.nix)
+│   ├── darwin/        # macOS hosts
+│   │   ├── home-default.nix    # Common home configuration for Darwin
+│   │   ├── system-default.nix  # Common system configuration for macOS
+│   │   ├── iMac/      # iMac configuration
+│   │   │   ├── system.nix  # System configuration
+│   │   │   └── home.nix    # Home configuration (imports ../home-default.nix)
+│   │   └── mba/       # MacBook Air configuration
+│   │       ├── system.nix  # System configuration
+│   │       └── home.nix    # Home configuration (imports ../home-default.nix)
+│   └── nixos/         # NixOS hosts
+│       ├── home-default.nix    # Common home configuration for NixOS
+│       └── hs/        # Home server configuration
+│           ├── system.nix  # NixOS system configuration
+│           ├── home.nix    # Home configuration (imports ../home-default.nix)
+│           ├── hardware-configuration.nix  # Hardware detection results
+│           └── disk-config.nix  # ZFS and filesystem configuration
 ├── modules/           # Home Manager configuration modules
 │   ├── git.nix        # Git configuration with aliases and settings
 │   ├── lazygit.nix    # Lazygit with gruvbox theme and custom keybindings
@@ -828,33 +835,58 @@ tailscale debug netmap
 
 ## 💻 Machine Configurations
 
+### Darwin Hosts (macOS)
 - **`iMac`**: iMac configuration
 - **`MacBook-Air`**: MacBook Air configuration
 
-Both machines use the same base configuration with potential for machine-specific customizations.
+### NixOS Host
+- **`hs`**: Home server configuration with ZFS, storage management, and services
+
+All hosts now use a consistent configuration structure with separate system and home management.
 
 ### Configuration Structure:
-The configuration has been reorganized for better clarity:
-- **`hosts/darwin/`**: Contains all host-related configurations
-  - **`home-default.nix`**: Common home configuration shared by all hosts
+The configuration has been reorganized for better clarity and consistency:
+
+#### Darwin Hosts:
+- **`hosts/darwin/`**: Contains all Darwin host configurations
+  - **`home-default.nix`**: Common home configuration shared by all Darwin hosts
   - **`system-default.nix`**: Common system configuration for macOS
   - **Per-host directories**: Each host has its own directory with:
     - **`system.nix`**: Host-specific system configuration (imports ../system-default.nix)
     - **`home.nix`**: Host-specific home configuration (imports ../home-default.nix)
 
-The `home-default.nix` file contains all shared home configuration, including:
-- Module imports (which now handle both configuration and package installation)
-- Common packages not managed by modules
-- Base home settings
+#### NixOS Host:
+- **`hosts/nixos/`**: Contains NixOS host configurations
+  - **`home-default.nix`**: Common home configuration for NixOS hosts
+  - **`hs/`**: Home server specific directory with:
+    - **`system.nix`**: NixOS system configuration (standalone, no home-manager)
+    - **`home.nix`**: Home configuration (imports ../home-default.nix)
+    - **`hardware-configuration.nix`**: Hardware-specific configuration
+    - **`disk-config.nix`**: Disk and filesystem configuration
 
 ### Machine-specific Usage:
+
+#### Darwin (macOS) Hosts:
 ```bash
 # For MacBook Air
-sudo darwin-rebuild switch --flake .#MacBook-Air
-home-manager switch --flake .#yanlin@MacBook-Air
+sudo darwin-rebuild switch --flake .#mba
+home-manager switch --flake .#yanlin@mba
 
 # For iMac  
-sudo darwin-rebuild switch --flake .#iMac
-home-manager switch --flake .#yanlin@iMac
+sudo darwin-rebuild switch --flake .#imac
+home-manager switch --flake .#yanlin@imac
 ```
+
+#### NixOS Host:
+```bash
+# For home server (hs)
+sudo nixos-rebuild switch --flake .#hs
+home-manager switch --flake .#yanlin@hs
+```
+
+The separation of system and home configurations provides:
+- **Consistent workflow** across all platforms
+- **Clean separation of concerns** between system and user configurations
+- **Independent updates** - update system or home environment separately
+- **Better maintainability** with no duplicate configuration references
 
