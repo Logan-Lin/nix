@@ -26,6 +26,12 @@
   boot.zfs.forceImportRoot = false;
   boot.zfs.extraPools = [ "cache" ]; # Auto-import additional pools
 
+  # ZFS ARC memory configuration for 32GB system
+  boot.kernelParams = [
+    "zfs.zfs_arc_max=17179869184"  # 16GB max ARC size
+    "zfs.zfs_arc_min=2147483648"   # 2GB min ARC size
+  ];
+
   # XFS drive mounts
   fileSystems."/mnt/wd-12t-1" = {
     device = "/dev/disk/by-id/ata-HGST_HUH721212ALE604_5PK2N4GB-part1";
