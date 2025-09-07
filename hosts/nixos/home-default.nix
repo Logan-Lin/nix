@@ -22,6 +22,11 @@
 
   programs.home-manager.enable = true;
 
+  # nixOS-specific alias
+  programs.zsh.shellAliases = {
+      oss = "sudo nixos-rebuild switch --flake ~/.config/nix#$(hostname)";
+  };
+
   home.packages = with pkgs; [
     # Network and file transfer
     lftp

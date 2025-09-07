@@ -28,6 +28,43 @@
 
   programs.home-manager.enable = true;
 
+  # darwin-specific alias
+  programs.zsh.shellAliases = {
+      oss = "sudo darwin-rebuild switch --flake ~/.config/nix#$(hostname)";
+
+      preview = "open -a Preview";
+      slide = "open -a SlidePilot";
+      pixel = "open -a 'Pixelmator Pro'";
+      inkscape = "open -a Inkscape";
+  };
+
+  # Darwin-specific zsh functions
+  programs.zsh.initExtra = ''
+    # Function to search and open all macOS applications
+    function app() {
+      local app_path
+      local file_to_open="$1"
+      
+      app_path=$( (find -L /Applications -name "*.app" -maxdepth 2 2>/dev/null; \
+                   find -L ~/Applications -name "*.app" -maxdepth 3 2>/dev/null; \
+                   find /System/Applications -name "*.app" -maxdepth 2 2>/dev/null; \
+                   find /System/Applications/Utilities -name "*.app" -maxdepth 1 2>/dev/null) | 
+        sort | uniq | 
+        fzf --header="Select app to open''${file_to_open:+ file: $file_to_open}" \
+            --preview 'basename {} .app' \
+            --preview-window=up:1 \
+            --height=40%)
+      
+      if [[ -n "$app_path" ]]; then
+        if [[ -n "$file_to_open" ]]; then
+          open -a "$app_path" "$file_to_open"
+        else
+          open "$app_path"
+        fi
+      fi
+    }
+  '';
+
   home.packages = with pkgs; [
     # Network and file transfer
     lftp

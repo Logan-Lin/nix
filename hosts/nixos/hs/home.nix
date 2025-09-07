@@ -6,6 +6,9 @@
   ];
 
   # hs-specific home configuration
-  # Example: Server-specific tools, monitoring utilities, etc.
+  programs.zsh.shellAliases = {
+      # Disk health monitoring
+      smart-report = "sudo /home/yanlin/.config/nix/scripts/daily-smart-report.sh";
+  };
   
 }
