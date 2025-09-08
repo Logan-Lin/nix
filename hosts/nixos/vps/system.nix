@@ -89,6 +89,41 @@
   # Allow unfree packages globally
   nixpkgs.config.allowUnfree = true;
 
+  # Borg backup configuration
+  services.borgbackup-custom = {
+    enable = true;
+    # Use SSH alias from SSH config for remote backup
+    repositoryUrl = "ssh://storage-box/./vps";
+    backupPaths = [
+      "/home"
+    ];
+    # Examples:
+    # backupFrequency = "daily";           # Midnight (default)
+    # backupFrequency = "*-*-* 03:00:00";  # Every day at 3:00 AM
+    # backupFrequency = "*-*-* 22:30:00";  # Every day at 10:30 PM
+    # backupFrequency = "Mon,Wed,Fri 02:00:00"; # Mon/Wed/Fri at 2:00 AM
+    backupFrequency = "daily";
+    retention = {
+      keepDaily = 7;
+      keepWeekly = 4;
+      keepMonthly = 6;
+      keepYearly = 2;
+    };
+    passphraseFile = "/etc/borg-passphrase";
+    
+    # Gotify notifications
+    enableNotifications = true;
+    gotifyUrl = "https://notify.yanlincs.com";
+    gotifyToken = "AaiBamxPAhatNrO";
+
+    preHook = ''
+      echo "$(date): Starting Borg backup of ${config.networking.hostName}"
+    '';
+    postHook = ''
+      echo "$(date): Borg backup of ${config.networking.hostName} completed successfully"
+    '';
+  };
+
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It's perfectly fine and recommended to leave
