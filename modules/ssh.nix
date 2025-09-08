@@ -45,6 +45,12 @@
         identityFile = "~/.ssh/keys/hetzner";
       };
 
+      "vps" = {
+        hostname = "91.98.84.215";
+        user = "yanlin";
+        identityFile = "~/.ssh/keys/hetzner";
+      };
+
       "storage-box" = {
         hostname = "u448310.your-storagebox.de";
         user = "u448310";

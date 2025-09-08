@@ -44,6 +44,15 @@
       ];
     };
 
+    nixosConfigurations."vps" = nixpkgs.lib.nixosSystem {
+      system = "x86_64-linux";
+      modules = [
+        disko.nixosModules.disko
+        ./hosts/nixos/vps/system.nix
+        ./hosts/nixos/vps/disk-config.nix
+      ];
+    };
+
     homeConfigurations = {
       "yanlin@imac" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.aarch64-darwin;
@@ -60,6 +69,12 @@
       "yanlin@hs" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux;
         modules = [ ./hosts/nixos/hs/home.nix ];
+        extraSpecialArgs = { inherit claude-code nixvim; };
+      };
+
+      "yanlin@vps" = home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages.x86_64-linux;
+        modules = [ ./hosts/nixos/vps/home.nix ];
         extraSpecialArgs = { inherit claude-code nixvim; };
       };
     };

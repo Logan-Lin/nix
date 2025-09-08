@@ -12,7 +12,6 @@
     ../../modules/termscp.nix
     ../../modules/rsync.nix
     ../../modules/btop.nix
-    ../../modules/syncthing.nix
     ../../config/fonts.nix
   ];
 
@@ -50,7 +49,6 @@
     fastfetch
 
     # Development and build tools
-    texlive.combined.scheme-full
     python312
     uv
     claude-code.packages.x86_64-linux.claude-code
