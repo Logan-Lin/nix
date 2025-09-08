@@ -39,14 +39,8 @@
         identityFile = "~/.ssh/keys/pi";
       };
 
-      "personal-vps" = {
-        hostname = "personal.vps.yanlincs.com";
-        user = "root";
-        identityFile = "~/.ssh/keys/hetzner";
-      };
-
       "vps" = {
-        hostname = "91.98.84.215";
+        hostname = "vps.yanlincs.com";
         user = "yanlin";
         identityFile = "~/.ssh/keys/hetzner";
       };
