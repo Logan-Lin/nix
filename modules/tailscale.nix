@@ -6,10 +6,6 @@
     enable = true;
     # Enable MagicDNS for better name resolution on NixOS server
     useRoutingFeatures = "server";
-    extraUpFlags = [
-      "--advertise-routes=10.1.1.0/24"
-      "--advertise-exit-node"
-    ];
   };
 
   # Allow Tailscale through the firewall if enabled

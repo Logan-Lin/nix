@@ -2,7 +2,11 @@
   imports = [
     ./hardware-configuration.nix
     ./disk-config.nix
+    ./containers.nix  # Host-specific container definitions
+    ./proxy.nix       # Host-specific Traefik dynamic configuration
     ../../../modules/tailscale.nix
+    ../../../modules/podman.nix
+    ../../../modules/traefik.nix
     ../../../modules/borg.nix
   ];
 
@@ -22,7 +26,7 @@
     useDHCP = true; # VPS typically use DHCP
     firewall = {
       enable = true;
-      allowedTCPPorts = [ 22 ]; # Only SSH by default
+      allowedTCPPorts = [ 22 80 443 ]; # Only SSH by default
     };
   };
 
