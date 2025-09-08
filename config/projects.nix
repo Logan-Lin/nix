@@ -116,7 +116,7 @@ in
           name = "c";
           path = homePath "Documents/Projects/AI systems & infrastructure/Codes";
           ai = true;
-          git = true;
+          git = false;
           shell = true;
         }
         {
