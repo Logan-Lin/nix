@@ -100,6 +100,7 @@
     repositoryUrl = "ssh://storage-box/./vps";
     backupPaths = [
       "/home"
+      "/var/lib/containers"
     ];
     # Examples:
     # backupFrequency = "daily";           # Midnight (default)
