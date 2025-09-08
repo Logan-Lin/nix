@@ -104,21 +104,19 @@ fi
 # Update papis cache
 papis cache reset > /dev/null 2>&1
 
-# Create directories if they don't exist
-create_directory() {
+# Check if directory exists
+check_directory_exists() {
     local dir_path="$1"
     local dir_name="$2"
     
     if [ -n "$dir_path" ] && [ "$dir_path" != "null" ]; then
         if [ ! -d "$dir_path" ]; then
-            if mkdir -p "$dir_path" 2>/dev/null; then
-                printf "\033[2mCreated %s directory: %s\033[0m\n" "$dir_name" "$dir_path"
-            else
-                echo "Warning: Could not create $dir_name directory: $dir_path"
-                echo "Please check permissions or create it manually."
-            fi
+            echo "Error: $dir_name directory does not exist: $dir_path"
+            echo "Please create the directory before running the project launcher."
+            return 1
         fi
     fi
+    return 0
 }
 
 # Initialize git repository if it doesn't exist
@@ -145,13 +143,32 @@ if [ -z "$WINDOWS" ]; then
     exit 1
 fi
 
+# Pre-flight validation: Check all directories exist before proceeding
+printf "\033[1;33mValidating directories...\033[0m\n"
+VALIDATION_FAILED=false
+
+# Check all window paths first
+while IFS= read -r window_config; do
+    WINDOW_NAME=$(echo "$window_config" | jq -r '.name')
+    WINDOW_PATH=$(echo "$window_config" | jq -r '.path')
+    
+    if ! check_directory_exists "$WINDOW_PATH" "$WINDOW_NAME"; then
+        VALIDATION_FAILED=true
+    fi
+done <<< "$WINDOWS"
+
+if [ "$VALIDATION_FAILED" = "true" ]; then
+    echo ""
+    echo "Directory validation failed. Please create the missing directories and try again."
+    exit 1
+fi
+
+printf "\033[1;32mAll directories validated successfully\033[0m\n"
+
 # Get the first window configuration to create the session
 FIRST_WINDOW=$(echo "$WINDOWS" | head -n 1)
 FIRST_WINDOW_NAME=$(echo "$FIRST_WINDOW" | jq -r '.name')
 FIRST_WINDOW_PATH=$(echo "$FIRST_WINDOW" | jq -r '.path')
-
-# Create directory for first window
-create_directory "$FIRST_WINDOW_PATH" "$FIRST_WINDOW_NAME"
 
 # Record directory in zoxide for smart navigation
 [ -n "$FIRST_WINDOW_PATH" ] && [ "$FIRST_WINDOW_PATH" != "null" ] && [ -d "$FIRST_WINDOW_PATH" ] && zoxide add "$FIRST_WINDOW_PATH" 2>/dev/null || true
@@ -167,8 +184,6 @@ while IFS= read -r window_config; do
     WINDOW_NAME=$(echo "$window_config" | jq -r '.name')
     WINDOW_PATH=$(echo "$window_config" | jq -r '.path')
     
-    # Create directory if it doesn't exist (for all window entries)
-    create_directory "$WINDOW_PATH" "$WINDOW_NAME"
     # Record directory in zoxide for smart navigation
     [ -n "$WINDOW_PATH" ] && [ "$WINDOW_PATH" != "null" ] && [ -d "$WINDOW_PATH" ] && zoxide add "$WINDOW_PATH" 2>/dev/null || true
     
