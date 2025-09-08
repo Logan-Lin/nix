@@ -63,32 +63,8 @@
       };
     };
 
-    # Dynamic configuration for services not running in containers
-    dynamicConfigOptions = {
-      http = {
-        routers = {
-          syncthing = {
-            rule = "Host(`syncthing.${config.networking.hostName}.yanlincs.com`)";
-            service = "syncthing";
-            tls = {
-              certResolver = "cloudflare";
-              domains = [{
-                main = "*.${config.networking.hostName}.yanlincs.com";
-              }];
-            };
-          };
-        };
-        services = {
-          syncthing = {
-            loadBalancer = {
-              servers = [{
-                url = "http://localhost:8384";
-              }];
-            };
-          };
-        };
-      };
-    };
+    # Dynamic configuration is now defined in host-specific proxy.nix files
+    # and will be merged with this base configuration
 
     # Environment variables for Cloudflare
     environmentFiles = [ "/run/secrets/traefik-env" ];
