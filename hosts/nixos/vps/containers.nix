@@ -61,5 +61,58 @@ in
       
       autoStart = true;
     };
+
+    # Gotify notification server
+    gotify = {
+      image = "docker.io/gotify/server";
+      
+      volumes = [
+        "/var/lib/containers/gotify:/app/data"
+      ];
+
+      labels = {
+        "traefik.enable" = "true";
+        "traefik.http.routers.notify.rule" = "Host(`notify.yanlincs.com`)";
+        "traefik.http.routers.notify.entrypoints" = "websecure";
+        "traefik.http.routers.notify.tls" = "true";
+        "traefik.http.routers.notify.tls.certresolver" = "cloudflare";
+        "traefik.http.routers.notify.tls.domains[0].main" = "*.yanlincs.com";
+        "traefik.http.services.notify.loadbalancer.server.port" = "80";
+      };
+      
+      extraOptions = [
+        "--network=podman"
+        "--security-opt=no-new-privileges:true"
+      ];
+      
+      autoStart = true;
+    };
+
+    # iGotify notification assistant
+    igotify = {
+      image = "ghcr.io/androidseb25/igotify-notification-assist:latest";
+      
+      volumes = [
+        "/var/lib/containers/igotify:/app/data"
+      ];
+
+      labels = {
+        "traefik.enable" = "true";
+        "traefik.http.routers.inotify.rule" = "Host(`inotify.yanlincs.com`)";
+        "traefik.http.routers.inotify.entrypoints" = "websecure";
+        "traefik.http.routers.inotify.tls" = "true";
+        "traefik.http.routers.inotify.tls.certresolver" = "cloudflare";
+        "traefik.http.routers.inotify.tls.domains[0].main" = "*.yanlincs.com";
+        "traefik.http.services.inotify.loadbalancer.server.port" = "8080";
+      };
+      
+      extraOptions = [
+        "--network=podman"
+        "--security-opt=no-new-privileges:true"
+      ];
+      
+      dependsOn = [ "gotify" ];
+      autoStart = true;
+    };
   };
 }

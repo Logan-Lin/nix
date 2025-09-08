@@ -25,7 +25,7 @@
       };
 
       "hs" = {
-        hostname = "hs.hw.yanlincs.com";
+        hostname = "hs.yanlincs.com";
         user = "yanlin";
         identityFile = "~/.ssh/keys/nas";
         setEnv = {
