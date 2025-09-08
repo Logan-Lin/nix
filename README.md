@@ -26,14 +26,16 @@ home-manager switch --flake github:Logan-Lin/nix-config#yanlin@iMac
 ```
 
 ### NixOS
-For NixOS systems (like the `hs` home server):
+For NixOS systems:
 
 ```bash
-# NixOS system configuration
+# Home server (hs)
 sudo nixos-rebuild switch --flake github:Logan-Lin/nix-config#hs
-
-# Home Manager configuration
 home-manager switch --flake github:Logan-Lin/nix-config#yanlin@hs
+
+# VPS server (vps)  
+sudo nixos-rebuild switch --flake github:Logan-Lin/nix-config#vps
+home-manager switch --flake github:Logan-Lin/nix-config#yanlin@vps
 ```
 
 ## 📁 Configuration Architecture
@@ -53,11 +55,20 @@ home-manager switch --flake github:Logan-Lin/nix-config#yanlin@hs
 │   │       └── home.nix    # Home configuration (imports ../home-default.nix)
 │   └── nixos/         # NixOS hosts
 │       ├── home-default.nix    # Common home configuration for NixOS
-│       └── hs/        # Home server configuration
+│       ├── hs/        # Home server configuration
+│       │   ├── system.nix  # NixOS system configuration
+│       │   ├── home.nix    # Home configuration (imports ../home-default.nix)
+│       │   ├── hardware-configuration.nix  # Hardware detection results
+│       │   ├── disk-config.nix  # ZFS and filesystem configuration
+│       │   ├── containers.nix  # Container service definitions
+│       │   └── proxy.nix   # Traefik reverse proxy configuration
+│       └── vps/       # VPS server configuration
 │           ├── system.nix  # NixOS system configuration
 │           ├── home.nix    # Home configuration (imports ../home-default.nix)
 │           ├── hardware-configuration.nix  # Hardware detection results
-│           └── disk-config.nix  # ZFS and filesystem configuration
+│           ├── disk-config.nix  # Disk and filesystem configuration
+│           ├── containers.nix  # Container service definitions (web, notifications)
+│           └── proxy.nix   # Traefik reverse proxy configuration
 ├── modules/           # Home Manager configuration modules
 │   ├── git.nix        # Git configuration with aliases and settings
 │   ├── lazygit.nix    # Lazygit with gruvbox theme and custom keybindings
@@ -1039,20 +1050,69 @@ All services accessible via Tailscale VPN with SSL certificates:
 | qBittorrent | `qbit.hs.yanlincs.com` | BitTorrent client |
 | Syncthing | `syncthing.hs.yanlincs.com` | File synchronization |
 
+## 🌐 VPS Server (`vps` Host)
+
+The `vps` NixOS configuration provides a public-facing web server with notification services and automated backups.
+
+### 🌍 Web Services
+
+#### Public Website & Blog
+- **Homepage**: Static Nginx server hosting main website at `www.yanlincs.com`
+- **Blog**: Static Nginx server hosting personal blog at `blog.yanlincs.com`
+- **SSL Certificates**: Automatic certificate generation via Traefik with Cloudflare DNS challenge
+- **Domain Configuration**: Wildcard certificates for `*.yanlincs.com`
+
+### 📱 Notification System
+
+#### Gotify Server
+- **Purpose**: Self-hosted notification server for system alerts and monitoring
+- **Features**: REST API for sending notifications, web UI for management
+- **Integration**: Connected to backup systems for status notifications
+- **Access**: `notify.yanlincs.com`
+
+#### iGotify Assistant
+- **Purpose**: iOS notification bridge for Gotify server
+- **Features**: Push notifications to iOS devices via Apple Push Notification service
+- **Access**: `inotify.yanlincs.com`
+
+### 🔒 Security & Backup
+
+#### Automated Backups
+- **Borg Backup**: Daily encrypted backups to Hetzner Storage Box
+- **Backup Paths**: `/home` and `/var/lib/containers`
+- **Retention Policy**: 7 daily, 4 weekly, 6 monthly, 2 yearly
+- **Notifications**: Gotify integration for backup status alerts
+
+#### Security Configuration
+- **SSH Hardening**: Key-based authentication only, root login via keys
+- **Firewall**: Only SSH (22), HTTP (80), and HTTPS (443) ports open
+- **Container Security**: No new privileges, security-opt configurations
+
+### 📍 VPS Service Access
+
+All VPS services accessible via public domain with SSL certificates:
+
+| Service | URL | Purpose |
+|---------|-----|---------|
+| Homepage | `www.yanlincs.com` | Main personal website |
+| Blog | `blog.yanlincs.com` | Personal blog |
+| Gotify | `notify.yanlincs.com` | Notification server |
+| iGotify | `inotify.yanlincs.com` | iOS notification assistant |
+
 ## 💻 Machine Configurations
 
 ### Darwin Hosts (macOS)
 - **`iMac`**: iMac configuration
 - **`MacBook-Air`**: MacBook Air configuration
 
-### NixOS Host
+### NixOS Hosts
 - **`hs`**: Home server configuration featuring:
-  - **ZFS Storage**: Mirrored boot pool with cache pool and auto-snapshots
-  - **Data Protection**: SnapRAID parity across 12TB drives with 16TB parity drive
-  - **Containerized Services**: Comprehensive media, automation, and productivity services
-  - **Network Services**: Traefik reverse proxy, Samba shares, Tailscale networking
-  - **Monitoring**: Automated disk health monitoring with alerts
-  - **Storage**: MergerFS union filesystem combining multiple drives
+- **`vps`**: VPS server configuration featuring:
+  - **Web Services**: Public website and blog hosting with Nginx
+  - **Notification System**: Gotify server for system notifications and alerts
+  - **Automated Backups**: Borg backup with Gotify integration for status notifications
+  - **SSL Certificates**: Traefik reverse proxy with Cloudflare DNS challenge
+  - **Security**: Hardened SSH configuration and firewall settings
 
 All hosts use a consistent configuration structure with separate system and home management.
 
@@ -1089,11 +1149,15 @@ sudo darwin-rebuild switch --flake .#imac
 home-manager switch --flake .#yanlin@imac
 ```
 
-#### NixOS Host:
+#### NixOS Hosts:
 ```bash
 # For home server (hs)
 sudo nixos-rebuild switch --flake .#hs
 home-manager switch --flake .#yanlin@hs
+
+# For VPS server (vps)
+sudo nixos-rebuild switch --flake .#vps
+home-manager switch --flake .#yanlin@vps
 ```
 
 The separation of system and home configurations provides:
