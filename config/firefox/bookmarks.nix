@@ -64,6 +64,27 @@
           ];
         }
         {
+          name = "Console";
+          bookmarks = [
+            {
+              name = "Hetzner";
+              url = "https://console.hetzner.com/projects/4064051/dashboard";
+            }
+            {
+              name = "Cloudflare";
+              url = "https://dash.cloudflare.com/6950be025dc32f2698377028b9e162c1/yanlincs.com/dns/records";
+            }
+            {
+              name = "Gotify";
+              url = "https://notify.yanlincs.com/";
+            }
+            {
+              name = "Tailscale";
+              url = "https://login.tailscale.com/admin/machines";
+            }
+          ];
+        }
+        {
           name = "RSS";
           url = "https://rss.hs.yanlincs.com";
         }
