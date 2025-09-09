@@ -21,16 +21,16 @@
     id: second_btn
   - device_id: 9041a8cd641d55436de6b8645b20e3c8
     domain: zha
-    type: remote_button_double_press
+    type: remote_button_long_press
     subtype: button_1
     trigger: device
-    id: first_btn_double
+    id: first_btn_long
   - device_id: 9041a8cd641d55436de6b8645b20e3c8
     domain: zha
-    type: remote_button_double_press
+    type: remote_button_long_press
     subtype: button_2
     trigger: device
-    id: second_btn_double
+    id: second_btn_long
   conditions: []
   actions:
   - choose:
@@ -39,16 +39,23 @@
         id:
         - first_btn
       sequence:
+      # Cycle ceiling light preset: off -> 1 -> 2 -> 3 -> 4 -> off
       - choose:
         - conditions:
           - condition: state
             entity_id: light.cell_light
             state: 'off'
           sequence:
+          # Turn on at preset 1
+          - action: input_number.set_value
+            data:
+              value: 1
+            target:
+              entity_id: input_number.bedroom_ceiling_light_preset
           - action: light.turn_on
             data:
-              color_temp_kelvin: 2000
-              brightness_pct: 70
+              color_temp_kelvin: 1800
+              brightness_pct: 30
             target:
               entity_id: light.cell_light
         - conditions:
@@ -56,27 +63,95 @@
             entity_id: light.cell_light
             state: 'on'
           sequence:
-          - action: light.turn_off
-            target:
-              entity_id:
-              - light.cell_light
-            data: {}
+          # Check current preset and cycle
+          - choose:
+            - conditions:
+              - condition: state
+                entity_id: input_number.bedroom_ceiling_light_preset
+                state: '4.0'
+              sequence:
+              # At preset 4, turn off
+              - action: light.turn_off
+                target:
+                  entity_id: light.cell_light
+              - action: input_number.set_value
+                data:
+                  value: 0
+                target:
+                  entity_id: input_number.bedroom_ceiling_light_preset
+            - conditions:
+              - condition: state
+                entity_id: input_number.bedroom_ceiling_light_preset
+                state: '3.0'
+              sequence:
+              # Move to preset 4
+              - action: input_number.set_value
+                data:
+                  value: 4
+                target:
+                  entity_id: input_number.bedroom_ceiling_light_preset
+              - action: light.turn_on
+                data:
+                  color_temp_kelvin: 3000
+                  brightness_pct: 100
+                target:
+                  entity_id: light.cell_light
+            - conditions:
+              - condition: state
+                entity_id: input_number.bedroom_ceiling_light_preset
+                state: '2.0'
+              sequence:
+              # Move to preset 3
+              - action: input_number.set_value
+                data:
+                  value: 3
+                target:
+                  entity_id: input_number.bedroom_ceiling_light_preset
+              - action: light.turn_on
+                data:
+                  color_temp_kelvin: 2500
+                  brightness_pct: 75
+                target:
+                  entity_id: light.cell_light
+            - conditions:
+              - condition: state
+                entity_id: input_number.bedroom_ceiling_light_preset
+                state: '1.0'
+              sequence:
+              # Move to preset 2
+              - action: input_number.set_value
+                data:
+                  value: 2
+                target:
+                  entity_id: input_number.bedroom_ceiling_light_preset
+              - action: light.turn_on
+                data:
+                  color_temp_kelvin: 2000
+                  brightness_pct: 50
+                target:
+                  entity_id: light.cell_light
     - conditions:
       - condition: trigger
         id:
         - second_btn
       sequence:
+      # Cycle bed lights preset: off -> 1 -> 2 -> 3 -> 4 -> off
       - choose:
         - conditions:
           - condition: state
             entity_id: light.table_lights_bed_lights
             state: 'off'
           sequence:
-          - action: light.turn_on
-            metadata: {}
+          # Turn on at preset 1
+          - action: input_number.set_value
             data:
-              color_temp_kelvin: 2000
-              brightness_pct: 50
+              value: 1
+            target:
+              entity_id: input_number.bedroom_bed_light_preset
+          - action: light.turn_on
+            data:
+              color_temp_kelvin: 1800
+              brightness_pct: 30
             target:
               entity_id: light.table_lights_bed_lights
         - conditions:
@@ -84,35 +159,101 @@
             entity_id: light.table_lights_bed_lights
             state: 'on'
           sequence:
-          - action: light.turn_off
-            metadata: {}
-            data: {}
-            target:
-              entity_id: light.table_lights_bed_lights
+          # Check current preset and cycle
+          - choose:
+            - conditions:
+              - condition: state
+                entity_id: input_number.bedroom_bed_light_preset
+                state: '4.0'
+              sequence:
+              # At preset 4, turn off
+              - action: light.turn_off
+                target:
+                  entity_id: light.table_lights_bed_lights
+              - action: input_number.set_value
+                data:
+                  value: 0
+                target:
+                  entity_id: input_number.bedroom_bed_light_preset
+            - conditions:
+              - condition: state
+                entity_id: input_number.bedroom_bed_light_preset
+                state: '3.0'
+              sequence:
+              # Move to preset 4
+              - action: input_number.set_value
+                data:
+                  value: 4
+                target:
+                  entity_id: input_number.bedroom_bed_light_preset
+              - action: light.turn_on
+                data:
+                  color_temp_kelvin: 3000
+                  brightness_pct: 100
+                target:
+                  entity_id: light.table_lights_bed_lights
+            - conditions:
+              - condition: state
+                entity_id: input_number.bedroom_bed_light_preset
+                state: '2.0'
+              sequence:
+              # Move to preset 3
+              - action: input_number.set_value
+                data:
+                  value: 3
+                target:
+                  entity_id: input_number.bedroom_bed_light_preset
+              - action: light.turn_on
+                data:
+                  color_temp_kelvin: 2500
+                  brightness_pct: 75
+                target:
+                  entity_id: light.table_lights_bed_lights
+            - conditions:
+              - condition: state
+                entity_id: input_number.bedroom_bed_light_preset
+                state: '1.0'
+              sequence:
+              # Move to preset 2
+              - action: input_number.set_value
+                data:
+                  value: 2
+                target:
+                  entity_id: input_number.bedroom_bed_light_preset
+              - action: light.turn_on
+                data:
+                  color_temp_kelvin: 2000
+                  brightness_pct: 50
+                target:
+                  entity_id: light.table_lights_bed_lights
     - conditions:
       - condition: trigger
         id:
-        - first_btn_double
+        - first_btn_long
       sequence:
-      - action: light.turn_on
-        metadata: {}
-        data:
-          color_temp_kelvin: 3000
-          brightness_pct: 100
+      # Long press button 1: turn off ceiling light and reset preset
+      - action: light.turn_off
         target:
           entity_id: light.cell_light
+      - action: input_number.set_value
+        data:
+          value: 0
+        target:
+          entity_id: input_number.bedroom_ceiling_light_preset
     - conditions:
       - condition: trigger
         id:
-        - second_btn_double
+        - second_btn_long
       sequence:
-      - action: light.turn_on
-        metadata: {}
-        data:
-          color_temp_kelvin: 2000
-          brightness_pct: 75
+      # Long press button 2: turn off bed lights and reset preset
+      - action: light.turn_off
         target:
           entity_id: light.table_lights_bed_lights
+      - action: input_number.set_value
+        data:
+          value: 0
+        target:
+          entity_id: input_number.bedroom_bed_light_preset
   mode: single
 
 - id: '1750278561179'
@@ -191,33 +332,127 @@
         target:
           area_id: living_room
     - conditions:
-      - condition: and
-        conditions:
-        - condition: trigger
-          id:
-          - left
-          - right
-        - condition: state
-          entity_id: light.zbt_1_table_light
-          state: 'on'
+      - condition: trigger
+        id:
+        - left
       sequence:
+      # Decrease preset (minimum 1)
       - choose:
         - conditions:
-          - condition: trigger
-            id:
-            - left
+          - condition: numeric_state
+            entity_id: input_number.living_room_light_preset
+            above: 1
+          sequence:
+          - action: input_number.decrement
+            target:
+              entity_id: input_number.living_room_light_preset
+      # Apply the preset settings
+      - choose:
+        - conditions:
+          - condition: state
+            entity_id: input_number.living_room_light_preset
+            state: '1.0'
+          sequence:
+          - action: light.turn_on
+            metadata: {}
+            data:
+              color_temp_kelvin: 1800
+              brightness_pct: 30
+            target:
+              area_id: living_room
+        - conditions:
+          - condition: state
+            entity_id: input_number.living_room_light_preset
+            state: '2.0'
           sequence:
           - action: light.turn_on
             metadata: {}
             data:
               color_temp_kelvin: 2000
-              brightness_pct: 70
+              brightness_pct: 50
             target:
               area_id: living_room
         - conditions:
-          - condition: trigger
-            id:
-            - right
+          - condition: state
+            entity_id: input_number.living_room_light_preset
+            state: '3.0'
+          sequence:
+          - action: light.turn_on
+            metadata: {}
+            data:
+              color_temp_kelvin: 2500
+              brightness_pct: 75
+            target:
+              area_id: living_room
+        - conditions:
+          - condition: state
+            entity_id: input_number.living_room_light_preset
+            state: '4.0'
+          sequence:
+          - action: light.turn_on
+            metadata: {}
+            data:
+              color_temp_kelvin: 3000
+              brightness_pct: 100
+            target:
+              area_id: living_room
+    - conditions:
+      - condition: trigger
+        id:
+        - right
+      sequence:
+      # Increase preset (maximum 4)
+      - choose:
+        - conditions:
+          - condition: numeric_state
+            entity_id: input_number.living_room_light_preset
+            below: 4
+          sequence:
+          - action: input_number.increment
+            target:
+              entity_id: input_number.living_room_light_preset
+      # Apply the preset settings
+      - choose:
+        - conditions:
+          - condition: state
+            entity_id: input_number.living_room_light_preset
+            state: '1.0'
+          sequence:
+          - action: light.turn_on
+            metadata: {}
+            data:
+              color_temp_kelvin: 1800
+              brightness_pct: 30
+            target:
+              area_id: living_room
+        - conditions:
+          - condition: state
+            entity_id: input_number.living_room_light_preset
+            state: '2.0'
+          sequence:
+          - action: light.turn_on
+            metadata: {}
+            data:
+              color_temp_kelvin: 2000
+              brightness_pct: 50
+            target:
+              area_id: living_room
+        - conditions:
+          - condition: state
+            entity_id: input_number.living_room_light_preset
+            state: '3.0'
+          sequence:
+          - action: light.turn_on
+            metadata: {}
+            data:
+              color_temp_kelvin: 2500
+              brightness_pct: 75
+            target:
+              area_id: living_room
+        - conditions:
+          - condition: state
+            entity_id: input_number.living_room_light_preset
+            state: '4.0'
           sequence:
           - action: light.turn_on
             metadata: {}

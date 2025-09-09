@@ -19,6 +19,30 @@ default_config:
 frontend:
   themes: !include_dir_merge_named themes
 
+# Input number helpers for light presets
+input_number:
+  living_room_light_preset:
+    name: Living Room Light Preset
+    initial: 2
+    min: 1
+    max: 4
+    step: 1
+    mode: box
+  bedroom_ceiling_light_preset:
+    name: Bedroom Ceiling Light Preset
+    initial: 0
+    min: 0
+    max: 4
+    step: 1
+    mode: box
+  bedroom_bed_light_preset:
+    name: Bedroom Bed Light Preset
+    initial: 0
+    min: 0
+    max: 4
+    step: 1
+    mode: box
+
 # External configuration files
 automation: !include automations.yaml
 script: !include scripts.yaml
