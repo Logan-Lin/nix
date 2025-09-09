@@ -48,17 +48,11 @@ in
       description = "Personal blog";
       windows = [
         {
-          name = "c";
+          name = "";
           path = homePath "Documents/Projects/personal-blog";
           ai = true;
           git = true;
           shell = true;
-        }
-        {
-          name = "p";
-          path = homePath "Documents/Projects/personal-blog/content";
-          ai = true;
-          git = false;
         }
       ];
     };
