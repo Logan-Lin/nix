@@ -28,7 +28,6 @@
   boot.initrd.systemd.enable = true;
   boot.supportedFilesystems = [ "zfs" "xfs" ];
   boot.zfs.forceImportRoot = false;
-  boot.zfs.extraPools = [ "cache" ]; # Auto-import additional pools
 
   # ZFS ARC memory configuration for 32GB system
   boot.kernelParams = [
@@ -149,7 +148,7 @@
     autoScrub = {
       enable = true;
       interval = "monthly";
-      pools = [ "rpool" "cache" ];
+      pools = [ "rpool" ];
     };
     autoSnapshot = {
       enable = true;
