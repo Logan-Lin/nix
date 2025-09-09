@@ -18,19 +18,6 @@ in
       ];
     };
 
-    homelab = {
-      description = "Homelab Deployment";
-      windows = [
-        {
-          name = "";
-          path = homePath "Documents/Projects/Homelab-deploy";
-          ai = true;
-          git = true;
-          shell = true;
-        }
-      ];
-    };
-
     note = {
       description = "Obsidian notes";
       windows = [
@@ -58,7 +45,7 @@ in
     };
 
     blog = {
-      description = "Personal blog project";
+      description = "Personal blog";
       windows = [
         {
           name = "c";
@@ -77,7 +64,7 @@ in
     };
 
     homepage = {
-      description = "Personal Homepage";
+      description = "Personal homepage";
       windows = [
         {
           name = "";
