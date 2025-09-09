@@ -4,11 +4,11 @@
     ./disk-config.nix
     ./containers.nix  # Host-specific container definitions
     ./proxy.nix       # Host-specific Traefik dynamic configuration
+    ./disk-health.nix # Host-specific disk health monitoring
     ../../../modules/tailscale.nix
     ../../../modules/podman.nix
     ../../../modules/traefik.nix
     ../../../modules/samba.nix
-    ../../../modules/disk-health.nix
     ../../../modules/borg.nix
   ];
 
@@ -221,6 +221,29 @@
 
   # Enable experimental nix features
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
+  # Samba file sharing configuration
+  services.samba-custom = {
+    enable = true;
+    serverString = "hs NAS Server";
+    workgroup = "WORKGROUP";
+    shares = {
+      Media = {
+        path = "/mnt/storage/Media";
+        comment = "Media Storage";
+        browseable = true;
+        readOnly = false;
+        guestOk = false;
+        createMask = "0644";
+        directoryMask = "0755";
+        forceUser = "yanlin";
+        forceGroup = "users";
+        validUsers = [ "yanlin" ];
+      };
+    };
+    enableWSDD = true;
+    openFirewall = false;
+  };
 
   # Borg backup configuration
   services.borgbackup-custom = {
