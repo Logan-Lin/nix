@@ -3,6 +3,7 @@
 {
   imports = [
     ../../modules/homebrew.nix
+    ../../modules/keyboard.nix
     nix-homebrew.darwinModules.nix-homebrew
   ];
 
