@@ -131,46 +131,50 @@ in
       '';
     };
 
-    # Server configuration
-    networking.wg-quick.interfaces = mkIf (cfg.mode == "server") {
-      ${cfg.interface} = {
-        address = [ cfg.serverConfig.address ];
-        listenPort = cfg.listenPort;
-        privateKeyFile = cfg.privateKeyFile;
+    # WireGuard interface configuration (combined server and client)
+    networking.wg-quick.interfaces = {
+      ${cfg.interface} = mkMerge [
+        # Common configuration
+        {
+          privateKeyFile = cfg.privateKeyFile;
+        }
         
-        # Enable IP forwarding and NAT for server
-        preUp = ''
-          ${pkgs.iptables}/bin/iptables -A FORWARD -i ${cfg.interface} -j ACCEPT
-          ${pkgs.iptables}/bin/iptables -A FORWARD -o ${cfg.interface} -j ACCEPT
-          ${pkgs.iptables}/bin/iptables -t nat -A POSTROUTING -s 10.2.2.0/24 -o eth0 -j MASQUERADE
-        '';
-        
-        postDown = ''
-          ${pkgs.iptables}/bin/iptables -D FORWARD -i ${cfg.interface} -j ACCEPT
-          ${pkgs.iptables}/bin/iptables -D FORWARD -o ${cfg.interface} -j ACCEPT
-          ${pkgs.iptables}/bin/iptables -t nat -D POSTROUTING -s 10.2.2.0/24 -o eth0 -j MASQUERADE
-        '';
+        # Server-specific configuration
+        (mkIf (cfg.mode == "server") {
+          address = [ cfg.serverConfig.address ];
+          listenPort = cfg.listenPort;
+          
+          # Enable IP forwarding and NAT for server
+          preUp = ''
+            ${pkgs.iptables}/bin/iptables -A FORWARD -i ${cfg.interface} -j ACCEPT
+            ${pkgs.iptables}/bin/iptables -A FORWARD -o ${cfg.interface} -j ACCEPT
+            ${pkgs.iptables}/bin/iptables -t nat -A POSTROUTING -s 10.2.2.0/24 -o eth0 -j MASQUERADE
+          '';
+          
+          postDown = ''
+            ${pkgs.iptables}/bin/iptables -D FORWARD -i ${cfg.interface} -j ACCEPT
+            ${pkgs.iptables}/bin/iptables -D FORWARD -o ${cfg.interface} -j ACCEPT
+            ${pkgs.iptables}/bin/iptables -t nat -D POSTROUTING -s 10.2.2.0/24 -o eth0 -j MASQUERADE
+          '';
 
-        peers = map (peer: {
-          publicKey = peer.publicKey;
-          allowedIPs = peer.allowedIPs;
-        }) cfg.serverConfig.peers;
-      };
-    };
-
-    # Client configuration
-    networking.wg-quick.interfaces = mkIf (cfg.mode == "client") {
-      ${cfg.interface} = {
-        address = [ cfg.clientConfig.address ];
-        privateKeyFile = cfg.privateKeyFile;
+          peers = map (peer: {
+            publicKey = peer.publicKey;
+            allowedIPs = peer.allowedIPs;
+          }) cfg.serverConfig.peers;
+        })
         
-        peers = [{
-          publicKey = cfg.clientConfig.serverPublicKey;
-          allowedIPs = cfg.clientConfig.allowedIPs;
-          endpoint = cfg.clientConfig.serverEndpoint;
-          persistentKeepalive = 25;
-        }];
-      };
+        # Client-specific configuration
+        (mkIf (cfg.mode == "client") {
+          address = [ cfg.clientConfig.address ];
+          
+          peers = [{
+            publicKey = cfg.clientConfig.serverPublicKey;
+            allowedIPs = cfg.clientConfig.allowedIPs;
+            endpoint = cfg.clientConfig.serverEndpoint;
+            persistentKeepalive = 25;
+          }];
+        })
+      ];
     };
 
     # Firewall configuration
