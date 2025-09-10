@@ -148,6 +148,16 @@
           publicKey = "HZY7V8QlnFvY6ZWNiI0WgUgWUISnEqUdzXi7Oq9M1Es=";
           allowedIPs = [ "10.2.2.20/32" ];
         }
+        {
+          name = "iphone";
+          publicKey = "mK4zGcytZP0Jane7kE36milpcWERWzYZKZyrbUlNFFg=";
+          allowedIPs = [ "10.2.2.30/32" ];
+        }
+        {
+          name = "ipad";
+          publicKey = "f/+Jyz4CpD5uyaZox77IuD9mI/KU9QOiK6tLMcbVGTE=";
+          allowedIPs = [ "10.2.2.31/32" ];
+        }
       ];
     };
   };
