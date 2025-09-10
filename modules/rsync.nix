@@ -39,8 +39,6 @@
 
   # Create a convenient rsync wrapper script
   home.file.".local/bin/rsync-backup".text = ''
-    #!/bin/bash
-    # 
     # Convenient rsync backup wrapper
     # Usage: rsync-backup source/ destination/
     #

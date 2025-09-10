@@ -159,6 +159,36 @@ in
       example = "Ac9qKFH5cA.7Yly";
       description = "Gotify API token for notifications";
     };
+
+    enableIntegrityCheck = mkOption {
+      type = types.bool;
+      default = false;
+      description = "Enable regular integrity checks of the Borg repository";
+    };
+
+    integrityCheckFrequency = mkOption {
+      type = types.str;
+      default = "weekly";
+      example = "Sun *-*-* 04:00:00";
+      description = "Systemd timer frequency for integrity checks (OnCalendar format)";
+    };
+
+    integrityCheckDepth = mkOption {
+      type = types.enum [ "repository" "archives" "data" ];
+      default = "archives";
+      description = ''
+        Depth of integrity check:
+        - repository: Check repository consistency only (fastest)
+        - archives: Check repository and archive metadata (recommended)
+        - data: Full data verification including content (slowest)
+      '';
+    };
+
+    integrityCheckLastArchives = mkOption {
+      type = types.int;
+      default = 3;
+      description = "Number of most recent archives to check when using data verification";
+    };
   };
 
   config = mkIf cfg.enable {
@@ -385,14 +415,95 @@ in
       };
     };
 
-    # Enable and start the timer
-    systemd.targets.multi-user.wants = [ "borg-backup.timer" ];
+    # Enable and start the timers
+    systemd.targets.multi-user.wants = [ "borg-backup.timer" ] 
+      ++ (if cfg.enableIntegrityCheck then [ "borg-integrity-check.timer" ] else []);
+
+    # Systemd service for integrity checks
+    systemd.services.borg-integrity-check = mkIf cfg.enableIntegrityCheck {
+      description = "Borg Repository Integrity Check";
+      wants = [ "network-online.target" ];
+      after = [ "network-online.target" ];
+      
+      # Add borg and required tools to the service's PATH
+      path = [ pkgs.borgbackup pkgs.openssh pkgs.curl ];
+
+      serviceConfig = {
+        Type = "oneshot";
+        User = "root";
+        Group = "root";
+        
+        # Security settings
+        PrivateTmp = true;
+        ProtectSystem = "strict";
+        # Disable ProtectHome for SSH repositories to allow SSH key access
+        ProtectHome = mkIf (!(lib.hasPrefix "ssh://" cfg.repositoryUrl)) "read-only";
+        # Only add ReadWritePaths for local repositories
+        ReadWritePaths = mkIf (!(lib.hasPrefix "ssh://" cfg.repositoryUrl)) [ cfg.repositoryUrl ];
+        
+        # Environment
+        Environment = [
+          "BORG_REPO=${cfg.repositoryUrl}"
+          "BORG_RELOCATED_REPO_ACCESS_IS_OK=yes"
+          "BORG_UNKNOWN_UNENCRYPTED_REPO_ACCESS_IS_OK=no"
+        ];
+        EnvironmentFile = mkIf (cfg.passphraseFile != "") cfg.passphraseFile;
+      };
+
+      script = ''
+        # Set SSH command for remote repositories
+        export BORG_RSH="${cfg.sshCommand}"
+        
+        # Load passphrase from environment file
+        if [ -f "${cfg.passphraseFile}" ]; then
+          source "${cfg.passphraseFile}"
+        fi
+        
+        # Ensure root has access to SSH keys for remote repositories
+        if [[ "${cfg.repositoryUrl}" == ssh://* ]]; then
+          mkdir -p /root/.ssh
+          chmod 700 /root/.ssh
+          
+          # Copy SSH config if it exists
+          if [ -f /home/yanlin/.ssh/config ]; then
+            cp /home/yanlin/.ssh/config /root/.ssh/config
+            chmod 600 /root/.ssh/config
+          fi
+          
+          # Copy necessary SSH keys
+          if [ -d /home/yanlin/.ssh/keys ]; then
+            cp -r /home/yanlin/.ssh/keys /root/.ssh/
+            chmod -R 600 /root/.ssh/keys
+          fi
+        fi
+        
+        # Run the integrity check script
+        /home/yanlin/.config/nix/scripts/borg-integrity-check.sh \
+          "${cfg.repositoryUrl}" \
+          "${cfg.integrityCheckDepth}" \
+          "${toString cfg.integrityCheckLastArchives}" \
+          "${toString cfg.enableNotifications}" \
+          "${cfg.gotifyUrl}" \
+          "${cfg.gotifyToken}" \
+          "${config.networking.hostName}"
+      '';
+    };
+
+    # Systemd timer for scheduled integrity checks
+    systemd.timers.borg-integrity-check = mkIf cfg.enableIntegrityCheck {
+      description = "Borg Integrity Check Timer";
+      wantedBy = [ "timers.target" ];
+
+      timerConfig = {
+        OnCalendar = cfg.integrityCheckFrequency;
+        Persistent = true;
+        RandomizedDelaySec = "1h";  # Add randomization to avoid load spikes
+      };
+    };
 
     # Create a convenience script for manual backups
     environment.etc."borg-backup-manual" = {
       text = ''
-        #!/usr/bin/env bash
-        
         echo "Starting manual Borg backup..."
         systemctl start borg-backup.service
         
@@ -413,6 +524,10 @@ in
       borg-backup-now = "sudo systemctl start borg-backup.service";
       borg-list = "BORG_REPO='${cfg.repositoryUrl}' BORG_RSH='${cfg.sshCommand}' borg list";
       borg-info = "BORG_REPO='${cfg.repositoryUrl}' BORG_RSH='${cfg.sshCommand}' borg info";
-    };
+    } // (if cfg.enableIntegrityCheck then {
+      borg-check-now = "sudo systemctl start borg-integrity-check.service";
+      borg-check-status = "systemctl status borg-integrity-check.service borg-integrity-check.timer";
+      borg-check-logs = "journalctl -u borg-integrity-check.service -f";
+    } else {});
   };
 }

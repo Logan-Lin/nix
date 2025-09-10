@@ -275,6 +275,12 @@
     enableNotifications = true;
     gotifyUrl = "https://notify.yanlincs.com";
     gotifyToken = "Ac9qKFH5cA.7Yly";
+
+    # Integrity check configuration
+    enableIntegrityCheck = true;
+    integrityCheckFrequency = "Sun *-*-* 05:00:00";  # Weekly on Sunday at 5 AM (offset from VPS)
+    integrityCheckDepth = "archives";  # Check repository and archive metadata
+    integrityCheckLastArchives = 2;  # Check last 2 archives if using data verification (HS has larger data)
     
     preHook = ''
       echo "$(date): Starting Borg backup of ${config.networking.hostName}"
