@@ -898,6 +898,8 @@ sudo chmod 600 /etc/borg-passphrase
 ### Network Architecture:
 - **VPS (Hub)**: 10.2.2.1/24 - Central WireGuard server with public endpoint
 - **HS (Spoke)**: 10.2.2.20/24 - Home server connecting through VPS
+- **iPhone**: 10.2.2.30/24 - iOS device (mobile connectivity)
+- **iPad**: 10.2.2.31/24 - iOS device (tablet connectivity)
 - **LAN Access**: HS remains accessible at 10.1.1.152 on local network
 - **DNS Setup**: hs.yanlincs.com resolves to 10.1.1.152 (LAN) with 10.2.2.20 (WireGuard) fallback
 
@@ -940,6 +942,7 @@ sudo wg pubkey < /etc/wireguard/private.key
 ### Configuration Details:
 - **Server Mode**: Configured on VPS with NAT forwarding and firewall rules
 - **Client Mode**: Configured on HS with persistent keepalive to VPS
+- **iOS Devices**: iPhone and iPad configurations available in `wireguard-configs/`
 - **Automatic Startup**: Enabled via systemd wg-quick service
 - **Key Storage**: Private keys stored in `/etc/wireguard/private.key` with 600 permissions
 - **Port**: Default UDP 51820 (configurable)
@@ -949,6 +952,18 @@ sudo wg pubkey < /etc/wireguard/private.key
 2. Retrieve public keys from each host after first boot
 3. Update peer configurations with actual public keys and VPS endpoint IP
 4. Restart WireGuard services to establish connection
+
+### iOS Device Setup:
+1. Install WireGuard app from App Store on your iPhone/iPad
+2. Configuration files are available in `wireguard-configs/`:
+   - `iphone.conf` - iPhone configuration (10.2.2.30)
+   - `ipad.conf` - iPad configuration (10.2.2.31)
+3. Import configuration to WireGuard app:
+   - Option 1: Generate QR code: `qrencode -t ansiutf8 < wireguard-configs/iphone.conf`
+   - Option 2: Email/AirDrop the .conf file to your device
+   - Option 3: Manually enter configuration in the app
+4. Enable the VPN connection in WireGuard app
+5. Test connectivity: Access internal services at 10.2.2.1 (VPS) or 10.2.2.20 (HS)
 
 ## 🏠 Home Server (`hs` Host)
 
