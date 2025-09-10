@@ -83,7 +83,7 @@ home-manager switch --flake github:Logan-Lin/nix-config#yanlin@vps
 │   ├── btop.nix       # Modern system monitor (includes package)
 │   ├── ghostty.nix    # GPU-accelerated terminal emulator
 │   ├── syncthing.nix  # File synchronization service (includes package)
-│   ├── tailscale.nix  # Secure networking and VPN service
+│   ├── wireguard.nix  # Hub-and-spoke VPN networking
 │   ├── borg.nix       # Borg backup system with automated scheduling
 │   └── homebrew.nix   # Homebrew and nix-homebrew configuration
 ├── config/            # Configuration files
@@ -890,69 +890,65 @@ echo "BORG_PASSPHRASE=your-secure-passphrase" | sudo tee /etc/borg-passphrase
 sudo chmod 600 /etc/borg-passphrase
 ```
 
-## 🔒 Secure Networking: Tailscale
+## 🔒 Secure Networking: WireGuard VPN
 
-**Configuration**: `modules/tailscale.nix`  
-**Purpose**: Secure mesh VPN for private networking across devices
+**Configuration**: `modules/wireguard.nix`  
+**Purpose**: Hub-and-spoke VPN for secure connectivity between VPS and home server
+
+### Network Architecture:
+- **VPS (Hub)**: 10.2.2.1/24 - Central WireGuard server with public endpoint
+- **HS (Spoke)**: 10.2.2.20/24 - Home server connecting through VPS
+- **LAN Access**: HS remains accessible at 10.1.1.152 on local network
+- **DNS Setup**: hs.yanlincs.com resolves to 10.1.1.152 (LAN) with 10.2.2.20 (WireGuard) fallback
 
 ### Key Features:
-- **Automatic Startup**: Runs as a system service at boot
-- **MagicDNS**: Access devices by name instead of IP addresses
-- **Secure Connectivity**: Zero-configuration encrypted connections
-- **Exit Nodes**: Route traffic through specific devices
+- **Hub-and-Spoke Topology**: VPS acts as central gateway for all connections
+- **Dual Access**: Home server accessible via both LAN (10.1.1.152) and WireGuard (10.2.2.20)
+- **Automatic Key Management**: Private keys generated and managed per host
+- **Firewall Integration**: Automatic firewall rules and IP forwarding
+- **Systemd Integration**: Uses wg-quick for reliable service management
 
 ### Command Line Usage:
 
-#### Basic Operations:
+#### Service Management:
 ```bash
-# Check connection status and see all devices
-tailscale status
+# Check WireGuard status
+sudo systemctl status wg-quick-wg0
 
-# Connect to your Tailscale network (first-time setup)
-tailscale up
+# Start/stop WireGuard
+sudo systemctl start wg-quick-wg0
+sudo systemctl stop wg-quick-wg0
 
-# Disconnect temporarily
-tailscale down
+# View WireGuard interface status
+sudo wg show
 
-# View current Tailscale IP address
-tailscale ip -4
+# Check connectivity
+ping 10.2.2.1  # Ping VPS from HS
+ping 10.2.2.20 # Ping HS from VPS
 ```
 
-#### Exit Node Management:
+#### Key Management:
 ```bash
-# List available exit nodes
-tailscale exit-node list
+# View public key (add to peer configurations)
+sudo wg pubkey < /etc/wireguard/private.key
 
-# Use a specific exit node
-tailscale set --exit-node=<hostname>
-# or
-tailscale up --exit-node=<hostname>
-
-# Stop using exit node
-tailscale set --exit-node=
-# or
-tailscale up --exit-node=
-
-# Allow LAN access while using exit node
-tailscale set --exit-node=<hostname> --exit-node-allow-lan-access
-```
-
-#### Advanced Usage:
-```bash
-# Get suggested exit node
-tailscale exit-node suggest
-
-# Check detailed network diagnostics
-tailscale netcheck
-
-# Show network configuration
-tailscale debug netmap
+# Generate new keys if needed
+wg genkey | sudo tee /etc/wireguard/private.key
+sudo wg pubkey < /etc/wireguard/private.key
 ```
 
 ### Configuration Details:
-- **Auto-start**: Enabled via nix-darwin service management
-- **DNS Override**: Uses Tailscale's MagicDNS (100.100.100.100) for name resolution
-- **System Integration**: Runs as a daemon accessible to all users
+- **Server Mode**: Configured on VPS with NAT forwarding and firewall rules
+- **Client Mode**: Configured on HS with persistent keepalive to VPS
+- **Automatic Startup**: Enabled via systemd wg-quick service
+- **Key Storage**: Private keys stored in `/etc/wireguard/private.key` with 600 permissions
+- **Port**: Default UDP 51820 (configurable)
+
+### Setup Process:
+1. Deploy configurations to both VPS and HS
+2. Retrieve public keys from each host after first boot
+3. Update peer configurations with actual public keys and VPS endpoint IP
+4. Restart WireGuard services to establish connection
 
 ## 🏠 Home Server (`hs` Host)
 
@@ -1054,7 +1050,7 @@ Comprehensive suite of self-hosted services managed via Podman with automatic st
 
 ### 📍 Service Access
 
-All services accessible via Tailscale VPN with SSL certificates:
+All services accessible via DNS with dual-IP resolution (LAN: 10.1.1.152, WireGuard: 10.2.2.20) with SSL certificates:
 
 | Service | URL | Purpose |
 |---------|-----|---------|

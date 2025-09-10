@@ -56,20 +56,20 @@
           };
         };
 
-        # Photo service backend
+        # Photo service backend (via WireGuard)
         photo = {
           loadBalancer = {
             servers = [{
-              url = "http://hs.yanlincs.com:5000";
+              url = "http://10.2.2.20:5000";
             }];
           };
         };
 
-        # Cloud service backend
+        # Cloud service backend (via WireGuard)
         cloud = {
           loadBalancer = {
             servers = [{
-              url = "http://hs.yanlincs.com:5001";
+              url = "http://10.2.2.20:5001";
             }];
           };
         };

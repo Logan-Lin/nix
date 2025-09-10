@@ -15,7 +15,6 @@
     ];
     casks = [
       # GUI applications - manually installed apps now managed by Homebrew
-      "tailscale-app"
       "inkscape"
       "firefox"
       "obsidian"

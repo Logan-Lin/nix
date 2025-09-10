@@ -5,7 +5,7 @@
     ./containers.nix  # Host-specific container definitions
     ./proxy.nix       # Host-specific Traefik dynamic configuration
     ./disk-health.nix # Host-specific disk health monitoring
-    ../../../modules/tailscale.nix
+    ../../../modules/wireguard.nix
     ../../../modules/podman.nix
     ../../../modules/traefik.nix
     ../../../modules/samba.nix
@@ -288,6 +288,20 @@
     postHook = ''
       echo "$(date): Borg backup of ${config.networking.hostName} completed successfully"
     '';
+  };
+
+  # WireGuard VPN configuration (HS as client/spoke)
+  services.wireguard-custom = {
+    enable = true;
+    mode = "client";
+    clientConfig = {
+      address = "10.2.2.20/24";
+      # Public key will be generated when VPS is configured  
+      # Replace with actual public key from VPS after initial setup
+      serverPublicKey = "REPLACE_WITH_VPS_PUBLIC_KEY";
+      serverEndpoint = "YOUR_VPS_IP:51820";  # Replace with actual VPS public IP
+      allowedIPs = [ "10.2.2.0/24" ];
+    };
   };
 
   # This value determines the NixOS release from which the default
