@@ -62,7 +62,6 @@
         settings = {
           indent = {
             char = "▏";  # Thinner vertical line
-            highlight = "NonText";  # Even more subtle highlight group
           };
         };
       };
