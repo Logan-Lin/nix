@@ -40,9 +40,32 @@
     # Plugins
     plugins = {
 
-      bufferline.enable = true;
+      bufferline = {
+        enable = true;
+        settings = {
+          options = {
+            separator_style = [ "" "" ];  # Remove gaps between tabs
+            offsets = [
+              {
+                filetype = "NvimTree";
+                text = "File Explorer";
+                text_align = "left";
+                separator = true;  # Remove separator line
+              }
+            ];
+          };
+        };
+      };
       gitsigns.enable = true;
-      indent-blankline.enable = true;
+      indent-blankline = {
+        enable = true;
+        settings = {
+          indent = {
+            char = "▏";  # Thinner vertical line
+            highlight = "NonText";  # Even more subtle highlight group
+          };
+        };
+      };
 
       # File explorer
       nvim-tree = {
@@ -194,6 +217,26 @@
         key = "<leader>r";
         action = ":e<CR>";
         options = { desc = "Refresh"; };
+      }
+
+      # Buffer/Tab navigation
+      {
+        mode = "n";
+        key = "<S-h>";
+        action = ":BufferLineCyclePrev<CR>";
+        options = { desc = "Previous buffer"; };
+      }
+      {
+        mode = "n";
+        key = "<S-l>";
+        action = ":BufferLineCycleNext<CR>";
+        options = { desc = "Next buffer"; };
+      }
+      {
+        mode = "n";
+        key = "<leader>x";
+        action = ":bp|bd #<CR>";
+        options = { desc = "Close current buffer"; };
       }
 
       # System integration
