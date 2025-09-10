@@ -296,10 +296,8 @@
     mode = "client";
     clientConfig = {
       address = "10.2.2.20/24";
-      # Public key will be generated when VPS is configured  
-      # Replace with actual public key from VPS after initial setup
-      serverPublicKey = "REPLACE_WITH_VPS_PUBLIC_KEY";
-      serverEndpoint = "YOUR_VPS_IP:51820";  # Replace with actual VPS public IP
+      serverPublicKey = "46QHjSzAas5g9Hll1SCEu9tbR5owCxXAy6wGOUoPwUM=";
+      serverEndpoint = "91.98.84.215:51820";
       allowedIPs = [ "10.2.2.0/24" ];
     };
   };
