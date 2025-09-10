@@ -158,6 +158,16 @@
           publicKey = "f/+Jyz4CpD5uyaZox77IuD9mI/KU9QOiK6tLMcbVGTE=";
           allowedIPs = [ "10.2.2.31/32" ];
         }
+        {
+          name = "imac";
+          publicKey = "MVpIxA7HOjTCAsyI/IXK4lo0B2OM9BCHzUelUyAqT20=";
+          allowedIPs = [ "10.2.2.40/32" ];
+        }
+        {
+          name = "mba";
+          publicKey = "NeaCT4v6eUzHkRhm5YcKnB4W8KXBCZNedoBlLM5zMQQ=";
+          allowedIPs = [ "10.2.2.41/32" ];
+        }
       ];
     };
   };
