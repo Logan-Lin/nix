@@ -26,7 +26,8 @@
     useDHCP = true; # VPS typically use DHCP
     firewall = {
       enable = true;
-      allowedTCPPorts = [ 22 80 443 ]; # Only SSH by default
+      allowedTCPPorts = [ 22 80 443 ]; # SSH, HTTP, HTTPS
+      trustedInterfaces = [ "wg0" ]; # Allow all traffic through WireGuard interface
     };
   };
 
