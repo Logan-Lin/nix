@@ -63,6 +63,9 @@
           indent = {
             char = "▏";  # Thinner vertical line
           };
+          scope = {
+            enabled = false;  # Disable scope highlighting
+          };
         };
       };
 
