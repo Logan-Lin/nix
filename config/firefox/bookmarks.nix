@@ -78,10 +78,6 @@
               name = "Gotify";
               url = "https://notify.yanlincs.com/";
             }
-            {
-              name = "Tailscale";
-              url = "https://login.tailscale.com/admin/machines";
-            }
           ];
         }
         {
