@@ -39,6 +39,11 @@
 
     # Plugins
     plugins = {
+
+      bufferline.enable = true;
+      gitsigns.enable = true;
+      indent-blankline.enable = true;
+
       # File explorer
       nvim-tree = {
         enable = true;
