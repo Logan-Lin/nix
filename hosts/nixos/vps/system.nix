@@ -144,9 +144,7 @@
       peers = [
         {
           name = "hs";
-          # Public key will be generated when HS is configured
-          # Replace with actual public key from HS after initial setup
-          publicKey = "REPLACE_WITH_HS_PUBLIC_KEY";
+          publicKey = "HZY7V8QlnFvY6ZWNiI0WgUgWUISnEqUdzXi7Oq9M1Es=";
           allowedIPs = [ "10.2.2.20/32" ];
         }
       ];
