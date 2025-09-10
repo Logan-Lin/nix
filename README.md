@@ -293,10 +293,12 @@ blog = {
 
 #### Key Features:
 - **File Explorer**: nvim-tree with dotfile filtering
+- **Tab Bar**: bufferline with seamless integration alongside file tree
 - **Fuzzy Finder**: Telescope for fast file finding, text search, and navigation
 - **Syntax Highlighting**: Treesitter with comprehensive language support
 - **Git Integration**: vim-fugitive for git operations
 - **Status Line**: lualine with gruvbox theme and relative paths
+- **Indent Guides**: Subtle indent lines for better code structure visibility
 - **System Clipboard**: Seamless integration for copy/paste  
 - **Markdown Rendering**: render-markdown.nvim for beautiful in-buffer preview
 - **Auto-completion**: Basic word and path completion
@@ -313,6 +315,13 @@ blog = {
 | `<Space>f` | Show current file in Finder |
 
 
+**Buffer/Tab Navigation:**
+| Key | Action |
+|-----|--------|
+| `<S-h>` | Previous buffer/tab |
+| `<S-l>` | Next buffer/tab |
+| `<Space>x` | Close current buffer |
+
 **Fuzzy Finding (Telescope):**
 | Key | Action |
 |-----|--------|
@@ -327,6 +336,18 @@ blog = {
 | `<C-q>` | Send results to quickfix list |
 | `<Esc>` | Close Telescope |
 
+**File Explorer (nvim-tree):**
+| Key | Action |
+|-----|--------|
+| `r` | Rename file/folder |
+| `a` | Create new file/folder (end with `/` for folder) |
+| `d` | Delete file/folder |
+| `x` | Cut file/folder |
+| `c` | Copy file/folder |
+| `p` | Paste |
+| `y` | Copy name |
+| `Y` | Copy relative path |
+| `gy` | Copy absolute path |
 
 **Other:**
 | Key | Action |
