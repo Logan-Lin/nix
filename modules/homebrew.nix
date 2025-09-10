@@ -11,8 +11,6 @@
     };
     brews = [
       # Command-line tools go here
-      "wireguard-go"
-      "wireguard-tools"
     ];
     casks = [
       # GUI applications - manually installed apps now managed by Homebrew
