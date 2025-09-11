@@ -10,6 +10,7 @@
     ../../../modules/traefik.nix
     ../../../modules/samba.nix
     ../../../modules/borg.nix
+    ../../../modules/webdav.nix
   ];
 
   # GRUB bootloader with ZFS support
@@ -224,6 +225,23 @@
 
   # Samba file sharing configuration
   services.samba-custom = { enable = false; };
+
+  # WebDAV file server configuration
+  services.webdav-server = {
+    enable = true;
+    port = 5009;
+    servePath = "/mnt/storage/Media/NSFW";
+    auth = {
+      username = "yanlin";
+      passwordFile = "/etc/webdav-password";
+    };
+    readOnly = false;
+    allowUpload = true;
+    allowDelete = true;
+    allowSearch = true;
+    allowSymlink = false;
+    hideDotFiles = true;
+  };
 
   # Borg backup configuration
   services.borgbackup-custom = {
