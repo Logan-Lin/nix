@@ -230,7 +230,7 @@
   services.webdav-server = {
     enable = true;
     port = 5009;
-    servePath = "/mnt/storage/Media/NSFW";
+    servePath = "/mnt/storage/Media";
     auth = {
       username = "yanlin";
       passwordFile = "/etc/webdav-password";
