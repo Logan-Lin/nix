@@ -33,13 +33,13 @@ in
       ];
 
       labels = {
-        "traefik.enable" = "true";
-        "traefik.http.routers.homeassistant.rule" = "Host(`home.${config.networking.hostName}.yanlincs.com`)";
-        "traefik.http.routers.homeassistant.entrypoints" = "websecure";
-        "traefik.http.routers.homeassistant.tls" = "true";
-        "traefik.http.routers.homeassistant.tls.certresolver" = "cloudflare";
-        "traefik.http.routers.homeassistant.tls.domains[0].main" = "*.${config.networking.hostName}.yanlincs.com";
-        "traefik.http.services.homeassistant.loadbalancer.server.port" = "8123";
+        "traefik.enable" = "false";
+        # "traefik.http.routers.homeassistant.rule" = "Host(`home.${config.networking.hostName}.yanlincs.com`)";
+        # "traefik.http.routers.homeassistant.entrypoints" = "websecure";
+        # "traefik.http.routers.homeassistant.tls" = "true";
+        # "traefik.http.routers.homeassistant.tls.certresolver" = "cloudflare";
+        # "traefik.http.routers.homeassistant.tls.domains[0].main" = "*.${config.networking.hostName}.yanlincs.com";
+        # "traefik.http.services.homeassistant.loadbalancer.server.port" = "8123";
       };
       
       environment = {
@@ -47,12 +47,13 @@ in
         # Configure Home Assistant to trust reverse proxy
         HASS_HTTP_TRUSTED_PROXY_1 = "127.0.0.1";
         HASS_HTTP_TRUSTED_PROXY_2 = "::1";
+        HASS_HTTP_TRUSTED_PROXY_3 = "10.2.2.1";
         HASS_HTTP_USE_X_FORWARDED_FOR = "true";
       };
       
       extraOptions = [
         "--privileged"  # Required for USB device access
-        "--network=host"  # Use host networking
+        "--network=host"
         "--device=/dev/ttyUSB0:/dev/ttyUSB0"  # Sky Connect Zigbee dongle
         "--device=/dev/dri:/dev/dri"  # Hardware acceleration
       ];
@@ -73,13 +74,13 @@ in
       ];
 
       labels = {
-        "traefik.enable" = "true";
-        "traefik.http.routers.immich.rule" = "Host(`photo.${config.networking.hostName}.yanlincs.com`)";
-        "traefik.http.routers.immich.entrypoints" = "websecure";
-        "traefik.http.routers.immich.tls" = "true";
-        "traefik.http.routers.immich.tls.certresolver" = "cloudflare";
-        "traefik.http.routers.immich.tls.domains[0].main" = "*.${config.networking.hostName}.yanlincs.com";
-        "traefik.http.services.immich.loadbalancer.server.port" = "8080";
+        "traefik.enable" = "false";
+        # "traefik.http.routers.immich.rule" = "Host(`photo.${config.networking.hostName}.yanlincs.com`)";
+        # "traefik.http.routers.immich.entrypoints" = "websecure";
+        # "traefik.http.routers.immich.tls" = "true";
+        # "traefik.http.routers.immich.tls.certresolver" = "cloudflare";
+        # "traefik.http.routers.immich.tls.domains[0].main" = "*.${config.networking.hostName}.yanlincs.com";
+        # "traefik.http.services.immich.loadbalancer.server.port" = "8080";
       };
       
       environment = {
@@ -176,6 +177,10 @@ in
         VERSION = "docker";
       };
       
+      ports = [
+        "5008:32400"
+      ];
+      
       extraOptions = [
         "--network=podman"
         "--device=/dev/dri:/dev/dri"  # Hardware acceleration
@@ -194,13 +199,13 @@ in
       ];
 
       labels = {
-        "traefik.enable" = "true";
-        "traefik.http.routers.sonarr.rule" = "Host(`sonarr.${config.networking.hostName}.yanlincs.com`)";
-        "traefik.http.routers.sonarr.entrypoints" = "websecure";
-        "traefik.http.routers.sonarr.tls" = "true";
-        "traefik.http.routers.sonarr.tls.certresolver" = "cloudflare";
-        "traefik.http.routers.sonarr.tls.domains[0].main" = "*.${config.networking.hostName}.yanlincs.com";
-        "traefik.http.services.sonarr.loadbalancer.server.port" = "8989";
+        "traefik.enable" = "false";
+        # "traefik.http.routers.sonarr.rule" = "Host(`sonarr.${config.networking.hostName}.yanlincs.com`)";
+        # "traefik.http.routers.sonarr.entrypoints" = "websecure";
+        # "traefik.http.routers.sonarr.tls" = "true";
+        # "traefik.http.routers.sonarr.tls.certresolver" = "cloudflare";
+        # "traefik.http.routers.sonarr.tls.domains[0].main" = "*.${config.networking.hostName}.yanlincs.com";
+        # "traefik.http.services.sonarr.loadbalancer.server.port" = "8989";
       };
       
       environment = {
@@ -208,6 +213,10 @@ in
         PGID = commonGID;
         TZ = systemTZ;
       };
+      
+      ports = [
+        "5003:8989"
+      ];
       
       extraOptions = [
         "--network=podman"
@@ -226,13 +235,13 @@ in
       ];
 
       labels = {
-        "traefik.enable" = "true";
-        "traefik.http.routers.radarr.rule" = "Host(`radarr.${config.networking.hostName}.yanlincs.com`)";
-        "traefik.http.routers.radarr.entrypoints" = "websecure";
-        "traefik.http.routers.radarr.tls" = "true";
-        "traefik.http.routers.radarr.tls.certresolver" = "cloudflare";
-        "traefik.http.routers.radarr.tls.domains[0].main" = "*.${config.networking.hostName}.yanlincs.com";
-        "traefik.http.services.radarr.loadbalancer.server.port" = "7878";
+        "traefik.enable" = "false";
+        # "traefik.http.routers.radarr.rule" = "Host(`radarr.${config.networking.hostName}.yanlincs.com`)";
+        # "traefik.http.routers.radarr.entrypoints" = "websecure";
+        # "traefik.http.routers.radarr.tls" = "true";
+        # "traefik.http.routers.radarr.tls.certresolver" = "cloudflare";
+        # "traefik.http.routers.radarr.tls.domains[0].main" = "*.${config.networking.hostName}.yanlincs.com";
+        # "traefik.http.services.radarr.loadbalancer.server.port" = "7878";
       };
       
       environment = {
@@ -241,37 +250,9 @@ in
         TZ = systemTZ;
       };
       
-      extraOptions = [
-        "--network=podman"
+      ports = [
+        "5004:7878"
       ];
-      
-      autoStart = true;
-    };
-
-    # Bazarr subtitle management
-    bazarr = {
-      image = "docker.io/linuxserver/bazarr:latest";
-      
-      volumes = [
-        "/var/lib/containers/bazarr/config:/config"
-        "/mnt/storage/Media:/data"
-      ];
-
-      labels = {
-        "traefik.enable" = "true";
-        "traefik.http.routers.bazarr.rule" = "Host(`bazarr.${config.networking.hostName}.yanlincs.com`)";
-        "traefik.http.routers.bazarr.entrypoints" = "websecure";
-        "traefik.http.routers.bazarr.tls" = "true";
-        "traefik.http.routers.bazarr.tls.certresolver" = "cloudflare";
-        "traefik.http.routers.bazarr.tls.domains[0].main" = "*.${config.networking.hostName}.yanlincs.com";
-        "traefik.http.services.bazarr.loadbalancer.server.port" = "6767";
-      };
-      
-      environment = {
-        PUID = commonUID;
-        PGID = commonGID;
-        TZ = systemTZ;
-      };
       
       extraOptions = [
         "--network=podman"
@@ -290,13 +271,13 @@ in
       ];
 
       labels = {
-        "traefik.enable" = "true";
-        "traefik.http.routers.qbittorrent.rule" = "Host(`qbit.${config.networking.hostName}.yanlincs.com`)";
-        "traefik.http.routers.qbittorrent.entrypoints" = "websecure";
-        "traefik.http.routers.qbittorrent.tls" = "true";
-        "traefik.http.routers.qbittorrent.tls.certresolver" = "cloudflare";
-        "traefik.http.routers.qbittorrent.tls.domains[0].main" = "*.${config.networking.hostName}.yanlincs.com";
-        "traefik.http.services.qbittorrent.loadbalancer.server.port" = "8080";
+        "traefik.enable" = "false";
+        # "traefik.http.routers.qbittorrent.rule" = "Host(`qbit.${config.networking.hostName}.yanlincs.com`)";
+        # "traefik.http.routers.qbittorrent.entrypoints" = "websecure";
+        # "traefik.http.routers.qbittorrent.tls" = "true";
+        # "traefik.http.routers.qbittorrent.tls.certresolver" = "cloudflare";
+        # "traefik.http.routers.qbittorrent.tls.domains[0].main" = "*.${config.networking.hostName}.yanlincs.com";
+        # "traefik.http.services.qbittorrent.loadbalancer.server.port" = "8080";
       };
       
       environment = {
@@ -308,7 +289,7 @@ in
       };
       
       extraOptions = [
-        "--network=host"  # Use host networking as requested
+        "--network=host"
       ];
       
       autoStart = true;
@@ -326,13 +307,13 @@ in
       ];
 
       labels = {
-        "traefik.enable" = "true";
-        "traefik.http.routers.paperless.rule" = "Host(`paperless.${config.networking.hostName}.yanlincs.com`)";
-        "traefik.http.routers.paperless.entrypoints" = "websecure";
-        "traefik.http.routers.paperless.tls" = "true";
-        "traefik.http.routers.paperless.tls.certresolver" = "cloudflare";
-        "traefik.http.routers.paperless.tls.domains[0].main" = "*.${config.networking.hostName}.yanlincs.com";
-        "traefik.http.services.paperless.loadbalancer.server.port" = "8000";
+        "traefik.enable" = "false";
+        # "traefik.http.routers.paperless.rule" = "Host(`paperless.${config.networking.hostName}.yanlincs.com`)";
+        # "traefik.http.routers.paperless.entrypoints" = "websecure";
+        # "traefik.http.routers.paperless.tls" = "true";
+        # "traefik.http.routers.paperless.tls.certresolver" = "cloudflare";
+        # "traefik.http.routers.paperless.tls.domains[0].main" = "*.${config.networking.hostName}.yanlincs.com";
+        # "traefik.http.services.paperless.loadbalancer.server.port" = "8000";
       };
       
       environment = {
@@ -341,15 +322,19 @@ in
         PAPERLESS_OCR_LANGUAGES = "chi-sim";
         PAPERLESS_FILENAME_FORMAT = "{{ created }}-{{ correspondent }}-{{ title }}";
         PAPERLESS_TIME_ZONE = "Europe/Copenhagen";
-        PAPERLESS_URL = "https://paperless.${config.networking.hostName}.yanlincs.com";
-        PAPERLESS_CSRF_TRUSTED_ORIGINS = "https://paperless.${config.networking.hostName}.yanlincs.com";
-        PAPERLESS_ALLOWED_HOSTS = "paperless.${config.networking.hostName}.yanlincs.com";
-        PAPERLESS_CORS_ALLOWED_HOSTS = "https://paperless.${config.networking.hostName}.yanlincs.com";
+        PAPERLESS_URL = "https://paperless.yanlincs.com";
+        PAPERLESS_CSRF_TRUSTED_ORIGINS = "https://paperless.yanlincs.com";
+        PAPERLESS_ALLOWED_HOSTS = "paperless.yanlincs.com";
+        PAPERLESS_CORS_ALLOWED_HOSTS = "https://paperless.yanlincs.com";
         PAPERLESS_SECRET_KEY = "e11fl1oa-*ytql8p)(06fbj4ukrlo+n7k&q5+$1md7i+mge=ee";
         USERMAP_UID = commonUID;
         USERMAP_GID = commonGID;
         CA_TS_FALLBACK_DIR = "/usr/src/paperless/data";
       };
+      
+      ports = [
+        "5005:8000"
+      ];
       
       extraOptions = [
         "--network=podman"
@@ -375,20 +360,20 @@ in
       image = "docker.io/miniflux/miniflux:latest";
 
       labels = {
-        "traefik.enable" = "true";
-        "traefik.http.routers.rss.rule" = "Host(`rss.${config.networking.hostName}.yanlincs.com`)";
-        "traefik.http.routers.rss.entrypoints" = "websecure";
-        "traefik.http.routers.rss.tls" = "true";
-        "traefik.http.routers.rss.tls.certresolver" = "cloudflare";
-        "traefik.http.routers.rss.tls.domains[0].main" = "*.${config.networking.hostName}.yanlincs.com";
-        "traefik.http.services.rss.loadbalancer.server.port" = "8080";
+        "traefik.enable" = "false";
+        # "traefik.http.routers.rss.rule" = "Host(`rss.${config.networking.hostName}.yanlincs.com`)";
+        # "traefik.http.routers.rss.entrypoints" = "websecure";
+        # "traefik.http.routers.rss.tls" = "true";
+        # "traefik.http.routers.rss.tls.certresolver" = "cloudflare";
+        # "traefik.http.routers.rss.tls.domains[0].main" = "*.${config.networking.hostName}.yanlincs.com";
+        # "traefik.http.services.rss.loadbalancer.server.port" = "8080";
       };
       
       environment = {
         DATABASE_URL = "postgres://miniflux:miniflux@rss-db/miniflux?sslmode=disable";
         ADMIN_USERNAME = "yanlin";
         ADMIN_PASSWORD = "1Hayashi-2Hiko";
-        BASE_URL = "https://rss.${config.networking.hostName}.yanlincs.com";
+        BASE_URL = "https://rss.yanlincs.com";
         CREATE_ADMIN = "1";
         RUN_MIGRATIONS = "1";
         HTTP_CLIENT_TIMEOUT = "50000";
@@ -397,6 +382,10 @@ in
         CLEANUP_ARCHIVE_READ_DAYS = "60";
         CLEANUP_REMOVE_SESSIONS_DAYS = "30";
       };
+      
+      ports = [
+        "5006:8080"
+      ];
       
       extraOptions = [
         "--network=podman"
@@ -436,14 +425,18 @@ in
       ];
 
       labels = {
-        "traefik.enable" = "true";
-        "traefik.http.routers.linkding.rule" = "Host(`link.${config.networking.hostName}.yanlincs.com`)";
-        "traefik.http.routers.linkding.entrypoints" = "websecure";
-        "traefik.http.routers.linkding.tls" = "true";
-        "traefik.http.routers.linkding.tls.certresolver" = "cloudflare";
-        "traefik.http.routers.linkding.tls.domains[0].main" = "*.${config.networking.hostName}.yanlincs.com";
-        "traefik.http.services.linkding.loadbalancer.server.port" = "9090";
+        "traefik.enable" = "false";
+        # "traefik.http.routers.linkding.rule" = "Host(`link.${config.networking.hostName}.yanlincs.com`)";
+        # "traefik.http.routers.linkding.entrypoints" = "websecure";
+        # "traefik.http.routers.linkding.tls" = "true";
+        # "traefik.http.routers.linkding.tls.certresolver" = "cloudflare";
+        # "traefik.http.routers.linkding.tls.domains[0].main" = "*.${config.networking.hostName}.yanlincs.com";
+        # "traefik.http.services.linkding.loadbalancer.server.port" = "9090";
       };
+      
+      ports = [
+        "5007:9090"
+      ];
       
       extraOptions = [
         "--network=podman"
@@ -462,13 +455,13 @@ in
       ];
 
       labels = {
-        "traefik.enable" = "true";
-        "traefik.http.routers.cloud.rule" = "Host(`cloud.${config.networking.hostName}.yanlincs.com`)";
-        "traefik.http.routers.cloud.entrypoints" = "websecure";
-        "traefik.http.routers.cloud.tls" = "true";
-        "traefik.http.routers.cloud.tls.certresolver" = "cloudflare";
-        "traefik.http.routers.cloud.tls.domains[0].main" = "*.${config.networking.hostName}.yanlincs.com";
-        "traefik.http.services.cloud.loadbalancer.server.port" = "80";
+        "traefik.enable" = "false";
+        # "traefik.http.routers.cloud.rule" = "Host(`cloud.${config.networking.hostName}.yanlincs.com`)";
+        # "traefik.http.routers.cloud.entrypoints" = "websecure";
+        # "traefik.http.routers.cloud.tls" = "true";
+        # "traefik.http.routers.cloud.tls.certresolver" = "cloudflare";
+        # "traefik.http.routers.cloud.tls.domains[0].main" = "*.${config.networking.hostName}.yanlincs.com";
+        # "traefik.http.services.cloud.loadbalancer.server.port" = "80";
       };
       
       environment = {
