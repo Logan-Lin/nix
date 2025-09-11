@@ -10,6 +10,7 @@ http:
   trusted_proxies: 
     - 127.0.0.1    # Local Traefik proxy
     - ::1          # IPv6 localhost
+    - 10.2.2.1     # VPS proxy (via WireGuard)
 
 # Loads default set of integrations. Do not remove.
 # This includes: sun, mobile_app, met, radio_browser, etc.
