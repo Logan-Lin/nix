@@ -371,11 +371,7 @@ in
       
       environment = {
         DATABASE_URL = "postgres://miniflux:miniflux@rss-db/miniflux?sslmode=disable";
-        ADMIN_USERNAME = "yanlin";
-        ADMIN_PASSWORD = "1Hayashi-2Hiko";
         BASE_URL = "https://rss.yanlincs.com";
-        CREATE_ADMIN = "1";
-        RUN_MIGRATIONS = "1";
         HTTP_CLIENT_TIMEOUT = "50000";
         POLLING_FREQUENCY = "60";
         CLEANUP_FREQUENCY_HOURS = "24";
