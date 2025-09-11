@@ -95,8 +95,9 @@ in
       
       # Function to cd to directory containing a file selected with fzf
       function cdf() {
+        local search_dir="''${1:-~}"
         local target
-        target=$(echo "" | fzf --bind "change:reload:fd --hidden --follow --exclude .git {q} ~ 2>/dev/null || true" --header="Type to search, Enter to cd" --preview '([[ -d {} ]] && ls -la {}) || ([[ -f {} ]] && head -20 {})' --height 40% --ansi)
+        target=$(echo "" | fzf --bind "change:reload:fd --hidden --follow --exclude .git {q} ''$search_dir 2>/dev/null || true" --header="Type to search, Enter to cd" --preview '([[ -d {} ]] && ls -la {}) || ([[ -f {} ]] && head -20 {})' --height 40% --ansi)
         if [[ -n "$target" ]]; then
           [[ -d "$target" ]] && cd "$target" || cd "$(dirname "$target")"
         fi
@@ -104,8 +105,9 @@ in
       
       # Function to print path of file/directory selected with fzf
       function pwdf() {
+        local search_dir="''${1:-~}"
         local target
-        target=$(echo "" | fzf --bind "change:reload:fd --hidden --follow --exclude .git {q} ~ 2>/dev/null || true" --header="Type to search, Enter to print path" --preview '([[ -d {} ]] && ls -la {}) || ([[ -f {} ]] && head -20 {})' --height 40% --ansi)
+        target=$(echo "" | fzf --bind "change:reload:fd --hidden --follow --exclude .git {q} ''$search_dir 2>/dev/null || true" --header="Type to search, Enter to print path" --preview '([[ -d {} ]] && ls -la {}) || ([[ -f {} ]] && head -20 {})' --height 40% --ansi)
         if [[ -n "$target" ]]; then
           echo "$target"
         fi
