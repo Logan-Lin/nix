@@ -17,15 +17,15 @@
         identityFile = "~/.ssh/keys/github";
       };
 
-      "aicloud" = {
-        hostname = "aicloud";
-        user = "hb05nk@cs.aau.dk";
-        identityFile = "~/.ssh/keys/aicloud";
-        proxyJump = "pi";
-      };
+      # "aicloud" = {
+      #   hostname = "aicloud";
+      #   user = "hb05nk@cs.aau.dk";
+      #   identityFile = "~/.ssh/keys/aicloud";
+      #   proxyJump = "pi";
+      # };
 
       "hs" = {
-        hostname = "hs.yanlincs.com";
+        hostname = "10.2.2.20";
         user = "yanlin";
         identityFile = "~/.ssh/keys/nas";
         setEnv = {
@@ -33,14 +33,8 @@
         };
       };
 
-      "pi" = {
-        hostname = "pi.hw.yanlincs.com";
-        user = "yanlin";
-        identityFile = "~/.ssh/keys/pi";
-      };
-
       "vps" = {
-        hostname = "vps.yanlincs.com";
+        hostname = "91.98.84.215";
         user = "yanlin";
         identityFile = "~/.ssh/keys/hetzner";
       };
