@@ -223,27 +223,7 @@
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   # Samba file sharing configuration
-  services.samba-custom = {
-    enable = true;
-    serverString = "hs NAS Server";
-    workgroup = "WORKGROUP";
-    shares = {
-      Media = {
-        path = "/mnt/storage/Media";
-        comment = "Media Storage";
-        browseable = true;
-        readOnly = false;
-        guestOk = false;
-        createMask = "0644";
-        directoryMask = "0755";
-        forceUser = "yanlin";
-        forceGroup = "users";
-        validUsers = [ "yanlin" ];
-      };
-    };
-    enableWSDD = true;
-    openFirewall = false;
-  };
+  services.samba-custom = { enable = false; };
 
   # Borg backup configuration
   services.borgbackup-custom = {
