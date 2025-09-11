@@ -88,7 +88,7 @@ if ! run_borg_check "--repository-only" "Repository consistency"; then
     CHECK_DURATION=$((CHECK_END - CHECK_START))
     
     send_notification "critical" \
-        "[$HOSTNAME] Borg Check Failed" \
+        "Borg Check Failed" \
         "Repository consistency check failed!\n\nRepository: $REPO_URL\nDuration: ${CHECK_DURATION}s\n\nErrors:\n$ERRORS_FOUND\n\nImmediate attention required!"
     
     exit 1
@@ -176,7 +176,7 @@ if [ "$CHECK_RESULT" = "SUCCESS" ]; then
     echo -e "$SUCCESS_MSG"
     
     send_notification "normal" \
-        "[$HOSTNAME] Borg Check Passed" \
+        "Borg Check Passed" \
         "$SUCCESS_MSG"
 else
     FAILURE_MSG="Integrity check found issues for $HOSTNAME\n\n"
@@ -191,7 +191,7 @@ else
     echo -e "$FAILURE_MSG"
     
     send_notification "high" \
-        "[$HOSTNAME] Borg Check Issues" \
+        "Borg Check Issues" \
         "$FAILURE_MSG"
     
     # Exit with error code to indicate failure
