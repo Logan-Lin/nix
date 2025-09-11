@@ -45,6 +45,110 @@
             }];
           };
         };
+
+        # Home Assistant
+        home = {
+          rule = "Host(`home.yanlincs.com`)";
+          entrypoints = "websecure";
+          service = "home";
+          tls = {
+            certResolver = "cloudflare";
+            domains = [{
+              main = "*.yanlincs.com";
+            }];
+          };
+        };
+
+        # Sonarr TV show management
+        sonarr = {
+          rule = "Host(`sonarr.yanlincs.com`)";
+          entrypoints = "websecure";
+          service = "sonarr";
+          tls = {
+            certResolver = "cloudflare";
+            domains = [{
+              main = "*.yanlincs.com";
+            }];
+          };
+        };
+
+        # Radarr movie management
+        radarr = {
+          rule = "Host(`radarr.yanlincs.com`)";
+          entrypoints = "websecure";
+          service = "radarr";
+          tls = {
+            certResolver = "cloudflare";
+            domains = [{
+              main = "*.yanlincs.com";
+            }];
+          };
+        };
+
+        # Paperless document management
+        paperless = {
+          rule = "Host(`paperless.yanlincs.com`)";
+          entrypoints = "websecure";
+          service = "paperless";
+          tls = {
+            certResolver = "cloudflare";
+            domains = [{
+              main = "*.yanlincs.com";
+            }];
+          };
+        };
+
+        # RSS reader (Miniflux)
+        rss = {
+          rule = "Host(`rss.yanlincs.com`)";
+          entrypoints = "websecure";
+          service = "rss";
+          tls = {
+            certResolver = "cloudflare";
+            domains = [{
+              main = "*.yanlincs.com";
+            }];
+          };
+        };
+
+        # Linkding bookmark manager
+        link = {
+          rule = "Host(`link.yanlincs.com`)";
+          entrypoints = "websecure";
+          service = "link";
+          tls = {
+            certResolver = "cloudflare";
+            domains = [{
+              main = "*.yanlincs.com";
+            }];
+          };
+        };
+
+        # Plex Media Server
+        plex = {
+          rule = "Host(`plex.yanlincs.com`)";
+          entrypoints = "websecure";
+          service = "plex";
+          tls = {
+            certResolver = "cloudflare";
+            domains = [{
+              main = "*.yanlincs.com";
+            }];
+          };
+        };
+
+        # qBittorrent torrent client
+        qbit = {
+          rule = "Host(`qbit.yanlincs.com`)";
+          entrypoints = "websecure";
+          service = "qbit";
+          tls = {
+            certResolver = "cloudflare";
+            domains = [{
+              main = "*.yanlincs.com";
+            }];
+          };
+        };
       };
       services = {
         # Redirect service
@@ -70,6 +174,78 @@
           loadBalancer = {
             servers = [{
               url = "http://10.2.2.20:5001";
+            }];
+          };
+        };
+
+        # Home Assistant backend (via WireGuard)
+        home = {
+          loadBalancer = {
+            servers = [{
+              url = "http://10.2.2.20:8123";
+            }];
+          };
+        };
+
+        # Sonarr backend (via WireGuard)
+        sonarr = {
+          loadBalancer = {
+            servers = [{
+              url = "http://10.2.2.20:5003";
+            }];
+          };
+        };
+
+        # Radarr backend (via WireGuard)
+        radarr = {
+          loadBalancer = {
+            servers = [{
+              url = "http://10.2.2.20:5004";
+            }];
+          };
+        };
+
+        # Paperless backend (via WireGuard)
+        paperless = {
+          loadBalancer = {
+            servers = [{
+              url = "http://10.2.2.20:5005";
+            }];
+          };
+        };
+
+        # RSS reader backend (via WireGuard)
+        rss = {
+          loadBalancer = {
+            servers = [{
+              url = "http://10.2.2.20:5006";
+            }];
+          };
+        };
+
+        # Linkding backend (via WireGuard)
+        link = {
+          loadBalancer = {
+            servers = [{
+              url = "http://10.2.2.20:5007";
+            }];
+          };
+        };
+
+        # Plex backend (via WireGuard)
+        plex = {
+          loadBalancer = {
+            servers = [{
+              url = "http://10.2.2.20:5008";
+            }];
+          };
+        };
+
+        # qBittorrent backend (via WireGuard)
+        qbit = {
+          loadBalancer = {
+            servers = [{
+              url = "http://10.2.2.20:8080";
             }];
           };
         };
