@@ -1,161 +1,180 @@
 { config, pkgs, lib, ... }@args:
 
-{
-  # Create userChrome.css to hide Firefox View button
-  home.file."${config.home.homeDirectory}/.mozilla/firefox/yanlin/chrome/userChrome.css".text = ''
-    /* Hide Firefox View button */
-    #firefox-view-button {
-      display: none !important;
-    }
-    
-    /* Also hide from tab context menu */
-    #context_moveTabOptions > menuitem[data-l10n-id="tab-context-send-tabs-to-device"] + menuseparator,
-    #context_moveTabOptions > menuitem[command="Browser:SendTabToDevice"] {
-      display: none !important;
-    }
-  '';
+with lib;
 
-  programs.firefox = {
-    enable = true;
-    package = null;
-    
-    profiles.yanlin = {
-      id = 0;
-      isDefault = true;
-      name = "yanlin";
+let
+  cfg = config.programs.firefox-custom;
+in
+
+{
+  options.programs.firefox-custom = {
+    enable = mkEnableOption "Firefox browser configuration";
+
+    package = mkOption {
+      type = types.nullOr types.package;
+      default = null;
+      example = "pkgs.firefox";
+      description = "Firefox package to use. Set to null on Darwin to use system Firefox, or pkgs.firefox on NixOS.";
+    };
+  };
+
+  config = mkIf cfg.enable {
+    # Create userChrome.css to hide Firefox View button
+    home.file."${config.home.homeDirectory}/.mozilla/firefox/yanlin/chrome/userChrome.css".text = ''
+      /* Hide Firefox View button */
+      #firefox-view-button {
+        display: none !important;
+      }
       
-      # Extensions
-      extensions = import ../config/firefox/extensions.nix args;
+      /* Also hide from tab context menu */
+      #context_moveTabOptions > menuitem[data-l10n-id="tab-context-send-tabs-to-device"] + menuseparator,
+      #context_moveTabOptions > menuitem[command="Browser:SendTabToDevice"] {
+        display: none !important;
+      }
+    '';
+
+    programs.firefox = {
+      enable = true;
+      package = cfg.package;
       
-      # Bookmarks
-      bookmarks = import ../config/firefox/bookmarks.nix;
-      
-      # Search configuration
-      search = import ../config/firefox/search.nix;
-      
-      # Firefox settings
-      settings = {
-        # General preferences
-        "browser.startup.homepage" = "about:home";
-        "browser.startup.page" = 3; # Restore previous windows and tabs
-        "browser.newtabpage.enabled" = true;
+      profiles.yanlin = {
+        id = 0;
+        isDefault = true;
+        name = "yanlin";
         
-        # New tab page - show only search bar
-        "browser.newtabpage.activity-stream.feeds.topsites" = false;
-        "browser.newtabpage.activity-stream.feeds.section.highlights" = false;
-        "browser.newtabpage.activity-stream.feeds.section.topstories" = false;
-        "browser.newtabpage.activity-stream.feeds.system.topsites" = false;
-        "browser.newtabpage.activity-stream.feeds.system.topstories" = false;
-        "browser.newtabpage.activity-stream.showSponsored" = false;
-        "browser.newtabpage.activity-stream.showSponsoredTopSites" = false;
+        # Extensions
+        extensions = import ../config/firefox/extensions.nix args;
         
-        # Privacy settings - Disable all tracking protection
-        "privacy.trackingprotection.enabled" = false;
-        "privacy.trackingprotection.socialtracking.enabled" = false;
-        "privacy.trackingprotection.pbmode.enabled" = false;  # Disable in private browsing
-        "privacy.trackingprotection.cryptomining.enabled" = false;
-        "privacy.trackingprotection.fingerprinting.enabled" = false;
-        "privacy.trackingprotection.annotate_channels" = false;
-        "privacy.donottrackheader.enabled" = false;
-        "browser.contentblocking.category" = "custom";  # Set to custom to ensure our settings apply
-        "network.cookie.cookieBehavior" = 0;  # 0 = Accept all cookies
-        "privacy.firstparty.isolate" = false;
-        "privacy.resistFingerprinting" = false;
+        # Bookmarks
+        bookmarks = import ../config/firefox/bookmarks.nix;
         
-        # Performance
-        "gfx.webrender.all" = true;
-        "media.ffmpeg.vaapi.enabled" = true;
-        "media.hardware-video-decoding.force-enabled" = true;
+        # Search configuration
+        search = import ../config/firefox/search.nix;
         
-        # UI preferences
-        "browser.tabs.loadInBackground" = true;
-        "browser.ctrlTab.recentlyUsedOrder" = true;
-        
-        # Bookmarks toolbar (only show on new tab/home page)
-        "browser.toolbars.bookmarks.visibility" = "newtab";
-        
-        # Downloads
-        "browser.download.useDownloadDir" = false;
-        "browser.download.always_ask_before_handling_new_types" = true;
-        
-        # Security
-        "dom.security.https_only_mode" = true;
-        "dom.security.https_only_mode_ever_enabled" = true;
-        
-        # Disable telemetry
-        "datareporting.healthreport.uploadEnabled" = false;
-        "datareporting.policy.dataSubmissionEnabled" = false;
-        "toolkit.telemetry.unified" = false;
-        "toolkit.telemetry.enabled" = false;
-        "toolkit.telemetry.server" = "data:,";
-        "toolkit.telemetry.archive.enabled" = false;
-        "toolkit.telemetry.newProfilePing.enabled" = false;
-        "toolkit.telemetry.shutdownPingSender.enabled" = false;
-        "toolkit.telemetry.updatePing.enabled" = false;
-        "toolkit.telemetry.bhrPing.enabled" = false;
-        "toolkit.telemetry.firstShutdownPing.enabled" = false;
-        
-        # Disable experiments
-        "experiments.activeExperiment" = false;
-        "experiments.enabled" = false;
-        "experiments.supported" = false;
-        "network.allow-experiments" = false;
-        
-        # Disable Pocket
-        "extensions.pocket.enabled" = false;
-        "browser.newtabpage.activity-stream.section.highlights.includePocket" = false;
-        
-        # Password Manager - disable all functionality
-        "signon.rememberSignons" = false;
-        "signon.autofillForms" = false;
-        "signon.prefillForms" = false;
-        
-        # Form Auto-complete - disable all form history and suggestions
-        "browser.formfill.enable" = false;
-        "browser.formfill.saveHttpsForms" = false;
-        
-        # Additional Auto-fill features - disable address and credit card autofill
-        "extensions.formautofill.addresses.enabled" = false;
-        "extensions.formautofill.creditCards.enabled" = false;
-        "extensions.formautofill.heuristics.enabled" = false;
-        
-        # Hide UI elements
-        "browser.tabs.firefox-view" = false;
-        "browser.tabs.firefox-view-max-entries" = 0;
-        "browser.tabs.firefox-view-next" = false;
-        "browser.firefox-view.feature-tour" = "{\"screen\":\"\",\"complete\":true}";
-        "browser.firefox-view.view-count" = 0;
-        "identity.fxaccounts.enabled" = false;
-        
-        # Disable all search suggestions
-        "browser.urlbar.suggest.searches" = false;
-        "browser.urlbar.suggest.engines" = false;
-        "browser.urlbar.quicksuggest.enabled" = false;
-        "browser.urlbar.quicksuggest.sponsored" = false;
-        "browser.urlbar.quicksuggest.dataCollection.enabled" = false;
-        "browser.search.suggest.enabled" = false;
-        
-        # Additional search-related privacy settings
-        "browser.urlbar.suggest.clipboard" = false;
-        "browser.urlbar.suggest.topsites" = false;
-        "browser.urlbar.speculativeConnect.enabled" = false;
-        
-        # Disable recent searches
-        "browser.urlbar.suggest.history" = true;
-        "browser.urlbar.maxHistoricalSearchSuggestions" = 3;
-        
-        # Disable sidebar and Firefox tools
-        "sidebar.revamp" = false; # Completely disable the new sidebar feature
-        "sidebar.verticalTabs" = false; # Disable vertical tabs in sidebar
-        "sidebar.visibility" = "hide"; # Ensure sidebar is hidden
-        "browser.toolbarbuttons.introduced.sidebar-button" = false; # Prevent sidebar button introduction
-        
-        # Language and translation settings
-        "intl.accept_languages" = "en-US,en,zh-CN,zh-TW,zh-HK,zh"; # Accept English and all Chinese variants
-        "browser.translations.automaticallyPopup" = false; # Prevent automatic translation suggestions
-        
-        # Enable userChrome.css support
-        "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
+        # Firefox settings
+        settings = {
+          # General preferences
+          "browser.startup.homepage" = "about:home";
+          "browser.startup.page" = 3; # Restore previous windows and tabs
+          "browser.newtabpage.enabled" = true;
+          
+          # New tab page - show only search bar
+          "browser.newtabpage.activity-stream.feeds.topsites" = false;
+          "browser.newtabpage.activity-stream.feeds.section.highlights" = false;
+          "browser.newtabpage.activity-stream.feeds.section.topstories" = false;
+          "browser.newtabpage.activity-stream.feeds.system.topsites" = false;
+          "browser.newtabpage.activity-stream.feeds.system.topstories" = false;
+          "browser.newtabpage.activity-stream.showSponsored" = false;
+          "browser.newtabpage.activity-stream.showSponsoredTopSites" = false;
+          
+          # Privacy settings - Disable all tracking protection
+          "privacy.trackingprotection.enabled" = false;
+          "privacy.trackingprotection.socialtracking.enabled" = false;
+          "privacy.trackingprotection.pbmode.enabled" = false;  # Disable in private browsing
+          "privacy.trackingprotection.cryptomining.enabled" = false;
+          "privacy.trackingprotection.fingerprinting.enabled" = false;
+          "privacy.trackingprotection.annotate_channels" = false;
+          "privacy.donottrackheader.enabled" = false;
+          "browser.contentblocking.category" = "custom";  # Set to custom to ensure our settings apply
+          "network.cookie.cookieBehavior" = 0;  # 0 = Accept all cookies
+          "privacy.firstparty.isolate" = false;
+          "privacy.resistFingerprinting" = false;
+          
+          # Performance
+          "gfx.webrender.all" = true;
+          "media.ffmpeg.vaapi.enabled" = true;
+          "media.hardware-video-decoding.force-enabled" = true;
+          
+          # UI preferences
+          "browser.tabs.loadInBackground" = true;
+          "browser.ctrlTab.recentlyUsedOrder" = true;
+          
+          # Bookmarks toolbar (only show on new tab/home page)
+          "browser.toolbars.bookmarks.visibility" = "newtab";
+          
+          # Downloads
+          "browser.download.useDownloadDir" = false;
+          "browser.download.always_ask_before_handling_new_types" = true;
+          
+          # Security
+          "dom.security.https_only_mode" = true;
+          "dom.security.https_only_mode_ever_enabled" = true;
+          
+          # Disable telemetry
+          "datareporting.healthreport.uploadEnabled" = false;
+          "datareporting.policy.dataSubmissionEnabled" = false;
+          "toolkit.telemetry.unified" = false;
+          "toolkit.telemetry.enabled" = false;
+          "toolkit.telemetry.server" = "data:,";
+          "toolkit.telemetry.archive.enabled" = false;
+          "toolkit.telemetry.newProfilePing.enabled" = false;
+          "toolkit.telemetry.shutdownPingSender.enabled" = false;
+          "toolkit.telemetry.updatePing.enabled" = false;
+          "toolkit.telemetry.bhrPing.enabled" = false;
+          "toolkit.telemetry.firstShutdownPing.enabled" = false;
+          
+          # Disable experiments
+          "experiments.activeExperiment" = false;
+          "experiments.enabled" = false;
+          "experiments.supported" = false;
+          "network.allow-experiments" = false;
+          
+          # Disable Pocket
+          "extensions.pocket.enabled" = false;
+          "browser.newtabpage.activity-stream.section.highlights.includePocket" = false;
+          
+          # Password Manager - disable all functionality
+          "signon.rememberSignons" = false;
+          "signon.autofillForms" = false;
+          "signon.prefillForms" = false;
+          
+          # Form Auto-complete - disable all form history and suggestions
+          "browser.formfill.enable" = false;
+          "browser.formfill.saveHttpsForms" = false;
+          
+          # Additional Auto-fill features - disable address and credit card autofill
+          "extensions.formautofill.addresses.enabled" = false;
+          "extensions.formautofill.creditCards.enabled" = false;
+          "extensions.formautofill.heuristics.enabled" = false;
+          
+          # Hide UI elements
+          "browser.tabs.firefox-view" = false;
+          "browser.tabs.firefox-view-max-entries" = 0;
+          "browser.tabs.firefox-view-next" = false;
+          "browser.firefox-view.feature-tour" = "{\"screen\":\"\",\"complete\":true}";
+          "browser.firefox-view.view-count" = 0;
+          "identity.fxaccounts.enabled" = false;
+          
+          # Disable all search suggestions
+          "browser.urlbar.suggest.searches" = false;
+          "browser.urlbar.suggest.engines" = false;
+          "browser.urlbar.quicksuggest.enabled" = false;
+          "browser.urlbar.quicksuggest.sponsored" = false;
+          "browser.urlbar.quicksuggest.dataCollection.enabled" = false;
+          "browser.search.suggest.enabled" = false;
+          
+          # Additional search-related privacy settings
+          "browser.urlbar.suggest.clipboard" = false;
+          "browser.urlbar.suggest.topsites" = false;
+          "browser.urlbar.speculativeConnect.enabled" = false;
+          
+          # Disable recent searches
+          "browser.urlbar.suggest.history" = true;
+          "browser.urlbar.maxHistoricalSearchSuggestions" = 3;
+          
+          # Disable sidebar and Firefox tools
+          "sidebar.revamp" = false; # Completely disable the new sidebar feature
+          "sidebar.verticalTabs" = false; # Disable vertical tabs in sidebar
+          "sidebar.visibility" = "hide"; # Ensure sidebar is hidden
+          "browser.toolbarbuttons.introduced.sidebar-button" = false; # Prevent sidebar button introduction
+          
+          # Language and translation settings
+          "intl.accept_languages" = "en-US,en,zh-CN,zh-TW,zh-HK,zh"; # Accept English and all Chinese variants
+          "browser.translations.automaticallyPopup" = false; # Prevent automatic translation suggestions
+          
+          # Enable userChrome.css support
+          "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
+        };
       };
     };
   };
