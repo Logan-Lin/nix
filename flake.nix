@@ -53,6 +53,15 @@
       ];
     };
 
+    nixosConfigurations."thinkpad" = nixpkgs.lib.nixosSystem {
+      system = "x86_64-linux";
+      modules = [
+        disko.nixosModules.disko
+        ./hosts/nixos/thinkpad/system.nix
+        ./hosts/nixos/thinkpad/disk-config.nix
+      ];
+    };
+
     homeConfigurations = {
       "yanlin@imac" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.aarch64-darwin;
@@ -76,6 +85,12 @@
         pkgs = nixpkgs.legacyPackages.x86_64-linux;
         modules = [ ./hosts/nixos/vps/home.nix ];
         extraSpecialArgs = { inherit claude-code nixvim; };
+      };
+
+      "yanlin@thinkpad" = home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages.x86_64-linux;
+        modules = [ ./hosts/nixos/thinkpad/home.nix ];
+        extraSpecialArgs = { inherit claude-code nixvim firefox-addons; };
       };
     };
   };
