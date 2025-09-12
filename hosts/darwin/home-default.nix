@@ -22,6 +22,12 @@
 
   nixpkgs.config.allowUnfree = true;
 
+  # Firefox configuration
+  programs.firefox-custom = {
+    enable = true;
+    package = null;  # Use system Firefox on Darwin
+  };
+
   home.username = "yanlin";
   home.homeDirectory = "/Users/yanlin";
   home.stateVersion = "24.05";
