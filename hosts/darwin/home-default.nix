@@ -34,7 +34,6 @@
 
       preview = "open -a Preview";
       slide = "open -a SlidePilot";
-      pixel = "open -a 'Pixelmator Pro'";
       inkscape = "open -a Inkscape";
   };
 
