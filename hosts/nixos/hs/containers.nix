@@ -441,33 +441,6 @@ in
       autoStart = true;
     };
 
-    # Watchtower for automatic container updates
-    watchtower = {
-      image = "containrrr/watchtower:latest";
-      
-      volumes = [
-        "/var/run/podman/podman.sock:/var/run/docker.sock"
-        "/etc/localtime:/etc/localtime:ro"
-      ];
-
-      environment = {
-        WATCHTOWER_SCHEDULE = "0 0 5 * * *";  # Daily at 5 AM
-        WATCHTOWER_CLEANUP = "true";        # Remove old images after update
-        WATCHTOWER_NOTIFICATIONS = "gotify";
-        WATCHTOWER_NOTIFICATION_GOTIFY_URL = "https://notify.yanlincs.com";
-        WATCHTOWER_NOTIFICATION_GOTIFY_TOKEN = "Ac9qKFH5cA.7Yly";
-        WATCHTOWER_NOTIFICATION_GOTIFY_TITLE = "Watchtower Update";
-        WATCHTOWER_NOTIFICATIONS_LEVEL = "info";
-        TZ = systemTZ;
-      };
-      
-      extraOptions = [
-        "--network=podman"
-      ];
-      
-      autoStart = true;
-    };
-
     # Nextcloud cloud storage and file sharing
     cloud = {
       image = "docker.io/linuxserver/nextcloud:latest";
