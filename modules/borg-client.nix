@@ -300,6 +300,12 @@ in
             cp -r /home/yanlin/.ssh/keys /root/.ssh/
             chmod -R 600 /root/.ssh/keys
           fi
+          
+          # Copy known_hosts to avoid host key verification issues
+          if [ -f /home/yanlin/.ssh/known_hosts ]; then
+            cp /home/yanlin/.ssh/known_hosts /root/.ssh/known_hosts
+            chmod 600 /root/.ssh/known_hosts
+          fi
         fi
         
         # Pre-hook
@@ -474,6 +480,12 @@ in
           if [ -d /home/yanlin/.ssh/keys ]; then
             cp -r /home/yanlin/.ssh/keys /root/.ssh/
             chmod -R 600 /root/.ssh/keys
+          fi
+          
+          # Copy known_hosts to avoid host key verification issues
+          if [ -f /home/yanlin/.ssh/known_hosts ]; then
+            cp /home/yanlin/.ssh/known_hosts /root/.ssh/known_hosts
+            chmod 600 /root/.ssh/known_hosts
           fi
         fi
         
