@@ -27,7 +27,6 @@
       "microsoft-word"
       "microsoft-excel"
       "rectangle"
-      "plexamp"
     ];
     taps = [
       # Additional repositories if needed
