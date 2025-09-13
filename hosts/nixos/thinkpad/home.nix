@@ -1,10 +1,12 @@
-{ config, pkgs, firefox-addons, ... }:
+{ config, pkgs, firefox-addons, plasma-manager, ... }:
 
 {
   # Import the common NixOS home configuration
   imports = [ 
     ../home-default.nix 
     ../../../modules/firefox.nix
+    ../../../modules/plasma.nix
+    plasma-manager.homeModules.plasma-manager
   ];
   
   # Enable Firefox with NixOS-specific package
