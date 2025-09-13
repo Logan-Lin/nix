@@ -76,20 +76,20 @@ in
       enable = true;
       ports = [ cfg.sshPort ];
       settings = {
-        # SSH hardening for borg users
-        Match = "Group borg-server";
-        PasswordAuthentication = false;
-        PubkeyAuthentication = true;
-        PermitRootLogin = "no";
-        X11Forwarding = false;
-        AllowAgentForwarding = false;
-        AllowTcpForwarding = false;
-        PermitTunnel = "no";
-        
         # Keep connection alive settings
         ClientAliveInterval = 10;
         ClientAliveCountMax = 30;
       };
+      extraConfig = ''
+        # SSH hardening for borg users
+        Match Group borg-server
+          PasswordAuthentication no
+          PubkeyAuthentication yes
+          X11Forwarding no
+          AllowAgentForwarding no
+          AllowTcpForwarding no
+          PermitTunnel no
+      '';
     };
 
     # Open firewall port
