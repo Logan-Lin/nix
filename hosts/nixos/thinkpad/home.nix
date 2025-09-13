@@ -24,7 +24,7 @@
   programs.ghostty-custom = {
     enable = true;
     package = pkgs.ghostty;  # Install via nix on NixOS
-    fontSize = 13;
+    fontSize = 11;
     windowMode = "fullscreen";
   };
 
