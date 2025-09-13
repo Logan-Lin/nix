@@ -230,10 +230,10 @@ while IFS= read -r window_config; do
         fi
         
         tmux new-window -t "$SESSION_NAME:$WINDOW_INDEX" -n "$AI_WINDOW_NAME" -c "$WINDOW_PATH"
-        tmux send-keys -t "$SESSION_NAME:$WINDOW_INDEX" "claude -r" C-m
         tmux split-window -t "$SESSION_NAME:$WINDOW_INDEX" -h -c "$WINDOW_PATH"
         tmux split-window -t "$SESSION_NAME:$WINDOW_INDEX.2" -v -c "$WINDOW_PATH"
         tmux select-pane -t "$SESSION_NAME:$WINDOW_INDEX.1"
+        tmux send-keys -t "$SESSION_NAME:$WINDOW_INDEX.1" "claude -c"
         WINDOW_INDEX=$((WINDOW_INDEX + 1))
     fi
     
