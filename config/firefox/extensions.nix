@@ -10,6 +10,7 @@ args:
         linkding-extension
         vimium
         darkreader
+        cookies-txt
       ]
     else [];
 }
