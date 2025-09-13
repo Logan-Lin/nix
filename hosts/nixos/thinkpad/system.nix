@@ -191,6 +191,26 @@
     };
   };
 
+  # Disable automatic sleep and screen timeout
+  services.logind.settings = {
+    Login = {
+      HandleLidSwitch = "ignore";           # Ignore lid close
+      HandleLidSwitchDocked = "ignore";     
+      HandleLidSwitchExternalPower = "ignore";
+      HandleSuspendKey = "ignore";
+      HandleHibernateKey = "ignore";
+      IdleAction = "ignore";
+      IdleActionSec = "0";
+    };
+  };
+
+  # Disable screen blanking and DPMS
+  services.xserver.displayManager.sessionCommands = ''
+    xset s off        # Disable screen saver
+    xset -dpms       # Disable DPMS (Display Power Management Signaling)
+    xset s noblank   # Disable screen blanking
+  '';
+
   # Thermal management
   services.thermald.enable = true;
 
