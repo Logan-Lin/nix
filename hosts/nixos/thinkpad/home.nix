@@ -10,6 +10,7 @@
     ../../../modules/firefox.nix
     ../../../modules/plasma.nix
     ../../../modules/syncthing.nix
+    ../../../modules/ghostty.nix
     plasma-manager.homeModules.plasma-manager
   ];
   
@@ -17,6 +18,14 @@
   programs.firefox-custom = {
     enable = true;
     package = pkgs.firefox;
+  };
+
+  # Enable Ghostty terminal with NixOS package
+  programs.ghostty-custom = {
+    enable = true;
+    package = pkgs.ghostty;  # Install via nix on NixOS
+    fontSize = 13;
+    windowMode = "fullscreen";
   };
 
   # Any ThinkPad-specific home configurations can be added here
