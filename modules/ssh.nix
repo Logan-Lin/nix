@@ -57,6 +57,16 @@
         port = 23;
       };
 
+      "borg-backup" = {
+        hostname = "10.2.2.30";
+        user = "borg";
+        identityFile = "~/.ssh/keys/borg-backup";
+        proxyJump = "vps";
+        setEnv = {
+          TERM = "xterm-256color";
+        };
+      };
+
     };
   };
 }

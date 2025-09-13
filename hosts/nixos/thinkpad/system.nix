@@ -2,6 +2,7 @@
   imports = [
     ./hardware-configuration.nix
     ../../../modules/wireguard.nix
+    ../../../modules/borg-server.nix
   ];
 
   # Bootloader - standard UEFI setup
@@ -350,6 +351,19 @@
       serverPublicKey = "46QHjSzAas5g9Hll1SCEu9tbR5owCxXAy6wGOUoPwUM=";
       serverEndpoint = "91.98.84.215:51820";
       allowedIPs = [ "10.2.2.0/24" ];
+    };
+  };
+
+  # Borg backup server configuration
+  services.borgbackup-server = {
+    enable = true;
+    dataDir = "/srv/borg";
+    users = {
+      borg = {
+        publicKeys = [ 
+          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG26nw5vhvMl0FoFJbsLBb0mqziiSKS7tuK4IVcvWhKk yanlin@mba"
+        ];
+      };
     };
   };
 
