@@ -25,7 +25,7 @@
     enable = true;
     package = pkgs.ghostty;  # Install via nix on NixOS
     fontSize = 11;
-    windowMode = "fullscreen";
+    windowMode = "maximized";
   };
 
   # Any ThinkPad-specific home configurations can be added here
