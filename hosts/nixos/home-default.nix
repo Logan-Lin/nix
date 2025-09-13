@@ -12,6 +12,7 @@
     ../../modules/termscp.nix
     ../../modules/rsync.nix
     ../../modules/btop.nix
+    ../../modules/dictionary.nix
     ../../config/fonts.nix
   ];
 
