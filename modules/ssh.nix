@@ -34,6 +34,16 @@
         proxyJump = "vps";
       };
 
+      "thinkpad" = {
+        hostname = "10.2.2.30";
+        user = "yanlin";
+        identityFile = "~/.ssh/keys/thinkpad";
+        setEnv = {
+          TERM = "xterm-256color";
+        };
+        proxyJump = "vps";
+      };
+
       "vps" = {
         hostname = "91.98.84.215";
         user = "yanlin";
