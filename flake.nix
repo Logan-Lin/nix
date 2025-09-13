@@ -56,9 +56,7 @@
     nixosConfigurations."thinkpad" = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [
-        disko.nixosModules.disko
         ./hosts/nixos/thinkpad/system.nix
-        ./hosts/nixos/thinkpad/disk-config.nix
       ];
     };
 

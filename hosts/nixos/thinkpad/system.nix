@@ -1,7 +1,6 @@
 { config, pkgs, lib, ... }: {
   imports = [
     ./hardware-configuration.nix
-    ./disk-config.nix
   ];
 
   # Bootloader - standard UEFI setup
@@ -103,7 +102,7 @@
   i18n.defaultLocale = "en_US.UTF-8";
 
   # Sound configuration with PipeWire (better than PulseAudio)
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -120,30 +119,30 @@
     # Video drivers
     videoDrivers = [ "modesetting" "nvidia" ];
     
-    # Display manager
-    displayManager.sddm = {
-      enable = true;
-      wayland.enable = true;
-    };
-    
-    # Desktop environment
-    desktopManager.plasma6.enable = true;
-    
     # Keyboard layout
     xkb = {
       layout = "us";
       variant = "";
     };
-    
-    # Touchpad configuration
-    libinput = {
-      enable = true;
-      touchpad = {
-        naturalScrolling = true;
-        tapping = true;
-        disableWhileTyping = true;
-        accelProfile = "adaptive";
-      };
+  };
+  
+  # Display manager
+  services.displayManager.sddm = {
+    enable = true;
+    wayland.enable = true;
+  };
+  
+  # Desktop environment
+  services.desktopManager.plasma6.enable = true;
+  
+  # Touchpad configuration
+  services.libinput = {
+    enable = true;
+    touchpad = {
+      naturalScrolling = true;
+      tapping = true;
+      disableWhileTyping = true;
+      accelProfile = "adaptive";
     };
   };
 
@@ -250,11 +249,11 @@
     home-manager
     
     # KDE/Plasma utilities
-    kate
-    konsole
-    spectacle
-    filelight
-    ark
+    kdePackages.kate
+    kdePackages.konsole
+    kdePackages.spectacle
+    kdePackages.filelight
+    kdePackages.ark
     
     # System utilities
     pciutils
