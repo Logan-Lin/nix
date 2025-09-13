@@ -6,6 +6,7 @@
     ../home-default.nix 
     ../../../modules/firefox.nix
     ../../../modules/plasma.nix
+    ../../../modules/syncthing.nix
     plasma-manager.homeModules.plasma-manager
   ];
   
