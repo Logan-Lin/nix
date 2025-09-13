@@ -1,8 +1,17 @@
-{ config, pkgs, ... }:
+{ config, pkgs, firefox-addons, ... }:
 
 {
   # Import the common NixOS home configuration
-  imports = [ ../home-default.nix ];
+  imports = [ 
+    ../home-default.nix 
+    ../../../modules/firefox.nix
+  ];
+  
+  # Enable Firefox with NixOS-specific package
+  programs.firefox-custom = {
+    enable = true;
+    package = pkgs.firefox;
+  };
 
   # Any ThinkPad-specific home configurations can be added here
   # For example, laptop-specific aliases or scripts
