@@ -44,4 +44,12 @@
 
   # Configure KWin for borderless windows
   programs.plasma.kwin.borderlessMaximizedWindows = true;
+
+  # Hide bottom panel/status bar
+  programs.plasma.panels = [
+    {
+      location = "bottom";
+      hiding = "autohide";
+    }
+  ];
 }
