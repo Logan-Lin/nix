@@ -78,7 +78,7 @@
     # Bluetooth support
     bluetooth = {
       enable = true;
-      powerOnBoot = false; # Save battery
+      powerOnBoot = true;
       settings = {
         General = {
           Enable = "Source,Sink,Media,Socket";
@@ -185,8 +185,8 @@
       RUNTIME_PM_ON_AC = "on";
       RUNTIME_PM_ON_BAT = "auto";
       
-      # Disable Bluetooth on battery to save power
-      DEVICES_TO_DISABLE_ON_BAT_NOT_IN_USE = "bluetooth";
+      # Keep Bluetooth available on battery
+      # DEVICES_TO_DISABLE_ON_BAT_NOT_IN_USE = "bluetooth";
     };
   };
 

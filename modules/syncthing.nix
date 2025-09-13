@@ -32,13 +32,16 @@
         "hs" = {
           id = "GH5D3DJ-PAGKBL6-3VDZJRT-QG4ZMRD-GHCCA3Y-HM2H5CE-NAMJYRR-VHLOOQH";
         };
+        "thinkpad" = {
+          id = "OMZKASU-QPZDCQ2-7QRHRD4-3TPAXLM-AYRMWXB-A6E5OIZ-MGR422V-JYARQA6";
+        };
       };
       
       # Define shared folders
       folders = {
         "Credentials" = {
           path = "~/Credentials";
-          devices = [ "ipad" "mba" "iphone" "imac" "hs" ];
+          devices = [ "ipad" "mba" "iphone" "imac" "hs" "thinkpad" ];
           ignorePerms = true;
           versioning = {
             type = "staggered";
@@ -50,7 +53,7 @@
         };
         "Documents" = {
           path = "~/Documents";
-          devices = [ "mba" "imac" "hs" ];
+          devices = [ "mba" "imac" "hs" "thinkpad" ];
           ignorePerms = true;
           versioning = {
             type = "staggered";
@@ -62,7 +65,7 @@
         };
         "Obsidian" = {
           path = "~/Obsidian";
-          devices = [ "ipad" "mba" "iphone" "imac" "hs" ];
+          devices = [ "ipad" "mba" "iphone" "imac" "hs" "thinkpad" ];
           ignorePerms = true;
           versioning = {
             type = "staggered";

@@ -4,6 +4,10 @@
   # Enable plasma configuration
   programs.plasma.enable = true;
   
+  # Set dark theme
+  programs.plasma.workspace.theme = "breeze-dark";
+  programs.plasma.workspace.colorScheme = "BreezeDark";
+  
   # Configure Konsole through plasma-manager
   programs.konsole = {
     enable = true;
@@ -16,7 +20,7 @@
       colorScheme = "Breeze";
       extraConfig = {
         General.SilenceSeconds = 0;
-        "Scrolling".ScrollBarPosition = 0;
+        "Scrolling".ScrollBarPosition = 2;
         "Terminal Features" = {
           BlinkingTextEnabled = true;
           FlowControlEnabled = true;
@@ -50,6 +54,31 @@
     {
       location = "bottom";
       hiding = "autohide";
+      widgets = [
+        "org.kde.plasma.kickoff"
+        {
+          iconTasks = {
+            launchers = [
+              "applications:org.kde.dolphin.desktop"
+              "applications:firefox.desktop"
+              "applications:org.kde.konsole.desktop"
+              "applications:org.keepassxc.KeePassXC.desktop"
+            ];
+          };
+        }
+        "org.kde.plasma.marginsseparator"
+        {
+          systemTray.items = {
+            shown = [
+              "org.kde.plasma.bluetooth"
+              "org.kde.plasma.battery"
+              "org.kde.plasma.networkmanagement"
+              "org.kde.plasma.volume"
+            ];
+          };
+        }
+        "org.kde.plasma.digitalclock"
+      ];
     }
   ];
 }
