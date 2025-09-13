@@ -29,4 +29,8 @@
     brightness-up = "brightnessctl set +10%";
     brightness-down = "brightnessctl set 10%-";
   };
+
+  home.packages = with pkgs; [
+    keepassxc
+  ];
 }

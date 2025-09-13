@@ -236,6 +236,9 @@
   # Enable sudo for wheel group
   security.sudo.wheelNeedsPassword = false;
 
+  # Enable KDE Wallet auto-unlock via PAM
+  security.pam.services.sddm.enableKwallet = true;
+
   # System packages
   environment.systemPackages = with pkgs; [
     # Essential tools
@@ -293,6 +296,28 @@
   # Laptop-specific services
   services.acpid.enable = true;
   services.upower.enable = true;
+
+  # Advanced key remapping with keyd
+  services.keyd = {
+    enable = true;
+    keyboards = {
+      default = {
+        ids = [ "*" ];
+        settings = {
+          main = {
+            # Map Caps Lock to Left Control
+            capslock = "leftcontrol";
+            # Disable both physical Ctrl keys (make them no-ops)
+            leftcontrol = "noop";
+            rightcontrol = "noop";
+          };
+        };
+      };
+    };
+  };
+
+  # Apply XKB config to console (TTY) as well
+  console.useXkbConfig = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
