@@ -93,7 +93,7 @@ home-manager switch --flake github:Logan-Lin/nix-config#yanlin@thinkpad
 │   ├── ghostty.nix    # GPU-accelerated terminal emulator
 │   ├── syncthing.nix  # File synchronization service (includes package)
 │   ├── wireguard.nix  # Hub-and-spoke VPN networking
-│   ├── borg.nix       # Borg backup system with automated scheduling
+│   ├── borg-client.nix       # Borg backup system with automated scheduling
 │   ├── plasma.nix     # KDE Plasma desktop environment configuration
 │   └── homebrew.nix   # Homebrew and nix-homebrew configuration
 ├── config/            # Configuration files
@@ -867,7 +867,7 @@ hms
 
 ## 📦 Automated Backups: Borg
 
-**Configuration**: `modules/borg.nix`  
+**Configuration**: `modules/borg-client.nix`  
 **Purpose**: Deduplicating archiver with compression and encryption for automated backups
 
 ### Key Features:

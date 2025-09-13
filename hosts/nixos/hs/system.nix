@@ -8,7 +8,7 @@
     ../../../modules/podman.nix
     ../../../modules/traefik.nix
     ../../../modules/samba.nix
-    ../../../modules/borg.nix
+    ../../../modules/borg-client.nix
     ../../../modules/webdav.nix
   ];
 
