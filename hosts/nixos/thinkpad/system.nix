@@ -1,6 +1,7 @@
 { config, pkgs, lib, ... }: {
   imports = [
     ./hardware-configuration.nix
+    ../../../modules/wireguard.nix
   ];
 
   # Bootloader - standard UEFI setup
@@ -318,6 +319,19 @@
 
   # Apply XKB config to console (TTY) as well
   console.useXkbConfig = true;
+
+  # WireGuard VPN configuration (ThinkPad as client/spoke)
+  services.wireguard-custom = {
+    enable = true;
+    mode = "client";
+    privateKeyFile = "/etc/wireguard/thinkpad_private.key";
+    clientConfig = {
+      address = "10.2.2.30/24";
+      serverPublicKey = "46QHjSzAas5g9Hll1SCEu9tbR5owCxXAy6wGOUoPwUM=";
+      serverEndpoint = "91.98.84.215:51820";
+      allowedIPs = [ "10.2.2.0/24" ];
+    };
+  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

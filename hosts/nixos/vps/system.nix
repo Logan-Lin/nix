@@ -147,6 +147,11 @@
           publicKey = "HZY7V8QlnFvY6ZWNiI0WgUgWUISnEqUdzXi7Oq9M1Es=";
           allowedIPs = [ "10.2.2.20/32" ];
         }
+        {
+          name = "thinkpad";
+          publicKey = "p3442J2HBGY5Pksu+0F4SFkBGjG99KIgwyk8eAt4YmA=";
+          allowedIPs = [ "10.2.2.30/32" ];
+        }
       ];
     };
   };
