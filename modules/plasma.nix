@@ -61,6 +61,7 @@
             launchers = [
               "applications:org.kde.dolphin.desktop"
               "applications:firefox.desktop"
+              "applications:obsidian.desktop"
               "applications:org.kde.konsole.desktop"
               "applications:org.keepassxc.KeePassXC.desktop"
             ];

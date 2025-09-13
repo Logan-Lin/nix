@@ -291,7 +291,7 @@
   # Enable experimental features
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-  # Allow unfree packages (needed for NVIDIA drivers)
+  # Allow unfree packages (needed for NVIDIA drivers and Obsidian)
   nixpkgs.config.allowUnfree = true;
 
   # Laptop-specific services
