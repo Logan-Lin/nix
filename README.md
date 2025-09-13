@@ -36,6 +36,10 @@ home-manager switch --flake github:Logan-Lin/nix-config#yanlin@hs
 # VPS server (vps)  
 sudo nixos-rebuild switch --flake github:Logan-Lin/nix-config#vps
 home-manager switch --flake github:Logan-Lin/nix-config#yanlin@vps
+
+# ThinkPad laptop (thinkpad)
+sudo nixos-rebuild switch --flake github:Logan-Lin/nix-config#thinkpad
+home-manager switch --flake github:Logan-Lin/nix-config#yanlin@thinkpad
 ```
 
 ## 📁 Configuration Architecture
@@ -62,6 +66,11 @@ home-manager switch --flake github:Logan-Lin/nix-config#yanlin@vps
 │       │   ├── disk-config.nix  # ZFS and filesystem configuration
 │       │   ├── containers.nix  # Container service definitions
 │       │   └── proxy.nix   # Traefik reverse proxy configuration
+│       ├── thinkpad/  # ThinkPad laptop configuration
+│       │   ├── system.nix  # NixOS system configuration with KDE Plasma
+│       │   ├── home.nix    # Home configuration (imports ../home-default.nix)
+│       │   ├── hardware-configuration.nix  # Hardware detection results
+│       │   └── disk-config.nix  # Disk and filesystem configuration
 │       └── vps/       # VPS server configuration
 │           ├── system.nix  # NixOS system configuration
 │           ├── home.nix    # Home configuration (imports ../home-default.nix)
@@ -85,6 +94,7 @@ home-manager switch --flake github:Logan-Lin/nix-config#yanlin@vps
 │   ├── syncthing.nix  # File synchronization service (includes package)
 │   ├── wireguard.nix  # Hub-and-spoke VPN networking
 │   ├── borg.nix       # Borg backup system with automated scheduling
+│   ├── plasma.nix     # KDE Plasma desktop environment configuration
 │   └── homebrew.nix   # Homebrew and nix-homebrew configuration
 ├── config/            # Configuration files
 │   ├── firefox/       # Firefox browser configuration
@@ -667,6 +677,40 @@ The fonts are automatically installed and configured system-wide through the nix
 # Bookmarks and settings sync across rebuilds
 ```
 
+## 🖥️ Desktop Environment: KDE Plasma (ThinkPad)
+
+**Configuration**: `modules/plasma.nix`  
+**Purpose**: Declarative KDE Plasma 6 desktop environment configuration for ThinkPad laptop
+
+### Key Features:
+- **Dark Theme**: Breeze Dark theme with consistent dark appearance
+- **Terminal Integration**: Konsole with JetBrainsMono Nerd Font and optimized layout
+- **Minimal UI**: Auto-hiding taskbar and borderless maximized windows
+- **Application Launcher**: Pre-configured dock with essential applications
+
+### Konsole Configuration:
+- **Font**: JetBrainsMono Nerd Font (size 13) for icon support
+- **Theme**: Breeze dark color scheme matching system theme
+- **Layout**: Clean interface with hidden menu bars and toolbars
+- **Tab Management**: Intelligent tab bar that shows only when needed
+
+### Panel Configuration:
+- **Auto-hiding Taskbar**: Bottom panel that hides automatically for maximum screen real estate
+- **Essential Widgets**: Application launcher, task manager, system tray, and clock
+- **Quick Launch**: Pre-configured launchers for Dolphin, Firefox, Obsidian, Konsole, and KeePassXC
+- **System Integration**: Battery, network, Bluetooth, and volume controls
+
+### Application Defaults:
+The ThinkPad configuration includes desktop-specific applications:
+- **Obsidian**: Note-taking and knowledge management
+- **KeePassXC**: Password manager with KDE integration  
+- **Firefox**: Web browser with desktop optimizations
+- **LaTeX**: Full TeXLive distribution for document preparation
+
+### Window Management:
+- **Borderless Maximized**: Maximized windows have no borders for clean appearance
+- **KWin Integration**: Advanced window management with Plasma's compositor
+
 ## 🌟 Specialized Tools
 
 ### 📖 Offline Dictionary: sdcv
@@ -898,8 +942,9 @@ sudo chmod 600 /etc/borg-passphrase
 ### Network Architecture:
 - **VPS (Hub)**: 10.2.2.1/24 - Central WireGuard server with public endpoint
 - **HS (Spoke)**: 10.2.2.20/24 - Home server connecting through VPS
-- **iPhone**: 10.2.2.30/24 - iOS device (mobile connectivity)
-- **iPad**: 10.2.2.31/24 - iOS device (tablet connectivity)
+- **ThinkPad (Spoke)**: 10.2.2.30/24 - Laptop connecting through VPS
+- **iPhone**: 10.2.2.31/24 - iOS device (mobile connectivity)
+- **iPad**: 10.2.2.32/24 - iOS device (tablet connectivity)
 - **LAN Access**: HS remains accessible at 10.1.1.152 on local network
 - **DNS Setup**: hs.yanlincs.com resolves to 10.1.1.152 (LAN) with 10.2.2.20 (WireGuard) fallback
 
@@ -1138,13 +1183,18 @@ All VPS services accessible via public domain with SSL certificates:
 - **`MacBook-Air`**: MacBook Air configuration
 
 ### NixOS Hosts
-- **`hs`**: Home server configuration featuring:
+- **`hs`**: Home server configuration featuring ZFS storage, containerized services, and automated monitoring
 - **`vps`**: VPS server configuration featuring:
   - **Web Services**: Public website and blog hosting with Nginx
   - **Notification System**: Gotify server for system notifications and alerts
   - **Automated Backups**: Borg backup with Gotify integration for status notifications
   - **SSL Certificates**: Traefik reverse proxy with Cloudflare DNS challenge
   - **Security**: Hardened SSH configuration and firewall settings
+- **`thinkpad`**: ThinkPad laptop configuration featuring:
+  - **KDE Plasma 6**: Modern desktop environment with dark theme
+  - **Hardware Support**: Intel/NVIDIA hybrid graphics with power management
+  - **Development Tools**: Full development environment with LaTeX, Obsidian, and KeePassXC
+  - **Network Integration**: WireGuard VPN and SSH access via jump host
 
 All hosts use a consistent configuration structure with separate system and home management.
 
@@ -1190,6 +1240,10 @@ home-manager switch --flake .#yanlin@hs
 # For VPS server (vps)
 sudo nixos-rebuild switch --flake .#vps
 home-manager switch --flake .#yanlin@vps
+
+# For ThinkPad laptop (thinkpad)
+sudo nixos-rebuild switch --flake .#thinkpad
+home-manager switch --flake .#yanlin@thinkpad
 ```
 
 The separation of system and home configurations provides:
