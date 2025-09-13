@@ -20,6 +20,18 @@
           };
         };
 
+        api_test_server = {
+          rule = "Host(`api.yanlincs.com`)";
+          entrypoints = "websecure";
+          service = "api_test_server";
+          tls = {
+            certResolver = "cloudflare";
+            domains = [{
+              main = "*.yanlincs.com";
+            }];
+          };
+        };
+
         # Photo service (Immich)
         photo = {
           rule = "Host(`photo.yanlincs.com`)";
@@ -169,6 +181,14 @@
           loadBalancer = {
             servers = [{
               url = "http://localhost:1"; # Dummy backend, won't be used due to redirect
+            }];
+          };
+        };
+
+        api_test_server = {
+          loadBalancer = {
+            servers = [{
+              url = "http://10.2.2.30:8000";
             }];
           };
         };
