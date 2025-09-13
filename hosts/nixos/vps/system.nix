@@ -6,7 +6,7 @@
     ../../../modules/wireguard.nix
     ../../../modules/podman.nix
     ../../../modules/traefik.nix
-    ../../../modules/borg.nix
+    ../../../modules/borg-client.nix
   ];
 
   # GRUB bootloader with UEFI support
