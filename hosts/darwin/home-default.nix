@@ -28,6 +28,12 @@
     package = null;  # Use system Firefox on Darwin
   };
 
+  # Ghostty configuration
+  programs.ghostty-custom = {
+    enable = true;
+    package = null;  # Use Homebrew-installed Ghostty on Darwin
+  };
+
   home.username = "yanlin";
   home.homeDirectory = "/Users/yanlin";
   home.stateVersion = "24.05";
