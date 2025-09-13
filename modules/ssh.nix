@@ -17,12 +17,12 @@
         identityFile = "~/.ssh/keys/github";
       };
 
-      # "aicloud" = {
-      #   hostname = "aicloud";
-      #   user = "hb05nk@cs.aau.dk";
-      #   identityFile = "~/.ssh/keys/aicloud";
-      #   proxyJump = "pi";
-      # };
+      "aicloud" = {
+        hostname = "ai-fe02.srv.aau.dk";
+        user = "hb05nk@cs.aau.dk";
+        identityFile = "~/.ssh/keys/aicloud";
+        proxyJump = "thinkpad";
+      };
 
       "hs" = {
         hostname = "10.2.2.20";
