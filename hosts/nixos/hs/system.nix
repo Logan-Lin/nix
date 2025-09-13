@@ -245,8 +245,8 @@
   # Borg backup configuration
   services.borgbackup-custom = {
     enable = true;
-    # Use SSH alias from SSH config for remote backup
-    repositoryUrl = "ssh://storage-box/./hs";
+    # Use SSH alias from SSH config for remote backup to thinkpad borg server
+    repositoryUrl = "ssh://borg-backup/./hs";
     backupPaths = [
       "/home"
       "/var/lib/containers" 
