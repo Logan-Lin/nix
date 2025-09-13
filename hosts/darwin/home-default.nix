@@ -32,6 +32,7 @@
   programs.ghostty-custom = {
     enable = true;
     package = null;  # Use Homebrew-installed Ghostty on Darwin
+    windowMode = "maximized";
   };
 
   home.username = "yanlin";

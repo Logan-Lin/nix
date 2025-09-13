@@ -24,9 +24,9 @@ in
     };
 
     windowMode = mkOption {
-      type = types.enum [ "windowed" "fullscreen" ];
+      type = types.enum [ "windowed" "maximized" "fullscreen" ];
       default = "windowed";
-      description = "Window mode: 'windowed' for fixed size window or 'fullscreen' for full screen";
+      description = "Window mode: 'windowed' for fixed size, 'maximized' for maximized window, or 'fullscreen' for full screen";
     };
 
     windowWidth = mkOption {
@@ -101,6 +101,10 @@ in
         (mkIf (cfg.windowMode == "windowed") {
           window-width = cfg.windowWidth;
           window-height = cfg.windowHeight;
+        })
+        
+        (mkIf (cfg.windowMode == "maximized") {
+          maximize = true;
         })
         
         (mkIf (cfg.windowMode == "fullscreen") {
