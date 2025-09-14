@@ -139,7 +139,7 @@ main() {
                 fi
                 
             elif [[ "$drive_type" == "SSD" ]]; then
-                # SATA SSD specific attributes
+                # SATA SSD - format similar to NVMe
                 temp=$(echo "$smart_data" | awk '/Temperature_Celsius/ {print $10}' | head -1)
                 if [[ -n "$temp" && "$temp" =~ ^[0-9]+$ ]]; then
                     temp="${temp}C"
@@ -149,33 +149,69 @@ main() {
                 
                 power_hours=$(echo "$smart_data" | awk '/Power_On_Hours/ {print $10}' | head -1)
                 
-                # SSD specific wear indicators - use VALUE column (4) for percentages
-                local wear_level
+                # Wear indicator - convert to percentage used (inverse of wear level)
+                local wear_level media_wearout percentage_used
                 wear_level=$(echo "$smart_data" | awk '/Wear_Leveling_Count/ {print $4}' | head -1)
+                media_wearout=$(echo "$smart_data" | awk '/Media_Wearout_Indicator/ {print $4}' | head -1)
+                
                 if [[ -n "$wear_level" ]]; then
-                    wear_info="WearLevel:${wear_level}%"
-                else
-                    # Alternative SSD wear indicator - use VALUE column
-                    local media_wearout
-                    media_wearout=$(echo "$smart_data" | awk '/Media_Wearout_Indicator/ {print $4}' | head -1)
-                    if [[ -n "$media_wearout" ]]; then
-                        wear_info="MediaWearout:${media_wearout}%"
+                    # Wear_Leveling_Count: 100 = new, 0 = worn out
+                    percentage_used=$((100 - wear_level))
+                    wear_info="Wear: ${percentage_used}%"
+                elif [[ -n "$media_wearout" ]]; then
+                    # Media_Wearout_Indicator: 100 = new, 0 = worn out
+                    percentage_used=$((100 - media_wearout))
+                    wear_info="Wear: ${percentage_used}%"
+                fi
+                
+                # Data read/written - convert LBAs to human readable
+                local lbas_written lbas_read data_written data_read
+                lbas_written=$(echo "$smart_data" | awk '/Total_LBAs_Written/ {print $10}' | head -1)
+                lbas_read=$(echo "$smart_data" | awk '/Total_LBAs_Read/ {print $10}' | head -1)
+                
+                if [[ -n "$lbas_written" && -n "$lbas_read" ]]; then
+                    # Convert LBAs to GB (1 LBA = 512 bytes)
+                    # Using bash arithmetic (integer math) - divide by 2097152 to get GB (512 * LBAs / 1073741824)
+                    local gb_written_int gb_read_int
+                    gb_written_int=$((lbas_written / 2097152))  # LBAs * 512 / 1GB
+                    gb_read_int=$((lbas_read / 2097152))
+                    
+                    # Format with appropriate units
+                    if [[ $gb_written_int -gt 1000 ]]; then
+                        # Convert to TB with one decimal place
+                        local tb_written_int=$((gb_written_int / 1024))
+                        local tb_written_dec=$(( (gb_written_int % 1024) * 10 / 1024 ))
+                        data_written="${tb_written_int}.${tb_written_dec} TB"
+                    else
+                        data_written="${gb_written_int} GB"
                     fi
+                    
+                    if [[ $gb_read_int -gt 1000 ]]; then
+                        # Convert to TB with one decimal place
+                        local tb_read_int=$((gb_read_int / 1024))
+                        local tb_read_dec=$(( (gb_read_int % 1024) * 10 / 1024 ))
+                        data_read="${tb_read_int}.${tb_read_dec} TB"
+                    else
+                        data_read="${gb_read_int} GB"
+                    fi
+                    
+                    data_info="Data: R:${data_read} W:${data_written}"
                 fi
                 
-                local power_cycles
-                power_cycles=$(echo "$smart_data" | awk '/Power_Cycle_Count/ {print $10}' | head -1)
-                if [[ -n "$power_cycles" ]]; then
-                    data_info="PowerCycles:$power_cycles"
-                fi
-                
-                # Check for SSD-specific errors
-                local program_fail
+                # Check for errors (similar to NVMe's unsafe shutdowns and media errors)
+                local program_fail erase_fail reallocated power_cycles
                 program_fail=$(echo "$smart_data" | awk '/Program_Fail_Count/ {print $10}' | head -1)
-                local erase_fail
                 erase_fail=$(echo "$smart_data" | awk '/Erase_Fail_Count/ {print $10}' | head -1)
+                reallocated=$(echo "$smart_data" | awk '/Reallocated_Sector_Ct/ {print $10}' | head -1)
+                power_cycles=$(echo "$smart_data" | awk '/Power_Cycle_Count/ {print $10}' | head -1)
                 
                 local error_parts=()
+                if [[ -n "$power_cycles" && "$power_cycles" -gt 0 ]]; then
+                    error_parts+=("PowerCycles:$power_cycles")
+                fi
+                if [[ -n "$reallocated" && "$reallocated" -gt 0 ]]; then
+                    error_parts+=("Reallocated:$reallocated")
+                fi
                 if [[ -n "$program_fail" && "$program_fail" -gt 0 ]]; then
                     error_parts+=("ProgramFails:$program_fail")
                 fi
