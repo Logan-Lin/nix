@@ -252,7 +252,7 @@ in
             /home/yanlin/.config/nix/scripts/gotify-notify.sh \
               "${cfg.gotifyUrl}" \
               "${cfg.gotifyToken}" \
-              "critical" \
+              "high" \
               "Backup Failed" \
               "$error_msg" || echo "Failed to send error notification" >&2
           fi
