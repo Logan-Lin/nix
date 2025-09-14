@@ -68,8 +68,15 @@ main() {
         local drive_type="UNKNOWN"
         if [[ "$device" == *"nvme"* ]]; then
             drive_type="NVMe"
-        elif smartctl -i "$device" 2>/dev/null | grep -q "SATA\|ATA"; then
-            drive_type="SATA"
+        else
+            # Check if it's SSD or HDD based on rotation rate
+            local smart_info
+            smart_info=$(smartctl -i "$device" 2>/dev/null)
+            if echo "$smart_info" | grep -q "Rotation Rate:.*Solid State Device\|Rotation Rate:.*0 rpm"; then
+                drive_type="SSD"
+            elif echo "$smart_info" | grep -q "Rotation Rate:.*[0-9][0-9][0-9][0-9] rpm"; then
+                drive_type="HDD"
+            fi
         fi
         
         # Get SMART health
@@ -131,8 +138,56 @@ main() {
                     error_info=$(IFS=' '; echo "${error_parts[*]}")
                 fi
                 
-            else
-                # SATA/SAS specific attributes
+            elif [[ "$drive_type" == "SSD" ]]; then
+                # SATA SSD specific attributes
+                temp=$(echo "$smart_data" | awk '/Temperature_Celsius/ {print $10}' | head -1)
+                if [[ -n "$temp" && "$temp" =~ ^[0-9]+$ ]]; then
+                    temp="${temp}C"
+                else
+                    temp="N/A"
+                fi
+                
+                power_hours=$(echo "$smart_data" | awk '/Power_On_Hours/ {print $10}' | head -1)
+                
+                # SSD specific wear indicators - use VALUE column (4) for percentages
+                local wear_level
+                wear_level=$(echo "$smart_data" | awk '/Wear_Leveling_Count/ {print $4}' | head -1)
+                if [[ -n "$wear_level" ]]; then
+                    wear_info="WearLevel:${wear_level}%"
+                else
+                    # Alternative SSD wear indicator - use VALUE column
+                    local media_wearout
+                    media_wearout=$(echo "$smart_data" | awk '/Media_Wearout_Indicator/ {print $4}' | head -1)
+                    if [[ -n "$media_wearout" ]]; then
+                        wear_info="MediaWearout:${media_wearout}%"
+                    fi
+                fi
+                
+                local power_cycles
+                power_cycles=$(echo "$smart_data" | awk '/Power_Cycle_Count/ {print $10}' | head -1)
+                if [[ -n "$power_cycles" ]]; then
+                    data_info="PowerCycles:$power_cycles"
+                fi
+                
+                # Check for SSD-specific errors
+                local program_fail
+                program_fail=$(echo "$smart_data" | awk '/Program_Fail_Count/ {print $10}' | head -1)
+                local erase_fail
+                erase_fail=$(echo "$smart_data" | awk '/Erase_Fail_Count/ {print $10}' | head -1)
+                
+                local error_parts=()
+                if [[ -n "$program_fail" && "$program_fail" -gt 0 ]]; then
+                    error_parts+=("ProgramFails:$program_fail")
+                fi
+                if [[ -n "$erase_fail" && "$erase_fail" -gt 0 ]]; then
+                    error_parts+=("EraseFails:$erase_fail")
+                fi
+                if [[ ${#error_parts[@]} -gt 0 ]]; then
+                    error_info=$(IFS=' '; echo "${error_parts[*]}")
+                fi
+                
+            elif [[ "$drive_type" == "HDD" ]]; then
+                # HDD specific attributes
                 temp=$(echo "$smart_data" | awk '/Temperature_Celsius/ {print $10}' | head -1)
                 if [[ -n "$temp" && "$temp" =~ ^[0-9]+$ ]]; then
                     temp="${temp}C"
