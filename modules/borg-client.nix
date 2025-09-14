@@ -122,8 +122,8 @@ in
 
     sshCommand = mkOption {
       type = types.str;
-      default = "ssh -F /home/yanlin/.ssh/config -o StrictHostKeyChecking=accept-new";
-      description = "SSH command for remote repositories (uses SSH config for host aliases)";
+      default = "ssh -F /home/yanlin/.ssh/config -o StrictHostKeyChecking=accept-new -o ServerAliveInterval=60 -o ServerAliveCountMax=240";
+      description = "SSH command for remote repositories (uses SSH config for host aliases with keepalive)";
     };
 
     preHook = mkOption {
