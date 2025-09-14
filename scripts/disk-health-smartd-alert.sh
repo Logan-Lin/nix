@@ -1,6 +1,7 @@
 # SMART daemon alert script for Gotify notifications
 # Called by smartd when SMART issues are detected
-# No arguments needed - uses SMARTD_DEVICE environment variable
+# Usage: disk-health-smartd-alert.sh <gotify_token> <drive_name>
+# Uses SMARTD_DEVICE environment variable for device info
 
 set -euo pipefail
 
@@ -8,34 +9,24 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 GOTIFY_SCRIPT="${SCRIPT_DIR}/gotify-notify.sh"
 LOG_FILE="/var/log/smartd-alerts.log"
 
-# Host-specific Gotify configuration
-GOTIFY_URL="https://notify.yanlincs.com"
-GOTIFY_TOKEN="Ac9qKFH5cA.7Yly"
+# Get parameters
+GOTIFY_TOKEN="${1:-}"
+DRIVE_NAME="${2:-}"
 
-# Drive name mapping based on device path
-get_drive_name() {
-    local device="$1"
-    case "$device" in
-        *"ata-ZHITAI_SC001_XT_1000GB_ZTB401TAB244431J4R"*)
-            echo "ZFS Mirror 1 (System)"
-            ;;
-        *"ata-ZHITAI_SC001_XT_1000GB_ZTB401TAB244431KEG"*)
-            echo "ZFS Mirror 2 (System)"
-            ;;
-        *"ata-HGST_HUH721212ALE604_5PK2N4GB"*)
-            echo "Data Drive 1 (12TB)"
-            ;;
-        *"ata-HGST_HUH721212ALE604_5PJ7Z3LE"*)
-            echo "Data Drive 2 (12TB)"
-            ;;
-        *"ata-ST16000NM000J-2TW103_WRS0F8BE"*)
-            echo "Parity Drive (16TB)"
-            ;;
-        *)
-            echo "Unknown Drive ($device)"
-            ;;
-    esac
-}
+# Validate parameters
+if [[ -z "$GOTIFY_TOKEN" ]]; then
+    echo "Error: Gotify token not provided"
+    echo "Usage: $0 <gotify_token> <drive_name>"
+    exit 1
+fi
+
+# If drive name not provided, use device path
+if [[ -z "$DRIVE_NAME" ]]; then
+    DRIVE_NAME="${SMARTD_DEVICE:-Unknown Drive}"
+fi
+
+# Gotify configuration
+GOTIFY_URL="https://notify.yanlincs.com"
 
 log_message() {
     local message="$1"
@@ -48,10 +39,7 @@ send_smartd_alert() {
     local failtype="${SMARTD_FAILTYPE:-unknown}"
     local message="${SMARTD_MESSAGE:-No details provided}"
     
-    local drive_name
-    drive_name=$(get_drive_name "$device")
-    
-    log_message "SMART alert for $drive_name ($device): $failtype - $message"
+    log_message "SMART alert for $DRIVE_NAME ($device): $failtype - $message"
     
     # Determine priority based on failure type
     local priority="high"
@@ -68,7 +56,7 @@ send_smartd_alert() {
     esac
     
     # Create notification message
-    local notification_title="SMART Alert: $drive_name"
+    local notification_title="SMART Alert: $DRIVE_NAME"
     local notification_message="Device: $device
 Failure Type: $failtype
 Details: $message

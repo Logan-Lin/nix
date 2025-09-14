@@ -1,5 +1,7 @@
 # Simple daily SMART report script - plain text version
 # Only checks SMART attributes and sends report via Gotify
+# Usage: daily-smart-report.sh <gotify_token>
+# Drive list should be passed via SMART_DRIVES environment variable as "device:name" pairs
 
 set -euo pipefail
 
@@ -7,18 +9,37 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 GOTIFY_SCRIPT="${SCRIPT_DIR}/gotify-notify.sh"
 LOG_FILE="/var/log/daily-smart-report.log"
 
-# Host-specific Gotify configuration
-GOTIFY_URL="https://notify.yanlincs.com"
-GOTIFY_TOKEN="Ac9qKFH5cA.7Yly"
+# Get parameters
+GOTIFY_TOKEN="${1:-}"
 
-# Drive configurations
-declare -A DRIVES=(
-    ["/dev/disk/by-id/ata-ZHITAI_SC001_XT_1000GB_ZTB401TAB244431J4R"]="ZFS Mirror 1"
-    ["/dev/disk/by-id/ata-ZHITAI_SC001_XT_1000GB_ZTB401TAB244431KEG"]="ZFS Mirror 2"
-    ["/dev/disk/by-id/ata-HGST_HUH721212ALE604_5PK2N4GB"]="Data Drive 1 (12TB)"
-    ["/dev/disk/by-id/ata-HGST_HUH721212ALE604_5PJ7Z3LE"]="Data Drive 2 (12TB)"
-    ["/dev/disk/by-id/ata-ST16000NM000J-2TW103_WRS0F8BE"]="Parity Drive (16TB)"
-)
+# Validate parameters
+if [[ -z "$GOTIFY_TOKEN" ]]; then
+    echo "Error: Gotify token not provided"
+    echo "Usage: $0 <gotify_token>"
+    echo "Drives should be in SMART_DRIVES environment variable"
+    exit 1
+fi
+
+# Gotify configuration
+GOTIFY_URL="https://notify.yanlincs.com"
+
+# Parse drive configurations from environment variable
+# SMART_DRIVES format: "device1:name1;device2:name2;..."
+declare -A DRIVES=()
+
+if [[ -n "${SMART_DRIVES:-}" ]]; then
+    IFS=';' read -ra DRIVE_PAIRS <<< "$SMART_DRIVES"
+    for pair in "${DRIVE_PAIRS[@]}"; do
+        IFS=':' read -r device name <<< "$pair"
+        if [[ -n "$device" && -n "$name" ]]; then
+            DRIVES["$device"]="$name"
+        fi
+    done
+else
+    echo "Warning: No drives specified in SMART_DRIVES environment variable"
+    echo "Format: SMART_DRIVES='device1:name1;device2:name2'"
+    exit 1
+fi
 
 main() {
     local report=""
