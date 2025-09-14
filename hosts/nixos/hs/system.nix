@@ -10,6 +10,7 @@
     ../../../modules/samba.nix
     ../../../modules/borg-client.nix
     ../../../modules/webdav.nix
+    ../../../modules/container-updater.nix
   ];
 
   # GRUB bootloader with ZFS support
@@ -122,6 +123,16 @@
 
   # Enable sudo for wheel group
   security.sudo.wheelNeedsPassword = false;
+
+  # Container auto-updater configuration
+  services.containerUpdater = {
+    enable = true;
+    schedule = "*-*-* 03:00:00";  # Daily at 3 AM
+    excludeContainers = [];  # Update all containers
+    enableNotifications = true;
+    gotifyUrl = "https://notify.yanlincs.com";
+    gotifyToken = "Ac9qKFH5cA.7Yly";  # Same token as borg backups
+  };
 
   # List packages installed in system profile
   environment.systemPackages = with pkgs; [
