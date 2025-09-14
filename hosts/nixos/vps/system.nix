@@ -101,6 +101,7 @@
     backupPaths = [
       "/home"
       "/var/lib/containers"
+      "/etc"
     ];
     # Examples:
     # backupFrequency = "daily";           # Midnight (default)

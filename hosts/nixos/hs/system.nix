@@ -250,6 +250,7 @@
     backupPaths = [
       "/home"
       "/var/lib/containers" 
+      "/etc" 
       "/mnt/storage/appbulk/immich/library/"
       "/mnt/storage/appbulk/Paperless/media/documents"
       "/mnt/storage/Media/DCIM"
