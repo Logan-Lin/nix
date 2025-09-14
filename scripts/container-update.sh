@@ -146,8 +146,7 @@ if [[ ${#notification_lines[@]} -gt 0 ]]; then
         fi
     done
     
-    hostname_val=$(hostname 2>/dev/null || echo "hs")
-    send_notification "$notification_priority" "Container Update - $hostname_val" "$message"
+    send_notification "$notification_priority" "Container Update" "$message"
 fi
 
 # Exit with error if any containers failed
