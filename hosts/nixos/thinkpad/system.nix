@@ -304,6 +304,7 @@
     
     # ThinkPad specific
     lm_sensors  # Temperature monitoring
+    smartmontools  # Disk health monitoring (SMART)
   ];
 
   # Enable zsh
