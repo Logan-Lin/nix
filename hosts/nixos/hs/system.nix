@@ -3,7 +3,6 @@
     ./hardware-configuration.nix
     ./containers.nix  # Host-specific container definitions
     ./proxy.nix       # Host-specific Traefik dynamic configuration
-    ./disk-health.nix # Host-specific disk health monitoring
     ../../../modules/wireguard.nix
     ../../../modules/podman.nix
     ../../../modules/traefik.nix
@@ -251,6 +250,29 @@
     allowSearch = true;
     allowSymlink = false;
     hideDotFiles = true;
+  };
+
+  # Daily SMART report using the shell alias
+  systemd.services.daily-smart-report = {
+    description = "Daily SMART Health Report";
+    after = [ "multi-user.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+      User = "root";
+      ExecStart = "${pkgs.zsh}/bin/zsh -c 'source /home/yanlin/.zshrc && smart-report'";
+      StandardOutput = "journal";
+      StandardError = "journal";
+    };
+  };
+
+  systemd.timers.daily-smart-report = {
+    description = "Daily SMART Report Timer";
+    wantedBy = [ "timers.target" ];
+    timerConfig = {
+      OnCalendar = "08:00:00";
+      Persistent = true;
+      RandomizedDelaySec = "5m";
+    };
   };
 
   # Borg backup configuration
