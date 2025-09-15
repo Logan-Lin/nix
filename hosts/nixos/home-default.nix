@@ -13,6 +13,7 @@
     ../../modules/rsync.nix
     ../../modules/btop.nix
     ../../modules/dictionary.nix
+    ../../modules/yt-dlp.nix
     ../../config/fonts.nix
   ];
 

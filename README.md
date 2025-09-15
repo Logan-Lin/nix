@@ -95,12 +95,16 @@ home-manager switch --flake github:Logan-Lin/nix-config#yanlin@thinkpad
 │   ├── wireguard.nix  # Hub-and-spoke VPN networking
 │   ├── borg-client.nix       # Borg backup system with automated scheduling
 │   ├── plasma.nix     # KDE Plasma desktop environment configuration
-│   └── homebrew.nix   # Homebrew and nix-homebrew configuration
+│   ├── homebrew.nix   # Homebrew and nix-homebrew configuration
+│   └── yt-dlp.nix     # Video downloader for YouTube and Bilibili
 ├── config/            # Configuration files
 │   ├── firefox/       # Firefox browser configuration
 │   │   ├── bookmarks.nix
 │   │   ├── extensions.nix
 │   │   └── search.nix
+│   ├── yt-dlp/        # yt-dlp cookie files for authentication
+│   │   ├── cookies-youtube.txt  # YouTube authentication cookies
+│   │   └── cookies-bilibili.txt # Bilibili authentication cookies
 │   ├── fonts.nix      # Font packages and configuration
 │   ├── homeassistant/ # Home Assistant smart home configuration
 │   │   ├── configuration.yaml  # Main HA configuration with reverse proxy
@@ -833,6 +837,53 @@ A rich terminal UI file transfer client with multi-protocol support:
 termscp                       # Launch TUI client
 ftp                          # Alias for termscp
 termscp ftp://user@host.com  # Quick connection
+```
+
+### 📹 Video Downloader: yt-dlp
+
+**Configuration**: `modules/yt-dlp.nix`  
+**Purpose**: Download videos from YouTube and Bilibili with organized file structure
+
+A declarative yt-dlp configuration with automatic platform detection and structured downloads:
+
+#### Key Features:
+- **Platform Auto-detection**: Automatically detects YouTube or Bilibili from URL
+- **Cookie Authentication**: Separate cookie files for YouTube and Bilibili access
+- **Organized Downloads**: 
+  - Single videos: `[downloadDir]/[platform]/[uploader]/[upload_date]-[title].ext`
+  - Playlists: `[downloadDir]/[platform]/[playlist_title]/[index]-[title].ext`
+- **Host-specific Paths**: Configurable download directory per machine
+- **Quality Settings**: Best quality video+audio with MP4 output
+- **Metadata**: Downloads subtitles, thumbnails, and descriptions
+- **Archive Tracking**: Prevents re-downloading previously downloaded videos
+
+#### Usage:
+```bash
+# Download video (auto-detects YouTube/Bilibili)
+dlv https://www.youtube.com/watch?v=VIDEO_ID
+dlv https://www.bilibili.com/video/BV1234567890
+
+# Download playlist
+dlv https://www.youtube.com/playlist?list=PLAYLIST_ID
+
+# Show cookie update instructions
+dlv-help
+```
+
+#### Cookie Setup:
+1. Install browser extension: "Get cookies.txt LOCALLY"
+2. Log in to YouTube/Bilibili
+3. Export cookies using the extension
+4. Save to `~/.config/yt-dlp/cookies-youtube.txt` or `cookies-bilibili.txt`
+
+#### Configuration:
+Each host can configure its download directory:
+```nix
+# In host's home.nix
+programs.yt-dlp-custom = {
+  enable = true;
+  downloadDir = "~/Downloads/Videos";  # Or any host-specific path
+};
 ```
 
 ## 💻 Daily Workflow
