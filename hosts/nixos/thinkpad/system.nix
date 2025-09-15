@@ -1,7 +1,6 @@
 { config, pkgs, lib, ... }: {
   imports = [
     ./hardware-configuration.nix
-    ./disk-health.nix
     ../../../modules/wireguard.nix
     ../../../modules/borg-server.nix
   ];
@@ -352,6 +351,29 @@
       serverPublicKey = "46QHjSzAas5g9Hll1SCEu9tbR5owCxXAy6wGOUoPwUM=";
       serverEndpoint = "91.98.84.215:51820";
       allowedIPs = [ "10.2.2.0/24" ];
+    };
+  };
+
+  # Daily SMART report using the shell alias
+  systemd.services.daily-smart-report = {
+    description = "Daily SMART Health Report";
+    after = [ "multi-user.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+      User = "root";
+      ExecStart = "${pkgs.zsh}/bin/zsh -c 'source /home/yanlin/.zshrc && smart-report'";
+      StandardOutput = "journal";
+      StandardError = "journal";
+    };
+  };
+
+  systemd.timers.daily-smart-report = {
+    description = "Daily SMART Report Timer";
+    wantedBy = [ "timers.target" ];
+    timerConfig = {
+      OnCalendar = "09:00:00";
+      Persistent = true;
+      RandomizedDelaySec = "10m";
     };
   };
 
