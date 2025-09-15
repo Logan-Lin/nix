@@ -72,7 +72,12 @@ main() {
         
         # Get SMART health
         local health="UNKNOWN"
-        if health=$(smartctl -H "$device" 2>/dev/null | grep -o "PASSED\|FAILED" | head -1); then
+        local smartctl_opts=""
+        if [[ "$is_nvme" == "true" ]]; then
+            smartctl_opts="-d nvme"
+        fi
+        
+        if health=$(smartctl $smartctl_opts -H "$device" 2>/dev/null | grep -o "PASSED\|FAILED" | head -1); then
             echo "  Health: $health"
         else
             health="UNKNOWN"
@@ -88,7 +93,7 @@ main() {
         
         if [[ "$health" == "PASSED" ]]; then
             local smart_data
-            smart_data=$(smartctl -A "$device" 2>/dev/null)
+            smart_data=$(smartctl $smartctl_opts -A "$device" 2>/dev/null)
             
             if [[ "$is_nvme" == "true" ]]; then
                 # NVMe attributes (different format)
