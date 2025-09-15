@@ -1,0 +1,29 @@
+# Netscape HTTP Cookie File
+# https://curl.haxx.se/rfc/cookie_spec.html
+# This is a generated file! Do not edit.
+
+.bilibili.com	TRUE	/	FALSE	1787769860	buvid3	9E5DBD65-6C9F-9C42-7540-D278BFE5B1DD60286infoc
+.bilibili.com	TRUE	/	FALSE	1787769860	b_nut	1756233860
+.bilibili.com	TRUE	/	FALSE	1789502974	enable_web_push	DISABLE
+.bilibili.com	TRUE	/	FALSE	1789502974	home_feed_column	5
+.bilibili.com	TRUE	/	FALSE	1789502974	browser_resolution	2240-1151
+.bilibili.com	TRUE	/	FALSE	1791742248	buvid4	737192F6-CF30-9170-C145-8071648B393561161-025082702-MssZwiGhdsLJOxyilfLY7Q%3D%3D
+.bilibili.com	TRUE	/	FALSE	1787769862	buvid_fp	63ed5a8b4842c9c467efbc4f875f57e2
+.bilibili.com	TRUE	/	TRUE	1771785909	SESSDATA	2970d071%2C1771785909%2Ce9382%2A81CjDZZsAsIW3ZYNWBEHDNjoQTKeesjMO5M2i-MsaNKbN5FU6viq_KqeK_Ff0jeb_TUFESVjAtYm9vUFZnbTJ0VUFjSk14TUhOSjNHVmhMT2VCRUtidERZZnRpVXR0SXJQNnFYS05vMTZFQzJCWUg3d1VULWYtcXRWX1NSbE5kVzNiRFNERXJiMTlRIIEC
+.bilibili.com	TRUE	/	TRUE	1771785909	bili_jct	fb2e556966de9865f569e8ba96265b99
+.bilibili.com	TRUE	/	TRUE	1771785909	DedeUserID	2480785
+.bilibili.com	TRUE	/	TRUE	1771785909	DedeUserID__ckMd5	64dd7d5198a897cc
+.bilibili.com	TRUE	/	TRUE	1771785909	sid	8p2r4be3
+.bilibili.com	TRUE	/	FALSE	1789502974	theme-tip-show	SHOWED
+.bilibili.com	TRUE	/	FALSE	1787769917	theme-avatar-tip-show	SHOWED
+.bilibili.com	TRUE	/	FALSE	1787769921	theme-switch-show	SHOWED
+.bilibili.com	TRUE	/	FALSE	1787769923	theme_style	dark
+.bilibili.com	TRUE	/	FALSE	1789514362	CURRENT_FNVAL	2000
+.bilibili.com	TRUE	/	FALSE	1787928319	CURRENT_QUALITY	80
+.bilibili.com	TRUE	/	FALSE	1790793933	rpdid	|(Jll~R)mRuu0J'u~lYkJJmJJ
+.bilibili.com	TRUE	/	FALSE	1759439728	bp_t_offset_2480785	1108141625822937088
+www.bilibili.com	FALSE	/	FALSE	0	bmg_af_switch	1
+www.bilibili.com	FALSE	/	FALSE	0	bmg_src_def_domain	i1.hdslb.com
+.bilibili.com	TRUE	/	FALSE	0	b_lsid	7E3951DB_1994EFA839A
+.bilibili.com	TRUE	/	FALSE	1758225851	bili_ticket	eyJhbGciOiJIUzI1NiIsImtpZCI6InMwMyIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTgyMjU4NTEsImlhdCI6MTc1Nzk2NjU5MSwicGx0IjotMX0.EouymquKSd_qZQFbWcFhr-GH3dVLd7mA9QYlSNSQm1M
+.bilibili.com	TRUE	/	FALSE	1758225851	bili_ticket_expires	1758225791
