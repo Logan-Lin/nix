@@ -33,7 +33,7 @@
       
       # Process Display Settings
       proc_sorting = "cpu lazy";   # Sort by CPU usage, lazy update
-      proc_tree = true;            # Show process hierarchy
+      proc_tree = false;            # Show process hierarchy
       proc_colors = true;          # Colorize process list
       proc_gradient = true;        # Use gradient colors for processes
       proc_per_core = false;       # Don't show per-core process usage
