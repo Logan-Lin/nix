@@ -50,6 +50,7 @@
       preview = "open -a Preview";
       slide = "open -a SlidePilot";
       inkscape = "open -a Inkscape";
+      
   };
 
   # Darwin-specific zsh functions
@@ -75,6 +76,69 @@
         else
           open "$app_path"
         fi
+      fi
+    }
+
+    # SSH tunnel functions for easy VPN-like functionality
+    function tunnel-on() {
+      if [[ -z "$1" ]]; then
+        echo "Usage: tunnel-on <host>"
+        return 1
+      fi
+      
+      local host="$1"
+      local port=1080  # Use port 1080 (standard SOCKS port)
+      
+      # Check if there's already an active tunnel
+      local existing_tunnel=$(ps aux | grep -E "ssh -D $port" | grep -v grep)
+      if [[ -n "$existing_tunnel" ]]; then
+        echo "Existing tunnel detected. Switching to $host..."
+        echo "Stopping current tunnel..."
+        pkill -f "ssh -D $port"
+        sleep 1
+      fi
+      
+      echo "Starting SOCKS tunnel to $host on port $port..."
+      
+      # Start SSH tunnel in background
+      ssh -D $port -N -f "$host"
+      if [[ $? -eq 0 ]]; then
+        echo "Tunnel established. Configuring system proxy..."
+        
+        # Configure system proxy
+        networksetup -setsocksfirewallproxy "Wi-Fi" localhost $port
+        networksetup -setsocksfirewallproxystate "Wi-Fi" on
+        
+        echo "✓ System proxy enabled on Wi-Fi (localhost:$port -> $host)"
+      else
+        echo "✗ Failed to establish tunnel to $host"
+        return 1
+      fi
+    }
+
+    function tunnel-off() {
+      local port=1080
+      echo "Disabling system proxy..."
+      networksetup -setsocksfirewallproxystate "Wi-Fi" off
+      echo "✓ System proxy disabled"
+      
+      echo "Stopping SSH tunnels..."
+      pkill -f "ssh -D $port"
+      echo "✓ SSH tunnels stopped"
+    }
+
+    function tunnel-status() {
+      local port=1080
+      echo "=== System Proxy Status ==="
+      networksetup -getsocksfirewallproxy "Wi-Fi" | grep -E "Enabled|Server|Port"
+      
+      echo ""
+      echo "=== Active SSH Tunnels ==="
+      local tunnels=$(ps aux | grep -E "ssh -D $port" | grep -v grep)
+      if [[ -n "$tunnels" ]]; then
+        echo "$tunnels"
+      else
+        echo "No active SSH tunnels"
       fi
     }
   '';
