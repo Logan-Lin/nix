@@ -3,6 +3,7 @@
     ./hardware-configuration.nix
     ../../../modules/wireguard.nix
     ../../../modules/borg-server.nix
+    ../../../modules/smart-report.nix
   ];
 
   # Bootloader - standard UEFI setup
@@ -355,26 +356,14 @@
     };
   };
 
-  # Daily SMART report using the shell alias
-  systemd.services.daily-smart-report = {
-    description = "Daily SMART Health Report";
-    after = [ "multi-user.target" ];
-    serviceConfig = {
-      Type = "oneshot";
-      User = "root";
-      ExecStart = "${pkgs.zsh}/bin/zsh -c 'source /home/yanlin/.zshrc && smart-report'";
-      StandardOutput = "journal";
-      StandardError = "journal";
-    };
-  };
-
-  systemd.timers.daily-smart-report = {
-    description = "Daily SMART Report Timer";
-    wantedBy = [ "timers.target" ];
-    timerConfig = {
-      OnCalendar = "09:00:00";
-      Persistent = true;
-      RandomizedDelaySec = "10m";
+  # SMART disk health reporting
+  services.smart-report = {
+    enable = true;
+    enableSystemdService = true;
+    schedule = "09:00:00";
+    gotifyToken = "AieM4SJHFcyl7TC";
+    drives = {
+      "/dev/nvme0n1" = "System_SSD_ThinkPad";
     };
   };
 
