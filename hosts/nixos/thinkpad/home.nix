@@ -30,11 +30,6 @@
 
   # Any ThinkPad-specific home configurations can be added here
   # For example, laptop-specific aliases or scripts
-  
-  programs.zsh.shellAliases = {
-    # Disk health monitoring
-    smart-report = "sudo SMART_DRIVES='/dev/nvme0n1:System_SSD_ThinkPad' /home/yanlin/.config/nix/scripts/daily-smart-report.sh AieM4SJHFcyl7TC";
-  };
 
   home.packages = with pkgs; [
     texlive.combined.scheme-full

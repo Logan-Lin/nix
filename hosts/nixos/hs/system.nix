@@ -10,6 +10,7 @@
     ../../../modules/borg-client.nix
     ../../../modules/webdav.nix
     ../../../modules/container-updater.nix
+    ../../../modules/smart-report.nix
   ];
 
   # GRUB bootloader with ZFS support
@@ -252,26 +253,18 @@
     hideDotFiles = true;
   };
 
-  # Daily SMART report using the shell alias
-  systemd.services.daily-smart-report = {
-    description = "Daily SMART Health Report";
-    after = [ "multi-user.target" ];
-    serviceConfig = {
-      Type = "oneshot";
-      User = "root";
-      ExecStart = "${pkgs.zsh}/bin/zsh -c 'source /home/yanlin/.zshrc && smart-report'";
-      StandardOutput = "journal";
-      StandardError = "journal";
-    };
-  };
-
-  systemd.timers.daily-smart-report = {
-    description = "Daily SMART Report Timer";
-    wantedBy = [ "timers.target" ];
-    timerConfig = {
-      OnCalendar = "08:00:00";
-      Persistent = true;
-      RandomizedDelaySec = "5m";
+  # SMART disk health reporting
+  services.smart-report = {
+    enable = true;
+    enableSystemdService = true;
+    schedule = "08:00:00";
+    gotifyToken = "Ac9qKFH5cA.7Yly";
+    drives = {
+      "/dev/disk/by-id/ata-ZHITAI_SC001_XT_1000GB_ZTB401TAB244431J4R" = "ZFS_Mirror_1";
+      "/dev/disk/by-id/ata-ZHITAI_SC001_XT_1000GB_ZTB401TAB244431KEG" = "ZFS_Mirror_2";
+      "/dev/disk/by-id/ata-HGST_HUH721212ALE604_5PK2N4GB" = "Data_Drive_1_12TB";
+      "/dev/disk/by-id/ata-HGST_HUH721212ALE604_5PJ7Z3LE" = "Data_Drive_2_12TB";
+      "/dev/disk/by-id/ata-ST16000NM000J-2TW103_WRS0F8BE" = "Parity_Drive_16TB";
     };
   };
 
