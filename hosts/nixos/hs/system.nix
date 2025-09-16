@@ -3,6 +3,7 @@
     ./hardware-configuration.nix
     ./containers.nix  # Host-specific container definitions
     ./proxy.nix       # Host-specific Traefik dynamic configuration
+    ../system-default.nix  # Common NixOS system configuration
     ../../../modules/wireguard.nix
     ../../../modules/podman.nix
     ../../../modules/traefik.nix
@@ -78,20 +79,11 @@
     firewall = { enable = false; };
   };
 
-  # Set your time zone
-  time.timeZone = "Europe/Copenhagen"; # Adjust to your timezone
 
-  # Select internationalisation properties
-  i18n.defaultLocale = "en_US.UTF-8";
-
-  # Enable the OpenSSH daemon
+  # Host-specific SSH configuration
   services.openssh = {
-    enable = true;
     settings = {
-      PermitRootLogin = "yes";
-      PasswordAuthentication = false;
-      KbdInteractiveAuthentication = false;
-      AcceptEnv = "LANG LC_* TERM COLORTERM TMUX TMUX_PANE";
+      PermitRootLogin = "yes";  # Allow root login for this server
     };
     openFirewall = true;
   };
@@ -109,20 +101,15 @@
     ];
   };
 
-  # Optional: Create a regular user account
+  # Host-specific user configuration
   users.users.yanlin = {
-    isNormalUser = true;
-    description = "yanlin";
     extraGroups = [ "networkmanager" "wheel" ];
-    shell = pkgs.zsh;
     hashedPassword = "$6$8NUV0JK33hs3XBYe$osnYKzENDLYHQEpj8Z5F6ECpLdc8Y3RZcVGxQ0bc/6DepTwugAkfX8h6ItI01dJyk8RstiGsWVVCKGwXaL.sN.";
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG35m0DgTrEOAM+1wAlYZ8mvLelNTcx65cFccGPQcxmo yanlin@imac"
     ];
   };
 
-  # Enable sudo for wheel group
-  security.sudo.wheelNeedsPassword = false;
 
   # Container auto-updater configuration
   services.containerUpdater = {
@@ -134,23 +121,10 @@
     gotifyToken = "Ac9qKFH5cA.7Yly";  # Same token as borg backups
   };
 
-  # List packages installed in system profile
+  # Host-specific packages
   environment.systemPackages = with pkgs; [
-    vim
-    git
-    htop
-    curl
-    wget
-    rsync
-    tmux
-    tree
-    lsof
-    tcpdump
-    iotop
     smartmontools # For monitoring disk health
     zfs # ZFS utilities
-    zsh # Shell
-    home-manager # Enable standalone home-manager command
     mergerfs # Union filesystem for combining multiple drives
     snapraid # Parity-based backup tool
   ];
@@ -224,14 +198,6 @@
   };
 
 
-  # Allow unfree packages globally
-  nixpkgs.config.allowUnfree = true;
-
-  # Enable zsh system-wide (required when set as user shell)
-  programs.zsh.enable = true;
-
-  # Enable experimental nix features
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   # Samba file sharing configuration
   services.samba-custom = { enable = false; };
@@ -327,9 +293,4 @@
     };
   };
 
-  # This value determines the NixOS release from which the default
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken. It's perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
-  system.stateVersion = "24.05"; # Did you read the comment?
 }
