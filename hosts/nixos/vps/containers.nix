@@ -114,5 +114,17 @@ in
       dependsOn = [ "gotify" ];
       autoStart = true;
     };
+
+    # OC Backend Scheduler
+    oc-scheduler = {
+      image = "localhost/oc-scheduler:v1";
+
+      extraOptions = [
+        "--network=podman"
+        "--security-opt=no-new-privileges:true"
+      ];
+      
+      autoStart = true;
+    };
   };
 }
