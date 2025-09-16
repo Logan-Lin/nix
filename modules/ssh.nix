@@ -50,13 +50,6 @@
         identityFile = "~/.ssh/keys/hetzner";
       };
 
-      "storage-box" = {
-        hostname = "u448310.your-storagebox.de";
-        user = "u448310";
-        identityFile = "~/.ssh/keys/storage-box";
-        port = 23;
-      };
-
       "borg-backup" = {
         hostname = "10.2.2.30";
         user = "borg";
