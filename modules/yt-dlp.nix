@@ -92,8 +92,8 @@ in
       DOWNLOAD_DIR="''${DOWNLOAD_DIR/#\~/$HOME}"
       
       # Retry configuration
-      MAX_RETRIES=5
-      BASE_DELAY=5
+      MAX_RETRIES=10
+      BASE_DELAY=10
       
       # Helper function to create writable cookie file
       _setup_temp_cookies() {
