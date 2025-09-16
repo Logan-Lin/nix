@@ -91,6 +91,10 @@ in
       DOWNLOAD_DIR="${cfg.downloadDir}"
       DOWNLOAD_DIR="''${DOWNLOAD_DIR/#\~/$HOME}"
       
+      # Retry configuration
+      MAX_RETRIES=5
+      BASE_DELAY=5
+      
       # Helper function to create writable cookie file
       _setup_temp_cookies() {
         local cookies_file="$1"
@@ -102,6 +106,36 @@ in
         else
           echo ""
         fi
+      }
+      
+      # Retry wrapper function with exponential backoff
+      _retry_download() {
+        local cmd="$1"
+        local attempt=1
+        local delay=$BASE_DELAY
+        
+        while [[ $attempt -le $MAX_RETRIES ]]; do
+          echo "Attempt $attempt/$MAX_RETRIES..."
+          
+          eval "$cmd"
+          local result=$?
+          
+          if [[ $result -eq 0 ]]; then
+            return 0
+          fi
+          
+          if [[ $attempt -lt $MAX_RETRIES ]]; then
+            echo "Download failed, retrying in ''${delay}s..."
+            sleep $delay
+            delay=$((delay * 2))  # Exponential backoff
+          else
+            echo "All retry attempts failed"
+          fi
+          
+          ((attempt++))
+        done
+        
+        return 1
       }
       
       # YouTube single video download
@@ -125,18 +159,18 @@ in
         [[ -n "$temp_cookies" ]] && cmd="$cmd --cookies '$temp_cookies'" || cmd="$cmd --no-cookies"
         cmd="$cmd --download-archive '$archive_file' -o '$output_template' '$url'"
         
-        eval $cmd
-        local result=$?
+        if _retry_download "$cmd"; then
+          echo "✓ Download completed successfully"
+          local result=0
+        else
+          echo "✗ Download failed after $MAX_RETRIES attempts"
+          local result=1
+        fi
         
         # Clean up temp cookies
         [[ -n "$temp_cookies" ]] && rm -f "$temp_cookies"
         
-        if [[ $result -eq 0 ]]; then
-          echo "✓ Download completed successfully"
-        else
-          echo "✗ Download failed"
-          return 1
-        fi
+        return $result
       }
       
       # YouTube playlist download
@@ -160,18 +194,18 @@ in
         [[ -n "$temp_cookies" ]] && cmd="$cmd --cookies '$temp_cookies'" || cmd="$cmd --no-cookies"
         cmd="$cmd --download-archive '$archive_file' -o '$output_template' '$url'"
         
-        eval $cmd
-        local result=$?
+        if _retry_download "$cmd"; then
+          echo "✓ Playlist download completed successfully"
+          local result=0
+        else
+          echo "✗ Playlist download failed after $MAX_RETRIES attempts"
+          local result=1
+        fi
         
         # Clean up temp cookies
         [[ -n "$temp_cookies" ]] && rm -f "$temp_cookies"
         
-        if [[ $result -eq 0 ]]; then
-          echo "✓ Playlist download completed successfully"
-        else
-          echo "✗ Playlist download failed"
-          return 1
-        fi
+        return $result
       }
       
       # Bilibili single video download
@@ -195,18 +229,18 @@ in
         [[ -n "$temp_cookies" ]] && cmd="$cmd --cookies '$temp_cookies'" || cmd="$cmd --no-cookies"
         cmd="$cmd --download-archive '$archive_file' -o '$output_template' '$url'"
         
-        eval $cmd
-        local result=$?
+        if _retry_download "$cmd"; then
+          echo "✓ Download completed successfully"
+          local result=0
+        else
+          echo "✗ Download failed after $MAX_RETRIES attempts"
+          local result=1
+        fi
         
         # Clean up temp cookies
         [[ -n "$temp_cookies" ]] && rm -f "$temp_cookies"
         
-        if [[ $result -eq 0 ]]; then
-          echo "✓ Download completed successfully"
-        else
-          echo "✗ Download failed"
-          return 1
-        fi
+        return $result
       }
       
       # Bilibili playlist/collection download
@@ -230,18 +264,18 @@ in
         [[ -n "$temp_cookies" ]] && cmd="$cmd --cookies '$temp_cookies'" || cmd="$cmd --no-cookies"
         cmd="$cmd --download-archive '$archive_file' -o '$output_template' '$url'"
         
-        eval $cmd
-        local result=$?
+        if _retry_download "$cmd"; then
+          echo "✓ Playlist download completed successfully"
+          local result=0
+        else
+          echo "✗ Playlist download failed after $MAX_RETRIES attempts"
+          local result=1
+        fi
         
         # Clean up temp cookies
         [[ -n "$temp_cookies" ]] && rm -f "$temp_cookies"
         
-        if [[ $result -eq 0 ]]; then
-          echo "✓ Playlist download completed successfully"
-        else
-          echo "✗ Playlist download failed"
-          return 1
-        fi
+        return $result
       }
       
       # Function to show help and instructions
