@@ -3,6 +3,7 @@
     ./hardware-configuration.nix
     ./containers.nix  # Host-specific container definitions
     ./proxy.nix       # Host-specific Traefik dynamic configuration
+    ../system-default.nix  # Common NixOS system configuration
     ../../../modules/wireguard.nix
     ../../../modules/podman.nix
     ../../../modules/traefik.nix
@@ -30,19 +31,11 @@
     };
   };
 
-  # Set your time zone
-  time.timeZone = "Europe/Copenhagen";
 
-  # Select internationalisation properties
-  i18n.defaultLocale = "en_US.UTF-8";
-
-  # Enable the OpenSSH daemon
+  # Host-specific SSH configuration
   services.openssh = {
-    enable = true;
     settings = {
       PermitRootLogin = "prohibit-password"; # Allow key-based root login for nixos-anywhere
-      PasswordAuthentication = false;
-      KbdInteractiveAuthentication = false;
     };
   };
 
@@ -53,45 +46,17 @@
     ];
   };
 
-  # Regular user account
+  # Host-specific user configuration
   users.users.yanlin = {
-    isNormalUser = true;
-    description = "yanlin";
     extraGroups = [ "wheel" ]; # Enable sudo
-    shell = pkgs.zsh;
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGVvviqbwBEGDIbAUnmgHQJi+N5Qfvo5u49biWl6R7oC yanlin@MacBook-Air"
     ];
   };
 
-  # Enable sudo for wheel group
-  security.sudo.wheelNeedsPassword = false;
 
-  # List packages installed in system profile
-  environment.systemPackages = with pkgs; [
-    vim
-    git
-    htop
-    curl
-    wget
-    rsync
-    tmux
-    tree
-    lsof
-    tcpdump
-    iotop
-    zsh
-    home-manager
-  ];
+  # No additional host-specific packages needed
 
-  # Enable zsh system-wide (required when set as user shell)
-  programs.zsh.enable = true;
-
-  # Enable experimental nix features
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
-  # Allow unfree packages globally
-  nixpkgs.config.allowUnfree = true;
 
   # Borg backup configuration
   services.borgbackup-custom = {
@@ -157,9 +122,4 @@
     };
   };
 
-  # This value determines the NixOS release from which the default
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken. It's perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
-  system.stateVersion = "24.05"; # Did you read the comment?
 }

@@ -1,6 +1,7 @@
 { config, pkgs, lib, ... }: {
   imports = [
     ./hardware-configuration.nix
+    ../system-default.nix  # Common NixOS system configuration
     ../../../modules/wireguard.nix
     ../../../modules/borg-server.nix
     ../../../modules/smart-report.nix
@@ -100,9 +101,6 @@
     firewall.enable = false;
   };
 
-  # Time zone and localization
-  time.timeZone = "Europe/Copenhagen";
-  i18n.defaultLocale = "en_US.UTF-8";
 
   # Sound configuration with PipeWire (better than PulseAudio)
   services.pulseaudio.enable = false;
@@ -234,51 +232,32 @@
   # Enable CUPS for printing
   services.printing.enable = true;
 
-  # SSH service
+  # Host-specific SSH configuration
   services.openssh = {
-    enable = true;
     settings = {
-      PermitRootLogin = "no";
-      PasswordAuthentication = false;
-      KbdInteractiveAuthentication = false;
+      PermitRootLogin = "no";  # Disable root login for laptop
     };
   };
 
-  # User account
+  # Host-specific user configuration
   users.users.yanlin = {
-    isNormalUser = true;
-    description = "yanlin";
     extraGroups = [ "networkmanager" "wheel" "video" "audio" "input" ];
-    shell = pkgs.zsh;
     hashedPassword = "$6$kSyaRzAtj8VPcNeX$NsEP6zQAfp6O8YWcolfPRKnhIcJlKu5luZgWqozJAHtbE/gv90KoOOKU7Dt.FnbPB0Ej26jXoBH4X.7y/OLGB1";
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICp2goZiuSfwMA02GsHhYzUZHrQPPBgP5sWSNP9kQR3e yanlin@imac"
     ];
   };
 
-  # Enable sudo for wheel group
-  security.sudo.wheelNeedsPassword = false;
 
   # Enable KDE Wallet auto-unlock via PAM
   security.pam.services.sddm.enableKwallet = true;
 
-  # System packages
+  # Host-specific packages
   environment.systemPackages = with pkgs; [
-    # Essential tools
-    vim
-    git
-    wget
-    curl
-    htop
+    # Additional system monitoring
     btop
     neofetch
-    tree
     unzip
-    
-    # Development tools
-    tmux
-    zsh
-    home-manager
     
     # KDE/Plasma utilities
     kdePackages.kate
@@ -308,14 +287,6 @@
     smartmontools  # Disk health monitoring (SMART)
   ];
 
-  # Enable zsh
-  programs.zsh.enable = true;
-
-  # Enable experimental features
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
-  # Allow unfree packages (needed for NVIDIA drivers and Obsidian)
-  nixpkgs.config.allowUnfree = true;
 
   # Laptop-specific services
   services.acpid.enable = true;
@@ -380,8 +351,4 @@
     };
   };
 
-  # This value determines the NixOS release from which the default
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken.
-  system.stateVersion = "24.05";
 }

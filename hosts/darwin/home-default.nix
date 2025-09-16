@@ -51,6 +51,11 @@
       preview = "open -a Preview";
       slide = "open -a SlidePilot";
       inkscape = "open -a Inkscape";
+
+      # Network monitoring aliases
+      bw = "sudo bandwhich";
+      bw-raw = "sudo bandwhich --raw";
+      bw-dns = "sudo bandwhich --show-dns";
       
   };
 
@@ -157,6 +162,7 @@
     netcat-gnu     # Network connection utility
     curl           # HTTP client
     wget           # Web downloader
+    bandwhich      # Terminal bandwidth utilization tool
     
     # Command-line utilities
     ncdu
