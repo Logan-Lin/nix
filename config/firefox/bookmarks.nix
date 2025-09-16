@@ -89,6 +89,10 @@
           url = "https://photo.yanlincs.com/photos";
         }
         {
+          name = "Files";
+          url = "https://files.yanlincs.com";
+        }
+        {
           name = "Home";
           url = "https://home.yanlincs.com/lovelace/0";
         }
