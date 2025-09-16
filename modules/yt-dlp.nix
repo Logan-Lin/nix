@@ -32,18 +32,13 @@ in
       ffmpeg
     ];
 
-    # Copy cookie files (not symlink) to make them writable
+    # Cookie files - managed by Nix (read-only)
+    # The download function copies these to temp files when needed
     home.file.".config/yt-dlp/cookies-youtube.txt" = {
       source = ../config/yt-dlp/cookies-youtube.txt;
-      onChange = ''
-        chmod 644 ~/.config/yt-dlp/cookies-youtube.txt
-      '';
     };
     home.file.".config/yt-dlp/cookies-bilibili.txt" = {
       source = ../config/yt-dlp/cookies-bilibili.txt;
-      onChange = ''
-        chmod 644 ~/.config/yt-dlp/cookies-bilibili.txt
-      '';
     };
 
     # Create yt-dlp configuration file
@@ -77,96 +72,66 @@ in
       --user-agent "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
     '';
 
-    # Shell alias and function
+    # Shell aliases for different download types
     programs.zsh.shellAliases = {
-      # Simple alias that calls the function
-      dlv = "download-video";
+      # YouTube downloads
+      dl-yt = "download-youtube";
+      dl-yt-p = "download-youtube-playlist";
+      
+      # Bilibili downloads  
+      dl-bili = "download-bilibili";
+      dl-bili-p = "download-bilibili-playlist";
+      
+      # Help
+      dl-help = "download-help";
     };
 
     programs.zsh.initContent = ''
-      # Function to download videos from YouTube or Bilibili
-      download-video() {
-        local url="$1"
-        local download_dir="${cfg.downloadDir}"
-        
+      # Base download directory
+      DOWNLOAD_DIR="${cfg.downloadDir}"
+      DOWNLOAD_DIR="''${DOWNLOAD_DIR/#\~/$HOME}"
+      
+      # Helper function to create writable cookie file
+      _setup_temp_cookies() {
+        local cookies_file="$1"
+        if [[ -f "$cookies_file" ]]; then
+          local temp_cookies="/tmp/yt-dlp-cookies-$$.txt"
+          cp "$cookies_file" "$temp_cookies" 2>/dev/null
+          chmod 644 "$temp_cookies" 2>/dev/null
+          echo "$temp_cookies"
+        else
+          echo ""
+        fi
+      }
+      
+      # YouTube single video download
+      download-youtube() {
+        local url="$*"
         if [[ -z "$url" ]]; then
-          echo "Usage: dlv <url>"
-          echo "Downloads video from YouTube or Bilibili"
+          echo "Usage: dl-yt <url>"
           return 1
         fi
         
-        # Expand tilde in download directory
-        download_dir="''${download_dir/#\~/$HOME}"
+        local cookies_file="$HOME/.config/yt-dlp/cookies-youtube.txt"
+        local temp_cookies=$(_setup_temp_cookies "$cookies_file")
+        local output_template="$DOWNLOAD_DIR/YouTube/%(uploader|)s%(channel|)s%(uploader_id|)s/%(upload_date>%Y%m%d|)s-%(title)s.%(ext)s"
+        local archive_file="$DOWNLOAD_DIR/.archive.txt"
         
-        # Detect platform from URL
-        local platform=""
-        local cookies_file=""
-        local extra_args=""
+        mkdir -p "$DOWNLOAD_DIR"
+        echo "Downloading YouTube video..."
+        echo "Output directory: $DOWNLOAD_DIR/YouTube"
         
-        if [[ "$url" =~ (youtube\.com|youtu\.be) ]]; then
-          platform="YouTube"
-          cookies_file="$HOME/.config/yt-dlp/cookies-youtube.txt"
-          # YouTube-specific output template - use channel as fallback for uploader
-          local output_template="$download_dir/YouTube/%(uploader|)s%(channel|)s%(uploader_id|)s/%(upload_date>%Y%m%d|)s-%(title)s.%(ext)s"
-        elif [[ "$url" =~ bilibili\.com ]]; then
-          platform="Bilibili"
-          cookies_file="$HOME/.config/yt-dlp/cookies-bilibili.txt"
-          # Bilibili-specific arguments
-          extra_args="--referer https://www.bilibili.com/"
-          # Bilibili-specific output template - use owner as uploader for Bilibili
-          local output_template="$download_dir/Bilibili/%(uploader|)s%(channel|)s%(uploader_id|)s/%(upload_date>%Y%m%d|)s-%(title)s.%(ext)s"
-        else
-          echo "Warning: Unknown platform, proceeding without cookies"
-          platform="Unknown"
-          local output_template="$download_dir/%(uploader|)s%(channel|)s%(uploader_id|)s/%(upload_date>%Y%m%d|)s-%(title)s.%(ext)s"
-        fi
-        
-        # Check if it's a playlist
-        if [[ "$url" =~ "list=" ]] || [[ "$url" =~ "/playlist" ]] || [[ "$url" =~ "bilibili\.com/.*/channel" ]] || [[ "$url" =~ "bilibili\.com/.*/collectiondetail" ]]; then
-          echo "Detected playlist URL"
-          # For playlists, use different output template
-          if [[ "$platform" == "YouTube" ]]; then
-            output_template="$download_dir/YouTube/%(playlist_title|)s%(playlist|)s/%(playlist_index|)03d-%(title)s.%(ext)s"
-          elif [[ "$platform" == "Bilibili" ]]; then
-            output_template="$download_dir/Bilibili/%(playlist_title|)s%(playlist|)s/%(playlist_index|)03d-%(title)s.%(ext)s"
-          else
-            output_template="$download_dir/%(playlist_title|)s%(playlist|)s/%(playlist_index|)03d-%(title)s.%(ext)s"
-          fi
-          extra_args="$extra_args --yes-playlist"
-        fi
-        
-        echo "Downloading from $platform..."
-        echo "Output directory: $download_dir"
-        
-        # Build yt-dlp command
         local cmd="yt-dlp"
+        [[ -n "$temp_cookies" ]] && cmd="$cmd --cookies '$temp_cookies'" || cmd="$cmd --no-cookies"
+        cmd="$cmd --download-archive '$archive_file' -o '$output_template' '$url'"
         
-        # Add cookies if file exists - copy to temp file to avoid permission issues
-        if [[ -f "$cookies_file" ]]; then
-          echo "Using cookies from: $cookies_file"
-          # Create a temporary writable copy of the cookie file
-          local temp_cookies="/tmp/yt-dlp-cookies-$$.txt"
-          cp "$cookies_file" "$temp_cookies"
-          chmod 644 "$temp_cookies"
-          cmd="$cmd --cookies \"$temp_cookies\""
-          # Clean up temp file after download
-          trap "rm -f $temp_cookies" EXIT
-        fi
-        
-        # Add archive file to track downloads
-        local archive_file="$download_dir/.archive.txt"
-        cmd="$cmd --download-archive \"$archive_file\""
-        
-        # Add output template and extra arguments
-        cmd="$cmd -o \"$output_template\" $extra_args \"$url\""
-        
-        # Create download directory if it doesn't exist
-        mkdir -p "$download_dir"
-        
-        # Execute the command
         eval $cmd
+        local result=$?
         
-        if [[ $? -eq 0 ]]; then
+        # Clean up temp cookies
+        [[ -n "$temp_cookies" ]] && rm -f "$temp_cookies"
+        
+        if [[ $result -eq 0 ]]; then
           echo "✓ Download completed successfully"
         else
           echo "✗ Download failed"
@@ -174,10 +139,129 @@ in
         fi
       }
       
-      # Function to show instructions for updating cookies
-      update-cookies-instructions() {
+      # YouTube playlist download
+      download-youtube-playlist() {
+        local url="$*"
+        if [[ -z "$url" ]]; then
+          echo "Usage: dl-yt-p <playlist-url>"
+          return 1
+        fi
+        
+        local cookies_file="$HOME/.config/yt-dlp/cookies-youtube.txt"
+        local temp_cookies=$(_setup_temp_cookies "$cookies_file")
+        local output_template="$DOWNLOAD_DIR/YouTube/%(playlist_title|)s%(playlist|)s/%(playlist_index|)03d-%(title)s.%(ext)s"
+        local archive_file="$DOWNLOAD_DIR/.archive.txt"
+        
+        mkdir -p "$DOWNLOAD_DIR"
+        echo "Downloading YouTube playlist..."
+        echo "Output directory: $DOWNLOAD_DIR/YouTube"
+        
+        local cmd="yt-dlp --yes-playlist"
+        [[ -n "$temp_cookies" ]] && cmd="$cmd --cookies '$temp_cookies'" || cmd="$cmd --no-cookies"
+        cmd="$cmd --download-archive '$archive_file' -o '$output_template' '$url'"
+        
+        eval $cmd
+        local result=$?
+        
+        # Clean up temp cookies
+        [[ -n "$temp_cookies" ]] && rm -f "$temp_cookies"
+        
+        if [[ $result -eq 0 ]]; then
+          echo "✓ Playlist download completed successfully"
+        else
+          echo "✗ Playlist download failed"
+          return 1
+        fi
+      }
+      
+      # Bilibili single video download
+      download-bilibili() {
+        local url="$*"
+        if [[ -z "$url" ]]; then
+          echo "Usage: dl-bili <url>"
+          return 1
+        fi
+        
+        local cookies_file="$HOME/.config/yt-dlp/cookies-bilibili.txt"
+        local temp_cookies=$(_setup_temp_cookies "$cookies_file")
+        local output_template="$DOWNLOAD_DIR/Bilibili/%(uploader|)s%(channel|)s%(uploader_id|)s/%(upload_date>%Y%m%d|)s-%(title)s.%(ext)s"
+        local archive_file="$DOWNLOAD_DIR/.archive.txt"
+        
+        mkdir -p "$DOWNLOAD_DIR"
+        echo "Downloading Bilibili video..."
+        echo "Output directory: $DOWNLOAD_DIR/Bilibili"
+        
+        local cmd="yt-dlp --referer https://www.bilibili.com/"
+        [[ -n "$temp_cookies" ]] && cmd="$cmd --cookies '$temp_cookies'" || cmd="$cmd --no-cookies"
+        cmd="$cmd --download-archive '$archive_file' -o '$output_template' '$url'"
+        
+        eval $cmd
+        local result=$?
+        
+        # Clean up temp cookies
+        [[ -n "$temp_cookies" ]] && rm -f "$temp_cookies"
+        
+        if [[ $result -eq 0 ]]; then
+          echo "✓ Download completed successfully"
+        else
+          echo "✗ Download failed"
+          return 1
+        fi
+      }
+      
+      # Bilibili playlist/collection download
+      download-bilibili-playlist() {
+        local url="$*"
+        if [[ -z "$url" ]]; then
+          echo "Usage: dl-bili-p <playlist-url>"
+          return 1
+        fi
+        
+        local cookies_file="$HOME/.config/yt-dlp/cookies-bilibili.txt"
+        local temp_cookies=$(_setup_temp_cookies "$cookies_file")
+        local output_template="$DOWNLOAD_DIR/Bilibili/%(playlist_title|)s%(playlist|)s/%(playlist_index|)03d-%(title)s.%(ext)s"
+        local archive_file="$DOWNLOAD_DIR/.archive.txt"
+        
+        mkdir -p "$DOWNLOAD_DIR"
+        echo "Downloading Bilibili playlist..."
+        echo "Output directory: $DOWNLOAD_DIR/Bilibili"
+        
+        local cmd="yt-dlp --yes-playlist --referer https://www.bilibili.com/"
+        [[ -n "$temp_cookies" ]] && cmd="$cmd --cookies '$temp_cookies'" || cmd="$cmd --no-cookies"
+        cmd="$cmd --download-archive '$archive_file' -o '$output_template' '$url'"
+        
+        eval $cmd
+        local result=$?
+        
+        # Clean up temp cookies
+        [[ -n "$temp_cookies" ]] && rm -f "$temp_cookies"
+        
+        if [[ $result -eq 0 ]]; then
+          echo "✓ Playlist download completed successfully"
+        else
+          echo "✗ Playlist download failed"
+          return 1
+        fi
+      }
+      
+      # Function to show help and instructions
+      download-help() {
         cat << 'EOF'
-      To update cookies for YouTube or Bilibili:
+      Video Download Commands:
+      
+      YouTube:
+        dl-yt <url>      - Download single YouTube video
+        dl-yt-p <url>    - Download YouTube playlist
+      
+      Bilibili:
+        dl-bili <url>    - Download single Bilibili video
+        dl-bili-p <url>  - Download Bilibili playlist/collection
+      
+      Other commands:
+        dl-clear-archive - Clear download history (allows re-downloading)
+        dl-help          - Show this help message
+      
+      Cookies Update Instructions:
       
       1. Install a browser extension:
          - Chrome/Edge: "Get cookies.txt LOCALLY"
@@ -197,13 +281,9 @@ in
       EOF
       }
       
-      alias dlv-help='update-cookies-instructions'
-      
       # Function to clear download archive
-      dlv-clear-archive() {
-        local download_dir="${cfg.downloadDir}"
-        download_dir="''${download_dir/#\~/$HOME}"
-        local archive_file="$download_dir/.archive.txt"
+      dl-clear-archive() {
+        local archive_file="$DOWNLOAD_DIR/.archive.txt"
         
         if [[ -f "$archive_file" ]]; then
           echo "Clearing download archive: $archive_file"
@@ -213,6 +293,9 @@ in
           echo "No archive file found at: $archive_file"
         fi
       }
+      
+      # Alias for backward compatibility
+      alias dlv-clear-archive='dl-clear-archive'
     '';
   };
 }
