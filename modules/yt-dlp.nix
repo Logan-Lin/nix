@@ -114,7 +114,7 @@ in
         
         local cookies_file="$HOME/.config/yt-dlp/cookies-youtube.txt"
         local temp_cookies=$(_setup_temp_cookies "$cookies_file")
-        local output_template="$DOWNLOAD_DIR/YouTube/%(uploader|)s%(channel|)s%(uploader_id|)s/%(upload_date>%Y%m%d|)s-%(title)s.%(ext)s"
+        local output_template="$DOWNLOAD_DIR/YouTube/%(uploader|)s/%(upload_date>%Y%m%d|)s-%(title)s.%(ext)s"
         local archive_file="$DOWNLOAD_DIR/.archive.txt"
         
         mkdir -p "$DOWNLOAD_DIR"
@@ -149,7 +149,7 @@ in
         
         local cookies_file="$HOME/.config/yt-dlp/cookies-youtube.txt"
         local temp_cookies=$(_setup_temp_cookies "$cookies_file")
-        local output_template="$DOWNLOAD_DIR/YouTube/%(playlist_title|)s%(playlist|)s/%(playlist_index|)03d-%(title)s.%(ext)s"
+        local output_template="$DOWNLOAD_DIR/YouTube/%(uploader|)s-%(playlist|)s/%(playlist_index|)03d-%(title)s.%(ext)s"
         local archive_file="$DOWNLOAD_DIR/.archive.txt"
         
         mkdir -p "$DOWNLOAD_DIR"
@@ -184,7 +184,7 @@ in
         
         local cookies_file="$HOME/.config/yt-dlp/cookies-bilibili.txt"
         local temp_cookies=$(_setup_temp_cookies "$cookies_file")
-        local output_template="$DOWNLOAD_DIR/Bilibili/%(uploader|)s%(channel|)s%(uploader_id|)s/%(upload_date>%Y%m%d|)s-%(title)s.%(ext)s"
+        local output_template="$DOWNLOAD_DIR/Bilibili/%(uploader|)s/%(upload_date>%Y%m%d|)s-%(title)s.%(ext)s"
         local archive_file="$DOWNLOAD_DIR/.archive.txt"
         
         mkdir -p "$DOWNLOAD_DIR"
@@ -219,7 +219,7 @@ in
         
         local cookies_file="$HOME/.config/yt-dlp/cookies-bilibili.txt"
         local temp_cookies=$(_setup_temp_cookies "$cookies_file")
-        local output_template="$DOWNLOAD_DIR/Bilibili/%(playlist_title|)s%(playlist|)s/%(playlist_index|)03d-%(title)s.%(ext)s"
+        local output_template="$DOWNLOAD_DIR/Bilibili/%(uploader|)s-%(playlist|)s/%(playlist_index|)03d-%(title)s.%(ext)s"
         local archive_file="$DOWNLOAD_DIR/.archive.txt"
         
         mkdir -p "$DOWNLOAD_DIR"
