@@ -170,6 +170,7 @@
     zoxide
     delta
     fastfetch
+    coreutils      # GNU core utilities (base64, etc.)
 
     # macOS-specific GUI applications
     maccy          # Clipboard manager (macOS-only)
