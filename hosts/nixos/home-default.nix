@@ -54,6 +54,7 @@
     zoxide
     delta
     fastfetch
+    coreutils      # GNU core utilities (base64, etc.)
 
     # Development and build tools
     python312
