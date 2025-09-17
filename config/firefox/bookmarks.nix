@@ -52,6 +52,14 @@
               name = "Teams";
               url = "https://teams.microsoft.com/v2/";
             }
+            {
+              name = "WhatsApp";
+              url = "https://web.whatsapp.com/";
+            }
+            {
+              name = "Messager";
+              url = "https://www.facebook.com/messages/";
+            }
           ];
         }
         {
@@ -122,15 +130,23 @@
           ];
         }
         {
-          name = "Social";
+          name = "Tool";
           bookmarks = [
             {
-              name = "WhatsApp";
-              url = "https://web.whatsapp.com/";
+              name = "Translate";
+              url = "https://translate.google.com/?sl=auto&tl=en&op=translate";
             }
             {
-              name = "Messager";
-              url = "https://www.facebook.com/messages/";
+              name = "Maps";
+              url = "https://www.google.com/maps";
+            }
+            {
+              name = "Earth";
+              url = "https://www.google.com/maps";
+            }
+            {
+              name = "Booking";
+              url = "https://www.booking.com/";
             }
           ];
         }
