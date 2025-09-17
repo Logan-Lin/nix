@@ -142,7 +142,7 @@
             }
             {
               name = "Earth";
-              url = "https://www.google.com/maps";
+              url = "https://earth.google.com/web/";
             }
             {
               name = "Booking";
