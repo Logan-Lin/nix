@@ -107,13 +107,6 @@ in
           git = true;
           shell = false;
         }
-        {
-          name = "b";
-          path = homePath "Documents/Projects/personal-blog/content/ai-system";
-          ai = false;
-          git = false;
-          shell = false;
-        }
       ];
     };
 
