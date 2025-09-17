@@ -14,14 +14,6 @@
           url = "https://claude.ai";
         }
         {
-          name = "Overleaf";
-          url = "https://www.overleaf.com/project";
-        }
-        {
-          name = "Notion";
-          url = "https://www.notion.so";
-        }
-        {
           name = "Paperless";
           url = "https://paperless.yanlincs.com";
         }
@@ -30,8 +22,20 @@
           url = "https://cloud.yanlincs.com";
         }
         {
+          name = "Immich";
+          url = "https://photo.yanlincs.com/photos";
+        }
+        {
+          name = "Home";
+          url = "https://home.yanlincs.com/lovelace/0";
+        }
+        {
           name = "Productivity";
           bookmarks = [
+            {
+              name = "Notion";
+              url = "https://www.notion.so";
+            }
             {
               name = "iCloud";
               url = "https://www.icloud.com/mail/";
@@ -54,12 +58,20 @@
           name = "Scholar";
           bookmarks = [
             {
+              name = "Overleaf";
+              url = "https://www.overleaf.com/project";
+            }
+            {
               name = "OpenReview";
               url = "https://openreview.net/";
             }
             {
               name = "CMT";
               url = "https://cmt3.research.microsoft.com/Conference/Recent";
+            }
+            {
+              name = "Arxiv";
+              url = "https://arxiv.org/user/";
             }
           ];
         }
@@ -81,24 +93,16 @@
           ];
         }
         {
-          name = "RSS";
-          url = "https://rss.yanlincs.com";
-        }
-        {
-          name = "Immich";
-          url = "https://photo.yanlincs.com/photos";
-        }
-        {
-          name = "Files";
-          url = "https://files.yanlincs.com";
-        }
-        {
-          name = "Home";
-          url = "https://home.yanlincs.com/lovelace/0";
-        }
-        {
           name = "Media";
           bookmarks = [
+            {
+              name = "RSS";
+              url = "https://rss.yanlincs.com";
+            }
+            {
+              name = "Files";
+              url = "https://files.yanlincs.com";
+            }
             {
               name = "Plex";
               url = "https://plex.yanlincs.com";
