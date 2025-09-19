@@ -370,6 +370,7 @@ in
       };
       
       environment = {
+        RUN_MIGRATIONS = "1";
         DATABASE_URL = "postgres://miniflux:miniflux@rss-db/miniflux?sslmode=disable";
         BASE_URL = "https://rss.yanlincs.com";
         HTTP_CLIENT_TIMEOUT = "50000";
