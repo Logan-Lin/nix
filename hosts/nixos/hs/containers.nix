@@ -104,7 +104,6 @@ in
       
       volumes = [
         "/var/lib/containers/plex/config:/config"
-        "/mnt/storage/appbulk/plex-transcode:/transcode"
         "/mnt/storage/Media:/data"
       ];
 
