@@ -26,10 +26,6 @@
           url = "https://photo.yanlincs.com/photos";
         }
         {
-          name = "Home";
-          url = "https://home.yanlincs.com/lovelace/0";
-        }
-        {
           name = "Productivity";
           bookmarks = [
             {
