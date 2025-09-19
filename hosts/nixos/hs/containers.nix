@@ -31,16 +31,6 @@ in
         "/home/yanlin/.config/nix/config/homeassistant/scenes.yaml:/config/scenes.yaml:ro"
         "/home/yanlin/.config/nix/config/homeassistant/scripts.yaml:/config/scripts.yaml:ro"
       ];
-
-      labels = {
-        "traefik.enable" = "false";
-        # "traefik.http.routers.homeassistant.rule" = "Host(`home.${config.networking.hostName}.yanlincs.com`)";
-        # "traefik.http.routers.homeassistant.entrypoints" = "websecure";
-        # "traefik.http.routers.homeassistant.tls" = "true";
-        # "traefik.http.routers.homeassistant.tls.certresolver" = "cloudflare";
-        # "traefik.http.routers.homeassistant.tls.domains[0].main" = "*.${config.networking.hostName}.yanlincs.com";
-        # "traefik.http.services.homeassistant.loadbalancer.server.port" = "8123";
-      };
       
       environment = {
         TZ = systemTZ;
@@ -72,16 +62,6 @@ in
         # Mount the declarative config file
         "${immichConfigFile}:/config/immich.json:ro"
       ];
-
-      labels = {
-        "traefik.enable" = "false";
-        # "traefik.http.routers.immich.rule" = "Host(`photo.${config.networking.hostName}.yanlincs.com`)";
-        # "traefik.http.routers.immich.entrypoints" = "websecure";
-        # "traefik.http.routers.immich.tls" = "true";
-        # "traefik.http.routers.immich.tls.certresolver" = "cloudflare";
-        # "traefik.http.routers.immich.tls.domains[0].main" = "*.${config.networking.hostName}.yanlincs.com";
-        # "traefik.http.services.immich.loadbalancer.server.port" = "8080";
-      };
       
       environment = {
         PUID = commonUID;
@@ -197,16 +177,6 @@ in
         "/var/lib/containers/sonarr/config:/config"
         "/mnt/storage/Media:/data"
       ];
-
-      labels = {
-        "traefik.enable" = "false";
-        # "traefik.http.routers.sonarr.rule" = "Host(`sonarr.${config.networking.hostName}.yanlincs.com`)";
-        # "traefik.http.routers.sonarr.entrypoints" = "websecure";
-        # "traefik.http.routers.sonarr.tls" = "true";
-        # "traefik.http.routers.sonarr.tls.certresolver" = "cloudflare";
-        # "traefik.http.routers.sonarr.tls.domains[0].main" = "*.${config.networking.hostName}.yanlincs.com";
-        # "traefik.http.services.sonarr.loadbalancer.server.port" = "8989";
-      };
       
       environment = {
         PUID = commonUID;
@@ -233,16 +203,6 @@ in
         "/var/lib/containers/radarr/config:/config"
         "/mnt/storage/Media:/data"
       ];
-
-      labels = {
-        "traefik.enable" = "false";
-        # "traefik.http.routers.radarr.rule" = "Host(`radarr.${config.networking.hostName}.yanlincs.com`)";
-        # "traefik.http.routers.radarr.entrypoints" = "websecure";
-        # "traefik.http.routers.radarr.tls" = "true";
-        # "traefik.http.routers.radarr.tls.certresolver" = "cloudflare";
-        # "traefik.http.routers.radarr.tls.domains[0].main" = "*.${config.networking.hostName}.yanlincs.com";
-        # "traefik.http.services.radarr.loadbalancer.server.port" = "7878";
-      };
       
       environment = {
         PUID = commonUID;
@@ -269,16 +229,6 @@ in
         "/var/lib/containers/qbit/config:/config"
         "/mnt/storage/Media:/data"
       ];
-
-      labels = {
-        "traefik.enable" = "false";
-        # "traefik.http.routers.qbittorrent.rule" = "Host(`qbit.${config.networking.hostName}.yanlincs.com`)";
-        # "traefik.http.routers.qbittorrent.entrypoints" = "websecure";
-        # "traefik.http.routers.qbittorrent.tls" = "true";
-        # "traefik.http.routers.qbittorrent.tls.certresolver" = "cloudflare";
-        # "traefik.http.routers.qbittorrent.tls.domains[0].main" = "*.${config.networking.hostName}.yanlincs.com";
-        # "traefik.http.services.qbittorrent.loadbalancer.server.port" = "8080";
-      };
       
       environment = {
         PUID = commonUID;
@@ -306,16 +256,6 @@ in
         "/mnt/storage/appbulk/Paperless/export:/usr/src/paperless/export"
       ];
 
-      labels = {
-        "traefik.enable" = "false";
-        # "traefik.http.routers.paperless.rule" = "Host(`paperless.${config.networking.hostName}.yanlincs.com`)";
-        # "traefik.http.routers.paperless.entrypoints" = "websecure";
-        # "traefik.http.routers.paperless.tls" = "true";
-        # "traefik.http.routers.paperless.tls.certresolver" = "cloudflare";
-        # "traefik.http.routers.paperless.tls.domains[0].main" = "*.${config.networking.hostName}.yanlincs.com";
-        # "traefik.http.services.paperless.loadbalancer.server.port" = "8000";
-      };
-      
       environment = {
         PAPERLESS_REDIS = "redis://paperless-redis:6379";
         PAPERLESS_OCR_LANGUAGE = "eng+chi_sim";
@@ -359,16 +299,6 @@ in
     rss = {
       image = "docker.io/miniflux/miniflux:latest";
 
-      labels = {
-        "traefik.enable" = "false";
-        # "traefik.http.routers.rss.rule" = "Host(`rss.${config.networking.hostName}.yanlincs.com`)";
-        # "traefik.http.routers.rss.entrypoints" = "websecure";
-        # "traefik.http.routers.rss.tls" = "true";
-        # "traefik.http.routers.rss.tls.certresolver" = "cloudflare";
-        # "traefik.http.routers.rss.tls.domains[0].main" = "*.${config.networking.hostName}.yanlincs.com";
-        # "traefik.http.services.rss.loadbalancer.server.port" = "8080";
-      };
-      
       environment = {
         RUN_MIGRATIONS = "1";
         DATABASE_URL = "postgres://miniflux:miniflux@rss-db/miniflux?sslmode=disable";
@@ -420,16 +350,6 @@ in
       volumes = [
         "/var/lib/containers/link:/etc/linkding/data"
       ];
-
-      labels = {
-        "traefik.enable" = "false";
-        # "traefik.http.routers.linkding.rule" = "Host(`link.${config.networking.hostName}.yanlincs.com`)";
-        # "traefik.http.routers.linkding.entrypoints" = "websecure";
-        # "traefik.http.routers.linkding.tls" = "true";
-        # "traefik.http.routers.linkding.tls.certresolver" = "cloudflare";
-        # "traefik.http.routers.linkding.tls.domains[0].main" = "*.${config.networking.hostName}.yanlincs.com";
-        # "traefik.http.services.linkding.loadbalancer.server.port" = "9090";
-      };
       
       ports = [
         "5007:9090"
@@ -450,16 +370,6 @@ in
         "/var/lib/containers/cloud/config:/config"
         "/mnt/storage/appbulk/cloud:/data"
       ];
-
-      labels = {
-        "traefik.enable" = "false";
-        # "traefik.http.routers.cloud.rule" = "Host(`cloud.${config.networking.hostName}.yanlincs.com`)";
-        # "traefik.http.routers.cloud.entrypoints" = "websecure";
-        # "traefik.http.routers.cloud.tls" = "true";
-        # "traefik.http.routers.cloud.tls.certresolver" = "cloudflare";
-        # "traefik.http.routers.cloud.tls.domains[0].main" = "*.${config.networking.hostName}.yanlincs.com";
-        # "traefik.http.services.cloud.loadbalancer.server.port" = "80";
-      };
       
       environment = {
         PUID = commonUID;
