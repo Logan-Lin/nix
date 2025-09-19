@@ -27,6 +27,7 @@ in
       hm = "home-manager";
       hms = "home-manager switch --flake ~/.config/nix#$(whoami)@$(hostname)";
       hms-offline = "home-manager switch --flake ~/.config/nix#$(whoami)@$(hostname) --option substitute false";
+      fs = "oss && hms";
     };
     
     initContent = ''
