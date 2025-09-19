@@ -18,38 +18,6 @@ in
 {
   # Container definitions for hs host
   virtualisation.oci-containers.containers = {
-    homeassistant = {
-      image = "ghcr.io/home-assistant/home-assistant:stable";
-      
-      volumes = [
-        "/var/lib/containers/home/config:/config"
-        "/etc/localtime:/etc/localtime:ro"
-        "/run/dbus:/run/dbus:ro"
-        # Mount declarative configuration files
-        "/home/yanlin/.config/nix/config/homeassistant/configuration.yaml:/config/configuration.yaml:ro"
-        "/home/yanlin/.config/nix/config/homeassistant/automations.yaml:/config/automations.yaml:ro"
-        "/home/yanlin/.config/nix/config/homeassistant/scenes.yaml:/config/scenes.yaml:ro"
-        "/home/yanlin/.config/nix/config/homeassistant/scripts.yaml:/config/scripts.yaml:ro"
-      ];
-      
-      environment = {
-        TZ = systemTZ;
-        # Configure Home Assistant to trust reverse proxy
-        HASS_HTTP_TRUSTED_PROXY_1 = "127.0.0.1";
-        HASS_HTTP_TRUSTED_PROXY_2 = "::1";
-        HASS_HTTP_TRUSTED_PROXY_3 = "10.2.2.1";
-        HASS_HTTP_USE_X_FORWARDED_FOR = "true";
-      };
-      
-      extraOptions = [
-        "--privileged"  # Required for USB device access
-        "--network=host"
-        "--device=/dev/ttyUSB0:/dev/ttyUSB0"  # Sky Connect Zigbee dongle
-        "--device=/dev/dri:/dev/dri"  # Hardware acceleration
-      ];
-      
-      autoStart = true;
-    };
 
     # Immich photo and video backup system
     immich = {

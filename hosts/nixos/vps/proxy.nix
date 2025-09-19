@@ -58,19 +58,6 @@
           };
         };
 
-        # Home Assistant
-        home = {
-          rule = "Host(`home.yanlincs.com`)";
-          entrypoints = "websecure";
-          service = "home";
-          tls = {
-            certResolver = "cloudflare";
-            domains = [{
-              main = "*.yanlincs.com";
-            }];
-          };
-        };
-
         # Sonarr TV show management
         sonarr = {
           rule = "Host(`sonarr.yanlincs.com`)";
@@ -207,15 +194,6 @@
           loadBalancer = {
             servers = [{
               url = "http://10.2.2.20:5001";
-            }];
-          };
-        };
-
-        # Home Assistant backend (via WireGuard)
-        home = {
-          loadBalancer = {
-            servers = [{
-              url = "http://10.2.2.20:8123";
             }];
           };
         };
