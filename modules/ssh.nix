@@ -34,6 +34,15 @@
         proxyJump = "vps";
       };
 
+      "hs.lan" = {
+        hostname = "lan.hs.yanlincs.com";
+        user = "yanlin";
+        identityFile = "~/.ssh/keys/nas";
+        setEnv = {
+          TERM = "xterm-256color";
+        };
+      };
+
       "thinkpad" = {
         hostname = "10.2.2.30";
         user = "yanlin";
