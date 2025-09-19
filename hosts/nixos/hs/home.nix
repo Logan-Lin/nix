@@ -11,7 +11,7 @@
   # yt-dlp configuration - store videos on large storage
   programs.yt-dlp-custom = {
     enable = true;
-    downloadDir = "/mnt/storage/Media/Web";
+    downloadDir = "/mnt/storage/Media/web";
   };
   
   programs.zsh.shellAliases = {
