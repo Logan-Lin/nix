@@ -22,16 +22,16 @@
           url = "https://cloud.yanlincs.com";
         }
         {
+          name = "Notion";
+          url = "https://www.notion.so";
+        }
+        {
           name = "Immich";
           url = "https://photo.yanlincs.com/photos";
         }
         {
           name = "Productivity";
           bookmarks = [
-            {
-              name = "Notion";
-              url = "https://www.notion.so";
-            }
             {
               name = "iCloud";
               url = "https://www.icloud.com/mail/";
