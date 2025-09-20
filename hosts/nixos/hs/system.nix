@@ -204,7 +204,7 @@
 
   # WebDAV file server configuration
   services.webdav-server = {
-    enable = true;
+    enable = false;
     port = 5009;
     servePath = "/mnt/storage/Media";
     auth = {

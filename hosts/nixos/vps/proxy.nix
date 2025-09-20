@@ -163,17 +163,17 @@
         };
 
         # WebDAV file server
-        files = {
-          rule = "Host(`files.yanlincs.com`)";
-          entrypoints = "websecure";
-          service = "files";
-          tls = {
-            certResolver = "cloudflare";
-            domains = [{
-              main = "*.yanlincs.com";
-            }];
-          };
-        };
+        # files = {
+        #   rule = "Host(`files.yanlincs.com`)";
+        #   entrypoints = "websecure";
+        #   service = "files";
+        #   tls = {
+        #     certResolver = "cloudflare";
+        #     domains = [{
+        #       main = "*.yanlincs.com";
+        #     }];
+        #   };
+        # };
       };
       services = {
         # Redirect service
@@ -284,13 +284,13 @@
         };
 
         # WebDAV file server backend (via WireGuard)
-        files = {
-          loadBalancer = {
-            servers = [{
-              url = "http://10.2.2.20:5009";
-            }];
-          };
-        };
+        # files = {
+        #   loadBalancer = {
+        #     servers = [{
+        #       url = "http://10.2.2.20:5009";
+        #     }];
+        #   };
+        # };
       };
       middlewares = {
         # Redirect middleware

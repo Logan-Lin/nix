@@ -104,10 +104,6 @@
               url = "https://rss.yanlincs.com";
             }
             {
-              name = "Files";
-              url = "https://files.yanlincs.com";
-            }
-            {
               name = "Plex";
               url = "https://plex.yanlincs.com";
             }
