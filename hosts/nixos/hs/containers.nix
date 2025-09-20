@@ -144,6 +144,16 @@ in
         "/var/lib/containers/jellyfin/config:/config"
         "/mnt/storage/Media:/data"
       ];
+
+      labels = {
+        "traefik.enable" = "true";
+        "traefik.http.routers.jellyfin.rule" = "Host(`jellyfin.${config.networking.hostName}.yanlincs.com`)";
+        "traefik.http.routers.jellyfin.entrypoints" = "websecure";
+        "traefik.http.routers.jellyfin.tls" = "true";
+        "traefik.http.routers.jellyfin.tls.certresolver" = "cloudflare";
+        "traefik.http.routers.jellyfin.tls.domains[0].main" = "*.${config.networking.hostName}.yanlincs.com";
+        "traefik.http.services.jellyfin.loadbalancer.server.port" = "8096";
+      };
       
       environment = {
         PUID = commonUID;
