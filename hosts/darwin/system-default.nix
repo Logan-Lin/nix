@@ -32,24 +32,110 @@
     yanlin ALL=(ALL) NOPASSWD: ALL
   '';
   
-  # Menu bar spacing configuration using activation scripts
-  # Uses sudo to run as user since activation now runs as root
-  # NSStatusItemSpacing controls horizontal spacing between menu bar items
-  # NSStatusItemSelectionPadding controls padding inside selection overlay
-  system.activationScripts.extraActivation.text = ''
-    echo "Setting menu bar spacing preferences..."
-    sudo -u yanlin defaults -currentHost write -globalDomain NSStatusItemSpacing -int 10
-    sudo -u yanlin defaults -currentHost write -globalDomain NSStatusItemSelectionPadding -int 5
+  system.defaults = {
+    dock = {
+      autohide = true;                     # Automatically hide and show the dock
+      autohide-delay = 0.2;                # Delay before showing the dock (in seconds)
+      autohide-time-modifier = 0.5;        # Animation duration for dock show/hide
+      orientation = "bottom";               # Dock position: "bottom", "left", or "right"
+      tilesize = 48;                       # Size of dock icons (16-128)
+      magnification = false;               # Enable magnification when hovering
+      minimize-to-application = false;     # Minimize windows to application icon
+      show-recents = true;                 # Show recent applications in dock
+      show-process-indicators = true;      # Show dots under running apps
+      static-only = false;                 # Show only open applications
+      mru-spaces = false;                   # Automatically rearrange spaces based on use
+      expose-animation-duration = 0.5;     # Mission Control animation speed
+      dashboard-in-overlay = false;          # Show Dashboard as overlay
+      persistent-apps = [
+        "/Applications/Firefox.app"
+        "/Applications/Obsidian.app"
+        "/Applications/Ghostty.app"
+        "/Users/yanlin/Applications/Home Manager Apps/KeePassXC.app"
+      ];
+      persistent-others = [
+        "/Users/yanlin/Desktop"
+        "/Users/yanlin/Downloads"
+      ];              # List of folders/files to keep in dock
+      
+      # Hot Corners - Actions: 
+      # 1 = Disabled, 2 = Mission Control, 3 = Application Windows,
+      # 4 = Desktop, 5 = Start Screen Saver, 6 = Disable Screen Saver,
+      # 7 = Dashboard, 10 = Put Display to Sleep, 11 = Launchpad,
+      # 12 = Notification Center, 13 = Lock Screen, 14 = Quick Note
+      wvous-tl-corner = 1;                 # Top left corner action
+      wvous-tr-corner = 1;                 # Top right corner action  
+      wvous-bl-corner = 1;                 # Bottom left corner action
+      wvous-br-corner = 1;                 # Bottom right corner action
+    };
     
-    echo "Disabling Spotlight indexing..."
+    finder = {
+      AppleShowAllExtensions = true;       # Show all file extensions
+      AppleShowAllFiles = true;           # Show hidden files
+      CreateDesktop = true;                # Show icons on desktop
+      FXEnableExtensionChangeWarning = false; # Warn when changing file extension
+      FXPreferredViewStyle = "Nlsv";       # Default view: "icnv"=Icon, "Nlsv"=List, "clmv"=Column, "glyv"=Gallery
+      QuitMenuItem = false;                # Allow quitting Finder with ⌘Q
+      ShowPathbar = true;                  # Show path bar at bottom
+      ShowStatusBar = true;                # Show status bar at bottom
+      _FXShowPosixPathInTitle = false;     # Show full POSIX path in title
+      _FXSortFoldersFirst = true;          # Sort folders before files
+    };
+    
+    # --------------------------------------------------------------------------
+    # Global Domain Settings (NSGlobalDomain)
+    # --------------------------------------------------------------------------
+    NSGlobalDomain = {
+      AppleInterfaceStyle = "Dark";        # Dark mode: "Dark" or remove for light
+      AppleInterfaceStyleSwitchesAutomatically = false; # Auto switch dark/light
+      NSAutomaticWindowAnimationsEnabled = true; # Window animations
+      NSDocumentSaveNewDocumentsToCloud = false; # Save to iCloud by default
+      NSNavPanelExpandedStateForSaveMode = true; # Expand save panel by default
+      PMPrintingExpandedStateForPrint = true; # Expand print panel by default
+      NSTableViewDefaultSizeMode = 2;      # Sidebar icon size: 1=small, 2=medium, 3=large
+      AppleShowScrollBars = "WhenScrolling";   # "WhenScrolling", "Automatic", or "Always"
+      NSScrollAnimationEnabled = true;     # Smooth scrolling
+      NSWindowResizeTime = 0.2;            # Window resize animation duration
+      _HIHideMenuBar = false;              # Auto-hide menu bar
+      
+      NSAutomaticCapitalizationEnabled = false; # Disable automatic capitalization
+      NSAutomaticDashSubstitutionEnabled = false; # Disable smart dashes
+      NSAutomaticPeriodSubstitutionEnabled = false; # Disable automatic period with double-space
+      NSAutomaticQuoteSubstitutionEnabled = false; # Disable smart quotes
+      NSAutomaticSpellingCorrectionEnabled = false; # Disable auto-correction
+      NSAutomaticInlinePredictionEnabled = false; # Disable inline predictive text
+      "com.apple.keyboard.fnState" = false; # Use F1, F2, etc. as standard function keys
+    };
+    
+    screencapture = {
+      disable-shadow = true;               # Disable shadow in screenshots
+      location = "~/Desktop";              # Default save location
+      type = "png";                        # Screenshot format: png, jpg, pdf, etc.
+      show-thumbnail = true;               # Show thumbnail after taking screenshot
+    };
+    
+    loginwindow = {
+      GuestEnabled = false;                # Disable guest account
+      ShutDownDisabled = false;            # Allow shutdown from login window
+      RestartDisabled = false;             # Allow restart from login window
+      SleepDisabled = false;               # Allow sleep from login window
+    };
+    
+    spaces = {
+      spans-displays = false;              # Each display has separate spaces
+    };
+  };
+  
+  system.activationScripts.extraActivation.text = ''
+    sudo -u yanlin defaults -currentHost write -globalDomain NSStatusItemSpacing -int 10
+    
     # Disable Spotlight indexing for all volumes
     # WARNING: This will break Mail.app search, Time Machine, and other features
     # To re-enable: sudo mdutil -a -i on
     sudo mdutil -a -i off
-    
-    # Erase existing Spotlight index to free up disk space
-    echo "Erasing existing Spotlight index..."
     sudo mdutil -E /
+    
+    /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
   '';
 
   # Key remapping using hidutil via launchd agent
