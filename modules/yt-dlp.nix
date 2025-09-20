@@ -93,7 +93,7 @@ in
       
       # Retry configuration
       MAX_RETRIES=10
-      BASE_DELAY=10
+      BASE_DELAY=60
       
       # Helper function to create writable cookie file
       _setup_temp_cookies() {
