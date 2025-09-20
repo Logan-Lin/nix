@@ -373,6 +373,7 @@ in
       volumes = [
         "/var/lib/containers/cloud/config:/config"
         "/mnt/storage/appbulk/cloud:/data"
+        "/mnt/storage/Media/nsfw:/ext/nsfw"
       ];
       
       environment = {
