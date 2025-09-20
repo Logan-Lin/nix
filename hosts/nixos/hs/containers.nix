@@ -136,6 +136,33 @@ in
       autoStart = true;
     };
 
+    # Jellyfin media server (alternative to Plex)
+    jellyfin = {
+      image = "docker.io/linuxserver/jellyfin:latest";
+      
+      volumes = [
+        "/var/lib/containers/jellyfin/config:/config"
+        "/mnt/storage/Media:/data"
+      ];
+      
+      environment = {
+        PUID = commonUID;
+        PGID = commonGID;
+        TZ = systemTZ;
+      };
+      
+      ports = [
+        "5002:8096"
+      ];
+      
+      extraOptions = [
+        "--network=podman"
+        "--device=/dev/dri:/dev/dri"  # Hardware acceleration
+      ];
+      
+      autoStart = true;
+    };
+
     # Sonarr TV show management
     sonarr = {
       image = "docker.io/linuxserver/sonarr:latest";

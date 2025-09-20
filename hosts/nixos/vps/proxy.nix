@@ -123,6 +123,19 @@
           };
         };
 
+        # Jellyfin Media Server
+        jellyfin = {
+          rule = "Host(`jellyfin.yanlincs.com`)";
+          entrypoints = "websecure";
+          service = "jellyfin";
+          tls = {
+            certResolver = "cloudflare";
+            domains = [{
+              main = "*.yanlincs.com";
+            }];
+          };
+        };
+
         # Plex Media Server
         plex = {
           rule = "Host(`plex.yanlincs.com`)";
@@ -239,6 +252,15 @@
           loadBalancer = {
             servers = [{
               url = "http://10.2.2.20:5007";
+            }];
+          };
+        };
+
+        # Jellyfin backend (via WireGuard)
+        jellyfin = {
+          loadBalancer = {
+            servers = [{
+              url = "http://10.2.2.20:5002";
             }];
           };
         };
