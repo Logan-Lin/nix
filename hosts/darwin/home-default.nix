@@ -184,8 +184,5 @@
     claude-code.packages.aarch64-darwin.claude-code
     lazysql
     sqlite
-
-    # Productivity apps
-    keepassxc      # Password manager (Linux/Windows/macOS)
   ];
 }
