@@ -51,7 +51,7 @@
         "/Applications/Firefox.app"
         "/Applications/Obsidian.app"
         "/Applications/Ghostty.app"
-        "/Users/yanlin/Applications/Home Manager Apps/KeePassXC.app"
+        "/Applications/KeePassXC.app"
       ];
       persistent-others = [
         "/Users/yanlin/Desktop"
