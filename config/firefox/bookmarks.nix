@@ -112,6 +112,10 @@
               url = "https://plex.yanlincs.com";
             }
             {
+              name = "Jellyfin";
+              url = "https://jellyfin.yanlincs.com";
+            }
+            {
               name = "Sonarr";
               url = "https://sonarr.yanlincs.com";
             }
