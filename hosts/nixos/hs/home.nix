@@ -12,6 +12,14 @@
   programs.yt-dlp-custom = {
     enable = true;
     downloadDir = "/mnt/storage/Media/web";
+    subscriptions = {
+      enable = true;
+      feeds = [
+        # Example feed - replace with your actual subscriptions
+        "https://www.youtube.com/feeds/videos.xml?channel_id=UCovVc-qqwYp8oqwO3Sdzx7w"
+      ];
+      maxVideosPerFeed = 1; # Start with just 3 videos per feed for testing
+    };
   };
   
   programs.zsh.shellAliases = {
