@@ -70,19 +70,19 @@ in
       ];
     };
 
-    mdshortcut = {
-      description = "Material design shortcut";
+    material = {
+      description = "AI for Material";
       windows = [
         {
-          name = "c";
-          path = homePath "Documents/Projects/Material Design Shortcut/MDShortcut-code";
+          name = "mds";
+          path = homePath "Documents/Projects/Material Design Shortcut";
           ai = true;
           git = true;
-          shell = true;
+          shell = false;
         }
         {
-          name = "p";
-          path = homePath "Documents/Projects/Material Design Shortcut/MDShortcut-paper";
+          name = "meet";
+          path = homePath "Documents/Projects/Material Project Group Meeting";
           ai = true;
           git = true;
           shell = false;
@@ -118,59 +118,6 @@ in
           path = homePath "Documents/Projects/DAKI3 Semester Project Group";
           ai = true;
           git = true;
-          shell = false;
-        }
-      ];
-    };
-
-    matmeet = {
-      description = "Material Meeting Slides";
-      windows = [
-        {
-          name = "";
-          path = homePath "Documents/Projects/Material Project Group Meeting";
-          ai = true;
-          git = true;
-          shell = false;
-        }
-      ];
-    };
-
-    ddm = {
-      description = "Inverse material design";
-      windows = [
-        {
-          name = "c";
-          path = homePath "Documents/Projects/Inverse Design of Disordered Materials/DiffDisMatter-dev";
-          ai = true;
-          git = true;
-          shell = false;
-        }
-        {
-          name = "pc";
-          path = homePath "Documents/Projects/Inverse Design of Disordered Materials/AMDEN-code";
-          ai = true;
-          git = true;
-          shell = false;
-        }
-        {
-          name = "p";
-          path = homePath "Documents/Projects/Inverse Design of Disordered Materials/mc-denoising-paper";
-          ai = true;
-          git = true;
-          shell = false;
-        }
-      ];
-    };
-
-    misc = {
-      description = "Temp misc project";
-      windows = [
-        {
-          name = "";
-          path = homePath "Documents/Misc/2025/AI model train and infer-Wan";
-          ai = true;
-          git = false;
           shell = false;
         }
       ];
