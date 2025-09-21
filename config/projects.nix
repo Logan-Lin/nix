@@ -77,14 +77,14 @@ in
           name = "mds";
           path = homePath "Documents/Projects/Material Design Shortcut";
           ai = true;
-          git = true;
+          git = false;
           shell = false;
         }
         {
           name = "meet";
           path = homePath "Documents/Projects/Material Project Group Meeting";
           ai = true;
-          git = true;
+          git = false;
           shell = false;
         }
       ];
