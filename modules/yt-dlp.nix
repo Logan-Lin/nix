@@ -39,8 +39,15 @@ in
       interval = mkOption {
         type = types.str;
         default = "hourly";
-        example = "*-*-* *:30:00";
+        example = "*-*-* */4:00:00";
         description = "Systemd timer schedule for checking subscriptions";
+      };
+
+      randomDelay = mkOption {
+        type = types.str;
+        default = "0";
+        example = "30m";
+        description = "Random delay before running subscription check (e.g., '30m', '1h')";
       };
 
       maxVideosPerFeed = mkOption {
@@ -409,5 +416,37 @@ in
         ''}
       }
     '';
+
+    # Systemd user service and timer for subscription checking
+    systemd.user.services.yt-dlp-subscriptions = mkIf cfg.subscriptions.enable {
+      Unit = {
+        Description = "Check YouTube RSS subscriptions and download new videos";
+        After = [ "network-online.target" ];
+        Wants = [ "network-online.target" ];
+      };
+      
+      Service = {
+        Type = "oneshot";
+        ExecStart = "${pkgs.bash}/bin/bash -lc 'check-youtube-subscriptions'";
+        StandardOutput = "journal";
+        StandardError = "journal";
+      };
+    };
+
+    systemd.user.timers.yt-dlp-subscriptions = mkIf cfg.subscriptions.enable {
+      Unit = {
+        Description = "Timer for YouTube subscription checks";
+      };
+      
+      Timer = {
+        OnCalendar = cfg.subscriptions.interval;
+        Persistent = true;
+        RandomizedDelaySec = cfg.subscriptions.randomDelay;
+      };
+      
+      Install = {
+        WantedBy = [ "timers.target" ];
+      };
+    };
   };
 }
