@@ -23,7 +23,6 @@
       "slidepilot"
       "tencent-meeting"
       "ovito"
-      "wechat"
       "microsoft-powerpoint"
       "microsoft-word"
       "microsoft-excel"
