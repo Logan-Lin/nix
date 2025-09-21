@@ -15,10 +15,12 @@
     subscriptions = {
       enable = true;
       feeds = [
-        # Example feed - replace with your actual subscriptions
-        "https://www.youtube.com/feeds/videos.xml?channel_id=UCovVc-qqwYp8oqwO3Sdzx7w"
+        "https://www.youtube.com/feeds/videos.xml?channel_id=UCm22FAXZMw1BaWeFszZxUKw"
+        "https://www.youtube.com/feeds/videos.xml?channel_id=UCYwVxWpjeKFWwu8TML-Te9A"
       ];
-      maxVideosPerFeed = 1; # Start with just 3 videos per feed for testing
+      interval = "*-*-* 08:00:00";
+      randomDelay = "1h";
+      maxVideosPerFeed = 5;
     };
   };
   
