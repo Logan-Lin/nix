@@ -422,12 +422,19 @@ in
       Unit = {
         Description = "Check YouTube RSS subscriptions and download new videos";
         After = [ "network-online.target" ];
-        Wants = [ "network-online.target" ];
       };
       
       Service = {
         Type = "oneshot";
-        ExecStart = "${pkgs.bash}/bin/bash -lc 'check-youtube-subscriptions'";
+        ExecStart = "${pkgs.writeShellScript "yt-dlp-check-subs" ''
+          export PATH="${pkgs.coreutils}/bin:${pkgs.curl}/bin:${pkgs.libxml2}/bin:${pkgs.gnused}/bin:${cfg.package}/bin:$PATH"
+          
+          # Source the shell init to get our functions
+          source ${config.home.homeDirectory}/.zshrc
+          
+          # Run the subscription check
+          check-youtube-subscriptions
+        ''}";
         StandardOutput = "journal";
         StandardError = "journal";
       };
