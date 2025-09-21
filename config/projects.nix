@@ -90,34 +90,21 @@ in
       ];
     };
 
-    daki3c = {
-      description = "DAKI3 course";
+    daki3 = {
+      description = "DAKI3 2025 Semester";
       windows = [
         {
-          name = "c";
+          name = "code";
           path = homePath "Documents/Projects/AI systems & infrastructure/Codes";
           ai = true;
           git = false;
           shell = true;
         }
         {
-          name = "s";
+          name = "slide";
           path = homePath "Documents/Projects/AI systems & infrastructure/Slides";
           ai = true;
-          git = true;
-          shell = false;
-        }
-      ];
-    };
-
-    daki3g = {
-      description = "DAKI3 group supervision";
-      windows = [
-        {
-          name = "";
-          path = homePath "Documents/Projects/DAKI3 Semester Project Group";
-          ai = true;
-          git = true;
+          git = false;
           shell = false;
         }
       ];
