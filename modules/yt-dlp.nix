@@ -88,7 +88,6 @@ in
       --embed-thumbnail
       --write-thumbnail
       --embed-subs
-      --sub-langs "en,zh-CN,zh-TW"
       --write-auto-subs
       --write-description
       --write-info-json
