@@ -17,6 +17,7 @@
       feeds = [
         "https://www.youtube.com/feeds/videos.xml?channel_id=UCm22FAXZMw1BaWeFszZxUKw"
         "https://www.youtube.com/feeds/videos.xml?channel_id=UCYwVxWpjeKFWwu8TML-Te9A"
+        "https://www.youtube.com/feeds/videos.xml?channel_id=UCPJVs54XcE8RrdA_uW-lfUw"
       ];
       interval = "*-*-* 08:00:00";
       randomDelay = "1h";
