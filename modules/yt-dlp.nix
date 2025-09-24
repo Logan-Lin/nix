@@ -60,9 +60,11 @@ in
   };
 
   config = mkIf cfg.enable {
-    # Install yt-dlp and ffmpeg
+    # Install yt-dlp, deno, and ffmpeg
+    # Deno is required for YouTube downloads (GitHub issue #14404)
     home.packages = with pkgs; [
       cfg.package
+      deno     # Required for YouTube downloads due to JS challenges
       ffmpeg
     ] ++ lib.optionals cfg.subscriptions.enable [
       libxml2  # For xmllint to parse RSS feeds
