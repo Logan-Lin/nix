@@ -1,9 +1,19 @@
 { pkgs, lib, ... }:
 
+let
+  # Python with jupytext for notebook conversion
+  pythonWithJupytext = pkgs.python3.withPackages (ps: with ps; [
+    jupytext
+  ]);
+in
+
 {
   programs.nixvim = {
     enable = true;
     defaultEditor = true;
+    
+    # Ensure jupytext is available for the jupytext.nvim plugin
+    extraPackages = [ pythonWithJupytext ];
 
     # Global settings
     globals.mapleader = " ";
@@ -189,6 +199,7 @@
       vim-fugitive
       cmp-dictionary
       plenary-nvim  # Required dependency for telescope
+      jupytext-nvim  # Jupyter notebook viewing/editing support
     ];
 
     # Keymaps
@@ -306,6 +317,28 @@
           first_case_insensitive = true,        -- Case insensitive matching
         })
       ''}
+
+      -- Jupytext setup for Jupyter notebook viewing
+      require("jupytext").setup({
+        -- Output format for notebooks (markdown with code cells)
+        style = "markdown",
+        output_extension = "md",  -- Convert notebooks to markdown for viewing
+        force_ft = "markdown",     -- Force markdown filetype for syntax highlighting
+        
+        -- Custom conversion parameters
+        custom = {
+          ["notebook_metadata_filter"] = "-all",  -- Remove all notebook metadata
+          ["cell_metadata_filter"] = "-all",      -- Remove all cell metadata
+        },
+      })
+
+      -- Auto-convert .ipynb files when opening
+      vim.api.nvim_create_autocmd({"BufReadPre"}, {
+        pattern = {"*.ipynb"},
+        callback = function()
+          vim.cmd("set ft=markdown")
+        end,
+      })
 
       -- Telescope setup for better file finding
       local telescope = require('telescope')
