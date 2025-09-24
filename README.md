@@ -18,11 +18,15 @@ A comprehensive Nix configuration for macOS and NixOS using nix-darwin and home-
 Install directly from GitHub without cloning:
 
 ```bash
-# Darwin system configuration
-sudo darwin-rebuild switch --flake github:Logan-Lin/nix-config
+# Darwin system configuration (iMac)
+sudo darwin-rebuild switch --flake github:Logan-Lin/nix-config#imac
 
-# Home Manager configuration  
-home-manager switch --flake github:Logan-Lin/nix-config#yanlin@iMac
+# Darwin system configuration (MacBook Air)  
+sudo darwin-rebuild switch --flake github:Logan-Lin/nix-config#mba
+
+# Home Manager configuration (adjust host as needed)
+home-manager switch --flake github:Logan-Lin/nix-config#yanlin@imac
+home-manager switch --flake github:Logan-Lin/nix-config#yanlin@mba
 ```
 
 ### NixOS
@@ -51,16 +55,17 @@ home-manager switch --flake github:Logan-Lin/nix-config#yanlin@thinkpad
 │   ├── darwin/        # macOS hosts
 │   │   ├── home-default.nix    # Common home configuration for Darwin
 │   │   ├── system-default.nix  # Common system configuration for macOS
-│   │   ├── iMac/      # iMac configuration
-│   │   │   ├── system.nix  # System configuration
+│   │   ├── imac/      # iMac configuration
+│   │   │   ├── system.nix  # System configuration (imports ../system-default.nix)
 │   │   │   └── home.nix    # Home configuration (imports ../home-default.nix)
 │   │   └── mba/       # MacBook Air configuration
-│   │       ├── system.nix  # System configuration
+│   │       ├── system.nix  # System configuration (imports ../system-default.nix)
 │   │       └── home.nix    # Home configuration (imports ../home-default.nix)
 │   └── nixos/         # NixOS hosts
 │       ├── home-default.nix    # Common home configuration for NixOS
+│       ├── system-default.nix  # Common system configuration for NixOS
 │       ├── hs/        # Home server configuration
-│       │   ├── system.nix  # NixOS system configuration
+│       │   ├── system.nix  # NixOS system configuration (imports ../system-default.nix)
 │       │   ├── home.nix    # Home configuration (imports ../home-default.nix)
 │       │   ├── hardware-configuration.nix  # Hardware detection results
 │       │   ├── disk-config.nix  # ZFS and filesystem configuration
@@ -78,7 +83,7 @@ home-manager switch --flake github:Logan-Lin/nix-config#yanlin@thinkpad
 │           ├── disk-config.nix  # Disk and filesystem configuration
 │           ├── containers.nix  # Container service definitions (web, notifications)
 │           └── proxy.nix   # Traefik reverse proxy configuration
-├── modules/           # Home Manager configuration modules
+├── modules/           # Configuration modules for various tools and services
 │   ├── git.nix        # Git configuration with aliases and settings
 │   ├── lazygit.nix    # Lazygit with gruvbox theme and custom keybindings
 │   ├── nvim.nix       # Neovim configuration with plugins and keymaps
@@ -93,9 +98,18 @@ home-manager switch --flake github:Logan-Lin/nix-config#yanlin@thinkpad
 │   ├── ghostty.nix    # GPU-accelerated terminal emulator
 │   ├── syncthing.nix  # File synchronization service (includes package)
 │   ├── wireguard.nix  # Hub-and-spoke VPN networking
-│   ├── borg-client.nix       # Borg backup system with automated scheduling
+│   ├── borg-client.nix       # Borg backup client with automated scheduling
+│   ├── borg-server.nix       # Borg backup server configuration
+│   ├── container-updater.nix # Automated container update service
+│   ├── smart-report.nix      # SMART disk health monitoring service
+│   ├── podman.nix     # Container platform base configuration
+│   ├── traefik.nix    # Reverse proxy with SSL certificate management
+│   ├── webdav.nix     # WebDAV file server using dufs
+│   ├── samba.nix      # SMB file sharing configuration
+│   ├── dictionary.nix # Offline dictionary system with sdcv
 │   ├── plasma.nix     # KDE Plasma desktop environment configuration
 │   ├── homebrew.nix   # Homebrew and nix-homebrew configuration
+│   ├── claude-code.nix # Claude Code AI assistant configuration
 │   └── yt-dlp.nix     # Video downloader for YouTube and Bilibili
 ├── config/            # Configuration files
 │   ├── firefox/       # Firefox browser configuration
@@ -106,26 +120,27 @@ home-manager switch --flake github:Logan-Lin/nix-config#yanlin@thinkpad
 │   │   ├── cookies-youtube.txt  # YouTube authentication cookies
 │   │   └── cookies-bilibili.txt # Bilibili authentication cookies
 │   ├── fonts.nix      # Font packages and configuration
-│   ├── homeassistant/ # Home Assistant smart home configuration
-│   │   ├── configuration.yaml  # Main HA configuration with reverse proxy
-│   │   ├── automations.yaml    # Bedroom lighting automation via Zigbee
-│   │   ├── scenes.yaml         # Scene definitions (empty, ready for use)
-│   │   └── scripts.yaml        # Script definitions (empty, ready for use)
 │   ├── immich.nix     # Immich photo management service configuration
 │   ├── p10k.zsh       # Powerlevel10k theme configuration
-│   ├── projects.json  # Project definitions
-│   └── projects.nix   # Project shortcuts configuration
+│   ├── projects.json  # Project definitions for launcher script
+│   ├── projects.nix   # Project shortcuts configuration
+│   └── wireguard/     # WireGuard VPN configuration files
 └── scripts/           # Utility scripts
-    └── project-launcher.sh  # Dynamic project launcher with window configuration
+    ├── project-launcher.sh  # Dynamic project launcher with window configuration
+    ├── borg-integrity-check.sh  # Borg backup repository verification
+    ├── container-update.sh  # Manual container image updates
+    ├── daily-smart-report.sh  # SMART disk health monitoring and reporting
+    └── gotify-notify.sh     # Gotify notification helper script
 ```
 
 ## 📦 Module Unification
 
-Starting with the btop.nix pattern, modules now handle both configuration and package installation. This eliminates duplication between module imports and package lists:
+Most modules now handle both configuration and package installation, eliminating duplication between module imports and package lists:
 
-- **Unified Modules**: `btop.nix`, `papis.nix`, `rsync.nix`, `termscp.nix`, `syncthing.nix`
-- **Pattern**: Each module includes `home.packages = [ pkgs.packageName ];`
-- **Benefits**: Single source of truth, no version conflicts, cleaner configuration
+- **Unified Modules**: `btop.nix`, `papis.nix`, `rsync.nix`, `termscp.nix`, `syncthing.nix`, `claude-code.nix`
+- **System Modules**: `container-updater.nix`, `smart-report.nix`, `webdav.nix`, `podman.nix`, `borg-server.nix`
+- **Pattern**: Each module includes `home.packages = [ pkgs.packageName ];` or system service definitions
+- **Benefits**: Single source of truth, no version conflicts, cleaner configuration, unified system service management
 
 ## 🔄 Core Workflow
 
@@ -299,6 +314,45 @@ blog = {
   ];
 };
 ```
+
+### 📝 System Scripts
+
+The configuration includes several utility scripts for system maintenance and monitoring:
+
+#### `scripts/project-launcher.sh`
+**Purpose**: Dynamic project launcher with tmux session management
+- Creates tmux sessions based on project configurations
+- Supports multiple window types (nvim, ai, git, shell, remote)
+- Handles session creation, attachment, and management
+- Integrates with fzf for interactive project selection
+
+#### `scripts/daily-smart-report.sh`
+**Purpose**: Automated SMART disk health monitoring and reporting
+- Monitors multiple drives with configurable names
+- Generates comprehensive health reports including temperature and SMART attributes
+- Sends notifications via Gotify for health status and failures
+- Supports both scheduled (via systemd timer) and manual execution
+
+#### `scripts/container-update.sh`
+**Purpose**: Safe container image updates with proper service management
+- Updates container images while preserving data and configuration
+- Handles service stop/start cycles gracefully
+- Excludes specified containers from automatic updates
+- Provides detailed logging of update operations and any failures
+
+#### `scripts/borg-integrity-check.sh`
+**Purpose**: Borg backup repository verification and maintenance
+- Performs repository consistency checks
+- Verifies archive integrity and data consistency
+- Reports on repository health and any detected issues
+- Integrates with monitoring systems for automated alerts
+
+#### `scripts/gotify-notify.sh`
+**Purpose**: Helper script for sending notifications via Gotify server
+- Simplifies notification sending with consistent formatting
+- Supports message priorities and custom titles
+- Used by other scripts for status reporting and alerts
+- Handles authentication and error recovery
 
 ### 📝 Code Editing: Neovim
 
@@ -905,7 +959,7 @@ exec zsh
 # Update and rebuild configuration
 nix flake update
 sudo darwin-rebuild switch --flake .
-home-manager switch --flake .#yanlin
+home-manager switch --flake .#yanlin@$(hostname)
 
 # Quick home-manager rebuild
 hms
@@ -915,6 +969,38 @@ hms
 - **Neovim**: `<Space>y/p` for system clipboard
 - **Tmux**: Copy mode automatically uses system clipboard  
 - **Terminal**: Standard Cmd+C/V works everywhere
+
+## 🤖 AI Development Assistant: Claude Code
+
+**Configuration**: `modules/claude-code.nix`  
+**Purpose**: Declarative Claude Code AI assistant configuration with global permissions and settings
+
+### Key Features:
+- **Cross-platform Support**: Automatic architecture detection for macOS (aarch64) and Linux (x86_64)
+- **Global Permissions**: Comprehensive security configuration with allow/deny/ask lists
+- **Global Memory**: Shared context across all projects with Nix-specific instructions
+- **Model Configuration**: Default model selection with override capability
+
+### Security Configuration:
+- **Allowed Operations**: Web search, GitHub access, safe git commands, development tools
+- **Denied Operations**: System modifications, credential access, dangerous commands
+- **Interactive Confirmation**: File modifications, system rebuilds, and sensitive operations
+
+### Usage:
+```bash
+# Claude Code is automatically available after home-manager switch
+claude-code                    # Launch Claude Code in current directory
+
+# Configuration files (managed by Nix):
+~/.claude/settings.json        # Model and global settings
+~/.claude/permissions.json     # Global permission configuration
+~/.claude/CLAUDE.md           # Global memory with Nix instructions
+```
+
+### Global Instructions:
+- Nix-specific context and shortcuts (oss, hms aliases)
+- Runtime environment awareness
+- Coding standards and preferences
 
 ## 📦 Automated Backups: Borg
 
@@ -1049,6 +1135,126 @@ sudo wg pubkey < /etc/wireguard/private.key
 3. Update peer configurations with actual public keys and VPS endpoint IP
 4. Restart WireGuard services to establish connection
 
+## 📦 Container Management: Automated Updates
+
+**Configuration**: `modules/container-updater.nix`  
+**Purpose**: Automated container image updates with scheduling and exclusion options
+
+### Key Features:
+- **Scheduled Updates**: Systemd timer-based automatic container updates
+- **Selective Updates**: Exclude critical containers from automatic updates
+- **Flexible Scheduling**: Configurable update frequency (daily, weekly, custom)
+- **Safe Operations**: Updates containers one at a time with proper service management
+
+### Configuration Options:
+- **schedule**: Systemd timer schedule (default: daily at 3:00 AM)
+- **excludeContainers**: List of container names to skip during updates
+- **Logging**: Comprehensive logging of update operations and failures
+
+### Usage:
+```bash
+# Check update service status
+sudo systemctl status container-updater.timer
+sudo systemctl status container-updater.service
+
+# Manual container updates (using the script directly)
+sudo /run/current-system/sw/bin/container-update.sh
+
+# View update logs
+journalctl -u container-updater.service
+```
+
+## 🔍 Disk Health Monitoring: SMART Reports
+
+**Configuration**: `modules/smart-report.nix`  
+**Purpose**: Automated SMART disk health monitoring with notification integration
+
+### Key Features:
+- **Multi-drive Support**: Monitor multiple drives with custom names
+- **Gotify Integration**: Send health reports and alerts via Gotify notifications
+- **Comprehensive Reporting**: Detailed SMART attributes, temperature, and health status
+- **Scheduled Monitoring**: Daily health checks via systemd timer
+- **Failure Detection**: Automatic alerts for failing or degraded drives
+
+### Configuration Options:
+- **drives**: Attribute set mapping device paths to friendly names
+- **gotifyToken**: Authentication token for Gotify notification service
+- **scriptPath**: Path to the monitoring script
+- **schedule**: Timer schedule for automated reports
+
+### Usage:
+```bash
+# Manual SMART report
+sudo /run/current-system/sw/bin/daily-smart-report.sh
+
+# Check monitoring service status
+sudo systemctl status smart-report.timer
+sudo systemctl status smart-report.service
+
+# View monitoring logs
+journalctl -u smart-report.service
+```
+
+## 📁 File Sharing: WebDAV Server
+
+**Configuration**: `modules/webdav.nix`  
+**Purpose**: Lightweight WebDAV file server using dufs for cross-platform file access
+
+### Key Features:
+- **Cross-platform Access**: WebDAV protocol supported by most operating systems
+- **Authentication**: Optional HTTP basic authentication with username/password
+- **Flexible Serving**: Serve any directory via WebDAV protocol
+- **Modern Implementation**: Built on dufs (Duf Server) for performance and reliability
+
+### Configuration Options:
+- **port**: Network port for WebDAV service (default: 5009)
+- **address**: Bind address (default: 0.0.0.0 for all interfaces)
+- **servePath**: Directory path to serve via WebDAV
+- **auth**: Optional authentication configuration with username and password
+
+### Usage:
+```bash
+# Service management
+sudo systemctl status webdav-server
+sudo systemctl start webdav-server
+sudo systemctl stop webdav-server
+
+# Access via WebDAV clients
+# macOS Finder: Go > Connect to Server > http://server:5009
+# Windows Explorer: Map Network Drive > http://server:5009
+# Linux: Mount with davfs2 or access via file manager
+```
+
+## 🐳 Container Platform: Podman
+
+**Configuration**: `modules/podman.nix`  
+**Purpose**: Base container platform configuration with Docker compatibility
+
+### Key Features:
+- **Docker Compatibility**: Drop-in replacement with `docker` alias for podman
+- **Rootless Containers**: Secure container execution without root privileges
+- **Networking**: DNS-enabled default network for inter-container communication
+- **OCI Container Support**: Backend for declarative container definitions
+
+### Configuration Highlights:
+- **dockerCompat**: Creates docker alias for seamless migration
+- **defaultNetwork.dns_enabled**: Allows containers to resolve each other by name
+- **extraPackages**: Includes netavark and aardvark-dns for advanced networking
+- **Backend**: Configured as the OCI container backend for system services
+
+### Usage:
+```bash
+# Use docker commands (aliased to podman)
+docker run -it ubuntu:latest
+docker ps
+docker images
+
+# Native podman commands
+podman run -it ubuntu:latest
+podman pod create --name mypod
+podman play kube myapp.yaml
+```
+
 ### iOS Device Setup:
 1. Install WireGuard app from App Store on your iPhone/iPad
 2. Configuration files are available in `wireguard-configs/`:
@@ -1112,10 +1318,10 @@ Comprehensive suite of self-hosted services managed via Podman with automatic st
 
 #### Home Automation & Monitoring
 - **Home Assistant**: Smart home automation with USB Zigbee integration
-  - Declarative configuration in `config/homeassistant/`
+  - Container-based deployment with persistent configuration
   - Bedroom lighting automation via Zigbee switch
   - Reverse proxy trust configuration for Traefik
-  - Configuration and automations version-controlled and backed up
+  - Configuration files managed externally and backed up
 - **Syncthing**: Secure file synchronization across devices
 
 #### Productivity & Knowledge Management
@@ -1230,8 +1436,8 @@ All VPS services accessible via public domain with SSL certificates:
 ## 💻 Machine Configurations
 
 ### Darwin Hosts (macOS)
-- **`iMac`**: iMac configuration
-- **`MacBook-Air`**: MacBook Air configuration
+- **`imac`**: iMac configuration
+- **`mba`**: MacBook Air configuration
 
 ### NixOS Hosts
 - **`hs`**: Home server configuration featuring ZFS storage, containerized services, and automated monitoring
@@ -1250,24 +1456,34 @@ All VPS services accessible via public domain with SSL certificates:
 All hosts use a consistent configuration structure with separate system and home management.
 
 ### Configuration Structure:
-The configuration has been reorganized for better clarity and consistency:
+The configuration follows a hierarchical structure with shared defaults and host-specific customizations:
 
-#### Darwin Hosts:
-- **`hosts/darwin/`**: Contains all Darwin host configurations
-  - **`home-default.nix`**: Common home configuration shared by all Darwin hosts
-  - **`system-default.nix`**: Common system configuration for macOS
-  - **Per-host directories**: Each host has its own directory with:
+#### Darwin Hosts (macOS):
+- **`hosts/darwin/`**: Contains all macOS host configurations
+  - **`system-default.nix`**: Common macOS system configuration with:
+    - Homebrew integration and application management
+    - macOS-specific defaults (dock, menu bar, spotlight)
+    - Security configuration and user setup
+    - Nix settings and cache configuration
+  - **`home-default.nix`**: Common home configuration for Darwin hosts
+  - **Per-host directories** (`imac/`, `mba/`): Each host contains:
     - **`system.nix`**: Host-specific system configuration (imports ../system-default.nix)
     - **`home.nix`**: Host-specific home configuration (imports ../home-default.nix)
 
-#### NixOS Host:
-- **`hosts/nixos/`**: Contains NixOS host configurations
+#### NixOS Hosts:
+- **`hosts/nixos/`**: Contains all NixOS host configurations
+  - **`system-default.nix`**: Common NixOS system configuration with:
+    - Basic system services (SSH, user management)
+    - Time zone and localization settings
+    - Essential command-line tools and packages
+    - Nix experimental features and settings
   - **`home-default.nix`**: Common home configuration for NixOS hosts
-  - **`hs/`**: Home server specific directory with:
-    - **`system.nix`**: NixOS system configuration (standalone, no home-manager)
-    - **`home.nix`**: Home configuration (imports ../home-default.nix)
-    - **`hardware-configuration.nix`**: Hardware-specific configuration
-    - **`disk-config.nix`**: Disk and filesystem configuration
+  - **Per-host directories** (`hs/`, `vps/`, `thinkpad/`): Each host contains:
+    - **`system.nix`**: Host-specific NixOS system configuration
+    - **`home.nix`**: Host-specific home configuration (imports ../home-default.nix)
+    - **`hardware-configuration.nix`**: Hardware detection results
+    - **`disk-config.nix`**: Disk and filesystem configuration (disko-managed)
+    - **Additional files**: `containers.nix`, `proxy.nix` for specific hosts
 
 ### Machine-specific Usage:
 
