@@ -18,6 +18,7 @@
     ../../modules/syncthing.nix
     ../../modules/dictionary.nix
     ../../modules/yt-dlp.nix
+    ../../modules/claude-code.nix
     ../../config/fonts.nix
   ];
 
@@ -36,6 +37,11 @@
     windowMode = "windowed";
     windowWidth = 999;
     windowHeight = 999;
+  };
+
+  # Claude Code configuration
+  programs.claude-code-custom = {
+    enable = true;
   };
 
   home.username = "yanlin";
@@ -181,7 +187,6 @@
     texlive.combined.scheme-full
     python312
     uv
-    claude-code.packages.aarch64-darwin.claude-code
     lazysql
     sqlite
   ];

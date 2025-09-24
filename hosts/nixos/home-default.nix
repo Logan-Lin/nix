@@ -14,6 +14,7 @@
     ../../modules/btop.nix
     ../../modules/dictionary.nix
     ../../modules/yt-dlp.nix
+    ../../modules/claude-code.nix
     ../../config/fonts.nix
   ];
 
@@ -22,6 +23,11 @@
   home.stateVersion = "24.05";
 
   programs.home-manager.enable = true;
+
+  # Claude Code configuration
+  programs.claude-code-custom = {
+    enable = true;
+  };
 
   # nixOS-specific alias
   programs.zsh.shellAliases = {
@@ -59,7 +65,6 @@
     # Development and build tools
     python312
     uv
-    claude-code.packages.x86_64-linux.claude-code
     lazysql
     sqlite
   ];
