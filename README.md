@@ -9,10 +9,12 @@ Flake-based NixOS and nix-darwin configuration with home-manager.
 # System rebuild
 sudo darwin-rebuild switch --flake .#<host>  # macOS
 sudo nixos-rebuild switch --flake .#<host>   # NixOS
+# or use alias: oss
 
 # Home Manager
 home-manager switch --flake .#yanlin@<host>
 # or use alias: hms
+# the full switch alias `fs` will perform system rebuild then home manager switch
 
 # Update flake
 nix flake update
@@ -62,9 +64,6 @@ darwin-rebuild build --flake .#<host>
 ## Modules
 
 Modules are self-contained and handle both package installation and configuration.
-System modules provide NixOS/Darwin services, home modules provide user tools.
-
-## Available Modules
 
 - `borg-client.nix` - Backup client with scheduling
 - `borg-server.nix` - Backup server configuration
@@ -144,23 +143,7 @@ systemctl list-timers
 ## Notes
 
 - Borg backups need passphrase at `/etc/borg-passphrase`
-- Cookie files for yt-dlp in `config/yt-dlp/`
-- Claude Code permissions configured globally in module
 - Container definitions use podman backend
 - WireGuard configs need manual key exchange after first deploy
-- ZFS snapshots managed by sanoid (where configured)
 - Traefik handles SSL via Cloudflare DNS challenge
 
-## Troubleshooting
-
-```bash
-# Check nix daemon
-sudo launchctl list | grep nix  # macOS
-systemctl status nix-daemon      # NixOS
-
-# Fix store permissions
-sudo chown -R root:nixbld /nix/store
-
-# Rebuild with verbose output
-nixos-rebuild switch --flake .#<host> --show-trace
-```
