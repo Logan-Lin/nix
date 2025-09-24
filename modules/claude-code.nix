@@ -16,13 +16,149 @@ let
   # Default global permissions
   defaultPermissions = {
     allow = [
+      # Web and search capabilities
       "WebSearch"
       "WebFetch(domain:github.com)"
+      "WebFetch(domain:docs.github.com)"
+      "WebFetch(domain:api.github.com)"
+      "WebFetch(domain:raw.githubusercontent.com)"
+      
+      # Claude configuration files
       "Read(/Users/yanlin/.claude/**)"
-      "Read(/Users/yanlin/.claude/**)"
+      "Write(/Users/yanlin/.claude/**)"
+      "Edit(/Users/yanlin/.claude/**)"
+      
+      # Git operations (read-only and safe operations)
+      "Bash(git status)"
+      "Bash(git log*)"
+      "Bash(git diff*)"
+      "Bash(git show*)"
+      "Bash(git branch*)"
+      "Bash(git remote*)"
+      "Bash(git ls-files*)"
+      
+      # Development tools - testing and linting
+      "Bash(npm run test*)"
+      "Bash(npm run lint*)"
+      "Bash(npm run format*)"
+      "Bash(npm run check*)"
+      
+      # Package managers (read-only operations)
+      "Bash(npm list*)"
+      "Bash(npm outdated*)"
+      "Bash(cargo --version)"
+      "Bash(pip list*)"
+      "Bash(pip show*)"
+      
+      # Nix operations
+      "Bash(nix-shell*)"
+      "Bash(nix develop*)"
+      "Bash(nix build*)"
+      "Bash(nix run*)"
+      "Bash(nix-env -q*)"
+      "Bash(nix search*)"
+      
+      # File operations (safe read operations)
+      "Bash(ls*)"
+      "Bash(find*)"
+      "Bash(grep*)"
+      "Bash(cat*)"
+      "Bash(head*)"
+      "Bash(tail*)"
+      "Bash(wc*)"
+      "Bash(file*)"
+      "Bash(du*)"
+      "Bash(tree*)"
+      
+      # Development environment info
+      "Bash(which*)"
+      "Bash(whereis*)"
+      "Bash(whoami)"
+      "Bash(pwd)"
+      "Bash(uname*)"
+      "Bash(date)"
+      "Bash(echo*)"
     ];
-    deny = [];
-    ask = [];
+    
+    deny = [
+      # Prevent access to sensitive files
+      "Read(.env*)"
+      "Read(*.env*)"
+      "Read(./.env*)"
+      "Read(./secrets/**)"
+      "Read(./private/**)"
+      "Read(/etc/passwd)"
+      "Read(/etc/shadow)"
+      "Read(/etc/sudoers*)"
+      "Read(~/.ssh/id_*)"
+      "Read(~/.gnupg/**)"
+      "Read(~/.aws/credentials)"
+      "Read(~/.config/gcloud/**)"
+      "Read(*/node_modules/.cache/**)"
+      
+      # Prevent dangerous system operations
+      "Bash(rm -rf*)"
+      "Bash(sudo*)"
+      "Bash(su*)"
+      "Bash(chmod +x*)"
+      "Bash(chown*)"
+      "Bash(passwd*)"
+      "Bash(userdel*)"
+      "Bash(useradd*)"
+      "Bash(usermod*)"
+      "Bash(groupadd*)"
+      "Bash(groupdel*)"
+      "Bash(mount*)"
+      "Bash(umount*)"
+      "Bash(fdisk*)"
+      "Bash(mkfs*)"
+      "Bash(dd*)"
+      "Bash(curl*http*)"
+      "Bash(wget*http*)"
+      
+      # Prevent network/security risks
+      "Bash(nc*)"
+      "Bash(netcat*)"
+      "Bash(telnet*)"
+      "Bash(ssh*)"
+      "Bash(scp*)"
+      "Bash(rsync*)"
+      "Bash(nmap*)"
+      
+      # Prevent package installations without confirmation
+      "Bash(npm install*)"
+      "Bash(npm uninstall*)"
+      "Bash(pip install*)"
+      "Bash(pip uninstall*)"
+      "Bash(cargo install*)"
+      "Bash(brew install*)"
+      "Bash(apt install*)"
+      "Bash(yum install*)"
+      "Bash(pacman -S*)"
+      
+      # Prevent system service manipulation
+      "Bash(systemctl*)"
+      "Bash(service*)"
+      "Bash(launchctl*)"
+    ];
+    
+    ask = [
+      # File system modifications
+      "Write(*)"
+      "Edit(*)"
+      "Bash(mkdir*)"
+      "Bash(rmdir*)"
+      "Bash(mv*)"
+      "Bash(cp*)"
+      "Bash(touch*)"
+      
+      # Nix system operations
+      "Bash(nixos-rebuild*)"
+      "Bash(nix-collect-garbage*)"
+      "Bash(nix-channel*)"
+      "Bash(oss*)"
+      "Bash(hms*)"
+    ];
   };
 
   # Global settings configuration
@@ -41,6 +177,8 @@ let
     ## NixOS
     - I use nixOS for all my computers (global config in ~/.config/nix) and nix-shell for project-specific runtime management
     - Check existing nix config when interacting with runtime environments
+    - Use `oss` alias for nixos-rebuild switch (cross-platform, works on both NixOS and nix-darwin)
+    - Use `hms` alias for home-manager switch
   '';
 
   # Global memory configuration
@@ -54,7 +192,7 @@ in
 
     model = mkOption {
       type = types.str;
-      default = "sonnet";
+      default = "opusplan";
       description = "Default model to use with Claude Code";
     };
 
