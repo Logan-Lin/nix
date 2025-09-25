@@ -22,10 +22,6 @@
           url = "https://cloud.yanlincs.com";
         }
         {
-          name = "Notion";
-          url = "https://www.notion.so";
-        }
-        {
           name = "Immich";
           url = "https://photo.yanlincs.com/photos";
         }
