@@ -63,6 +63,11 @@ in {
     # Install the wrapper script package
     environment.systemPackages = [ smartReportScript ];
     
+    # Shell alias for manual execution
+    environment.shellAliases = {
+      smart-report-now = "sudo systemctl start daily-smart-report.service";
+    };
+    
     # Configure systemd service if enabled
     systemd.services.daily-smart-report = mkIf cfg.enableSystemdService {
       description = "Daily SMART Health Report";

@@ -55,6 +55,11 @@ in
       chmod +x /home/yanlin/.config/nix/scripts/container-update.sh
       chmod +x /home/yanlin/.config/nix/scripts/gotify-notify.sh
     '';
+    
+    # Shell alias for manual execution
+    environment.shellAliases = {
+      container-update-now = "sudo systemctl start container-updater.service";
+    };
 
     # Systemd service for container updates
     systemd.services.container-updater = {
