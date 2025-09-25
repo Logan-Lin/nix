@@ -140,6 +140,13 @@ docker exec -it <container> bash
 systemctl list-timers
 ```
 
+### Manual Timer Service Execution
+- `dl-subs-yt` - Check YouTube subscriptions and download new videos
+- `smart-report-now` - Run SMART disk health report manually
+- `container-update-now` - Update container images manually
+- `borg-backup-now` - Run backup manually
+- `borg-check-now` - Run backup integrity check manually
+
 ## Notes
 
 - Borg backups need passphrase at `/etc/borg-passphrase`
