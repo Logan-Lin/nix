@@ -88,33 +88,6 @@ in
       autoStart = true;
     };
 
-    # iGotify notification assistant
-    igotify = {
-      image = "ghcr.io/androidseb25/igotify-notification-assist:latest";
-      
-      volumes = [
-        "/var/lib/containers/igotify:/app/data"
-      ];
-
-      labels = {
-        "traefik.enable" = "true";
-        "traefik.http.routers.inotify.rule" = "Host(`inotify.yanlincs.com`)";
-        "traefik.http.routers.inotify.entrypoints" = "websecure";
-        "traefik.http.routers.inotify.tls" = "true";
-        "traefik.http.routers.inotify.tls.certresolver" = "cloudflare";
-        "traefik.http.routers.inotify.tls.domains[0].main" = "*.yanlincs.com";
-        "traefik.http.services.inotify.loadbalancer.server.port" = "8080";
-      };
-      
-      extraOptions = [
-        "--network=podman"
-        "--security-opt=no-new-privileges:true"
-      ];
-      
-      dependsOn = [ "gotify" ];
-      autoStart = true;
-    };
-
     # OC Backend Scheduler
     oc-scheduler = {
       image = "localhost/oc-scheduler:v1";
