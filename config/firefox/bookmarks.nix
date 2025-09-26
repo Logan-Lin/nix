@@ -26,6 +26,10 @@
           url = "https://photo.yanlincs.com/photos";
         }
         {
+          name = "Gotify";
+          url = "https://notify.yanlincs.com/";
+        }
+        {
           name = "Productivity";
           bookmarks = [
             {
@@ -72,23 +76,6 @@
             {
               name = "Arxiv";
               url = "https://arxiv.org/user/";
-            }
-          ];
-        }
-        {
-          name = "Console";
-          bookmarks = [
-            {
-              name = "Hetzner";
-              url = "https://console.hetzner.com/projects/4064051/dashboard";
-            }
-            {
-              name = "Cloudflare";
-              url = "https://dash.cloudflare.com/6950be025dc32f2698377028b9e162c1/yanlincs.com/dns/records";
-            }
-            {
-              name = "Gotify";
-              url = "https://notify.yanlincs.com/";
             }
           ];
         }
