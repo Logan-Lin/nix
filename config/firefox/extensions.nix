@@ -11,6 +11,8 @@ args:
         vimium
         darkreader
         cookies-txt
+        sponsorblock
+        dearrow
       ]
     else [];
 }
