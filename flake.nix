@@ -26,13 +26,6 @@
 
   outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, nixvim, claude-code, firefox-addons, nix-homebrew, disko, plasma-manager }:
   {
-    darwinConfigurations."imac" = nix-darwin.lib.darwinSystem {
-      modules = [ 
-        ./hosts/darwin/imac/system.nix
-      ];
-      specialArgs = { inherit nix-homebrew; };
-    };
-
     darwinConfigurations."mba" = nix-darwin.lib.darwinSystem {
       modules = [ 
         ./hosts/darwin/mba/system.nix
@@ -66,12 +59,6 @@
     };
 
     homeConfigurations = {
-      "yanlin@imac" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.aarch64-darwin;
-        modules = [ ./hosts/darwin/imac/home.nix ];
-        extraSpecialArgs = { inherit claude-code nixvim firefox-addons; };
-      };
-
       "yanlin@mba" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.aarch64-darwin;
         modules = [ ./hosts/darwin/mba/home.nix ];
