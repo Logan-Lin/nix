@@ -49,6 +49,16 @@ let
       "Bash(cargo --version)"
       "Bash(pip list*)"
       "Bash(pip show*)"
+
+      # Homebrew (read-only operations)
+      "Bash(brew --version)"
+      "Bash(brew list*)"
+      "Bash(brew info*)"
+      "Bash(brew search*)"
+      "Bash(brew outdated*)"
+      "Bash(brew deps*)"
+      "Bash(brew doctor)"
+      "Bash(brew config)"
       
       # Nix operations
       "Bash(nix-shell*)"
