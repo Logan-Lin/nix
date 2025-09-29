@@ -15,6 +15,7 @@
     casks = [
       # GUI applications - manually installed apps now managed by Homebrew
       "keepassxc"
+      "keycastr"
       "inkscape"
       "firefox"
       "obsidian"
