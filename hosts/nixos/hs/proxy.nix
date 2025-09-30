@@ -16,18 +16,6 @@
           };
         };
 
-        # WebDAV file server
-        # files = {
-        #   rule = "Host(`files.${config.networking.hostName}.yanlincs.com`)";
-        #   entrypoints = "websecure";
-        #   service = "files";
-        #   tls = {
-        #     certResolver = "cloudflare";
-        #     domains = [{
-        #       main = "*.${config.networking.hostName}.yanlincs.com";
-        #     }];
-        #   };
-        # };
       };
 
       services = {
@@ -39,14 +27,6 @@
           };
         };
 
-        # WebDAV file server
-        # files = {
-        #   loadBalancer = {
-        #     servers = [{
-        #       url = "http://localhost:5009";
-        #     }];
-        #   };
-        # };
       };
     };
   };
