@@ -175,6 +175,8 @@ let
   globalSettings = {
     model = cfg.model;
     spinnerTipsEnabled = false;
+    todoEnabled = true;
+    autoCompactEnabled = true;
   };
 
   # Global permissions configuration
