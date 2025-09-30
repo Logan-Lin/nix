@@ -174,6 +174,7 @@ let
   # Global settings configuration
   globalSettings = {
     model = cfg.model;
+    spinnerTipsEnabled = false;
   };
 
   # Global permissions configuration
