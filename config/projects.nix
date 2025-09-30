@@ -107,6 +107,13 @@ in
           git = false;
           shell = false;
         }
+        {
+          name = "group";
+          path = homePath "Documents/Projects/DAKI3 Semester Project Group";
+          ai = true;
+          git = false;
+          shell = false;
+        }
       ];
     };
 
