@@ -153,7 +153,5 @@ in
       };
     };
     
-    # Open firewall port if needed (usually not needed as it goes through Traefik)
-    # networking.firewall.allowedTCPPorts = [ cfg.port ];
   };
 }
