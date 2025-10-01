@@ -9,10 +9,7 @@ args:
         ublock-origin
         linkding-extension
         vimium
-        darkreader
         cookies-txt
-        sponsorblock
-        dearrow
       ]
     else [];
 }
