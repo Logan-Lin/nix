@@ -1,8 +1,10 @@
 { config, pkgs, lib, ... }: {
   imports = [
     ./hardware-configuration.nix
+    ./containers.nix  # Host-specific container definitions
     ../system-default.nix  # Common NixOS system configuration
     ../../../modules/wireguard.nix
+    ../../../modules/podman.nix
     ../../../modules/borg-server.nix
     ../../../modules/smart-report.nix
   ];
