@@ -1,11 +1,11 @@
 { config, pkgs, nixvim, claude-code, firefox-addons, ... }:
 
 {
-  imports = [ 
+  imports = [
     nixvim.homeModules.nixvim
-    ../../modules/nvim.nix 
-    ../../modules/tmux.nix 
-    ../../modules/zsh.nix 
+    ../../modules/nvim.nix
+    ../../modules/tmux.nix
+    ../../modules/zsh.nix
     ../../modules/ssh.nix
     ../../modules/git.nix
     ../../modules/lazygit.nix
@@ -19,6 +19,7 @@
     ../../modules/dictionary.nix
     ../../modules/yt-dlp.nix
     ../../modules/claude-code.nix
+    ../../modules/tex.nix
     ../../config/fonts.nix
   ];
 
@@ -184,7 +185,6 @@
     hidden-bar     # Menu bar organizer (macOS-only)
 
     # Development and build tools
-    texlive.combined.scheme-full
     python312
     uv
     lazysql

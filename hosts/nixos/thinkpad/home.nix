@@ -5,12 +5,13 @@
   nixpkgs.config.allowUnfree = true;
   
   # Import the common NixOS home configuration
-  imports = [ 
-    ../home-default.nix 
+  imports = [
+    ../home-default.nix
     ../../../modules/firefox.nix
     ../../../modules/plasma.nix
     ../../../modules/syncthing.nix
     ../../../modules/ghostty.nix
+    ../../../modules/tex.nix
     plasma-manager.homeModules.plasma-manager
   ];
   
@@ -32,7 +33,6 @@
   # For example, laptop-specific aliases or scripts
 
   home.packages = with pkgs; [
-    texlive.combined.scheme-full
     keepassxc
     obsidian
   ];
