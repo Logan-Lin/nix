@@ -4,6 +4,7 @@
   imports = [
     ../home-default.nix
     ../../../modules/syncthing.nix
+    ../../../modules/tex.nix
   ];
 
   # hs-specific home configuration
@@ -30,7 +31,6 @@
   };
 
   home.packages = with pkgs; [
-    texlive.combined.scheme-full
   ];
   
 }
