@@ -16,9 +16,13 @@
     subscriptions = {
       enable = true;
       feeds = [
-        "https://www.youtube.com/feeds/videos.xml?channel_id=UCm22FAXZMw1BaWeFszZxUKw"
-        "https://www.youtube.com/feeds/videos.xml?channel_id=UCYwVxWpjeKFWwu8TML-Te9A"
-        "https://www.youtube.com/feeds/videos.xml?channel_id=UCPJVs54XcE8RrdA_uW-lfUw"
+        "https://www.youtube.com/feeds/videos.xml?channel_id=UCm22FAXZMw1BaWeFszZxUKw"  # Kitboga
+        "https://www.youtube.com/feeds/videos.xml?channel_id=UCYwVxWpjeKFWwu8TML-Te9A"  # JCS - Criminal Psychology
+        "https://www.youtube.com/feeds/videos.xml?channel_id=UCPJVs54XcE8RrdA_uW-lfUw"  # Shane McGillicuddy
+        "https://www.youtube.com/feeds/videos.xml?channel_id=UCFQMnBA3CS502aghlcr0_aw"  # Coffeezilla
+        "https://www.youtube.com/feeds/videos.xml?channel_id=UCSUf5_EPEfl4zlBKZHkZdmw"  # Danny Gonzalez
+        "https://www.youtube.com/feeds/videos.xml?channel_id=UC-ufRLYrXxrIEApGn9VG5pQ"  # Reject Convenience
+        "https://www.youtube.com/feeds/videos.xml?channel_id=UCj1VqrHhDte54oLgPG4xpuQ"  # Stuff Made Here
       ];
       interval = "*-*-* 08:00:00";
       randomDelay = "1h";
