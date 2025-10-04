@@ -199,25 +199,46 @@ in
       
       # YouTube playlist download
       download-youtube-playlist() {
-        local url="$*"
+        local max_downloads=""
+        local url=""
+
+        # Parse arguments
+        while [[ $# -gt 0 ]]; do
+          case "$1" in
+            -n|--max)
+              max_downloads="$2"
+              shift 2
+              ;;
+            *)
+              url="$url $1"
+              shift
+              ;;
+          esac
+        done
+
+        url="''${url## }"  # Trim leading space
+
         if [[ -z "$url" ]]; then
-          echo "Usage: dl-yt-p <playlist-url>"
+          echo "Usage: dl-yt-p [-n|--max <number>] <playlist-url>"
+          echo "  -n, --max <number>  Limit number of videos to download"
           return 1
         fi
-        
+
         local cookies_file="$HOME/.config/yt-dlp/cookies-youtube.txt"
         local temp_cookies=$(_setup_temp_cookies "$cookies_file")
         local output_template="$DOWNLOAD_DIR/YouTube/%(uploader|)s-%(playlist|)s/%(playlist_index|)03d-%(title)s.%(ext)s"
         local archive_file="$DOWNLOAD_DIR/.archive.txt"
-        
+
         mkdir -p "$DOWNLOAD_DIR"
         echo "Downloading YouTube playlist..."
+        [[ -n "$max_downloads" ]] && echo "Limiting to $max_downloads videos"
         echo "Output directory: $DOWNLOAD_DIR/YouTube"
-        
+
         local cmd="yt-dlp --yes-playlist"
+        [[ -n "$max_downloads" ]] && cmd="$cmd --playlist-end '$max_downloads'"
         [[ -n "$temp_cookies" ]] && cmd="$cmd --cookies '$temp_cookies'" || cmd="$cmd --no-cookies"
         cmd="$cmd --download-archive '$archive_file' -o '$output_template' '$url'"
-        
+
         if _retry_download "$cmd"; then
           echo "✓ Playlist download completed successfully"
           local result=0
@@ -225,34 +246,55 @@ in
           echo "✗ Playlist download failed after $MAX_RETRIES attempts"
           local result=1
         fi
-        
+
         # Clean up temp cookies
         [[ -n "$temp_cookies" ]] && rm -f "$temp_cookies"
-        
+
         return $result
       }
       
       # Bilibili single video download
       download-bilibili() {
-        local url="$*"
+        local max_downloads=""
+        local url=""
+
+        # Parse arguments
+        while [[ $# -gt 0 ]]; do
+          case "$1" in
+            -n|--max)
+              max_downloads="$2"
+              shift 2
+              ;;
+            *)
+              url="$url $1"
+              shift
+              ;;
+          esac
+        done
+
+        url="''${url## }"  # Trim leading space
+
         if [[ -z "$url" ]]; then
-          echo "Usage: dl-bili <url>"
+          echo "Usage: dl-bili [-n|--max <number>] <url>"
+          echo "  -n, --max <number>  Limit number of videos to process (useful for channels/playlists)"
           return 1
         fi
-        
+
         local cookies_file="$HOME/.config/yt-dlp/cookies-bilibili.txt"
         local temp_cookies=$(_setup_temp_cookies "$cookies_file")
         local output_template="$DOWNLOAD_DIR/Bilibili/%(uploader|)s/%(upload_date>%Y%m%d|)s-%(title)s.%(ext)s"
         local archive_file="$DOWNLOAD_DIR/.archive.txt"
-        
+
         mkdir -p "$DOWNLOAD_DIR"
         echo "Downloading Bilibili video..."
+        [[ -n "$max_downloads" ]] && echo "Processing max $max_downloads videos"
         echo "Output directory: $DOWNLOAD_DIR/Bilibili"
-        
+
         local cmd="yt-dlp --referer https://www.bilibili.com/"
+        [[ -n "$max_downloads" ]] && cmd="$cmd --playlist-end '$max_downloads'"
         [[ -n "$temp_cookies" ]] && cmd="$cmd --cookies '$temp_cookies'" || cmd="$cmd --no-cookies"
         cmd="$cmd --download-archive '$archive_file' -o '$output_template' '$url'"
-        
+
         if _retry_download "$cmd"; then
           echo "✓ Download completed successfully"
           local result=0
@@ -260,34 +302,55 @@ in
           echo "✗ Download failed after $MAX_RETRIES attempts"
           local result=1
         fi
-        
+
         # Clean up temp cookies
         [[ -n "$temp_cookies" ]] && rm -f "$temp_cookies"
-        
+
         return $result
       }
       
       # Bilibili playlist/collection download
       download-bilibili-playlist() {
-        local url="$*"
+        local max_downloads=""
+        local url=""
+
+        # Parse arguments
+        while [[ $# -gt 0 ]]; do
+          case "$1" in
+            -n|--max)
+              max_downloads="$2"
+              shift 2
+              ;;
+            *)
+              url="$url $1"
+              shift
+              ;;
+          esac
+        done
+
+        url="''${url## }"  # Trim leading space
+
         if [[ -z "$url" ]]; then
-          echo "Usage: dl-bili-p <playlist-url>"
+          echo "Usage: dl-bili-p [-n|--max <number>] <playlist-url>"
+          echo "  -n, --max <number>  Limit number of videos to download"
           return 1
         fi
-        
+
         local cookies_file="$HOME/.config/yt-dlp/cookies-bilibili.txt"
         local temp_cookies=$(_setup_temp_cookies "$cookies_file")
         local output_template="$DOWNLOAD_DIR/Bilibili/%(uploader|)s-%(playlist|)s/%(playlist_index|)03d-%(title)s.%(ext)s"
         local archive_file="$DOWNLOAD_DIR/.archive.txt"
-        
+
         mkdir -p "$DOWNLOAD_DIR"
         echo "Downloading Bilibili playlist..."
+        [[ -n "$max_downloads" ]] && echo "Limiting to $max_downloads videos"
         echo "Output directory: $DOWNLOAD_DIR/Bilibili"
-        
+
         local cmd="yt-dlp --yes-playlist --referer https://www.bilibili.com/"
+        [[ -n "$max_downloads" ]] && cmd="$cmd --playlist-end '$max_downloads'"
         [[ -n "$temp_cookies" ]] && cmd="$cmd --cookies '$temp_cookies'" || cmd="$cmd --no-cookies"
         cmd="$cmd --download-archive '$archive_file' -o '$output_template' '$url'"
-        
+
         if _retry_download "$cmd"; then
           echo "✓ Playlist download completed successfully"
           local result=0
@@ -295,10 +358,10 @@ in
           echo "✗ Playlist download failed after $MAX_RETRIES attempts"
           local result=1
         fi
-        
+
         # Clean up temp cookies
         [[ -n "$temp_cookies" ]] && rm -f "$temp_cookies"
-        
+
         return $result
       }
       
@@ -306,15 +369,18 @@ in
       download-help() {
         cat << 'EOF'
       Video Download Commands:
-      
+
       YouTube:
-        dl-yt <url>      - Download single YouTube video
-        dl-yt-p <url>    - Download YouTube playlist
-      
+        dl-yt [-n <N>] <url>      - Download single YouTube video
+        dl-yt-p [-n <N>] <url>    - Download YouTube playlist
+
       Bilibili:
-        dl-bili <url>    - Download single Bilibili video
-        dl-bili-p <url>  - Download Bilibili playlist/collection
-      
+        dl-bili [-n <N>] <url>    - Download single Bilibili video
+        dl-bili-p [-n <N>] <url>  - Download Bilibili playlist/collection
+
+      Options:
+        -n, --max <number>  Limit number of videos to process/download
+
       Other commands:
         dl-clear-archive - Clear download history (allows re-downloading)
         dl-help          - Show this help message

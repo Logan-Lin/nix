@@ -22,17 +22,17 @@
     interval = "*-*-* 08:00:00";
     randomDelay = "1h";
     commands = [
-      "dl-yt -n 3 https://www.youtube.com/@KitbogaShow"
-      "dl-yt -n 3 https://www.youtube.com/@JCS"
-      "dl-yt -n 3 https://www.youtube.com/@Shane_McGillicuddy"
-      "dl-yt -n 3 https://www.youtube.com/@Coffeezilla"
-      "dl-yt -n 3 https://www.youtube.com/@Danny-Gonzalez"
-      "dl-yt -n 3 https://www.youtube.com/@rejectconvenience"
-      "dl-yt -n 3 https://www.youtube.com/@StuffMadeHere"
-      "dl-yt -n 3 https://www.youtube.com/@AdamSomething"
-      "dl-yt -n 3 https://www.youtube.com/@_gerg"
-      "dl-yt -n 3 https://www.youtube.com/@Yeah_Jaron"
-      "dl-yt -n 3 https://www.youtube.com/@WolfgangsChannel"
+      "dl-yt -n 3 'https://www.youtube.com/@KitbogaShow/videos'"
+      "dl-yt -n 3 'https://www.youtube.com/@JCS/videos'"
+      "dl-yt -n 3 'https://www.youtube.com/@Shane_McGillicuddy/videos'"
+      "dl-yt -n 3 'https://www.youtube.com/@Coffeezilla/videos'"
+      "dl-yt -n 3 'https://www.youtube.com/@Danny-Gonzalez/videos'"
+      "dl-yt -n 3 'https://www.youtube.com/@rejectconvenience/videos'"
+      "dl-yt -n 3 'https://www.youtube.com/@StuffMadeHere/videos'"
+      "dl-yt -n 3 'https://www.youtube.com/@AdamSomething/videos'"
+      "dl-yt -n 3 'https://www.youtube.com/@_gerg/videos'"
+      "dl-yt -n 3 'https://www.youtube.com/@Yeah_Jaron/videos'"
+      "dl-yt -n 3 'https://www.youtube.com/@WolfgangsChannel/videos'"
     ];
   };
   
