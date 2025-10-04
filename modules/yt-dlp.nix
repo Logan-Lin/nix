@@ -193,7 +193,7 @@ in
         echo "Downloading YouTube video..."
         echo "Output directory: $DOWNLOAD_DIR/YouTube"
         
-        local cmd="yt-dlp"
+        local cmd="yt-dlp --match-filter 'duration >? 60'"
         [[ -n "$temp_cookies" ]] && cmd="$cmd --cookies '$temp_cookies'" || cmd="$cmd --no-cookies"
         cmd="$cmd --download-archive '$archive_file' -o '$output_template' '$url'"
         
