@@ -23,40 +23,6 @@ in
       example = "/mnt/storage/videos";
       description = "Base directory for downloaded videos";
     };
-
-    subscriptions = {
-      enable = mkEnableOption "RSS subscription checking for automatic video downloads";
-
-      feeds = mkOption {
-        type = types.listOf types.str;
-        default = [];
-        example = [
-          "https://www.youtube.com/feeds/videos.xml?channel_id=UCRHXUZ0BxbkU2MYZgsuFgkQ"
-        ];
-        description = "List of YouTube RSS feed URLs to monitor for new videos";
-      };
-
-      interval = mkOption {
-        type = types.str;
-        default = "hourly";
-        example = "*-*-* */4:00:00";
-        description = "Systemd timer schedule for checking subscriptions";
-      };
-
-      randomDelay = mkOption {
-        type = types.str;
-        default = "0";
-        example = "30m";
-        description = "Random delay before running subscription check (e.g., '30m', '1h')";
-      };
-
-      maxVideosPerFeed = mkOption {
-        type = types.int;
-        default = 5;
-        example = 10;
-        description = "Maximum number of videos to process per feed (newest first)";
-      };
-    };
   };
 
   config = mkIf cfg.enable {
@@ -66,8 +32,6 @@ in
       cfg.package
       deno     # Required for YouTube downloads due to JS challenges
       ffmpeg
-    ] ++ lib.optionals cfg.subscriptions.enable [
-      libxml2  # For xmllint to parse RSS feeds
     ];
 
     # Cookie files - managed by Nix (read-only)
@@ -116,16 +80,13 @@ in
       # YouTube downloads
       dl-yt = "download-youtube";
       dl-yt-p = "download-youtube-playlist";
-      
-      # Bilibili downloads  
+
+      # Bilibili downloads
       dl-bili = "download-bilibili";
       dl-bili-p = "download-bilibili-playlist";
-      
+
       # Help
       dl-help = "download-help";
-    } // lib.optionalAttrs cfg.subscriptions.enable {
-      # YouTube subscription management
-      dl-subs-yt = "check-youtube-subscriptions";
     };
 
     programs.zsh.initContent = ''
@@ -393,91 +354,6 @@ in
       
       # Alias for backward compatibility
       alias dlv-clear-archive='dl-clear-archive'
-      
-      # YouTube RSS subscription checker
-      check-youtube-subscriptions() {
-        ${lib.optionalString cfg.subscriptions.enable ''
-        local max_videos="${toString cfg.subscriptions.maxVideosPerFeed}"
-        local feeds=(${lib.concatMapStringsSep " " (feed: ''"${feed}"'') cfg.subscriptions.feeds})
-        
-        if [[ ''${#feeds[@]} -eq 0 ]]; then
-          echo "No RSS feeds configured"
-          return 0
-        fi
-        
-        echo "Checking ''${#feeds[@]} YouTube subscription feeds..."
-        echo "Processing up to $max_videos videos per feed"
-        echo ""
-        
-        for feed in "''${feeds[@]}"; do
-          echo "Processing feed: $feed"
-          
-          # Fetch and parse the RSS feed, extract video links
-          local links=$(${pkgs.curl}/bin/curl -s "$feed" | \
-            ${pkgs.libxml2}/bin/xmllint --xpath "//*[local-name()='entry']/*[local-name()='link'][@rel='alternate']/@href" - 2>/dev/null | \
-            sed 's/href="//g; s/"//g' | \
-            head -n "$max_videos")
-          
-          if [[ -z "$links" ]]; then
-            echo "  No videos found or feed unavailable"
-            continue
-          fi
-          
-          local count=0
-          while IFS= read -r link; do
-            if [[ -n "$link" ]]; then
-              ((count++))
-              echo "  [$count] Downloading: $link"
-              download-youtube "$link"
-            fi
-          done <<< "$links"
-          
-          echo "  Processed $count videos from this feed"
-          echo ""
-        done
-        
-        echo "✓ Subscription check completed"
-        ''}
-      }
     '';
-
-    # Systemd user service and timer for subscription checking
-    systemd.user.services.yt-dlp-subscriptions = mkIf cfg.subscriptions.enable {
-      Unit = {
-        Description = "Check YouTube RSS subscriptions and download new videos";
-        After = [ "network-online.target" ];
-      };
-      
-      Service = {
-        Type = "oneshot";
-        ExecStart = "${pkgs.writeShellScript "yt-dlp-check-subs" ''
-          export PATH="${pkgs.coreutils}/bin:${pkgs.curl}/bin:${pkgs.libxml2}/bin:${pkgs.gnused}/bin:${cfg.package}/bin:$PATH"
-          
-          # Source the shell init to get our functions
-          source ${config.home.homeDirectory}/.zshrc
-          
-          # Run the subscription check
-          check-youtube-subscriptions
-        ''}";
-        StandardOutput = "journal";
-        StandardError = "journal";
-      };
-    };
-
-    systemd.user.timers.yt-dlp-subscriptions = mkIf cfg.subscriptions.enable {
-      Unit = {
-        Description = "Timer for YouTube subscription checks";
-      };
-      
-      Timer = {
-        OnCalendar = cfg.subscriptions.interval;
-        Persistent = true;
-        RandomizedDelaySec = cfg.subscriptions.randomDelay;
-      };
-      
-      Install = {
-        WantedBy = [ "timers.target" ];
-      };
-    };
   };
 }
