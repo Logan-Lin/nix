@@ -50,12 +50,14 @@
       persistent-apps = [
         "/Applications/Firefox.app"
         "/Applications/Obsidian.app"
+        "/System/Applications/Preview.app"
         "/Applications/Ghostty.app"
         "/Applications/KeePassXC.app"
       ];
       persistent-others = [
         "/Users/yanlin/Desktop"
         "/Users/yanlin/Downloads"
+        "/Users/yanlin/Documents"
       ];              # List of folders/files to keep in dock
       
       # Hot Corners - Actions: 
