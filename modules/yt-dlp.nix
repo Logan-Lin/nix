@@ -89,8 +89,6 @@ in
       --no-playlist
       --embed-thumbnail
       --write-thumbnail
-      --embed-subs
-      --write-auto-subs
       --write-description
       --write-info-json
       
