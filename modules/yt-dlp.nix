@@ -144,6 +144,7 @@ in
       # YouTube single video download
       download-youtube() {
         local max_downloads=""
+        local custom_retries=""
         local url=""
 
         # Parse arguments
@@ -151,6 +152,10 @@ in
           case "$1" in
             -n|--max)
               max_downloads="$2"
+              shift 2
+              ;;
+            -r|--retries)
+              custom_retries="$2"
               shift 2
               ;;
             *)
@@ -163,10 +168,14 @@ in
         url="''${url## }"  # Trim leading space
 
         if [[ -z "$url" ]]; then
-          echo "Usage: dl-yt [-n|--max <number>] <url>"
-          echo "  -n, --max <number>  Limit number of videos to process (useful for channels/playlists)"
+          echo "Usage: dl-yt [-n|--max <number>] [-r|--retries <number>] <url>"
+          echo "  -n, --max <number>     Limit number of videos to process (useful for channels/playlists)"
+          echo "  -r, --retries <number> Number of retry attempts (0 for no retries, default: 10)"
           return 1
         fi
+
+        # Override MAX_RETRIES if specified
+        [[ -n "$custom_retries" ]] && local MAX_RETRIES="$custom_retries"
 
         local cookies_file="$HOME/.config/yt-dlp/cookies-youtube.txt"
         local temp_cookies=$(_setup_temp_cookies "$cookies_file")
@@ -200,6 +209,7 @@ in
       # YouTube playlist download
       download-youtube-playlist() {
         local max_downloads=""
+        local custom_retries=""
         local url=""
 
         # Parse arguments
@@ -207,6 +217,10 @@ in
           case "$1" in
             -n|--max)
               max_downloads="$2"
+              shift 2
+              ;;
+            -r|--retries)
+              custom_retries="$2"
               shift 2
               ;;
             *)
@@ -219,10 +233,14 @@ in
         url="''${url## }"  # Trim leading space
 
         if [[ -z "$url" ]]; then
-          echo "Usage: dl-yt-p [-n|--max <number>] <playlist-url>"
-          echo "  -n, --max <number>  Limit number of videos to download"
+          echo "Usage: dl-yt-p [-n|--max <number>] [-r|--retries <number>] <playlist-url>"
+          echo "  -n, --max <number>     Limit number of videos to download"
+          echo "  -r, --retries <number> Number of retry attempts (0 for no retries, default: 10)"
           return 1
         fi
+
+        # Override MAX_RETRIES if specified
+        [[ -n "$custom_retries" ]] && local MAX_RETRIES="$custom_retries"
 
         local cookies_file="$HOME/.config/yt-dlp/cookies-youtube.txt"
         local temp_cookies=$(_setup_temp_cookies "$cookies_file")
@@ -256,6 +274,7 @@ in
       # Bilibili single video download
       download-bilibili() {
         local max_downloads=""
+        local custom_retries=""
         local url=""
 
         # Parse arguments
@@ -263,6 +282,10 @@ in
           case "$1" in
             -n|--max)
               max_downloads="$2"
+              shift 2
+              ;;
+            -r|--retries)
+              custom_retries="$2"
               shift 2
               ;;
             *)
@@ -275,10 +298,14 @@ in
         url="''${url## }"  # Trim leading space
 
         if [[ -z "$url" ]]; then
-          echo "Usage: dl-bili [-n|--max <number>] <url>"
-          echo "  -n, --max <number>  Limit number of videos to process (useful for channels/playlists)"
+          echo "Usage: dl-bili [-n|--max <number>] [-r|--retries <number>] <url>"
+          echo "  -n, --max <number>     Limit number of videos to process (useful for channels/playlists)"
+          echo "  -r, --retries <number> Number of retry attempts (0 for no retries, default: 10)"
           return 1
         fi
+
+        # Override MAX_RETRIES if specified
+        [[ -n "$custom_retries" ]] && local MAX_RETRIES="$custom_retries"
 
         local cookies_file="$HOME/.config/yt-dlp/cookies-bilibili.txt"
         local temp_cookies=$(_setup_temp_cookies "$cookies_file")
@@ -312,6 +339,7 @@ in
       # Bilibili playlist/collection download
       download-bilibili-playlist() {
         local max_downloads=""
+        local custom_retries=""
         local url=""
 
         # Parse arguments
@@ -319,6 +347,10 @@ in
           case "$1" in
             -n|--max)
               max_downloads="$2"
+              shift 2
+              ;;
+            -r|--retries)
+              custom_retries="$2"
               shift 2
               ;;
             *)
@@ -331,10 +363,14 @@ in
         url="''${url## }"  # Trim leading space
 
         if [[ -z "$url" ]]; then
-          echo "Usage: dl-bili-p [-n|--max <number>] <playlist-url>"
-          echo "  -n, --max <number>  Limit number of videos to download"
+          echo "Usage: dl-bili-p [-n|--max <number>] [-r|--retries <number>] <playlist-url>"
+          echo "  -n, --max <number>     Limit number of videos to download"
+          echo "  -r, --retries <number> Number of retry attempts (0 for no retries, default: 10)"
           return 1
         fi
+
+        # Override MAX_RETRIES if specified
+        [[ -n "$custom_retries" ]] && local MAX_RETRIES="$custom_retries"
 
         local cookies_file="$HOME/.config/yt-dlp/cookies-bilibili.txt"
         local temp_cookies=$(_setup_temp_cookies "$cookies_file")
@@ -371,15 +407,16 @@ in
       Video Download Commands:
 
       YouTube:
-        dl-yt [-n <N>] <url>      - Download single YouTube video
-        dl-yt-p [-n <N>] <url>    - Download YouTube playlist
+        dl-yt [-n <N>] [-r <R>] <url>      - Download single YouTube video
+        dl-yt-p [-n <N>] [-r <R>] <url>    - Download YouTube playlist
 
       Bilibili:
-        dl-bili [-n <N>] <url>    - Download single Bilibili video
-        dl-bili-p [-n <N>] <url>  - Download Bilibili playlist/collection
+        dl-bili [-n <N>] [-r <R>] <url>    - Download single Bilibili video
+        dl-bili-p [-n <N>] [-r <R>] <url>  - Download Bilibili playlist/collection
 
       Options:
-        -n, --max <number>  Limit number of videos to process/download
+        -n, --max <number>     Limit number of videos to process/download
+        -r, --retries <number> Number of retry attempts (0 for no retries, default: 10)
 
       Other commands:
         dl-clear-archive - Clear download history (allows re-downloading)
