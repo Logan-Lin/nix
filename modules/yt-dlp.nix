@@ -178,22 +178,43 @@ in
       
       # YouTube single video download
       download-youtube() {
-        local url="$*"
+        local max_downloads=""
+        local url=""
+
+        # Parse arguments
+        while [[ $# -gt 0 ]]; do
+          case "$1" in
+            -n|--max)
+              max_downloads="$2"
+              shift 2
+              ;;
+            *)
+              url="$url $1"
+              shift
+              ;;
+          esac
+        done
+
+        url="''${url## }"  # Trim leading space
+
         if [[ -z "$url" ]]; then
-          echo "Usage: dl-yt <url>"
+          echo "Usage: dl-yt [-n|--max <number>] <url>"
+          echo "  -n, --max <number>  Limit number of videos to process (useful for channels/playlists)"
           return 1
         fi
-        
+
         local cookies_file="$HOME/.config/yt-dlp/cookies-youtube.txt"
         local temp_cookies=$(_setup_temp_cookies "$cookies_file")
         local output_template="$DOWNLOAD_DIR/YouTube/%(uploader|)s/%(upload_date>%Y%m%d|)s-%(title)s.%(ext)s"
         local archive_file="$DOWNLOAD_DIR/.archive.txt"
-        
+
         mkdir -p "$DOWNLOAD_DIR"
         echo "Downloading YouTube video..."
+        [[ -n "$max_downloads" ]] && echo "Processing max $max_downloads videos"
         echo "Output directory: $DOWNLOAD_DIR/YouTube"
-        
+
         local cmd="yt-dlp --match-filter 'duration >? 60'"
+        [[ -n "$max_downloads" ]] && cmd="$cmd --playlist-end '$max_downloads'"
         [[ -n "$temp_cookies" ]] && cmd="$cmd --cookies '$temp_cookies'" || cmd="$cmd --no-cookies"
         cmd="$cmd --download-archive '$archive_file' -o '$output_template' '$url'"
         
