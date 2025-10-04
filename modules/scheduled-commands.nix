@@ -5,93 +5,110 @@ with lib;
 let
   cfg = config.services.scheduled-commands;
 
-  # Create wrapper script that sources user shell environment
-  commandScript = pkgs.writeScriptBin "${cfg.serviceName}-run" ''
+  # Create wrapper script for a specific instance
+  makeCommandScript = name: instanceCfg: pkgs.writeScriptBin "${name}-run" ''
     #!${pkgs.zsh}/bin/zsh
     # Source user shell to get environment and functions
     source ${config.home.homeDirectory}/.zshrc
 
     # Execute commands sequentially
-    ${concatStringsSep "\n" cfg.commands}
+    ${concatStringsSep "\n" instanceCfg.commands}
   '';
+
+  # Filter for enabled instances
+  enabledInstances = filterAttrs (_: instanceCfg: instanceCfg.enable) cfg;
 in
 
 {
-  options.services.scheduled-commands = {
-    enable = mkEnableOption "scheduled command execution service";
+  options.services.scheduled-commands = mkOption {
+    type = types.attrsOf (types.submodule {
+      options = {
+        enable = mkEnableOption "this scheduled command instance";
 
-    commands = mkOption {
-      type = types.listOf types.str;
-      default = [];
-      example = [
-        "echo 'Starting backup...'"
-        "rsync -av /source /destination"
-        "echo 'Backup completed'"
-      ];
-      description = "List of shell commands to execute sequentially";
-    };
+        commands = mkOption {
+          type = types.listOf types.str;
+          default = [];
+          example = [
+            "echo 'Starting backup...'"
+            "rsync -av /source /destination"
+            "echo 'Backup completed'"
+          ];
+          description = "List of shell commands to execute sequentially";
+        };
 
-    interval = mkOption {
-      type = types.str;
-      default = "daily";
-      example = "*-*-* 08:00:00";
-      description = "Systemd timer schedule (OnCalendar format)";
-    };
+        interval = mkOption {
+          type = types.str;
+          default = "daily";
+          example = "*-*-* 08:00:00";
+          description = "Systemd timer schedule (OnCalendar format)";
+        };
 
-    randomDelay = mkOption {
-      type = types.str;
-      default = "0";
-      example = "1h";
-      description = "Random delay before execution (e.g., '30m', '1h')";
-    };
+        randomDelay = mkOption {
+          type = types.str;
+          default = "0";
+          example = "1h";
+          description = "Random delay before execution (e.g., '30m', '1h')";
+        };
 
-    serviceName = mkOption {
-      type = types.str;
-      default = "scheduled-commands";
-      example = "video-downloads";
-      description = "Name for the systemd service and timer";
-    };
-
-    serviceDescription = mkOption {
-      type = types.str;
-      default = "Execute scheduled commands";
-      example = "Download YouTube videos from subscriptions";
-      description = "Description for the systemd service";
-    };
+        description = mkOption {
+          type = types.str;
+          default = "Execute scheduled commands";
+          example = "Download YouTube videos from subscriptions";
+          description = "Description for the systemd service";
+        };
+      };
+    });
+    default = {};
+    description = "Scheduled command execution services";
   };
 
-  config = mkIf cfg.enable {
-    # Install the wrapper script
-    home.packages = [ commandScript ];
+  config = mkMerge [
+    # Install wrapper scripts for all enabled instances
+    {
+      home.packages = mapAttrsToList (name: instanceCfg:
+        makeCommandScript name instanceCfg
+      ) enabledInstances;
+    }
 
-    systemd.user.services.${cfg.serviceName} = {
-      Unit = {
-        Description = cfg.serviceDescription;
-        After = [ "network-online.target" ];
-      };
+    # Create systemd services and timers for all enabled instances
+    {
+      systemd.user.services = mapAttrs' (name: instanceCfg:
+        nameValuePair name {
+          Unit = {
+            Description = instanceCfg.description;
+            After = [ "network-online.target" ];
+          };
 
-      Service = {
-        Type = "oneshot";
-        ExecStart = "${commandScript}/bin/${cfg.serviceName}-run";
-        StandardOutput = "journal";
-        StandardError = "journal";
-      };
-    };
+          Service = {
+            Type = "oneshot";
+            ExecStart = "${makeCommandScript name instanceCfg}/bin/${name}-run";
+            StandardOutput = "journal";
+            StandardError = "journal";
+          };
 
-    systemd.user.timers.${cfg.serviceName} = {
-      Unit = {
-        Description = "Timer for ${cfg.serviceDescription}";
-      };
+          Install = {
+            WantedBy = mkForce [];
+          };
+        }
+      ) enabledInstances;
 
-      Timer = {
-        OnCalendar = cfg.interval;
-        Persistent = true;
-        RandomizedDelaySec = cfg.randomDelay;
-      };
+      systemd.user.timers = mapAttrs' (name: instanceCfg:
+        nameValuePair name {
+          Unit = {
+            Description = "Timer for ${instanceCfg.description}";
+          };
 
-      Install = {
-        WantedBy = [ "timers.target" ];
-      };
-    };
-  };
+          Timer = {
+            OnCalendar = instanceCfg.interval;
+            Persistent = true;
+            RandomizedDelaySec = instanceCfg.randomDelay;
+          };
+
+          Install = {
+            WantedBy = [ "timers.target" ];
+          };
+        }
+      ) enabledInstances;
+    }
+  ];
 }
