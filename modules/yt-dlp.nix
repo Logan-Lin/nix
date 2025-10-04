@@ -84,25 +84,29 @@ in
       # Quality settings
       --format "bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best"
       --merge-output-format mp4
-      
+
       # Download options
       --no-playlist
       --embed-thumbnail
       --write-thumbnail
       --write-description
       --write-info-json
-      
+
+      # Error handling
+      --ignore-errors
+      --no-abort-on-error
+
       # File naming and organization
       # Allow unicode characters in filenames for Chinese/Japanese content
-      
+
       # Performance
       --concurrent-fragments 4
       --retries 10
       --fragment-retries 10
-      
+
       # SponsorBlock for YouTube
       --sponsorblock-mark all
-      
+
       # User agent
       --user-agent "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
     '';
