@@ -16,11 +16,9 @@
     downloadDir = "/mnt/storage/Media/web";
   };
 
-  # Scheduled YouTube downloads
-  services.scheduled-commands = {
+  services.scheduled-commands.video-downloads = {
     enable = true;
-    serviceName = "video-downloads";
-    serviceDescription = "Download web videos from favorite channels";
+    description = "Download web videos from favorite channels";
     interval = "*-*-* 08:00:00";
     randomDelay = "1h";
     commands = [
