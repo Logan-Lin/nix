@@ -83,10 +83,6 @@
           name = "Media";
           bookmarks = [
             {
-              name = "RSS";
-              url = "https://rss.yanlincs.com";
-            }
-            {
               name = "Plex";
               url = "https://plex.yanlincs.com";
             }

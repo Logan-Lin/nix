@@ -85,19 +85,6 @@
           };
         };
 
-        # RSS reader (Miniflux)
-        rss = {
-          rule = "Host(`rss.yanlincs.com`)";
-          entrypoints = "websecure";
-          service = "rss";
-          tls = {
-            certResolver = "cloudflare";
-            domains = [{
-              main = "*.yanlincs.com";
-            }];
-          };
-        };
-
         # Linkding bookmark manager
         link = {
           rule = "Host(`link.yanlincs.com`)";
@@ -214,15 +201,6 @@
           loadBalancer = {
             servers = [{
               url = "http://10.2.2.20:5005";
-            }];
-          };
-        };
-
-        # RSS reader backend (via WireGuard)
-        rss = {
-          loadBalancer = {
-            servers = [{
-              url = "http://10.2.2.20:5006";
             }];
           };
         };
