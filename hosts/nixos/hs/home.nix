@@ -37,6 +37,7 @@
       "dl-yt -n 3 -r 1 'https://www.youtube.com/@DankPods/videos'"
       "dl-yt -n 3 -r 1 'https://www.youtube.com/@NuclearNotebook/videos'"
       "dl-yt -n 3 -r 1 'https://www.youtube.com/@thespiffingbrit/videos'"
+      "dl-yt -n 3 -r 1 'https://www.youtube.com/@DoshDoshington/videos'"
     ];
   };
   
