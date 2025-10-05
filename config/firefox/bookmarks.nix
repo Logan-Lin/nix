@@ -56,6 +56,10 @@
               name = "Messager";
               url = "https://www.facebook.com/messages/";
             }
+            {
+              name = "Discord";
+              url = "https://discord.com/channels/@me";
+            }
           ];
         }
         {
