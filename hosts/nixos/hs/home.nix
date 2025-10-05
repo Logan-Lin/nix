@@ -33,6 +33,10 @@
       "dl-yt -n 3 -r 1 'https://www.youtube.com/@_gerg/videos'"
       "dl-yt -n 3 -r 1 'https://www.youtube.com/@Yeah_Jaron/videos'"
       "dl-yt -n 3 -r 1 'https://www.youtube.com/@WolfgangsChannel/videos'"
+      "dl-yt -n 3 -r 1 'https://www.youtube.com/@ThatChiefGuy/videos'"
+      "dl-yt -n 3 -r 1 'https://www.youtube.com/@DankPods/videos'"
+      "dl-yt -n 3 -r 1 'https://www.youtube.com/@NuclearNotebook/videos'"
+      "dl-yt -n 3 -r 1 'https://www.youtube.com/@thespiffingbrit/videos'"
     ];
   };
   
