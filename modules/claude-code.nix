@@ -205,7 +205,7 @@ in
 
     model = mkOption {
       type = types.str;
-      default = "sonnet";
+      default = "default";
       description = "Default model to use with Claude Code";
     };
 
