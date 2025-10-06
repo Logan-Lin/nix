@@ -173,7 +173,6 @@ let
 
   # Global settings configuration
   globalSettings = {
-    model = cfg.model;
     spinnerTipsEnabled = false;
     todoEnabled = true;
     autoCompactEnabled = true;
@@ -202,12 +201,6 @@ in
 {
   options.programs.claude-code-custom = {
     enable = mkEnableOption "Claude Code AI assistant";
-
-    model = mkOption {
-      type = types.str;
-      default = "default";
-      description = "Default model to use with Claude Code";
-    };
 
     permissions = mkOption {
       type = types.nullOr (types.attrsOf (types.listOf types.str));
