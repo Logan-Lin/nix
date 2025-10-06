@@ -113,7 +113,7 @@
 
   # Container auto-updater configuration
   services.containerUpdater = {
-    enable = true;
+    enable = false;
     schedule = "*-*-* 03:00:00";  # Daily at 3 AM
     excludeContainers = [];  # Update all containers
     enableNotifications = true;

@@ -108,7 +108,7 @@
     # CLIP model for smart search
     clip = {
       enabled = true;
-      modelName = "immich-app/ViT-L-16-SigLIP-256__webli";  # Large model for better accuracy
+      modelName = "immich-app/ViT-SO400M-16-SigLIP2-384__webli";  # Large model for better accuracy
     };
     
     # Duplicate photo detection
