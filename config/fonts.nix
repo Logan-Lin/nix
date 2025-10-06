@@ -5,11 +5,14 @@
   home.packages = with pkgs; [
     # DejaVu font family
     dejavu_fonts
-    
+
     # Nerd Fonts with programming ligatures and icon support
     nerd-fonts.fira-code
     nerd-fonts.jetbrains-mono
-    
+
+    # Ubuntu font family
+    ubuntu_font_family
+
     # CJK fonts for proper Chinese/Japanese/Korean character display
     noto-fonts-cjk-sans     # Comprehensive CJK support
     noto-fonts-cjk-serif    # Serif CJK text support

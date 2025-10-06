@@ -117,5 +117,18 @@ in
       ];
     };
 
+    dl4traj = {
+      description = "DAKI3 2025 Semester";
+      windows = [
+        {
+          name = "";
+          path = homePath "Documents/Projects/Deep Learning for Spatiotemporal Trajectories";
+          ai = true;
+          git = true;
+          shell = true;
+        }
+      ];
+    };
+
   };
 }
