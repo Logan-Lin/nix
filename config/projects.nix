@@ -124,7 +124,7 @@ in
           name = "";
           path = homePath "Documents/Projects/Deep Learning for Spatiotemporal Trajectories";
           ai = true;
-          git = true;
+          git = false;
           shell = true;
         }
       ];
