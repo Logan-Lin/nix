@@ -33,6 +33,13 @@
           echo "Building $file..."
           latexmk -pdf -bibtex -shell-escape -interaction=nonstopmode \
             -output-directory="$output_dir" -f "$file"
+
+          # Copy PDF to current directory
+          local basename="''${file%.tex}"
+          if [[ -f "$output_dir/$basename.pdf" ]]; then
+            cp "$output_dir/$basename.pdf" "./"
+            echo "Copied $basename.pdf to current directory"
+          fi
         done
       else
         if [[ ! -f "$tex_file" ]]; then
@@ -42,6 +49,13 @@
 
         latexmk -pdf -bibtex -shell-escape -interaction=nonstopmode \
           -output-directory="$output_dir" -f "$tex_file"
+
+        # Copy PDF to current directory
+        local basename="''${tex_file%.tex}"
+        if [[ -f "$output_dir/$basename.pdf" ]]; then
+          cp "$output_dir/$basename.pdf" "./"
+          echo "Copied $basename.pdf to current directory"
+        fi
       fi
     }
 
@@ -61,8 +75,12 @@
         return 1
       fi
 
+      local basename="''${tex_file%.tex}"
+
       latexmk -pdf -pvc -view=none -shell-escape -interaction=nonstopmode \
-        -output-directory="$output_dir" -f "$tex_file"
+        -output-directory="$output_dir" \
+        -e "\$success_cmd = 'cp $output_dir/$basename.pdf ./';" \
+        "$tex_file"
     }
   '';
 }
