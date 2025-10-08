@@ -133,6 +133,8 @@ in
         local playlist_mode=false
         local max_downloads=""
         local custom_retries=""
+        local min_duration=""
+        local max_duration=""
         local url=""
 
         # Parse arguments
@@ -142,12 +144,20 @@ in
               playlist_mode=true
               shift
               ;;
-            -n|--max)
+            -n|--count)
               max_downloads="$2"
               shift 2
               ;;
             -r|--retries)
               custom_retries="$2"
+              shift 2
+              ;;
+            --min)
+              min_duration="$2"
+              shift 2
+              ;;
+            --max)
+              max_duration="$2"
               shift 2
               ;;
             youtube|bilibili)
@@ -165,15 +175,23 @@ in
 
         # Validate inputs
         if [[ -z "$platform" ]] || [[ -z "$url" ]]; then
-          echo "Usage: dlv <youtube|bilibili> [-p|--playlist] [-n|--max <number>] [-r|--retries <number>] <url>"
+          echo "Usage: dlv <youtube|bilibili> [OPTIONS] <url>"
           echo ""
           echo "Arguments:"
-          echo "  youtube|bilibili       Platform to download from"
+          echo "  youtube|bilibili           Platform to download from"
           echo ""
           echo "Options:"
-          echo "  -p, --playlist         Download as playlist"
-          echo "  -n, --max <number>     Limit number of videos to process/download"
-          echo "  -r, --retries <number> Number of retry attempts (0 for no retries, default: 10)"
+          echo "  -p, --playlist             Download as playlist"
+          echo "  -n, --count <number>       Limit number of videos to process/download"
+          echo "  -r, --retries <number>     Number of retry attempts (0 for no retries, default: 10)"
+          echo "  --min <minutes>            Minimum video duration in minutes"
+          echo "  --max <minutes>            Maximum video duration in minutes"
+          echo ""
+          echo "Examples:"
+          echo "  dlv youtube <url>                    - Download single YouTube video"
+          echo "  dlv youtube -p <url>                 - Download YouTube playlist"
+          echo "  dlv youtube --min 5 --max 30 <url>   - Download videos between 5-30 minutes"
+          echo "  dlv bilibili -p -n 10 <url>          - Download first 10 videos from playlist"
           return 1
         fi
 
@@ -194,6 +212,23 @@ in
             platform_flags="--referer https://www.bilibili.com/"
             ;;
         esac
+
+        # Build duration filter
+        local duration_filter=""
+        if [[ -n "$min_duration" ]] || [[ -n "$max_duration" ]]; then
+          local min_sec=""
+          local max_sec=""
+          [[ -n "$min_duration" ]] && min_sec=$((min_duration * 60))
+          [[ -n "$max_duration" ]] && max_sec=$((max_duration * 60))
+
+          if [[ -n "$min_sec" ]] && [[ -n "$max_sec" ]]; then
+            duration_filter="--match-filter \"duration >= $min_sec & duration <= $max_sec\""
+          elif [[ -n "$min_sec" ]]; then
+            duration_filter="--match-filter \"duration >= $min_sec\""
+          elif [[ -n "$max_sec" ]]; then
+            duration_filter="--match-filter \"duration <= $max_sec\""
+          fi
+        fi
 
         # Build output template based on playlist mode
         local output_template
@@ -218,7 +253,7 @@ in
         echo "Output directory: $DOWNLOAD_DIR/$platform_name"
 
         # Build command
-        local cmd="yt-dlp $platform_flags"
+        local cmd="yt-dlp $platform_flags $duration_filter"
         if [[ "$playlist_mode" == true ]]; then
           cmd="$cmd --yes-playlist"
         fi
