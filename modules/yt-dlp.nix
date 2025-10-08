@@ -135,6 +135,7 @@ in
         local custom_retries=""
         local min_duration=""
         local max_duration=""
+        local title_filter=""
         local url=""
 
         # Parse arguments
@@ -158,6 +159,10 @@ in
               ;;
             --max)
               max_duration="$2"
+              shift 2
+              ;;
+            --title)
+              title_filter="$2"
               shift 2
               ;;
             youtube|bilibili)
@@ -186,12 +191,14 @@ in
           echo "  -r, --retries <number>     Number of retry attempts (0 for no retries, default: 10)"
           echo "  --min <minutes>            Minimum video duration in minutes"
           echo "  --max <minutes>            Maximum video duration in minutes"
+          echo "  --title <string>           Filter videos by title (case-insensitive)"
           echo ""
           echo "Examples:"
-          echo "  dlv youtube <url>                    - Download single YouTube video"
-          echo "  dlv youtube -p <url>                 - Download YouTube playlist"
-          echo "  dlv youtube --min 5 --max 30 <url>   - Download videos between 5-30 minutes"
-          echo "  dlv bilibili -p -n 10 <url>          - Download first 10 videos from playlist"
+          echo "  dlv youtube <url>                         - Download single YouTube video"
+          echo "  dlv youtube -p <url>                      - Download YouTube playlist"
+          echo "  dlv youtube --min 5 --max 30 <url>        - Download videos between 5-30 minutes"
+          echo "  dlv youtube --title \"tutorial\" <url>      - Download videos with 'tutorial' in title"
+          echo "  dlv bilibili -p -n 10 <url>               - Download first 10 videos from playlist"
           return 1
         fi
 
@@ -213,8 +220,11 @@ in
             ;;
         esac
 
-        # Build duration filter
-        local duration_filter=""
+        # Build match filter (duration and/or title)
+        local match_filter=""
+        local filter_parts=()
+
+        # Duration filter
         if [[ -n "$min_duration" ]] || [[ -n "$max_duration" ]]; then
           local min_sec=""
           local max_sec=""
@@ -222,12 +232,24 @@ in
           [[ -n "$max_duration" ]] && max_sec=$((max_duration * 60))
 
           if [[ -n "$min_sec" ]] && [[ -n "$max_sec" ]]; then
-            duration_filter="--match-filter \"duration >= $min_sec & duration <= $max_sec\""
+            filter_parts+=("duration >= $min_sec & duration <= $max_sec")
           elif [[ -n "$min_sec" ]]; then
-            duration_filter="--match-filter \"duration >= $min_sec\""
+            filter_parts+=("duration >= $min_sec")
           elif [[ -n "$max_sec" ]]; then
-            duration_filter="--match-filter \"duration <= $max_sec\""
+            filter_parts+=("duration <= $max_sec")
           fi
+        fi
+
+        # Title filter
+        if [[ -n "$title_filter" ]]; then
+          filter_parts+=("title ~= '(?i).*$title_filter.*'")
+        fi
+
+        # Combine filters
+        if [[ ''${#filter_parts[@]} -gt 0 ]]; then
+          local combined_filter
+          combined_filter=$(IFS=" & "; echo "''${filter_parts[*]}")
+          match_filter="--match-filter \"$combined_filter\""
         fi
 
         # Build output template based on playlist mode
@@ -253,7 +275,7 @@ in
         echo "Output directory: $DOWNLOAD_DIR/$platform_name"
 
         # Build command
-        local cmd="yt-dlp $platform_flags $duration_filter"
+        local cmd="yt-dlp $platform_flags $match_filter"
         if [[ "$playlist_mode" == true ]]; then
           cmd="$cmd --yes-playlist"
         fi
