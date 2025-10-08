@@ -75,20 +75,6 @@ in
       --user-agent "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
     '';
 
-    # Shell aliases for different download types
-    programs.zsh.shellAliases = {
-      # YouTube downloads
-      dl-yt = "download-youtube";
-      dl-yt-p = "download-youtube-playlist";
-
-      # Bilibili downloads
-      dl-bili = "download-bilibili";
-      dl-bili-p = "download-bilibili-playlist";
-
-      # Help
-      dl-help = "download-help";
-    };
-
     programs.zsh.initContent = ''
       # Base download directory
       DOWNLOAD_DIR="${cfg.downloadDir}"
@@ -141,8 +127,10 @@ in
         return 1
       }
       
-      # YouTube single video download
-      download-youtube() {
+      # Unified video download function
+      dlv() {
+        local platform=""
+        local playlist_mode=false
         local max_downloads=""
         local custom_retries=""
         local url=""
@@ -150,6 +138,10 @@ in
         # Parse arguments
         while [[ $# -gt 0 ]]; do
           case "$1" in
+            -p|--playlist)
+              playlist_mode=true
+              shift
+              ;;
             -n|--max)
               max_downloads="$2"
               shift 2
@@ -157,6 +149,10 @@ in
             -r|--retries)
               custom_retries="$2"
               shift 2
+              ;;
+            youtube|bilibili)
+              platform="$1"
+              shift
               ;;
             *)
               url="$url $1"
@@ -167,9 +163,16 @@ in
 
         url="''${url## }"  # Trim leading space
 
-        if [[ -z "$url" ]]; then
-          echo "Usage: dl-yt [-n|--max <number>] [-r|--retries <number>] <url>"
-          echo "  -n, --max <number>     Limit number of videos to process (useful for channels/playlists)"
+        # Validate inputs
+        if [[ -z "$platform" ]] || [[ -z "$url" ]]; then
+          echo "Usage: dlv <youtube|bilibili> [-p|--playlist] [-n|--max <number>] [-r|--retries <number>] <url>"
+          echo ""
+          echo "Arguments:"
+          echo "  youtube|bilibili       Platform to download from"
+          echo ""
+          echo "Options:"
+          echo "  -p, --playlist         Download as playlist"
+          echo "  -n, --max <number>     Limit number of videos to process/download"
           echo "  -r, --retries <number> Number of retry attempts (0 for no retries, default: 10)"
           return 1
         fi
@@ -177,91 +180,66 @@ in
         # Override MAX_RETRIES if specified
         [[ -n "$custom_retries" ]] && local MAX_RETRIES="$custom_retries"
 
-        local cookies_file="$HOME/.config/yt-dlp/cookies-youtube.txt"
-        local temp_cookies=$(_setup_temp_cookies "$cookies_file")
-        local output_template="$DOWNLOAD_DIR/YouTube/%(uploader|)s/%(upload_date>%Y%m%d|)s-%(title)s.%(ext)s"
-        local archive_file="$DOWNLOAD_DIR/.archive.txt"
+        # Platform-specific configuration
+        local cookies_file platform_name platform_flags
+        case "$platform" in
+          youtube)
+            cookies_file="$HOME/.config/yt-dlp/cookies-youtube.txt"
+            platform_name="YouTube"
+            platform_flags=""
+            ;;
+          bilibili)
+            cookies_file="$HOME/.config/yt-dlp/cookies-bilibili.txt"
+            platform_name="Bilibili"
+            platform_flags="--referer https://www.bilibili.com/"
+            ;;
+        esac
 
-        mkdir -p "$DOWNLOAD_DIR"
-        echo "Downloading YouTube video..."
-        [[ -n "$max_downloads" ]] && echo "Processing max $max_downloads videos"
-        echo "Output directory: $DOWNLOAD_DIR/YouTube"
-
-        local cmd="yt-dlp --match-filter 'duration >? 60'"
-        [[ -n "$max_downloads" ]] && cmd="$cmd --playlist-end '$max_downloads'"
-        [[ -n "$temp_cookies" ]] && cmd="$cmd --cookies '$temp_cookies'" || cmd="$cmd --no-cookies"
-        cmd="$cmd --download-archive '$archive_file' -o '$output_template' '$url'"
-        
-        if _retry_download "$cmd"; then
-          echo "✓ Download completed successfully"
-          local result=0
+        # Build output template based on playlist mode
+        local output_template
+        if [[ "$playlist_mode" == true ]]; then
+          output_template="$DOWNLOAD_DIR/$platform_name/%(uploader|)s-%(playlist|)s/%(playlist_index|)03d-%(title)s.%(ext)s"
         else
-          echo "✗ Download failed after $MAX_RETRIES attempts"
-          local result=1
-        fi
-        
-        # Clean up temp cookies
-        [[ -n "$temp_cookies" ]] && rm -f "$temp_cookies"
-        
-        return $result
-      }
-      
-      # YouTube playlist download
-      download-youtube-playlist() {
-        local max_downloads=""
-        local custom_retries=""
-        local url=""
-
-        # Parse arguments
-        while [[ $# -gt 0 ]]; do
-          case "$1" in
-            -n|--max)
-              max_downloads="$2"
-              shift 2
-              ;;
-            -r|--retries)
-              custom_retries="$2"
-              shift 2
-              ;;
-            *)
-              url="$url $1"
-              shift
-              ;;
-          esac
-        done
-
-        url="''${url## }"  # Trim leading space
-
-        if [[ -z "$url" ]]; then
-          echo "Usage: dl-yt-p [-n|--max <number>] [-r|--retries <number>] <playlist-url>"
-          echo "  -n, --max <number>     Limit number of videos to download"
-          echo "  -r, --retries <number> Number of retry attempts (0 for no retries, default: 10)"
-          return 1
+          output_template="$DOWNLOAD_DIR/$platform_name/%(uploader|)s/%(upload_date>%Y%m%d|)s-%(title)s.%(ext)s"
         fi
 
-        # Override MAX_RETRIES if specified
-        [[ -n "$custom_retries" ]] && local MAX_RETRIES="$custom_retries"
-
-        local cookies_file="$HOME/.config/yt-dlp/cookies-youtube.txt"
         local temp_cookies=$(_setup_temp_cookies "$cookies_file")
-        local output_template="$DOWNLOAD_DIR/YouTube/%(uploader|)s-%(playlist|)s/%(playlist_index|)03d-%(title)s.%(ext)s"
         local archive_file="$DOWNLOAD_DIR/.archive.txt"
 
+        # Setup and display info
         mkdir -p "$DOWNLOAD_DIR"
-        echo "Downloading YouTube playlist..."
-        [[ -n "$max_downloads" ]] && echo "Limiting to $max_downloads videos"
-        echo "Output directory: $DOWNLOAD_DIR/YouTube"
+        if [[ "$playlist_mode" == true ]]; then
+          echo "Downloading $platform_name playlist..."
+          [[ -n "$max_downloads" ]] && echo "Limiting to $max_downloads videos"
+        else
+          echo "Downloading $platform_name video..."
+          [[ -n "$max_downloads" ]] && echo "Processing max $max_downloads videos"
+        fi
+        echo "Output directory: $DOWNLOAD_DIR/$platform_name"
 
-        local cmd="yt-dlp --yes-playlist"
+        # Build command
+        local cmd="yt-dlp $platform_flags"
+        if [[ "$playlist_mode" == true ]]; then
+          cmd="$cmd --yes-playlist"
+        fi
         [[ -n "$max_downloads" ]] && cmd="$cmd --playlist-end '$max_downloads'"
         [[ -n "$temp_cookies" ]] && cmd="$cmd --cookies '$temp_cookies'" || cmd="$cmd --no-cookies"
         cmd="$cmd --download-archive '$archive_file' -o '$output_template' '$url'"
 
+        # Execute download with retry
         if _retry_download "$cmd"; then
-          echo "✓ Playlist download completed successfully"
+          if [[ "$playlist_mode" == true ]]; then
+            echo "✓ Playlist download completed successfully"
+          else
+            echo "✓ Download completed successfully"
+          fi
           local result=0
         else
-          echo "✗ Playlist download failed after $MAX_RETRIES attempts"
+          if [[ "$playlist_mode" == true ]]; then
+            echo "✗ Playlist download failed after $MAX_RETRIES attempts"
+          else
+            echo "✗ Download failed after $MAX_RETRIES attempts"
+          fi
           local result=1
         fi
 
@@ -269,177 +247,6 @@ in
         [[ -n "$temp_cookies" ]] && rm -f "$temp_cookies"
 
         return $result
-      }
-      
-      # Bilibili single video download
-      download-bilibili() {
-        local max_downloads=""
-        local custom_retries=""
-        local url=""
-
-        # Parse arguments
-        while [[ $# -gt 0 ]]; do
-          case "$1" in
-            -n|--max)
-              max_downloads="$2"
-              shift 2
-              ;;
-            -r|--retries)
-              custom_retries="$2"
-              shift 2
-              ;;
-            *)
-              url="$url $1"
-              shift
-              ;;
-          esac
-        done
-
-        url="''${url## }"  # Trim leading space
-
-        if [[ -z "$url" ]]; then
-          echo "Usage: dl-bili [-n|--max <number>] [-r|--retries <number>] <url>"
-          echo "  -n, --max <number>     Limit number of videos to process (useful for channels/playlists)"
-          echo "  -r, --retries <number> Number of retry attempts (0 for no retries, default: 10)"
-          return 1
-        fi
-
-        # Override MAX_RETRIES if specified
-        [[ -n "$custom_retries" ]] && local MAX_RETRIES="$custom_retries"
-
-        local cookies_file="$HOME/.config/yt-dlp/cookies-bilibili.txt"
-        local temp_cookies=$(_setup_temp_cookies "$cookies_file")
-        local output_template="$DOWNLOAD_DIR/Bilibili/%(uploader|)s/%(upload_date>%Y%m%d|)s-%(title)s.%(ext)s"
-        local archive_file="$DOWNLOAD_DIR/.archive.txt"
-
-        mkdir -p "$DOWNLOAD_DIR"
-        echo "Downloading Bilibili video..."
-        [[ -n "$max_downloads" ]] && echo "Processing max $max_downloads videos"
-        echo "Output directory: $DOWNLOAD_DIR/Bilibili"
-
-        local cmd="yt-dlp --referer https://www.bilibili.com/"
-        [[ -n "$max_downloads" ]] && cmd="$cmd --playlist-end '$max_downloads'"
-        [[ -n "$temp_cookies" ]] && cmd="$cmd --cookies '$temp_cookies'" || cmd="$cmd --no-cookies"
-        cmd="$cmd --download-archive '$archive_file' -o '$output_template' '$url'"
-
-        if _retry_download "$cmd"; then
-          echo "✓ Download completed successfully"
-          local result=0
-        else
-          echo "✗ Download failed after $MAX_RETRIES attempts"
-          local result=1
-        fi
-
-        # Clean up temp cookies
-        [[ -n "$temp_cookies" ]] && rm -f "$temp_cookies"
-
-        return $result
-      }
-      
-      # Bilibili playlist/collection download
-      download-bilibili-playlist() {
-        local max_downloads=""
-        local custom_retries=""
-        local url=""
-
-        # Parse arguments
-        while [[ $# -gt 0 ]]; do
-          case "$1" in
-            -n|--max)
-              max_downloads="$2"
-              shift 2
-              ;;
-            -r|--retries)
-              custom_retries="$2"
-              shift 2
-              ;;
-            *)
-              url="$url $1"
-              shift
-              ;;
-          esac
-        done
-
-        url="''${url## }"  # Trim leading space
-
-        if [[ -z "$url" ]]; then
-          echo "Usage: dl-bili-p [-n|--max <number>] [-r|--retries <number>] <playlist-url>"
-          echo "  -n, --max <number>     Limit number of videos to download"
-          echo "  -r, --retries <number> Number of retry attempts (0 for no retries, default: 10)"
-          return 1
-        fi
-
-        # Override MAX_RETRIES if specified
-        [[ -n "$custom_retries" ]] && local MAX_RETRIES="$custom_retries"
-
-        local cookies_file="$HOME/.config/yt-dlp/cookies-bilibili.txt"
-        local temp_cookies=$(_setup_temp_cookies "$cookies_file")
-        local output_template="$DOWNLOAD_DIR/Bilibili/%(uploader|)s-%(playlist|)s/%(playlist_index|)03d-%(title)s.%(ext)s"
-        local archive_file="$DOWNLOAD_DIR/.archive.txt"
-
-        mkdir -p "$DOWNLOAD_DIR"
-        echo "Downloading Bilibili playlist..."
-        [[ -n "$max_downloads" ]] && echo "Limiting to $max_downloads videos"
-        echo "Output directory: $DOWNLOAD_DIR/Bilibili"
-
-        local cmd="yt-dlp --yes-playlist --referer https://www.bilibili.com/"
-        [[ -n "$max_downloads" ]] && cmd="$cmd --playlist-end '$max_downloads'"
-        [[ -n "$temp_cookies" ]] && cmd="$cmd --cookies '$temp_cookies'" || cmd="$cmd --no-cookies"
-        cmd="$cmd --download-archive '$archive_file' -o '$output_template' '$url'"
-
-        if _retry_download "$cmd"; then
-          echo "✓ Playlist download completed successfully"
-          local result=0
-        else
-          echo "✗ Playlist download failed after $MAX_RETRIES attempts"
-          local result=1
-        fi
-
-        # Clean up temp cookies
-        [[ -n "$temp_cookies" ]] && rm -f "$temp_cookies"
-
-        return $result
-      }
-      
-      # Function to show help and instructions
-      download-help() {
-        cat << 'EOF'
-      Video Download Commands:
-
-      YouTube:
-        dl-yt [-n <N>] [-r <R>] <url>      - Download single YouTube video
-        dl-yt-p [-n <N>] [-r <R>] <url>    - Download YouTube playlist
-
-      Bilibili:
-        dl-bili [-n <N>] [-r <R>] <url>    - Download single Bilibili video
-        dl-bili-p [-n <N>] [-r <R>] <url>  - Download Bilibili playlist/collection
-
-      Options:
-        -n, --max <number>     Limit number of videos to process/download
-        -r, --retries <number> Number of retry attempts (0 for no retries, default: 10)
-
-      Other commands:
-        dl-clear-archive - Clear download history (allows re-downloading)
-        dl-help          - Show this help message
-      
-      Cookies Update Instructions:
-      
-      1. Install a browser extension:
-         - Chrome/Edge: "Get cookies.txt LOCALLY"
-         - Firefox: "cookies.txt"
-      
-      2. Log in to the website (youtube.com or bilibili.com)
-      
-      3. Click the extension and export cookies
-      
-      4. Save the cookies:
-         - YouTube: ~/.config/yt-dlp/cookies-youtube.txt
-         - Bilibili: ~/.config/yt-dlp/cookies-bilibili.txt
-      
-      Alternative method using yt-dlp:
-         yt-dlp --cookies-from-browser firefox --cookies cookies-youtube.txt "https://youtube.com"
-         yt-dlp --cookies-from-browser firefox --cookies cookies-bilibili.txt "https://bilibili.com"
-      EOF
       }
       
       # Function to clear download archive
