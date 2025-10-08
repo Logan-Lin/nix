@@ -46,7 +46,7 @@ in
     # Create yt-dlp configuration file
     home.file.".config/yt-dlp/config".text = ''
       # Quality settings
-      --format "bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best"
+      --format "bestvideo[ext=mp4][height<=1080]+bestaudio[ext=m4a]/best[ext=mp4][height<=1080]/best"
       --merge-output-format mp4
 
       # Download options
