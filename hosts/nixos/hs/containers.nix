@@ -24,7 +24,7 @@ in
       image = "ghcr.io/imagegenius/immich:latest";
       
       volumes = [
-        "/var/lib/containers/immich/config:/config"
+        "/var/lib/containers/config/immich:/config"
         "/mnt/storage/appbulk/immich:/photos"
         "/mnt/storage/Media/DCIM:/libraries"
         # Mount the declarative config file
@@ -71,7 +71,7 @@ in
       image = "docker.io/tensorchord/pgvecto-rs:pg14-v0.2.0";
       
       volumes = [
-        "/var/lib/containers/immich/db:/var/lib/postgresql/data"
+        "/var/lib/containers/config/immich-db:/var/lib/postgresql/data"
       ];
       
       environment = {
@@ -103,7 +103,7 @@ in
       image = "docker.io/linuxserver/plex:latest";
       
       volumes = [
-        "/var/lib/containers/plex/config:/config"
+        "/var/lib/containers/config/plex:/config"
         "/mnt/storage/Media:/data"
       ];
 
@@ -141,7 +141,7 @@ in
       image = "docker.io/linuxserver/jellyfin:latest";
       
       volumes = [
-        "/var/lib/containers/jellyfin/config:/config"
+        "/var/lib/containers/config/jellyfin:/config"
         "/mnt/storage/Media:/data"
       ];
 
@@ -178,7 +178,7 @@ in
       image = "docker.io/linuxserver/sonarr:latest";
       
       volumes = [
-        "/var/lib/containers/sonarr/config:/config"
+        "/var/lib/containers/config/sonarr:/config"
         "/mnt/storage/Media:/data"
       ];
       
@@ -204,7 +204,7 @@ in
       image = "docker.io/linuxserver/radarr:latest";
       
       volumes = [
-        "/var/lib/containers/radarr/config:/config"
+        "/var/lib/containers/config/radarr:/config"
         "/mnt/storage/Media:/data"
       ];
       
@@ -230,7 +230,7 @@ in
       image = "docker.io/linuxserver/qbittorrent:4.6.7";
       
       volumes = [
-        "/var/lib/containers/qbit/config:/config"
+        "/var/lib/containers/config/qbittorrent:/config"
         "/mnt/storage/Media:/data"
       ];
       
@@ -254,7 +254,7 @@ in
       image = "ghcr.io/paperless-ngx/paperless-ngx:latest";
       
       volumes = [
-        "/var/lib/containers/paperless/config:/usr/src/paperless/data"
+        "/var/lib/containers/config/paperless:/usr/src/paperless/data"
         "/mnt/storage/appbulk/Paperless/media:/usr/src/paperless/media"
         "/mnt/storage/appbulk/Paperless/consume:/usr/src/paperless/consume"
         "/mnt/storage/appbulk/Paperless/export:/usr/src/paperless/export"
@@ -304,7 +304,7 @@ in
       image = "docker.io/linuxserver/nextcloud:latest";
       
       volumes = [
-        "/var/lib/containers/cloud/config:/config"
+        "/var/lib/containers/config/cloud:/config"
         "/mnt/storage/appbulk/cloud:/data"
         "/mnt/storage/Media/nsfw:/ext/nsfw"
       ];
@@ -332,7 +332,7 @@ in
       image = "docker.io/linuxserver/mariadb:latest";
       
       volumes = [
-        "/var/lib/containers/cloud/db:/config"
+        "/var/lib/containers/config/cloud-db:/config"
       ];
       
       environment = {
