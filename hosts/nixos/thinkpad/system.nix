@@ -6,7 +6,7 @@
     ../../../modules/wireguard.nix
     ../../../modules/podman.nix
     ../../../modules/borg-server.nix
-    ../../../modules/smart-report.nix
+    ../../../modules/login-display.nix
   ];
 
   # Bootloader - standard UEFI setup
@@ -329,15 +329,15 @@
     };
   };
 
-  # SMART disk health reporting
-  services.smart-report = {
+  # Login display with SMART disk health status
+  services.login-display = {
     enable = true;
-    enableSystemdService = true;
-    schedule = "09:00:00";
-    gotifyToken = "AieM4SJHFcyl7TC";
-    drives = {
+    showSystemInfo = true;
+    showSmartStatus = true;
+    smartDrives = {
       "/dev/nvme0n1" = "System_SSD_ThinkPad";
     };
+    showDiskUsage = true;
   };
 
   # Borg backup server configuration
