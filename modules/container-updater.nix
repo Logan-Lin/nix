@@ -27,33 +27,12 @@ in
         List of container names to exclude from automatic updates.
       '';
     };
-
-    enableNotifications = mkOption {
-      type = types.bool;
-      default = false;
-      description = "Enable Gotify notifications for update status";
-    };
-
-    gotifyUrl = mkOption {
-      type = types.str;
-      default = "";
-      example = "https://notify.yanlincs.com";
-      description = "Gotify server URL for notifications";
-    };
-
-    gotifyToken = mkOption {
-      type = types.str;
-      default = "";
-      example = "Ac9qKFH5cA.7Yly";
-      description = "Gotify API token for notifications";
-    };
   };
 
   config = mkIf cfg.enable {
     # Ensure the update script exists and is executable
     system.activationScripts.container-updater = ''
       chmod +x /home/yanlin/.config/nix/scripts/container-update.sh
-      chmod +x /home/yanlin/.config/nix/scripts/gotify-notify.sh
     '';
     
     # Shell alias for manual execution
@@ -68,8 +47,6 @@ in
       wants = [ "network-online.target" ];
       
       environment = {
-        GOTIFY_URL = mkIf cfg.enableNotifications cfg.gotifyUrl;
-        GOTIFY_TOKEN = mkIf cfg.enableNotifications cfg.gotifyToken;
         EXCLUDE_CONTAINERS = concatStringsSep "," cfg.excludeContainers;
       };
 

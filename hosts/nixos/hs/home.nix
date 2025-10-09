@@ -14,9 +14,6 @@
   programs.yt-dlp-custom = {
     enable = true;
     downloadDir = "/mnt/storage/Media/web";
-    enableNotifications = true;
-    gotifyUrl = "https://notify.yanlincs.com";
-    gotifyToken = "Ac9qKFH5cA.7Yly";  # Same token as container-updater and borg-backup
   };
 
   services.scheduled-commands.video-downloads = {
