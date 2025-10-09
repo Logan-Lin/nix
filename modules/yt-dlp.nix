@@ -23,6 +23,26 @@ in
       example = "/mnt/storage/videos";
       description = "Base directory for downloaded videos";
     };
+
+    enableNotifications = mkOption {
+      type = types.bool;
+      default = false;
+      description = "Enable Gotify notifications for download status";
+    };
+
+    gotifyUrl = mkOption {
+      type = types.str;
+      default = "";
+      example = "https://notify.yanlincs.com";
+      description = "Gotify server URL for notifications";
+    };
+
+    gotifyToken = mkOption {
+      type = types.str;
+      default = "";
+      example = "Ac9qKFH5cA.7Yly";
+      description = "Gotify API token for notifications (host-specific)";
+    };
   };
 
   config = mkIf cfg.enable {
@@ -79,10 +99,15 @@ in
       # Base download directory
       DOWNLOAD_DIR="${cfg.downloadDir}"
       DOWNLOAD_DIR="''${DOWNLOAD_DIR/#\~/$HOME}"
-      
+
       # Retry configuration
       MAX_RETRIES=10
       BASE_DELAY=10
+
+      # Notification configuration
+      ENABLE_NOTIFICATIONS="${toString cfg.enableNotifications}"
+      GOTIFY_URL="${cfg.gotifyUrl}"
+      GOTIFY_TOKEN="${cfg.gotifyToken}"
       
       # Helper function to create writable cookie file
       _setup_temp_cookies() {
@@ -97,22 +122,42 @@ in
         fi
       }
       
+      # Notification helper function
+      _send_download_notification() {
+        local priority="$1"
+        local title="$2"
+        local message="$3"
+
+        if [[ "$ENABLE_NOTIFICATIONS" == "1" ]] && [[ -n "$GOTIFY_URL" ]] && [[ -n "$GOTIFY_TOKEN" ]]; then
+          if [[ -x "$HOME/.config/nix/scripts/gotify-notify.sh" ]]; then
+            "$HOME/.config/nix/scripts/gotify-notify.sh" \
+              "$GOTIFY_URL" \
+              "$GOTIFY_TOKEN" \
+              "$priority" \
+              "$title" \
+              "$message" 2>/dev/null || echo "Failed to send notification (non-critical)" >&2
+          else
+            echo "Notification script not found or not executable" >&2
+          fi
+        fi
+      }
+
       # Retry wrapper function with exponential backoff
       _retry_download() {
         local cmd="$1"
         local attempt=1
         local delay=$BASE_DELAY
-        
+
         while [[ $attempt -le $MAX_RETRIES ]]; do
           echo "Attempt $attempt/$MAX_RETRIES..."
-          
+
           eval "$cmd"
           local result=$?
-          
+
           if [[ $result -eq 0 ]]; then
             return 0
           fi
-          
+
           if [[ $attempt -lt $MAX_RETRIES ]]; then
             echo "Download failed, retrying in ''${delay}s..."
             sleep $delay
@@ -120,10 +165,10 @@ in
           else
             echo "All retry attempts failed"
           fi
-          
+
           ((attempt++))
         done
-        
+
         return 1
       }
       
@@ -285,18 +330,48 @@ in
 
         # Execute download with retry
         if _retry_download "$cmd"; then
+          # Build success message
+          local success_msg="$platform_name download completed"
+          [[ "$playlist_mode" == true ]] && success_msg="$platform_name playlist download completed"
+
+          # Add filter info if any
+          local filter_info=""
+          if [[ -n "$min_duration" ]] || [[ -n "$max_duration" ]] || [[ -n "$title_filter" ]]; then
+            filter_info=" (Filters:"
+            [[ -n "$min_duration" ]] && filter_info="$filter_info min ''${min_duration}m"
+            [[ -n "$max_duration" ]] && filter_info="$filter_info max ''${max_duration}m"
+            [[ -n "$title_filter" ]] && filter_info="$filter_info title: \"$title_filter\""
+            filter_info="$filter_info)"
+          fi
+          [[ -n "$max_downloads" ]] && filter_info="''${filter_info} [max ''${max_downloads} videos]"
+
+          success_msg="''${success_msg}''${filter_info}"
+
           if [[ "$playlist_mode" == true ]]; then
             echo "✓ Playlist download completed successfully"
           else
             echo "✓ Download completed successfully"
           fi
+
+          # Send success notification
+          _send_download_notification "normal" "Download Completed" "$success_msg"
+
           local result=0
         else
+          # Build failure message
+          local fail_msg="$platform_name download failed after $MAX_RETRIES attempts"
+          [[ "$playlist_mode" == true ]] && fail_msg="$platform_name playlist download failed after $MAX_RETRIES attempts"
+          fail_msg="''${fail_msg}: $url"
+
           if [[ "$playlist_mode" == true ]]; then
             echo "✗ Playlist download failed after $MAX_RETRIES attempts"
           else
             echo "✗ Download failed after $MAX_RETRIES attempts"
           fi
+
+          # Send failure notification
+          _send_download_notification "high" "Download Failed" "$fail_msg"
+
           local result=1
         fi
 
