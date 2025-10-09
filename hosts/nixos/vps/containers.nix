@@ -62,32 +62,6 @@ in
       autoStart = true;
     };
 
-    # Gotify notification server
-    gotify = {
-      image = "docker.io/gotify/server";
-      
-      volumes = [
-        "/var/lib/containers/config/gotify:/app/data"
-      ];
-
-      labels = {
-        "traefik.enable" = "true";
-        "traefik.http.routers.notify.rule" = "Host(`notify.yanlincs.com`)";
-        "traefik.http.routers.notify.entrypoints" = "websecure";
-        "traefik.http.routers.notify.tls" = "true";
-        "traefik.http.routers.notify.tls.certresolver" = "cloudflare";
-        "traefik.http.routers.notify.tls.domains[0].main" = "*.yanlincs.com";
-        "traefik.http.services.notify.loadbalancer.server.port" = "80";
-      };
-      
-      extraOptions = [
-        "--network=podman"
-        "--security-opt=no-new-privileges:true"
-      ];
-      
-      autoStart = true;
-    };
-
     # OC Backend Scheduler
     oc-scheduler = {
       image = "localhost/oc-scheduler:v1";
