@@ -60,14 +60,14 @@ in
 
             ${concatStringsSep "\n" (mapAttrsToList (device: name: ''
               if [[ -e "${device}" ]]; then
-                # Determine if NVMe
-                SMART_OPTS=""
+                # Get health status (using sudo for disk access)
+                # Use separate commands for NVMe vs SATA to avoid variable expansion issues
                 if [[ "${device}" == *"nvme"* ]]; then
-                  SMART_OPTS="-d nvme"
+                  HEALTH_OUTPUT=$(sudo ${pkgs.smartmontools}/bin/smartctl -d nvme -H "${device}" 2>/dev/null)
+                else
+                  HEALTH_OUTPUT=$(sudo ${pkgs.smartmontools}/bin/smartctl -H "${device}" 2>/dev/null)
                 fi
 
-                # Get health status (using sudo for disk access)
-                HEALTH_OUTPUT=$(sudo ${pkgs.smartmontools}/bin/smartctl $SMART_OPTS -H "${device}" 2>/dev/null)
                 if HEALTH=$(echo "$HEALTH_OUTPUT" | ${pkgs.gnugrep}/bin/grep -o "PASSED\|FAILED" | head -1); then
                   : # HEALTH is set
                 else
@@ -77,11 +77,12 @@ in
                 # Get temperature
                 TEMP="N/A"
                 if [[ "$HEALTH" == "PASSED" ]]; then
-                  SMART_DATA=$(sudo ${pkgs.smartmontools}/bin/smartctl $SMART_OPTS -A "${device}" 2>/dev/null)
                   if [[ "${device}" == *"nvme"* ]]; then
+                    SMART_DATA=$(sudo ${pkgs.smartmontools}/bin/smartctl -d nvme -A "${device}" 2>/dev/null)
                     TEMP=$(echo "$SMART_DATA" | ${pkgs.gawk}/bin/awk '/^Temperature:/ {print $2}' | head -1)
                     [[ -n "$TEMP" && "$TEMP" =~ ^[0-9]+$ ]] && TEMP="''${TEMP}°C" || TEMP="N/A"
                   else
+                    SMART_DATA=$(sudo ${pkgs.smartmontools}/bin/smartctl -A "${device}" 2>/dev/null)
                     TEMP=$(echo "$SMART_DATA" | ${pkgs.gawk}/bin/awk '/Temperature_Celsius/ {print $10}' | head -1)
                     [[ -n "$TEMP" && "$TEMP" =~ ^[0-9]+$ ]] && TEMP="''${TEMP}°C" || TEMP="N/A"
                   fi
