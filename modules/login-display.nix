@@ -67,7 +67,12 @@ in
                 fi
 
                 # Get health status (using sudo for disk access)
-                HEALTH=$(sudo ${pkgs.smartmontools}/bin/smartctl $SMART_OPTS -H "${device}" 2>/dev/null | ${pkgs.gnugrep}/bin/grep -o "PASSED\|FAILED" | head -1 || echo "UNKNOWN")
+                HEALTH_OUTPUT=$(sudo ${pkgs.smartmontools}/bin/smartctl $SMART_OPTS -H "${device}" 2>/dev/null)
+                if HEALTH=$(echo "$HEALTH_OUTPUT" | ${pkgs.gnugrep}/bin/grep -o "PASSED\|FAILED" | head -1); then
+                  : # HEALTH is set
+                else
+                  HEALTH="UNKNOWN"
+                fi
 
                 # Get temperature
                 TEMP="N/A"
