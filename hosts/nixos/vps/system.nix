@@ -8,6 +8,7 @@
     ../../../modules/podman.nix
     ../../../modules/traefik.nix
     ../../../modules/borg-client.nix
+    ../../../modules/login-display.nix
   ];
 
   # GRUB bootloader with UEFI support
@@ -54,10 +55,6 @@
     ];
   };
 
-
-  # No additional host-specific packages needed
-
-
   # Borg backup configuration
   services.borgbackup-custom = {
     enable = true;
@@ -88,6 +85,13 @@
     postHook = ''
       echo "$(date): Borg backup of ${config.networking.hostName} completed successfully"
     '';
+  };
+
+  services.login-display = {
+    enable = true;
+    showSystemInfo = true;
+    showSmartStatus = false;
+    showDiskUsage = true;
   };
 
   # WireGuard VPN configuration (VPS as hub/server)
