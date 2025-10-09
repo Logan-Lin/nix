@@ -231,7 +231,8 @@
       "/dev/disk/by-id/ata-HGST_HUH721212ALE604_5PJ7Z3LE" = "Data_Drive_2_12TB";
       "/dev/disk/by-id/ata-ST16000NM000J-2TW103_WRS0F8BE" = "Parity_Drive_16TB";
     };
-    showDiskUsage = false;
+    showDiskUsage = true;
+    diskUsagePaths = [ "/" "/mnt/storage" "/mnt/parity" ];
   };
 
   # Borg backup configuration
