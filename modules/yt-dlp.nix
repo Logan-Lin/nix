@@ -345,7 +345,7 @@ in
           fi
           [[ -n "$max_downloads" ]] && filter_info="''${filter_info} [max ''${max_downloads} videos]"
 
-          success_msg="''${success_msg}''${filter_info}"
+          success_msg="''${success_msg}''${filter_info}: $url"
 
           if [[ "$playlist_mode" == true ]]; then
             echo "✓ Playlist download completed successfully"
