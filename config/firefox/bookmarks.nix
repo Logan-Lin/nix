@@ -6,10 +6,6 @@
       toolbar = true;
       bookmarks = [
         {
-          name = "Links";
-          url = "https://link.yanlincs.com";
-        }
-        {
           name = "Claude";
           url = "https://claude.ai";
         }
@@ -60,6 +56,10 @@
               name = "Discord";
               url = "https://discord.com/channels/@me";
             }
+            {
+              name = "AAU Admin";
+              url = "https://www.its.aau.dk/systemoversigt";
+            }
           ];
         }
         {
@@ -105,6 +105,39 @@
             {
               name = "qBittorrent";
               url = "https://qbit.yanlincs.com";
+            }
+            {
+              name = "Resource";
+              bookmarks = [
+                {
+                  name = "M-Teams";
+                  url = "https://next.m-team.cc/index";
+                }
+                {
+                  name = "PTer";
+                  url = "https://pterclub.com/torrents.php";
+                }
+                {
+                  name = "HDSky";
+                  url = "https://hdsky.me/torrents.php";
+                }
+                {
+                  name = "Ourbits";
+                  url = "https://ourbits.club/index.php";
+                }
+                {
+                  name = "U2";
+                  url = "https://u2.dmhy.org/torrents.php";
+                }
+                {
+                  name = "Jpopsuki";
+                  url = "https://jpopsuki.eu/index.php";
+                }
+                {
+                  name = "dhmy";
+                  url = "https://share.dmhy.org/";
+                }
+              ];
             }
           ];
         }

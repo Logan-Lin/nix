@@ -299,25 +299,6 @@ in
       autoStart = true;
     };
 
-    # Linkding bookmark manager
-    linkding = {
-      image = "docker.io/sissbruecker/linkding:latest-plus";
-      
-      volumes = [
-        "/var/lib/containers/link:/etc/linkding/data"
-      ];
-      
-      ports = [
-        "5007:9090"
-      ];
-      
-      extraOptions = [
-        "--network=podman"
-      ];
-      
-      autoStart = true;
-    };
-
     # Nextcloud cloud storage and file sharing
     cloud = {
       image = "docker.io/linuxserver/nextcloud:latest";
