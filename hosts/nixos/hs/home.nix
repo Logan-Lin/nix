@@ -14,6 +14,9 @@
   programs.yt-dlp-custom = {
     enable = true;
     downloadDir = "/mnt/storage/Media/web";
+    enableNotifications = true;
+    gotifyUrl = "https://notify.yanlincs.com";
+    gotifyToken = "Ac9qKFH5cA.7Yly";  # Same token as container-updater and borg-backup
   };
 
   services.scheduled-commands.video-downloads = {
@@ -39,6 +42,7 @@
       "dlv youtube -n 3 -r 1 --min 1 --max 180 'https://www.youtube.com/@thespiffingbrit/videos'"
       "dlv youtube -n 3 -r 1 --min 1 --max 180 'https://www.youtube.com/@DoshDoshington/videos'"
       "dlv youtube -n 3 -r 1 --min 1 --max 180 'https://www.youtube.com/@ScottTheWoz/videos'"
+      "dlv bilibili -n 3 -r 1 --title '摸鱼切片' 'https://space.bilibili.com/15810/upload/video'"
     ];
   };
   
