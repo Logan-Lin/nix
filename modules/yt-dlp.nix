@@ -23,26 +23,6 @@ in
       example = "/mnt/storage/videos";
       description = "Base directory for downloaded videos";
     };
-
-    enableNotifications = mkOption {
-      type = types.bool;
-      default = false;
-      description = "Enable Gotify notifications for download status";
-    };
-
-    gotifyUrl = mkOption {
-      type = types.str;
-      default = "";
-      example = "https://notify.yanlincs.com";
-      description = "Gotify server URL for notifications";
-    };
-
-    gotifyToken = mkOption {
-      type = types.str;
-      default = "";
-      example = "Ac9qKFH5cA.7Yly";
-      description = "Gotify API token for notifications (host-specific)";
-    };
   };
 
   config = mkIf cfg.enable {
@@ -104,11 +84,6 @@ in
       MAX_RETRIES=10
       BASE_DELAY=10
 
-      # Notification configuration
-      ENABLE_NOTIFICATIONS="${toString cfg.enableNotifications}"
-      GOTIFY_URL="${cfg.gotifyUrl}"
-      GOTIFY_TOKEN="${cfg.gotifyToken}"
-      
       # Helper function to create writable cookie file
       _setup_temp_cookies() {
         local cookies_file="$1"
@@ -122,26 +97,6 @@ in
         fi
       }
       
-      # Notification helper function
-      _send_download_notification() {
-        local priority="$1"
-        local title="$2"
-        local message="$3"
-
-        if [[ "$ENABLE_NOTIFICATIONS" == "1" ]] && [[ -n "$GOTIFY_URL" ]] && [[ -n "$GOTIFY_TOKEN" ]]; then
-          if [[ -x "$HOME/.config/nix/scripts/gotify-notify.sh" ]]; then
-            "$HOME/.config/nix/scripts/gotify-notify.sh" \
-              "$GOTIFY_URL" \
-              "$GOTIFY_TOKEN" \
-              "$priority" \
-              "$title" \
-              "$message" 2>/dev/null || echo "Failed to send notification (non-critical)" >&2
-          else
-            echo "Notification script not found or not executable" >&2
-          fi
-        fi
-      }
-
       # Retry wrapper function with exponential backoff
       _retry_download() {
         local cmd="$1"
@@ -353,9 +308,6 @@ in
             echo "✓ Download completed successfully"
           fi
 
-          # Send success notification
-          _send_download_notification "normal" "Download Completed" "$success_msg"
-
           local result=0
         else
           # Build failure message
@@ -368,9 +320,6 @@ in
           else
             echo "✗ Download failed after $MAX_RETRIES attempts"
           fi
-
-          # Send failure notification
-          _send_download_notification "high" "Download Failed" "$fail_msg"
 
           local result=1
         fi
