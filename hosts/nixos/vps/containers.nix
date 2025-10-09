@@ -67,7 +67,7 @@ in
       image = "docker.io/gotify/server";
       
       volumes = [
-        "/var/lib/containers/gotify:/app/data"
+        "/var/lib/containers/config/gotify:/app/data"
       ];
 
       labels = {

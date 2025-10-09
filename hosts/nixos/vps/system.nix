@@ -65,7 +65,7 @@
     repositoryUrl = "ssh://borg-backup/./vps";
     backupPaths = [
       "/home"
-      "/var/lib/containers"
+      "/var/lib/containers/config"
       "/etc"
     ];
     # Examples:
