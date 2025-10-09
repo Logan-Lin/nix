@@ -22,10 +22,6 @@
           url = "https://photo.yanlincs.com/photos";
         }
         {
-          name = "Gotify";
-          url = "https://notify.yanlincs.com/";
-        }
-        {
           name = "Productivity";
           bookmarks = [
             {
