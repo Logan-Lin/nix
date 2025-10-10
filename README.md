@@ -76,29 +76,28 @@ Modules are self-contained and handle both package installation and configuratio
 - `git.nix` - Version control with aliases
 - `homebrew.nix` - macOS package management
 - `lazygit.nix` - Terminal UI for git
+- `login-display.nix` - SSH login display with system/disk info
 - `nvim.nix` - Neovim editor configuration
 - `papis.nix` - Academic reference manager
 - `plasma.nix` - KDE desktop environment
 - `podman.nix` - Container runtime
 - `rsync.nix` - File synchronization tools
 - `samba.nix` - SMB file sharing
-- `smart-report.nix` - Disk health monitoring
+- `scheduled-commands.nix` - Systemd timer service framework
 - `ssh.nix` - SSH client configuration
 - `syncthing.nix` - Continuous file synchronization
 - `termscp.nix` - Terminal file transfer client
+- `tex.nix` - LaTeX/TeX compilation environment
 - `tmux.nix` - Terminal multiplexer
 - `traefik.nix` - Reverse proxy with SSL
 - `webdav.nix` - WebDAV file server
 - `wireguard.nix` - VPN networking
-- `yt-dlp.nix` - Video downloader
+- `yt-dlp.nix` - Video downloader with filtering
 - `zsh.nix` - Shell with modern tools
 
 ## Scripts
 
-- `borg-integrity-check.sh` - Verify backup repository consistency
 - `container-update.sh` - Update container images safely
-- `daily-smart-report.sh` - Generate disk health reports
-- `gotify-notify.sh` - Send notifications via Gotify
 - `project-launcher.sh` - Tmux session manager for projects
 
 ## Custom Workflows
@@ -142,10 +141,8 @@ systemctl list-timers
 
 ### Manual Timer Service Execution
 - `dl-subs-yt` - Check YouTube subscriptions and download new videos
-- `smart-report-now` - Run SMART disk health report manually
 - `container-update-now` - Update container images manually
 - `borg-backup-now` - Run backup manually
-- `borg-check-now` - Run backup integrity check manually
 
 ## Notes
 
