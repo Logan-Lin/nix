@@ -135,7 +135,7 @@
                   url = "https://jpopsuki.eu/index.php";
                 }
                 {
-                  name = "dhmy";
+                  name = "dmhy";
                   url = "https://share.dmhy.org/";
                 }
               ];
