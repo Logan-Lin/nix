@@ -41,6 +41,15 @@
               url = "https://teams.microsoft.com/v2/";
             }
             {
+              name = "AAU Admin";
+              url = "https://www.its.aau.dk/systemoversigt";
+            }
+          ];
+        }
+        {
+          name = "Message";
+          bookmarks = [
+            {
               name = "WhatsApp";
               url = "https://web.whatsapp.com/";
             }
@@ -51,10 +60,6 @@
             {
               name = "Discord";
               url = "https://discord.com/channels/@me";
-            }
-            {
-              name = "AAU Admin";
-              url = "https://www.its.aau.dk/systemoversigt";
             }
           ];
         }
