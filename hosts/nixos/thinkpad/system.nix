@@ -335,7 +335,7 @@
     showSystemInfo = true;
     showSmartStatus = true;
     smartDrives = {
-      "/dev/nvme0n1" = "System_SSD_ThinkPad";
+      "/dev/nvme0n1" = "System_SSD";
     };
     showDiskUsage = true;
   };
