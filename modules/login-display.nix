@@ -187,7 +187,7 @@ in
         # Build borg backup status display
         borgStatusCode = optionalString cfg.showBorgStatus ''
           # Query journalctl for borg-backup.service
-          BORG_LOG=$(journalctl -u borg-backup.service -n 50 --no-pager --output=cat 2>/dev/null || echo "")
+          BORG_LOG=$(journalctl -u borg-backup.service -n 100 --no-pager --output=cat 2>/dev/null || echo "")
 
           if [[ -z "$BORG_LOG" ]]; then
             # Service never ran
@@ -196,11 +196,10 @@ in
             # Check if last backup succeeded
             if echo "$BORG_LOG" | ${pkgs.gnugrep}/bin/grep -q "Backup process completed successfully"; then
               STATUS_SYMBOL="\\033[38;2;80;250;123m✓\\033[0m"
-              STATUS_TEXT="SUCCESS"
               STATUS_COLOR="\\033[38;2;80;250;123m"
 
               # Get timestamp of last successful backup
-              LAST_TIMESTAMP=$(journalctl -u borg-backup.service --output=short-iso -n 50 --no-pager 2>/dev/null | ${pkgs.gnugrep}/bin/grep "Backup process completed successfully" | tail -1 | ${pkgs.gawk}/bin/awk '{print $1}')
+              LAST_TIMESTAMP=$(journalctl -u borg-backup.service --output=short-iso -n 100 --no-pager 2>/dev/null | ${pkgs.gnugrep}/bin/grep "Backup process completed successfully" | tail -1 | ${pkgs.gawk}/bin/awk '{print $1}')
 
               if [[ -n "$LAST_TIMESTAMP" ]]; then
                 # Calculate time ago
@@ -230,20 +229,44 @@ in
                 TIME_AGO="Unknown"
               fi
 
-              # Try to extract archive size
-              ARCHIVE_SIZE=$(echo "$BORG_LOG" | ${pkgs.gnugrep}/bin/grep -E "Archive:" | tail -1 | ${pkgs.gawk}/bin/awk '{print $2, $3}')
+              # Extract archive statistics from borg output
+              # Look for lines like: "Archive name: ..." and "This archive: X.XX GB"
+              ARCHIVE_NAME=$(echo "$BORG_LOG" | ${pkgs.gnugrep}/bin/grep -oP "Archive name: \K.*" | tail -1)
+              ARCHIVE_SIZE=$(echo "$BORG_LOG" | ${pkgs.gnugrep}/bin/grep -oP "(Original size|This archive):\s+\K[0-9.]+ [KMGT]?B" | tail -1)
+              COMPRESSED_SIZE=$(echo "$BORG_LOG" | ${pkgs.gnugrep}/bin/grep -oP "Compressed size:\s+\K[0-9.]+ [KMGT]?B" | tail -1)
+              DEDUPLICATED_SIZE=$(echo "$BORG_LOG" | ${pkgs.gnugrep}/bin/grep -oP "Deduplicated size:\s+\K[0-9.]+ [KMGT]?B" | tail -1)
+              FILES_COUNT=$(echo "$BORG_LOG" | ${pkgs.gnugrep}/bin/grep -oP "Number of files:\s+\K[0-9]+" | tail -1)
 
-              if [[ -n "$ARCHIVE_SIZE" ]]; then
-                printf "  %b \\033[2mLast backup\\033[0m  %b%s\\033[0m  \\033[2m%s\\033[0m\n" "$STATUS_SYMBOL" "$STATUS_COLOR" "$TIME_AGO" "$ARCHIVE_SIZE"
-              else
-                printf "  %b \\033[2mLast backup\\033[0m  %b%s\\033[0m\n" "$STATUS_SYMBOL" "$STATUS_COLOR" "$TIME_AGO"
+              # Display main status line
+              printf "  %b \\033[2mLast backup\\033[0m  %b%s\\033[0m" "$STATUS_SYMBOL" "$STATUS_COLOR" "$TIME_AGO"
+
+              # Add archive size if available
+              if [[ -n "$DEDUPLICATED_SIZE" ]]; then
+                printf "  \\033[2m%s\\033[0m" "$DEDUPLICATED_SIZE"
+              elif [[ -n "$ARCHIVE_SIZE" ]]; then
+                printf "  \\033[2m%s\\033[0m" "$ARCHIVE_SIZE"
               fi
+              printf "\n"
+
+              # Display additional details if available
+              if [[ -n "$ARCHIVE_SIZE" ]] && [[ -n "$COMPRESSED_SIZE" ]] && [[ -n "$DEDUPLICATED_SIZE" ]]; then
+                printf "  \\033[2m  Original: %s  Compressed: %s  Dedup: %s\\033[0m\n" "$ARCHIVE_SIZE" "$COMPRESSED_SIZE" "$DEDUPLICATED_SIZE"
+              fi
+
+              if [[ -n "$FILES_COUNT" ]]; then
+                printf "  \\033[2m  Files: %s\\033[0m\n" "$FILES_COUNT"
+              fi
+
             else
               # Check for errors
               if echo "$BORG_LOG" | ${pkgs.gnugrep}/bin/grep -q "ERROR"; then
                 STATUS_SYMBOL="\\033[38;2;255;85;85m✗\\033[0m"
                 STATUS_TEXT="FAILED"
+                ERROR_MSG=$(echo "$BORG_LOG" | ${pkgs.gnugrep}/bin/grep "ERROR" | tail -1 | ${pkgs.gawk}/bin/awk '{print substr($0, index($0,$2))}' | cut -c1-60)
                 printf "  %b \\033[2mLast backup\\033[0m  \\033[38;2;255;85;85m%s\\033[0m\n" "$STATUS_SYMBOL" "$STATUS_TEXT"
+                if [[ -n "$ERROR_MSG" ]]; then
+                  printf "  \\033[2m  %s\\033[0m\n" "$ERROR_MSG"
+                fi
               else
                 STATUS_SYMBOL="\\033[38;2;241;250;140m⚠\\033[0m"
                 STATUS_TEXT="Unknown"
