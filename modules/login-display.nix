@@ -54,6 +54,12 @@ in
       default = false;
       description = "Show last container updater status";
     };
+
+    showSnapraidStatus = mkOption {
+      type = types.bool;
+      default = false;
+      description = "Show SnapRAID sync and scrub status";
+    };
   };
 
   config = mkIf cfg.enable {
@@ -188,6 +194,133 @@ in
 
             printf "  \\033[2m%-12s\\033[0m %6s/%-6s %b%s\\033[0m %5s\n" "${path}" "$USED" "$TOTAL" "$BAR_COLOR" "$BAR" "$PCT"
           '') cfg.diskUsagePaths}
+        '';
+
+        # Build SnapRAID status display
+        snapraidStatusCode = optionalString cfg.showSnapraidStatus ''
+          # Query journalctl for snapraid services
+          SNAPRAID_SYNC_LOG=$(journalctl -u snapraid-sync.service -n 100 --no-pager --output=cat 2>/dev/null || echo "")
+          SNAPRAID_SCRUB_LOG=$(journalctl -u snapraid-scrub.service -n 100 --no-pager --output=cat 2>/dev/null || echo "")
+
+          # Parse sync status
+          if [[ -n "$SNAPRAID_SYNC_LOG" ]]; then
+            # Check for completion messages
+            if echo "$SNAPRAID_SYNC_LOG" | ${pkgs.gnugrep}/bin/grep -q "Everything OK"; then
+              SYNC_STATUS="✓"
+              SYNC_COLOR="\\033[38;2;80;250;123m"
+
+              # Get timestamp
+              SYNC_TIMESTAMP=$(journalctl -u snapraid-sync.service --output=short-iso -n 100 --no-pager 2>/dev/null | ${pkgs.gnugrep}/bin/grep "Everything OK" | tail -1 | ${pkgs.gawk}/bin/awk '{print $1}')
+
+              if [[ -n "$SYNC_TIMESTAMP" ]]; then
+                SYNC_EPOCH=$(date -d "$SYNC_TIMESTAMP" +%s 2>/dev/null || echo "0")
+                NOW_EPOCH=$(date +%s)
+                DIFF_SECONDS=$((NOW_EPOCH - SYNC_EPOCH))
+
+                if [[ $DIFF_SECONDS -lt 3600 ]]; then
+                  SYNC_TIME="$((DIFF_SECONDS / 60))m ago"
+                elif [[ $DIFF_SECONDS -lt 86400 ]]; then
+                  SYNC_TIME="$((DIFF_SECONDS / 3600))h ago"
+                else
+                  SYNC_TIME="$((DIFF_SECONDS / 86400))d ago"
+                fi
+
+                # Adjust color if old
+                if [[ $DIFF_SECONDS -gt 172800 ]]; then
+                  SYNC_STATUS="✗"
+                  SYNC_COLOR="\\033[38;2;255;85;85m"
+                elif [[ $DIFF_SECONDS -gt 86400 ]]; then
+                  SYNC_STATUS="⚠"
+                  SYNC_COLOR="\\033[38;2;241;250;140m"
+                fi
+              else
+                SYNC_TIME="Unknown"
+              fi
+
+              # Extract stats
+              FILES_SYNCED=$(echo "$SNAPRAID_SYNC_LOG" | ${pkgs.gnugrep}/bin/grep -oP "equal\s+\K[0-9]+" | tail -1)
+              FILES_ADDED=$(echo "$SNAPRAID_SYNC_LOG" | ${pkgs.gnugrep}/bin/grep -oP "added\s+\K[0-9]+" | tail -1)
+              FILES_REMOVED=$(echo "$SNAPRAID_SYNC_LOG" | ${pkgs.gnugrep}/bin/grep -oP "removed\s+\K[0-9]+" | tail -1)
+              FILES_UPDATED=$(echo "$SNAPRAID_SYNC_LOG" | ${pkgs.gnugrep}/bin/grep -oP "updated\s+\K[0-9]+" | tail -1)
+
+              # Build sync details
+              SYNC_DETAILS=""
+              [[ -n "$FILES_ADDED" && "$FILES_ADDED" != "0" ]] && SYNC_DETAILS="$SYNC_DETAILS, $FILES_ADDED added"
+              [[ -n "$FILES_REMOVED" && "$FILES_REMOVED" != "0" ]] && SYNC_DETAILS="$SYNC_DETAILS, $FILES_REMOVED removed"
+              [[ -n "$FILES_UPDATED" && "$FILES_UPDATED" != "0" ]] && SYNC_DETAILS="$SYNC_DETAILS, $FILES_UPDATED updated"
+              SYNC_DETAILS=$(echo "$SYNC_DETAILS" | sed 's/^, //')
+
+              if [[ -n "$FILES_SYNCED" ]]; then
+                if [[ -n "$SYNC_DETAILS" ]]; then
+                  printf "  %b%s\\033[0m \\033[2mLast sync\\033[0m    %b%s\\033[0m  \\033[2m%s files (%s)\\033[0m\n" "$SYNC_COLOR" "$SYNC_STATUS" "$SYNC_COLOR" "$SYNC_TIME" "$FILES_SYNCED" "$SYNC_DETAILS"
+                else
+                  printf "  %b%s\\033[0m \\033[2mLast sync\\033[0m    %b%s\\033[0m  \\033[2m%s files\\033[0m\n" "$SYNC_COLOR" "$SYNC_STATUS" "$SYNC_COLOR" "$SYNC_TIME" "$FILES_SYNCED"
+                fi
+              else
+                printf "  %b%s\\033[0m \\033[2mLast sync\\033[0m    %b%s\\033[0m\n" "$SYNC_COLOR" "$SYNC_STATUS" "$SYNC_COLOR" "$SYNC_TIME"
+              fi
+
+            elif echo "$SNAPRAID_SYNC_LOG" | ${pkgs.gnugrep}/bin/grep -q "error\|Error\|ERROR"; then
+              SYNC_STATUS="✗"
+              SYNC_COLOR="\\033[38;2;255;85;85m"
+              printf "  %b%s\\033[0m \\033[2mLast sync\\033[0m    %bFAILED\\033[0m\n" "$SYNC_COLOR" "$SYNC_STATUS" "$SYNC_COLOR"
+            else
+              SYNC_STATUS="⚠"
+              printf "  %b%s\\033[0m \\033[2mLast sync\\033[0m    \\033[38;2;241;250;140mUnknown\\033[0m\n" "$SYNC_STATUS"
+            fi
+          else
+            printf "  \\033[38;2;241;250;140m⚠\\033[0m \\033[2mLast sync\\033[0m    \\033[2mNever run\\033[0m\n"
+          fi
+
+          # Parse scrub status
+          if [[ -n "$SNAPRAID_SCRUB_LOG" ]]; then
+            if echo "$SNAPRAID_SCRUB_LOG" | ${pkgs.gnugrep}/bin/grep -q "Everything OK"; then
+              SCRUB_STATUS="✓"
+              SCRUB_COLOR="\\033[38;2;80;250;123m"
+
+              # Get timestamp
+              SCRUB_TIMESTAMP=$(journalctl -u snapraid-scrub.service --output=short-iso -n 100 --no-pager 2>/dev/null | ${pkgs.gnugrep}/bin/grep "Everything OK" | tail -1 | ${pkgs.gawk}/bin/awk '{print $1}')
+
+              if [[ -n "$SCRUB_TIMESTAMP" ]]; then
+                SCRUB_EPOCH=$(date -d "$SCRUB_TIMESTAMP" +%s 2>/dev/null || echo "0")
+                NOW_EPOCH=$(date +%s)
+                DIFF_SECONDS=$((NOW_EPOCH - SCRUB_EPOCH))
+
+                if [[ $DIFF_SECONDS -lt 3600 ]]; then
+                  SCRUB_TIME="$((DIFF_SECONDS / 60))m ago"
+                elif [[ $DIFF_SECONDS -lt 86400 ]]; then
+                  SCRUB_TIME="$((DIFF_SECONDS / 3600))h ago"
+                else
+                  SCRUB_TIME="$((DIFF_SECONDS / 86400))d ago"
+                fi
+
+                # Adjust color if old (scrub is weekly so >10d is concerning)
+                if [[ $DIFF_SECONDS -gt 864000 ]]; then
+                  SCRUB_STATUS="⚠"
+                  SCRUB_COLOR="\\033[38;2;241;250;140m"
+                fi
+              else
+                SCRUB_TIME="Unknown"
+              fi
+
+              printf "  %b%s\\033[0m \\033[2mLast scrub\\033[0m   %b%s\\033[0m  \\033[2mNo errors\\033[0m\n" "$SCRUB_COLOR" "$SCRUB_STATUS" "$SCRUB_COLOR" "$SCRUB_TIME"
+
+            elif echo "$SNAPRAID_SCRUB_LOG" | ${pkgs.gnugrep}/bin/grep -q "error"; then
+              ERROR_COUNT=$(echo "$SNAPRAID_SCRUB_LOG" | ${pkgs.gnugrep}/bin/grep -oP "[0-9]+\s+error" | ${pkgs.gawk}/bin/awk '{print $1}' | tail -1)
+              SCRUB_STATUS="✗"
+              SCRUB_COLOR="\\033[38;2;255;85;85m"
+
+              if [[ -n "$ERROR_COUNT" ]]; then
+                printf "  %b%s\\033[0m \\033[2mLast scrub\\033[0m   %b%s error(s)\\033[0m\n" "$SCRUB_COLOR" "$SCRUB_STATUS" "$SCRUB_COLOR" "$ERROR_COUNT"
+              else
+                printf "  %b%s\\033[0m \\033[2mLast scrub\\033[0m   %bErrors detected\\033[0m\n" "$SCRUB_COLOR" "$SCRUB_STATUS" "$SCRUB_COLOR"
+              fi
+            else
+              printf "  \\033[38;2;241;250;140m⚠\\033[0m \\033[2mLast scrub\\033[0m   \\033[38;2;241;250;140mUnknown\\033[0m\n"
+            fi
+          else
+            printf "  \\033[38;2;241;250;140m⚠\\033[0m \\033[2mLast scrub\\033[0m   \\033[2mNever run\\033[0m\n"
+          fi
         '';
 
         # Build container updater status display
@@ -438,6 +571,10 @@ in
           ${optionalString hasStorage ''
             printf "\\033[38;2;100;150;255m━━ Storage ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\\033[0m\n"
             ${diskUsageCode}
+          ''}
+          ${optionalString cfg.showSnapraidStatus ''
+            printf "\\033[38;2;100;150;255m━━ SnapRAID ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\\033[0m\n"
+            ${snapraidStatusCode}
           ''}
           ${optionalString cfg.showContainerUpdater ''
             printf "\\033[38;2;100;150;255m━━ Containers ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\\033[0m\n"
