@@ -560,7 +560,7 @@ in
         hasStorage = cfg.showDiskUsage && (builtins.length cfg.diskUsagePaths > 0);
 
       in ''
-        if [[ -n "$SSH_CONNECTION" ]] || [[ -n "$SSH_TTY" ]]; then
+        if ([[ -n "$SSH_CONNECTION" ]] || [[ -n "$SSH_TTY" ]]) && [[ -z "$TMUX" ]]; then
           echo ""
           printf "\\033[38;2;0;200;255m━━ System ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\\033[0m\n"
           ${systemInfoCode}
