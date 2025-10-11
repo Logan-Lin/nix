@@ -92,6 +92,7 @@
     showSystemInfo = true;
     showSmartStatus = false;
     showDiskUsage = true;
+    showBorgStatus = true;
   };
 
   # WireGuard VPN configuration (VPS as hub/server)
