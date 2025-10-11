@@ -39,8 +39,8 @@ in
       # Load Powerlevel10k configuration (managed by Nix)
       source ~/.p10k.zsh
 
-      # Load zsh-system-clipboard plugin for vi mode clipboard integration
-      if [[ -f ${pkgs.zsh-system-clipboard}/share/zsh/zsh-system-clipboard/zsh-system-clipboard.zsh ]]; then
+      # Load zsh-system-clipboard plugin for vi mode clipboard integration (only in graphical sessions)
+      if [[ -n "$DISPLAY" ]] && [[ -f ${pkgs.zsh-system-clipboard}/share/zsh/zsh-system-clipboard/zsh-system-clipboard.zsh ]]; then
         source ${pkgs.zsh-system-clipboard}/share/zsh/zsh-system-clipboard/zsh-system-clipboard.zsh
       fi
       
