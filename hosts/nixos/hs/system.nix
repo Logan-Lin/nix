@@ -230,6 +230,7 @@
     };
     showDiskUsage = true;
     diskUsagePaths = [ "/" "/mnt/storage" "/mnt/parity" ];
+    showSnapraidStatus = true;
     showContainerUpdater = true;
     showBorgStatus = true;
   };
