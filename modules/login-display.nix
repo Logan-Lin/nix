@@ -42,6 +42,12 @@ in
       default = [ "/" ];
       description = "Paths to check for disk usage";
     };
+
+    showBorgStatus = mkOption {
+      type = types.bool;
+      default = false;
+      description = "Show last borg backup status";
+    };
   };
 
   config = mkIf cfg.enable {
@@ -178,6 +184,75 @@ in
           '') cfg.diskUsagePaths}
         '';
 
+        # Build borg backup status display
+        borgStatusCode = optionalString cfg.showBorgStatus ''
+          # Query journalctl for borg-backup.service
+          BORG_LOG=$(journalctl -u borg-backup.service -n 50 --no-pager --output=cat 2>/dev/null || echo "")
+
+          if [[ -z "$BORG_LOG" ]]; then
+            # Service never ran
+            printf "  \\033[38;2;241;250;140m⚠\\033[0m \\033[2mNever run\\033[0m\n"
+          else
+            # Check if last backup succeeded
+            if echo "$BORG_LOG" | ${pkgs.gnugrep}/bin/grep -q "Backup process completed successfully"; then
+              STATUS_SYMBOL="\\033[38;2;80;250;123m✓\\033[0m"
+              STATUS_TEXT="SUCCESS"
+              STATUS_COLOR="\\033[38;2;80;250;123m"
+
+              # Get timestamp of last successful backup
+              LAST_TIMESTAMP=$(journalctl -u borg-backup.service --output=short-iso -n 50 --no-pager 2>/dev/null | ${pkgs.gnugrep}/bin/grep "Backup process completed successfully" | tail -1 | ${pkgs.gawk}/bin/awk '{print $1}')
+
+              if [[ -n "$LAST_TIMESTAMP" ]]; then
+                # Calculate time ago
+                LAST_EPOCH=$(date -d "$LAST_TIMESTAMP" +%s 2>/dev/null || date -j -f "%Y-%m-%dT%H:%M:%S%z" "$LAST_TIMESTAMP" +%s 2>/dev/null || echo "0")
+                NOW_EPOCH=$(date +%s)
+                DIFF_SECONDS=$((NOW_EPOCH - LAST_EPOCH))
+
+                if [[ $DIFF_SECONDS -lt 3600 ]]; then
+                  TIME_AGO="$((DIFF_SECONDS / 60))m ago"
+                elif [[ $DIFF_SECONDS -lt 86400 ]]; then
+                  TIME_AGO="$((DIFF_SECONDS / 3600))h ago"
+                else
+                  TIME_AGO="$((DIFF_SECONDS / 86400))d ago"
+                fi
+
+                # Adjust color based on age
+                if [[ $DIFF_SECONDS -gt 172800 ]]; then
+                  # > 48h - red
+                  STATUS_SYMBOL="\\033[38;2;255;85;85m✗\\033[0m"
+                  STATUS_COLOR="\\033[38;2;255;85;85m"
+                elif [[ $DIFF_SECONDS -gt 86400 ]]; then
+                  # 24-48h - yellow
+                  STATUS_SYMBOL="\\033[38;2;241;250;140m⚠\\033[0m"
+                  STATUS_COLOR="\\033[38;2;241;250;140m"
+                fi
+              else
+                TIME_AGO="Unknown"
+              fi
+
+              # Try to extract archive size
+              ARCHIVE_SIZE=$(echo "$BORG_LOG" | ${pkgs.gnugrep}/bin/grep -E "Archive:" | tail -1 | ${pkgs.gawk}/bin/awk '{print $2, $3}')
+
+              if [[ -n "$ARCHIVE_SIZE" ]]; then
+                printf "  %b \\033[2mLast backup\\033[0m  %b%s\\033[0m  \\033[2m%s\\033[0m\n" "$STATUS_SYMBOL" "$STATUS_COLOR" "$TIME_AGO" "$ARCHIVE_SIZE"
+              else
+                printf "  %b \\033[2mLast backup\\033[0m  %b%s\\033[0m\n" "$STATUS_SYMBOL" "$STATUS_COLOR" "$TIME_AGO"
+              fi
+            else
+              # Check for errors
+              if echo "$BORG_LOG" | ${pkgs.gnugrep}/bin/grep -q "ERROR"; then
+                STATUS_SYMBOL="\\033[38;2;255;85;85m✗\\033[0m"
+                STATUS_TEXT="FAILED"
+                printf "  %b \\033[2mLast backup\\033[0m  \\033[38;2;255;85;85m%s\\033[0m\n" "$STATUS_SYMBOL" "$STATUS_TEXT"
+              else
+                STATUS_SYMBOL="\\033[38;2;241;250;140m⚠\\033[0m"
+                STATUS_TEXT="Unknown"
+                printf "  %b \\033[2mLast backup\\033[0m  \\033[38;2;241;250;140m%s\\033[0m\n" "$STATUS_SYMBOL" "$STATUS_TEXT"
+              fi
+            fi
+          fi
+        '';
+
         # Combine all sections
         hasDisks = cfg.showSmartStatus && (builtins.length (builtins.attrNames cfg.smartDrives) > 0);
         hasStorage = cfg.showDiskUsage && (builtins.length cfg.diskUsagePaths > 0);
@@ -194,6 +269,10 @@ in
           ${optionalString hasStorage ''
             printf "\\033[38;2;100;150;255m━━ Storage ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\\033[0m\n"
             ${diskUsageCode}
+          ''}
+          ${optionalString cfg.showBorgStatus ''
+            printf "\\033[38;2;100;150;255m━━ Backup ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\\033[0m\n"
+            ${borgStatusCode}
           ''}
           echo ""
         fi

@@ -230,6 +230,7 @@
     };
     showDiskUsage = true;
     diskUsagePaths = [ "/" "/mnt/storage" "/mnt/parity" ];
+    showBorgStatus = true;
   };
 
   # Borg backup configuration
