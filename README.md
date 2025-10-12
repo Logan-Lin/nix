@@ -69,7 +69,6 @@ Modules are self-contained and handle both package installation and configuratio
 - `borg-server.nix` - Backup server configuration
 - `btop.nix` - System monitor with vim navigation
 - `claude-code.nix` - AI coding assistant with permissions config
-- `container-updater.nix` - Automated container updates
 - `dictionary.nix` - Offline dictionary system (sdcv)
 - `firefox.nix` - Browser with extensions and bookmarks
 - `ghostty.nix` - GPU-accelerated terminal emulator
@@ -97,7 +96,6 @@ Modules are self-contained and handle both package installation and configuratio
 
 ## Scripts
 
-- `container-update.sh` - Update container images safely
 - `project-launcher.sh` - Tmux session manager for projects
 
 ## Custom Workflows
@@ -141,7 +139,6 @@ systemctl list-timers
 
 ### Manual Timer Service Execution
 - `dl-subs-yt` - Check YouTube subscriptions and download new videos
-- `container-update-now` - Update container images manually
 - `borg-backup-now` - Run backup manually
 
 ## Notes

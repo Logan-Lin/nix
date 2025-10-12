@@ -10,7 +10,6 @@
     ../../../modules/samba.nix
     ../../../modules/borg-client.nix
     ../../../modules/webdav.nix
-    ../../../modules/container-updater.nix
     ../../../modules/login-display.nix
   ];
 
@@ -108,14 +107,6 @@
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG35m0DgTrEOAM+1wAlYZ8mvLelNTcx65cFccGPQcxmo yanlin@imac"
     ];
-  };
-
-
-  # Container auto-updater configuration
-  services.containerUpdater = {
-    enable = true;
-    schedule = "*-*-* 03:00:00";  # Daily at 3 AM
-    excludeContainers = [];  # Update all containers
   };
 
   # Host-specific packages
@@ -231,7 +222,6 @@
     showDiskUsage = true;
     diskUsagePaths = [ "/" "/mnt/storage" "/mnt/parity" ];
     showSnapraidStatus = true;
-    showContainerUpdater = true;
     showBorgStatus = true;
   };
 
