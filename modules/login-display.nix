@@ -70,16 +70,17 @@ in
     programs.zsh.loginShellInit = mkIf config.programs.zsh.enable (
       let
         # ANSI color codes for truecolor (using \033 for better compatibility)
+        # Gruvbox Hard Dark theme colors to match nvim
         colors = {
           reset = "\\033[0m";
           dim = "\\033[2m";
-          cyan = "\\033[38;2;0;200;255m";
-          blue = "\\033[38;2;100;150;255m";
-          green = "\\033[38;2;80;250;123m";
-          yellow = "\\033[38;2;241;250;140m";
-          orange = "\\033[38;2;255;184;108m";
-          red = "\\033[38;2;255;85;85m";
-          gray = "\\033[38;2;100;100;120m";
+          aqua = "\\033[38;2;142;192;124m";   # Gruvbox aqua #8ec07c
+          blue = "\\033[38;2;131;165;152m";   # Gruvbox blue #83a598
+          green = "\\033[38;2;184;187;38m";   # Gruvbox green #b8bb26
+          yellow = "\\033[38;2;250;189;47m";  # Gruvbox yellow #fabd2f
+          orange = "\\033[38;2;254;128;25m";  # Gruvbox orange #fe8019
+          red = "\\033[38;2;251;73;52m";      # Gruvbox red #fb4934
+          gray = "\\033[38;2;146;131;116m";   # Gruvbox gray #928374
         };
 
         # Build SMART status display
@@ -115,34 +116,34 @@ in
 
               # Color-code status and temperature
               if [[ "$HEALTH" == "PASSED" ]]; then
-                STATUS="\\033[38;2;80;250;123m✓\\033[0m"
-                HEALTH_COLOR="\\033[38;2;80;250;123m"
+                STATUS="\\033[38;2;184;187;38m✓\\033[0m"
+                HEALTH_COLOR="\\033[38;2;184;187;38m"
                 # Color temp based on value
                 if [[ "$TEMP" =~ ^[0-9]+$ ]]; then
                   if [[ $TEMP -ge 70 ]]; then
-                    TEMP_COLOR="\\033[38;2;255;85;85m"
+                    TEMP_COLOR="\\033[38;2;251;73;52m"
                   elif [[ $TEMP -ge 50 ]]; then
-                    TEMP_COLOR="\\033[38;2;255;184;108m"
+                    TEMP_COLOR="\\033[38;2;254;128;25m"
                   else
-                    TEMP_COLOR="\\033[38;2;241;250;140m"
+                    TEMP_COLOR="\\033[38;2;250;189;47m"
                   fi
                   TEMP_STR="$(printf "%b" "''${TEMP_COLOR}''${TEMP}°C\\033[0m")"
                 else
                   TEMP_STR="$(printf "%b" "\\033[2m$TEMP\\033[0m")"
                 fi
               elif [[ "$HEALTH" == "FAILED" ]]; then
-                STATUS="\\033[38;2;255;85;85m✗\\033[0m"
-                HEALTH_COLOR="\\033[38;2;255;85;85m"
+                STATUS="\\033[38;2;251;73;52m✗\\033[0m"
+                HEALTH_COLOR="\\033[38;2;251;73;52m"
                 TEMP_STR="$(printf "%b" "\\033[2m$TEMP\\033[0m")"
               else
-                STATUS="\\033[38;2;241;250;140m⚠\\033[0m"
-                HEALTH_COLOR="\\033[38;2;241;250;140m"
+                STATUS="\\033[38;2;250;189;47m⚠\\033[0m"
+                HEALTH_COLOR="\\033[38;2;250;189;47m"
                 TEMP_STR="$(printf "%b" "\\033[2m$TEMP\\033[0m")"
               fi
 
               printf "  %b \\033[2m%-15s\\033[0m %b%-7s\\033[0m %s\n" "$STATUS" "${name}" "$HEALTH_COLOR" "$HEALTH" "$TEMP_STR"
             else
-              printf "  \\033[38;2;241;250;140m⚠\\033[0m \\033[2m%-15s\\033[0m \\033[38;2;255;85;85m%-20s\\033[0m\n" "${name}" "Not found"
+              printf "  \\033[38;2;250;189;47m⚠\\033[0m \\033[2m%-15s\\033[0m \\033[38;2;251;73;52m%-20s\\033[0m\n" "${name}" "Not found"
             fi
           '') cfg.smartDrives)}
         '';
@@ -164,7 +165,7 @@ in
           }')
           LOAD=$(uptime | ${pkgs.gawk}/bin/awk -F'load average:' '{gsub(/^ +| +$/, "", $2); print $2}')
 
-          printf "  \\033[38;2;0;200;255m%s\\033[0m \\033[2m·\\033[0m \\033[2m↑\\033[0m %s \\033[2m· load\\033[0m %s\n" "$(hostname)" "$UPTIME_STR" "$LOAD"
+          printf "  \\033[38;2;142;192;124m%s\\033[0m \\033[2m·\\033[0m \\033[2m↑\\033[0m %s \\033[2m· load\\033[0m %s\n" "$(hostname)" "$UPTIME_STR" "$LOAD"
         '';
 
         # Build disk usage display with bar
@@ -183,13 +184,13 @@ in
 
             # Color bar based on usage
             if [[ $PCT_NUM -ge 90 ]]; then
-              BAR_COLOR="\\033[38;2;255;85;85m"
+              BAR_COLOR="\\033[38;2;251;73;52m"
             elif [[ $PCT_NUM -ge 70 ]]; then
-              BAR_COLOR="\\033[38;2;255;184;108m"
+              BAR_COLOR="\\033[38;2;254;128;25m"
             elif [[ $PCT_NUM -ge 50 ]]; then
-              BAR_COLOR="\\033[38;2;241;250;140m"
+              BAR_COLOR="\\033[38;2;250;189;47m"
             else
-              BAR_COLOR="\\033[38;2;80;250;123m"
+              BAR_COLOR="\\033[38;2;184;187;38m"
             fi
 
             printf "  \\033[2m%-12s\\033[0m %6s/%-6s %b%s\\033[0m %5s\n" "${path}" "$USED" "$TOTAL" "$BAR_COLOR" "$BAR" "$PCT"
@@ -207,7 +208,7 @@ in
             # Check for completion messages
             if echo "$SNAPRAID_SYNC_LOG" | ${pkgs.gnugrep}/bin/grep -q "Everything OK"; then
               SYNC_STATUS="✓"
-              SYNC_COLOR="\\033[38;2;80;250;123m"
+              SYNC_COLOR="\\033[38;2;184;187;38m"
 
               # Get timestamp
               SYNC_TIMESTAMP=$(journalctl -u snapraid-sync.service --output=short-iso -n 100 --no-pager 2>/dev/null | ${pkgs.gnugrep}/bin/grep "Everything OK" | tail -1 | ${pkgs.gawk}/bin/awk '{print $1}')
@@ -228,10 +229,10 @@ in
                 # Adjust color if old
                 if [[ $DIFF_SECONDS -gt 172800 ]]; then
                   SYNC_STATUS="✗"
-                  SYNC_COLOR="\\033[38;2;255;85;85m"
+                  SYNC_COLOR="\\033[38;2;251;73;52m"
                 elif [[ $DIFF_SECONDS -gt 86400 ]]; then
                   SYNC_STATUS="⚠"
-                  SYNC_COLOR="\\033[38;2;241;250;140m"
+                  SYNC_COLOR="\\033[38;2;250;189;47m"
                 fi
               else
                 SYNC_TIME="Unknown"
@@ -262,21 +263,21 @@ in
 
             elif echo "$SNAPRAID_SYNC_LOG" | ${pkgs.gnugrep}/bin/grep -q "error\|Error\|ERROR"; then
               SYNC_STATUS="✗"
-              SYNC_COLOR="\\033[38;2;255;85;85m"
+              SYNC_COLOR="\\033[38;2;251;73;52m"
               printf "  %b%s\\033[0m \\033[2mLast sync\\033[0m    %bFAILED\\033[0m\n" "$SYNC_COLOR" "$SYNC_STATUS" "$SYNC_COLOR"
             else
               SYNC_STATUS="⚠"
-              printf "  %b%s\\033[0m \\033[2mLast sync\\033[0m    \\033[38;2;241;250;140mUnknown\\033[0m\n" "$SYNC_STATUS"
+              printf "  %b%s\\033[0m \\033[2mLast sync\\033[0m    \\033[38;2;250;189;47mUnknown\\033[0m\n" "$SYNC_STATUS"
             fi
           else
-            printf "  \\033[38;2;241;250;140m⚠\\033[0m \\033[2mLast sync\\033[0m    \\033[2mNever run\\033[0m\n"
+            printf "  \\033[38;2;250;189;47m⚠\\033[0m \\033[2mLast sync\\033[0m    \\033[2mNever run\\033[0m\n"
           fi
 
           # Parse scrub status
           if [[ -n "$SNAPRAID_SCRUB_LOG" ]]; then
             if echo "$SNAPRAID_SCRUB_LOG" | ${pkgs.gnugrep}/bin/grep -q "Everything OK"; then
               SCRUB_STATUS="✓"
-              SCRUB_COLOR="\\033[38;2;80;250;123m"
+              SCRUB_COLOR="\\033[38;2;184;187;38m"
 
               # Get timestamp
               SCRUB_TIMESTAMP=$(journalctl -u snapraid-scrub.service --output=short-iso -n 100 --no-pager 2>/dev/null | ${pkgs.gnugrep}/bin/grep "Everything OK" | tail -1 | ${pkgs.gawk}/bin/awk '{print $1}')
@@ -297,7 +298,7 @@ in
                 # Adjust color if old (scrub is weekly so >10d is concerning)
                 if [[ $DIFF_SECONDS -gt 864000 ]]; then
                   SCRUB_STATUS="⚠"
-                  SCRUB_COLOR="\\033[38;2;241;250;140m"
+                  SCRUB_COLOR="\\033[38;2;250;189;47m"
                 fi
               else
                 SCRUB_TIME="Unknown"
@@ -308,7 +309,7 @@ in
             elif echo "$SNAPRAID_SCRUB_LOG" | ${pkgs.gnugrep}/bin/grep -q "error"; then
               ERROR_COUNT=$(echo "$SNAPRAID_SCRUB_LOG" | ${pkgs.gnugrep}/bin/grep -oP "[0-9]+\s+error" | ${pkgs.gawk}/bin/awk '{print $1}' | tail -1)
               SCRUB_STATUS="✗"
-              SCRUB_COLOR="\\033[38;2;255;85;85m"
+              SCRUB_COLOR="\\033[38;2;251;73;52m"
 
               if [[ -n "$ERROR_COUNT" ]]; then
                 printf "  %b%s\\033[0m \\033[2mLast scrub\\033[0m   %b%s error(s)\\033[0m\n" "$SCRUB_COLOR" "$SCRUB_STATUS" "$SCRUB_COLOR" "$ERROR_COUNT"
@@ -316,10 +317,10 @@ in
                 printf "  %b%s\\033[0m \\033[2mLast scrub\\033[0m   %bErrors detected\\033[0m\n" "$SCRUB_COLOR" "$SCRUB_STATUS" "$SCRUB_COLOR"
               fi
             else
-              printf "  \\033[38;2;241;250;140m⚠\\033[0m \\033[2mLast scrub\\033[0m   \\033[38;2;241;250;140mUnknown\\033[0m\n"
+              printf "  \\033[38;2;250;189;47m⚠\\033[0m \\033[2mLast scrub\\033[0m   \\033[38;2;250;189;47mUnknown\\033[0m\n"
             fi
           else
-            printf "  \\033[38;2;241;250;140m⚠\\033[0m \\033[2mLast scrub\\033[0m   \\033[2mNever run\\033[0m\n"
+            printf "  \\033[38;2;250;189;47m⚠\\033[0m \\033[2mLast scrub\\033[0m   \\033[2mNever run\\033[0m\n"
           fi
         '';
 
@@ -330,12 +331,12 @@ in
 
           if [[ -z "$CONTAINER_LOG" ]]; then
             # Service never ran
-            printf "  \\033[38;2;241;250;140m⚠\\033[0m \\033[2mNever run\\033[0m\n"
+            printf "  \\033[38;2;250;189;47m⚠\\033[0m \\033[2mNever run\\033[0m\n"
           else
             # Check if last update completed
             if echo "$CONTAINER_LOG" | ${pkgs.gnugrep}/bin/grep -q "Container update completed successfully"; then
-              STATUS_SYMBOL="\\033[38;2;80;250;123m✓\\033[0m"
-              STATUS_COLOR="\\033[38;2;80;250;123m"
+              STATUS_SYMBOL="\\033[38;2;184;187;38m✓\\033[0m"
+              STATUS_COLOR="\\033[38;2;184;187;38m"
               STATUS_TEXT="SUCCESS"
 
               # Get timestamp of last successful update
@@ -358,12 +359,12 @@ in
                 # Adjust color based on age
                 if [[ $DIFF_SECONDS -gt 172800 ]]; then
                   # > 48h - red
-                  STATUS_SYMBOL="\\033[38;2;255;85;85m✗\\033[0m"
-                  STATUS_COLOR="\\033[38;2;255;85;85m"
+                  STATUS_SYMBOL="\\033[38;2;251;73;52m✗\\033[0m"
+                  STATUS_COLOR="\\033[38;2;251;73;52m"
                 elif [[ $DIFF_SECONDS -gt 86400 ]]; then
                   # 24-48h - yellow
-                  STATUS_SYMBOL="\\033[38;2;241;250;140m⚠\\033[0m"
-                  STATUS_COLOR="\\033[38;2;241;250;140m"
+                  STATUS_SYMBOL="\\033[38;2;250;189;47m⚠\\033[0m"
+                  STATUS_COLOR="\\033[38;2;250;189;47m"
                 fi
               else
                 TIME_AGO="Unknown"
@@ -398,14 +399,14 @@ in
               if [[ -n "$FAILED_COUNT" && "$FAILED_COUNT" != "0" ]]; then
                 FAILED_LIST=$(echo "$CONTAINER_LOG" | ${pkgs.gawk}/bin/awk '/❌ Failed \([0-9]+\):/,/^(✅|⏭️|=|$)/ {if ($0 ~ /^  • /) {gsub(/^  • /, ""); print}}' | tr '\n' ', ' | sed 's/, $//')
                 if [[ -n "$FAILED_LIST" ]]; then
-                  printf "  \\033[38;2;255;85;85m  Failed: %s\\033[0m\n" "$FAILED_LIST"
+                  printf "  \\033[38;2;251;73;52m  Failed: %s\\033[0m\n" "$FAILED_LIST"
                 fi
               fi
 
             elif echo "$CONTAINER_LOG" | ${pkgs.gnugrep}/bin/grep -q "ERROR: Some containers failed to update"; then
               # Update ran but had failures
-              STATUS_SYMBOL="\\033[38;2;255;85;85m✗\\033[0m"
-              STATUS_COLOR="\\033[38;2;255;85;85m"
+              STATUS_SYMBOL="\\033[38;2;251;73;52m✗\\033[0m"
+              STATUS_COLOR="\\033[38;2;251;73;52m"
 
               # Get timestamp
               LAST_TIMESTAMP=$(journalctl -u container-updater.service --output=short-iso -n 150 --no-pager 2>/dev/null | ${pkgs.gnugrep}/bin/grep "ERROR: Some containers failed to update" | tail -1 | ${pkgs.gawk}/bin/awk '{print $1}')
@@ -436,7 +437,7 @@ in
 
               SUMMARY=$(IFS=", "; echo "''${SUMMARY_PARTS[*]}")
 
-              printf "  %b \\033[2mLast update\\033[0m  %b%s\\033[0m  \\033[38;2;255;85;85m%s\\033[0m\n" "$STATUS_SYMBOL" "$STATUS_COLOR" "$TIME_AGO" "$SUMMARY"
+              printf "  %b \\033[2mLast update\\033[0m  %b%s\\033[0m  \\033[38;2;251;73;52m%s\\033[0m\n" "$STATUS_SYMBOL" "$STATUS_COLOR" "$TIME_AGO" "$SUMMARY"
 
               # Show updated containers
               if [[ -n "$UPDATED_COUNT" && "$UPDATED_COUNT" != "0" ]]; then
@@ -450,15 +451,15 @@ in
               if [[ -n "$FAILED_COUNT" && "$FAILED_COUNT" != "0" ]]; then
                 FAILED_LIST=$(echo "$CONTAINER_LOG" | ${pkgs.gawk}/bin/awk '/❌ Failed \([0-9]+\):/,/^(✅|⏭️|=|$)/ {if ($0 ~ /^  • /) {gsub(/^  • /, ""); print}}' | tr '\n' ', ' | sed 's/, $//')
                 if [[ -n "$FAILED_LIST" ]]; then
-                  printf "  \\033[38;2;255;85;85m  Failed: %s\\033[0m\n" "$FAILED_LIST"
+                  printf "  \\033[38;2;251;73;52m  Failed: %s\\033[0m\n" "$FAILED_LIST"
                 fi
               fi
 
             else
               # Unknown or no completion message
-              STATUS_SYMBOL="\\033[38;2;241;250;140m⚠\\033[0m"
+              STATUS_SYMBOL="\\033[38;2;250;189;47m⚠\\033[0m"
               STATUS_TEXT="Unknown"
-              printf "  %b \\033[2mLast update\\033[0m  \\033[38;2;241;250;140m%s\\033[0m\n" "$STATUS_SYMBOL" "$STATUS_TEXT"
+              printf "  %b \\033[2mLast update\\033[0m  \\033[38;2;250;189;47m%s\\033[0m\n" "$STATUS_SYMBOL" "$STATUS_TEXT"
             fi
           fi
         '';
@@ -470,12 +471,12 @@ in
 
           if [[ -z "$BORG_LOG" ]]; then
             # Service never ran
-            printf "  \\033[38;2;241;250;140m⚠\\033[0m \\033[2mNever run\\033[0m\n"
+            printf "  \\033[38;2;250;189;47m⚠\\033[0m \\033[2mNever run\\033[0m\n"
           else
             # Check if last backup succeeded
             if echo "$BORG_LOG" | ${pkgs.gnugrep}/bin/grep -q "Backup process completed successfully"; then
-              STATUS_SYMBOL="\\033[38;2;80;250;123m✓\\033[0m"
-              STATUS_COLOR="\\033[38;2;80;250;123m"
+              STATUS_SYMBOL="\\033[38;2;184;187;38m✓\\033[0m"
+              STATUS_COLOR="\\033[38;2;184;187;38m"
 
               # Get timestamp of last successful backup
               LAST_TIMESTAMP=$(journalctl -u borg-backup.service --output=short-iso -n 100 --no-pager 2>/dev/null | ${pkgs.gnugrep}/bin/grep "Backup process completed successfully" | tail -1 | ${pkgs.gawk}/bin/awk '{print $1}')
@@ -497,12 +498,12 @@ in
                 # Adjust color based on age
                 if [[ $DIFF_SECONDS -gt 172800 ]]; then
                   # > 48h - red
-                  STATUS_SYMBOL="\\033[38;2;255;85;85m✗\\033[0m"
-                  STATUS_COLOR="\\033[38;2;255;85;85m"
+                  STATUS_SYMBOL="\\033[38;2;251;73;52m✗\\033[0m"
+                  STATUS_COLOR="\\033[38;2;251;73;52m"
                 elif [[ $DIFF_SECONDS -gt 86400 ]]; then
                   # 24-48h - yellow
-                  STATUS_SYMBOL="\\033[38;2;241;250;140m⚠\\033[0m"
-                  STATUS_COLOR="\\033[38;2;241;250;140m"
+                  STATUS_SYMBOL="\\033[38;2;250;189;47m⚠\\033[0m"
+                  STATUS_COLOR="\\033[38;2;250;189;47m"
                 fi
               else
                 TIME_AGO="Unknown"
@@ -539,17 +540,17 @@ in
             else
               # Check for errors
               if echo "$BORG_LOG" | ${pkgs.gnugrep}/bin/grep -q "ERROR"; then
-                STATUS_SYMBOL="\\033[38;2;255;85;85m✗\\033[0m"
+                STATUS_SYMBOL="\\033[38;2;251;73;52m✗\\033[0m"
                 STATUS_TEXT="FAILED"
                 ERROR_MSG=$(echo "$BORG_LOG" | ${pkgs.gnugrep}/bin/grep "ERROR" | tail -1 | ${pkgs.gawk}/bin/awk '{print substr($0, index($0,$2))}' | cut -c1-60)
-                printf "  %b \\033[2mLast backup\\033[0m  \\033[38;2;255;85;85m%s\\033[0m\n" "$STATUS_SYMBOL" "$STATUS_TEXT"
+                printf "  %b \\033[2mLast backup\\033[0m  \\033[38;2;251;73;52m%s\\033[0m\n" "$STATUS_SYMBOL" "$STATUS_TEXT"
                 if [[ -n "$ERROR_MSG" ]]; then
                   printf "  \\033[2m  %s\\033[0m\n" "$ERROR_MSG"
                 fi
               else
-                STATUS_SYMBOL="\\033[38;2;241;250;140m⚠\\033[0m"
+                STATUS_SYMBOL="\\033[38;2;250;189;47m⚠\\033[0m"
                 STATUS_TEXT="Unknown"
-                printf "  %b \\033[2mLast backup\\033[0m  \\033[38;2;241;250;140m%s\\033[0m\n" "$STATUS_SYMBOL" "$STATUS_TEXT"
+                printf "  %b \\033[2mLast backup\\033[0m  \\033[38;2;250;189;47m%s\\033[0m\n" "$STATUS_SYMBOL" "$STATUS_TEXT"
               fi
             fi
           fi
@@ -562,26 +563,26 @@ in
       in ''
         if ([[ -n "$SSH_CONNECTION" ]] || [[ -n "$SSH_TTY" ]]) && [[ -z "$TMUX" ]]; then
           echo ""
-          printf "\\033[38;2;0;200;255m━━ System ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\\033[0m\n"
+          printf "\\033[38;2;142;192;124m━━ System ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\\033[0m\n"
           ${systemInfoCode}
           ${optionalString hasDisks ''
-            printf "\\033[38;2;100;150;255m━━ Disks ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\\033[0m\n"
+            printf "\\033[38;2;131;165;152m━━ Disks ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\\033[0m\n"
             ${smartStatusCode}
           ''}
           ${optionalString hasStorage ''
-            printf "\\033[38;2;100;150;255m━━ Storage ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\\033[0m\n"
+            printf "\\033[38;2;131;165;152m━━ Storage ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\\033[0m\n"
             ${diskUsageCode}
           ''}
           ${optionalString cfg.showSnapraidStatus ''
-            printf "\\033[38;2;100;150;255m━━ SnapRAID ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\\033[0m\n"
+            printf "\\033[38;2;131;165;152m━━ SnapRAID ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\\033[0m\n"
             ${snapraidStatusCode}
           ''}
           ${optionalString cfg.showContainerUpdater ''
-            printf "\\033[38;2;100;150;255m━━ Containers ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\\033[0m\n"
+            printf "\\033[38;2;131;165;152m━━ Containers ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\\033[0m\n"
             ${containerUpdaterStatusCode}
           ''}
           ${optionalString cfg.showBorgStatus ''
-            printf "\\033[38;2;100;150;255m━━ Backup ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\\033[0m\n"
+            printf "\\033[38;2;131;165;152m━━ Backup ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\\033[0m\n"
             ${borgStatusCode}
           ''}
           echo ""
