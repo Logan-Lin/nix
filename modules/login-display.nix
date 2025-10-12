@@ -49,12 +49,6 @@ in
       description = "Show last borg backup status";
     };
 
-    showContainerUpdater = mkOption {
-      type = types.bool;
-      default = false;
-      description = "Show last container updater status";
-    };
-
     showSnapraidStatus = mkOption {
       type = types.bool;
       default = false;
@@ -324,146 +318,6 @@ in
           fi
         '';
 
-        # Build container updater status display
-        containerUpdaterStatusCode = optionalString cfg.showContainerUpdater ''
-          # Query journalctl for container-updater.service
-          CONTAINER_LOG=$(journalctl -u container-updater.service -n 150 --no-pager --output=cat 2>/dev/null || echo "")
-
-          if [[ -z "$CONTAINER_LOG" ]]; then
-            # Service never ran
-            printf "  \\033[38;2;250;189;47m⚠\\033[0m \\033[2mNever run\\033[0m\n"
-          else
-            # Check if last update completed
-            if echo "$CONTAINER_LOG" | ${pkgs.gnugrep}/bin/grep -q "Container update completed successfully"; then
-              STATUS_SYMBOL="\\033[38;2;184;187;38m✓\\033[0m"
-              STATUS_COLOR="\\033[38;2;184;187;38m"
-              STATUS_TEXT="SUCCESS"
-
-              # Get timestamp of last successful update
-              LAST_TIMESTAMP=$(journalctl -u container-updater.service --output=short-iso -n 150 --no-pager 2>/dev/null | ${pkgs.gnugrep}/bin/grep "Container update completed successfully" | tail -1 | ${pkgs.gawk}/bin/awk '{print $1}')
-
-              if [[ -n "$LAST_TIMESTAMP" ]]; then
-                # Calculate time ago
-                LAST_EPOCH=$(date -d "$LAST_TIMESTAMP" +%s 2>/dev/null || date -j -f "%Y-%m-%dT%H:%M:%S%z" "$LAST_TIMESTAMP" +%s 2>/dev/null || echo "0")
-                NOW_EPOCH=$(date +%s)
-                DIFF_SECONDS=$((NOW_EPOCH - LAST_EPOCH))
-
-                if [[ $DIFF_SECONDS -lt 3600 ]]; then
-                  TIME_AGO="$((DIFF_SECONDS / 60))m ago"
-                elif [[ $DIFF_SECONDS -lt 86400 ]]; then
-                  TIME_AGO="$((DIFF_SECONDS / 3600))h ago"
-                else
-                  TIME_AGO="$((DIFF_SECONDS / 86400))d ago"
-                fi
-
-                # Adjust color based on age
-                if [[ $DIFF_SECONDS -gt 172800 ]]; then
-                  # > 48h - red
-                  STATUS_SYMBOL="\\033[38;2;251;73;52m✗\\033[0m"
-                  STATUS_COLOR="\\033[38;2;251;73;52m"
-                elif [[ $DIFF_SECONDS -gt 86400 ]]; then
-                  # 24-48h - yellow
-                  STATUS_SYMBOL="\\033[38;2;250;189;47m⚠\\033[0m"
-                  STATUS_COLOR="\\033[38;2;250;189;47m"
-                fi
-              else
-                TIME_AGO="Unknown"
-              fi
-
-              # Extract container counts from summary
-              UPDATED_COUNT=$(echo "$CONTAINER_LOG" | ${pkgs.gnugrep}/bin/grep -oP "✅ Updated \(\K[0-9]+" | tail -1)
-              FAILED_COUNT=$(echo "$CONTAINER_LOG" | ${pkgs.gnugrep}/bin/grep -oP "❌ Failed \(\K[0-9]+" | tail -1)
-              SKIPPED_COUNT=$(echo "$CONTAINER_LOG" | ${pkgs.gnugrep}/bin/grep -oP "⏭️ No updates \(\K[0-9]+" | tail -1)
-
-              # Build summary text
-              SUMMARY_PARTS=()
-              [[ -n "$UPDATED_COUNT" && "$UPDATED_COUNT" != "0" ]] && SUMMARY_PARTS+=("$UPDATED_COUNT updated")
-              [[ -n "$FAILED_COUNT" && "$FAILED_COUNT" != "0" ]] && SUMMARY_PARTS+=("$FAILED_COUNT failed")
-              [[ -n "$SKIPPED_COUNT" && "$SKIPPED_COUNT" != "0" ]] && SUMMARY_PARTS+=("$SKIPPED_COUNT skipped")
-
-              SUMMARY=$(IFS=", "; echo "''${SUMMARY_PARTS[*]}")
-              [[ -z "$SUMMARY" ]] && SUMMARY="No containers"
-
-              # Display main status line
-              printf "  %b \\033[2mLast update\\033[0m  %b%s\\033[0m  \\033[2m%s\\033[0m\n" "$STATUS_SYMBOL" "$STATUS_COLOR" "$TIME_AGO" "$SUMMARY"
-
-              # Extract and display updated containers (only those actually updated, not skipped)
-              if [[ -n "$UPDATED_COUNT" && "$UPDATED_COUNT" != "0" ]]; then
-                UPDATED_LIST=$(echo "$CONTAINER_LOG" | ${pkgs.gawk}/bin/awk '/✅ Updated \([0-9]+\):/,/^(❌|⏭️|=|$)/ {if ($0 ~ /^  • / && $0 !~ /\(no update\)/) {gsub(/^  • /, ""); print}}' | tr '\n' ', ' | sed 's/, $//')
-                if [[ -n "$UPDATED_LIST" ]]; then
-                  printf "  \\033[2m  Updated: %s\\033[0m\n" "$UPDATED_LIST"
-                fi
-              fi
-
-              # Extract and display failed containers
-              if [[ -n "$FAILED_COUNT" && "$FAILED_COUNT" != "0" ]]; then
-                FAILED_LIST=$(echo "$CONTAINER_LOG" | ${pkgs.gawk}/bin/awk '/❌ Failed \([0-9]+\):/,/^(✅|⏭️|=|$)/ {if ($0 ~ /^  • /) {gsub(/^  • /, ""); print}}' | tr '\n' ', ' | sed 's/, $//')
-                if [[ -n "$FAILED_LIST" ]]; then
-                  printf "  \\033[38;2;251;73;52m  Failed: %s\\033[0m\n" "$FAILED_LIST"
-                fi
-              fi
-
-            elif echo "$CONTAINER_LOG" | ${pkgs.gnugrep}/bin/grep -q "ERROR: Some containers failed to update"; then
-              # Update ran but had failures
-              STATUS_SYMBOL="\\033[38;2;251;73;52m✗\\033[0m"
-              STATUS_COLOR="\\033[38;2;251;73;52m"
-
-              # Get timestamp
-              LAST_TIMESTAMP=$(journalctl -u container-updater.service --output=short-iso -n 150 --no-pager 2>/dev/null | ${pkgs.gnugrep}/bin/grep "ERROR: Some containers failed to update" | tail -1 | ${pkgs.gawk}/bin/awk '{print $1}')
-
-              if [[ -n "$LAST_TIMESTAMP" ]]; then
-                LAST_EPOCH=$(date -d "$LAST_TIMESTAMP" +%s 2>/dev/null || date -j -f "%Y-%m-%dT%H:%M:%S%z" "$LAST_TIMESTAMP" +%s 2>/dev/null || echo "0")
-                NOW_EPOCH=$(date +%s)
-                DIFF_SECONDS=$((NOW_EPOCH - LAST_EPOCH))
-
-                if [[ $DIFF_SECONDS -lt 3600 ]]; then
-                  TIME_AGO="$((DIFF_SECONDS / 60))m ago"
-                elif [[ $DIFF_SECONDS -lt 86400 ]]; then
-                  TIME_AGO="$((DIFF_SECONDS / 3600))h ago"
-                else
-                  TIME_AGO="$((DIFF_SECONDS / 86400))d ago"
-                fi
-              else
-                TIME_AGO="Unknown"
-              fi
-
-              # Extract counts
-              UPDATED_COUNT=$(echo "$CONTAINER_LOG" | ${pkgs.gnugrep}/bin/grep -oP "✅ Updated \(\K[0-9]+" | tail -1)
-              FAILED_COUNT=$(echo "$CONTAINER_LOG" | ${pkgs.gnugrep}/bin/grep -oP "❌ Failed \(\K[0-9]+" | tail -1)
-
-              SUMMARY_PARTS=()
-              [[ -n "$FAILED_COUNT" && "$FAILED_COUNT" != "0" ]] && SUMMARY_PARTS+=("$FAILED_COUNT failed")
-              [[ -n "$UPDATED_COUNT" && "$UPDATED_COUNT" != "0" ]] && SUMMARY_PARTS+=("$UPDATED_COUNT updated")
-
-              SUMMARY=$(IFS=", "; echo "''${SUMMARY_PARTS[*]}")
-
-              printf "  %b \\033[2mLast update\\033[0m  %b%s\\033[0m  \\033[38;2;251;73;52m%s\\033[0m\n" "$STATUS_SYMBOL" "$STATUS_COLOR" "$TIME_AGO" "$SUMMARY"
-
-              # Show updated containers
-              if [[ -n "$UPDATED_COUNT" && "$UPDATED_COUNT" != "0" ]]; then
-                UPDATED_LIST=$(echo "$CONTAINER_LOG" | ${pkgs.gawk}/bin/awk '/✅ Updated \([0-9]+\):/,/^(❌|⏭️|=|$)/ {if ($0 ~ /^  • / && $0 !~ /\(no update\)/) {gsub(/^  • /, ""); print}}' | tr '\n' ', ' | sed 's/, $//')
-                if [[ -n "$UPDATED_LIST" ]]; then
-                  printf "  \\033[2m  Updated: %s\\033[0m\n" "$UPDATED_LIST"
-                fi
-              fi
-
-              # Show failed containers
-              if [[ -n "$FAILED_COUNT" && "$FAILED_COUNT" != "0" ]]; then
-                FAILED_LIST=$(echo "$CONTAINER_LOG" | ${pkgs.gawk}/bin/awk '/❌ Failed \([0-9]+\):/,/^(✅|⏭️|=|$)/ {if ($0 ~ /^  • /) {gsub(/^  • /, ""); print}}' | tr '\n' ', ' | sed 's/, $//')
-                if [[ -n "$FAILED_LIST" ]]; then
-                  printf "  \\033[38;2;251;73;52m  Failed: %s\\033[0m\n" "$FAILED_LIST"
-                fi
-              fi
-
-            else
-              # Unknown or no completion message
-              STATUS_SYMBOL="\\033[38;2;250;189;47m⚠\\033[0m"
-              STATUS_TEXT="Unknown"
-              printf "  %b \\033[2mLast update\\033[0m  \\033[38;2;250;189;47m%s\\033[0m\n" "$STATUS_SYMBOL" "$STATUS_TEXT"
-            fi
-          fi
-        '';
-
         # Build borg backup status display
         borgStatusCode = optionalString cfg.showBorgStatus ''
           # Query journalctl for borg-backup.service
@@ -576,10 +430,6 @@ in
           ${optionalString cfg.showSnapraidStatus ''
             printf "\\033[38;2;131;165;152m━━ SnapRAID ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\\033[0m\n"
             ${snapraidStatusCode}
-          ''}
-          ${optionalString cfg.showContainerUpdater ''
-            printf "\\033[38;2;131;165;152m━━ Containers ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\\033[0m\n"
-            ${containerUpdaterStatusCode}
           ''}
           ${optionalString cfg.showBorgStatus ''
             printf "\\033[38;2;131;165;152m━━ Backup ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\\033[0m\n"
