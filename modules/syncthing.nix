@@ -23,6 +23,9 @@
         "iphone" = {
           id = "NMWI5MP-J4FC4A6-SDDXZPD-G66TJCO-2W7KGFD-RJWQ53U-I7GUVWP-WHF4QQO";
         };
+        "ipad" = {
+          id = "XQJST6X-IRFHPG5-ULZJE2W-G4XSOIP-M5AMFUZ-IWSDCVT-CQ7FSMC-V4MPUQB";
+        };
         "hs" = {
           id = "GH5D3DJ-PAGKBL6-3VDZJRT-QG4ZMRD-GHCCA3Y-HM2H5CE-NAMJYRR-VHLOOQH";
         };
@@ -35,7 +38,7 @@
       folders = {
         "Credentials" = {
           path = "~/Credentials";
-          devices = [ "mba" "iphone" "hs" "thinkpad" ];
+          devices = [ "mba" "iphone" "hs" "thinkpad" "ipad" ];
           ignorePerms = true;
           versioning = {
             type = "staggered";
