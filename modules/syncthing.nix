@@ -62,7 +62,7 @@
         };
         "Obsidian" = {
           path = "~/Obsidian";
-          devices = [ "mba" "iphone" "hs" "thinkpad" ];
+          devices = [ "mba" "iphone" "hs" "thinkpad" "ipad" ];
           ignorePerms = true;
           versioning = {
             type = "staggered";
