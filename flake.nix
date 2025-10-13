@@ -33,6 +33,13 @@
       specialArgs = { inherit nix-homebrew; };
     };
 
+    darwinConfigurations."imac" = nix-darwin.lib.darwinSystem {
+      modules = [ 
+        ./hosts/darwin/imac/system.nix
+      ];
+      specialArgs = { inherit nix-homebrew; };
+    };
+
     nixosConfigurations."hs" = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [
@@ -62,6 +69,12 @@
       "yanlin@mba" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.aarch64-darwin;
         modules = [ ./hosts/darwin/mba/home.nix ];
+        extraSpecialArgs = { inherit claude-code nixvim firefox-addons; };
+      };
+
+      "yanlin@imac" = home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages.aarch64-darwin;
+        modules = [ ./hosts/darwin/imac/home.nix ];
         extraSpecialArgs = { inherit claude-code nixvim firefox-addons; };
       };
 
