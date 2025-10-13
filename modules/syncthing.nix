@@ -20,6 +20,9 @@
         "mba" = {
           id = "3PBRH37-VR635IP-VZPT3OK-LWMVQ3M-RILX347-3PKPXQK-74GQENC-CMY6OAG";
         };
+        "imac" = {
+          id = "TSOBMCD-2OWBVXS-FUNARN3-DB6RQWT-EVLUV5E-KCRO7QT-S3E5I4R-BQEDGA5";
+        };
         "iphone" = {
           id = "NMWI5MP-J4FC4A6-SDDXZPD-G66TJCO-2W7KGFD-RJWQ53U-I7GUVWP-WHF4QQO";
         };
@@ -38,7 +41,7 @@
       folders = {
         "Credentials" = {
           path = "~/Credentials";
-          devices = [ "mba" "iphone" "hs" "thinkpad" "ipad" ];
+          devices = [ "mba" "imac" "iphone" "hs" "thinkpad" "ipad" ];
           ignorePerms = true;
           versioning = {
             type = "staggered";
@@ -50,7 +53,7 @@
         };
         "Documents" = {
           path = "~/Documents";
-          devices = [ "mba" "hs" "thinkpad" ];
+          devices = [ "mba" "imac" "hs" "thinkpad" ];
           ignorePerms = true;
           versioning = {
             type = "staggered";
@@ -62,7 +65,7 @@
         };
         "Obsidian" = {
           path = "~/Obsidian";
-          devices = [ "mba" "iphone" "hs" "thinkpad" "ipad" ];
+          devices = [ "mba" "imac" "iphone" "hs" "thinkpad" "ipad" ];
           ignorePerms = true;
           versioning = {
             type = "staggered";
