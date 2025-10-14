@@ -182,6 +182,7 @@
       "Thumbs.db"
       "*.tmp"
       "*.temp"
+      "*.!qB"
     ];
   };
 
