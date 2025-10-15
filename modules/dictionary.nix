@@ -55,8 +55,7 @@ in
   # Shell aliases for different dictionary types
   programs.zsh.shellAliases = {
     # English-English dictionary
-    "def" = "sdcv";
-    "define" = "sdcv";
+    "e2e" = "sdcv";
 
     # Japanese-English dictionary
     "j2e" = "sdcv -u JMdict-ja-en";
@@ -64,13 +63,7 @@ in
     # English-Japanese dictionary (same as Japanese-English - JMdict is bidirectional)
     "e2j" = "sdcv -u JMdict-ja-en";
     
-    # List available dictionaries
-    "dict-list" = "sdcv -l";
-    
     # Manual dictionary setup
     "dict-setup" = toString setupDictionaries;
-    
-    # Disable auto-setup for future activations
-    "dict-disable-auto-setup" = "touch $HOME/.stardict/.skip-auto-setup";
   };
 }
