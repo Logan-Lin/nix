@@ -118,13 +118,26 @@ in
     };
 
     dl4traj = {
-      description = "DAKI3 2025 Semester";
+      description = "Deep Learning for Trajectory";
       windows = [
         {
           name = "";
           path = homePath "Documents/Projects/Deep Learning for Spatiotemporal Trajectories";
           ai = true;
           git = false;
+          shell = true;
+        }
+      ];
+    };
+
+    bent = {
+      description = "Trajectory Learning Benchmark";
+      windows = [
+        {
+          name = "";
+          path = homePath "Documents/Projects/Trajectory Modeling Benchmark/BenT-code/";
+          ai = true;
+          git = true;
           shell = true;
         }
       ];
