@@ -93,8 +93,8 @@ in
           "browser.toolbars.bookmarks.visibility" = "newtab";
           
           # Downloads
-          "browser.download.useDownloadDir" = false;
-          "browser.download.always_ask_before_handling_new_types" = true;
+          "browser.download.useDownloadDir" = true;
+          "browser.download.always_ask_before_handling_new_types" = false;
           
           # Security
           "dom.security.https_only_mode" = true;
