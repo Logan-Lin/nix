@@ -9,5 +9,6 @@
     "amazondotcom-us".metaData.hidden = true;
     "ebay".metaData.hidden = true;
     "wikipedia".metaData.hidden = true;
+    "perplexity".metaData.hidden = true;
   };
 }
