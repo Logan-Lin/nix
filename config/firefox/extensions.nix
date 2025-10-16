@@ -9,7 +9,6 @@ args:
         ublock-origin
         vimium
         cookies-txt
-        web-clipper-obsidian
       ]
     else [];
 }
