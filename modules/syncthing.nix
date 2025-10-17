@@ -1,5 +1,29 @@
 { config, pkgs, lib, ... }:
 
+let
+  # Common ignore patterns for all synced folders
+  commonIgnores = [
+    ".DS_Store"
+    "*.tmp"
+    "*.temp"
+    "~*"
+    ".*.swp"
+    ".*.swo"
+    "*~"
+    ".Trash-*"
+    "Thumbs.db"
+    "desktop.ini"
+  ];
+
+  # Common versioning configuration
+  commonVersioning = {
+    type = "staggered";
+    params = {
+      maxAge = "15552000"; # 180 days in seconds
+      cleanInterval = "3600"; # Clean every hour
+    };
+  };
+in
 {
   # Enable Syncthing service
   services.syncthing = {
@@ -40,37 +64,22 @@
           path = "~/Credentials";
           devices = [ "mba" "imac" "iphone" "hs" "thinkpad" ];
           ignorePerms = true;
-          versioning = {
-            type = "staggered";
-            params = {
-              maxAge = "15552000"; # 180 days in seconds
-              cleanInterval = "3600"; # Clean every hour
-            };
-          };
+          ignores = commonIgnores;
+          versioning = commonVersioning;
         };
         "Documents" = {
           path = "~/Documents";
           devices = [ "mba" "imac" "hs" "thinkpad" ];
           ignorePerms = true;
-          versioning = {
-            type = "staggered";
-            params = {
-              maxAge = "15552000"; # 180 days in seconds
-              cleanInterval = "3600"; # Clean every hour
-            };
-          };
+          ignores = commonIgnores;
+          versioning = commonVersioning;
         };
         "Obsidian" = {
           path = "~/Obsidian";
           devices = [ "mba" "imac" "iphone" "hs" "thinkpad" ];
           ignorePerms = true;
-          versioning = {
-            type = "staggered";
-            params = {
-              maxAge = "15552000"; # 180 days in seconds
-              cleanInterval = "3600"; # Clean every hour
-            };
-          };
+          ignores = commonIgnores;
+          versioning = commonVersioning;
         };
       };
       
