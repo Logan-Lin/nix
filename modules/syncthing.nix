@@ -15,6 +15,9 @@ let
     "desktop.ini"
   ];
 
+  # Convert ignore list to .stignore file content
+  stignoreContent = lib.concatStringsSep "\n" commonIgnores;
+
   # Common versioning configuration
   commonVersioning = {
     type = "staggered";
@@ -64,21 +67,18 @@ in
           path = "~/Credentials";
           devices = [ "mba" "imac" "iphone" "hs" "thinkpad" ];
           ignorePerms = true;
-          ignores = commonIgnores;
           versioning = commonVersioning;
         };
         "Documents" = {
           path = "~/Documents";
           devices = [ "mba" "imac" "hs" "thinkpad" ];
           ignorePerms = true;
-          ignores = commonIgnores;
           versioning = commonVersioning;
         };
         "Obsidian" = {
           path = "~/Obsidian";
           devices = [ "mba" "imac" "iphone" "hs" "thinkpad" ];
           ignorePerms = true;
-          ignores = commonIgnores;
           versioning = commonVersioning;
         };
       };
@@ -105,6 +105,11 @@ in
   launchd.agents.syncthing = lib.mkIf (pkgs.stdenv.isDarwin && config.services.syncthing.enable) {
     config.RunAtLoad = true;
   };
+
+  # Deploy .stignore files to synced folders
+  home.file."Credentials/.stignore".text = stignoreContent;
+  home.file."Documents/.stignore".text = stignoreContent;
+  home.file."Obsidian/.stignore".text = stignoreContent;
 
   # For NixOS systems, we need to add Syncthing as a manual service in Traefik
   # Since Syncthing runs as a systemd service (not container), we'll handle routing via static config
