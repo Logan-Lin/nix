@@ -78,11 +78,10 @@ Modules are self-contained and handle both package installation and configuratio
 - `login-display.nix` - SSH login display with system/disk info
 - `nvim.nix` - Neovim editor configuration
 - `papis.nix` - Academic reference manager
-- `plasma.nix` - KDE desktop environment
 - `podman.nix` - Container runtime
 - `rsync.nix` - File synchronization tools
 - `samba.nix` - SMB file sharing
-- `scheduled-commands.nix` - Systemd timer service framework
+- `schedule.nix` - Systemd timer service framework
 - `ssh.nix` - SSH client configuration
 - `syncthing.nix` - Continuous file synchronization
 - `termscp.nix` - Terminal file transfer client
