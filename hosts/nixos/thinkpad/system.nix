@@ -216,16 +216,10 @@
 
   # Host-specific packages
   environment.systemPackages = with pkgs; [
-    # Additional system monitoring
-    btop
-    neofetch
-    unzip
-
     # System utilities
     pciutils
     usbutils
-    lshw
-    inxi
+    unzip
     
     # GPU monitoring
     nvtopPackages.nvidia
@@ -233,9 +227,6 @@
     
     # Laptop utilities
     brightnessctl
-    acpi
-    powertop
-    s-tui  # Stress test and monitoring
     
     # ThinkPad specific
     lm_sensors  # Temperature monitoring
