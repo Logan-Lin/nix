@@ -1,25 +1,16 @@
-{ config, pkgs, firefox-addons, plasma-manager, ... }:
+{ config, pkgs, ... }:
 
 {
   # Allow unfree packages in home-manager
   nixpkgs.config.allowUnfree = true;
-  
+
   # Import the common NixOS home configuration
   imports = [
     ../home-default.nix
-    ../../../modules/firefox.nix
-    ../../../modules/plasma.nix
     ../../../modules/syncthing.nix
     ../../../modules/ghostty.nix
     ../../../modules/tex.nix
-    plasma-manager.homeModules.plasma-manager
   ];
-  
-  # Enable Firefox with NixOS-specific package
-  programs.firefox-custom = {
-    enable = true;
-    package = pkgs.firefox;
-  };
 
   # Enable Ghostty terminal with NixOS package
   programs.ghostty-custom = {
@@ -31,9 +22,4 @@
 
   # Any ThinkPad-specific home configurations can be added here
   # For example, laptop-specific aliases or scripts
-
-  home.packages = with pkgs; [
-    keepassxc
-    obsidian
-  ];
 }
