@@ -5,7 +5,7 @@
     ../home-default.nix
     ../../../modules/syncthing.nix
     ../../../modules/tex.nix
-    ../../../modules/scheduled-commands.nix
+    ../../../modules/schedule.nix
   ];
 
   # hs-specific home configuration
