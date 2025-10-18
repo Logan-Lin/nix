@@ -115,35 +115,6 @@
     jack.enable = true;
   };
 
-  # KDE Plasma Desktop Environment
-  services.xserver = {
-    enable = true;
-    
-    # Video drivers
-    videoDrivers = [ "modesetting" "nvidia" ];
-    
-    # Keyboard layout
-    xkb = {
-      layout = "us";
-      variant = "";
-    };
-  };
-  
-  # Display manager
-  services.displayManager.sddm = {
-    enable = true;
-    wayland.enable = true;
-  };
-  
-  # Auto-login
-  services.displayManager.autoLogin = {
-    enable = true;
-    user = "yanlin";
-  };
-  
-  # Desktop environment
-  services.desktopManager.plasma6.enable = true;
-  
   # Touchpad configuration
   services.libinput = {
     enable = true;
@@ -197,7 +168,7 @@
   services.logind.settings = {
     Login = {
       HandleLidSwitch = "ignore";           # Ignore lid close
-      HandleLidSwitchDocked = "ignore";     
+      HandleLidSwitchDocked = "ignore";
       HandleLidSwitchExternalPower = "ignore";
       HandleSuspendKey = "ignore";
       HandleHibernateKey = "ignore";
@@ -205,13 +176,6 @@
       IdleActionSec = "0";
     };
   };
-
-  # Disable screen blanking and DPMS
-  services.xserver.displayManager.sessionCommands = ''
-    xset s off        # Disable screen saver
-    xset -dpms       # Disable DPMS (Display Power Management Signaling)
-    xset s noblank   # Disable screen blanking
-  '';
 
   # Thermal management
   services.thermald.enable = true;
@@ -250,24 +214,13 @@
     ];
   };
 
-
-  # Enable KDE Wallet auto-unlock via PAM
-  security.pam.services.sddm.enableKwallet = true;
-
   # Host-specific packages
   environment.systemPackages = with pkgs; [
     # Additional system monitoring
     btop
     neofetch
     unzip
-    
-    # KDE/Plasma utilities
-    kdePackages.kate
-    kdePackages.konsole
-    kdePackages.spectacle
-    kdePackages.filelight
-    kdePackages.ark
-    
+
     # System utilities
     pciutils
     usbutils
