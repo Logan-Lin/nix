@@ -82,6 +82,14 @@
               name = "Arxiv";
               url = "https://arxiv.org/user/";
             }
+            {
+              name = "Google Scholar";
+              url = "https://scholar.google.com/";
+            }
+            {
+              name = "DBLP";
+              url = "https://dblp.org/";
+            }
           ];
         }
         {
