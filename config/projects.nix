@@ -74,15 +74,15 @@ in
       description = "AI for Material";
       windows = [
         {
-          name = "mds";
-          path = homePath "Documents/Projects/Material Design Shortcut";
+          name = "agent";
+          path = homePath "Documents/Projects/Material AI Agent";
           ai = true;
           git = false;
           shell = false;
         }
         {
-          name = "meet";
-          path = homePath "Documents/Projects/Material Project Group Meeting";
+          name = "mds";
+          path = homePath "Documents/Projects/Material Design Shortcut";
           ai = true;
           git = false;
           shell = false;
