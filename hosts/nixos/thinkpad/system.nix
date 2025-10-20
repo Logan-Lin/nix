@@ -1,4 +1,19 @@
-{ config, pkgs, lib, ... }: {
+{ config, pkgs, lib, ... }:
+
+let
+  # Helper function to patch desktop entries for NVIDIA offload
+  patchDesktop = pkg: appName: from: to: lib.hiPrio (
+    pkgs.runCommand "patched-desktop-entry-for-${appName}" {} ''
+      ${pkgs.coreutils}/bin/mkdir -p $out/share/applications
+      ${pkgs.gnused}/bin/sed 's#${from}#${to}#g' < ${pkg}/share/applications/${appName}.desktop > $out/share/applications/${appName}.desktop
+    ''
+  );
+
+  # Wrapper to automatically run applications with NVIDIA offload
+  GPUOffloadApp = pkg: desktopName: patchDesktop pkg desktopName "^Exec=" "Exec=nvidia-offload ";
+in
+
+{
   imports = [
     ./hardware-configuration.nix
     ./containers.nix  # Host-specific container definitions
@@ -118,6 +133,21 @@
   services.xserver.enable = true;
   services.displayManager.gdm.enable = true;
   services.desktopManager.gnome.enable = true;
+
+  # Enable NVIDIA video drivers
+  services.xserver.videoDrivers = [ "nvidia" ];
+
+  # Steam gaming configuration
+  programs.steam = {
+    enable = true;
+    remotePlay.openFirewall = true;
+    dedicatedServer.openFirewall = true;
+    localNetworkGameTransfers.openFirewall = true;
+    gamescopeSession.enable = true;
+  };
+
+  # Enable GameMode for performance optimization
+  programs.gamemode.enable = true;
 
   # Keyboard layout
   services.xserver.xkb = {
@@ -255,17 +285,25 @@
     pciutils
     usbutils
     unzip
-    
+
     # GPU monitoring
     nvtopPackages.nvidia
     intel-gpu-tools
-    
+
     # Laptop utilities
     brightnessctl
-    
+
     # ThinkPad specific
     lm_sensors  # Temperature monitoring
     smartmontools  # Disk health monitoring (SMART)
+
+    # Gaming utilities
+    mangohud  # Performance overlay for games
+    gamescope  # SteamOS session compositing window manager
+    protonup-qt  # Proton version manager
+
+    # Steam with NVIDIA offload (patched desktop entry)
+    (GPUOffloadApp config.programs.steam.package "steam")
   ];
 
 
