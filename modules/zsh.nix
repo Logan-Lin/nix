@@ -39,11 +39,6 @@ in
       # Load Powerlevel10k configuration (managed by Nix)
       source ~/.p10k.zsh
 
-      # Load zsh-system-clipboard plugin for vi mode clipboard integration (only in graphical sessions)
-      if [[ -n "$DISPLAY" ]] && [[ -f ${pkgs.zsh-system-clipboard}/share/zsh/zsh-system-clipboard/zsh-system-clipboard.zsh ]]; then
-        source ${pkgs.zsh-system-clipboard}/share/zsh/zsh-system-clipboard/zsh-system-clipboard.zsh
-      fi
-      
       # Vim mode configuration
       # Reduce delay when switching modes (10ms instead of 400ms)
       export KEYTIMEOUT=1
@@ -160,7 +155,6 @@ in
   # Essential packages for enhanced zsh experience
   home.packages = with pkgs; [
     zsh-powerlevel10k
-    zsh-system-clipboard
     fzf
     fd
     ripgrep
