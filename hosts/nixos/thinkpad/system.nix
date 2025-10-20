@@ -245,7 +245,7 @@ in
     Login = {
       HandleLidSwitch = "suspend";          # Suspend on lid close (battery only)
       HandleLidSwitchDocked = "ignore";
-      HandleLidSwitchExternalPower = "ignore";  # Don't suspend on lid close when on AC
+      HandleLidSwitchExternalPower = "suspend";  
       HandlePowerKey = "suspend";           # Suspend on power button press
       HandleSuspendKey = "suspend";         # Allow manual suspend from GNOME menu
       HandleHibernateKey = "ignore";
