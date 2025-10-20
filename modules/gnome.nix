@@ -119,6 +119,24 @@ in
       };
     };
 
+    # Configure XDG user directories
+    xdg.userDirs = {
+      enable = true;
+      createDirectories = true;
+
+      # Keep these directories
+      desktop = "${config.home.homeDirectory}/Desktop";
+      documents = "${config.home.homeDirectory}/Documents";
+      download = "${config.home.homeDirectory}/Downloads";
+
+      # Disable unwanted directories
+      music = null;
+      pictures = null;
+      videos = null;
+      publicShare = null;
+      templates = null;
+    };
+
     # GNOME Shell extensions
     home.packages = with pkgs; [
       gnomeExtensions.hide-top-bar
