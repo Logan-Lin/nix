@@ -40,6 +40,8 @@ in
     "i915.enable_fbc=1"
     # Disable GPU power management debugging
     "drm.debug=0"
+    # Prefer S3 deep sleep over s2idle
+    "mem_sleep_default=deep"
   ];
 
   # Enable firmware updates
