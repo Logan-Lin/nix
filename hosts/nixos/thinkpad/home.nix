@@ -28,6 +28,5 @@
   home.packages = with pkgs; [
     obsidian
     keepassxc
-    gnomeExtensions.pano  # Clipboard manager (similar to Maccy)
   ];
 }

@@ -47,6 +47,7 @@ in
         disable-user-extensions = false;
         enabled-extensions = [
           "hidetopbar@mathieu.bidon.ca"
+          "pano@elhan.io"
         ];
         favorite-apps = [
           "org.gnome.Nautilus.desktop"
@@ -63,6 +64,8 @@ in
         enable-active-window = true;
         mouse-sensitive = false;
         mouse-sensitive-fullscreen-window = false;
+        animation-time-autohide = 0.0;  # Instant hide/show (no animation)
+        animation-time-overview = 0.0;  # Instant overview transition
       };
 
       # GNOME Terminal configuration with Gruvbox Dark theme (matching ghostty)
@@ -145,6 +148,16 @@ in
         download-updates = false;
         download-updates-notify = false;
       };
+
+      # Notification settings
+      "org/gnome/desktop/notifications" = {
+        show-banners = false;  # Disable notification popups (still logged in notification center)
+      };
+
+      # Sound settings
+      "org/gnome/desktop/sound" = {
+        event-sounds = false;  # Disable notification sounds
+      };
     };
 
     # Configure cursor theme system-wide
@@ -159,6 +172,7 @@ in
     # GNOME Shell extensions
     home.packages = with pkgs; [
       gnomeExtensions.hide-top-bar
+      gnomeExtensions.pano
     ];
   };
 }
