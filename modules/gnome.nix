@@ -32,9 +32,13 @@ in
         picture-options = "scaled";
       };
 
-      # Input sources - US English
+      # Input sources - US English, Chinese Pinyin, Japanese
       "org/gnome/desktop/input-sources" = {
-        sources = [ (mkTuple [ "xkb" "us" ]) ];
+        sources = [
+          (mkTuple [ "xkb" "us" ])
+          (mkTuple [ "ibus" "libpinyin" ])
+          (mkTuple [ "ibus" "mozc-jp" ])
+        ];
         xkb-options = [ "" ];
       };
 
