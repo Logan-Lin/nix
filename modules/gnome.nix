@@ -47,7 +47,6 @@ in
         disable-user-extensions = false;
         enabled-extensions = [
           "hidetopbar@mathieu.bidon.ca"
-          "pano@elhan.io"
         ];
         favorite-apps = [
           "org.gnome.Nautilus.desktop"
@@ -114,7 +113,6 @@ in
     # GNOME Shell extensions
     home.packages = with pkgs; [
       gnomeExtensions.hide-top-bar
-      gnomeExtensions.pano
     ];
   };
 }
