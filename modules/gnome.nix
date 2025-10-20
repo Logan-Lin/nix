@@ -70,7 +70,7 @@ in
       # GNOME Console configuration
       "org/gnome/Console" = {
         audible-bell = false;
-        custom-font = "JetBrainsMono Nerd Font Mono 13";
+        custom-font = "JetBrainsMono Nerd Font Mono 12";
         use-system-font = false;
       };
 
@@ -116,54 +116,5 @@ in
       gnomeExtensions.hide-top-bar
       gnomeExtensions.pano
     ];
-
-    # GNOME Terminal configuration with Gruvbox Dark theme (matching ghostty)
-    programs.gnome-terminal = {
-      enable = true;
-      showMenubar = false;
-      themeVariant = "dark";
-
-      profile."b1dcc9dd-5262-4d8d-a863-c897e6d979b9" = {
-        default = true;
-        visibleName = "Default";
-
-        # Font settings - matching ghostty
-        font = "JetBrainsMono Nerd Font Mono 12";
-
-        # Colors - Gruvbox Dark theme
-        colors = {
-          backgroundColor = "#14191f";
-          foregroundColor = "#ebdbb2";
-          palette = [
-            "#282828"  # black
-            "#cc241d"  # red
-            "#98971a"  # green
-            "#d79921"  # yellow
-            "#458588"  # blue
-            "#b16286"  # magenta
-            "#689d6a"  # cyan
-            "#a89984"  # white
-            "#928374"  # bright black
-            "#fb4934"  # bright red
-            "#b8bb26"  # bright green
-            "#fabd2f"  # bright yellow
-            "#83a598"  # bright blue
-            "#d3869b"  # bright magenta
-            "#8ec07c"  # bright cyan
-            "#ebdbb2"  # bright white
-          ];
-        };
-
-        # Cursor settings - matching ghostty
-        cursorBlinkMode = "off";
-        cursorShape = "block";
-
-        # Scrollback
-        scrollbackLines = 10000;
-
-        # Bell
-        audibleBell = false;
-      };
-    };
   };
 }
