@@ -229,15 +229,16 @@ in
     };
   };
 
-  # Disable automatic sleep and screen timeout
+  # Suspend behavior configuration
   services.logind.settings = {
     Login = {
-      HandleLidSwitch = "ignore";           # Ignore lid close
+      HandleLidSwitch = "suspend";          # Suspend on lid close (battery only)
       HandleLidSwitchDocked = "ignore";
-      HandleLidSwitchExternalPower = "ignore";
-      HandleSuspendKey = "ignore";
+      HandleLidSwitchExternalPower = "ignore";  # Don't suspend on lid close when on AC
+      HandlePowerKey = "suspend";           # Suspend on power button press
+      HandleSuspendKey = "suspend";         # Allow manual suspend from GNOME menu
       HandleHibernateKey = "ignore";
-      IdleAction = "ignore";
+      IdleAction = "ignore";                # No automatic idle suspend
       IdleActionSec = "0";
     };
   };
