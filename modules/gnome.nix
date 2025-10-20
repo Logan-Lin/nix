@@ -64,8 +64,6 @@ in
         enable-active-window = true;
         mouse-sensitive = false;
         mouse-sensitive-fullscreen-window = false;
-        animation-time-autohide = 0.0;  # Instant hide/show (no animation)
-        animation-time-overview = 0.0;  # Instant overview transition
       };
 
       # GNOME Terminal configuration with Gruvbox Dark theme (matching ghostty)
@@ -157,6 +155,11 @@ in
       # Sound settings
       "org/gnome/desktop/sound" = {
         event-sounds = false;  # Disable notification sounds
+      };
+
+      # IBus libpinyin (Chinese Pinyin) configuration
+      "com/github/libpinyin/ibus-libpinyin/libpinyin" = {
+        lookup-table-page-size = 7;  # Number of candidates displayed (default: 5)
       };
     };
 
