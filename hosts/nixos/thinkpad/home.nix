@@ -28,5 +28,6 @@
   home.packages = with pkgs; [
     obsidian
     keepassxc
+    inkscape
   ];
 }
