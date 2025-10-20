@@ -111,6 +111,12 @@ in
         use-system-font = false;
       };
 
+      # Nautilus (GNOME Files) configuration
+      "org/gnome/nautilus/preferences" = {
+        show-hidden-files = true;
+        default-folder-viewer = "list-view";
+      };
+
       # Disable GNOME Software auto-updates
       "org/gnome/software" = {
         download-updates = false;
