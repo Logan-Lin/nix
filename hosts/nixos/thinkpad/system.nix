@@ -157,6 +157,15 @@ in
     options = "";
   };
 
+  # Input method configuration
+  i18n.inputMethod = {
+    enabled = "ibus";
+    ibus.engines = with pkgs.ibus-engines; [
+      libpinyin  # Chinese Simplified Pinyin
+      mozc       # Japanese (Romaji)
+    ];
+  };
+
   # Exclude unwanted GNOME default packages
   environment.gnome.excludePackages = with pkgs; [
     gnome-tour
