@@ -63,9 +63,9 @@ in
         use-system-font = false;
         font = "JetBrainsMono Nerd Font Mono 14";
 
-        # Colors - Gruvbox Dark theme matching ghostty
+        # Colors - Gruvbox Dark theme
         use-theme-colors = false;
-        background-color = "rgb(20,25,31)";  # #14191f from ghostty
+        background-color = "rgb(20,25,31)";  # #14191f
         foreground-color = "rgb(235,219,178)";  # Gruvbox fg
 
         # Palette colors (Gruvbox Dark)
