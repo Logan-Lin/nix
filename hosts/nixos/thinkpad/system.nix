@@ -310,6 +310,10 @@ in
     lm_sensors  # Temperature monitoring
     smartmontools  # Disk health monitoring (SMART)
 
+    # Icon themes for GNOME applications
+    adwaita-icon-theme
+    hicolor-icon-theme
+
     # Gaming utilities
     mangohud  # Performance overlay for games
     gamescope  # SteamOS session compositing window manager
