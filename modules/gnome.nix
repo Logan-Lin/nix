@@ -107,6 +107,8 @@ in
       # GNOME Console configuration
       "org/gnome/Console" = {
         audible-bell = false;
+        custom-font = "JetBrainsMono Nerd Font Mono 13";
+        use-system-font = false;
       };
 
       # Disable GNOME Software auto-updates
