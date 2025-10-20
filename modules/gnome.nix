@@ -22,6 +22,7 @@ in
       "org/gnome/desktop/interface" = {
         color-scheme = "prefer-dark";
         gtk-theme = "Adwaita-dark";
+        cursor-theme = "Adwaita";
       };
 
       # Input sources - US English
@@ -108,6 +109,15 @@ in
         download-updates = false;
         download-updates-notify = false;
       };
+    };
+
+    # Configure cursor theme system-wide
+    home.pointerCursor = {
+      name = "Adwaita";
+      package = pkgs.adwaita-icon-theme;
+      size = 24;
+      gtk.enable = true;
+      x11.enable = true;
     };
   };
 }
