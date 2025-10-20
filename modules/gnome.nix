@@ -42,8 +42,12 @@ in
         xkb-options = [ "" ];
       };
 
-      # Favorite applications in dash
+      # GNOME Shell configuration
       "org/gnome/shell" = {
+        disable-user-extensions = false;
+        enabled-extensions = [
+          "hidetopbar@mathieu.bidon.ca"
+        ];
         favorite-apps = [
           "org.gnome.Nautilus.desktop"
           "firefox.desktop"
@@ -51,6 +55,14 @@ in
           "org.gnome.Console.desktop"
           "org.keepassxc.KeePassXC.desktop"
         ];
+      };
+
+      # Hide Top Bar extension configuration
+      "org/gnome/shell/extensions/hidetopbar" = {
+        enable-intellihide = true;
+        enable-active-window = true;
+        mouse-sensitive = false;
+        mouse-sensitive-fullscreen-window = false;
       };
 
       # GNOME Terminal configuration with Gruvbox Dark theme (matching ghostty)
@@ -143,5 +155,10 @@ in
       gtk.enable = true;
       x11.enable = true;
     };
+
+    # GNOME Shell extensions
+    home.packages = with pkgs; [
+      gnomeExtensions.hide-top-bar
+    ];
   };
 }
