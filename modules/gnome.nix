@@ -25,6 +25,13 @@ in
         cursor-theme = "Adwaita";
       };
 
+      # Desktop background
+      "org/gnome/desktop/background" = {
+        picture-uri = "file:///home/yanlin/Documents/Library/nixos-nineish-dark@4k.png";
+        picture-uri-dark = "file:///home/yanlin/Documents/Library/nixos-nineish-dark@4k.png";
+        picture-options = "scaled";
+      };
+
       # Input sources - US English
       "org/gnome/desktop/input-sources" = {
         sources = [ (mkTuple [ "xkb" "us" ]) ];
