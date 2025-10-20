@@ -9,8 +9,24 @@
     ../home-default.nix
     ../../../modules/syncthing.nix
     ../../../modules/tex.nix
+    ../../../modules/gnome.nix
+    ../../../modules/firefox.nix
   ];
 
-  # Any ThinkPad-specific home configurations can be added here
-  # For example, laptop-specific aliases or scripts
+  # Enable GNOME configuration
+  programs.gnome-custom = {
+    enable = true;
+  };
+
+  # Enable Firefox browser
+  programs.firefox-custom = {
+    enable = true;
+    package = pkgs.firefox;
+  };
+
+  # ThinkPad-specific applications
+  home.packages = with pkgs; [
+    obsidian
+    keepassxc
+  ];
 }

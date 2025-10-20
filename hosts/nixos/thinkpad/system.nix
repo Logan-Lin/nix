@@ -114,6 +114,44 @@
     jack.enable = true;
   };
 
+  # GNOME Desktop Environment
+  services.xserver = {
+    enable = true;
+    displayManager.gdm.enable = true;
+    desktopManager.gnome.enable = true;
+
+    # Keyboard layout
+    xkb = {
+      layout = "us";
+      options = "";
+    };
+  };
+
+  # Exclude unwanted GNOME default packages
+  environment.gnome.excludePackages = with pkgs; [
+    gnome-tour
+    epiphany  # GNOME web browser
+    geary     # GNOME email client
+    gnome-music
+    gnome-photos
+    gnome-maps
+    gnome-weather
+    gnome-contacts
+    gnome-clocks
+    simple-scan
+    totem     # video player
+    yelp      # help viewer
+  ];
+
+  # XDG portal for proper desktop integration
+  xdg.portal = {
+    enable = true;
+    extraPortals = with pkgs; [
+      xdg-desktop-portal-gnome
+      xdg-desktop-portal-gtk
+    ];
+  };
+
   # Touchpad configuration
   services.libinput = {
     enable = true;
