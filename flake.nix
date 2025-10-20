@@ -93,7 +93,7 @@
       "yanlin@thinkpad" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux;
         modules = [ ./hosts/nixos/thinkpad/home.nix ];
-        extraSpecialArgs = { inherit claude-code nixvim; };
+        extraSpecialArgs = { inherit claude-code nixvim firefox-addons; };
       };
     };
   };
