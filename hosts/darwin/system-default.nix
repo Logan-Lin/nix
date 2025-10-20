@@ -50,7 +50,6 @@
       persistent-apps = [
         "/Applications/Firefox.app"
         "/Applications/Obsidian.app"
-        "/System/Applications/Preview.app"
         "/Applications/Ghostty.app"
         "/Applications/KeePassXC.app"
       ];
