@@ -110,6 +110,15 @@ in
       x11.enable = true;
     };
 
+    # Configure GTK icon theme
+    gtk = {
+      enable = true;
+      iconTheme = {
+        package = pkgs.adwaita-icon-theme;
+        name = "Adwaita";
+      };
+    };
+
     # GNOME Shell extensions
     home.packages = with pkgs; [
       gnomeExtensions.hide-top-bar
