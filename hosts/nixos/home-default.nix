@@ -45,7 +45,7 @@
     httpie
     openssh
     gnumake
-    
+
     # Network diagnostic tools
     bind           # DNS utilities (dig, nslookup, mdig)
     iputils        # Core network tools (ping, traceroute)
@@ -53,7 +53,7 @@
     netcat-gnu     # Network connection utility
     curl           # HTTP client
     wget           # Web downloader
-    
+
     # Command-line utilities
     ncdu
     git-credential-oauth
@@ -61,6 +61,10 @@
     delta
     fastfetch
     coreutils      # GNU core utilities (base64, etc.)
+
+    # Clipboard utilities for tmux integration
+    wl-clipboard   # Wayland clipboard (wl-copy/wl-paste)
+    xclip          # X11 clipboard fallback
 
     # Development and build tools
     python312

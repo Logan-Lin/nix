@@ -75,7 +75,12 @@
       
       # Better copy mode
       bind-key -T copy-mode-vi v send-keys -X begin-selection
-      bind-key -T copy-mode-vi y send-keys -X copy-pipe "pbcopy"
+      # Platform-aware clipboard: pbcopy (macOS) | wl-copy (Wayland) | xclip (X11)
+      bind-key -T copy-mode-vi y if-shell 'command -v pbcopy' \
+        'send-keys -X copy-pipe-and-cancel "pbcopy"' \
+        'if-shell "test -n \"$WAYLAND_DISPLAY\"" \
+          "send-keys -X copy-pipe-and-cancel \"wl-copy\"" \
+          "send-keys -X copy-pipe-and-cancel \"xclip -selection clipboard\""'
       bind-key -T copy-mode-vi r send-keys -X rectangle-toggle
       
       # New window with current path
