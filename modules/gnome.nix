@@ -4,6 +4,10 @@ with lib;
 
 let
   cfg = config.programs.gnome-custom;
+
+  # Import gvariant helpers for dconf types
+  mkTuple = lib.hm.gvariant.mkTuple;
+  mkUint32 = lib.hm.gvariant.mkUint32;
 in
 
 {
