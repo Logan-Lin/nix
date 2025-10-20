@@ -5,7 +5,6 @@
     ../system-default.nix  # Common NixOS system configuration
     ../../../modules/wireguard.nix
     ../../../modules/podman.nix
-    ../../../modules/borg-server.nix
     ../../../modules/login-display.nix
   ];
 
@@ -282,19 +281,6 @@
       "/dev/nvme0n1" = "System_SSD";
     };
     showDiskUsage = true;
-  };
-
-  # Borg backup server configuration
-  services.borgbackup-server = {
-    enable = true;
-    dataDir = "/srv/borg";
-    users = {
-      borg = {
-        publicKeys = [ 
-          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG26nw5vhvMl0FoFJbsLBb0mqziiSKS7tuK4IVcvWhKk yanlin@mba"
-        ];
-      };
-    };
   };
 
 }

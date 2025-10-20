@@ -59,16 +59,6 @@
         identityFile = "~/.ssh/keys/hetzner";
       };
 
-      "borg-backup" = {
-        hostname = "10.2.2.30";
-        user = "borg";
-        identityFile = "~/.ssh/keys/borg-backup";
-        proxyJump = "vps";
-        setEnv = {
-          TERM = "xterm-256color";
-        };
-      };
-
       "borg-box" = {
         hostname = "u501367.your-storagebox.de";
         user = "u501367";
