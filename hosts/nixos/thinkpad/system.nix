@@ -115,16 +115,14 @@
   };
 
   # GNOME Desktop Environment
-  services.xserver = {
-    enable = true;
-    displayManager.gdm.enable = true;
-    desktopManager.gnome.enable = true;
+  services.xserver.enable = true;
+  services.displayManager.gdm.enable = true;
+  services.desktopManager.gnome.enable = true;
 
-    # Keyboard layout
-    xkb = {
-      layout = "us";
-      options = "";
-    };
+  # Keyboard layout
+  services.xserver.xkb = {
+    layout = "us";
+    options = "";
   };
 
   # Exclude unwanted GNOME default packages
