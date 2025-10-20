@@ -79,7 +79,7 @@
       bind-key -T copy-mode-vi y if-shell 'command -v pbcopy' \
         'send-keys -X copy-pipe-and-cancel "pbcopy"' \
         'if-shell "test -n \"$WAYLAND_DISPLAY\"" \
-          "send-keys -X copy-pipe-and-cancel \"wl-copy\"" \
+          "send-keys -X copy-pipe-and-cancel \"wl-copy --foreground\"" \
           "send-keys -X copy-pipe-and-cancel \"xclip -selection clipboard\""'
       bind-key -T copy-mode-vi r send-keys -X rectangle-toggle
       
