@@ -69,6 +69,13 @@
         };
       };
 
+      "borg-box" = {
+        hostname = "u501367.your-storagebox.de";
+        user = "u501367";
+        port = 23;
+        identityFile = "~/.ssh/keys/hetzner";
+      };
+
     };
   };
 }
