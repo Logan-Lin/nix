@@ -104,6 +104,11 @@ in
         default-size-rows = 40;
       };
 
+      # GNOME Console configuration
+      "org/gnome/Console" = {
+        audible-bell = false;
+      };
+
       # Disable GNOME Software auto-updates
       "org/gnome/software" = {
         download-updates = false;
