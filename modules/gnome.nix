@@ -53,7 +53,7 @@ in
           "org.gnome.Nautilus.desktop"
           "firefox.desktop"
           "obsidian.desktop"
-          "org.gnome.Console.desktop"
+          "com.mitchellh.ghostty.desktop"
           "org.keepassxc.KeePassXC.desktop"
         ];
       };
@@ -64,14 +64,6 @@ in
         enable-active-window = true;
         mouse-sensitive = false;
         mouse-sensitive-fullscreen-window = false;
-      };
-
-
-      # GNOME Console configuration
-      "org/gnome/Console" = {
-        audible-bell = false;
-        custom-font = "JetBrainsMono Nerd Font Mono 12";
-        use-system-font = false;
       };
 
       # Nautilus (GNOME Files) configuration

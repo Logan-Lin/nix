@@ -11,11 +11,20 @@
     ../../../modules/tex.nix
     ../../../modules/gnome.nix
     ../../../modules/firefox.nix
+    ../../../modules/ghostty.nix
   ];
 
   # Enable GNOME configuration
   programs.gnome-custom = {
     enable = true;
+  };
+
+  # Enable Ghostty terminal with OSC-52 clipboard support
+  programs.ghostty-custom = {
+    enable = true;
+    package = pkgs.ghostty;
+    fontSize = 12;
+    windowMode = "maximized";
   };
 
   # Enable Firefox browser
