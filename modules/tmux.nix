@@ -13,6 +13,9 @@
       # Terminal settings
       set -g default-terminal "screen-256color"
       set -ga terminal-overrides ",xterm-256color:Tc"
+
+      # Enable OSC-52 clipboard integration (works with Ghostty)
+      set -g set-clipboard on
       
       # Gruvbox Dark Theme (Truecolor)
       # Status bar colors
@@ -73,14 +76,9 @@
       # Reload config file
       bind r source-file ~/.config/tmux/tmux.conf \; display-message "Config reloaded!"
       
-      # Better copy mode
+      # Better copy mode with OSC-52 clipboard
       bind-key -T copy-mode-vi v send-keys -X begin-selection
-      # Platform-aware clipboard: pbcopy (macOS) | wl-copy (Wayland) | xclip (X11)
-      bind-key -T copy-mode-vi y if-shell 'command -v pbcopy' \
-        'send-keys -X copy-pipe-and-cancel "pbcopy"' \
-        'if-shell "test -n \"$WAYLAND_DISPLAY\"" \
-          "send-keys -X copy-pipe-and-cancel \"wl-copy --foreground\"" \
-          "send-keys -X copy-pipe-and-cancel \"xclip -selection clipboard\""'
+      bind-key -T copy-mode-vi y send-keys -X copy-pipe-and-cancel
       bind-key -T copy-mode-vi r send-keys -X rectangle-toggle
       
       # New window with current path

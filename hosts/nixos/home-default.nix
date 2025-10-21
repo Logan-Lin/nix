@@ -62,10 +62,6 @@
     fastfetch
     coreutils      # GNU core utilities (base64, etc.)
 
-    # Clipboard utilities for tmux integration
-    wl-clipboard   # Wayland clipboard (wl-copy/wl-paste)
-    xclip          # X11 clipboard fallback
-
     # Development and build tools
     python312
     uv
