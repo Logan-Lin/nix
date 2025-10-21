@@ -358,17 +358,20 @@ in
 
       -- OSC-52 clipboard integration (matches tmux setup, works with Ghostty)
       -- This enables clipboard functionality across SSH, tmux, and multi-platform
-      vim.g.clipboard = {
-        name = 'OSC 52',
-        copy = {
-          ['+'] = require('vim.ui.clipboard.osc52').copy('+'),
-          ['*'] = require('vim.ui.clipboard.osc52').copy('*'),
-        },
-        paste = {
-          ['+'] = require('vim.ui.clipboard.osc52').paste('+'),
-          ['*'] = require('vim.ui.clipboard.osc52').paste('*'),
-        },
-      }
+      -- Only enabled on Linux; macOS uses native clipboard with "unnamedplus"
+      ${lib.optionalString (!pkgs.stdenv.isDarwin) ''
+        vim.g.clipboard = {
+          name = 'OSC 52',
+          copy = {
+            ['+'] = require('vim.ui.clipboard.osc52').copy('+'),
+            ['*'] = require('vim.ui.clipboard.osc52').copy('*'),
+          },
+          paste = {
+            ['+'] = require('vim.ui.clipboard.osc52').paste('+'),
+            ['*'] = require('vim.ui.clipboard.osc52').paste('*'),
+          },
+        }
+      ''}
 
       -- Close all buffers except current (preserving NvimTree and other special buffers)
       function close_other_buffers()
