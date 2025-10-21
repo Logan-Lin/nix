@@ -356,16 +356,30 @@ in
         }
       }
 
+      -- OSC-52 clipboard integration (matches tmux setup, works with Ghostty)
+      -- This enables clipboard functionality across SSH, tmux, and multi-platform
+      vim.g.clipboard = {
+        name = 'OSC 52',
+        copy = {
+          ['+'] = require('vim.ui.clipboard.osc52').copy('+'),
+          ['*'] = require('vim.ui.clipboard.osc52').copy('*'),
+        },
+        paste = {
+          ['+'] = require('vim.ui.clipboard.osc52').paste('+'),
+          ['*'] = require('vim.ui.clipboard.osc52').paste('*'),
+        },
+      }
+
       -- Close all buffers except current (preserving NvimTree and other special buffers)
       function close_other_buffers()
         local current_buf = vim.api.nvim_get_current_buf()
         local buffers = vim.api.nvim_list_bufs()
-        
+
         for _, buf in ipairs(buffers) do
           if buf ~= current_buf and vim.api.nvim_buf_is_valid(buf) then
             local buftype = vim.api.nvim_buf_get_option(buf, 'buftype')
             local filetype = vim.api.nvim_buf_get_option(buf, 'filetype')
-            
+
             -- Skip special buffers (NvimTree, terminals, quickfix, etc.)
             if buftype == "" and filetype ~= "NvimTree" then
               -- Only delete if it's a normal file buffer

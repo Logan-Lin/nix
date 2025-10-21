@@ -86,6 +86,10 @@ in
           
           # Copy/paste
           copy-on-select = false;
+
+          # OSC-52 clipboard integration (works with Neovim and tmux)
+          clipboard-read = "allow";   # Allow programs to read clipboard without prompting
+          clipboard-write = "allow";  # Allow programs to write to clipboard without prompting
           
           # Scrollback
           scrollback-limit = 10000;
