@@ -338,9 +338,6 @@ in
           main = {
             # Map Caps Lock to Left Control
             capslock = "leftcontrol";
-            # Disable both physical Ctrl keys (make them no-ops)
-            leftcontrol = "noop";
-            rightcontrol = "noop";
           };
         };
       };
