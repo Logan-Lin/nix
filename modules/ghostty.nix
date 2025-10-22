@@ -93,6 +93,9 @@ in
           
           # Quit behavior
           confirm-close-surface = false;
+
+          # macOS-specific: Hide title bar to save space
+          macos-titlebar-style = "hidden";
         }
         
         # Conditional window settings based on mode
