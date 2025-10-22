@@ -164,7 +164,7 @@ in
 
       # Prevent concurrent backup runs
       unitConfig = {
-        ConditionPathExists = "!/var/run/borg-backup.lock";
+        ConditionPathExists = "!/run/borg-backup.lock";
       };
 
       serviceConfig = {
@@ -173,16 +173,16 @@ in
         Group = "root";
 
         # Create lock file on start, remove on stop
-        ExecStartPre = "${pkgs.coreutils}/bin/touch /var/run/borg-backup.lock";
-        ExecStopPost = "${pkgs.coreutils}/bin/rm -f /var/run/borg-backup.lock";
-        
+        ExecStartPre = "${pkgs.coreutils}/bin/touch /run/borg-backup.lock";
+        ExecStopPost = "${pkgs.coreutils}/bin/rm -f /run/borg-backup.lock";
+
         # Security settings
         PrivateTmp = true;
         ProtectSystem = "strict";
         # Disable ProtectHome for SSH repositories to allow SSH key access
         ProtectHome = mkIf (!(lib.hasPrefix "ssh://" cfg.repositoryUrl)) "read-only";
-        # Only add ReadWritePaths for local repositories
-        ReadWritePaths = mkIf (!(lib.hasPrefix "ssh://" cfg.repositoryUrl)) [ cfg.repositoryUrl ];
+        # Add ReadWritePaths for lock file and local repositories
+        ReadWritePaths = [ "/run" ] ++ (if (lib.hasPrefix "ssh://" cfg.repositoryUrl) then [] else [ cfg.repositoryUrl ]);
         
         # Environment
         Environment = [
@@ -375,6 +375,7 @@ in
       borg-backup-now = "sudo systemctl start borg-backup.service";
       borg-list = "BORG_REPO='${cfg.repositoryUrl}' BORG_RSH='${cfg.sshCommand}' borg list";
       borg-info = "BORG_REPO='${cfg.repositoryUrl}' BORG_RSH='${cfg.sshCommand}' borg info";
+      borg-unlock = "sudo rm -f /run/borg-backup.lock && BORG_REPO='${cfg.repositoryUrl}' BORG_RSH='${cfg.sshCommand}' borg break-lock";
     };
   };
 }
