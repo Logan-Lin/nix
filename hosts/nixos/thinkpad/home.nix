@@ -38,5 +38,6 @@
     obsidian
     keepassxc
     inkscape
+    vlc
   ];
 }
