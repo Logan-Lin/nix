@@ -17,7 +17,6 @@
       "keepassxc"
       "keycastr"
       "inkscape"
-      "pinta"
       "firefox"
       "obsidian"
       "snipaste"
