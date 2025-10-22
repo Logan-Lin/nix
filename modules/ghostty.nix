@@ -43,12 +43,6 @@ in
   };
 
   config = mkIf cfg.enable {
-    # Note: Ghostty is currently marked as broken in nixpkgs
-    # To use it, you'll need to either:
-    # 1. Set NIXPKGS_ALLOW_BROKEN=1 when running hms
-    # 2. Add nixpkgs.config.allowBroken = true to your configuration
-    # 3. Install Ghostty manually from https://ghostty.org
-    
     programs.ghostty = {
       enable = true;
       package = cfg.package;
