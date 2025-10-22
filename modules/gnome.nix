@@ -47,7 +47,6 @@ in
         disable-user-extensions = false;
         enabled-extensions = [
           "hidetopbar@mathieu.bidon.ca"
-          "just-perfection-desktop@just-perfection"
           "pano@elhan.io"
         ];
         favorite-apps = [
@@ -65,11 +64,6 @@ in
         enable-active-window = true;
         mouse-sensitive = false;
         mouse-sensitive-fullscreen-window = false;
-      };
-
-      # Just Perfection extension configuration
-      "org/gnome/shell/extensions/just-perfection" = {
-        osd = false;  # Hide on-screen display notifications (including clipboard)
       };
 
       # Pano clipboard manager configuration
@@ -145,7 +139,6 @@ in
     # GNOME Shell extensions
     home.packages = with pkgs; [
       gnomeExtensions.hide-top-bar
-      gnomeExtensions.just-perfection
       gnomeExtensions.pano
     ];
   };
