@@ -229,8 +229,8 @@ in
       INTEL_GPU_BOOST_FREQ_ON_BAT = 1100;
       
       # ThinkPad battery charge thresholds (preserve battery health)
-      START_CHARGE_THRESH_BAT0 = 95;
-      STOP_CHARGE_THRESH_BAT0 = 100;
+      START_CHARGE_THRESH_BAT0 = 70;
+      STOP_CHARGE_THRESH_BAT0 = 80;
       
       # PCIe power management
       RUNTIME_PM_ON_AC = "on";
