@@ -158,14 +158,23 @@ in
       description = "Borg Backup Service";
       wants = [ "network-online.target" ];
       after = [ "network-online.target" ];
-      
+
       # Add borg and required tools to the service's PATH
       path = [ pkgs.borgbackup pkgs.openssh pkgs.curl ];
+
+      # Prevent concurrent backup runs
+      unitConfig = {
+        ConditionPathExists = "!/var/run/borg-backup.lock";
+      };
 
       serviceConfig = {
         Type = "oneshot";
         User = "root";  # Need root to access all backup paths
         Group = "root";
+
+        # Create lock file on start, remove on stop
+        ExecStartPre = "${pkgs.coreutils}/bin/touch /var/run/borg-backup.lock";
+        ExecStopPost = "${pkgs.coreutils}/bin/rm -f /var/run/borg-backup.lock";
         
         # Security settings
         PrivateTmp = true;
