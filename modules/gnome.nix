@@ -50,9 +50,10 @@ in
     };
 
     # Hide Top Bar extension configuration
+    # Always hide the top bar except in Activities Overview (Super key)
     "org/gnome/shell/extensions/hidetopbar" = {
-      enable-intellihide = true;
-      enable-active-window = true;
+      enable-intellihide = false;
+      enable-active-window = false;
       mouse-sensitive = false;
       mouse-sensitive-fullscreen-window = false;
     };
