@@ -1,18 +1,5 @@
 { config, pkgs, lib, ... }:
 
-let
-  # Helper function to patch desktop entries for NVIDIA offload
-  patchDesktop = pkg: appName: from: to: lib.hiPrio (
-    pkgs.runCommand "patched-desktop-entry-for-${appName}" {} ''
-      ${pkgs.coreutils}/bin/mkdir -p $out/share/applications
-      ${pkgs.gnused}/bin/sed 's#${from}#${to}#g' < ${pkg}/share/applications/${appName}.desktop > $out/share/applications/${appName}.desktop
-    ''
-  );
-
-  # Wrapper to automatically run applications with NVIDIA offload
-  GPUOffloadApp = pkg: desktopName: patchDesktop pkg desktopName "^Exec=" "Exec=nvidia-offload ";
-in
-
 {
   imports = [
     ./hardware-configuration.nix
@@ -32,7 +19,7 @@ in
 
   # Use latest kernel for better hardware support
   boot.kernelPackages = pkgs.linuxPackages_latest;
-  
+
   # Kernel parameters for ThinkPad
   boot.kernelParams = [
     # Better power management
@@ -44,10 +31,13 @@ in
     "mem_sleep_default=deep"
   ];
 
+  # Blacklist NVIDIA kernel modules to disable discrete GPU completely
+  boot.blacklistedKernelModules = [ "nouveau" "nvidia" "nvidia_drm" "nvidia_modeset" "nvidia_uvm" ];
+
   # Enable firmware updates
   services.fwupd.enable = true;
-  
-  # Hardware support for ThinkPad P14s Gen 2 Intel
+
+  # Hardware support for ThinkPad P14s Gen 2 Intel (Intel graphics only)
   hardware = {
     enableRedistributableFirmware = true;
     cpu.intel.updateMicrocode = true;
@@ -63,40 +53,7 @@ in
         libvdpau-va-gl
       ];
     };
-    
-    # NVIDIA configuration (T500)
-    nvidia = {
-      # Modesetting is required for PRIME
-      modesetting.enable = true;
-      
-      # Power management (experimental but useful for laptops)
-      powerManagement.enable = true;
-      powerManagement.finegrained = true;
-      
-      # Use proprietary driver (open source doesn't support T500 well)
-      open = false;
-      
-      # Enable nvidia-settings application
-      nvidiaSettings = true;
-      
-      # Use production driver (more stable than latest)
-      package = config.boot.kernelPackages.nvidiaPackages.production;
-      
-      # PRIME Offload configuration (better battery life)
-      prime = {
-        offload = {
-          enable = true;
-          enableOffloadCmd = true; # Provides nvidia-offload command
-        };
-        
-        # Bus IDs - MUST be verified after installation with:
-        # lspci | grep -E 'VGA|3D'
-        # These are typical values but may differ
-        intelBusId = "PCI:0:2:0";
-        nvidiaBusId = "PCI:1:0:0";
-      };
-    };
-    
+
     # Bluetooth support
     bluetooth = {
       enable = true;
@@ -135,21 +92,6 @@ in
   services.xserver.enable = true;
   services.displayManager.gdm.enable = true;
   services.desktopManager.gnome.enable = true;
-
-  # Enable NVIDIA video drivers
-  services.xserver.videoDrivers = [ "nvidia" ];
-
-  # Steam gaming configuration
-  programs.steam = {
-    enable = true;
-    remotePlay.openFirewall = true;
-    dedicatedServer.openFirewall = true;
-    localNetworkGameTransfers.openFirewall = true;
-    gamescopeSession.enable = true;
-  };
-
-  # Enable GameMode for performance optimization
-  programs.gamemode.enable = true;
 
   # Keyboard layout
   services.xserver.xkb = {
@@ -229,8 +171,8 @@ in
       INTEL_GPU_BOOST_FREQ_ON_BAT = 1100;
       
       # ThinkPad battery charge thresholds (preserve battery health)
-      START_CHARGE_THRESH_BAT0 = 70;
-      STOP_CHARGE_THRESH_BAT0 = 80;
+      START_CHARGE_THRESH_BAT0 = 80;
+      STOP_CHARGE_THRESH_BAT0 = 100;
       
       # PCIe power management
       RUNTIME_PM_ON_AC = "on";
@@ -246,7 +188,7 @@ in
     Login = {
       HandleLidSwitch = "suspend";          # Suspend on lid close (battery only)
       HandleLidSwitchDocked = "ignore";
-      HandleLidSwitchExternalPower = "ignore";  
+      HandleLidSwitchExternalPower = "suspend";
       HandlePowerKey = "suspend";           # Suspend on power button press
       HandleSuspendKey = "suspend";         # Allow manual suspend from GNOME menu
       HandleHibernateKey = "ignore";
@@ -300,7 +242,6 @@ in
     unzip
 
     # GPU monitoring
-    nvtopPackages.nvidia
     intel-gpu-tools
 
     # Laptop utilities
@@ -313,14 +254,6 @@ in
     # Icon themes for GNOME applications
     adwaita-icon-theme
     hicolor-icon-theme
-
-    # Gaming utilities
-    mangohud  # Performance overlay for games
-    gamescope  # SteamOS session compositing window manager
-    protonup-qt  # Proton version manager
-
-    # Steam with NVIDIA offload (patched desktop entry)
-    (GPUOffloadApp config.programs.steam.package "steam")
   ];
 
 
