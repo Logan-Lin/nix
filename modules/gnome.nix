@@ -86,6 +86,16 @@ in
       event-sounds = false;  # Disable notification sounds
     };
 
+    # Screen timeout settings
+    # Setup: ThinkPad laptop (lid closed) + 4K TV as external monitor
+    "org/gnome/desktop/session" = {
+      idle-delay = mkUint32 900;  # Screen blank after 15 minutes (900 seconds)
+    };
+
+    "org/gnome/settings-daemon/plugins/power" = {
+      idle-dim = false;  # Don't dim screen before blanking
+    };
+
     # IBus libpinyin (Chinese Pinyin) configuration
     "com/github/libpinyin/ibus-libpinyin/libpinyin" = {
       lookup-table-page-size = 7;  # Number of candidates displayed (default: 5)
