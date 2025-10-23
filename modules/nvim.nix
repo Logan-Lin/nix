@@ -124,11 +124,6 @@ in
         enable = true;
       };
 
-      # Markdown rendering
-      render-markdown = {
-        enable = true;
-      };
-
       # Basic auto-completion
       cmp = {
         enable = true;
@@ -270,14 +265,6 @@ in
         key = "<leader>f";
         action = ":lua show_file_in_finder()<CR>";
         options = { desc = "Show current file in Finder"; };
-      }
-
-      # Markdown rendering
-      {
-        mode = "n";
-        key = "<leader>md";
-        action = ":RenderMarkdown toggle<CR>";
-        options = { desc = "Toggle markdown rendering"; };
       }
     ];
 
