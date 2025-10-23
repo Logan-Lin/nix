@@ -366,7 +366,7 @@ in
         TZ = systemTZ;
         # HTTP Basic Authentication
         MICROBIN_BASIC_AUTH_USERNAME = "yanlin";
-        MICROBIN_BASIC_AUTH_PASSWORD = "@i<i[_:-^)J7<30Tm;:j4:By-L9P{vilxK)Y#O>K";
+        MICROBIN_BASIC_AUTH_PASSWORD = "1Hayashi-2Hiko";
         # Administrator credentials (change from defaults)
         MICROBIN_ADMIN_USERNAME = "admin";
         MICROBIN_ADMIN_PASSWORD = "@i<i[_:-^)J7<30Tm;:j4:By-L9P{vilxK)Y#O>K";
