@@ -369,7 +369,7 @@ in
         MICROBIN_ADMIN_PASSWORD = "@i<i[_:-^)J7<30Tm;:j4:By-L9P{vilxK)Y#O>K";
         # Read-only mode: require password to upload/create pastes
         MICROBIN_READONLY = "true";
-        MICROBIN_UPLOADER_PASSWORD = "@i<i[_:-^)J7<30Tm;:j4:By-L9P{vilxK)Y#O>K";
+        MICROBIN_UPLOADER_PASSWORD = "1Hayashi-2Hiko";
         # Enable public pasta listing (public pastes only)
         MICROBIN_NO_LISTING = "false";
         # Allow per-paste privacy controls
