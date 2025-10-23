@@ -171,7 +171,12 @@ in
           # Language and translation settings
           "intl.accept_languages" = "en-US,en,zh-CN,zh-TW,zh-HK,zh"; # Accept English and all Chinese variants
           "browser.translations.automaticallyPopup" = false; # Prevent automatic translation suggestions
-          
+
+          # Disable AI features
+          "browser.ml.enable" = false; # Disable all local ML/inference features
+          "browser.ml.chat.enabled" = false; # Disable AI chatbot
+          "browser.ml.chat.shortcuts" = false; # Disable "Ask an AI bot" right-click shortcut
+
           # Enable userChrome.css support
           "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
         };
