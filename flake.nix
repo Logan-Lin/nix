@@ -17,14 +17,9 @@
     nix-homebrew.url = "github:zhaofengli/nix-homebrew";
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
-    plasma-manager = {
-      url = "github:nix-community/plasma-manager";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.home-manager.follows = "home-manager";
-    };
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, nixvim, claude-code, firefox-addons, nix-homebrew, disko, plasma-manager }:
+  outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, nixvim, claude-code, firefox-addons, nix-homebrew, disko }:
   {
     darwinConfigurations."mba" = nix-darwin.lib.darwinSystem {
       modules = [ 
