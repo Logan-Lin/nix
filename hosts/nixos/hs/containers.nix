@@ -330,11 +330,11 @@ in
     # MariaDB database for Nextcloud
     cloud-db = {
       image = "docker.io/linuxserver/mariadb:latest";
-      
+
       volumes = [
         "/var/lib/containers/config/cloud-db:/config"
       ];
-      
+
       environment = {
         PUID = commonUID;
         PGID = commonGID;
@@ -344,11 +344,46 @@ in
         MYSQL_USER = "nextcloud";
         MYSQL_PASSWORD = "nextcloud";
       };
-      
+
       extraOptions = [
         "--network=podman"
       ];
-      
+
+      autoStart = true;
+    };
+
+    # MicroBin web clipboard
+    microbin = {
+      image = "docker.io/danielszabo99/microbin:latest";
+
+      volumes = [
+        "/var/lib/containers/config/microbin:/app/microbin_data"
+      ];
+
+      environment = {
+        PUID = commonUID;
+        PGID = commonGID;
+        TZ = systemTZ;
+        # HTTP Basic Authentication
+        MICROBIN_BASIC_AUTH_USERNAME = "yanlin";
+        MICROBIN_BASIC_AUTH_PASSWORD = "@i<i[_:-^)J7<30Tm;:j4:By-L9P{vilxK)Y#O>K";
+        # Administrator credentials (change from defaults)
+        MICROBIN_ADMIN_USERNAME = "admin";
+        MICROBIN_ADMIN_PASSWORD = "@i<i[_:-^)J7<30Tm;:j4:By-L9P{vilxK)Y#O>K";
+        # Enable public pasta listing
+        MICROBIN_NO_LISTING = "false";
+        # Allow public/private pastes
+        MICROBIN_PRIVATE = "true";
+      };
+
+      ports = [
+        "5010:8080"
+      ];
+
+      extraOptions = [
+        "--network=podman"
+      ];
+
       autoStart = true;
     };
   };

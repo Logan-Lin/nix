@@ -124,6 +124,19 @@
           };
         };
 
+        # MicroBin web clipboard
+        bin = {
+          rule = "Host(`bin.yanlincs.com`)";
+          entrypoints = "websecure";
+          service = "bin";
+          tls = {
+            certResolver = "cloudflare";
+            domains = [{
+              main = "*.yanlincs.com";
+            }];
+          };
+        };
+
         # WebDAV file server
         # files = {
         #   rule = "Host(`files.yanlincs.com`)";
@@ -215,6 +228,15 @@
           loadBalancer = {
             servers = [{
               url = "http://10.2.2.20:8080";
+            }];
+          };
+        };
+
+        # MicroBin backend (via WireGuard)
+        bin = {
+          loadBalancer = {
+            servers = [{
+              url = "http://10.2.2.20:5010";
             }];
           };
         };
