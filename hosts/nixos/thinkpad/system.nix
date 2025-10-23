@@ -3,10 +3,8 @@
 {
   imports = [
     ./hardware-configuration.nix
-    ./containers.nix  # Host-specific container definitions
     ../system-default.nix  # Common NixOS system configuration
     ../../../modules/wireguard.nix
-    ../../../modules/podman.nix
     ../../../modules/login-display.nix
   ];
 
@@ -45,7 +43,6 @@
     # Graphics configuration
     graphics = {
       enable = true;
-      enable32Bit = true;
       extraPackages = with pkgs; [
         intel-media-driver  # LIBVA_DRIVER_NAME=iHD
         vaapiIntel         # LIBVA_DRIVER_NAME=i965 (older but sometimes works better)
@@ -85,7 +82,6 @@
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
-    jack.enable = true;
   };
 
   # GNOME Desktop Environment
@@ -186,8 +182,8 @@
   # Suspend behavior configuration
   services.logind.settings = {
     Login = {
-      HandleLidSwitch = "suspend";          # Suspend on lid close (battery only)
-      HandleLidSwitchDocked = "ignore";
+      HandleLidSwitch = "suspend";          # Suspend on lid close (all power modes)
+      HandleLidSwitchDocked = "ignore";     # Don't suspend when docked
       HandleLidSwitchExternalPower = "suspend";
       HandlePowerKey = "suspend";           # Suspend on power button press
       HandleSuspendKey = "suspend";         # Allow manual suspend from GNOME menu
