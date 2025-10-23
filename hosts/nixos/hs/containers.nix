@@ -364,16 +364,19 @@ in
         PUID = commonUID;
         PGID = commonGID;
         TZ = systemTZ;
-        # HTTP Basic Authentication
-        MICROBIN_BASIC_AUTH_USERNAME = "yanlin";
-        MICROBIN_BASIC_AUTH_PASSWORD = "1Hayashi-2Hiko";
-        # Administrator credentials (change from defaults)
+        # Administrator credentials
         MICROBIN_ADMIN_USERNAME = "admin";
         MICROBIN_ADMIN_PASSWORD = "@i<i[_:-^)J7<30Tm;:j4:By-L9P{vilxK)Y#O>K";
-        # Enable public pasta listing
+        # Read-only mode: require password to upload/create pastes
+        MICROBIN_READONLY = "true";
+        MICROBIN_UPLOADER_PASSWORD = "@i<i[_:-^)J7<30Tm;:j4:By-L9P{vilxK)Y#O>K";
+        # Enable public pasta listing (public pastes only)
         MICROBIN_NO_LISTING = "false";
-        # Allow public/private pastes
+        # Allow per-paste privacy controls
         MICROBIN_PRIVATE = "true";
+        # Enable encryption for sensitive pastes
+        MICROBIN_ENCRYPTION_CLIENT_SIDE = "true";
+        MICROBIN_ENCRYPTION_SERVER_SIDE = "true";
       };
 
       ports = [
