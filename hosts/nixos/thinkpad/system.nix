@@ -112,6 +112,7 @@
     epiphany  # GNOME web browser
     file-roller  # archive manager
     geary     # GNOME email client
+    gnome-music
     gnome-photos
     gnome-maps
     gnome-weather
