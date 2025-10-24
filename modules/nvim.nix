@@ -375,12 +375,12 @@ in
         end
       end
 
-      -- Unicode-safe file operations
+      -- Unicode-safe file operations (async to prevent blocking)
       function open_file_with_system_app()
         local filepath = vim.fn.expand('%:p')
         if filepath ~= "" then
-          local escaped_path = vim.fn.shellescape(filepath)
-          vim.fn.system('xdg-open ' .. escaped_path)
+          -- Use jobstart for async execution (detach = true prevents blocking)
+          vim.fn.jobstart({'xdg-open', filepath}, {detach = true})
         else
           print("No file to open")
         end
@@ -389,8 +389,8 @@ in
       function show_file_in_file_manager()
         local filepath = vim.fn.expand('%:p')
         if filepath ~= "" then
-          local escaped_path = vim.fn.shellescape(filepath)
-          vim.fn.system('nautilus --select ' .. escaped_path)
+          -- Use jobstart for async execution (detach = true prevents blocking)
+          vim.fn.jobstart({'nautilus', '--select', filepath}, {detach = true})
         else
           print("No file to show")
         end
