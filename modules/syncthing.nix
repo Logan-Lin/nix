@@ -94,11 +94,6 @@ in
       };
     };
   };
-  
-  # Override the launchd agent to add RunAtLoad on macOS
-  launchd.agents.syncthing = lib.mkIf (pkgs.stdenv.isDarwin && config.services.syncthing.enable) {
-    config.RunAtLoad = true;
-  };
 
   # Deploy .stignore files to synced folders
   home.file."Credentials/.stignore".text = stignoreContent;

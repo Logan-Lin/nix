@@ -1,14 +1,13 @@
 # Nix Configuration
 
-Flake-based NixOS and nix-darwin configuration with home-manager.
+Flake-based NixOS configuration with home-manager.
 
 ## Commands
 
 ### Daily Use
 ```bash
 # System rebuild
-sudo darwin-rebuild switch --flake .#<host>  # macOS
-sudo nixos-rebuild switch --flake .#<host>   # NixOS
+sudo nixos-rebuild switch --flake .#<host>
 # or use alias: oss
 
 # Home Manager
@@ -35,11 +34,9 @@ nix search nixpkgs <package>
 
 # Rollback
 sudo nixos-rebuild switch --rollback
-sudo darwin-rebuild switch --rollback
 
 # Build without switching
 nixos-rebuild build --flake .#<host>
-darwin-rebuild build --flake .#<host>
 ```
 
 ## Structure
@@ -48,10 +45,6 @@ darwin-rebuild build --flake .#<host>
 .
 ├── flake.nix           # Entry point
 ├── hosts/
-│   ├── darwin/         # macOS configurations
-│   │   ├── system-default.nix
-│   │   ├── home-default.nix
-│   │   └── <host>/
 │   └── nixos/          # NixOS configurations
 │       ├── system-default.nix
 │       ├── home-default.nix
@@ -73,7 +66,6 @@ Modules are self-contained and handle both package installation and configuratio
 - `firefox.nix` - Browser with extensions and bookmarks
 - `ghostty.nix` - GPU-accelerated terminal emulator
 - `git.nix` - Version control with aliases
-- `homebrew.nix` - macOS package management
 - `lazygit.nix` - Terminal UI for git
 - `login-display.nix` - SSH login display with system/disk info
 - `nvim.nix` - Neovim editor configuration
@@ -104,7 +96,7 @@ Modules are self-contained and handle both package installation and configuratio
 
 ### Quick Aliases
 - `hms` - Rebuild home-manager
-- `oss` - Rebuild system (works on both Darwin/NixOS)
+- `oss` - Rebuild NixOS system
 - `cdf` - Interactive file search with cd
 - `pwdf` - Get file path interactively
 - `zi` - Interactive zoxide with fzf

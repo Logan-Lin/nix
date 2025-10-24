@@ -1,19 +1,14 @@
 { pkgs, lib, ... }:
 
-let
-  # Platform-aware papis config directory
-  papisConfigDir = if pkgs.stdenv.isDarwin then "Library/Application Support/papis" else ".config/papis";
-in
-
 {
   # Install papis package
   home.packages = [ pkgs.papis ];
   # Papis configuration
-  home.file."${papisConfigDir}/config".text = ''
+  home.file.".config/papis/config".text = ''
     [settings]
     default-library = main
     editor = nvim
-    opentool = ${if pkgs.stdenv.isDarwin then "open -a Preview" else "evince"}
+    opentool = evince
     
     # Document management
     ref-format = {doc[author]}{doc[year]}
@@ -44,7 +39,7 @@ in
   '';
 
   # Papis bibliography template
-  home.file."${papisConfigDir}/templates/bibitem.template".text = ''
+  home.file.".config/papis/templates/bibitem.template".text = ''
     {doc[title]} ({doc[year]}). {doc[author]}.
     Venue: {doc[journal]} {doc[booktitle]} {doc[eprinttype]} {doc[eprint]} {doc[eventtitle]}
     Tags: {doc[tags]}
@@ -53,7 +48,7 @@ in
   '';
 
   # Papis BibTeX template
-  home.file."${papisConfigDir}/templates/bibtex.template".text = ''
+  home.file.".config/papis/templates/bibtex.template".text = ''
     @{doc[type]}{{{doc[ref]},
       author = {{{doc[author]}}},
       title = {{{doc[title]}}},
@@ -69,23 +64,23 @@ in
   '';
 
   # Papis citation template
-  home.file."${papisConfigDir}/templates/citation.template".text = ''
+  home.file.".config/papis/templates/citation.template".text = ''
     {doc[author]}. "{doc[title]}." {doc[journal]}{doc[booktitle]} ({doc[year]}).
   '';
 
   # Shell aliases for papis workflow
   programs.zsh.shellAliases = {
     # Bibliography formatting
-    pals = "papis list --template \"$HOME/${papisConfigDir}/templates/bibitem.template\"";
+    pals = "papis list --template \"$HOME/.config/papis/templates/bibitem.template\"";
 
     # Add new entry with bibtex
     paadd = "papis add --from bibtex";
 
     # BibTeX export
-    pabib = "papis list --template \"$HOME/${papisConfigDir}/templates/bibtex.template\"";
+    pabib = "papis list --template \"$HOME/.config/papis/templates/bibtex.template\"";
 
     # Citation formatting
-    pacite = "papis list --template \"$HOME/${papisConfigDir}/templates/citation.template\"";
+    pacite = "papis list --template \"$HOME/.config/papis/templates/citation.template\"";
 
     # File operations
     paurl = "papis addto -u";
