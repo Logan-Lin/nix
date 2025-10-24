@@ -264,8 +264,8 @@ in
       {
         mode = "n";
         key = "<leader>f";
-        action = ":lua show_file_in_finder()<CR>";
-        options = { desc = "Show current file in Finder"; };
+        action = ":lua show_file_in_file_manager()<CR>";
+        options = { desc = "Show current file in file manager"; };
       }
     ];
 
@@ -298,20 +298,11 @@ in
       })
 
       -- Dictionary completion setup
-      ${lib.optionalString pkgs.stdenv.isDarwin ''
-        require("cmp_dictionary").setup({
-          paths = { "/usr/share/dict/words" },  -- Standard dictionary path on macOS
-          exact_length = 2,                     -- Minimum length before completion
-          first_case_insensitive = true,        -- Case insensitive matching
-        })
-      ''}
-      ${lib.optionalString (!pkgs.stdenv.isDarwin) ''
-        require("cmp_dictionary").setup({
-          paths = { "${pkgs.scowl}/share/dict/wamerican.txt" },  -- Nix-provided dictionary on NixOS
-          exact_length = 2,                                       -- Minimum length before completion
-          first_case_insensitive = true,                          -- Case insensitive matching
-        })
-      ''}
+      require("cmp_dictionary").setup({
+        paths = { "${pkgs.scowl}/share/dict/wamerican.txt" },  -- Nix-provided dictionary
+        exact_length = 2,                                       -- Minimum length before completion
+        first_case_insensitive = true,                          -- Case insensitive matching
+      })
 
       -- Jupytext setup for Jupyter notebook viewing
       require("jupytext").setup({
@@ -352,21 +343,18 @@ in
       }
 
       -- OSC-52 clipboard integration (matches tmux setup, works with Ghostty)
-      -- This enables clipboard functionality across SSH, tmux, and multi-platform
-      -- Only enabled on Linux; macOS uses native clipboard with "unnamedplus"
-      ${lib.optionalString (!pkgs.stdenv.isDarwin) ''
-        vim.g.clipboard = {
-          name = 'OSC 52',
-          copy = {
-            ['+'] = require('vim.ui.clipboard.osc52').copy('+'),
-            ['*'] = require('vim.ui.clipboard.osc52').copy('*'),
-          },
-          paste = {
-            ['+'] = require('vim.ui.clipboard.osc52').paste('+'),
-            ['*'] = require('vim.ui.clipboard.osc52').paste('*'),
-          },
-        }
-      ''}
+      -- This enables clipboard functionality across SSH and tmux
+      vim.g.clipboard = {
+        name = 'OSC 52',
+        copy = {
+          ['+'] = require('vim.ui.clipboard.osc52').copy('+'),
+          ['*'] = require('vim.ui.clipboard.osc52').copy('*'),
+        },
+        paste = {
+          ['+'] = require('vim.ui.clipboard.osc52').paste('+'),
+          ['*'] = require('vim.ui.clipboard.osc52').paste('*'),
+        },
+      }
 
       -- Close all buffers except current (preserving NvimTree and other special buffers)
       function close_other_buffers()
@@ -392,26 +380,21 @@ in
         local filepath = vim.fn.expand('%:p')
         if filepath ~= "" then
           local escaped_path = vim.fn.shellescape(filepath)
-          ${if pkgs.stdenv.isDarwin then 
-            "vim.fn.system('open ' .. escaped_path)" 
-          else 
-            "vim.fn.system('xdg-open ' .. escaped_path)"}
+          vim.fn.system('xdg-open ' .. escaped_path)
         else
           print("No file to open")
         end
       end
 
-      ${lib.optionalString pkgs.stdenv.isDarwin ''
-        function show_file_in_finder()
-          local filepath = vim.fn.expand('%:p')
-          if filepath ~= "" then
-            local escaped_path = vim.fn.shellescape(filepath)
-            vim.fn.system('open -R ' .. escaped_path)
-          else
-            print("No file to show")
-          end
+      function show_file_in_file_manager()
+        local filepath = vim.fn.expand('%:p')
+        if filepath ~= "" then
+          local escaped_path = vim.fn.shellescape(filepath)
+          vim.fn.system('nautilus --select ' .. escaped_path)
+        else
+          print("No file to show")
         end
-      ''}
+      end
     '';
   };
 }
