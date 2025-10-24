@@ -12,6 +12,7 @@
     ../../../modules/gnome.nix
     ../../../modules/firefox.nix
     ../../../modules/ghostty.nix
+    ../../../modules/papis.nix
   ];
 
   programs.yt-dlp-custom = {
