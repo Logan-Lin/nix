@@ -121,6 +121,15 @@
     yelp      # help viewer
   ];
 
+  # Prevent automatic suspend on AC power (GNOME power settings)
+  programs.dconf.profiles.user.databases = [{
+    settings = {
+      "org/gnome/settings-daemon/plugins/power" = {
+        sleep-inactive-ac-type = "nothing";
+      };
+    };
+  }];
+
   # XDG portal for proper desktop integration
   xdg.portal = {
     enable = true;
