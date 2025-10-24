@@ -40,5 +40,6 @@
     keepassxc
     inkscape
     vlc
+    wemeet
   ];
 }
