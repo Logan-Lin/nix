@@ -108,15 +108,20 @@
   # Exclude unwanted GNOME default packages
   environment.gnome.excludePackages = with pkgs; [
     gnome-tour
+    decibels  # audio player
     epiphany  # GNOME web browser
+    file-roller  # archive manager
     geary     # GNOME email client
-    gnome-music
     gnome-photos
     gnome-maps
     gnome-weather
     gnome-contacts
     gnome-clocks
+    gnome-calculator
+    gnome-calendar
+    gnome-characters
     simple-scan
+    snapshot  # camera
     totem     # video player
     yelp      # help viewer
   ];
