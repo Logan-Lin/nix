@@ -144,6 +144,47 @@ in
     gnomeExtensions.pano
   ];
 
+  # Custom desktop file for opening text files with Neovim in Ghostty
+  home.file.".local/share/applications/nvim-ghostty.desktop".text = ''
+    [Desktop Entry]
+    Type=Application
+    Name=Neovim (Ghostty)
+    Comment=Edit text files with Neovim in Ghostty terminal
+    Exec=ghostty -e nvim %F
+    Terminal=false
+    Categories=TextEditor;Utility;
+    MimeType=text/plain;text/markdown;text/x-nix;text/x-shellscript;application/x-yaml;application/json;
+    Icon=nvim
+  '';
+
+  # Configure default applications for file types
+  xdg.mimeApps = {
+    enable = true;
+    defaultApplications = {
+      # PDF documents
+      "application/pdf" = "org.gnome.Evince.desktop";
+
+      # Images
+      "image/png" = "org.gnome.Loupe.desktop";
+      "image/jpeg" = "org.gnome.Loupe.desktop";
+      "image/jpg" = "org.gnome.Loupe.desktop";
+      "image/gif" = "org.gnome.Loupe.desktop";
+      "image/webp" = "org.gnome.Loupe.desktop";
+      "image/svg+xml" = "org.gnome.Loupe.desktop";
+
+      # Text and code files
+      "text/plain" = "nvim-ghostty.desktop";
+      "text/markdown" = "nvim-ghostty.desktop";
+      "text/x-nix" = "nvim-ghostty.desktop";
+      "text/x-shellscript" = "nvim-ghostty.desktop";
+      "application/x-yaml" = "nvim-ghostty.desktop";
+      "application/json" = "nvim-ghostty.desktop";
+
+      # Terminal emulator
+      "x-scheme-handler/terminal" = "com.mitchellh.ghostty.desktop";
+    };
+  };
+
   # SSH tunnel functions for SOCKS proxy via GNOME system proxy
   programs.zsh.initContent = ''
     # SSH tunnel functions for easy VPN-like functionality
