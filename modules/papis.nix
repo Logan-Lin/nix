@@ -8,21 +8,20 @@
     [settings]
     default-library = main
     editor = nvim
-    opentool = ${if pkgs.stdenv.isDarwin then "open" else "xdg-open"}
-    file-browser = ${if pkgs.stdenv.isDarwin then "open" else "xdg-open"}
+    opentool = ${if pkgs.stdenv.isDarwin then "open -a Preview" else "evince"}
     
     # Document management
     ref-format = {doc[author]}{doc[year]}
-    
+
     # Search and display
     sort-field = year
     sort-reverse = True
     match-format = {doc[tags]}{doc[author]}{doc[title]}{doc[year]}
-    
+
     # Database and storage
     database-backend = papis
     use-git = False
-    
+
     # Interface
     fzf-binary = fzf
     picktool = fzf
@@ -95,30 +94,6 @@
 
   # Shell functions for papis workflow
   programs.zsh.initContent = ''
-    # Papis finder function - open document directory with query support
-    ${lib.optionalString pkgs.stdenv.isDarwin ''
-      pafinder() {
-        local result=$(papis list "$@" | head -1)
-        if [ -n "$result" ]; then
-          open -R "$result"
-        else
-          echo "No documents found"
-          return 1
-        fi
-      }
-    ''}
-    ${lib.optionalString (!pkgs.stdenv.isDarwin) ''
-      pafinder() {
-        local result=$(papis list "$@" | head -1)
-        if [ -n "$result" ]; then
-          xdg-open "$(dirname "$result")"
-        else
-          echo "No documents found"
-          return 1
-        fi
-      }
-    ''}
-    
     # Papis add file function - add file to existing document with proper parameter handling
     pafile() {
       if [ $# -lt 1 ]; then
