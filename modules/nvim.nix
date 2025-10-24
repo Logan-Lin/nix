@@ -13,7 +13,8 @@ in
     defaultEditor = true;
     
     # Ensure jupytext is available for the jupytext.nvim plugin
-    extraPackages = [ pythonWithJupytext ];
+    # scowl provides English word lists for completion on NixOS
+    extraPackages = [ pythonWithJupytext pkgs.scowl ];
 
     # Global settings
     globals.mapleader = " ";
@@ -296,12 +297,19 @@ in
         },
       })
 
-      -- Dictionary completion setup (macOS only)
+      -- Dictionary completion setup
       ${lib.optionalString pkgs.stdenv.isDarwin ''
         require("cmp_dictionary").setup({
           paths = { "/usr/share/dict/words" },  -- Standard dictionary path on macOS
           exact_length = 2,                     -- Minimum length before completion
           first_case_insensitive = true,        -- Case insensitive matching
+        })
+      ''}
+      ${lib.optionalString (!pkgs.stdenv.isDarwin) ''
+        require("cmp_dictionary").setup({
+          paths = { "${pkgs.scowl}/share/dict/wamerican.txt" },  -- Nix-provided dictionary on NixOS
+          exact_length = 2,                                       -- Minimum length before completion
+          first_case_insensitive = true,                          -- Case insensitive matching
         })
       ''}
 
