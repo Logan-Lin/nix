@@ -153,7 +153,7 @@ in
     Exec=ghostty -e nvim %F
     Terminal=false
     Categories=TextEditor;Utility;
-    MimeType=text/plain;text/markdown;text/x-nix;text/x-shellscript;application/x-yaml;application/json;
+    MimeType=text/plain;text/markdown;text/x-nix;text/x-shellscript;text/x-log;text/csv;text/html;text/css;text/xml;text/x-python;text/x-python3;text/x-c;text/x-c++src;text/x-chdr;text/x-c++hdr;text/x-java;text/x-tex;text/x-latex;application/x-yaml;application/json;application/xml;application/xhtml+xml;application/javascript;application/typescript;application/x-python;application/x-ipynb+json;application/toml;application/x-npy;
     Icon=nvim
   '';
 
@@ -171,14 +171,51 @@ in
       "image/gif" = "org.gnome.Loupe.desktop";
       "image/webp" = "org.gnome.Loupe.desktop";
       "image/svg+xml" = "org.gnome.Loupe.desktop";
+      "image/bmp" = "org.gnome.Loupe.desktop";
+      "image/heic" = "org.gnome.Loupe.desktop";
+      "image/heif" = "org.gnome.Loupe.desktop";
+      "image/tiff" = "org.gnome.Loupe.desktop";
+
+      # Videos
+      "video/mp4" = "vlc.desktop";
+      "video/mpeg" = "vlc.desktop";
+      "video/quicktime" = "vlc.desktop";
+      "video/x-msvideo" = "vlc.desktop";
+      "video/x-matroska" = "vlc.desktop";
+      "video/webm" = "vlc.desktop";
+      "video/ogg" = "vlc.desktop";
+      "video/x-flv" = "vlc.desktop";
+      "video/3gpp" = "vlc.desktop";
 
       # Text and code files
       "text/plain" = "nvim-ghostty.desktop";
       "text/markdown" = "nvim-ghostty.desktop";
       "text/x-nix" = "nvim-ghostty.desktop";
       "text/x-shellscript" = "nvim-ghostty.desktop";
+      "text/x-log" = "nvim-ghostty.desktop";
+      "text/csv" = "nvim-ghostty.desktop";
+      "text/html" = "nvim-ghostty.desktop";
+      "text/css" = "nvim-ghostty.desktop";
+      "text/xml" = "nvim-ghostty.desktop";
+      "text/x-python" = "nvim-ghostty.desktop";
+      "text/x-python3" = "nvim-ghostty.desktop";
+      "text/x-c" = "nvim-ghostty.desktop";
+      "text/x-c++src" = "nvim-ghostty.desktop";
+      "text/x-chdr" = "nvim-ghostty.desktop";
+      "text/x-c++hdr" = "nvim-ghostty.desktop";
+      "text/x-java" = "nvim-ghostty.desktop";
+      "text/x-tex" = "nvim-ghostty.desktop";
+      "text/x-latex" = "nvim-ghostty.desktop";
       "application/x-yaml" = "nvim-ghostty.desktop";
       "application/json" = "nvim-ghostty.desktop";
+      "application/xml" = "nvim-ghostty.desktop";
+      "application/xhtml+xml" = "nvim-ghostty.desktop";
+      "application/javascript" = "nvim-ghostty.desktop";
+      "application/typescript" = "nvim-ghostty.desktop";
+      "application/x-python" = "nvim-ghostty.desktop";
+      "application/x-ipynb+json" = "nvim-ghostty.desktop";
+      "application/toml" = "nvim-ghostty.desktop";
+      "application/x-npy" = "nvim-ghostty.desktop";
 
       # Terminal emulator
       "x-scheme-handler/terminal" = "com.mitchellh.ghostty.desktop";
