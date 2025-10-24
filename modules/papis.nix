@@ -2,7 +2,11 @@
 
 {
   # Install papis package
-  home.packages = [ pkgs.papis ];
+  home.packages = [
+    (pkgs.papis.overridePythonAttrs (old: {
+      doCheck = false;  # Skip tests due to Click incompatibility with Python 3.13
+    }))
+  ];
   # Papis configuration
   home.file.".config/papis/config".text = ''
     [settings]

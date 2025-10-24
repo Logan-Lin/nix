@@ -276,6 +276,8 @@
           main = {
             # Map Caps Lock to Left Control
             capslock = "leftcontrol";
+            # Map Right Control to Caps Lock
+            rightcontrol = "capslock";
           };
         };
       };
