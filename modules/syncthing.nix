@@ -44,12 +44,6 @@ in
     settings = {
       # Define all devices
       devices = {
-        "mba" = {
-          id = "3PBRH37-VR635IP-VZPT3OK-LWMVQ3M-RILX347-3PKPXQK-74GQENC-CMY6OAG";
-        };
-        "imac" = {
-          id = "TSOBMCD-2OWBVXS-FUNARN3-DB6RQWT-EVLUV5E-KCRO7QT-S3E5I4R-BQEDGA5";
-        };
         "iphone" = {
           id = "NMWI5MP-J4FC4A6-SDDXZPD-G66TJCO-2W7KGFD-RJWQ53U-I7GUVWP-WHF4QQO";
         };
@@ -65,19 +59,19 @@ in
       folders = {
         "Credentials" = {
           path = "~/Credentials";
-          devices = [ "mba" "imac" "iphone" "hs" "thinkpad" ];
+          devices = [ "iphone" "hs" "thinkpad" ];
           ignorePerms = true;
           versioning = commonVersioning;
         };
         "Documents" = {
           path = "~/Documents";
-          devices = [ "mba" "imac" "hs" "thinkpad" ];
+          devices = [ "hs" "thinkpad" ];
           ignorePerms = true;
           versioning = commonVersioning;
         };
         "Obsidian" = {
           path = "~/Obsidian";
-          devices = [ "mba" "imac" "iphone" "hs" "thinkpad" ];
+          devices = [ "iphone" "hs" "thinkpad" ];
           ignorePerms = true;
           versioning = commonVersioning;
         };
