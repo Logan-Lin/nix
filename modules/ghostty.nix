@@ -69,7 +69,10 @@ in
           # Shell integration
           shell-integration = "detect";
           shell-integration-features = "cursor,sudo,title";
-          
+
+          # Terminal type - use widely-supported xterm-256color for SSH compatibility
+          term = "xterm-256color";
+
           # Mouse settings
           mouse-hide-while-typing = true;
           mouse-shift-capture = false;
