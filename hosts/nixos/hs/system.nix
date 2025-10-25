@@ -7,7 +7,6 @@
     ../../../modules/wireguard.nix
     ../../../modules/podman.nix
     ../../../modules/traefik.nix
-    ../../../modules/nfs.nix
     ../../../modules/borg-client.nix
     ../../../modules/login-display.nix
   ];
@@ -192,15 +191,6 @@
       "*.!qB"
       "*.part"
     ];
-  };
-
-
-
-  # NFS file sharing configuration
-  services.nfs-custom = {
-    enable = true;
-    exportPath = "/mnt/storage/Media";
-    allowedNetworks = [ "10.1.1.0/24" "10.2.2.0/24" ];  # LAN and WireGuard
   };
 
   # Login display with SMART disk health status
