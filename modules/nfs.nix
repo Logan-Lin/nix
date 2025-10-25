@@ -15,10 +15,10 @@ in
       description = "Path to export via NFS";
     };
 
-    allowedNetwork = mkOption {
-      type = types.str;
-      default = "10.2.2.0/24";
-      description = "Network allowed to access the export (CIDR)";
+    allowedNetworks = mkOption {
+      type = types.listOf types.str;
+      default = [ "10.2.2.0/24" ];
+      description = "Networks allowed to access the export (CIDR)";
     };
   };
 
@@ -26,7 +26,7 @@ in
     services.nfs.server = {
       enable = true;
       exports = ''
-        ${cfg.exportPath} ${cfg.allowedNetwork}(rw,sync,no_subtree_check,no_root_squash)
+        ${cfg.exportPath} ${concatStringsSep " " (map (net: "${net}(rw,sync,no_subtree_check,no_root_squash)") cfg.allowedNetworks)}
       '';
     };
   };
