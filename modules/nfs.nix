@@ -26,7 +26,7 @@ in
     services.nfs.server = {
       enable = true;
       exports = ''
-        ${cfg.exportPath} ${concatStringsSep " " (map (net: "${net}(rw,sync,no_subtree_check,no_root_squash)") cfg.allowedNetworks)}
+        ${cfg.exportPath} ${concatStringsSep " " (map (net: "${net}(rw,sync,no_subtree_check,no_root_squash,fsid=0)") cfg.allowedNetworks)}
       '';
     };
   };
