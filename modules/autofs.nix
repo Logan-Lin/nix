@@ -32,26 +32,32 @@ in
     };
   };
 
-  config = mkIf cfg.enable {
-    services.autofs = {
-      enable = true;
-      timeout = 300;
-      autoMaster =
-        let
-          # Build server list: primary host followed by replicas
-          allHosts = [ cfg.remoteHost ] ++ cfg.replicas;
-          # Format as "host1:/path host2:/path host3:/path"
-          locations = concatStringsSep " " (map (host: "${host}:${cfg.remotePath}") allHosts);
-        in
-        ''
-          ${cfg.mountPoint} -fstype=nfs4,rw,soft,intr,noatime ${locations}
+  config = mkIf cfg.enable (
+    let
+      # Build server list: primary host followed by replicas
+      allHosts = [ cfg.remoteHost ] ++ cfg.replicas;
+      # Format as "host1,host2,host3:/path" for NFS replicas
+      locations = "${concatStringsSep "," allHosts}:${cfg.remotePath}";
+    in
+    {
+      services.autofs = {
+        enable = true;
+        timeout = 300;
+        autoMaster = ''
+          /-  /etc/auto.nfs --timeout=300
         '';
-    };
+      };
 
-    systemd.tmpfiles.rules = [
-      "d ${cfg.mountPoint} 0755 root root -"
-    ];
+      # Create the auto.nfs map file
+      environment.etc."auto.nfs".text = ''
+        ${cfg.mountPoint} -fstype=nfs4,rw,soft,intr,noatime ${locations}
+      '';
 
-    environment.systemPackages = [ pkgs.nfs-utils ];
-  };
+      systemd.tmpfiles.rules = [
+        "d ${cfg.mountPoint} 0755 root root -"
+      ];
+
+      environment.systemPackages = [ pkgs.nfs-utils ];
+    }
+  );
 }
