@@ -389,5 +389,56 @@ in
 
       autoStart = true;
     };
+
+    # RSS reader (Miniflux)
+    rss = {
+      image = "docker.io/miniflux/miniflux:latest";
+
+      environment = {
+        RUN_MIGRATIONS = "1";
+        CREATE_ADMIN = "1";
+        ADMIN_USERNAME = "admin";
+        ADMIN_PASSWORD = "admin";
+        DATABASE_URL = "postgres://miniflux:miniflux@rss-db/miniflux?sslmode=disable";
+        BASE_URL = "https://rss.yanlincs.com";
+        HTTP_CLIENT_TIMEOUT = "50000";
+        POLLING_FREQUENCY = "60";
+        CLEANUP_FREQUENCY_HOURS = "24";
+        CLEANUP_ARCHIVE_READ_DAYS = "60";
+        CLEANUP_REMOVE_SESSIONS_DAYS = "30";
+      };
+
+      ports = [
+        "5006:8080"
+      ];
+
+      extraOptions = [
+        "--network=podman"
+      ];
+
+      dependsOn = [ "rss-db" ];
+      autoStart = true;
+    };
+
+    # PostgreSQL database for RSS (Miniflux)
+    rss-db = {
+      image = "docker.io/postgres:17-alpine";
+
+      volumes = [
+        "/var/lib/containers/config/rss-db:/var/lib/postgresql/data"
+      ];
+
+      environment = {
+        POSTGRES_USER = "miniflux";
+        POSTGRES_PASSWORD = "miniflux";
+        POSTGRES_DB = "miniflux";
+      };
+
+      extraOptions = [
+        "--network=podman"
+      ];
+
+      autoStart = true;
+    };
   };
 }
