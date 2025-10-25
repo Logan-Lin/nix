@@ -79,7 +79,11 @@ in
           "network.cookie.cookieBehavior" = 0;  # 0 = Accept all cookies
           "privacy.firstparty.isolate" = false;
           "privacy.resistFingerprinting" = false;
-          
+
+          # Permissions - Reject location and notification requests
+          "permissions.default.geo" = 2;  # 2 = Block location requests
+          "permissions.default.desktop-notification" = 2;  # 2 = Block notification requests
+
           # Performance
           "gfx.webrender.all" = true;
           "media.ffmpeg.vaapi.enabled" = true;
