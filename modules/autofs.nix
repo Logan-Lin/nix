@@ -15,11 +15,6 @@ in
       description = "Primary remote NFS server hostname or IP";
     };
 
-    remotePath = mkOption {
-      type = types.str;
-      description = "Remote path to mount";
-    };
-
     mountPoint = mkOption {
       type = types.str;
       description = "Local mount point";
@@ -36,8 +31,8 @@ in
     let
       # Build server list: primary host followed by replicas
       allHosts = [ cfg.remoteHost ] ++ cfg.replicas;
-      # Format as "host1,host2,host3:/path" for NFS replicas
-      locations = "${concatStringsSep "," allHosts}:${cfg.remotePath}";
+      # For NFSv4 with fsid=0, the exported path becomes root, so mount as "/"
+      locations = "${concatStringsSep "," allHosts}:/";
     in
     {
       services.autofs = {
