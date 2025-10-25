@@ -200,7 +200,7 @@
   services.nfs-custom = {
     enable = true;
     exportPath = "/mnt/storage/Media";
-    allowedNetwork = "10.2.2.0/24";
+    allowedNetworks = [ "10.1.1.0/24" "10.2.2.0/24" ];  # LAN and WireGuard
   };
 
   # Login display with SMART disk health status
