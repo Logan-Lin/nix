@@ -323,7 +323,6 @@
     enable = true;
     remoteHost = "lan.hs.yanlincs.com";  # Prefer LAN when at home
     replicas = [ "10.2.2.20" ];  # Fallback to WireGuard when remote
-    remotePath = "/mnt/storage/Media";
     mountPoint = "/mnt/hs-media";
   };
 
