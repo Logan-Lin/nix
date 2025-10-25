@@ -7,9 +7,8 @@
     ../../../modules/wireguard.nix
     ../../../modules/podman.nix
     ../../../modules/traefik.nix
-    ../../../modules/samba.nix
+    ../../../modules/nfs.nix
     ../../../modules/borg-client.nix
-    ../../../modules/webdav.nix
     ../../../modules/login-display.nix
   ];
 
@@ -197,24 +196,11 @@
 
 
 
-  # Samba file sharing configuration
-  services.samba-custom = { enable = false; };
-
-  # WebDAV file server configuration
-  services.webdav-server = {
-    enable = false;
-    port = 5009;
-    servePath = "/mnt/storage/Media";
-    auth = {
-      username = "yanlin";
-      passwordFile = "/etc/webdav-password";
-    };
-    readOnly = false;
-    allowUpload = true;
-    allowDelete = true;
-    allowSearch = true;
-    allowSymlink = false;
-    hideDotFiles = true;
+  # NFS file sharing configuration
+  services.nfs-custom = {
+    enable = true;
+    exportPath = "/mnt/storage/Media";
+    allowedNetwork = "10.2.2.0/24";
   };
 
   # Login display with SMART disk health status
