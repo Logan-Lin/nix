@@ -396,9 +396,6 @@ in
 
       environment = {
         RUN_MIGRATIONS = "1";
-        CREATE_ADMIN = "1";
-        ADMIN_USERNAME = "admin";
-        ADMIN_PASSWORD = "admin";
         DATABASE_URL = "postgres://miniflux:miniflux@rss-db/miniflux?sslmode=disable";
         BASE_URL = "https://rss.yanlincs.com";
         HTTP_CLIENT_TIMEOUT = "50000";
