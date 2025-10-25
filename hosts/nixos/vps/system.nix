@@ -17,6 +17,20 @@
     device = "nodev"; # Required for EFI systems
     efiSupport = true;
     efiInstallAsRemovable = true; # Better compatibility with VPS
+    configurationLimit = 5; # Keep only 5 boot entries to save storage
+  };
+
+  # Automatic garbage collection to save storage
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 7d";
+  };
+
+  # Automatic store optimization to deduplicate files
+  nix.optimise = {
+    automatic = true;
+    dates = [ "weekly" ];
   };
 
   # Network configuration
