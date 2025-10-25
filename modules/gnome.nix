@@ -44,9 +44,9 @@ in
         "com.mitchellh.ghostty.desktop"
         "firefox.desktop"
         "obsidian.desktop"
-        "org.gnome.Nautilus.desktop"
         "org.gnome.Evince.desktop"
         "org.gnome.Loupe.desktop"
+        "org.gnome.Nautilus.desktop"
         "org.keepassxc.KeePassXC.desktop"
       ];
     };
