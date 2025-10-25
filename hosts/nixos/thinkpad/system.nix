@@ -5,7 +5,6 @@
     ./hardware-configuration.nix
     ../system-default.nix  # Common NixOS system configuration
     ../../../modules/wireguard.nix
-    ../../../modules/autofs.nix
     ../../../modules/login-display.nix
   ];
 
@@ -316,14 +315,6 @@
       "/dev/nvme0n1" = "System_SSD";
     };
     showDiskUsage = true;
-  };
-
-  # AutoFS auto-mounting for remote NFS shares
-  services.autofs-custom = {
-    enable = true;
-    remoteHost = "lan.hs.yanlincs.com";  # Prefer LAN when at home
-    replicas = [ "10.2.2.20" ];  # Fallback to WireGuard when remote
-    mountPoint = "/mnt/hs-media";
   };
 
 }
