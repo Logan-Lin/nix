@@ -41,10 +41,12 @@ in
         "pano@elhan.io"
       ];
       favorite-apps = [
-        "org.gnome.Nautilus.desktop"
+        "com.mitchellh.ghostty.desktop"
         "firefox.desktop"
         "obsidian.desktop"
-        "com.mitchellh.ghostty.desktop"
+        "org.gnome.Nautilus.desktop"
+        "org.gnome.Evince.desktop"
+        "org.gnome.Loupe.desktop"
         "org.keepassxc.KeePassXC.desktop"
       ];
     };
