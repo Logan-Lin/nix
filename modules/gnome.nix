@@ -128,13 +128,30 @@ in
     x11.enable = true;
   };
 
-  # Configure GTK icon theme
+  # Configure GTK theme and icon theme
   gtk = {
     enable = true;
+    theme = {
+      package = pkgs.gnome-themes-extra;
+      name = "Adwaita-dark";
+    };
     iconTheme = {
       package = pkgs.adwaita-icon-theme;
       name = "Adwaita";
     };
+  };
+
+  # Configure Qt theming to match GNOME dark theme
+  qt = {
+    enable = true;
+    platformTheme.name = "adwaita";
+    style.name = "adwaita-dark";
+  };
+
+  # Environment variables for consistent dark mode across all applications
+  home.sessionVariables = {
+    GTK_THEME = "Adwaita:dark";
+    QT_QPA_PLATFORMTHEME = "adwaita";
   };
 
   # Configure XDG user directories
@@ -155,10 +172,14 @@ in
     templates = null;
   };
 
-  # GNOME Shell extensions
+  # GNOME Shell extensions and Qt theming packages
   home.packages = with pkgs; [
     gnomeExtensions.hide-top-bar
     gnomeExtensions.pano
+
+    # Qt theming packages for dark mode support
+    adwaita-qt
+    adwaita-qt6
   ];
 
   # Custom desktop file for opening text files with Neovim in Ghostty
