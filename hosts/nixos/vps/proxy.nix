@@ -137,31 +137,6 @@
           };
         };
 
-        # MicroBin web clipboard
-        bin = {
-          rule = "Host(`bin.yanlincs.com`)";
-          entrypoints = "websecure";
-          service = "bin";
-          tls = {
-            certResolver = "cloudflare";
-            domains = [{
-              main = "*.yanlincs.com";
-            }];
-          };
-        };
-
-        # WebDAV file server
-        # files = {
-        #   rule = "Host(`files.yanlincs.com`)";
-        #   entrypoints = "websecure";
-        #   service = "files";
-        #   tls = {
-        #     certResolver = "cloudflare";
-        #     domains = [{
-        #       main = "*.yanlincs.com";
-        #     }];
-        #   };
-        # };
       };
       services = {
         # Redirect service
@@ -254,23 +229,6 @@
           };
         };
 
-        # MicroBin backend (via WireGuard)
-        bin = {
-          loadBalancer = {
-            servers = [{
-              url = "http://10.2.2.20:5010";
-            }];
-          };
-        };
-
-        # WebDAV file server backend (via WireGuard)
-        # files = {
-        #   loadBalancer = {
-        #     servers = [{
-        #       url = "http://10.2.2.20:5009";
-        #     }];
-        #   };
-        # };
       };
       middlewares = {
         # Redirect middleware

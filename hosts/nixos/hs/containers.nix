@@ -352,44 +352,6 @@ in
       autoStart = true;
     };
 
-    # MicroBin web clipboard
-    microbin = {
-      image = "docker.io/danielszabo99/microbin:latest";
-
-      volumes = [
-        "/var/lib/containers/config/microbin:/app/microbin_data"
-      ];
-
-      environment = {
-        PUID = commonUID;
-        PGID = commonGID;
-        TZ = systemTZ;
-        # Administrator credentials
-        MICROBIN_ADMIN_USERNAME = "admin";
-        MICROBIN_ADMIN_PASSWORD = "@i<i[_:-^)J7<30Tm;:j4:By-L9P{vilxK)Y#O>K";
-        # Read-only mode: require password to upload/create pastes
-        MICROBIN_READONLY = "true";
-        MICROBIN_UPLOADER_PASSWORD = "1Hayashi-2Hiko";
-        # Enable public pasta listing (public pastes only)
-        MICROBIN_NO_LISTING = "false";
-        # Allow per-paste privacy controls
-        MICROBIN_PRIVATE = "true";
-        # Enable encryption for sensitive pastes
-        MICROBIN_ENCRYPTION_CLIENT_SIDE = "true";
-        MICROBIN_ENCRYPTION_SERVER_SIDE = "true";
-      };
-
-      ports = [
-        "5010:8080"
-      ];
-
-      extraOptions = [
-        "--network=podman"
-      ];
-
-      autoStart = true;
-    };
-
     # RSS reader (Miniflux)
     rss = {
       image = "docker.io/miniflux/miniflux:latest";
