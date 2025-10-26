@@ -119,6 +119,7 @@
     zfs # ZFS utilities
     mergerfs # Union filesystem for combining multiple drives
     snapraid # Parity-based backup tool
+    intel-gpu-tools # GPU monitoring (intel_gpu_top, etc.)
   ];
 
   # ZFS services configuration
