@@ -41,5 +41,6 @@
     inkscape
     vlc
     wemeet
+    obs-studio
   ];
 }
