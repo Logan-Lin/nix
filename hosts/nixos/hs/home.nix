@@ -43,6 +43,8 @@
       "dlv bilibili -n 3 -r 1 --title '摸鱼切片' 'https://space.bilibili.com/15810/upload/video'"  # Mr.Quin
       "dlv bilibili -n 3 -r 1 --title 'PGN' 'https://space.bilibili.com/8012266/upload/video'"  # PMM_LORD
       "dlv bilibili -n 3 -r 1 'https://space.bilibili.com/213741/upload/video'"  # 中二电波台
+      "dlv bilibili -n 3 -r 1 'https://space.bilibili.com/1629347259/upload/video'"  # 红警HBK08
+      "dlv bilibili -n 3 -r 1 'https://space.bilibili.com/483246073/upload/video'"  # 红警魔鬼蓝天
     ];
   };
   
