@@ -10,10 +10,6 @@
           url = "https://claude.ai";
         }
         {
-          name = "MicroBin";
-          url = "https://bin.yanlincs.com";
-        }
-        {
           name = "Paperless";
           url = "https://paperless.yanlincs.com";
         }
