@@ -104,23 +104,6 @@ in
       lookup-table-page-size = 7;  # Number of candidates displayed (default: 5)
     };
 
-    # Window tiling keybindings - vim-style with Super+HJKL
-    "org/gnome/mutter/keybindings" = {
-      toggle-tiled-left = [ "<Super>h" ];   # Tile left: Super+H or Super+Left
-      toggle-tiled-right = [ "<Super>l" ]; # Tile right: Super+L or Super+Right
-    };
-
-    "org/gnome/desktop/wm/keybindings" = {
-      maximize = [ "<Super>k" ];       # Maximize: Super+K or Super+Up
-      unmaximize = [ "<Super>j" ];   # Unmaximize: Super+J or Super+Down
-      minimize = [ "<Super>m" ];                   # Minimize: Super+M (was Super+H)
-    };
-
-    # Lock screen keybinding - moved from Super+L to Super+Escape to avoid conflict
-    "org/gnome/settings-daemon/plugins/media-keys" = {
-      screensaver = [ "<Super>Escape" ];  # Lock screen: Super+Escape (was Super+L)
-    };
-
     # Tiling Assistant - quarter corner tiling keybindings
     # Mapped to R/T/F/G keys to mirror their physical positions on keyboard
     "org/gnome/shell/extensions/tiling-assistant" = {
