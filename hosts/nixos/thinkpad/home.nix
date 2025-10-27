@@ -42,5 +42,15 @@
     vlc
     wemeet
     obs-studio
+    (pkgs.symlinkJoin {
+      name = "ovito-wrapped";
+      paths = [ pkgs.ovito ];
+      buildInputs = [ pkgs.makeWrapper ];
+      postBuild = ''
+        wrapProgram $out/bin/ovito \
+          --set QT_QPA_PLATFORM wayland \
+          --set MESA_GL_VERSION_OVERRIDE 3.3
+      '';
+    })
   ];
 }
