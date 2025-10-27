@@ -40,6 +40,7 @@
       "dlv youtube -n 3 -r 1 --min 1 --max 180 'https://www.youtube.com/@DoshDoshington/videos'"
       "dlv youtube -n 3 -r 1 --min 1 --max 180 'https://www.youtube.com/@ScottTheWoz/videos'"
       "dlv youtube -n 3 -r 1 --min 1 --max 180 'https://www.youtube.com/@JeffGeerling/videos'"
+      "dlv youtube -n 3 -r 1 --min 1 --max 180 'https://www.youtube.com/@optimumtech/videos'"
       "dlv bilibili -n 3 -r 1 --title '摸鱼切片' 'https://space.bilibili.com/15810/upload/video'"  # Mr.Quin
       "dlv bilibili -n 3 -r 1 --title 'PGN' 'https://space.bilibili.com/8012266/upload/video'"  # PMM_LORD
       "dlv bilibili -n 3 -r 1 'https://space.bilibili.com/213741/upload/video'"  # 中二电波台
