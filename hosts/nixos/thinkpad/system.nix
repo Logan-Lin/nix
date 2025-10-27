@@ -109,6 +109,15 @@
   # Exclude unwanted GNOME default packages
   environment.gnome.excludePackages = with pkgs; [
     gnome-tour
+    gnome-console  # terminal (using Ghostty instead)
+    gnome-text-editor  # text editor (using Neovim instead)
+    gnome-connections  # remote desktop client
+    gnome-font-viewer  # font viewer
+    seahorse  # passwords and keys
+    baobab  # disk usage analyzer
+    gnome-disk-utility  # disks
+    gnome-logs  # logs viewer
+    gnome-system-monitor  # system monitor
     decibels  # audio player
     epiphany  # GNOME web browser
     file-roller  # archive manager
