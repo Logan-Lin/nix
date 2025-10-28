@@ -7,6 +7,9 @@
     ../../../modules/desktop.nix
   ];
 
+  # Desktop module configuration (disable GDM for Jovian autoStart mode)
+  desktop-custom.enableDisplayManager = false;
+
   # Bootloader - standard UEFI setup
   boot.loader = {
     systemd-boot.enable = true;
@@ -33,10 +36,8 @@
     enableRedistributableFirmware = true;
 
     # Graphics configuration for AMD
-    graphics = {
-      enable = true;
-      enable32Bit = true;
-    };
+    # Note: enable32Bit is set by jovian.steam.enable
+    graphics.enable = true;
 
     # Bluetooth support
     bluetooth = {
@@ -50,18 +51,10 @@
     };
   };
 
-  # Sound configuration with PipeWire
-  services.pulseaudio.enable = false;
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-  };
-
   # Jovian Steam Deck configuration
   jovian = {
+    hardware.has.amd.gpu = true;  # Enables backlight control and early modesetting
+
     steam = {
       enable = true;
       autoStart = true;
@@ -71,6 +64,13 @@
     devices.steamdeck = {
       enable = true;
       autoUpdate = true;
+      enableSoundSupport = true;  # Steam Deck-optimized PipeWire with DSP
+      enableVendorDrivers = true;  # Uses Valve's driver branches instead of upstream
+    };
+    steamos = {
+      useSteamOSConfig = true;  # Enable SteamOS optimizations (zram, OOM, sysctl, etc.)
+      enableBluetoothConfig = true;  # SteamOS bluetooth defaults
+      enableAutoMountUdevRules = true;  # Auto-mount SD cards
     };
   };
 
