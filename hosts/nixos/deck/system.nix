@@ -4,6 +4,7 @@
   imports = [
     ./hardware-configuration.nix
     ../system-default.nix  # Common NixOS system configuration
+    ../../../modules/desktop.nix
   ];
 
   # Bootloader - standard UEFI setup
@@ -73,35 +74,6 @@
     };
   };
 
-  # GNOME Desktop Environment
-  services.xserver.enable = true;
-  services.displayManager.gdm.enable = true;
-  services.desktopManager.gnome.enable = true;
-
-  # Keyboard layout
-  services.xserver.xkb = {
-    layout = "us";
-    options = "";
-  };
-
-  # XDG portal for proper desktop integration
-  xdg.portal = {
-    enable = true;
-    extraPortals = with pkgs; [
-      xdg-desktop-portal-gnome
-      xdg-desktop-portal-gtk
-    ];
-  };
-
-  # Touchscreen configuration
-  services.libinput = {
-    enable = true;
-    touchpad = {
-      naturalScrolling = true;
-      tapping = true;
-    };
-  };
-
   # Host-specific SSH configuration
   services.openssh = {
     settings = {
@@ -124,10 +96,6 @@
     pciutils
     usbutils
     unzip
-
-    # Icon themes for GNOME applications
-    adwaita-icon-theme
-    hicolor-icon-theme
   ];
 
 }
