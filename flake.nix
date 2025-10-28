@@ -14,9 +14,11 @@
     };
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
+    jovian-nixos.url = "github:Jovian-Experiments/Jovian-NixOS";
+    jovian-nixos.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = inputs@{ self, nixpkgs, home-manager, nixvim, claude-code, firefox-addons, disko }:
+  outputs = inputs@{ self, nixpkgs, home-manager, nixvim, claude-code, firefox-addons, disko, jovian-nixos }:
   {
     nixosConfigurations."hs" = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
@@ -45,6 +47,16 @@
       ];
     };
 
+    nixosConfigurations."deck" = nixpkgs.lib.nixosSystem {
+      system = "x86_64-linux";
+      modules = [
+        disko.nixosModules.disko
+        jovian-nixos.nixosModules.jovian
+        ./hosts/nixos/deck/system.nix
+        ./hosts/nixos/deck/disk-config.nix
+      ];
+    };
+
     homeConfigurations = {
       "yanlin@hs" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux;
@@ -61,6 +73,12 @@
       "yanlin@thinkpad" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux;
         modules = [ ./hosts/nixos/thinkpad/home.nix ];
+        extraSpecialArgs = { inherit claude-code nixvim firefox-addons; };
+      };
+
+      "yanlin@deck" = home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages.x86_64-linux;
+        modules = [ ./hosts/nixos/deck/home.nix ];
         extraSpecialArgs = { inherit claude-code nixvim firefox-addons; };
       };
     };
