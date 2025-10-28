@@ -4,6 +4,7 @@
   imports = [
     ./hardware-configuration.nix
     ../system-default.nix  # Common NixOS system configuration
+    ../../../modules/desktop.nix
     ../../../modules/wireguard.nix
     ../../../modules/login-display.nix
   ];
@@ -85,17 +86,6 @@
     pulse.enable = true;
   };
 
-  # GNOME Desktop Environment
-  services.xserver.enable = true;
-  services.displayManager.gdm.enable = true;
-  services.desktopManager.gnome.enable = true;
-
-  # Keyboard layout
-  services.xserver.xkb = {
-    layout = "us";
-    options = "";
-  };
-
   # Input method configuration
   i18n.inputMethod = {
     enable = true;
@@ -106,37 +96,6 @@
     ];
   };
 
-  # Exclude unwanted GNOME default packages
-  environment.gnome.excludePackages = with pkgs; [
-    gnome-tour
-    gnome-console  # terminal (using Ghostty instead)
-    gnome-text-editor  # text editor (using Neovim instead)
-    gnome-connections  # remote desktop client
-    gnome-font-viewer  # font viewer
-    seahorse  # passwords and keys
-    baobab  # disk usage analyzer
-    gnome-disk-utility  # disks
-    gnome-logs  # logs viewer
-    gnome-system-monitor  # system monitor
-    decibels  # audio player
-    epiphany  # GNOME web browser
-    file-roller  # archive manager
-    geary     # GNOME email client
-    gnome-music
-    gnome-photos
-    gnome-maps
-    gnome-weather
-    gnome-contacts
-    gnome-clocks
-    gnome-calculator
-    gnome-calendar
-    gnome-characters
-    simple-scan
-    snapshot  # camera
-    totem     # video player
-    yelp      # help viewer
-  ];
-
   # Prevent automatic suspend on AC power (GNOME power settings)
   programs.dconf.profiles.user.databases = [{
     settings = {
@@ -146,24 +105,10 @@
     };
   }];
 
-  # XDG portal for proper desktop integration
-  xdg.portal = {
-    enable = true;
-    extraPortals = with pkgs; [
-      xdg-desktop-portal-gnome
-      xdg-desktop-portal-gtk
-    ];
-  };
-
-  # Touchpad configuration
-  services.libinput = {
-    enable = true;
-    touchpad = {
-      naturalScrolling = true;
-      tapping = true;
-      disableWhileTyping = true;
-      accelProfile = "adaptive";
-    };
+  # Touchpad configuration (host-specific overrides)
+  services.libinput.touchpad = {
+    disableWhileTyping = true;
+    accelProfile = "adaptive";
   };
 
   # Power management for laptops
@@ -271,10 +216,6 @@
     # ThinkPad specific
     lm_sensors  # Temperature monitoring
     smartmontools  # Disk health monitoring (SMART)
-
-    # Icon themes for GNOME applications
-    adwaita-icon-theme
-    hicolor-icon-theme
   ];
 
 
