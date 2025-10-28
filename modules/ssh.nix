@@ -21,7 +21,6 @@
         hostname = "ai-fe02.srv.aau.dk";
         user = "hb05nk@cs.aau.dk";
         identityFile = "~/.ssh/keys/aicloud";
-        proxyJump = "thinkpad";
       };
 
       "hs" = {
