@@ -399,5 +399,37 @@ in
 
       autoStart = true;
     };
+
+    # Windows 10 LTSC in container using dockur/windows
+    windows = {
+      image = "dockurr/windows";
+
+      volumes = [
+        "/var/lib/containers/windows:/storage"
+      ];
+
+      environment = {
+        VERSION = "10l";          # Windows 10 LTSC
+        RAM_SIZE = "8G";
+        CPU_CORES = "4";
+        DISK_SIZE = "256G";
+      };
+
+      ports = [
+        "5009:8006"               # Web-based VNC viewer
+        "3389:3389/tcp"           # RDP access (TCP)
+        "3389:3389/udp"           # RDP access (UDP)
+      ];
+
+      extraOptions = [
+        "--device=/dev/kvm"       # KVM hardware acceleration
+        "--device=/dev/net/tun"   # Network bridging
+        "--cap-add=NET_ADMIN"     # Network administration capability
+        "--stop-timeout=120"      # 2 minute graceful shutdown
+      ];
+
+      autoStart = true;
+    };
+
   };
 }
