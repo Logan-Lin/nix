@@ -59,6 +59,7 @@
       enable = true;
       autoStart = true;
       desktopSession = "gnome";
+      user = "yanlin";
     };
     decky-loader.enable = true;
     devices.steamdeck = {
