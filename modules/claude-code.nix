@@ -18,10 +18,7 @@ let
     allow = [
       # Web and search capabilities
       "WebSearch"
-      "WebFetch(domain:github.com)"
-      "WebFetch(domain:docs.github.com)"
-      "WebFetch(domain:api.github.com)"
-      "WebFetch(domain:raw.githubusercontent.com)"
+      "WebFetch"
       
       # Claude configuration files
       "Read(~/.claude/**)"
@@ -49,16 +46,6 @@ let
       "Bash(cargo --version)"
       "Bash(pip list*)"
       "Bash(pip show*)"
-
-      # Homebrew (read-only operations)
-      "Bash(brew --version)"
-      "Bash(brew list*)"
-      "Bash(brew info*)"
-      "Bash(brew search*)"
-      "Bash(brew outdated*)"
-      "Bash(brew deps*)"
-      "Bash(brew doctor)"
-      "Bash(brew config)"
       
       # Nix operations
       "Bash(nix-shell*)"
