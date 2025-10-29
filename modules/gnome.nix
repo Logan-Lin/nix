@@ -46,6 +46,7 @@ in
         "hidetopbar@mathieu.bidon.ca"
         "pano@elhan.io"
         "tiling-assistant@leleat-on-github"
+        "rounded-window-corners@fxgn"
       ];
       favorite-apps = [
         "org.gnome.Nautilus.desktop"
@@ -118,6 +119,7 @@ in
       tile-bottomleft-quarter = [ "<Super>f" ];   # Bottom-left: Super+F
       tile-bottomright-quarter = [ "<Super>g" ];  # Bottom-right: Super+G
     };
+
   };
 
   # IBus Mozc (Japanese) configuration - default to Hiragana input mode
@@ -176,6 +178,7 @@ in
     gnomeExtensions.hide-top-bar
     gnomeExtensions.pano
     gnomeExtensions.tiling-assistant
+    gnomeExtensions.rounded-window-corners-reborn
   ];
 
   # Custom desktop file for opening text files with Neovim in Ghostty
