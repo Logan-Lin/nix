@@ -69,9 +69,8 @@
       bind -r K resize-pane -U 5
       bind -r L resize-pane -R 5
       
-      # Quick pane cycling
-      unbind o
-      bind ^A select-pane -t :.+
+      # Enable nested session control
+      bind a send-prefix
       
       # Reload config file
       bind r source-file ~/.config/tmux/tmux.conf \; display-message "Config reloaded!"
