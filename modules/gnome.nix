@@ -16,6 +16,12 @@ in
       cursor-theme = "Adwaita";
     };
 
+    # Touchpad settings
+    "org/gnome/desktop/peripherals/touchpad" = {
+      tap-to-click = false;
+      natural-scroll = true;
+    };
+
     # Desktop background
     "org/gnome/desktop/background" = {
       picture-uri = "file:///home/yanlin/Documents/Library/nixos-nineish-dark@4k.png";

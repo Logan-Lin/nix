@@ -72,7 +72,7 @@ in
       enable = true;
       touchpad = {
         naturalScrolling = true;
-        tapping = true;
+        tapping = false;
       };
     };
 

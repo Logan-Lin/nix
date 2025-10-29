@@ -15,6 +15,14 @@
     ../../../modules/papis.nix
   ];
 
+  # ThinkPad-specific GNOME dconf overrides
+  dconf.settings = {
+    "org/gnome/desktop/peripherals/mouse" = {
+      speed = 0.0;               # Match libinput accelSpeed for TrackPoint
+      accel-profile = "flat";    # Match libinput accelProfile (no acceleration)
+    };
+  };
+
   programs.yt-dlp-custom = {
     enable = true;
     downloadDir = "~/Downloads/web-video";
