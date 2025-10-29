@@ -70,7 +70,8 @@
       bind -r L resize-pane -R 5
       
       # Enable nested session control
-      bind a send-prefix
+      # Ctrl-a Ctrl-a sends prefix to inner tmux session
+      bind ^A send-prefix
       
       # Reload config file
       bind r source-file ~/.config/tmux/tmux.conf \; display-message "Config reloaded!"
