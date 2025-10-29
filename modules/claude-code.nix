@@ -24,9 +24,9 @@ let
       "WebFetch(domain:raw.githubusercontent.com)"
       
       # Claude configuration files
-      "Read(/Users/yanlin/.claude/**)"
-      "Write(/Users/yanlin/.claude/**)"
-      "Edit(/Users/yanlin/.claude/**)"
+      "Read(~/.claude/**)"
+      "Write(~/.claude/**)"
+      "Edit(~/.claude/**)"
       
       # Git operations (read-only and safe operations)
       "Bash(git status)"
