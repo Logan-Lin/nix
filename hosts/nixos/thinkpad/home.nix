@@ -13,6 +13,7 @@
     ../../../modules/firefox.nix
     ../../../modules/ghostty.nix
     ../../../modules/papis.nix
+    ../../../modules/libreoffice.nix
   ];
 
   # ThinkPad-specific GNOME dconf overrides
