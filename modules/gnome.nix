@@ -120,6 +120,28 @@ in
       tile-bottomright-quarter = [ "<Super>g" ];  # Bottom-right: Super+G
     };
 
+    # Mutter keybindings - window tiling (vim-style hjkl)
+    "org/gnome/mutter/keybindings" = {
+      toggle-tiled-left = [ "<Super>h" ];   # Tile left: Super+h (replaces Super+Left)
+      toggle-tiled-right = [ "<Super>l" ];  # Tile right: Super+l (replaces Super+Right)
+    };
+
+    # Window manager keybindings (vim-style hjkl)
+    "org/gnome/desktop/wm/keybindings" = {
+      # Window maximize/restore
+      maximize = [ "<Super>k" ];            # Maximize: Super+k (replaces Super+Up)
+      unmaximize = [ "<Super>j" ];          # Restore: Super+j (replaces Super+Down)
+
+      # Move window between monitors
+      move-to-monitor-left = [ "<Super><Shift>h" ];   # Move left: Super+Shift+h
+      move-to-monitor-right = [ "<Super><Shift>l" ];  # Move right: Super+Shift+l
+      move-to-monitor-up = [ "<Super><Shift>k" ];     # Move up: Super+Shift+k
+      move-to-monitor-down = [ "<Super><Shift>j" ];   # Move down: Super+Shift+j
+
+      # Disable conflicting keybindings
+      minimize = [];  # Disable Super+h conflict
+    };
+
   };
 
   # IBus Mozc (Japanese) configuration - default to Hiragana input mode
