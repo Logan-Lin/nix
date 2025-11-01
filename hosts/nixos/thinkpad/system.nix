@@ -7,6 +7,7 @@
     ../../../modules/desktop.nix
     ../../../modules/wireguard.nix
     ../../../modules/login-display.nix
+    ../../../modules/disable-keyboard.nix
   ];
 
   # Bootloader - standard UEFI setup
@@ -242,10 +243,18 @@
             capslock = "leftcontrol";
             # Map Right Control to Caps Lock
             rightcontrol = "capslock";
+            # Map Left Alt to Super (Windows key)
+            leftalt = "leftmeta";
           };
         };
       };
     };
+  };
+
+  # Disable internal keyboard when HHKB-Hybrid_1 is connected
+  services.disable-keyboard = {
+    enable = true;
+    externalKeyboardName = "HHKB-Hybrid_1";
   };
 
   # Apply XKB config to console (TTY) as well
