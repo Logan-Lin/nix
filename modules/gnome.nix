@@ -53,8 +53,6 @@ in
         "com.mitchellh.ghostty.desktop"
         "firefox.desktop"
         "obsidian.desktop"
-        "org.gnome.Evince.desktop"
-        "org.gnome.Loupe.desktop"
         "org.keepassxc.KeePassXC.desktop"
       ];
     };
