@@ -54,6 +54,8 @@ in
         "firefox.desktop"
         "obsidian.desktop"
         "org.keepassxc.KeePassXC.desktop"
+        "org.gnome.Evince.desktop"
+        "org.gnome.Loupe.desktop"
       ];
     };
 
