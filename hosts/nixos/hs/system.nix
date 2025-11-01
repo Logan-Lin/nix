@@ -190,7 +190,7 @@
       "*.tmp"
       "*.tmp.*"
       "*.temp"
-      "*.temp"
+      "*.temp.*"
       "*.!qB"
       "*.part"
     ];
