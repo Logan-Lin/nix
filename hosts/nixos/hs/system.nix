@@ -188,6 +188,8 @@
       ".fseventsd/"
       "Thumbs.db"
       "*.tmp"
+      "*.tmp.*"
+      "*.temp"
       "*.temp"
       "*.!qB"
       "*.part"
