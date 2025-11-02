@@ -406,6 +406,7 @@ in
 
       volumes = [
         "/var/lib/containers/windows:/storage"
+        "/home/yanlin/share:/shared"
       ];
 
       environment = {
