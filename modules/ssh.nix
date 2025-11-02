@@ -58,7 +58,7 @@
       };
 
       "deck" = {
-        hostname = "deck.lan";
+        hostname = "10.2.2.40";
         user = "yanlin";
         identityFile = "~/.ssh/keys/deck";
       };
