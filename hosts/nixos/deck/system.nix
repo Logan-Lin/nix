@@ -53,11 +53,14 @@
     ];
   };
 
-  # Prevent automatic suspend on AC power (GNOME power settings)
+  # GNOME settings (prevent suspend, enable virtual keyboard)
   programs.dconf.profiles.user.databases = [{
     settings = {
       "org/gnome/settings-daemon/plugins/power" = {
         sleep-inactive-ac-type = "nothing";
+      };
+      "org/gnome/desktop/a11y/applications" = {
+        screen-keyboard-enabled = true;
       };
     };
   }];
