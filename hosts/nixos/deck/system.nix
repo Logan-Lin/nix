@@ -66,7 +66,6 @@
   };
 
   # Sound configuration with PipeWire (required for Jovian's DSP layer)
-  sound.enable = true;                 # Enable ALSA sound card drivers
   services.pulseaudio.enable = false;  # Disable PulseAudio in favor of PipeWire
   security.rtkit.enable = true;        # RealtimeKit for low-latency audio
   services.pipewire = {
@@ -91,7 +90,7 @@
       enable = true;
       autoUpdate = true;
       enableSoundSupport = true;  # Steam Deck-optimized PipeWire with DSP
-      enableVendorDrivers = true;  # Uses Valve's driver branches instead of upstream
+      enableVendorDrivers = false;  # Use upstream kernel drivers (better for latest kernel)
     };
     steamos = {
       useSteamOSConfig = true;  # Enable SteamOS optimizations (zram, OOM, sysctl, etc.)
