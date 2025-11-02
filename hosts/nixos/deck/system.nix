@@ -137,7 +137,6 @@
     showSmartStatus = true;
     smartDrives = {
       "/dev/nvme0n1" = "System_SSD";
-      "/dev/mmcblk0" = "SD_Card";
     };
     showDiskUsage = true;
   };
