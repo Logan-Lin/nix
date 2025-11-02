@@ -65,6 +65,16 @@
     };
   };
 
+  # Sound configuration with PipeWire (required for Jovian's DSP layer)
+  services.pulseaudio.enable = false;  # Disable PulseAudio in favor of PipeWire
+  security.rtkit.enable = true;        # RealtimeKit for low-latency audio
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;                # ALSA compatibility
+    alsa.support32Bit = true;          # 32-bit game support
+    pulse.enable = true;               # PulseAudio compatibility for apps
+  };
+
   # Jovian Steam Deck configuration
   jovian = {
     hardware.has.amd.gpu = true;  # Enables backlight control and early modesetting
