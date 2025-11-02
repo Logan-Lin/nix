@@ -78,7 +78,7 @@
       
       # Better copy mode with OSC-52 clipboard
       bind-key -T copy-mode-vi v send-keys -X begin-selection
-      bind-key -T copy-mode-vi y send-keys -X copy-pipe-and-cancel
+      bind-key -T copy-mode-vi y send-keys -X copy-pipe
       bind-key -T copy-mode-vi r send-keys -X rectangle-toggle
       
       # New window with current path
