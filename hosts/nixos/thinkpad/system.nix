@@ -7,6 +7,7 @@
     ../../../modules/desktop.nix
     ../../../modules/wireguard.nix
     ../../../modules/login-display.nix
+    ../../../modules/keyboard-toggle.nix
   ];
 
   # Bootloader - standard UEFI setup
@@ -229,26 +230,6 @@
   # Laptop-specific services
   services.acpid.enable = true;
   services.upower.enable = true;
-
-  # Advanced key remapping with keyd
-  services.keyd = {
-    enable = true;
-    keyboards = {
-      default = {
-        ids = [ "*" ];
-        settings = {
-          main = {
-            # Map Caps Lock to Left Control
-            capslock = "leftcontrol";
-            # Map Right Control to Caps Lock
-            rightcontrol = "capslock";
-            # Map Left Alt to Super (Windows key)
-            leftalt = "leftmeta";
-          };
-        };
-      };
-    };
-  };
 
   # Apply XKB config to console (TTY) as well
   console.useXkbConfig = true;
