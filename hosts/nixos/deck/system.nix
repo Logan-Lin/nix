@@ -66,6 +66,7 @@
   };
 
   # Sound configuration with PipeWire (required for Jovian's DSP layer)
+  sound.enable = true;                 # Enable ALSA sound card drivers
   services.pulseaudio.enable = false;  # Disable PulseAudio in favor of PipeWire
   security.rtkit.enable = true;        # RealtimeKit for low-latency audio
   services.pipewire = {
