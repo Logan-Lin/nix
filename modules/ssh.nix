@@ -58,6 +58,12 @@
         identityFile = "~/.ssh/keys/hetzner";
       };
 
+      "deck" = {
+        hostname = "deck.lan";
+        user = "yanlin";
+        identityFile = "~/.ssh/keys/deck";
+      };
+
       "borg-box" = {
         hostname = "u501367.your-storagebox.de";
         user = "u501367";
