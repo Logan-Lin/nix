@@ -7,7 +7,6 @@
     ../../../modules/desktop.nix
     ../../../modules/wireguard.nix
     ../../../modules/login-display.nix
-    ../../../modules/disable-keyboard.nix
   ];
 
   # Bootloader - standard UEFI setup
@@ -249,12 +248,6 @@
         };
       };
     };
-  };
-
-  # Disable internal keyboard when HHKB-Hybrid_1 is connected
-  services.disable-keyboard = {
-    enable = true;
-    externalKeyboardName = "HHKB-Hybrid_1 Keyboard";
   };
 
   # Apply XKB config to console (TTY) as well
