@@ -20,9 +20,6 @@
     timeout = 3;
   };
 
-  # Use latest kernel for better hardware support
-  boot.kernelPackages = pkgs.linuxPackages_latest;
-
   # Network configuration
   networking = {
     hostName = "deck";
@@ -65,16 +62,6 @@
     };
   };
 
-  # Sound configuration with PipeWire (required for Jovian's DSP layer)
-  services.pulseaudio.enable = false;  # Disable PulseAudio in favor of PipeWire
-  security.rtkit.enable = true;        # RealtimeKit for low-latency audio
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;                # ALSA compatibility
-    alsa.support32Bit = true;          # 32-bit game support
-    pulse.enable = true;               # PulseAudio compatibility for apps
-  };
-
   # Jovian Steam Deck configuration
   jovian = {
     hardware.has.amd.gpu = true;  # Enables backlight control and early modesetting
@@ -89,8 +76,6 @@
     devices.steamdeck = {
       enable = true;
       autoUpdate = true;
-      enableSoundSupport = true;  # Steam Deck-optimized PipeWire with DSP
-      enableVendorDrivers = false;  # Use upstream kernel drivers (better for latest kernel)
     };
     steamos = {
       useSteamOSConfig = true;  # Enable SteamOS optimizations (zram, OOM, sysctl, etc.)
