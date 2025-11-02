@@ -13,7 +13,7 @@
   # Bootloader - standard UEFI setup
   boot.loader = {
     systemd-boot.enable = true;
-    systemd-boot.configurationLimit = 10;
+    systemd-boot.configurationLimit = 50;
     efi.canTouchEfiVariables = true;
     timeout = 3;
   };
