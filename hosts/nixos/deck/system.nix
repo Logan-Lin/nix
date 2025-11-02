@@ -37,9 +37,12 @@
   services.wireguard-custom = {
     enable = true;
     mode = "client";
-    ip = "10.2.2.40/32";
-    serverEndpoint = "91.98.84.215:51820";
-    serverPublicKey = "46QHjSzAas5g9Hll1SCEu9tbR5owCxXAy6wGOUoPwUM=";
+    clientConfig = {
+      address = "10.2.2.40/32";
+      serverEndpoint = "91.98.84.215:51820";
+      serverPublicKey = "46QHjSzAas5g9Hll1SCEu9tbR5owCxXAy6wGOUoPwUM=";
+      allowedIPs = [ "10.2.2.0/24" ];  # Only route WireGuard network through VPN
+    };
   };
 
   # Hardware support for Steam Deck (AMD APU)
