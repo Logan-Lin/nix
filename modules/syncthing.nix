@@ -68,7 +68,7 @@ in
         };
         "Documents" = {
           path = "~/Documents";
-          devices = [ "hs" "thinkpad" ];
+          devices = [ "hs" "thinkpad" "deck" ];
           ignorePerms = true;
           versioning = commonVersioning;
         };
