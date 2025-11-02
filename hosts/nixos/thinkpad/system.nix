@@ -254,7 +254,7 @@
   # Disable internal keyboard when HHKB-Hybrid_1 is connected
   services.disable-keyboard = {
     enable = true;
-    externalKeyboardName = "HHKB-Hybrid_1";
+    externalKeyboardName = "HHKB-Hybrid_1 Keyboard";
   };
 
   # Apply XKB config to console (TTY) as well
