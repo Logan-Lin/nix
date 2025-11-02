@@ -3,6 +3,7 @@
 {
   imports = [
     ./hardware-configuration.nix
+    ./disk-config.nix
     ../system-default.nix  # Common NixOS system configuration
     ../../../modules/desktop.nix
   ];
