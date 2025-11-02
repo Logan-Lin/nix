@@ -42,6 +42,25 @@
     };
   };
 
+  # Input method configuration
+  i18n.inputMethod = {
+    enable = true;
+    type = "ibus";
+    ibus.engines = with pkgs.ibus-engines; [
+      libpinyin  # Chinese Simplified Pinyin
+      mozc       # Japanese (Romaji)
+    ];
+  };
+
+  # Prevent automatic suspend on AC power (GNOME power settings)
+  programs.dconf.profiles.user.databases = [{
+    settings = {
+      "org/gnome/settings-daemon/plugins/power" = {
+        sleep-inactive-ac-type = "nothing";
+      };
+    };
+  }];
+
   # Hardware support for Steam Deck (AMD APU)
   hardware = {
     enableRedistributableFirmware = true;
