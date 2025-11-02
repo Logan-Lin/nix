@@ -53,13 +53,16 @@ in
         "thinkpad" = {
           id = "OMZKASU-QPZDCQ2-7QRHRD4-3TPAXLM-AYRMWXB-A6E5OIZ-MGR422V-JYARQA6";
         };
+        "deck" = {
+          id = "4LYWEFD-25FGQ7W-DQ7UC2R-LTJCTYQ-3UHXJUC-DRY2RIF-UFGNCZQ-LLFVDAX";
+        };
       };
       
       # Define shared folders
       folders = {
         "Credentials" = {
           path = "~/Credentials";
-          devices = [ "iphone" "hs" "thinkpad" ];
+          devices = [ "iphone" "hs" "thinkpad" "deck" ];
           ignorePerms = true;
           versioning = commonVersioning;
         };
@@ -71,7 +74,7 @@ in
         };
         "Obsidian" = {
           path = "~/Obsidian";
-          devices = [ "iphone" "hs" "thinkpad" ];
+          devices = [ "iphone" "hs" "thinkpad" "deck" ];
           ignorePerms = true;
           versioning = commonVersioning;
         };
