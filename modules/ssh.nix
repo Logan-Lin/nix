@@ -49,7 +49,6 @@
         setEnv = {
           TERM = "xterm-256color";
         };
-        proxyJump = "vps";
       };
 
       "vps" = {
