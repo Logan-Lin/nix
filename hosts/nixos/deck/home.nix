@@ -13,6 +13,9 @@
     ../../../modules/gnome.nix
   ];
 
+  # Always show GNOME top bar on Steam Deck
+  gnome-custom.alwaysShowTopBar = true;
+
   # Enable Ghostty terminal with OSC-52 clipboard support
   programs.ghostty-custom = {
     enable = true;

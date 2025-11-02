@@ -1,12 +1,22 @@
 { config, pkgs, lib, ... }:
 
 let
+  cfg = config.gnome-custom;
   # Import gvariant helpers for dconf types
   mkTuple = lib.hm.gvariant.mkTuple;
   mkUint32 = lib.hm.gvariant.mkUint32;
 in
 
 {
+  options.gnome-custom = {
+    alwaysShowTopBar = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+      description = "Always show the GNOME top bar (status bar). When false, uses Hide Top Bar extension to auto-hide it.";
+    };
+  };
+
+  config = {
   # GNOME configuration via dconf
   dconf.settings = {
     # Interface settings
@@ -42,12 +52,13 @@ in
     # GNOME Shell configuration
     "org/gnome/shell" = {
       disable-user-extensions = false;
-      enabled-extensions = [
-        "hidetopbar@mathieu.bidon.ca"
-        "pano@elhan.io"
-        "tiling-assistant@leleat-on-github"
-        "rounded-window-corners@fxgn"
-      ];
+      enabled-extensions =
+        (lib.optionals (!cfg.alwaysShowTopBar) [ "hidetopbar@mathieu.bidon.ca" ])
+        ++ [
+          "pano@elhan.io"
+          "tiling-assistant@leleat-on-github"
+          "rounded-window-corners@fxgn"
+        ];
       favorite-apps = [
         "org.gnome.Nautilus.desktop"
         "com.mitchellh.ghostty.desktop"
@@ -61,7 +72,7 @@ in
 
     # Hide Top Bar extension configuration
     # Always hide the top bar except in Activities Overview (Super key)
-    "org/gnome/shell/extensions/hidetopbar" = {
+    "org/gnome/shell/extensions/hidetopbar" = lib.mkIf (!cfg.alwaysShowTopBar) {
       enable-intellihide = false;
       enable-active-window = false;
       mouse-sensitive = false;
@@ -178,12 +189,13 @@ in
   };
 
   # GNOME Shell extensions and Qt theming packages
-  home.packages = with pkgs; [
-    gnomeExtensions.hide-top-bar
-    gnomeExtensions.pano
-    gnomeExtensions.tiling-assistant
-    gnomeExtensions.rounded-window-corners-reborn
-  ];
+  home.packages = with pkgs;
+    (lib.optionals (!cfg.alwaysShowTopBar) [ gnomeExtensions.hide-top-bar ])
+    ++ [
+      gnomeExtensions.pano
+      gnomeExtensions.tiling-assistant
+      gnomeExtensions.rounded-window-corners-reborn
+    ];
 
   # Custom desktop file for opening text files with Neovim in Ghostty
   home.file.".local/share/applications/nvim-ghostty.desktop".text = ''
@@ -331,4 +343,5 @@ in
       fi
     }
   '';
+  };
 }
