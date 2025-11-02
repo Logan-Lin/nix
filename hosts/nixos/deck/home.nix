@@ -13,6 +13,20 @@
     ../../../modules/gnome.nix
   ];
 
+  # Enable Ghostty terminal with OSC-52 clipboard support
+  programs.ghostty-custom = {
+    enable = true;
+    package = pkgs.ghostty;
+    fontSize = 12;
+    windowMode = "maximized";
+  };
+
+  # Enable Firefox browser
+  programs.firefox-custom = {
+    enable = true;
+    package = pkgs.firefox;
+  };
+
   # ThinkPad-specific applications
   home.packages = with pkgs; [
     obsidian
