@@ -16,6 +16,9 @@
   # Always show GNOME top bar on Steam Deck
   gnome-custom.alwaysShowTopBar = true;
 
+  # Disable Documents sync on Steam Deck (save space)
+  syncthing-custom.enabledFolders = [ "Credentials" "Obsidian" ];
+
   # Enable Ghostty terminal with OSC-52 clipboard support
   programs.ghostty-custom = {
     enable = true;

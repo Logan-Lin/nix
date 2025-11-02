@@ -1,6 +1,8 @@
 { config, pkgs, lib, ... }:
 
 let
+  cfg = config.syncthing-custom;
+
   # Common ignore patterns for all synced folders
   commonIgnores = [
     ".DS_Store"
@@ -28,6 +30,15 @@ let
   };
 in
 {
+  options.syncthing-custom = {
+    enabledFolders = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = [ "Credentials" "Documents" "Obsidian" ];
+      description = "List of Syncthing folders to enable for this host. Available: Credentials, Documents, Obsidian";
+    };
+  };
+
+  config = {
   # Enable Syncthing service
   services.syncthing = {
     enable = true;
@@ -58,27 +69,32 @@ in
         };
       };
       
-      # Define shared folders
-      folders = {
-        "Credentials" = {
-          path = "~/Credentials";
-          devices = [ "iphone" "hs" "thinkpad" "deck" ];
-          ignorePerms = true;
-          versioning = commonVersioning;
-        };
-        "Documents" = {
-          path = "~/Documents";
-          devices = [ "hs" "thinkpad" "deck" ];
-          ignorePerms = true;
-          versioning = commonVersioning;
-        };
-        "Obsidian" = {
-          path = "~/Obsidian";
-          devices = [ "iphone" "hs" "thinkpad" "deck" ];
-          ignorePerms = true;
-          versioning = commonVersioning;
-        };
-      };
+      # Define shared folders (only enabled ones)
+      folders =
+        (lib.optionalAttrs (lib.elem "Credentials" cfg.enabledFolders) {
+          "Credentials" = {
+            path = "~/Credentials";
+            devices = [ "iphone" "hs" "thinkpad" "deck" ];
+            ignorePerms = true;
+            versioning = commonVersioning;
+          };
+        })
+        // (lib.optionalAttrs (lib.elem "Documents" cfg.enabledFolders) {
+          "Documents" = {
+            path = "~/Documents";
+            devices = [ "hs" "thinkpad" ];
+            ignorePerms = true;
+            versioning = commonVersioning;
+          };
+        })
+        // (lib.optionalAttrs (lib.elem "Obsidian" cfg.enabledFolders) {
+          "Obsidian" = {
+            path = "~/Obsidian";
+            devices = [ "iphone" "hs" "thinkpad" "deck" ];
+            ignorePerms = true;
+            versioning = commonVersioning;
+          };
+        });
       
       # GUI settings with authentication
       gui = {
@@ -98,12 +114,21 @@ in
     };
   };
 
-  # Deploy .stignore files to synced folders
-  home.file."Credentials/.stignore".text = stignoreContent;
-  home.file."Documents/.stignore".text = stignoreContent;
-  home.file."Obsidian/.stignore".text = stignoreContent;
+  # Deploy .stignore files to synced folders (only for enabled folders)
+  home.file = lib.mkMerge [
+    (lib.mkIf (lib.elem "Credentials" cfg.enabledFolders) {
+      "Credentials/.stignore".text = stignoreContent;
+    })
+    (lib.mkIf (lib.elem "Documents" cfg.enabledFolders) {
+      "Documents/.stignore".text = stignoreContent;
+    })
+    (lib.mkIf (lib.elem "Obsidian" cfg.enabledFolders) {
+      "Obsidian/.stignore".text = stignoreContent;
+    })
+  ];
 
   # For NixOS systems, we need to add Syncthing as a manual service in Traefik
   # Since Syncthing runs as a systemd service (not container), we'll handle routing via static config
   # or create a container wrapper for it to use with service discovery
+  };
 }
