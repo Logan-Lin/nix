@@ -7,6 +7,7 @@
     ../system-default.nix  # Common NixOS system configuration
     ../../../modules/desktop.nix
     ../../../modules/wireguard.nix
+    ../../../modules/login-display.nix
   ];
 
   # Desktop module configuration (disable GDM for Jovian autoStart mode)
@@ -125,6 +126,20 @@
     pciutils
     usbutils
     unzip
+
+    smartmontools  # Disk health monitoring (SMART)
   ];
+
+  # Login display with SMART disk health status
+  services.login-display = {
+    enable = true;
+    showSystemInfo = true;
+    showSmartStatus = true;
+    smartDrives = {
+      "/dev/nvme0n1" = "System_SSD";
+      "/dev/mmcblk0" = "SD_Card";
+    };
+    showDiskUsage = true;
+  };
 
 }
