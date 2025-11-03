@@ -101,39 +101,25 @@
 
         # Application launchers
         "SUPER, Return, exec, ghostty"
-        "SUPER, D, exec, wofi --show drun"
+        "SUPER, Space, exec, wofi --show drun"
 
-        # Vim-style window tiling (replicate GNOME behavior)
-        # Super+h: Tile window to left half
-        "SUPER, h, exec, hyprctl dispatch togglefloating && hyprctl dispatch resizeactive exact 50% 100% && hyprctl dispatch moveactive exact 0 0 && hyprctl dispatch togglefloating"
+        # Window focus navigation (vim-style)
+        "SUPER, h, movefocus, l"
+        "SUPER, j, movefocus, d"
+        "SUPER, k, movefocus, u"
+        "SUPER, l, movefocus, r"
 
-        # Super+l: Tile window to right half
-        "SUPER, l, exec, hyprctl dispatch togglefloating && hyprctl dispatch resizeactive exact 50% 100% && hyprctl dispatch moveactive exact 50% 0 && hyprctl dispatch togglefloating"
+        # Window resizing
+        "SUPER SHIFT, h, resizeactive, -50 0"
+        "SUPER SHIFT, j, resizeactive, 0 50"
+        "SUPER SHIFT, k, resizeactive, 0 -50"
+        "SUPER SHIFT, l, resizeactive, 50 0"
 
-        # Super+k: Maximize window (fullscreen mode 1 - keeps gaps/bars)
-        "SUPER, k, fullscreen, 1"
-
-        # Super+j: Restore window from fullscreen
-        "SUPER, j, fullscreen, 0"
-
-        # Quarter-corner tiling
-        # Super+r: Top-left quarter
-        "SUPER, r, exec, hyprctl dispatch togglefloating && hyprctl dispatch resizeactive exact 50% 50% && hyprctl dispatch moveactive exact 0 0 && hyprctl dispatch togglefloating"
-
-        # Super+t: Top-right quarter
-        "SUPER, t, exec, hyprctl dispatch togglefloating && hyprctl dispatch resizeactive exact 50% 50% && hyprctl dispatch moveactive exact 50% 0 && hyprctl dispatch togglefloating"
-
-        # Super+c: Bottom-left quarter (changed from 'f' to avoid conflict with fullscreen)
-        "SUPER, c, exec, hyprctl dispatch togglefloating && hyprctl dispatch resizeactive exact 50% 50% && hyprctl dispatch moveactive exact 0 50% && hyprctl dispatch togglefloating"
-
-        # Super+g: Bottom-right quarter
-        "SUPER, g, exec, hyprctl dispatch togglefloating && hyprctl dispatch resizeactive exact 50% 50% && hyprctl dispatch moveactive exact 50% 50% && hyprctl dispatch togglefloating"
-
-        # Move windows between monitors
-        "SUPER SHIFT, h, movecurrentworkspacetomonitor, l"
-        "SUPER SHIFT, l, movecurrentworkspacetomonitor, r"
-        "SUPER SHIFT, k, movecurrentworkspacetomonitor, u"
-        "SUPER SHIFT, j, movecurrentworkspacetomonitor, d"
+        # Window swapping/moving
+        "SUPER CTRL, h, movewindow, l"
+        "SUPER CTRL, j, movewindow, d"
+        "SUPER CTRL, k, movewindow, u"
+        "SUPER CTRL, l, movewindow, r"
 
         # Workspace navigation (1-9)
         "SUPER, 1, workspace, 1"
