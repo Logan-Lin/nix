@@ -68,12 +68,6 @@
     };
   }];
 
-  # Enable CEF remote debugging for decky-loader UI to work in game mode
-  # See: https://github.com/Jovian-Experiments/Jovian-NixOS/issues/460
-  systemd.tmpfiles.rules = [
-    "f /home/yanlin/.steam/steam/.cef-enable-remote-debugging 0644 yanlin users -"
-  ];
-
   # Hardware support for Steam Deck (AMD APU)
   hardware = {
     enableRedistributableFirmware = true;
@@ -104,7 +98,6 @@
       desktopSession = "gnome";
       user = "yanlin";
     };
-    decky-loader.enable = true;
     devices.steamdeck = {
       enable = true;
       autoUpdate = true;
