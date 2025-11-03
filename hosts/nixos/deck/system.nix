@@ -53,6 +53,12 @@
     ];
   };
 
+  # TrackPoint configuration (treated as mouse device)
+  services.libinput.mouse = {
+    accelSpeed = "0.0";         # Higher sensitivity for trackpoint (-1.0 to 1.0)
+    accelProfile = "flat";      # No acceleration curve for precise control
+  };
+
   # GNOME settings (prevent suspend, enable virtual keyboard)
   programs.dconf.profiles.user.databases = [{
     settings = {
