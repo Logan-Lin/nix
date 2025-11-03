@@ -53,12 +53,6 @@
     ];
   };
 
-  # TrackPoint configuration (treated as mouse device)
-  services.libinput.mouse = {
-    accelSpeed = "0.0";         # Higher sensitivity for trackpoint (-1.0 to 1.0)
-    accelProfile = "flat";      # No acceleration curve for precise control
-  };
-
   # GNOME settings (prevent suspend, enable virtual keyboard)
   programs.dconf.profiles.user.databases = [{
     settings = {
@@ -68,8 +62,17 @@
       "org/gnome/desktop/a11y/applications" = {
         screen-keyboard-enabled = true;
       };
+      "org/gnome/desktop/peripherals/mouse" = {
+        accel-profile = "flat";
+      };
     };
   }];
+
+  # Enable CEF remote debugging for decky-loader UI to work in game mode
+  # See: https://github.com/Jovian-Experiments/Jovian-NixOS/issues/460
+  systemd.tmpfiles.rules = [
+    "f /home/yanlin/.steam/steam/.cef-enable-remote-debugging 0644 yanlin users -"
+  ];
 
   # Hardware support for Steam Deck (AMD APU)
   hardware = {
