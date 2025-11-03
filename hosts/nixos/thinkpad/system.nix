@@ -4,7 +4,7 @@
   imports = [
     ./hardware-configuration.nix
     ../system-default.nix  # Common NixOS system configuration
-    ../../../modules/gnome/system.nix
+    ../../../modules/hyprland/system.nix
     ../../../modules/wireguard.nix
     ../../../modules/login-display.nix
     ../../../modules/keyboard-toggle.nix
@@ -96,15 +96,6 @@
       mozc       # Japanese (Romaji)
     ];
   };
-
-  # Prevent automatic suspend on AC power (GNOME power settings)
-  programs.dconf.profiles.user.databases = [{
-    settings = {
-      "org/gnome/settings-daemon/plugins/power" = {
-        sleep-inactive-ac-type = "nothing";
-      };
-    };
-  }];
 
   # Touchpad configuration (host-specific overrides)
   services.libinput.touchpad = {
