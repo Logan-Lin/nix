@@ -16,16 +16,34 @@ let
       # Keyboard is disabled, enable it
       sudo kill $(cat "$PID_FILE")
       rm -f "$PID_FILE"
-      echo "✓ Built-in keyboard enabled"
+      sudo systemctl start keyd
+      echo "✓ Built-in keyboard enabled (keyd active)"
     else
       # Keyboard is enabled, disable it by grabbing the device
+      sudo systemctl stop keyd
       sudo ${pkgs.evtest}/bin/evtest --grab /dev/input/$EVENT_DEVICE > /dev/null 2>&1 &
       echo $! > "$PID_FILE"
-      echo "✓ Built-in keyboard disabled"
+      echo "✓ Built-in keyboard disabled (keyd stopped)"
     fi
   '';
 in
 {
+  # Configure keyd for key remapping on the built-in keyboard
+  services.keyd = {
+    enable = true;
+    keyboards = {
+      internal = {
+        ids = [ "*" ];
+        settings = {
+          main = {
+            capslock = "leftcontrol";
+            leftalt = "leftmeta";
+          };
+        };
+      };
+    };
+  };
+
   # Add the script and required tools to system packages
   environment.systemPackages = [
     keyboard-toggle
@@ -46,6 +64,12 @@ in
       options = [ "NOPASSWD" ];
     } {
       command = "${pkgs.coreutils}/bin/kill";
+      options = [ "NOPASSWD" ];
+    } {
+      command = "${pkgs.systemd}/bin/systemctl start keyd";
+      options = [ "NOPASSWD" ];
+    } {
+      command = "${pkgs.systemd}/bin/systemctl stop keyd";
       options = [ "NOPASSWD" ];
     }];
   }];
