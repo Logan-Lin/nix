@@ -7,7 +7,6 @@ let
 in
 
 {
-    # options.services.borgbackup-custom = {
   options.services.borg-client-custom = {
     enable = mkEnableOption "Borg backup service";
 
