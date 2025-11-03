@@ -44,14 +44,14 @@
     '';
   };
 
-  # Rime configuration for Simplified Chinese
-  xdg.configFile."fcitx5/rime/default.custom.yaml" = {
+  # Rime configuration for Simplified Chinese (must be in .local/share not .config)
+  xdg.dataFile."fcitx5/rime/default.custom.yaml" = {
     force = true;
     text = ''
       patch:
-        "schema_list":
+        schema_list:
           - schema: luna_pinyin_simp
-        "menu/page_size": 7
+        menu/page_size: 7
     '';
   };
 
