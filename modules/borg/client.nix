@@ -3,11 +3,12 @@
 with lib;
 
 let
-  cfg = config.services.borgbackup-custom;
+  cfg = config.services.borg-client-custom;
 in
 
 {
-  options.services.borgbackup-custom = {
+    # options.services.borgbackup-custom = {
+  options.services.borg-client-custom = {
     enable = mkEnableOption "Borg backup service";
 
     repositoryUrl = mkOption {

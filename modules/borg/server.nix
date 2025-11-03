@@ -3,11 +3,12 @@
 with lib;
 
 let
-  cfg = config.services.borgbackup-server;
+  cfg = config.services.borg-server-custom;
 in
 
 {
-  options.services.borgbackup-server = {
+  # options.services.borgbackup-server = {
+  options.services.borg-server-custom = {
     enable = mkEnableOption "Borg backup server";
 
     dataDir = mkOption {
@@ -119,7 +120,7 @@ in
         
         echo "To add user '$USERNAME', add the following to your NixOS configuration:"
         echo ""
-        echo "services.borgbackup-server.users.$USERNAME = {"
+        echo "services.borg-server-custom.users.$USERNAME = {"
         echo "  publicKeys = [ \"$SSH_KEY\" ];"
         echo "};"
         echo ""

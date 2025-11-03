@@ -7,7 +7,7 @@
     ../../../modules/wireguard.nix
     ../../../modules/podman.nix
     ../../../modules/traefik.nix
-    ../../../modules/borg-client.nix
+    ../../../modules/borg/client.nix
     ../../../modules/login-display.nix
   ];
 
