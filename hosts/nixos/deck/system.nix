@@ -5,13 +5,13 @@
     ./hardware-configuration.nix
     ./disk-config.nix
     ../system-default.nix  # Common NixOS system configuration
-    ../../../modules/desktop.nix
+    ../../../modules/gnome/system.nix
     ../../../modules/wireguard.nix
     ../../../modules/login-display.nix
   ];
 
   # Desktop module configuration (disable GDM for Jovian autoStart mode)
-  desktop-custom.enableDisplayManager = false;
+  gnome-system-custom.enableDisplayManager = false;
 
   # Bootloader - standard UEFI setup
   boot.loader = {

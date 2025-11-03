@@ -10,11 +10,11 @@
     ../../../modules/syncthing.nix
     ../../../modules/firefox.nix
     ../../../modules/ghostty.nix
-    ../../../modules/gnome.nix
+    ../../../modules/gnome/home.nix
   ];
 
   # Always show GNOME top bar on Steam Deck
-  gnome-custom.alwaysShowTopBar = true;
+  gnome-home-custom.alwaysShowTopBar = true;
 
   # Disable Documents sync on Steam Deck (save space)
   syncthing-custom.enabledFolders = [ "Credentials" "Obsidian" ];

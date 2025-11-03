@@ -3,7 +3,7 @@
 with lib;
 
 let
-  cfg = config.desktop-custom;
+  cfg = config.gnome-system-custom;
   # Import gvariant for dconf types
   mkTuple = lib.gvariant.mkTuple;
   mkUint32 = lib.gvariant.mkUint32;
@@ -11,7 +11,7 @@ let
 in
 
 {
-  options.desktop-custom = {
+  options.gnome-system-custom = {
     enableDisplayManager = mkOption {
       type = types.bool;
       default = true;

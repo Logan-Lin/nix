@@ -1,14 +1,14 @@
 { config, pkgs, lib, ... }:
 
 let
-  cfg = config.gnome-custom;
+  cfg = config.gnome-home-custom;
   # Import gvariant helpers for dconf types
   mkTuple = lib.hm.gvariant.mkTuple;
   mkUint32 = lib.hm.gvariant.mkUint32;
 in
 
 {
-  options.gnome-custom = {
+  options.gnome-home-custom = {
     alwaysShowTopBar = lib.mkOption {
       type = lib.types.bool;
       default = false;
@@ -123,11 +123,6 @@ in
       tile-bottomleft-quarter = [ "<Super>f" ];   # Bottom-left: Super+F
       tile-bottomright-quarter = [ "<Super>g" ];  # Bottom-right: Super+G
     };
-
-    # NOTE: vim-style hjkl keybindings (Super+h/j/k/l) are configured at the
-    # system level in desktop.nix with lockAll = true to prevent them from
-    # being overridden after suspend/resume or by GNOME extensions
-
   };
 
   # IBus Mozc (Japanese) configuration - default to Hiragana input mode
