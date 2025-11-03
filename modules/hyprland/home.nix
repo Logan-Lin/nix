@@ -221,6 +221,12 @@
         "SUPER CTRL, k, movewindow, u"
         "SUPER CTRL, l, movewindow, r"
 
+        # Move window to adjacent monitor (vim-style)
+        "SUPER ALT, h, movewindow, mon:l"
+        "SUPER ALT, j, movewindow, mon:d"
+        "SUPER ALT, k, movewindow, mon:u"
+        "SUPER ALT, l, movewindow, mon:r"
+
         # Workspace navigation (1-9)
         "SUPER, 1, workspace, 1"
         "SUPER, 2, workspace, 2"
