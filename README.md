@@ -54,42 +54,7 @@ nixos-rebuild build --flake .#<host>
 └── scripts/            # Helper scripts
 ```
 
-## Modules
-
-Modules are self-contained and handle both package installation and configuration.
-
-- `borg-client.nix` - Backup client with scheduling
-- `borg-server.nix` - Backup server configuration
-- `btop.nix` - System monitor with vim navigation
-- `claude-code.nix` - AI coding assistant with permissions config
-- `dictionary.nix` - Offline dictionary system (sdcv)
-- `firefox.nix` - Browser with extensions and bookmarks
-- `ghostty.nix` - GPU-accelerated terminal emulator
-- `git.nix` - Version control with aliases
-- `lazygit.nix` - Terminal UI for git
-- `login-display.nix` - SSH login display with system/disk info
-- `nvim.nix` - Neovim editor configuration
-- `papis.nix` - Academic reference manager
-- `podman.nix` - Container runtime
-- `rsync.nix` - File synchronization tools
-- `samba.nix` - SMB file sharing
-- `schedule.nix` - Systemd timer service framework
-- `ssh.nix` - SSH client configuration
-- `syncthing.nix` - Continuous file synchronization
-- `termscp.nix` - Terminal file transfer client
-- `tex.nix` - LaTeX/TeX compilation environment
-- `tmux.nix` - Terminal multiplexer
-- `traefik.nix` - Reverse proxy with SSL
-- `webdav.nix` - WebDAV file server
-- `wireguard.nix` - VPN networking
-- `yt-dlp.nix` - Video downloader with filtering
-- `zsh.nix` - Shell with modern tools
-
-## Scripts
-
-- `project-launcher.sh` - Tmux session manager for projects
-
-## Custom Workflows
+## Workflows
 
 ### Project Management
 `proj` - Launch tmux sessions from `config/projects.json`
@@ -107,11 +72,6 @@ Modules are self-contained and handle both package installation and configuratio
 - Navigate: `hjkl`
 - Resize: `HJKL`
 
-### Git Aliases (in config)
-- `lg` - Pretty log with graph
-- `up` - Pull with rebase
-- `cm` - Commit with message
-
 ## Service Management (NixOS)
 
 ```bash
@@ -120,22 +80,11 @@ systemctl status <service>
 journalctl -u <service> -f
 
 # Container management
-docker ps  # Actually podman
-docker logs <container>
-docker exec -it <container> bash
+podman ps  # Actually podman
+podman logs <container>
+podman exec -it <container> bash
 
 # Systemd timers
 systemctl list-timers
 ```
-
-### Manual Timer Service Execution
-- `dl-subs-yt` - Check YouTube subscriptions and download new videos
-- `borg-backup-now` - Run backup manually
-
-## Notes
-
-- Borg backups need passphrase at `/etc/borg-passphrase`
-- Container definitions use podman backend
-- WireGuard configs need manual key exchange after first deploy
-- Traefik handles SSL via Cloudflare DNS challenge
 
