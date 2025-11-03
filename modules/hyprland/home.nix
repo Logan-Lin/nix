@@ -88,7 +88,7 @@
 
       # Misc settings
       misc = {
-        force_default_wallpaper = 1;
+        force_default_wallpaper = 0;
         disable_hyprland_logo = false;
       };
 
@@ -161,6 +161,19 @@
       bindm = [
         "SUPER, mouse:272, movewindow"
         "SUPER, mouse:273, resizewindow"
+      ];
+    };
+  };
+
+  # Hyprpaper wallpaper service
+  services.hyprpaper = {
+    enable = true;
+    settings = {
+      preload = [
+        "/home/yanlin/Downloads/nixos-nineish-dark@4k.png"
+      ];
+      wallpaper = [
+        "eDP-1,/home/yanlin/Downloads/nixos-nineish-dark@4k.png"
       ];
     };
   };
@@ -273,13 +286,14 @@
           format-charging = "{capacity}% ";
           format-plugged = "{capacity}% ";
           format-icons = ["" "" "" "" ""];
+          tooltip-format = "{capacity}% • {timeTo}";
         };
 
         "network" = {
           format-wifi = "{essid} ({signalStrength}%) ";
           format-ethernet = "{ipaddr}/{cidr} ";
           format-disconnected = "Disconnected ⚠";
-          tooltip-format = "{ifname}: {ipaddr}";
+          tooltip-format = "{essid}\nIP: {ipaddr}\nSignal: {signalStrength}%";
         };
 
         "pulseaudio" = {
@@ -296,12 +310,15 @@
             default = ["" "" ""];
           };
           on-click = "pavucontrol";
+          tooltip-format = "Volume: {volume}%";
         };
 
         "backlight" = {
           device = "intel_backlight";
           format = "{percent}% {icon}";
           format-icons = ["" ""];
+          on-click = "wl-gammactl";
+          tooltip-format = "Brightness: {percent}%";
         };
 
         "tray" = {
@@ -339,25 +356,60 @@
 
       #window,
       #clock,
-      #battery,
-      #network,
-      #pulseaudio,
-      #backlight,
       #tray {
         padding: 0 10px;
         color: #ffffff;
       }
 
+      /* Color-coded modules for easy distinction */
+      #pulseaudio {
+        padding: 0 10px;
+        color: #a6e3a1;  /* Green - Volume */
+      }
+
+      #backlight {
+        padding: 0 10px;
+        color: #f9e2af;  /* Yellow - Brightness */
+      }
+
+      #battery {
+        padding: 0 10px;
+        color: #89b4fa;  /* Blue - Battery */
+      }
+
+      #network {
+        padding: 0 10px;
+        color: #cba6f7;  /* Purple - Network */
+      }
+
+      /* Battery state colors override base color */
       #battery.charging {
-        color: #26A65B;
+        color: #a6e3a1;  /* Bright green when charging */
       }
 
       #battery.warning:not(.charging) {
-        color: #ffbe61;
+        color: #fab387;  /* Orange for warning */
       }
 
       #battery.critical:not(.charging) {
-        color: #f53c3c;
+        color: #f38ba8;  /* Red for critical */
+        animation: blink 1s linear infinite;
+      }
+
+      @keyframes blink {
+        to {
+          opacity: 0.5;
+        }
+      }
+
+      /* Network disconnected state */
+      #network.disconnected {
+        color: #f38ba8;  /* Red when disconnected */
+      }
+
+      /* Muted audio */
+      #pulseaudio.muted {
+        color: #6c7086;  /* Gray when muted */
       }
     '';
   };
