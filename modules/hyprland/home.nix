@@ -120,8 +120,8 @@
 
       # General window and workspace settings
       general = {
-        gaps_in = 5;
-        gaps_out = 10;
+        gaps_in = 0;
+        gaps_out = 0;
         border_size = 2;
         "col.active_border" = "rgba(33ccffee) rgba(00ff99ee) 45deg";
         "col.inactive_border" = "rgba(595959aa)";
@@ -130,14 +130,14 @@
 
       # Decoration settings
       decoration = {
-        rounding = 8;
+        rounding = 0;
         blur = {
-          enabled = true;
+          enabled = false;
           size = 3;
           passes = 1;
         };
         shadow = {
-          enabled = true;
+          enabled = false;
           range = 4;
           render_power = 3;
           color = "rgba(1a1a1aee)";
