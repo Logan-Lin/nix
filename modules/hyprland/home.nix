@@ -87,11 +87,13 @@
       # Monitor configuration
       monitor = ",preferred,auto,1";
 
-      # Environment variables for input methods
+      # Environment variables for input methods and theming
       env = [
         "GTK_IM_MODULE,fcitx"
         "QT_IM_MODULE,fcitx"
         "XMODIFIERS,@im=fcitx"
+        "GTK_THEME,Adwaita:dark"
+        "QT_QPA_PLATFORMTHEME,qt5ct"
       ];
 
       # Execute apps at launch
@@ -344,7 +346,34 @@
       name = "Papirus-Dark";
       package = pkgs.papirus-icon-theme;
     };
+    gtk3.extraConfig = {
+      gtk-application-prefer-dark-theme = 1;
+    };
+    gtk4.extraConfig = {
+      gtk-application-prefer-dark-theme = 1;
+    };
   };
+
+  # Qt theme settings for consistent theming with GTK
+  qt = {
+    enable = true;
+    platformTheme.name = "adwaita";
+    style.name = "adwaita-dark";
+  };
+
+  # dconf settings for GNOME apps to prefer dark theme
+  dconf.settings = {
+    "org/gnome/desktop/interface" = {
+      color-scheme = "prefer-dark";
+      gtk-theme = "Adwaita-dark";
+    };
+  };
+
+  # Qt theming packages
+  home.packages = with pkgs; [
+    adwaita-qt
+    adwaita-qt6
+  ];
 
   # Wofi application launcher configuration
   programs.wofi = {
