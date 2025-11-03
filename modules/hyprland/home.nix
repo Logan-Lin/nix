@@ -21,6 +21,7 @@
         "ibus-daemon -drx"
         "hypridle"
         "waybar"
+        "nm-applet --indicator"
       ];
 
       # Input configuration
@@ -158,6 +159,16 @@
 
         # Input method switching
         "SUPER, Space, exec, ibus engine xkb:us::eng"
+
+        # Brightness control
+        ", XF86MonBrightnessUp, exec, brightnessctl set +5%"
+        ", XF86MonBrightnessDown, exec, brightnessctl set 5%-"
+
+        # Volume control
+        ", XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"
+        ", XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
+        ", XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+        ", XF86AudioMicMute, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
       ];
 
       # Mouse bindings
@@ -235,5 +246,133 @@
       name = "Adwaita-dark";
       package = pkgs.gnome-themes-extra;
     };
+  };
+
+  # Waybar configuration for Hyprland
+  programs.waybar = {
+    enable = true;
+    settings = {
+      mainBar = {
+        layer = "top";
+        position = "top";
+        height = 30;
+        spacing = 4;
+
+        modules-left = [ "hyprland/workspaces" "hyprland/window" ];
+        modules-center = [ "clock" ];
+        modules-right = [ "pulseaudio" "network" "backlight" "battery" "tray" ];
+
+        "hyprland/workspaces" = {
+          format = "{name}";
+          on-click = "activate";
+        };
+
+        "hyprland/window" = {
+          format = "{}";
+          max-length = 50;
+        };
+
+        "clock" = {
+          format = "{:%H:%M %a %d %b}";
+          tooltip-format = "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>";
+        };
+
+        "battery" = {
+          bat = "BAT0";
+          states = {
+            warning = 30;
+            critical = 15;
+          };
+          format = "{capacity}% {icon}";
+          format-charging = "{capacity}% ";
+          format-plugged = "{capacity}% ";
+          format-icons = ["" "" "" "" ""];
+        };
+
+        "network" = {
+          format-wifi = "{essid} ({signalStrength}%) ";
+          format-ethernet = "{ipaddr}/{cidr} ";
+          format-disconnected = "Disconnected ⚠";
+          tooltip-format = "{ifname}: {ipaddr}";
+        };
+
+        "pulseaudio" = {
+          format = "{volume}% {icon}";
+          format-bluetooth = "{volume}% {icon}";
+          format-muted = "";
+          format-icons = {
+            headphone = "";
+            hands-free = "";
+            headset = "";
+            phone = "";
+            portable = "";
+            car = "";
+            default = ["" "" ""];
+          };
+          on-click = "pavucontrol";
+        };
+
+        "backlight" = {
+          device = "intel_backlight";
+          format = "{percent}% {icon}";
+          format-icons = ["" ""];
+        };
+
+        "tray" = {
+          spacing = 10;
+        };
+      };
+    };
+
+    style = ''
+      * {
+        border: none;
+        border-radius: 0;
+        font-family: monospace;
+        font-size: 13px;
+      }
+
+      window#waybar {
+        background-color: rgba(43, 48, 59, 0.9);
+        color: #ffffff;
+      }
+
+      #workspaces button {
+        padding: 0 5px;
+        background-color: transparent;
+        color: #ffffff;
+      }
+
+      #workspaces button.active {
+        background-color: #64727D;
+      }
+
+      #workspaces button:hover {
+        background-color: rgba(0, 0, 0, 0.2);
+      }
+
+      #window,
+      #clock,
+      #battery,
+      #network,
+      #pulseaudio,
+      #backlight,
+      #tray {
+        padding: 0 10px;
+        color: #ffffff;
+      }
+
+      #battery.charging {
+        color: #26A65B;
+      }
+
+      #battery.warning:not(.charging) {
+        color: #ffbe61;
+      }
+
+      #battery.critical:not(.charging) {
+        color: #f53c3c;
+      }
+    '';
   };
 }
