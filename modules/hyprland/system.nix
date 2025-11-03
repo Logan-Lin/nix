@@ -43,10 +43,12 @@
     hyprland
     hypridle
     hyprlock
+    hyprpaper
     tuigreet
     waybar
     wofi
     networkmanagerapplet
     pavucontrol
+    wl-gammactl
   ];
 }
