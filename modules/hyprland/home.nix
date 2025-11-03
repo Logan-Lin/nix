@@ -94,6 +94,8 @@
         "XMODIFIERS,@im=fcitx"
         "GTK_THEME,Adwaita:dark"
         "QT_QPA_PLATFORMTHEME,qt5ct"
+        "XCURSOR_SIZE,24"
+        "XCURSOR_THEME,Bibata-Modern-Ice"
       ];
 
       # Execute apps at launch
@@ -374,6 +376,15 @@
     adwaita-qt
     adwaita-qt6
   ];
+
+  # Cursor theme configuration
+  home.pointerCursor = {
+    name = "Bibata-Modern-Ice";
+    package = pkgs.bibata-cursors;
+    size = 24;
+    gtk.enable = true;
+    x11.enable = true;
+  };
 
   # Wofi application launcher configuration
   programs.wofi = {
