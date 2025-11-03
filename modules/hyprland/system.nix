@@ -49,6 +49,6 @@
     wofi
     networkmanagerapplet
     pavucontrol
-    wl-gammactl
+    nwg-displays
   ];
 }

@@ -259,7 +259,7 @@
 
         modules-left = [ "hyprland/workspaces" "hyprland/window" ];
         modules-center = [ "clock" ];
-        modules-right = [ "pulseaudio" "network" "backlight" "battery" "tray" ];
+        modules-right = [ "pulseaudio" "backlight" "battery" "tray" ];
 
         "hyprland/workspaces" = {
           format = "{name}";
@@ -289,13 +289,6 @@
           tooltip-format = "{capacity}% • {timeTo}";
         };
 
-        "network" = {
-          format-wifi = "{essid} ({signalStrength}%) ";
-          format-ethernet = "{ipaddr}/{cidr} ";
-          format-disconnected = "Disconnected ⚠";
-          tooltip-format = "{essid}\nIP: {ipaddr}\nSignal: {signalStrength}%";
-        };
-
         "pulseaudio" = {
           format = "{volume}% {icon}";
           format-bluetooth = "{volume}% {icon}";
@@ -317,7 +310,7 @@
           device = "intel_backlight";
           format = "{percent}% {icon}";
           format-icons = ["" ""];
-          on-click = "wl-gammactl";
+          on-click = "nwg-displays";
           tooltip-format = "Brightness: {percent}%";
         };
 
@@ -377,11 +370,6 @@
         color: #89b4fa;  /* Blue - Battery */
       }
 
-      #network {
-        padding: 0 10px;
-        color: #cba6f7;  /* Purple - Network */
-      }
-
       /* Battery state colors override base color */
       #battery.charging {
         color: #a6e3a1;  /* Bright green when charging */
@@ -400,11 +388,6 @@
         to {
           opacity: 0.5;
         }
-      }
-
-      /* Network disconnected state */
-      #network.disconnected {
-        color: #f38ba8;  /* Red when disconnected */
       }
 
       /* Muted audio */
