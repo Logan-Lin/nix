@@ -1,6 +1,79 @@
 { config, pkgs, ... }:
 
 {
+  # Fcitx5 input method configuration
+  xdg.configFile."fcitx5/profile" = {
+    force = true;
+    text = ''
+      [Groups/0]
+      Name=Default
+      Default Layout=us
+      DefaultIMName=keyboard-us
+
+      [Groups/0/Items/0]
+      Name=keyboard-us
+      Layout=
+
+      [Groups/0/Items/1]
+      Name=rime
+      Layout=
+
+      [Groups/0/Items/2]
+      Name=mozc
+      Layout=
+
+      [GroupOrder]
+      0=Default
+    '';
+  };
+
+  xdg.configFile."fcitx5/config" = {
+    force = true;
+    text = ''
+      [Hotkey]
+      TriggerKeys=
+      EnumerateWithTriggerKeys=True
+      AltTriggerKeys=
+      EnumerateForwardKeys=
+      EnumerateBackwardKeys=
+      EnumerateSkipFirst=False
+
+      [Behavior]
+      ActiveByDefault=False
+      ShareInputState=No
+    '';
+  };
+
+  # Rime configuration for Simplified Chinese
+  xdg.configFile."fcitx5/rime/default.custom.yaml" = {
+    force = true;
+    text = ''
+      patch:
+        schema_list:
+          - schema: luna_pinyin_simp
+        menu:
+          page_size: 7
+    '';
+  };
+
+  # Rime addon configuration - 7 candidates per page
+  xdg.configFile."fcitx5/conf/rime.conf" = {
+    force = true;
+    text = ''
+      [InputMethod]
+      PageSize=7
+    '';
+  };
+
+  # Mozc addon configuration - 7 candidates per page
+  xdg.configFile."fcitx5/conf/mozc.conf" = {
+    force = true;
+    text = ''
+      [InputMethod]
+      PageSize=7
+    '';
+  };
+
   wayland.windowManager.hyprland = {
     enable = true;
     xwayland.enable = true;
@@ -11,14 +84,14 @@
 
       # Environment variables for input methods
       env = [
-        "GTK_IM_MODULE,ibus"
-        "QT_IM_MODULE,ibus"
-        "XMODIFIERS,@im=ibus"
+        "GTK_IM_MODULE,fcitx"
+        "QT_IM_MODULE,fcitx"
+        "XMODIFIERS,@im=fcitx"
       ];
 
       # Execute apps at launch
       exec-once = [
-        "ibus-daemon -drx"
+        "fcitx5 -d"
         "hypridle"
         "waybar"
         "nm-applet --indicator"
@@ -102,6 +175,22 @@
         # Application launchers
         "SUPER, Return, exec, ghostty"
         "SUPER, Space, exec, wofi --show drun"
+
+        # Input method switching (cycles through configured IMs)
+        "ALT, Space, exec, ${pkgs.writeShellScript "fcitx5-cycle" ''
+          current=$(${pkgs.fcitx5}/bin/fcitx5-remote -n)
+          case "$current" in
+            keyboard-us)
+              ${pkgs.fcitx5}/bin/fcitx5-remote -s rime
+              ;;
+            rime)
+              ${pkgs.fcitx5}/bin/fcitx5-remote -s mozc
+              ;;
+            mozc|*)
+              ${pkgs.fcitx5}/bin/fcitx5-remote -s keyboard-us
+              ;;
+          esac
+        ''}"
 
         # Window focus navigation (vim-style)
         "SUPER, h, movefocus, l"
