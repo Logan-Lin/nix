@@ -46,5 +46,7 @@
     tuigreet
     waybar
     wofi
+    networkmanagerapplet
+    pavucontrol
   ];
 }
