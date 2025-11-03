@@ -4,7 +4,7 @@
   imports = [
     ./hardware-configuration.nix
     ../system-default.nix  # Common NixOS system configuration
-    ../../../modules/desktop.nix
+    ../../../modules/gnome/system.nix
     ../../../modules/wireguard.nix
     ../../../modules/login-display.nix
     ../../../modules/keyboard-toggle.nix

@@ -9,7 +9,7 @@
     ../home-default.nix
     ../../../modules/syncthing.nix
     ../../../modules/tex.nix
-    ../../../modules/gnome.nix
+    ../../../modules/gnome/home.nix
     ../../../modules/firefox.nix
     ../../../modules/ghostty.nix
     ../../../modules/papis.nix
