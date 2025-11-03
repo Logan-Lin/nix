@@ -38,6 +38,7 @@ in
           main = {
             capslock = "leftcontrol";
             leftalt = "leftmeta";
+            leftmeta = "leftalt";
           };
         };
       };
