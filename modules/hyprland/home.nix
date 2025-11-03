@@ -143,9 +143,6 @@
         "SUPER SHIFT, 8, movetoworkspace, 8"
         "SUPER SHIFT, 9, movetoworkspace, 9"
 
-        # Input method switching
-        "SUPER, Space, exec, ibus engine xkb:us::eng"
-
         # Brightness control
         ", XF86MonBrightnessUp, exec, brightnessctl set +5%"
         ", XF86MonBrightnessDown, exec, brightnessctl set 5%-"
@@ -177,6 +174,9 @@
       ];
     };
   };
+
+  # Blueman applet for Bluetooth management
+  services.blueman-applet.enable = true;
 
   # Hypridle configuration (screen timeout and lock)
   services.hypridle = {
@@ -244,6 +244,10 @@
     theme = {
       name = "Adwaita-dark";
       package = pkgs.gnome-themes-extra;
+    };
+    iconTheme = {
+      name = "Papirus-Dark";
+      package = pkgs.papirus-icon-theme;
     };
   };
 

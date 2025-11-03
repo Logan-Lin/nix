@@ -261,12 +261,6 @@ in
         action = ":lua open_file_with_system_app()<CR>";
         options = { desc = "Open file with system default app"; };
       }
-      {
-        mode = "n";
-        key = "<leader>f";
-        action = ":lua show_file_in_file_manager()<CR>";
-        options = { desc = "Show current file in file manager"; };
-      }
     ];
 
     # Additional Lua configuration for plugins that need custom setup
@@ -386,15 +380,6 @@ in
         end
       end
 
-      function show_file_in_file_manager()
-        local filepath = vim.fn.expand('%:p')
-        if filepath ~= "" then
-          -- Use jobstart for async execution (detach = true prevents blocking)
-          vim.fn.jobstart({'nautilus', '--select', filepath}, {detach = true})
-        else
-          print("No file to show")
-        end
-      end
     '';
   };
 }

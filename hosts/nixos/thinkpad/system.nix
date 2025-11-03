@@ -66,6 +66,9 @@
     };
   };
 
+  # Blueman Bluetooth manager
+  services.blueman.enable = true;
+
   # Network configuration
   networking = {
     hostName = "thinkpad";
