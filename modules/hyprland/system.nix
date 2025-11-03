@@ -38,6 +38,10 @@
     };
   };
 
+  # GNOME Keyring with PAM integration for WiFi password storage
+  services.gnome.gnome-keyring.enable = true;
+  security.pam.services.greetd.enableGnomeKeyring = true;
+
   # Input method configuration for Hyprland
   i18n.inputMethod = {
     enable = true;
