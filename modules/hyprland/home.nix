@@ -49,10 +49,9 @@
     force = true;
     text = ''
       patch:
-        schema_list:
+        "schema_list":
           - schema: luna_pinyin_simp
-        menu:
-          page_size: 7
+        "menu/page_size": 7
     '';
   };
 
@@ -74,6 +73,12 @@
     '';
   };
 
+  # GNOME Keyring for storing WiFi passwords and other secrets
+  services.gnome-keyring = {
+    enable = true;
+    components = [ "secrets" "ssh" ];
+  };
+
   wayland.windowManager.hyprland = {
     enable = true;
     xwayland.enable = true;
@@ -91,6 +96,7 @@
 
       # Execute apps at launch
       exec-once = [
+        "gnome-keyring-daemon --start --components=secrets,ssh"
         "fcitx5 -d"
         "hypridle"
         "waybar"
