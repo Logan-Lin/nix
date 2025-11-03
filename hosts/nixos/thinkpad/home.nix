@@ -47,6 +47,7 @@
   home.packages = with pkgs; [
     obsidian
     keepassxc
+    imagemagick
     inkscape
     vlc
     wemeet
