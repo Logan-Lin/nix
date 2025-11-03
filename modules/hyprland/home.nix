@@ -251,6 +251,16 @@
     };
   };
 
+  # Wofi application launcher configuration
+  programs.wofi = {
+    enable = true;
+    settings = {
+      # Vim-style navigation with Ctrl+j/k
+      key_up = "Ctrl-k";
+      key_down = "Ctrl-j";
+    };
+  };
+
   # Waybar configuration for Hyprland
   programs.waybar = {
     enable = true;
