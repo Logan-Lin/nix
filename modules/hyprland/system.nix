@@ -44,5 +44,7 @@
     hypridle
     hyprlock
     tuigreet
+    waybar
+    wofi
   ];
 }

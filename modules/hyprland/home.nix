@@ -20,6 +20,7 @@
       exec-once = [
         "ibus-daemon -drx"
         "hypridle"
+        "waybar"
       ];
 
       # Input configuration
@@ -86,8 +87,8 @@
 
       # Misc settings
       misc = {
-        force_default_wallpaper = 0;
-        disable_hyprland_logo = true;
+        force_default_wallpaper = 1;
+        disable_hyprland_logo = false;
       };
 
       # Keybindings
@@ -96,6 +97,10 @@
         "SUPER, Q, killactive,"
         "SUPER, F, fullscreen,"
         "SUPER, V, togglefloating,"
+
+        # Application launchers
+        "SUPER, Return, exec, ghostty"
+        "SUPER, D, exec, wofi --show drun"
 
         # Vim-style window tiling (replicate GNOME behavior)
         # Super+h: Tile window to left half
