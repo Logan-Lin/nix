@@ -28,6 +28,9 @@ in
       hms = "home-manager switch --flake ~/.config/nix#$(whoami)@$(hostname)";
       hms-offline = "home-manager switch --flake ~/.config/nix#$(whoami)@$(hostname) --option substitute false";
       fs = "oss && hms";
+
+      # Steam Deck screenshot sync
+      deck-ss = "rsync -avh --progress 'deck:.local/share/Steam/userdata/*/760/remote/*/screenshots/' ~/Pictures/Steam/";
     };
     
     initContent = ''
@@ -174,7 +177,10 @@ in
   
   # Manage Powerlevel10k configuration
   home.file.".p10k.zsh".source = ../config/p10k.zsh;
-  
+
   # Generate projects.json for shell scripts
   home.file.".config/nix/config/projects.json".text = builtins.toJSON projectsConfig;
+
+  # Ensure Steam screenshots directory exists
+  home.file."Pictures/Steam/.gitkeep".text = "";
 }
