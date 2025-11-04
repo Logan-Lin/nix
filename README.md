@@ -19,6 +19,15 @@ home-manager switch --flake .#yanlin@<host>
 nix flake update
 ```
 
+### New Host Installation
+```bash
+# 1. Initialize disk with disko
+sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko -- --mode disko --flake .#<host>
+
+# 2. Install NixOS
+sudo nixos-install --flake .#<host>
+```
+
 ### Occasional Commands
 ```bash
 # Garbage collection
@@ -64,7 +73,6 @@ nixos-rebuild build --flake .#<host>
 - `oss` - Rebuild NixOS system
 - `cdf` - Interactive file search with cd
 - `pwdf` - Get file path interactively
-- `zi` - Interactive zoxide with fzf
 
 ### Tmux Reminders
 - Prefix: `Ctrl-a`
