@@ -196,6 +196,7 @@ in
       cmp-dictionary
       plenary-nvim  # Required dependency for telescope
       jupytext-nvim  # Jupyter notebook viewing/editing support
+      render-markdown-nvim  # Inline markdown rendering with conceals
     ];
 
     # Keymaps
@@ -260,6 +261,14 @@ in
         key = "<leader>o";
         action = ":lua open_file_with_system_app()<CR>";
         options = { desc = "Open file with system default app"; };
+      }
+
+      # Markdown rendering
+      {
+        mode = "n";
+        key = "<leader>m";
+        action = ":RenderMarkdown toggle<CR>";
+        options = { desc = "Toggle markdown rendering"; };
       }
     ];
 
@@ -379,6 +388,13 @@ in
           print("No file to open")
         end
       end
+
+      -- Render-markdown setup (off by default, toggle with <space>+m)
+      require("render-markdown").setup({
+        enabled = false,  -- Off by default, use <space>+m to toggle
+        file_types = { "markdown" },
+        render_modes = { "n", "c" },  -- Render in normal and command mode
+      })
 
     '';
   };
