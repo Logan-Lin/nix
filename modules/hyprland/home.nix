@@ -107,6 +107,7 @@
         "gnome-keyring-daemon --start --components=secrets,ssh"
         "fcitx5 -d"
         "hypridle"
+        "swaync"
         "waybar"
         "nm-applet --indicator"
         "mkdir -p ~/Pictures/Screenshots"
@@ -418,7 +419,7 @@
 
         modules-left = [ "hyprland/workspaces" "hyprland/window" ];
         modules-center = [ "clock" ];
-        modules-right = [ "pulseaudio" "backlight" "battery" "tray" ];
+        modules-right = [ "custom/notification" "pulseaudio" "backlight" "battery" "tray" ];
 
         "hyprland/workspaces" = {
           format = "{name}";
@@ -476,6 +477,27 @@
         "tray" = {
           spacing = 10;
         };
+
+        "custom/notification" = {
+          tooltip = false;
+          format = "{} {icon}";
+          format-icons = {
+            notification = "<span foreground='#f38ba8'><sup></sup></span>";
+            none = "";
+            dnd-notification = "<span foreground='#f38ba8'> <sup></sup></span>";
+            dnd-none = "";
+            inhibited-notification = "<span foreground='#f38ba8'> <sup></sup></span>";
+            inhibited-none = "";
+            dnd-inhibited-notification = "<span foreground='#f38ba8'> <sup></sup></span>";
+            dnd-inhibited-none = "";
+          };
+          return-type = "json";
+          exec-if = "which swaync-client";
+          exec = "swaync-client -swb";
+          on-click = "sleep 0.1 && swaync-client -t -sw";
+          on-click-right = "sleep 0.1 && swaync-client -d -sw";
+          escape = true;
+        };
       };
     };
 
@@ -511,6 +533,12 @@
       #tray {
         padding: 0 10px;
         color: #ffffff;
+      }
+
+      /* Notification module styling */
+      #custom-notification {
+        padding: 0 10px;
+        color: #f38ba8;  /* Pink/Red - Notifications */
       }
 
       /* Color-coded modules for easy distinction */
