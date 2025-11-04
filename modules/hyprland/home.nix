@@ -83,9 +83,13 @@
     enable = true;
     xwayland.enable = true;
 
+    # Source nwg-displays generated monitor configuration
+    extraConfig = ''
+      source = ~/.config/hypr/monitors.conf
+    '';
+
     settings = {
-      # Monitor configuration
-      monitor = ",preferred,auto,1";
+      # Monitor configuration handled by nwg-displays (see extraConfig above)
 
       # Environment variables for input methods and theming
       env = [
@@ -221,12 +225,6 @@
         "SUPER CTRL, k, movewindow, u"
         "SUPER CTRL, l, movewindow, r"
 
-        # Move window to adjacent monitor (vim-style)
-        "SUPER ALT, h, movewindow, mon:l"
-        "SUPER ALT, j, movewindow, mon:d"
-        "SUPER ALT, k, movewindow, mon:u"
-        "SUPER ALT, l, movewindow, mon:r"
-
         # Workspace navigation (1-9)
         "SUPER, 1, workspace, 1"
         "SUPER, 2, workspace, 2"
@@ -269,6 +267,12 @@
       bindm = [
         "SUPER, mouse:272, movewindow"
         "SUPER, mouse:273, resizewindow"
+      ];
+
+      # Lid switch bindings - disable internal display when lid closes, reload config when lid opens
+      bindl = [
+        ", switch:on:Lid Switch, exec, hyprctl keyword monitor \"eDP-1, disable\""
+        ", switch:off:Lid Switch, exec, hyprctl reload"
       ];
     };
   };
