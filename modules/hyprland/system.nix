@@ -65,5 +65,6 @@
     networkmanagerapplet
     pavucontrol
     nwg-displays
+    swaynotificationcenter
   ];
 }
