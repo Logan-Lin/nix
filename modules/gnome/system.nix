@@ -85,41 +85,5 @@ in
       hicolor-icon-theme  # Fallback icon theme
     ];
 
-    # System-level dconf configuration with lockAll to prevent overrides
-    # This ensures keybindings persist after suspend/resume
-    programs.dconf = {
-      enable = true;
-      profiles.user.databases = [{
-        lockAll = true;  # Prevents GNOME and extensions from changing these settings
-        settings = {
-          # Mutter keybindings - window tiling (vim-style hjkl)
-          "org/gnome/mutter/keybindings" = {
-            toggle-tiled-left = [ "<Super>h" ];   # Tile left: Super+h
-            toggle-tiled-right = [ "<Super>l" ];  # Tile right: Super+l
-          };
-
-          # Window manager keybindings (vim-style hjkl)
-          "org/gnome/desktop/wm/keybindings" = {
-            # Window maximize/restore
-            maximize = [ "<Super>k" ];            # Maximize: Super+k
-            unmaximize = [ "<Super>j" ];          # Restore: Super+j
-
-            # Move window between monitors
-            move-to-monitor-left = [ "<Super><Shift>h" ];   # Move left: Super+Shift+h
-            move-to-monitor-right = [ "<Super><Shift>l" ];  # Move right: Super+Shift+l
-            move-to-monitor-up = [ "<Super><Shift>k" ];     # Move up: Super+Shift+k
-            move-to-monitor-down = [ "<Super><Shift>j" ];   # Move down: Super+Shift+j
-
-            # Disable conflicting keybindings
-            minimize = mkEmptyArray "s";  # Disable Super+h conflict (was minimize window)
-          };
-
-          # Disable screen lock on Super+L to free it for tiling right
-          "org/gnome/settings-daemon/plugins/media-keys" = {
-            screensaver = mkEmptyArray "s";  # Remove Super+L screen lock binding
-          };
-        };
-      }];
-    };
   };
 }

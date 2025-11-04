@@ -48,9 +48,6 @@ in
       enabled-extensions =
         (lib.optionals (!cfg.alwaysShowTopBar) [ "hidetopbar@mathieu.bidon.ca" ])
         ++ [
-          "pano@elhan.io"
-          "tiling-assistant@leleat-on-github"
-          "rounded-window-corners@fxgn"
         ];
       favorite-apps = [
         "org.gnome.Nautilus.desktop"
@@ -68,12 +65,6 @@ in
       enable-active-window = false;
       mouse-sensitive = false;
       mouse-sensitive-fullscreen-window = false;
-    };
-
-    # Pano clipboard manager configuration
-    "org/gnome/shell/extensions/pano" = {
-      send-notification-on-copy = false;  # Disable notification toasts
-      play-audio-on-copy = false;  # Disable audio feedback on copy
     };
 
     # Nautilus (GNOME Files) configuration
@@ -113,14 +104,6 @@ in
       lookup-table-page-size = 7;  # Number of candidates displayed (default: 5)
     };
 
-    # Tiling Assistant - quarter corner tiling keybindings
-    # Mapped to R/T/F/G keys to mirror their physical positions on keyboard
-    "org/gnome/shell/extensions/tiling-assistant" = {
-      tile-topleft-quarter = [ "<Super>r" ];      # Top-left: Super+R
-      tile-topright-quarter = [ "<Super>t" ];     # Top-right: Super+T
-      tile-bottomleft-quarter = [ "<Super>f" ];   # Bottom-left: Super+F
-      tile-bottomright-quarter = [ "<Super>g" ];  # Bottom-right: Super+G
-    };
   };
 
   # IBus Mozc (Japanese) configuration - default to Hiragana input mode
@@ -179,11 +162,7 @@ in
   # GNOME Shell extensions and Qt theming packages
   home.packages = with pkgs;
     (lib.optionals (!cfg.alwaysShowTopBar) [ gnomeExtensions.hide-top-bar ])
-    ++ [
-      gnomeExtensions.pano
-      gnomeExtensions.tiling-assistant
-      gnomeExtensions.rounded-window-corners-reborn
-    ];
+    ++ [ ];
 
   # Custom desktop file for opening text files with Neovim in Ghostty
   home.file.".local/share/applications/nvim-ghostty.desktop".text = ''
