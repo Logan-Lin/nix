@@ -29,8 +29,8 @@ in
       hms-offline = "home-manager switch --flake ~/.config/nix#$(whoami)@$(hostname) --option substitute false";
       fs = "oss && hms";
 
-      # Steam Deck screenshot sync
-      deck-ss = "rsync -avh --progress 'deck:.local/share/Steam/userdata/*/760/remote/*/screenshots/' ~/Pictures/Steam/";
+      # Steam Deck screenshot and game recording sync
+      deck-ss = "rsync -avh --progress 'deck:.local/share/Steam/userdata/*/760/remote/*/screenshots/' ~/Pictures/Steam/ && rsync -avh --progress 'deck:.local/share/Steam/userdata/*/gamerecordings/' ~/Pictures/Steam/recordings/";
     };
     
     initContent = ''
@@ -181,6 +181,7 @@ in
   # Generate projects.json for shell scripts
   home.file.".config/nix/config/projects.json".text = builtins.toJSON projectsConfig;
 
-  # Ensure Steam screenshots directory exists
+  # Ensure Steam screenshots and recordings directories exist
   home.file."Pictures/Steam/.gitkeep".text = "";
+  home.file."Pictures/Steam/recordings/.gitkeep".text = "";
 }
