@@ -168,9 +168,11 @@ in
     documents = "${config.home.homeDirectory}/Documents";
     download = "${config.home.homeDirectory}/Downloads";
 
+    # Enable Pictures directory
+    pictures = "${config.home.homeDirectory}/Pictures";
+
     # Disable unwanted directories
     music = null;
-    pictures = null;
     videos = null;
     publicShare = null;
     templates = null;
