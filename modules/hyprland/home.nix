@@ -105,7 +105,7 @@
         "hypridle"
         "waybar"
         "nm-applet --indicator"
-        "mkdir -p ~/Downloads/Screenshots"
+        "mkdir -p ~/Pictures/Screenshots"
       ];
 
       # Input configuration
@@ -260,9 +260,9 @@
         ", XF86AudioMicMute, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
 
         # Screenshots
-        ", Print, exec, grimblast copysave area ~/Downloads/Screenshots/$(date +%Y-%m-%d_%H-%M-%S).png"
-        "SHIFT, Print, exec, grimblast copysave screen ~/Downloads/Screenshots/$(date +%Y-%m-%d_%H-%M-%S).png"
-        "CTRL, Print, exec, grimblast copysave active ~/Downloads/Screenshots/$(date +%Y-%m-%d_%H-%M-%S).png"
+        ", Print, exec, grimblast copysave area ~/Pictures/Screenshots/$(date +%Y-%m-%d_%H-%M-%S).png"
+        "SHIFT, Print, exec, grimblast copysave screen ~/Pictures/Screenshots/$(date +%Y-%m-%d_%H-%M-%S).png"
+        "CTRL, Print, exec, grimblast copysave active ~/Pictures/Screenshots/$(date +%Y-%m-%d_%H-%M-%S).png"
       ];
 
       # Mouse bindings
