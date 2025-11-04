@@ -278,10 +278,10 @@
     enable = true;
     settings = {
       preload = [
-        "/home/yanlin/Downloads/nixos-nineish-dark@4k.png"
+        "/home/yanlin/Documents/Library/nixos-nineish-dark@4k.png"
       ];
       wallpaper = [
-        "eDP-1,/home/yanlin/Downloads/nixos-nineish-dark@4k.png"
+        ",/home/yanlin/Documents/Library/nixos-nineish-dark@4k.png"
       ];
     };
   };
