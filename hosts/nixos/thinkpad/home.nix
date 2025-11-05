@@ -55,7 +55,5 @@
       '';
     })
     remmina
-    evince
-    loupe
   ];
 }

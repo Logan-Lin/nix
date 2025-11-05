@@ -1,70 +1,86 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
+
+with lib;
+
+let
+  cfg = config.hyprland-system-custom;
+in
 
 {
-  # Enable Hyprland
-  programs.hyprland = {
-    enable = true;
-    xwayland.enable = true;
+  options.hyprland-system-custom = {
+    enableDisplayManager = mkOption {
+      type = types.bool;
+      default = true;
+      description = "Enable greetd display manager (conflicts with jovian.steam.autoStart)";
+    };
   };
 
-  # Display manager: greetd + tuigreet
-  services.greetd = {
-    enable = true;
-    settings = {
-      default_session = {
-        command = "${pkgs.tuigreet}/bin/tuigreet --time --cmd Hyprland";
-        user = "greeter";
+  config = {
+    # Enable Hyprland
+    programs.hyprland = {
+      enable = true;
+      xwayland.enable = true;
+    };
+
+    # Display manager: greetd + tuigreet
+    services.greetd = mkIf cfg.enableDisplayManager {
+      enable = true;
+      settings = {
+        default_session = {
+          command = "${pkgs.tuigreet}/bin/tuigreet --time --cmd Hyprland";
+          user = "greeter";
+        };
       };
     };
-  };
 
-  # XDG portals for screen sharing, file picker, etc.
-  xdg.portal = {
-    enable = true;
-    extraPortals = [
-      pkgs.xdg-desktop-portal-hyprland
-      pkgs.xdg-desktop-portal-gtk
-    ];
-    config.common.default = ["*"];
-  };
-
-  # Configure touchpad settings
-  services.libinput = {
-    enable = true;
-    touchpad = {
-      naturalScrolling = true;
-      tapping = false;
-      disableWhileTyping = true;
+    # XDG portals for screen sharing, file picker, etc.
+    xdg.portal = {
+      enable = true;
+      extraPortals = [
+        pkgs.xdg-desktop-portal-hyprland
+        pkgs.xdg-desktop-portal-gtk
+      ];
+      config.common.default = ["*"];
     };
-  };
 
-  # GNOME Keyring with PAM integration for WiFi password storage
-  services.gnome.gnome-keyring.enable = true;
-  security.pam.services.greetd.enableGnomeKeyring = true;
+    # Configure touchpad settings
+    services.libinput = {
+      enable = true;
+      touchpad = {
+        naturalScrolling = true;
+        tapping = false;
+        disableWhileTyping = true;
+      };
+    };
 
-  # Input method configuration for Hyprland
-  i18n.inputMethod = {
-    enable = true;
-    type = "fcitx5";
-    fcitx5.addons = with pkgs; [
-      fcitx5-rime        # Chinese Simplified/Traditional (more powerful than libpinyin)
-      fcitx5-mozc        # Japanese (Romaji)
-      fcitx5-gtk         # GTK integration
+    # GNOME Keyring with PAM integration for WiFi password storage
+    services.gnome.gnome-keyring.enable = true;
+    security.pam.services.greetd.enableGnomeKeyring = mkIf cfg.enableDisplayManager true;
+
+    # Input method configuration for Hyprland
+    i18n.inputMethod = {
+      enable = true;
+      type = "fcitx5";
+      fcitx5.addons = with pkgs; [
+        fcitx5-rime        # Chinese Simplified/Traditional (more powerful than libpinyin)
+        fcitx5-mozc        # Japanese (Romaji)
+        fcitx5-gtk         # GTK integration
+      ];
+    };
+
+    # System packages for Hyprland
+    environment.systemPackages = with pkgs; [
+      hyprland
+      hypridle
+      hyprlock
+      hyprpaper
+      tuigreet
+      waybar
+      wofi
+      networkmanagerapplet
+      pavucontrol
+      nwg-displays
+      swaynotificationcenter
     ];
   };
-
-  # System packages for Hyprland
-  environment.systemPackages = with pkgs; [
-    hyprland
-    hypridle
-    hyprlock
-    hyprpaper
-    tuigreet
-    waybar
-    wofi
-    networkmanagerapplet
-    pavucontrol
-    nwg-displays
-    swaynotificationcenter
-  ];
 }
