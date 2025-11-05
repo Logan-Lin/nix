@@ -262,6 +262,12 @@ in
         action = ":lua open_file_with_system_app()<CR>";
         options = { desc = "Open file with system default app"; };
       }
+      {
+        mode = "n";
+        key = "<leader>f";
+        action = ":!thunar %:h &<CR><CR>";
+        options = { desc = "Open current file directory in file manager"; };
+      }
 
       # Markdown rendering
       {
