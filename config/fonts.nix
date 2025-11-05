@@ -17,6 +17,11 @@
     noto-fonts-cjk-sans     # Comprehensive CJK support
     noto-fonts-cjk-serif    # Serif CJK text support
     source-han-sans         # High-quality CJK font alternative
+
+    # Traditional Chinese font styles
+    arphic-ukai             # KaiTi style (楷体) - brush stroke style
+    arphic-uming            # MingTi/Song style (宋体) - serif style
+    wqy_zenhei              # WenQuanYi Zen Hei - popular sans-serif with good coverage
   ];
 
   # Enable font configuration
