@@ -43,31 +43,6 @@
     };
   };
 
-  # Input method configuration
-  i18n.inputMethod = {
-    enable = true;
-    type = "ibus";
-    ibus.engines = with pkgs.ibus-engines; [
-      libpinyin  # Chinese Simplified Pinyin
-      mozc       # Japanese (Romaji)
-    ];
-  };
-
-  # GNOME settings (prevent suspend, enable virtual keyboard)
-  programs.dconf.profiles.user.databases = [{
-    settings = {
-      "org/gnome/settings-daemon/plugins/power" = {
-        sleep-inactive-ac-type = "nothing";
-      };
-      "org/gnome/desktop/a11y/applications" = {
-        screen-keyboard-enabled = true;
-      };
-      "org/gnome/desktop/peripherals/mouse" = {
-        accel-profile = "flat";
-      };
-    };
-  }];
-
   # Hardware support for Steam Deck (AMD APU)
   hardware = {
     enableRedistributableFirmware = true;

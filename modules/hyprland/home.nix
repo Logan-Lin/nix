@@ -387,6 +387,8 @@
     adwaita-qt6
     grimblast
     xfce.thunar
+    evince
+    loupe
   ];
 
   # Hyprland-specific shell configuration
