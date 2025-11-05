@@ -111,6 +111,7 @@
         "waybar"
         "nm-applet --indicator"
         "mkdir -p ~/Pictures/Screenshots"
+        "wl-paste --watch cliphist store"
       ];
 
       # Input configuration
@@ -191,6 +192,7 @@
         # Application launchers
         "SUPER, Return, exec, ghostty"
         "SUPER, Space, exec, wofi --show drun"
+        "SUPER, C, exec, cliphist list | wofi --dmenu | cliphist decode | wl-copy"
 
         # Input method switching (cycles through configured IMs)
         "CTRL, Space, exec, ${pkgs.writeShellScript "fcitx5-cycle" ''
@@ -389,6 +391,8 @@
     xfce.thunar
     evince
     loupe
+    wl-clipboard
+    cliphist
   ];
 
   # Hyprland-specific shell configuration
