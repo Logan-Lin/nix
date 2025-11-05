@@ -386,7 +386,17 @@
     adwaita-qt
     adwaita-qt6
     grimblast
+    xfce.thunar
   ];
+
+  # Hyprland-specific shell configuration
+  programs.zsh.initContent = ''
+    # Open current directory in Thunar file manager (background)
+    open() {
+      thunar "''${1:-.}" &>/dev/null &
+      disown
+    }
+  '';
 
   # Cursor theme configuration
   home.pointerCursor = {
