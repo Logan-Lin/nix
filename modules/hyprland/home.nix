@@ -193,7 +193,7 @@
         "SUPER, Space, exec, wofi --show drun"
 
         # Input method switching (cycles through configured IMs)
-        "ALT, Space, exec, ${pkgs.writeShellScript "fcitx5-cycle" ''
+        "CTRL, Space, exec, ${pkgs.writeShellScript "fcitx5-cycle" ''
           current=$(${pkgs.fcitx5}/bin/fcitx5-remote -n)
           case "$current" in
             keyboard-us)
