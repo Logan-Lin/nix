@@ -53,7 +53,6 @@ in
         "org.gnome.Nautilus.desktop"
         "com.mitchellh.ghostty.desktop"
         "firefox.desktop"
-        "obsidian.desktop"
         "org.keepassxc.KeePassXC.desktop"
       ];
     };

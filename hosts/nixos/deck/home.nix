@@ -17,7 +17,7 @@
   gnome-home-custom.alwaysShowTopBar = true;
 
   # Disable Documents sync on Steam Deck (save space)
-  syncthing-custom.enabledFolders = [ "Credentials" "Obsidian" ];
+  syncthing-custom.enabledFolders = [ "Credentials" ];
 
   # Enable Ghostty terminal with OSC-52 clipboard support
   programs.ghostty-custom = {
@@ -35,7 +35,6 @@
 
   # ThinkPad-specific applications
   home.packages = with pkgs; [
-    obsidian
     keepassxc
     vlc
   ];
