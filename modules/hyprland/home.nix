@@ -97,7 +97,6 @@
         "QT_IM_MODULE,fcitx"
         "XMODIFIERS,@im=fcitx"
         "GTK_THEME,Adwaita:dark"
-        "QT_QPA_PLATFORMTHEME,qt5ct"
         "XCURSOR_SIZE,24"
         "XCURSOR_THEME,Bibata-Modern-Ice"
       ];
@@ -359,13 +358,19 @@
   # GTK theme settings (optional, for consistent theming)
   gtk = {
     enable = true;
+    theme = {
+      name = "Adwaita-dark";
+      package = pkgs.gnome-themes-extra;
+    };
     iconTheme = {
       name = "Papirus-Dark";
       package = pkgs.papirus-icon-theme;
     };
     gtk3.extraConfig = {
+      gtk-application-prefer-dark-theme = 1;
     };
     gtk4.extraConfig = {
+      gtk-application-prefer-dark-theme = 1;
     };
   };
 
