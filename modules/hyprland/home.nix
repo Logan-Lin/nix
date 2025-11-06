@@ -473,7 +473,7 @@
         "pulseaudio" = {
           format = "{volume}% {icon}";
           format-bluetooth = "{volume}% {icon}";
-          format-muted = "";
+          format-muted = "{volume}% {icon}";
           format-icons = {
             headphone = "";
             hands-free = "";
@@ -584,10 +584,6 @@
         }
       }
 
-      /* Muted audio */
-      #pulseaudio.muted {
-        color: #6c7086;  /* Gray when muted */
-      }
     '';
   };
 }
