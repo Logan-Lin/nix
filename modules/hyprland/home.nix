@@ -578,20 +578,6 @@
         color: #89b4fa;  /* Blue - Battery */
       }
 
-      /* Battery state colors override base color */
-      #battery.charging {
-        color: #a6e3a1;  /* Bright green when charging */
-      }
-
-      #battery.warning:not(.charging) {
-        color: #fab387;  /* Orange for warning */
-      }
-
-      #battery.critical:not(.charging) {
-        color: #f38ba8;  /* Red for critical */
-        animation: blink 1s linear infinite;
-      }
-
       @keyframes blink {
         to {
           opacity: 0.5;
