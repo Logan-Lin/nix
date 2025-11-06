@@ -35,6 +35,11 @@ in
     arphic-uming            # MingTi/Song style (宋体) - serif style
     wqy_zenhei              # WenQuanYi Zen Hei - popular sans-serif with good coverage
 
+    # Japanese fonts
+    ipafont                        # IPA Gothic & Mincho - professional Japanese fonts (ゴシック体・明朝体)
+    mplus-outline-fonts.githubRelease  # M+ Family - modern Japanese font with multiple weights
+    kochi-substitute               # Kochi fonts - legacy MS Gothic/Mincho replacement
+
     # Custom fonts from config/fonts directory
     customFonts
   ];
