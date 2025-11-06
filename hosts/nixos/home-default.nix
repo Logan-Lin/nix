@@ -15,7 +15,7 @@
     ../../modules/dictionary.nix
     ../../modules/yt-dlp.nix
     ../../modules/claude-code.nix
-    ../../config/fonts.nix
+    ../../modules/fonts.nix
   ];
 
   home.username = "yanlin";
