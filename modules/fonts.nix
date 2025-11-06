@@ -1,5 +1,17 @@
 { pkgs, ... }:
 
+let
+  # Custom fonts from local files
+  customFonts = pkgs.stdenvNoCC.mkDerivation {
+    name = "custom-fonts";
+    src = ../config/fonts;
+
+    installPhase = ''
+      mkdir -p $out/share/fonts
+      find $src -type f \( -name "*.ttf" -o -name "*.otf" -o -name "*.ttc" -o -name "*.woff" -o -name "*.woff2" \) -exec cp {} $out/share/fonts/ \;
+    '';
+  };
+in
 {
   # Font packages
   home.packages = with pkgs; [
@@ -22,6 +34,9 @@
     arphic-ukai             # KaiTi style (楷体) - brush stroke style
     arphic-uming            # MingTi/Song style (宋体) - serif style
     wqy_zenhei              # WenQuanYi Zen Hei - popular sans-serif with good coverage
+
+    # Custom fonts from config/fonts directory
+    customFonts
   ];
 
   # Enable font configuration
