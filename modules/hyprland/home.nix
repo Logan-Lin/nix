@@ -407,6 +407,9 @@
       thunar "''${1:-.}" &>/dev/null &
       disown
     }
+
+    # Quickly restart Hyprland session (graceful logout)
+    alias hypr-restart='loginctl terminate-session'
   '';
 
   # Cursor theme configuration
@@ -473,7 +476,7 @@
         "pulseaudio" = {
           format = "{volume}% {icon}";
           format-bluetooth = "{volume}% {icon}";
-          format-muted = "{volume}% {icon}";
+          format-muted = "{volume}X {icon}";
           format-icons = {
             headphone = "";
             hands-free = "";
