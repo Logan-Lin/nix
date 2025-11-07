@@ -83,16 +83,20 @@ nixos-rebuild build --flake .#<host>
 ## Service Management (NixOS)
 
 ```bash
-# Check service status
+# Container services
+sudo systemctl start/stop/restart podman-<container>.service
+sudo systemctl status podman-<container>.service
+sudo journalctl -u podman-<container>.service -f  # Follow logs
+sudo journalctl -u podman-<container>.service -n 100  # Last 100 lines
+
+# Podman commands
+sudo podman ps -a
+sudo podman logs -f <container>
+sudo podman exec -it <container> bash
+
+# Other services
 systemctl status <service>
 journalctl -u <service> -f
-
-# Container management
-podman ps  # Actually podman
-podman logs <container>
-podman exec -it <container> bash
-
-# Systemd timers
 systemctl list-timers
 ```
 
