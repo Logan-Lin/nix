@@ -294,7 +294,7 @@ in
         # Build output template based on playlist mode
         local output_template
         if [[ "$playlist_mode" == true ]]; then
-          output_template="$DOWNLOAD_DIR/$platform_name/%(uploader|)s-%(playlist|)s/%(playlist_index|)03d-%(title)s.%(ext)s"
+          output_template="$DOWNLOAD_DIR/$platform_name/%(uploader|)s-%(playlist|)s/%(upload_date>%Y%m%d|)s-%(title)s.%(ext)s"
         else
           output_template="$DOWNLOAD_DIR/$platform_name/%(uploader|)s/%(upload_date>%Y%m%d|)s-%(title)s.%(ext)s"
         fi
