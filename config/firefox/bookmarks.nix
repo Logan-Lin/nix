@@ -128,7 +128,7 @@
                 }
                 {
                   name = "PTer";
-                  url = "https://pterclub.com/torrents.php";
+                  url = "https://pterclub.net/torrents.php";
                 }
                 {
                   name = "HDSky";
