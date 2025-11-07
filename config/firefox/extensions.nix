@@ -9,6 +9,7 @@ args:
         ublock-origin
         vimium
         cookies-txt
+        darkreader
       ]
     else [];
 }
