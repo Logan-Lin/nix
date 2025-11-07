@@ -388,7 +388,6 @@
     };
   };
 
-  # Qt theming packages
   home.packages = with pkgs; [
     adwaita-qt
     adwaita-qt6

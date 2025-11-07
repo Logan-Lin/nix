@@ -56,5 +56,6 @@
     })
     remmina
     chromium
+    localsend
   ];
 }
