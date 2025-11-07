@@ -143,5 +143,25 @@ in
       ];
     };
 
+    micro-weight = {
+      description = "Microscopic Weight Completion";
+      windows = [
+        {
+          name = "paper";
+          path = homePath "Documents/Projects/Microscopic Weights on Road Networks/MicroWeight-paper";
+          ai = true;
+          git = true;
+          shell = false;
+        }
+        {
+          name = "proj";
+          path = homePath "Documents/Projects/Microscopic Weights on Road Networks";
+          ai = false;
+          git = false;
+          shell = true;
+        }
+      ]
+    };
+
   };
 }
