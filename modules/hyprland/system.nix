@@ -82,5 +82,29 @@ in
       nwg-displays
       swaynotificationcenter
     ];
+
+    # Printing with Windows Samba printer support
+    services.printing = {
+      enable = true;
+      browsing = true;
+      drivers = with pkgs; [
+        cups-filters
+        gutenprint
+        samba  # SMB backend for Windows printers
+      ];
+    };
+
+    # Samba for SMB printer protocol
+    services.samba.enable = true;
+
+    # Avahi for network printer discovery
+    services.avahi = {
+      enable = true;
+      nssmdns4 = true;
+      openFirewall = true;
+    };
+
+    # Printer management GUI
+    programs.system-config-printer.enable = true;
   };
 }

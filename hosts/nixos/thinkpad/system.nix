@@ -173,18 +173,6 @@
     ];
   };
 
-  # Enable CUPS for printing
-  services.printing = {
-    enable = true;
-    drivers = with pkgs; [
-      cups-filters
-      gutenprint
-    ];
-  };
-
-  # Printer management GUI
-  programs.system-config-printer.enable = true;
-
   # Host-specific SSH configuration
   services.openssh = {
     settings = {
