@@ -88,6 +88,7 @@
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
+    wireplumber.enable = true;
   };
 
   # Touchpad configuration (host-specific overrides)

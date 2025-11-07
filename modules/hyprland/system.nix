@@ -40,7 +40,14 @@ in
         pkgs.xdg-desktop-portal-hyprland
         pkgs.xdg-desktop-portal-gtk
       ];
-      config.common.default = ["*"];
+      config = {
+        common = {
+          default = "hyprland;gtk";
+        };
+        hyprland = {
+          default = "hyprland;gtk";
+        };
+      };
     };
 
     # Configure touchpad settings
@@ -81,6 +88,8 @@ in
       pavucontrol
       nwg-displays
       swaynotificationcenter
+      qt5.qtwayland
+      qt6.qtwayland
     ];
 
     # Printing with Windows Samba printer support

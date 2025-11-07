@@ -99,6 +99,8 @@
         "GTK_THEME,Adwaita:dark"
         "XCURSOR_SIZE,24"
         "XCURSOR_THEME,Bibata-Modern-Ice"
+        "MOZ_ENABLE_WAYLAND,1"
+        "MOZ_DISABLE_RDD_SANDBOX,1"
       ];
 
       # Execute apps at launch
