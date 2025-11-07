@@ -429,7 +429,7 @@ in
         "--stop-timeout=120"      # 2 minute graceful shutdown
       ];
 
-      autoStart = true;
+      autoStart = false;
     };
 
   };
