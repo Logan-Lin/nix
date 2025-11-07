@@ -160,7 +160,7 @@ in
           git = false;
           shell = true;
         }
-      ]
+      ];
     };
 
   };
