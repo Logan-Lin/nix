@@ -55,5 +55,6 @@
       '';
     })
     remmina
+    chromium
   ];
 }
