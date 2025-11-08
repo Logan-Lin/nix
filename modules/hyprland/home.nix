@@ -399,7 +399,29 @@
     loupe
     wl-clipboard
     cliphist
+    redsocks
   ];
+
+  # Redsocks configuration for transparent SOCKS proxy
+  xdg.configFile."redsocks/redsocks.conf" = {
+    text = ''
+      base {
+        log_debug = off;
+        log_info = on;
+        log = "file:/tmp/redsocks.log";
+        daemon = on;
+        redirector = iptables;
+      }
+
+      redsocks {
+        local_ip = 127.0.0.1;
+        local_port = 12345;
+        ip = 127.0.0.1;
+        port = 1080;
+        type = socks5;
+      }
+    '';
+  };
 
   # Hyprland-specific shell configuration
   programs.zsh.initContent = ''
@@ -411,6 +433,127 @@
 
     # Quickly restart Hyprland session (graceful logout)
     alias hypr-restart='loginctl terminate-session'
+
+    # SSH tunnel functions for transparent system-wide SOCKS proxy via redsocks
+    function tunnel-on() {
+      if [[ -z "$1" ]]; then
+        echo "Usage: tunnel-on <host>"
+        return 1
+      fi
+
+      local host="$1"
+      local port=1080  # SOCKS port
+      local redsocks_port=12345  # Redsocks local port
+
+      # Check if there's already an active tunnel
+      local existing_tunnel=$(ps aux | grep -E "ssh -D $port" | grep -v grep)
+      if [[ -n "$existing_tunnel" ]]; then
+        echo "Existing tunnel detected. Switching to $host..."
+        echo "Stopping current tunnel..."
+        pkill -f "ssh -D $port"
+        sleep 1
+      fi
+
+      echo "Starting SOCKS tunnel to $host on port $port..."
+
+      # Start SSH tunnel in background
+      ssh -D $port -N -f "$host"
+      if [[ $? -ne 0 ]]; then
+        echo "✗ Failed to establish tunnel to $host"
+        return 1
+      fi
+      echo "✓ Tunnel established"
+
+      # Start redsocks
+      echo "Starting redsocks transparent proxy..."
+      redsocks -c ~/.config/redsocks/redsocks.conf
+      if [[ $? -ne 0 ]]; then
+        echo "✗ Failed to start redsocks"
+        pkill -f "ssh -D $port"
+        return 1
+      fi
+      echo "✓ Redsocks started"
+
+      # Configure iptables rules for transparent proxying
+      echo "Configuring iptables rules..."
+
+      # Create REDSOCKS chain if it doesn't exist
+      sudo iptables -t nat -N REDSOCKS 2>/dev/null || sudo iptables -t nat -F REDSOCKS
+
+      # Exclude localhost and private networks
+      sudo iptables -t nat -A REDSOCKS -d 127.0.0.0/8 -j RETURN
+      sudo iptables -t nat -A REDSOCKS -d 10.0.0.0/8 -j RETURN
+      sudo iptables -t nat -A REDSOCKS -d 192.168.0.0/16 -j RETURN
+
+      # Redirect all other TCP traffic to redsocks
+      sudo iptables -t nat -A REDSOCKS -p tcp -j REDIRECT --to-ports $redsocks_port
+
+      # Apply the REDSOCKS chain to OUTPUT
+      sudo iptables -t nat -A OUTPUT -p tcp -j REDSOCKS
+
+      echo "✓ System-wide proxy enabled (localhost:$port -> $host)"
+      echo "All TCP traffic is now routed through the SSH tunnel"
+    }
+
+    function tunnel-off() {
+      local port=1080
+
+      echo "Removing iptables rules..."
+      # Remove REDSOCKS chain from OUTPUT
+      sudo iptables -t nat -D OUTPUT -p tcp -j REDSOCKS 2>/dev/null
+      # Flush and delete REDSOCKS chain
+      sudo iptables -t nat -F REDSOCKS 2>/dev/null
+      sudo iptables -t nat -X REDSOCKS 2>/dev/null
+      echo "✓ iptables rules removed"
+
+      echo "Stopping redsocks..."
+      pkill -f "redsocks -c"
+      echo "✓ Redsocks stopped"
+
+      echo "Stopping SSH tunnels..."
+      pkill -f "ssh -D $port"
+      echo "✓ SSH tunnels stopped"
+
+      echo "System-wide proxy disabled"
+    }
+
+    function tunnel-status() {
+      local port=1080
+      local redsocks_port=12345
+
+      echo "=== SSH Tunnel Status ==="
+      local tunnels=$(ps aux | grep -E "ssh -D $port" | grep -v grep)
+      if [[ -n "$tunnels" ]]; then
+        echo "✓ Active SSH tunnel:"
+        echo "$tunnels"
+      else
+        echo "✗ No active SSH tunnels"
+      fi
+
+      echo ""
+      echo "=== Redsocks Status ==="
+      local redsocks=$(ps aux | grep -E "redsocks -c" | grep -v grep)
+      if [[ -n "$redsocks" ]]; then
+        echo "✓ Redsocks running:"
+        echo "$redsocks"
+      else
+        echo "✗ Redsocks not running"
+      fi
+
+      echo ""
+      echo "=== iptables REDSOCKS Chain ==="
+      if sudo iptables -t nat -L REDSOCKS -n 2>/dev/null | grep -q "Chain REDSOCKS"; then
+        echo "✓ REDSOCKS chain exists:"
+        sudo iptables -t nat -L REDSOCKS -n --line-numbers
+      else
+        echo "✗ REDSOCKS chain not configured"
+      fi
+
+      echo ""
+      echo "=== Network Test ==="
+      echo "Your current IP (via proxy if enabled):"
+      timeout 5 curl -s https://api.ipify.org 2>/dev/null || echo "Failed to fetch IP"
+    }
   '';
 
   # Cursor theme configuration

@@ -90,6 +90,7 @@ in
       swaynotificationcenter
       qt5.qtwayland
       qt6.qtwayland
+      iptables
     ];
 
     # Printing with Windows Samba printer support
