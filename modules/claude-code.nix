@@ -170,14 +170,6 @@ let
 
   # Default global memory content
   defaultGlobalMemory = ''
-    # Global Claude Code Instructions
-    - Never write shebang unless specifically requested
-    
-    ## NixOS
-    - I use nixOS for all my computers (global config in ~/.config/nix) and nix-shell for project-specific runtime management
-    - Check existing nix config when interacting with runtime environments
-    - Use `oss` alias for nixos-rebuild switch (cross-platform, works on both NixOS and nix-darwin)
-    - Use `hms` alias for home-manager switch
   '';
 
   # Global memory configuration
