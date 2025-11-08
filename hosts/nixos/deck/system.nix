@@ -5,13 +5,9 @@
     ./hardware-configuration.nix
     ./disk-config.nix
     ../system-default.nix  # Common NixOS system configuration
-    ../../../modules/gnome/system.nix
     ../../../modules/wireguard.nix
     ../../../modules/login-display.nix
   ];
-
-  # Desktop module configuration (disable GDM for Jovian autoStart mode)
-  gnome-system-custom.enableDisplayManager = false;
 
   # Bootloader - standard UEFI setup
   boot.loader = {
@@ -70,7 +66,7 @@
     steam = {
       enable = true;
       autoStart = true;
-      desktopSession = "gnome";
+      desktopSession = "gamescope-wayland";
       user = "yanlin";
     };
     devices.steamdeck = {

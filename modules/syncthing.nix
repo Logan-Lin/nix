@@ -64,9 +64,6 @@ in
         "thinkpad" = {
           id = "OMZKASU-QPZDCQ2-7QRHRD4-3TPAXLM-AYRMWXB-A6E5OIZ-MGR422V-JYARQA6";
         };
-        "deck" = {
-          id = "4LYWEFD-25FGQ7W-DQ7UC2R-LTJCTYQ-3UHXJUC-DRY2RIF-UFGNCZQ-LLFVDAX";
-        };
       };
       
       # Define shared folders (only enabled ones)
@@ -74,7 +71,7 @@ in
         (lib.optionalAttrs (lib.elem "Credentials" cfg.enabledFolders) {
           "Credentials" = {
             path = "~/Credentials";
-            devices = [ "iphone" "hs" "thinkpad" "deck" ];
+            devices = [ "iphone" "hs" "thinkpad" ];
             ignorePerms = true;
             versioning = commonVersioning;
           };
