@@ -10,6 +10,8 @@ let
     claude-code.packages.aarch64-darwin.claude-code
   else if pkgs.system == "x86_64-linux" then
     claude-code.packages.x86_64-linux.claude-code
+  else if pkgs.system == "aarch64-linux" then
+    claude-code.packages.aarch64-linux.claude-code
   else
     throw "Unsupported system for Claude Code: ${pkgs.system}";
 
