@@ -24,11 +24,6 @@
 
   programs.home-manager.enable = true;
 
-  # Claude Code configuration
-  programs.claude-code-custom = {
-    enable = true;
-  };
-
   # nixOS-specific alias
   programs.zsh.shellAliases = {
       oss = "sudo nixos-rebuild switch --flake ~/.config/nix#$(hostname)";
