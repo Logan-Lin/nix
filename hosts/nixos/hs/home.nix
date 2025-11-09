@@ -27,7 +27,6 @@
       "dlv youtube -n 3 -r 1 --min 1 --max 180 'https://www.youtube.com/@Shane_McGillicuddy/videos'"
       "dlv youtube -n 3 -r 1 --min 1 --max 180 'https://www.youtube.com/@Coffeezilla/videos'"
       "dlv youtube -n 3 -r 1 --min 1 --max 180 'https://www.youtube.com/@Danny-Gonzalez/videos'"
-      "dlv youtube -n 3 -r 1 --min 1 --max 180 'https://www.youtube.com/@rejectconvenience/videos'"
       "dlv youtube -n 3 -r 1 --min 1 --max 180 'https://www.youtube.com/@StuffMadeHere/videos'"
       "dlv youtube -n 3 -r 1 --min 1 --max 180 'https://www.youtube.com/@DankPods/videos'"
       "dlv youtube -n 3 -r 1 --min 1 --max 180 'https://www.youtube.com/@ScottTheWoz/videos'"
