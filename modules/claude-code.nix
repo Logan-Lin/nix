@@ -3,8 +3,6 @@
 with lib;
 
 let
-  cfg = config.programs.claude-code-custom;
-  
   # Detect system architecture and select appropriate package
   claudePackage = if pkgs.system == "aarch64-darwin" then
     claude-code.packages.aarch64-darwin.claude-code
@@ -167,36 +165,10 @@ let
     autoCompactEnabled = true;
   };
 
-  # Global permissions configuration
-  globalPermissions = if cfg.permissions != null then cfg.permissions else defaultPermissions;
-
-  # Default global memory content
-  defaultGlobalMemory = ''
-  '';
-
-  # Global memory configuration
-  globalMemoryContent = if cfg.globalMemory != null then cfg.globalMemory else defaultGlobalMemory;
-
 in
 
 {
-  options.programs.claude-code-custom = {
-    enable = mkEnableOption "Claude Code AI assistant";
-
-    permissions = mkOption {
-      type = types.nullOr (types.attrsOf (types.listOf types.str));
-      default = null;
-      description = "Global permissions configuration. If null, uses default permissions.";
-    };
-
-    globalMemory = mkOption {
-      type = types.nullOr types.str;
-      default = null;
-      description = "Global memory configuration for Claude Code. Content for ~/.claude/CLAUDE.md file. If null, uses default global memory.";
-    };
-  };
-
-  config = mkIf cfg.enable {
+  config = {
     # Install Claude Code package
     home.packages = [ claudePackage ];
 
@@ -205,14 +177,14 @@ in
       text = builtins.toJSON globalSettings;
     };
 
-    # Create global permissions file (optional, can be overridden per project)
+    # Create global permissions file
     home.file.".claude/permissions.json" = {
-      text = builtins.toJSON { permissions = globalPermissions; };
+      text = builtins.toJSON { permissions = defaultPermissions; };
     };
 
-    # Create global memory file (always created with default or custom content)
+    # Create global memory file
     home.file.".claude/CLAUDE.md" = {
-      text = globalMemoryContent;
+      text = "";
     };
   };
 }
