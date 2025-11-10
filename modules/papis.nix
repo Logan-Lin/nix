@@ -92,6 +92,9 @@
     # Open documents
     paopen = "papis open";
 
+    # Print document file path
+    papwd = "papis list --file";
+
     # Cache management
     pareset = "papis cache reset";
   };
