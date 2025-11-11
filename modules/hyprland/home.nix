@@ -480,10 +480,8 @@
       # Create REDSOCKS chain if it doesn't exist
       sudo iptables -t nat -N REDSOCKS 2>/dev/null || sudo iptables -t nat -F REDSOCKS
 
-      # Exclude localhost and private networks
+      # Exclude localhost networks
       sudo iptables -t nat -A REDSOCKS -d 127.0.0.0/8 -j RETURN
-      sudo iptables -t nat -A REDSOCKS -d 10.0.0.0/8 -j RETURN
-      sudo iptables -t nat -A REDSOCKS -d 192.168.0.0/16 -j RETURN
 
       # Redirect all other TCP traffic to redsocks
       sudo iptables -t nat -A REDSOCKS -p tcp -j REDIRECT --to-ports $redsocks_port
