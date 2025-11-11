@@ -121,9 +121,16 @@ in
       description = "Deep Learning for Trajectory";
       windows = [
         {
-          name = "";
-          path = homePath "Documents/Projects/Deep Learning for Spatiotemporal Trajectories";
+          name = "book";
+          path = homePath "Documents/Projects/Deep Learning for Spatiotemporal Trajectories/DL4Traj-latex";
           ai = true;
+          git = true;
+          shell = false;
+        }
+        {
+          name = "proj";
+          path = homePath "Documents/Projects/Deep Learning for Spatiotemporal Trajectories";
+          ai = false;
           git = false;
           shell = true;
         }
