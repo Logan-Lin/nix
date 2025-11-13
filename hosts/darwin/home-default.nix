@@ -40,11 +40,6 @@
     windowHeight = 999;
   };
 
-  # Claude Code configuration
-  programs.claude-code-custom = {
-    enable = true;
-  };
-
   home.username = "yanlin";
   home.homeDirectory = "/Users/yanlin";
   home.stateVersion = "24.05";
