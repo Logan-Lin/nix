@@ -23,6 +23,12 @@
     --partial
     --partial-dir=.rsync-partial
 
+    ${lib.optionalString pkgs.stdenv.isDarwin ''
+      # Preserve extended attributes and ACLs (macOS)
+      --extended-attributes
+      --acls
+    ''}
+
     # Network optimization
     --compress
     --compress-level=6
