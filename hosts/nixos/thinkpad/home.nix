@@ -42,7 +42,6 @@
     imagemagick
     inkscape
     vlc
-    wemeet
     obs-studio
     (pkgs.symlinkJoin {
       name = "ovito-wrapped";
