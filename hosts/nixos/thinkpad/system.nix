@@ -7,7 +7,6 @@
     ../../../modules/hyprland/system.nix
     ../../../modules/wireguard.nix
     ../../../modules/login-display.nix
-    ../../../modules/keyboard-toggle.nix
   ];
 
   # Bootloader - standard UEFI setup
@@ -188,6 +187,21 @@
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICp2goZiuSfwMA02GsHhYzUZHrQPPBgP5sWSNP9kQR3e yanlin@imac"
     ];
+  };
+
+  services.keyd = {
+    enable = true;
+    keyboards = {
+      internal = {
+        ids = [ "*" ];
+        settings = {
+          main = {
+            capslock = "leftcontrol";
+            leftalt = "leftmeta";
+          };
+        };
+      };
+    };
   };
 
   # Host-specific packages
