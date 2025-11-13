@@ -67,6 +67,9 @@ in
         "ipad" = {
           id = "ZN3W6K7-VTRRRMT-Y35PSVU-EARJ6FP-6JBFIOF-YAFUAUZ-2TSFW3T-5YGDZAO";
         };
+        "macbook" = {
+          id = "XPAMYJX-D7UZKPI-JBLTAWG-EBPSFYV-NEFV42V-NIUZKQN-KTVTGGP-OOXL5AT";
+        };
       };
       
       # Define shared folders (only enabled ones)
@@ -74,7 +77,7 @@ in
         (lib.optionalAttrs (lib.elem "Credentials" cfg.enabledFolders) {
           "Credentials" = {
             path = "~/Credentials";
-            devices = [ "iphone" "hs" "thinkpad" "ipad" ];
+            devices = [ "iphone" "hs" "thinkpad" "ipad" "macbook" ];
             ignorePerms = true;
             versioning = commonVersioning;
           };
@@ -82,7 +85,7 @@ in
         // (lib.optionalAttrs (lib.elem "Documents" cfg.enabledFolders) {
           "Documents" = {
             path = "~/Documents";
-            devices = [ "hs" "thinkpad" ];
+            devices = [ "hs" "thinkpad" "macbook" ];
             ignorePerms = true;
             versioning = commonVersioning;
           };
@@ -90,7 +93,7 @@ in
         // (lib.optionalAttrs (lib.elem "Obsidian" cfg.enabledFolders) {
           "Obsidian" = {
             path = "~/Obsidian";
-            devices = [ "hs" "thinkpad" ];
+            devices = [ "hs" "thinkpad" "macbook" ];
             ignorePerms = true;
             versioning = commonVersioning;
           };
