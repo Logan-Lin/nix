@@ -21,11 +21,13 @@ nix flake update
 
 ### New Host Installation
 ```bash
-# 1. Initialize disk with disko
+# For NixOS and disko
 sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko -- --mode disko --flake .#<host>
-
-# 2. Install NixOS
 sudo nixos-install --flake .#<host>
+
+# For nix-darwin
+sudo nix --extra-experimental-features "nix-command flakes" run nix-darwin -- switch --flake ~/.config/nix#<host>
+nix --extra-experimental-features "nix-command flakes" run home-manager/master -- switch --flake ~/.config/nix#<user>@<host>
 ```
 
 ### Occasional Commands
