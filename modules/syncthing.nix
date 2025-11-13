@@ -90,7 +90,7 @@ in
         // (lib.optionalAttrs (lib.elem "Obsidian" cfg.enabledFolders) {
           "Obsidian" = {
             path = "~/Obsidian";
-            devices = [ "iphone" "hs" "thinkpad" "ipad" ];
+            devices = [ "hs" "thinkpad" ];
             ignorePerms = true;
             versioning = commonVersioning;
           };
