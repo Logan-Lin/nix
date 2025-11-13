@@ -166,6 +166,7 @@
 
     # Command-line utilities
     ncdu
+    imagemagick
     git-credential-oauth
     zoxide
     delta
