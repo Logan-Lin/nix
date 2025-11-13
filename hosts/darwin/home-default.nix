@@ -177,6 +177,7 @@
     maccy          # Clipboard manager (macOS-only)
     iina           # Media player (macOS-optimized)
     hidden-bar     # Menu bar organizer (macOS-only)
+    localsend
 
     # Development and build tools
     python312
