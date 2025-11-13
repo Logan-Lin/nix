@@ -334,8 +334,8 @@
       
       # OS settings
       os = {
-        open = "xdg-open {{filename}}";
-        openLink = "xdg-open {{link}}";
+        open = if pkgs.stdenv.isDarwin then "open {{filename}}" else "xdg-open {{filename}}";
+        openLink = if pkgs.stdenv.isDarwin then "open {{link}}" else "xdg-open {{link}}";
       };
       
       # Disable startup popup
