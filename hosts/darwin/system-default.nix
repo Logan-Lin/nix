@@ -48,9 +48,9 @@
       expose-animation-duration = 0.5;     # Mission Control animation speed
       dashboard-in-overlay = false;          # Show Dashboard as overlay
       persistent-apps = [
+        "/Applications/Ghostty.app"
         "/Applications/Firefox.app"
         "/Applications/Obsidian.app"
-        "/Applications/Ghostty.app"
         "/Applications/KeePassXC.app"
       ];
       persistent-others = [

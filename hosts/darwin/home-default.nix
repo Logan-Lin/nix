@@ -183,4 +183,41 @@
     lazysql
     sqlite
   ];
+
+  # Startup applications via launchd agents
+  launchd.agents.snipaste = {
+    enable = true;
+    config = {
+      ProgramArguments = [ "/Applications/Snipaste.app/Contents/MacOS/Snipaste" ];
+      RunAtLoad = true;
+      KeepAlive = false;
+    };
+  };
+
+  launchd.agents.rectangle = {
+    enable = true;
+    config = {
+      ProgramArguments = [ "/Applications/Rectangle.app/Contents/MacOS/Rectangle" ];
+      RunAtLoad = true;
+      KeepAlive = false;
+    };
+  };
+
+  launchd.agents.maccy = {
+    enable = true;
+    config = {
+      ProgramArguments = [ "/Users/yanlin/Applications/Home Manager Apps/Maccy.app/Contents/MacOS/Maccy" ];
+      RunAtLoad = true;
+      KeepAlive = false;
+    };
+  };
+
+  launchd.agents.hidden-bar = {
+    enable = true;
+    config = {
+      ProgramArguments = [ "/Users/yanlin/Applications/Home Manager Apps/Hidden Bar.app/Contents/MacOS/Hidden Bar" ];
+      RunAtLoad = true;
+      KeepAlive = false;
+    };
+  };
 }
