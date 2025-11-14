@@ -23,7 +23,7 @@ in
     nerd-fonts.jetbrains-mono
 
     # Ubuntu font family
-    ubuntu_font_family
+    ubuntu-classic
 
     # CJK fonts for proper Chinese/Japanese/Korean character display
     noto-fonts-cjk-sans     # Comprehensive CJK support

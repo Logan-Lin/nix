@@ -4,14 +4,14 @@ with lib;
 
 let
   # Detect system architecture and select appropriate package
-  claudePackage = if pkgs.system == "aarch64-darwin" then
+  claudePackage = if pkgs.stdenv.hostPlatform.system == "aarch64-darwin" then
     claude-code.packages.aarch64-darwin.claude-code
-  else if pkgs.system == "x86_64-linux" then
+  else if pkgs.stdenv.hostPlatform.system == "x86_64-linux" then
     claude-code.packages.x86_64-linux.claude-code
-  else if pkgs.system == "aarch64-linux" then
+  else if pkgs.stdenv.hostPlatform.system == "aarch64-linux" then
     claude-code.packages.aarch64-linux.claude-code
   else
-    throw "Unsupported system for Claude Code: ${pkgs.system}";
+    throw "Unsupported system for Claude Code: ${pkgs.stdenv.hostPlatform.system}";
 
   # Default global permissions
   defaultPermissions = {
