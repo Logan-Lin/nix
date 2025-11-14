@@ -146,7 +146,7 @@
     Login = {
       HandleLidSwitch = "suspend";          # Suspend on lid close (all power modes)
       HandleLidSwitchDocked = "ignore";     # Don't suspend when docked
-      HandleLidSwitchExternalPower = "suspend";
+      HandleLidSwitchExternalPower = "ignore";  # Don't suspend when on external power (docked setup)
       HandlePowerKey = "suspend";           # Suspend on power button press
       HandleSuspendKey = "suspend";         # Allow manual suspend from GNOME menu
       HandleHibernateKey = "ignore";
