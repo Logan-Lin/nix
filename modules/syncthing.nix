@@ -12,6 +12,7 @@ let
     ".*.swp"
     ".*.swo"
     "*~"
+    ".Trash"
     ".Trash-*"
     "Thumbs.db"
     "desktop.ini"
