@@ -30,6 +30,7 @@
         setEnv = {
           TERM = "xterm-256color";
         };
+        proxyJump = "thinkpad";
       };
 
       "hs.lan" = {
@@ -48,6 +49,7 @@
         setEnv = {
           TERM = "xterm-256color";
         };
+        proxyJump = "vps";
       };
 
       "vps" = {
@@ -60,6 +62,7 @@
         hostname = "10.2.2.40";
         user = "yanlin";
         identityFile = "~/.ssh/keys/deck";
+        proxyJump = "vps";
       };
 
       "borg-box" = {
