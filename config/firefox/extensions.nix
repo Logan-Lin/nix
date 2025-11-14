@@ -5,7 +5,7 @@ args:
     firefox-addons = args.firefox-addons or null;
   in
     if firefox-addons != null then
-      with firefox-addons.packages.${args.pkgs.system}; [
+      with firefox-addons.packages.${args.pkgs.stdenv.hostPlatform.system}; [
         ublock-origin
         vimium
         cookies-txt
