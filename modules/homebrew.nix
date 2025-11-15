@@ -28,6 +28,7 @@
       "microsoft-word"
       "microsoft-excel"
       "rectangle"
+      "balenaetcher"
     ];
     taps = [
       # Additional repositories if needed
