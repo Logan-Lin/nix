@@ -56,6 +56,7 @@
     delta
     fastfetch
     coreutils      # GNU core utilities (base64, etc.)
+    bzip2
 
     # Development and build tools
     python312

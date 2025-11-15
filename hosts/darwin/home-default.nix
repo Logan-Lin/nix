@@ -173,6 +173,7 @@
     fastfetch
     coreutils      # GNU core utilities (base64, etc.)
     tree
+    bzip2
 
     # macOS-specific GUI applications
     maccy          # Clipboard manager (macOS-only)
