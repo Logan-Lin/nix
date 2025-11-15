@@ -172,6 +172,7 @@
     delta
     fastfetch
     coreutils      # GNU core utilities (base64, etc.)
+    tree
 
     # macOS-specific GUI applications
     maccy          # Clipboard manager (macOS-only)
