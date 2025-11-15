@@ -58,13 +58,6 @@
         identityFile = "~/.ssh/keys/hetzner";
       };
 
-      "deck" = {
-        hostname = "10.2.2.40";
-        user = "yanlin";
-        identityFile = "~/.ssh/keys/deck";
-        proxyJump = "vps";
-      };
-
       "borg-box" = {
         hostname = "u501367.your-storagebox.de";
         user = "u501367";

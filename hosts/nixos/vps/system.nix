@@ -126,11 +126,6 @@
           publicKey = "p3442J2HBGY5Pksu+0F4SFkBGjG99KIgwyk8eAt4YmA=";
           allowedIPs = [ "10.2.2.30/32" ];
         }
-        {
-          name = "deck";
-          publicKey = "mHCmvSUxQNentlznNYEa4Wv0Uw8xktWoAH60u9pMJXQ=";
-          allowedIPs = [ "10.2.2.40/32" ];
-        }
       ];
     };
   };
