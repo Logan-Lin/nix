@@ -95,10 +95,12 @@
       
       # Git settings
       git = {
-        paging = {
-          colorArg = "always";
-          pager = "delta --dark --paging=never";
-        };
+        pagers = [
+          {
+            colorArg = "always";
+            pager = "delta --dark --paging=never";
+          }
+        ];
         
         # Commit settings
         commit = {
@@ -246,7 +248,7 @@
           viewResetOptions = "D";
           fetch = "f";
           toggleTreeView = "`";
-          openMergeTool = "M";
+          openMergeOptions = "M";
           openStatusFilter = "<c-b>";
         };
         
