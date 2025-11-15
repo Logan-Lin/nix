@@ -14,14 +14,6 @@
           url = "https://paperless.yanlincs.com";
         }
         {
-          name = "Nextcloud";
-          url = "https://cloud.yanlincs.com";
-        }
-        {
-          name = "RSS";
-          url = "https://rss.yanlincs.com";
-        }
-        {
           name = "Immich";
           url = "https://photo.yanlincs.com/photos";
         }

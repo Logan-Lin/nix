@@ -33,19 +33,6 @@
           };
         };
 
-        # Cloud service (Nextcloud)
-        cloud = {
-          rule = "Host(`cloud.yanlincs.com`)";
-          entrypoints = "websecure";
-          service = "cloud";
-          tls = {
-            certResolver = "cloudflare";
-            domains = [{
-              main = "*.yanlincs.com";
-            }];
-          };
-        };
-
         # Sonarr TV show management
         sonarr = {
           rule = "Host(`sonarr.yanlincs.com`)";
@@ -77,19 +64,6 @@
           rule = "Host(`paperless.yanlincs.com`)";
           entrypoints = "websecure";
           service = "paperless";
-          tls = {
-            certResolver = "cloudflare";
-            domains = [{
-              main = "*.yanlincs.com";
-            }];
-          };
-        };
-
-        # RSS reader (Miniflux)
-        rss = {
-          rule = "Host(`rss.yanlincs.com`)";
-          entrypoints = "websecure";
-          service = "rss";
           tls = {
             certResolver = "cloudflare";
             domains = [{
@@ -157,15 +131,6 @@
           };
         };
 
-        # Cloud service backend (via WireGuard)
-        cloud = {
-          loadBalancer = {
-            servers = [{
-              url = "http://10.2.2.20:5001";
-            }];
-          };
-        };
-
         # Sonarr backend (via WireGuard)
         sonarr = {
           loadBalancer = {
@@ -189,15 +154,6 @@
           loadBalancer = {
             servers = [{
               url = "http://10.2.2.20:5005";
-            }];
-          };
-        };
-
-        # RSS reader backend (via WireGuard)
-        rss = {
-          loadBalancer = {
-            servers = [{
-              url = "http://10.2.2.20:5006";
             }];
           };
         };
