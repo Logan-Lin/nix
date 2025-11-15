@@ -21,16 +21,12 @@ in
     
     shellAliases = {
       ll = "ls -alF";
-      zi = "z -i";  # Interactive selection with fzf
 
       # Nix helpers
       hm = "home-manager";
       hms = "home-manager switch --flake ~/.config/nix#$(whoami)@$(hostname)";
       hms-offline = "home-manager switch --flake ~/.config/nix#$(whoami)@$(hostname) --option substitute false";
       fs = "oss && hms";
-
-      # Steam Deck screenshot and game recording sync
-      deck-ss = "rsync -avh --progress 'deck:.local/share/Steam/userdata/*/760/remote/*/screenshots/' ~/Pictures/Steam/ && rsync -avh --progress 'deck:.local/share/Steam/userdata/*/gamerecordings/' ~/Pictures/Steam/recordings/";
     };
     
     initContent = ''
