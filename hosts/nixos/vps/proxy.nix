@@ -111,6 +111,19 @@
           };
         };
 
+        # Dufs file server
+        files = {
+          rule = "Host(`files.yanlincs.com`)";
+          entrypoints = "websecure";
+          service = "files";
+          tls = {
+            certResolver = "cloudflare";
+            domains = [{
+              main = "*.yanlincs.com";
+            }];
+          };
+        };
+
       };
       services = {
         # Redirect service
@@ -181,6 +194,15 @@
           loadBalancer = {
             servers = [{
               url = "http://10.2.2.20:8080";
+            }];
+          };
+        };
+
+        # Dufs backend (via WireGuard)
+        files = {
+          loadBalancer = {
+            servers = [{
+              url = "http://10.2.2.20:5099";
             }];
           };
         };
