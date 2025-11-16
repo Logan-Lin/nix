@@ -12,7 +12,8 @@
     after-login-command = []
     after-startup-command = []
 
-    start-at-login = true
+    # Auto-start managed by launchd agent (see bottom of this file)
+    start-at-login = false
 
     # Normalizations
     enable-normalization-flatten-containers = true
