@@ -16,6 +16,17 @@
           };
         };
 
+        files = {
+          rule = "Host(`files.${config.networking.hostName}.yanlincs.com`)";
+          service = "files";
+          tls = {
+            certResolver = "cloudflare";
+            domains = [{
+              main = "*.${config.networking.hostName}.yanlincs.com";
+            }];
+          };
+        };
+
       };
 
       services = {
@@ -23,6 +34,14 @@
           loadBalancer = {
             servers = [{
               url = "http://localhost:8384";
+            }];
+          };
+        };
+
+        files = {
+          loadBalancer = {
+            servers = [{
+              url = "http://localhost:5099";
             }];
           };
         };
