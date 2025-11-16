@@ -27,7 +27,6 @@
       "microsoft-powerpoint"
       "microsoft-word"
       "microsoft-excel"
-      "rectangle"
       "balenaetcher"
     ];
     taps = [
