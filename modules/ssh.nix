@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
   programs.ssh = {
@@ -21,6 +21,13 @@
         hostname = "ai-fe02.srv.aau.dk";
         user = "hb05nk@cs.aau.dk";
         identityFile = "~/.ssh/keys/aicloud";
+        proxyJump = "thinkpad";
+      };
+
+      "aicloud.lan" = {
+        hostname = "ai-fe02.srv.aau.dk";
+        user = "hb05nk@cs.aau.dk";
+        identityFile = "~/.ssh/keys/aicloud";
       };
 
       "hs" = {
@@ -30,7 +37,8 @@
         setEnv = {
           TERM = "xterm-256color";
         };
-        proxyJump = "thinkpad";
+      } // lib.optionalAttrs pkgs.stdenv.isDarwin {
+        proxyJump = "vps";
       };
 
       "hs.lan" = {
@@ -49,6 +57,7 @@
         setEnv = {
           TERM = "xterm-256color";
         };
+      } // lib.optionalAttrs pkgs.stdenv.isDarwin {
         proxyJump = "vps";
       };
 
