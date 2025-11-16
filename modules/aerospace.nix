@@ -51,6 +51,9 @@
     alt-f = 'fullscreen'
     alt-shift-space = 'layout floating tiling' # Toggle float/tile
 
+    # Application launcher (matching Hyprland: Super+Return for terminal)
+    alt-enter = 'exec-and-forget open -n -a Ghostty'
+
     # Window focus navigation (vim-style: alt+h/j/k/l)
     alt-h = 'focus left'
     alt-j = 'focus down'
