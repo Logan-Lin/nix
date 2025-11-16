@@ -14,7 +14,17 @@
     ../../../modules/ghostty.nix
     ../../../modules/papis.nix
     ../../../modules/libreoffice.nix
+    ../../../modules/schedule.nix
   ];
+
+  services.scheduled-commands.aicloud-backup = {
+    enable = true;
+    description = "Backup aicloud files";
+    interval = "*-*-* 06:00:00";
+    commands = [
+      "rsync -avP aicloud.lan:~/ ~/Backup/aicloud/ --exclude='/.*'"
+    ];
+  };
 
   programs.yt-dlp-custom = {
     enable = true;
