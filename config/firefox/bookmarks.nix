@@ -142,6 +142,10 @@
                   name = "dmhy";
                   url = "https://share.dmhy.org/";
                 }
+                {
+                  name = "Azusa";
+                  url = "https://azusa.wiki/torrents.php";
+                }
               ];
             }
           ];
