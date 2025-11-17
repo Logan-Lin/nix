@@ -266,7 +266,7 @@
 
   # Dufs WebDAV file server
   services.dufs = {
-    sharedPath = "/mnt/storage/Media/nsfw";
+    sharedPath = "/mnt/storage/Media";
     port = 5099;
     auth = "yanlin:jbaRRsciNUXTRqswdggKPICG27TNvyTRUfod2RBD";
   };
