@@ -112,8 +112,16 @@ in
           echo "$target"
         fi
       }
-      
-      
+
+      # Function to show current directory in file manager
+      function fm() {
+        local current_dir="$(pwd)"
+        ${if pkgs.stdenv.isDarwin then
+          "open -R \"$current_dir\""
+        else
+          "thunar \"$current_dir\" &"}
+      }
+
       # Interactive project launcher with fzf
       function proj() {
         local project_json="$HOME/.config/nix/config/projects.json"
