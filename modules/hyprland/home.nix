@@ -286,10 +286,10 @@
     enable = true;
     settings = {
       preload = [
-        "/home/yanlin/Documents/Library/nixos-nineish-dark@4k.png"
+        "/home/yanlin/Documents/app-state/nixos-nineish-dark@4k.png"
       ];
       wallpaper = [
-        ",/home/yanlin/Documents/Library/nixos-nineish-dark@4k.png"
+        ",/home/yanlin/Documents/app-state/nixos-nineish-dark@4k.png"
       ];
     };
   };
