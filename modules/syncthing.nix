@@ -34,8 +34,8 @@ in
   options.syncthing-custom = {
     enabledFolders = lib.mkOption {
       type = lib.types.listOf lib.types.str;
-      default = [ "Credentials" "Documents" "Obsidian" ];
-      description = "List of Syncthing folders to enable for this host. Available: Credentials, Documents, Obsidian";
+      default = [ "Credentials" "Documents" "Obsidian" "Archive" ];
+      description = "List of Syncthing folders to enable for this host.";
     };
   };
 
@@ -98,6 +98,14 @@ in
             ignorePerms = true;
             versioning = commonVersioning;
           };
+        })
+        // (lib.optionalAttrs (lib.elem "Archive" cfg.enabledFolders) {
+          "Archive" = {
+            path = "~/Archive";
+            devices = [ "iphone" "hs" "thinkpad" "ipad" "macbook" ];
+            ignorePerms = true;
+            versioning = commonVersioning;
+          };
         });
       
       # GUI settings with authentication
@@ -133,6 +141,9 @@ in
     })
     (lib.mkIf (lib.elem "Obsidian" cfg.enabledFolders) {
       "Obsidian/.stignore".text = stignoreContent;
+    })
+    (lib.mkIf (lib.elem "Archive" cfg.enabledFolders) {
+      "Archive/.stignore".text = stignoreContent;
     })
   ];
 
