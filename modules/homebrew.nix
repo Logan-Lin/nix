@@ -29,6 +29,10 @@
       "microsoft-excel"
       "balenaetcher"
       "rectangle"
+      "maccy"
+      "iina"
+      "hiddenbar"
+      "localsend"
     ];
     taps = [
       # Additional repositories if needed

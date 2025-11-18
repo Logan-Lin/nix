@@ -175,12 +175,6 @@
     tree
     bzip2
 
-    # macOS-specific GUI applications
-    maccy          # Clipboard manager (macOS-only)
-    iina           # Media player (macOS-optimized)
-    hidden-bar     # Menu bar organizer (macOS-only)
-    localsend
-
     # Development and build tools
     python312
     uv
@@ -201,7 +195,7 @@
   launchd.agents.maccy = {
     enable = true;
     config = {
-      ProgramArguments = [ "/Users/yanlin/Applications/Home Manager Apps/Maccy.app/Contents/MacOS/Maccy" ];
+      ProgramArguments = [ "/Applications/Maccy.app/Contents/MacOS/Maccy" ];
       RunAtLoad = true;
       KeepAlive = false;
     };
@@ -210,7 +204,7 @@
   launchd.agents.hidden-bar = {
     enable = true;
     config = {
-      ProgramArguments = [ "/Users/yanlin/Applications/Home Manager Apps/Hidden Bar.app/Contents/MacOS/Hidden Bar" ];
+      ProgramArguments = [ "/Applications/Hidden Bar.app/Contents/MacOS/Hidden Bar" ];
       RunAtLoad = true;
       KeepAlive = false;
     };
