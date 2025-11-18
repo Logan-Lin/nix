@@ -130,12 +130,6 @@
   system.activationScripts.extraActivation.text = ''
     sudo -u yanlin defaults -currentHost write -globalDomain NSStatusItemSpacing -int 10
 
-    # Disable Spotlight indexing for all volumes
-    # WARNING: This will break Mail.app search, Time Machine, and other features
-    # To re-enable: sudo mdutil -a -i on
-    sudo mdutil -a -i off
-    sudo mdutil -E /
-
     /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
   '';
 
