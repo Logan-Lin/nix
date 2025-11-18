@@ -11,7 +11,7 @@ in
     enableDisplayManager = mkOption {
       type = types.bool;
       default = true;
-      description = "Enable greetd display manager (conflicts with jovian.steam.autoStart)";
+      description = "Enable greetd display manager";
     };
   };
 

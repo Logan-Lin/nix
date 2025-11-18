@@ -15,7 +15,7 @@ in
     enableDisplayManager = mkOption {
       type = types.bool;
       default = true;
-      description = "Enable GDM display manager (conflicts with jovian.steam.autoStart)";
+      description = "Enable GDM display manager";
     };
   };
 
