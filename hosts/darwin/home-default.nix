@@ -21,7 +21,6 @@
     ../../modules/claude-code.nix
     ../../modules/tex.nix
     ../../modules/fonts.nix
-    ../../modules/aerospace.nix
   ];
 
   nixpkgs.config.allowUnfree = true;
@@ -212,6 +211,15 @@
     enable = true;
     config = {
       ProgramArguments = [ "/Users/yanlin/Applications/Home Manager Apps/Hidden Bar.app/Contents/MacOS/Hidden Bar" ];
+      RunAtLoad = true;
+      KeepAlive = false;
+    };
+  };
+
+  launchd.agents.rectangle = {
+    enable = true;
+    config = {
+      ProgramArguments = [ "/Applications/Rectangle.app/Contents/MacOS/Rectangle" ];
       RunAtLoad = true;
       KeepAlive = false;
     };
