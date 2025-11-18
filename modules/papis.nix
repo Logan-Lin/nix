@@ -36,7 +36,7 @@ in
     picktool = fzf
     
     [main]
-    dir = ~/Documents/Library/papis
+    dir = ~/Documents/app-state/papis
     
     # Local configuration for the main library
     local-config-file = .papisrc
@@ -44,7 +44,7 @@ in
 
   # Create the papis library directory
   home.activation.createPapisDir = ''
-    mkdir -p ~/Documents/Library/papis
+    mkdir -p ~/Documents/app-state/papis
   '';
 
   # Papis bibliography template
