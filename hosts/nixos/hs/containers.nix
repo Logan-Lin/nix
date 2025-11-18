@@ -249,55 +249,5 @@ in
       autoStart = true;
     };
 
-    # Paperless document management system
-    paperless = {
-      image = "ghcr.io/paperless-ngx/paperless-ngx:latest";
-      
-      volumes = [
-        "/var/lib/containers/config/paperless:/usr/src/paperless/data"
-        "/mnt/storage/appbulk/Paperless/media:/usr/src/paperless/media"
-        "/mnt/storage/appbulk/Paperless/consume:/usr/src/paperless/consume"
-        "/mnt/storage/appbulk/Paperless/export:/usr/src/paperless/export"
-      ];
-
-      environment = {
-        PAPERLESS_REDIS = "redis://paperless-redis:6379";
-        PAPERLESS_OCR_LANGUAGE = "eng+chi_sim";
-        PAPERLESS_OCR_LANGUAGES = "chi-sim";
-        PAPERLESS_FILENAME_FORMAT = "{{ created }}-{{ correspondent }}-{{ title }}";
-        PAPERLESS_TIME_ZONE = "Europe/Copenhagen";
-        PAPERLESS_URL = "https://paperless.yanlincs.com";
-        PAPERLESS_CSRF_TRUSTED_ORIGINS = "https://paperless.yanlincs.com";
-        PAPERLESS_ALLOWED_HOSTS = "paperless.yanlincs.com";
-        PAPERLESS_CORS_ALLOWED_HOSTS = "https://paperless.yanlincs.com";
-        PAPERLESS_SECRET_KEY = "e11fl1oa-*ytql8p)(06fbj4ukrlo+n7k&q5+$1md7i+mge=ee";
-        USERMAP_UID = commonUID;
-        USERMAP_GID = commonGID;
-        CA_TS_FALLBACK_DIR = "/usr/src/paperless/data";
-      };
-      
-      ports = [
-        "5005:8000"
-      ];
-      
-      extraOptions = [
-        "--network=podman"
-      ];
-      
-      dependsOn = [ "paperless-redis" ];
-      autoStart = true;
-    };
-
-    # Redis cache for Paperless
-    paperless-redis = {
-      image = "docker.io/redis:7.2-alpine";
-      
-      extraOptions = [
-        "--network=podman"
-      ];
-      
-      autoStart = true;
-    };
-
   };
 }
