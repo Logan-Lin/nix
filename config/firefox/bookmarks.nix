@@ -14,6 +14,10 @@
           url = "https://photo.yanlincs.com/photos";
         }
         {
+          name = "Overleaf";
+          url = "https://www.overleaf.com/project";
+        }
+        {
           name = "Productivity";
           bookmarks = [
             {
@@ -58,10 +62,6 @@
         {
           name = "Scholar";
           bookmarks = [
-            {
-              name = "Overleaf";
-              url = "https://www.overleaf.com/project";
-            }
             {
               name = "OpenReview";
               url = "https://openreview.net/";
