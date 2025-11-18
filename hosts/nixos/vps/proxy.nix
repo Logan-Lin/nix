@@ -59,19 +59,6 @@
           };
         };
 
-        # Paperless document management
-        paperless = {
-          rule = "Host(`paperless.yanlincs.com`)";
-          entrypoints = "websecure";
-          service = "paperless";
-          tls = {
-            certResolver = "cloudflare";
-            domains = [{
-              main = "*.yanlincs.com";
-            }];
-          };
-        };
-
         # Jellyfin Media Server
         jellyfin = {
           rule = "Host(`jellyfin.yanlincs.com`)";
@@ -158,15 +145,6 @@
           loadBalancer = {
             servers = [{
               url = "http://10.2.2.20:5004";
-            }];
-          };
-        };
-
-        # Paperless backend (via WireGuard)
-        paperless = {
-          loadBalancer = {
-            servers = [{
-              url = "http://10.2.2.20:5005";
             }];
           };
         };
