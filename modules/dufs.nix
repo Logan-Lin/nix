@@ -2,6 +2,7 @@
 
 let
   cfg = config.services.dufs;
+  authFile = "/etc/dufs-auth";
 in
 {
   options.services.dufs = {
@@ -17,13 +18,6 @@ in
       default = 5099;
       description = "Port to listen on";
     };
-
-    auth = lib.mkOption {
-      type = lib.types.nullOr lib.types.str;
-      default = null;
-      description = "Basic authentication in format 'username:password'. Will be automatically formatted for dufs.";
-      example = "admin:secret123";
-    };
   };
 
   config = lib.mkIf (cfg.sharedPath != null) {
@@ -31,6 +25,9 @@ in
     environment.systemPackages = [ pkgs.dufs ];
 
     # Create systemd service
+    # NOTE: Authentication credentials must be manually created in /etc/dufs-auth
+    # The file should contain a single line in format: username:password
+    # Make sure to set permissions: chmod 600 /etc/dufs-auth
     systemd.services.dufs = {
       description = "Dufs WebDAV File Server";
       wantedBy = [ "multi-user.target" ];
@@ -39,8 +36,7 @@ in
       serviceConfig = {
         Type = "simple";
         User = "root";  # Run as root to access any system path
-        ExecStart = "${pkgs.dufs}/bin/dufs ${cfg.sharedPath} --port ${toString cfg.port} --bind 0.0.0.0"
-          + lib.optionalString (cfg.auth != null) " --auth ${cfg.auth}@/:rw";
+        ExecStart = "${pkgs.dufs}/bin/dufs ${cfg.sharedPath} --port ${toString cfg.port} --bind 0.0.0.0 --auth $(cat ${authFile})@/:rw";
         Restart = "on-failure";
         RestartSec = "10s";
       };
