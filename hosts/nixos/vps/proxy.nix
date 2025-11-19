@@ -9,7 +9,6 @@
         # Photo service (Immich)
         photo = {
           rule = "Host(`photo.yanlincs.com`)";
-          entrypoints = "websecure";
           service = "photo";
           tls = {
             certResolver = "cloudflare";
@@ -22,7 +21,6 @@
         # Sonarr TV show management
         sonarr = {
           rule = "Host(`sonarr.yanlincs.com`)";
-          entrypoints = "websecure";
           service = "sonarr";
           tls = {
             certResolver = "cloudflare";
@@ -35,7 +33,6 @@
         # Radarr movie management
         radarr = {
           rule = "Host(`radarr.yanlincs.com`)";
-          entrypoints = "websecure";
           service = "radarr";
           tls = {
             certResolver = "cloudflare";
@@ -48,7 +45,6 @@
         # Jellyfin Media Server
         jellyfin = {
           rule = "Host(`jellyfin.yanlincs.com`)";
-          entrypoints = "websecure";
           service = "jellyfin";
           tls = {
             certResolver = "cloudflare";
@@ -61,7 +57,6 @@
         # Plex Media Server
         plex = {
           rule = "Host(`plex.yanlincs.com`)";
-          entrypoints = "websecure";
           service = "plex";
           tls = {
             certResolver = "cloudflare";
@@ -74,7 +69,6 @@
         # qBittorrent torrent client
         qbit = {
           rule = "Host(`qbit.yanlincs.com`)";
-          entrypoints = "websecure";
           service = "qbit";
           tls = {
             certResolver = "cloudflare";
@@ -87,7 +81,6 @@
         # Dufs file server
         files = {
           rule = "Host(`files.yanlincs.com`)";
-          entrypoints = "websecure";
           service = "files";
           tls = {
             certResolver = "cloudflare";
@@ -98,6 +91,7 @@
         };
 
       };
+
       services = {
 
         # Photo service backend (via WireGuard)
@@ -165,7 +159,6 @@
 
       };
 
-      middlewares = { };
     };
   };
 }
