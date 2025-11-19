@@ -85,6 +85,9 @@ in
     # Add new entry with bibtex
     paadd = "papis add --from bibtex";
 
+    # Remove/delete entries
+    parm = "papis rm";
+
     # BibTeX export
     pabib = "papis list --template \"$HOME/${papisConfigDir}/templates/bibtex.template\"";
 
