@@ -5,20 +5,6 @@
   services.traefik.dynamicConfigOptions = {
     http = {
       routers = {
-        # Redirect from yanlincs.com to www.yanlincs.com
-        homepage-redirect = {
-          rule = "Host(`yanlincs.com`)";
-          entrypoints = "websecure";
-          service = "homepage-redirect";
-          middlewares = [ "homepage-redirect" ];
-          tls = {
-            certResolver = "cloudflare";
-            domains = [{
-              main = "yanlincs.com";
-              sans = [ "www.yanlincs.com" ];
-            }];
-          };
-        };
 
         # Photo service (Immich)
         photo = {
@@ -113,14 +99,6 @@
 
       };
       services = {
-        # Redirect service
-        homepage-redirect = {
-          loadBalancer = {
-            servers = [{
-              url = "http://localhost:1"; # Dummy backend, won't be used due to redirect
-            }];
-          };
-        };
 
         # Photo service backend (via WireGuard)
         photo = {
@@ -186,16 +164,8 @@
         };
 
       };
-      middlewares = {
-        # Redirect middleware
-        homepage-redirect = {
-          redirectRegex = {
-            regex = "^https://yanlincs\\.com/(.*)";
-            replacement = "https://www.yanlincs.com/$1";
-            permanent = true;
-          };
-        };
-      };
+
+      middlewares = { };
     };
   };
 }
