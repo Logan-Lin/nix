@@ -112,8 +112,7 @@ in
       gui = {
         enabled = true;
         user = "yanlin";
-        password = "1Hayashi-2Hiko"; # You should change this password
-        useTLS = false; # TLS is handled by Traefik
+        useTLS = false;
       };
       
       # Additional settings
