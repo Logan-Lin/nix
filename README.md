@@ -7,11 +7,12 @@ Flake-based NixOS configuration with home-manager.
 ### Daily Use
 ```bash
 # System rebuild
-sudo nixos-rebuild switch --flake .#<host>
+sudo nixos-rebuild switch --flake .#<host>  # NixOS
+sudo darwin-rebuild switch --flake .#<host>  # Nix-darwin
 # or use alias: oss
 
 # Home Manager
-home-manager switch --flake .#yanlin@<host>
+home-manager switch --flake .#<user>@<host>
 # or use alias: hms
 # the full switch alias `fs` will perform system rebuild then home manager switch
 
@@ -22,12 +23,12 @@ nix flake update
 ### New Host Installation
 ```bash
 # For NixOS and disko
-sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko -- --mode disko --flake .#<host>
+sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko -- --mode disko --flake github:Logan-Lin/nix-config#<host>
 sudo nixos-install --flake .#<host>
 
 # For nix-darwin
-sudo nix --extra-experimental-features "nix-command flakes" run nix-darwin -- switch --flake ~/.config/nix#<host>
-nix --extra-experimental-features "nix-command flakes" run home-manager/master -- switch --flake ~/.config/nix#<user>@<host>
+sudo nix --extra-experimental-features "nix-command flakes" run nix-darwin -- switch --flake github:Logan-Lin/nix-config#<host>
+nix --extra-experimental-features "nix-command flakes" run home-manager/master -- switch --flake github:Logan-Lin/nix-config#<user>@<host>
 ```
 
 ### Occasional Commands
@@ -45,9 +46,6 @@ nix search nixpkgs <package>
 
 # Rollback
 sudo nixos-rebuild switch --rollback
-
-# Build without switching
-nixos-rebuild build --flake .#<host>
 ```
 
 ## Structure
@@ -56,7 +54,11 @@ nixos-rebuild build --flake .#<host>
 .
 ├── flake.nix           # Entry point
 ├── hosts/
-│   └── nixos/          # NixOS configurations
+│   ├── nixos/          # NixOS configurations
+│   │   ├── system-default.nix
+│   │   ├── home-default.nix
+│   │   └── <host>/
+│   └── darwin/         # Nix-darwin configurations
 │       ├── system-default.nix
 │       ├── home-default.nix
 │       └── <host>/
@@ -75,6 +77,7 @@ nixos-rebuild build --flake .#<host>
 - `oss` - Rebuild NixOS system
 - `cdf` - Interactive file search with cd
 - `pwdf` - Get file path interactively
+- `fm` - Open current directory in GUI file manager
 
 ### Tmux Reminders
 - Prefix: `Ctrl-a`
@@ -82,7 +85,7 @@ nixos-rebuild build --flake .#<host>
 - Navigate: `hjkl`
 - Resize: `HJKL`
 
-## Service Management (NixOS)
+## Service Management
 
 ```bash
 # Container services
