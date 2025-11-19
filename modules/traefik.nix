@@ -77,22 +77,9 @@
     BindPaths = [ "/run/podman/podman.sock:/var/run/docker.sock" ];
   };
 
-  # Create environment file for Traefik Cloudflare credentials
-  systemd.services.traefik-env-setup = {
-    description = "Setup Traefik environment file";
-    before = [ "traefik.service" ];
-    wantedBy = [ "multi-user.target" ];
-    serviceConfig = {
-      Type = "oneshot";
-      RemainAfterExit = true;
-    };
-    script = ''
-      mkdir -p /run/secrets
-      cat > /run/secrets/traefik-env << 'EOF'
-      CF_API_EMAIL=cloudflare@yanlincs.com
-      CF_DNS_API_TOKEN=JtIInpXOB8NIDGuYvjyV6kLCysN0mb7MKvryuya-
-      EOF
-      chmod 600 /run/secrets/traefik-env
-    '';
-  };
+  # NOTE: Cloudflare credentials must be manually created in /run/secrets/traefik-env
+  # The file should contain:
+  #   CF_API_EMAIL=your-email@example.com
+  #   CF_DNS_API_TOKEN=your-cloudflare-api-token
+  # Make sure to set permissions: chmod 600 /run/secrets/traefik-env
 }
