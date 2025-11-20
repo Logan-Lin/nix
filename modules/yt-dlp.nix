@@ -175,6 +175,7 @@ in
         local min_duration=""
         local max_duration=""
         local title_filter=""
+        local days_filter=""
         local url=""
 
         # Parse arguments
@@ -204,6 +205,10 @@ in
               title_filter="$2"
               shift 2
               ;;
+            --days|--within-days)
+              days_filter="$2"
+              shift 2
+              ;;
             youtube|bilibili)
               platform="$1"
               shift
@@ -231,12 +236,14 @@ in
           echo "  --min <minutes>            Minimum video duration in minutes"
           echo "  --max <minutes>            Maximum video duration in minutes"
           echo "  --title <string>           Filter videos by title (case-insensitive)"
+          echo "  --days <number>            Download videos uploaded within N days"
           echo ""
           echo "Examples:"
           echo "  dlv youtube <url>                         - Download single YouTube video"
           echo "  dlv youtube -p <url>                      - Download YouTube playlist"
           echo "  dlv youtube --min 5 --max 30 <url>        - Download videos between 5-30 minutes"
           echo "  dlv youtube --title \"tutorial\" <url>      - Download videos with 'tutorial' in title"
+          echo "  dlv youtube --days 7 -p <url>             - Download playlist videos from last 7 days"
           echo "  dlv bilibili -p -n 10 <url>               - Download first 10 videos from playlist"
           return 1
         fi
@@ -319,6 +326,7 @@ in
           cmd="$cmd --yes-playlist"
         fi
         [[ -n "$max_downloads" ]] && cmd="$cmd --playlist-end '$max_downloads'"
+        [[ -n "$days_filter" ]] && cmd="$cmd --dateafter 'today-''${days_filter}days'"
         [[ -n "$temp_cookies" ]] && cmd="$cmd --cookies '$temp_cookies'" || cmd="$cmd --no-cookies"
         cmd="$cmd --download-archive '$archive_file' -o '$output_template' '$url'"
 
@@ -330,11 +338,12 @@ in
 
           # Add filter info if any
           local filter_info=""
-          if [[ -n "$min_duration" ]] || [[ -n "$max_duration" ]] || [[ -n "$title_filter" ]]; then
+          if [[ -n "$min_duration" ]] || [[ -n "$max_duration" ]] || [[ -n "$title_filter" ]] || [[ -n "$days_filter" ]]; then
             filter_info=" (Filters:"
             [[ -n "$min_duration" ]] && filter_info="$filter_info min ''${min_duration}m"
             [[ -n "$max_duration" ]] && filter_info="$filter_info max ''${max_duration}m"
             [[ -n "$title_filter" ]] && filter_info="$filter_info title: \"$title_filter\""
+            [[ -n "$days_filter" ]] && filter_info="$filter_info within ''${days_filter} days"
             filter_info="$filter_info)"
           fi
           [[ -n "$max_downloads" ]] && filter_info="''${filter_info} [max ''${max_downloads} videos]"
