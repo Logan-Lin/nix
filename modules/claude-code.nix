@@ -35,19 +35,6 @@ let
       "Bash(git remote:*)"
       "Bash(git ls-files:*)"
 
-      # Development tools - testing and linting
-      "Bash(npm run test:*)"
-      "Bash(npm run lint:*)"
-      "Bash(npm run format:*)"
-      "Bash(npm run check:*)"
-
-      # Package managers (read-only operations)
-      "Bash(npm list:*)"
-      "Bash(npm outdated:*)"
-      "Bash(cargo --version)"
-      "Bash(pip list:*)"
-      "Bash(pip show:*)"
-
       # Nix operations
       "Bash(nix-shell:*)"
       "Bash(nix develop:*)"
@@ -83,16 +70,6 @@ let
       "Read(.env*)"
       "Read(*.env*)"
       "Read(./.env*)"
-      "Read(./secrets/**)"
-      "Read(./private/**)"
-      "Read(/etc/passwd)"
-      "Read(/etc/shadow)"
-      "Read(/etc/sudoers*)"
-      "Read(~/.ssh/id_*)"
-      "Read(~/.gnupg/**)"
-      "Read(~/.aws/credentials)"
-      "Read(~/.config/gcloud/**)"
-      "Read(*/node_modules/.cache/**)"
       
       # Prevent dangerous system operations
       "Bash(rm -rf:*)"
@@ -111,8 +88,6 @@ let
       "Bash(fdisk:*)"
       "Bash(mkfs:*)"
       "Bash(dd:*)"
-      "Bash(curl:*)"
-      "Bash(wget:*)"
 
       # Prevent network/security risks
       "Bash(nc:*)"
@@ -156,6 +131,9 @@ let
       "Bash(nix-channel:*)"
       "Bash(oss:*)"
       "Bash(hms:*)"
+
+      "Bash(curl:*)"
+      "Bash(wget:*)"
     ];
   };
 
