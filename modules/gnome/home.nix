@@ -52,9 +52,10 @@ in
           "rounded-window-corners@fxgn"
         ];
       favorite-apps = [
-        "org.gnome.Nautilus.desktop"
+        "Thunar.desktop"
         "com.mitchellh.ghostty.desktop"
         "firefox.desktop"
+        "obsidian.desktop"
         "org.keepassxc.KeePassXC.desktop"
       ];
     };
@@ -74,12 +75,6 @@ in
       global-shortcut = [ "<Super>c" ];
       # Keep 100 items in clipboard history
       history-length = mkUint32 100;
-    };
-
-    # Nautilus (GNOME Files) configuration
-    "org/gnome/nautilus/preferences" = {
-      show-hidden-files = true;
-      default-folder-viewer = "list-view";
     };
 
     # Disable GNOME Software auto-updates
@@ -174,6 +169,7 @@ in
     ++ [
       gnomeExtensions.pano
       gnomeExtensions.rounded-window-corners
+      xfce.thunar
     ];
 
   # Custom desktop file for opening text files with Neovim in Ghostty
@@ -193,6 +189,9 @@ in
   xdg.mimeApps = {
     enable = true;
     defaultApplications = {
+      # Directories
+      "inode/directory" = "Thunar.desktop";
+
       # PDF documents
       "application/pdf" = "org.gnome.Evince.desktop";
 

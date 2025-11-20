@@ -425,12 +425,6 @@
 
   # Hyprland-specific shell configuration
   programs.zsh.initContent = ''
-    # Open current directory in Thunar file manager (background)
-    open() {
-      thunar "''${1:-.}" &>/dev/null &
-      disown
-    }
-
     # Quickly restart Hyprland session (graceful logout)
     alias hypr-restart='loginctl terminate-session'
 

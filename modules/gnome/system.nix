@@ -60,6 +60,7 @@ in
       snapshot  # camera
       totem     # video player
       yelp      # help viewer
+      nautilus  # file manager (using Thunar instead)
     ];
 
     # XDG portal for proper desktop integration
