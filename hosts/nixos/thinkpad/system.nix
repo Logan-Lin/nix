@@ -209,7 +209,6 @@
     # System utilities
     pciutils
     usbutils
-    unzip
 
     # GPU monitoring
     intel-gpu-tools
