@@ -48,6 +48,8 @@ in
       enabled-extensions =
         (lib.optionals (!cfg.alwaysShowTopBar) [ "hidetopbar@mathieu.bidon.ca" ])
         ++ [
+          "pano@elhan.io"
+          "rounded-window-corners@fxgn"
         ];
       favorite-apps = [
         "org.gnome.Nautilus.desktop"
@@ -64,6 +66,14 @@ in
       enable-active-window = false;
       mouse-sensitive = false;
       mouse-sensitive-fullscreen-window = false;
+    };
+
+    # Pano clipboard manager extension configuration
+    "org/gnome/shell/extensions/pano" = {
+      # Keybinding to open clipboard panel
+      global-shortcut = [ "<Super>c" ];
+      # Keep 100 items in clipboard history
+      history-length = mkUint32 100;
     };
 
     # Nautilus (GNOME Files) configuration
@@ -161,7 +171,10 @@ in
   # GNOME Shell extensions and Qt theming packages
   home.packages = with pkgs;
     (lib.optionals (!cfg.alwaysShowTopBar) [ gnomeExtensions.hide-top-bar ])
-    ++ [ ];
+    ++ [
+      gnomeExtensions.pano
+      gnomeExtensions.rounded-window-corners
+    ];
 
   # Custom desktop file for opening text files with Neovim in Ghostty
   home.file.".local/share/applications/nvim-ghostty.desktop".text = ''
