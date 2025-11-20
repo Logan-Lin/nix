@@ -27,54 +27,55 @@ let
       
       # Git operations (read-only and safe operations)
       "Bash(git status)"
-      "Bash(git log*)"
-      "Bash(git diff*)"
-      "Bash(git show*)"
-      "Bash(git branch*)"
-      "Bash(git remote*)"
-      "Bash(git ls-files*)"
-      
+      "Bash(git status:*)"
+      "Bash(git log:*)"
+      "Bash(git diff:*)"
+      "Bash(git show:*)"
+      "Bash(git branch:*)"
+      "Bash(git remote:*)"
+      "Bash(git ls-files:*)"
+
       # Development tools - testing and linting
-      "Bash(npm run test*)"
-      "Bash(npm run lint*)"
-      "Bash(npm run format*)"
-      "Bash(npm run check*)"
-      
+      "Bash(npm run test:*)"
+      "Bash(npm run lint:*)"
+      "Bash(npm run format:*)"
+      "Bash(npm run check:*)"
+
       # Package managers (read-only operations)
-      "Bash(npm list*)"
-      "Bash(npm outdated*)"
+      "Bash(npm list:*)"
+      "Bash(npm outdated:*)"
       "Bash(cargo --version)"
-      "Bash(pip list*)"
-      "Bash(pip show*)"
-      
+      "Bash(pip list:*)"
+      "Bash(pip show:*)"
+
       # Nix operations
-      "Bash(nix-shell*)"
-      "Bash(nix develop*)"
-      "Bash(nix build*)"
-      "Bash(nix run*)"
-      "Bash(nix-env -q*)"
-      "Bash(nix search*)"
-      
+      "Bash(nix-shell:*)"
+      "Bash(nix develop:*)"
+      "Bash(nix build:*)"
+      "Bash(nix run:*)"
+      "Bash(nix-env -q:*)"
+      "Bash(nix search:*)"
+
       # File operations (safe read operations)
-      "Bash(ls*)"
-      "Bash(find*)"
-      "Bash(grep*)"
-      "Bash(cat*)"
-      "Bash(head*)"
-      "Bash(tail*)"
-      "Bash(wc*)"
-      "Bash(file*)"
-      "Bash(du*)"
-      "Bash(tree*)"
-      
+      "Bash(ls:*)"
+      "Bash(find:*)"
+      "Bash(grep:*)"
+      "Bash(cat:*)"
+      "Bash(head:*)"
+      "Bash(tail:*)"
+      "Bash(wc:*)"
+      "Bash(file:*)"
+      "Bash(du:*)"
+      "Bash(tree:*)"
+
       # Development environment info
-      "Bash(which*)"
-      "Bash(whereis*)"
+      "Bash(which:*)"
+      "Bash(whereis:*)"
       "Bash(whoami)"
       "Bash(pwd)"
-      "Bash(uname*)"
+      "Bash(uname:*)"
       "Bash(date)"
-      "Bash(echo*)"
+      "Bash(echo:*)"
     ];
     
     deny = [
@@ -94,75 +95,76 @@ let
       "Read(*/node_modules/.cache/**)"
       
       # Prevent dangerous system operations
-      "Bash(rm -rf*)"
-      "Bash(sudo*)"
-      "Bash(su*)"
-      "Bash(chmod +x*)"
-      "Bash(chown*)"
-      "Bash(passwd*)"
-      "Bash(userdel*)"
-      "Bash(useradd*)"
-      "Bash(usermod*)"
-      "Bash(groupadd*)"
-      "Bash(groupdel*)"
-      "Bash(mount*)"
-      "Bash(umount*)"
-      "Bash(fdisk*)"
-      "Bash(mkfs*)"
-      "Bash(dd*)"
-      "Bash(curl*http*)"
-      "Bash(wget*http*)"
-      
+      "Bash(rm -rf:*)"
+      "Bash(sudo:*)"
+      "Bash(su:*)"
+      "Bash(chmod +x:*)"
+      "Bash(chown:*)"
+      "Bash(passwd:*)"
+      "Bash(userdel:*)"
+      "Bash(useradd:*)"
+      "Bash(usermod:*)"
+      "Bash(groupadd:*)"
+      "Bash(groupdel:*)"
+      "Bash(mount:*)"
+      "Bash(umount:*)"
+      "Bash(fdisk:*)"
+      "Bash(mkfs:*)"
+      "Bash(dd:*)"
+      "Bash(curl:*)"
+      "Bash(wget:*)"
+
       # Prevent network/security risks
-      "Bash(nc*)"
-      "Bash(netcat*)"
-      "Bash(telnet*)"
-      "Bash(ssh*)"
-      "Bash(scp*)"
-      "Bash(rsync*)"
-      "Bash(nmap*)"
-      
+      "Bash(nc:*)"
+      "Bash(netcat:*)"
+      "Bash(telnet:*)"
+      "Bash(ssh:*)"
+      "Bash(scp:*)"
+      "Bash(rsync:*)"
+      "Bash(nmap:*)"
+
       # Prevent package installations without confirmation
-      "Bash(npm install*)"
-      "Bash(npm uninstall*)"
-      "Bash(pip install*)"
-      "Bash(pip uninstall*)"
-      "Bash(cargo install*)"
-      "Bash(brew install*)"
-      "Bash(apt install*)"
-      "Bash(yum install*)"
-      "Bash(pacman -S*)"
-      
+      "Bash(npm install:*)"
+      "Bash(npm uninstall:*)"
+      "Bash(pip install:*)"
+      "Bash(pip uninstall:*)"
+      "Bash(cargo install:*)"
+      "Bash(brew install:*)"
+      "Bash(apt install:*)"
+      "Bash(yum install:*)"
+      "Bash(pacman -S:*)"
+
       # Prevent system service manipulation
-      "Bash(systemctl*)"
-      "Bash(service*)"
-      "Bash(launchctl*)"
+      "Bash(systemctl:*)"
+      "Bash(service:*)"
+      "Bash(launchctl:*)"
     ];
     
     ask = [
       # File system modifications
       "Write(*)"
       "Edit(*)"
-      "Bash(mkdir*)"
-      "Bash(rmdir*)"
-      "Bash(mv*)"
-      "Bash(cp*)"
-      "Bash(touch*)"
-      
+      "Bash(mkdir:*)"
+      "Bash(rmdir:*)"
+      "Bash(mv:*)"
+      "Bash(cp:*)"
+      "Bash(touch:*)"
+
       # Nix system operations
-      "Bash(nixos-rebuild*)"
-      "Bash(nix-collect-garbage*)"
-      "Bash(nix-channel*)"
-      "Bash(oss*)"
-      "Bash(hms*)"
+      "Bash(nixos-rebuild:*)"
+      "Bash(nix-collect-garbage:*)"
+      "Bash(nix-channel:*)"
+      "Bash(oss:*)"
+      "Bash(hms:*)"
     ];
   };
 
-  # Global settings configuration
+  # Global settings configuration (merged with permissions)
   globalSettings = {
     spinnerTipsEnabled = false;
     todoEnabled = true;
     autoCompactEnabled = true;
+    permissions = defaultPermissions;
   };
 
 in
@@ -172,14 +174,9 @@ in
     # Install Claude Code package
     home.packages = [ claudePackage ];
 
-    # Create global settings file
+    # Create global settings file (with permissions included)
     home.file.".claude/settings.json" = {
       text = builtins.toJSON globalSettings;
-    };
-
-    # Create global permissions file
-    home.file.".claude/permissions.json" = {
-      text = builtins.toJSON { permissions = defaultPermissions; };
     };
 
     # Create global memory file
