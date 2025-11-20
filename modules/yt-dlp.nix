@@ -32,6 +32,7 @@ in
       cfg.package
       deno     # Required for YouTube downloads due to JS challenges
       ffmpeg
+      python312Packages.bgutil-ytdlp-pot-provider  # PO token provider for YouTube
     ];
 
     # Cookie files - managed by Nix (read-only)
@@ -109,6 +110,12 @@ in
 
       # Audio normalization post-processing
       --exec after_move:~/.config/yt-dlp/normalize-audio.sh
+
+      # Remote components for JavaScript challenge solving (required for YouTube)
+      --remote-components ejs:npm
+
+      # Extractor arguments for format handling
+      --extractor-args "youtube:formats=missing_pot"
 
       # User agent
       --user-agent "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
