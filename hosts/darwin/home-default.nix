@@ -175,6 +175,7 @@
     tree
     bzip2
     unzip
+    duti           # Set default applications for file types (macOS)
 
     # Development and build tools
     python312
@@ -219,4 +220,86 @@
       KeepAlive = false;
     };
   };
+
+  # File associations configuration (macOS equivalent of xdg.mimeApps)
+  # Uses duti to set default applications for file types via Launch Services
+  home.activation.setFileAssociations = config.lib.dag.entryAfter ["writeBoundary"] ''
+    # Text and code files - open with Ghostty terminal (which opens Neovim)
+    run ${pkgs.duti}/bin/duti -s com.mitchellh.ghostty .txt all
+    run ${pkgs.duti}/bin/duti -s com.mitchellh.ghostty .md all
+    run ${pkgs.duti}/bin/duti -s com.mitchellh.ghostty .markdown all
+    run ${pkgs.duti}/bin/duti -s com.mitchellh.ghostty .nix all
+    run ${pkgs.duti}/bin/duti -s com.mitchellh.ghostty .sh all
+    run ${pkgs.duti}/bin/duti -s com.mitchellh.ghostty .bash all
+    run ${pkgs.duti}/bin/duti -s com.mitchellh.ghostty .zsh all
+    run ${pkgs.duti}/bin/duti -s com.mitchellh.ghostty .fish all
+    run ${pkgs.duti}/bin/duti -s com.mitchellh.ghostty .py all
+    run ${pkgs.duti}/bin/duti -s com.mitchellh.ghostty .js all
+    run ${pkgs.duti}/bin/duti -s com.mitchellh.ghostty .ts all
+    run ${pkgs.duti}/bin/duti -s com.mitchellh.ghostty .jsx all
+    run ${pkgs.duti}/bin/duti -s com.mitchellh.ghostty .tsx all
+    run ${pkgs.duti}/bin/duti -s com.mitchellh.ghostty .json all
+    run ${pkgs.duti}/bin/duti -s com.mitchellh.ghostty .yaml all
+    run ${pkgs.duti}/bin/duti -s com.mitchellh.ghostty .yml all
+    run ${pkgs.duti}/bin/duti -s com.mitchellh.ghostty .toml all
+    run ${pkgs.duti}/bin/duti -s com.mitchellh.ghostty .xml all
+    run ${pkgs.duti}/bin/duti -s com.mitchellh.ghostty .css all
+    run ${pkgs.duti}/bin/duti -s com.mitchellh.ghostty .log all
+    run ${pkgs.duti}/bin/duti -s com.mitchellh.ghostty .csv all
+    run ${pkgs.duti}/bin/duti -s com.mitchellh.ghostty .conf all
+    run ${pkgs.duti}/bin/duti -s com.mitchellh.ghostty .config all
+    run ${pkgs.duti}/bin/duti -s com.mitchellh.ghostty .ini all
+    run ${pkgs.duti}/bin/duti -s com.mitchellh.ghostty .env all
+    run ${pkgs.duti}/bin/duti -s com.mitchellh.ghostty .c all
+    run ${pkgs.duti}/bin/duti -s com.mitchellh.ghostty .cpp all
+    run ${pkgs.duti}/bin/duti -s com.mitchellh.ghostty .h all
+    run ${pkgs.duti}/bin/duti -s com.mitchellh.ghostty .hpp all
+    run ${pkgs.duti}/bin/duti -s com.mitchellh.ghostty .rs all
+    run ${pkgs.duti}/bin/duti -s com.mitchellh.ghostty .go all
+    run ${pkgs.duti}/bin/duti -s com.mitchellh.ghostty .java all
+    run ${pkgs.duti}/bin/duti -s com.mitchellh.ghostty .rb all
+    run ${pkgs.duti}/bin/duti -s com.mitchellh.ghostty .php all
+    run ${pkgs.duti}/bin/duti -s com.mitchellh.ghostty .lua all
+    run ${pkgs.duti}/bin/duti -s com.mitchellh.ghostty .vim all
+    run ${pkgs.duti}/bin/duti -s com.mitchellh.ghostty .tex all
+    run ${pkgs.duti}/bin/duti -s com.mitchellh.ghostty .bib all
+
+    # Documents - PDF with Preview
+    run ${pkgs.duti}/bin/duti -s com.apple.Preview .pdf all
+
+    # Images - Preview
+    run ${pkgs.duti}/bin/duti -s com.apple.Preview .png all
+    run ${pkgs.duti}/bin/duti -s com.apple.Preview .jpg all
+    run ${pkgs.duti}/bin/duti -s com.apple.Preview .jpeg all
+    run ${pkgs.duti}/bin/duti -s com.apple.Preview .gif all
+    run ${pkgs.duti}/bin/duti -s com.apple.Preview .bmp all
+    run ${pkgs.duti}/bin/duti -s com.apple.Preview .tiff all
+    run ${pkgs.duti}/bin/duti -s com.apple.Preview .tif all
+    run ${pkgs.duti}/bin/duti -s com.apple.Preview .webp all
+    run ${pkgs.duti}/bin/duti -s com.apple.Preview .heic all
+    run ${pkgs.duti}/bin/duti -s com.apple.Preview .heif all
+    run ${pkgs.duti}/bin/duti -s com.apple.Preview .svg all
+    run ${pkgs.duti}/bin/duti -s com.apple.Preview .ico all
+
+    # Videos - IINA
+    run ${pkgs.duti}/bin/duti -s com.colliderli.iina .mp4 all
+    run ${pkgs.duti}/bin/duti -s com.colliderli.iina .mkv all
+    run ${pkgs.duti}/bin/duti -s com.colliderli.iina .avi all
+    run ${pkgs.duti}/bin/duti -s com.colliderli.iina .mov all
+    run ${pkgs.duti}/bin/duti -s com.colliderli.iina .wmv all
+    run ${pkgs.duti}/bin/duti -s com.colliderli.iina .flv all
+    run ${pkgs.duti}/bin/duti -s com.colliderli.iina .webm all
+    run ${pkgs.duti}/bin/duti -s com.colliderli.iina .m4v all
+    run ${pkgs.duti}/bin/duti -s com.colliderli.iina .mpg all
+    run ${pkgs.duti}/bin/duti -s com.colliderli.iina .mpeg all
+
+    # Audio - IINA
+    run ${pkgs.duti}/bin/duti -s com.colliderli.iina .mp3 all
+    run ${pkgs.duti}/bin/duti -s com.colliderli.iina .m4a all
+    run ${pkgs.duti}/bin/duti -s com.colliderli.iina .flac all
+    run ${pkgs.duti}/bin/duti -s com.colliderli.iina .wav all
+    run ${pkgs.duti}/bin/duti -s com.colliderli.iina .aac all
+    run ${pkgs.duti}/bin/duti -s com.colliderli.iina .ogg all
+    run ${pkgs.duti}/bin/duti -s com.colliderli.iina .opus all
+  '';
 }
