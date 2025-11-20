@@ -174,6 +174,7 @@
     coreutils      # GNU core utilities (base64, etc.)
     tree
     bzip2
+    unzip
 
     # Development and build tools
     python312

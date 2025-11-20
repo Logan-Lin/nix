@@ -58,7 +58,6 @@
   environment.systemPackages = with pkgs; [
     pciutils
     usbutils
-    unzip
   ];
 
 }

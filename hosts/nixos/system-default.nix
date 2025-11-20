@@ -53,6 +53,7 @@
     lsof
     tcpdump
     iotop
+    unzip
     
     # Shell and system management
     zsh
