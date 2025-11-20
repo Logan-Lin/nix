@@ -32,6 +32,8 @@
       "dlv youtube -n 3 -r 1 --min 1 --max 180 'https://www.youtube.com/@ScottTheWoz/videos'"
       "dlv youtube -n 3 -r 1 --min 1 --max 180 'https://www.youtube.com/@thespiffingbrit/videos'"
       "dlv youtube -n 3 -r 1 --min 1 --max 180 'https://www.youtube.com/@LetsGameItOut/videos'"
+      "dlv youtube --days 7 -r 1 -p 'https://www.youtube.com/playlist?list=PLY9cZ8nX4xmlpd1RE8_toocbU9cND7U-A'"  # Digital Foundry Retro
+      "dlv youtube --days 7 -r 1 -p 'https://www.youtube.com/playlist?list=PLtyo3aqsNv_OL_ZAwr9NkjBUuejZM68gZ'"  # DoshDoshington - Factorio
       "dlv bilibili -n 3 -r 1 --title '摸鱼切片' 'https://space.bilibili.com/15810/upload/video'"  # Mr.Quin
       "dlv bilibili --days 7 -r 1 -p 'https://space.bilibili.com/8012266/lists/3844977?type=season'"  # PGN
       "dlv bilibili --days 7 -r 1 -p 'https://space.bilibili.com/781973/lists/1035653?type=season'"  # 兰柚梓
