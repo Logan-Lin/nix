@@ -21,6 +21,7 @@
       "obsidian"
       "snipaste"
       "ghostty"
+      "textmate"
       "slidepilot"
       "tencent-meeting"
       "ovito"
