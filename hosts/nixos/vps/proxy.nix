@@ -90,6 +90,18 @@
           };
         };
 
+        # Linkding bookmark manager
+        link = {
+          rule = "Host(`link.yanlincs.com`)";
+          service = "link";
+          tls = {
+            certResolver = "cloudflare";
+            domains = [{
+              main = "*.yanlincs.com";
+            }];
+          };
+        };
+
       };
 
       services = {
@@ -153,6 +165,15 @@
           loadBalancer = {
             servers = [{
               url = "http://10.2.2.20:5099";
+            }];
+          };
+        };
+
+        # Linkding backend (via WireGuard)
+        link = {
+          loadBalancer = {
+            servers = [{
+              url = "http://10.2.2.20:5009";
             }];
           };
         };

@@ -228,12 +228,12 @@ in
     # qBittorrent torrent client with host networking
     qbittorrent = {
       image = "docker.io/linuxserver/qbittorrent:4.6.7";
-      
+
       volumes = [
         "/var/lib/containers/config/qbittorrent:/config"
         "/mnt/storage/Media:/data"
       ];
-      
+
       environment = {
         PUID = commonUID;
         PGID = commonGID;
@@ -241,11 +241,30 @@ in
         TORRENTING_PORT = "41234";
         WEBUI_PORT = "8080";
       };
-      
+
       extraOptions = [
         "--network=host"
       ];
-      
+
+      autoStart = true;
+    };
+
+    # Linkding bookmark manager
+    linkding = {
+      image = "docker.io/sissbruecker/linkding:latest-plus";
+
+      volumes = [
+        "/var/lib/containers/config/linkding:/etc/linkding/data"
+      ];
+
+      ports = [
+        "5009:9090"
+      ];
+
+      extraOptions = [
+        "--network=podman"
+      ];
+
       autoStart = true;
     };
 
