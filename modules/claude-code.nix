@@ -117,8 +117,6 @@ let
     
     ask = [
       # File system modifications
-      "Write(*)"
-      "Edit(*)"
       "Bash(mkdir:*)"
       "Bash(rmdir:*)"
       "Bash(mv:*)"
