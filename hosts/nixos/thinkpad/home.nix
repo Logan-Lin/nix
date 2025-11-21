@@ -66,5 +66,6 @@
     remmina
     chromium
     localsend
+    calibre
   ];
 }

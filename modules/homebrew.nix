@@ -34,6 +34,7 @@
       "iina"
       "hiddenbar"
       "localsend"
+      "calibre"
     ];
     taps = [
       # Additional repositories if needed
