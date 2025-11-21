@@ -98,45 +98,7 @@ in
       autoStart = true;
     };
 
-    # Plex Media Server
-    plex = {
-      image = "docker.io/linuxserver/plex:latest";
-      
-      volumes = [
-        "/var/lib/containers/config/plex:/config"
-        "/mnt/storage/Media:/data"
-      ];
-
-      labels = {
-        "traefik.enable" = "true";
-        "traefik.http.routers.plex.rule" = "Host(`plex.${config.networking.hostName}.yanlincs.com`)";
-        "traefik.http.routers.plex.entrypoints" = "websecure";
-        "traefik.http.routers.plex.tls" = "true";
-        "traefik.http.routers.plex.tls.certresolver" = "cloudflare";
-        "traefik.http.routers.plex.tls.domains[0].main" = "*.${config.networking.hostName}.yanlincs.com";
-        "traefik.http.services.plex.loadbalancer.server.port" = "32400";
-      };
-      
-      environment = {
-        PUID = commonUID;
-        PGID = commonGID;
-        TZ = systemTZ;
-        VERSION = "docker";
-      };
-      
-      ports = [
-        "5008:32400"
-      ];
-      
-      extraOptions = [
-        "--network=podman"
-        "--device=/dev/dri:/dev/dri"  # Hardware acceleration
-      ];
-      
-      autoStart = true;
-    };
-
-    # Jellyfin media server (alternative to Plex)
+    # Jellyfin media server
     jellyfin = {
       image = "docker.io/linuxserver/jellyfin:latest";
       
