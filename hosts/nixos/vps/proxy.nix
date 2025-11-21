@@ -54,18 +54,6 @@
           };
         };
 
-        # Plex Media Server
-        plex = {
-          rule = "Host(`plex.yanlincs.com`)";
-          service = "plex";
-          tls = {
-            certResolver = "cloudflare";
-            domains = [{
-              main = "*.yanlincs.com";
-            }];
-          };
-        };
-
         # qBittorrent torrent client
         qbit = {
           rule = "Host(`qbit.yanlincs.com`)";
@@ -138,15 +126,6 @@
           loadBalancer = {
             servers = [{
               url = "http://10.2.2.20:5002";
-            }];
-          };
-        };
-
-        # Plex backend (via WireGuard)
-        plex = {
-          loadBalancer = {
-            servers = [{
-              url = "http://10.2.2.20:5008";
             }];
           };
         };
