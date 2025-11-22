@@ -36,7 +36,7 @@ in
       serviceConfig = {
         Type = "simple";
         User = "root";  # Run as root to access any system path
-        ExecStart = ''/bin/sh -c "${pkgs.dufs}/bin/dufs ${cfg.sharedPath} --port ${toString cfg.port} --bind 0.0.0.0 --auth $(cat ${authFile})@/:rw"'';
+        ExecStart = ''/bin/sh -c "${pkgs.dufs}/bin/dufs ${cfg.sharedPath} --port ${toString cfg.port} --bind 0.0.0.0 --allow-all --auth $(cat ${authFile})@/:rw"'';
         Restart = "on-failure";
         RestartSec = "10s";
       };
