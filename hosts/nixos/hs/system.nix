@@ -9,6 +9,7 @@
     ../../../modules/traefik.nix
     ../../../modules/borg/client.nix
     ../../../modules/login-display.nix
+    ../../../modules/samba.nix
   ];
 
   # GRUB bootloader with ZFS support
@@ -260,6 +261,13 @@
       serverEndpoint = "91.98.84.215:51820";
       allowedIPs = [ "10.2.2.0/24" ];
     };
+  };
+
+  # Samba file sharing
+  services.samba-custom = {
+    sharedPath = "/mnt/storage/Media";
+    shareName = "Media";
+    user = "yanlin";
   };
 
 }
