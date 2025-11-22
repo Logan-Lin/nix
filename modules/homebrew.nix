@@ -35,6 +35,8 @@
       "hiddenbar"
       "localsend"
       "calibre"
+      "musicbrainz-picard"
+      "mediaelch"
     ];
     taps = [
       # Additional repositories if needed
