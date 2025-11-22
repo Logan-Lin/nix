@@ -35,7 +35,6 @@
       "hiddenbar"
       "localsend"
       "calibre"
-      "musicbrainz-picard"
       "mediaelch"
     ];
     taps = [
