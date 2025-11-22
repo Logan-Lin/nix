@@ -54,6 +54,30 @@
           };
         };
 
+        # Sonarr TV show management
+        sonarr = {
+          rule = "Host(`sonarr.yanlincs.com`)";
+          service = "sonarr";
+          tls = {
+            certResolver = "cloudflare";
+            domains = [{
+              main = "*.yanlincs.com";
+            }];
+          };
+        };
+
+        # Radarr movie management
+        radarr = {
+          rule = "Host(`radarr.yanlincs.com`)";
+          service = "radarr";
+          tls = {
+            certResolver = "cloudflare";
+            domains = [{
+              main = "*.yanlincs.com";
+            }];
+          };
+        };
+
       };
 
       services = {
@@ -90,6 +114,24 @@
           loadBalancer = {
             servers = [{
               url = "http://10.2.2.20:5009";
+            }];
+          };
+        };
+
+        # Sonarr backend (via WireGuard)
+        sonarr = {
+          loadBalancer = {
+            servers = [{
+              url = "http://10.2.2.20:5003";
+            }];
+          };
+        };
+
+        # Radarr backend (via WireGuard)
+        radarr = {
+          loadBalancer = {
+            servers = [{
+              url = "http://10.2.2.20:5004";
             }];
           };
         };

@@ -35,7 +35,6 @@
       "hiddenbar"
       "localsend"
       "calibre"
-      "mediaelch"
     ];
     taps = [
       # Additional repositories if needed
