@@ -96,10 +96,6 @@
               url = "https://jellyfin.yanlincs.com";
             }
             {
-              name = "Navidrome";
-              url = "https://music.yanlincs.com";
-            }
-            {
               name = "qBittorrent";
               url = "https://qbit.yanlincs.com";
             }

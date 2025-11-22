@@ -42,34 +42,10 @@
           };
         };
 
-        # Dufs file server
-        files = {
-          rule = "Host(`files.yanlincs.com`)";
-          service = "files";
-          tls = {
-            certResolver = "cloudflare";
-            domains = [{
-              main = "*.yanlincs.com";
-            }];
-          };
-        };
-
         # Linkding bookmark manager
         link = {
           rule = "Host(`link.yanlincs.com`)";
           service = "link";
-          tls = {
-            certResolver = "cloudflare";
-            domains = [{
-              main = "*.yanlincs.com";
-            }];
-          };
-        };
-
-        # Navidrome music server
-        music = {
-          rule = "Host(`music.yanlincs.com`)";
-          service = "music";
           tls = {
             certResolver = "cloudflare";
             domains = [{
@@ -109,29 +85,11 @@
           };
         };
 
-        # Dufs backend (via WireGuard)
-        files = {
-          loadBalancer = {
-            servers = [{
-              url = "http://10.2.2.20:5099";
-            }];
-          };
-        };
-
         # Linkding backend (via WireGuard)
         link = {
           loadBalancer = {
             servers = [{
               url = "http://10.2.2.20:5009";
-            }];
-          };
-        };
-
-        # Navidrome backend (via WireGuard)
-        music = {
-          loadBalancer = {
-            servers = [{
-              url = "http://10.2.2.20:5005";
             }];
           };
         };
