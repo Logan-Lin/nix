@@ -9,7 +9,6 @@
     ../../../modules/traefik.nix
     ../../../modules/borg/client.nix
     ../../../modules/login-display.nix
-    ../../../modules/dufs.nix
   ];
 
   # GRUB bootloader with ZFS support
@@ -261,12 +260,6 @@
       serverEndpoint = "91.98.84.215:51820";
       allowedIPs = [ "10.2.2.0/24" ];
     };
-  };
-
-  # Dufs WebDAV file server
-  services.dufs = {
-    sharedPath = "/mnt/storage/Media";
-    port = 5099;
   };
 
 }
