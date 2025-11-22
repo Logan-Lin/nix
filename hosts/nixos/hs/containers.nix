@@ -230,5 +230,35 @@ in
       autoStart = true;
     };
 
+    # Navidrome music server
+    navidrome = {
+      image = "docker.io/deluan/navidrome:latest";
+
+      volumes = [
+        "/var/lib/containers/config/navidrome:/data"
+        "/mnt/storage/Media/music:/music:ro"
+      ];
+
+      environment = {
+        PUID = commonUID;
+        PGID = commonGID;
+        TZ = systemTZ;
+        ND_MUSICFOLDER = "/music";
+        ND_DATAFOLDER = "/data";
+        ND_LOGLEVEL = "info";
+        ND_SCANNER_SCHEDULE = "@every 6h";
+      };
+
+      ports = [
+        "5005:4533"
+      ];
+
+      extraOptions = [
+        "--network=podman"
+      ];
+
+      autoStart = true;
+    };
+
   };
 }

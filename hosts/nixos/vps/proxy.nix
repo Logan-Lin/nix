@@ -90,6 +90,18 @@
           };
         };
 
+        # Navidrome music server
+        music = {
+          rule = "Host(`music.yanlincs.com`)";
+          service = "music";
+          tls = {
+            certResolver = "cloudflare";
+            domains = [{
+              main = "*.yanlincs.com";
+            }];
+          };
+        };
+
       };
 
       services = {
@@ -153,6 +165,15 @@
           loadBalancer = {
             servers = [{
               url = "http://10.2.2.20:5009";
+            }];
+          };
+        };
+
+        # Navidrome backend (via WireGuard)
+        music = {
+          loadBalancer = {
+            servers = [{
+              url = "http://10.2.2.20:5005";
             }];
           };
         };
