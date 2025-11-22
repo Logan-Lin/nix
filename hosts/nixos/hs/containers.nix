@@ -178,5 +178,57 @@ in
       autoStart = true;
     };
 
+    # Sonarr TV show management
+    sonarr = {
+      image = "docker.io/linuxserver/sonarr:latest";
+
+      volumes = [
+        "/var/lib/containers/config/sonarr:/config"
+        "/mnt/storage/Media:/data"
+      ];
+
+      environment = {
+        PUID = commonUID;
+        PGID = commonGID;
+        TZ = systemTZ;
+      };
+
+      ports = [
+        "5003:8989"
+      ];
+
+      extraOptions = [
+        "--network=podman"
+      ];
+
+      autoStart = true;
+    };
+
+    # Radarr movie management
+    radarr = {
+      image = "docker.io/linuxserver/radarr:latest";
+
+      volumes = [
+        "/var/lib/containers/config/radarr:/config"
+        "/mnt/storage/Media:/data"
+      ];
+
+      environment = {
+        PUID = commonUID;
+        PGID = commonGID;
+        TZ = systemTZ;
+      };
+
+      ports = [
+        "5004:7878"
+      ];
+
+      extraOptions = [
+        "--network=podman"
+      ];
+
+      autoStart = true;
+    };
+
   };
 }
