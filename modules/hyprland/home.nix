@@ -105,6 +105,7 @@
 
       # Execute apps at launch
       exec-once = [
+        "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP HYPRLAND_INSTANCE_SIGNATURE XDG_SESSION_TYPE"
         "gnome-keyring-daemon --start --components=secrets,ssh"
         "fcitx5 -d"
         "hypridle"
