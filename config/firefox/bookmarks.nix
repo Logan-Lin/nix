@@ -96,14 +96,6 @@
               url = "https://jellyfin.yanlincs.com";
             }
             {
-              name = "Sonarr";
-              url = "https://sonarr.yanlincs.com";
-            }
-            {
-              name = "Radarr";
-              url = "https://radarr.yanlincs.com";
-            }
-            {
               name = "qBittorrent";
               url = "https://qbit.yanlincs.com";
             }
