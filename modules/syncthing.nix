@@ -21,6 +21,11 @@ let
   # Convert ignore list to .stignore file content
   stignoreContent = lib.concatStringsSep "\n" commonIgnores;
 
+  # Device groupings
+  pcDevices = [ "hs" "thinkpad" "macbook" ];
+  touchDevices = [ "iphone" "ipad" ];
+  allDevices = pcDevices ++ touchDevices;
+
   # Common versioning configuration
   commonVersioning = {
     type = "staggered";
@@ -78,7 +83,7 @@ in
         (lib.optionalAttrs (lib.elem "Credentials" cfg.enabledFolders) {
           "Credentials" = {
             path = "~/Credentials";
-            devices = [ "iphone" "hs" "thinkpad" "ipad" "macbook" ];
+            devices = allDevices;
             ignorePerms = true;
             versioning = commonVersioning;
           };
@@ -86,7 +91,7 @@ in
         // (lib.optionalAttrs (lib.elem "Documents" cfg.enabledFolders) {
           "Documents" = {
             path = "~/Documents";
-            devices = [ "hs" "thinkpad" "macbook" ];
+            devices = pcDevices;
             ignorePerms = true;
             versioning = commonVersioning;
           };
@@ -94,7 +99,7 @@ in
         // (lib.optionalAttrs (lib.elem "Obsidian" cfg.enabledFolders) {
           "Obsidian" = {
             path = "~/Obsidian";
-            devices = [ "hs" "thinkpad" "macbook" ];
+            devices = pcDevices;
             ignorePerms = true;
             versioning = commonVersioning;
           };
@@ -102,7 +107,7 @@ in
         // (lib.optionalAttrs (lib.elem "Archive" cfg.enabledFolders) {
           "Archive" = {
             path = "~/Archive";
-            devices = [ "iphone" "hs" "thinkpad" "ipad" "macbook" ];
+            devices = allDevices;
             ignorePerms = true;
             versioning = commonVersioning;
           };
