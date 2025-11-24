@@ -1,9 +1,9 @@
 { config, pkgs, ... }: {
   imports = [
     ./hardware-configuration.nix
-    ./containers.nix  # Host-specific container definitions
-    ./proxy.nix       # Host-specific Traefik dynamic configuration
-    ../system-default.nix  # Common NixOS system configuration
+    ./containers.nix
+    ./proxy.nix
+    ../system-default.nix
     ../../../modules/wireguard.nix
     ../../../modules/podman.nix
     ../../../modules/traefik.nix

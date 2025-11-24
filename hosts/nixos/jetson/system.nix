@@ -3,7 +3,7 @@
 {
   imports = [
     ./hardware-configuration.nix
-    ../system-default.nix  # Common NixOS system configuration
+    ../system-default.nix
   ];
 
   # Bootloader - UEFI setup for Jetson

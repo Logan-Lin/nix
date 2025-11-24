@@ -1,9 +1,9 @@
 { config, pkgs, ... }: {
   imports = [
     ./hardware-configuration.nix
-    ./containers.nix  # Host-specific container definitions
-    ./proxy.nix       # Host-specific Traefik dynamic configuration
-    ../system-default.nix  # Common NixOS system configuration
+    ./containers.nix
+    ./proxy.nix
+    ../system-default.nix
     ../../../modules/wireguard.nix
     ../../../modules/podman.nix
     ../../../modules/traefik.nix
@@ -175,11 +175,9 @@
       d3 = "/mnt/wd-14t-1/";
     };
     
-    # Sync schedule (daily at 3 AM)
+    # Sync and scrub schedule
     sync.interval = "03:00";
-    
-    # Scrub schedule (weekly verification)
-    scrub.interval = "weekly";
+    scrub.interval = "Mon *-*-* 06:00:00";
     
     # Files and directories to exclude from parity
     exclude = [
