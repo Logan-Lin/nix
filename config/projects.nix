@@ -74,18 +74,11 @@ in
       description = "AI for Material";
       windows = [
         {
-          name = "code";
-          path = homePath "Documents/Projects/Material AI Agent/code";
-          ai = true;
-          git = true;
-          shell = true;
-        }
-        {
           name = "";
-          path = homePath "Documents/Projects/Material AI Agent";
+          path = homePath "Documents/Projects/Inverse Design of Disordered Materials";
           ai = true;
           git = false;
-          shell = false;
+          shell = true;
         }
       ];
     };
