@@ -35,6 +35,7 @@
       "hiddenbar"
       "localsend"
       "calibre"
+      "linearmouse"
     ];
     taps = [
       # Additional repositories if needed
