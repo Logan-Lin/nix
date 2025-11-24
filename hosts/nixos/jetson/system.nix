@@ -14,9 +14,6 @@
     timeout = 3;
   };
 
-  # Use latest kernel for best hardware support
-  boot.kernelPackages = pkgs.linuxPackages_latest;
-
   # Hardware support for Jetson Orin Nano
   hardware = {
     enableRedistributableFirmware = true;
