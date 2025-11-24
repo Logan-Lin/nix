@@ -13,7 +13,7 @@
   ];
 
   # Automatic container updates
-  virtualisation.podman.autoUpdate = {
+  virtualisation.podman.updateContainers = {
     enable = true;
     interval = "Wed *-*-* 06:00:00";
   };

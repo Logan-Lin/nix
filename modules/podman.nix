@@ -47,7 +47,7 @@ let
   '';
 in
 {
-  options.virtualisation.podman.autoUpdate = {
+  options.virtualisation.podman.updateContainers = {
     enable = mkEnableOption "automatic container updates";
 
     interval = mkOption {
@@ -82,7 +82,7 @@ in
     environment.systemPackages = [ update-containers-script ];
 
     # Automatic container updates via systemd timer
-    systemd.services.container-update-all = mkIf cfg.autoUpdate.enable {
+    systemd.services.container-update-all = mkIf cfg.updateContainers.enable {
       description = "Automatic Podman container updates";
       serviceConfig = {
         Type = "oneshot";
@@ -90,11 +90,11 @@ in
       };
     };
 
-    systemd.timers.container-update-all = mkIf cfg.autoUpdate.enable {
+    systemd.timers.container-update-all = mkIf cfg.updateContainers.enable {
       description = "Timer for automatic Podman container updates";
       wantedBy = [ "timers.target" ];
       timerConfig = {
-        OnCalendar = cfg.autoUpdate.interval;
+        OnCalendar = cfg.updateContainers.interval;
         Persistent = true;
       };
     };
