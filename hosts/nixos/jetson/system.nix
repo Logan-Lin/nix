@@ -19,13 +19,13 @@
     enableRedistributableFirmware = true;
 
     # Graphics and CUDA configuration via jetpack-nixos
-    graphics.enable = true;
+    # graphics.enable = true;
 
-    nvidia-jetpack = {
-      enable = true;
-      som = "orin-nano";
-      carrierBoard = "devkit";
-    };
+    # nvidia-jetpack = {
+    #   enable = true;
+    #   som = "orin-nano";
+    #   carrierBoard = "devkit";
+    # };
   };
 
   # Network configuration
