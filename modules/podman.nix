@@ -1,6 +1,10 @@
 { config, pkgs, lib, ... }:
 
+with lib;
+
 let
+  cfg = config.virtualisation.podman;
+
   # System-wide script for updating containers (works with sudo)
   update-containers-script = pkgs.writeShellScriptBin "update-containers" ''
     echo "Scanning running containers..."
@@ -43,8 +47,20 @@ let
   '';
 in
 {
-  # Container virtualization with Podman
-  virtualisation = {
+  options.virtualisation.podman.autoUpdate = {
+    enable = mkEnableOption "automatic container updates";
+
+    interval = mkOption {
+      type = types.str;
+      default = "daily";
+      example = "*-*-* 03:00:00";
+      description = "Systemd timer schedule for automatic updates (OnCalendar format)";
+    };
+  };
+
+  config = {
+    # Container virtualization with Podman
+    virtualisation = {
     podman = {
       enable = true;
       # Create a `docker` alias for podman, to use it as a drop-in replacement
@@ -62,7 +78,25 @@ in
     };
   };
 
-  # Make update-containers available system-wide (works with sudo)
-  environment.systemPackages = [ update-containers-script ];
+    # Make update-containers available system-wide (works with sudo)
+    environment.systemPackages = [ update-containers-script ];
 
+    # Automatic container updates via systemd timer
+    systemd.services.container-update-all = mkIf cfg.autoUpdate.enable {
+      description = "Automatic Podman container updates";
+      serviceConfig = {
+        Type = "oneshot";
+        ExecStart = "${update-containers-script}/bin/update-containers";
+      };
+    };
+
+    systemd.timers.container-update-all = mkIf cfg.autoUpdate.enable {
+      description = "Timer for automatic Podman container updates";
+      wantedBy = [ "timers.target" ];
+      timerConfig = {
+        OnCalendar = cfg.autoUpdate.interval;
+        Persistent = true;
+      };
+    };
+  };
 }
