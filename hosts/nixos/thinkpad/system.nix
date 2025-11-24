@@ -3,7 +3,7 @@
 {
   imports = [
     ./hardware-configuration.nix
-    ../system-default.nix  # Common NixOS system configuration
+    ../system-default.nix
     ../../../modules/hyprland/system.nix
     ../../../modules/wireguard.nix
     ../../../modules/login-display.nix
