@@ -17,11 +17,9 @@
     nix-homebrew.url = "github:zhaofengli/nix-homebrew";
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
-    jetpack-nixos.url = "github:anduril/jetpack-nixos";
-    jetpack-nixos.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, nixvim, claude-code, firefox-addons, nix-homebrew, disko, jetpack-nixos }:
+  outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, nixvim, claude-code, firefox-addons, nix-homebrew, disko }:
   {
     darwinConfigurations."macbook" = nix-darwin.lib.darwinSystem {
       modules = [
@@ -57,16 +55,6 @@
       ];
     };
 
-    nixosConfigurations."jetson" = nixpkgs.lib.nixosSystem {
-      system = "aarch64-linux";
-      modules = [
-        disko.nixosModules.disko
-        jetpack-nixos.nixosModules.default
-        ./hosts/nixos/jetson/system.nix
-        ./hosts/nixos/jetson/disk-config.nix
-      ];
-    };
-
     homeConfigurations = {
       "yanlin@macbook" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.aarch64-darwin;
@@ -90,12 +78,6 @@
         pkgs = nixpkgs.legacyPackages.x86_64-linux;
         modules = [ ./hosts/nixos/thinkpad/home.nix ];
         extraSpecialArgs = { inherit claude-code nixvim firefox-addons; };
-      };
-
-      "yanlin@jetson" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.aarch64-linux;
-        modules = [ ./hosts/nixos/jetson/home.nix ];
-        extraSpecialArgs = { inherit claude-code nixvim; };
       };
     };
   };
