@@ -12,6 +12,12 @@
     ../../../modules/samba.nix
   ];
 
+  # Automatic container updates
+  virtualisation.podman.autoUpdate = {
+    enable = true;
+    interval = "Wed *-*-* 06:00:00";
+  };
+
   # GRUB bootloader with ZFS support
   boot.loader.grub = {
     enable = true;
