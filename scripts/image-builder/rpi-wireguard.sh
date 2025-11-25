@@ -7,7 +7,7 @@ IMAGE_URL="https://downloads.raspberrypi.org/raspios_lite_arm64/images/raspios_l
 
 usage() {
     cat << EOF
-Usage: $0 <private_key> <address> <server_pubkey> <server_endpoint> <allowed_ips> <ssh_pubkey_path>
+Usage: $0 <private_key> <address> <server_pubkey> <server_endpoint> <allowed_ips> <ssh_pubkey_path> [hostname]
 
 Build a custom Raspberry Pi OS image with Wireguard pre-configured.
 
@@ -18,6 +18,7 @@ Arguments:
     server_endpoint    Server endpoint (e.g., 91.98.84.215:51820)
     allowed_ips        Allowed IPs to route through tunnel (e.g., 10.2.2.0/24)
     ssh_pubkey_path    Path to SSH public key file
+    hostname           (Optional) Hostname for the Pi (default: rpi-wg-<ip-with-dashes>)
 
 Generate Wireguard key pair:
     wg genkey | tee /dev/stderr | wg pubkey
@@ -30,12 +31,15 @@ Example:
     $0 "CLIENT_PRIVATE_KEY" "10.2.2.20/24" "SERVER_PUBLIC_KEY" \\
        "91.98.84.215:51820" "10.2.2.0/24" ~/.ssh/id_rsa.pub
 
+    $0 "CLIENT_PRIVATE_KEY" "10.2.2.20/24" "SERVER_PUBLIC_KEY" \\
+       "91.98.84.215:51820" "10.2.2.0/24" ~/.ssh/id_rsa.pub "my-custom-hostname"
+
 EOF
     exit 1
 }
 
-if [[ $# -ne 6 ]]; then
-    echo "Error: All 6 arguments are required"
+if [[ $# -lt 6 ]] || [[ $# -gt 7 ]]; then
+    echo "Error: 6 required arguments and 1 optional argument"
     usage
 fi
 
@@ -54,9 +58,17 @@ fi
 SSH_PUBKEY=$(cat "$SSH_PUBKEY_PATH")
 WG_PUBLIC_KEY=$(echo "$WG_PRIVATE_KEY" | wg pubkey)
 
+CLIENT_IP=$(echo "$WG_CLIENT_ADDRESS" | cut -d'/' -f1)
+if [[ $# -eq 7 ]]; then
+    HOSTNAME="$7"
+else
+    HOSTNAME="rpi-wg-$(echo "$CLIENT_IP" | tr '.' '-')"
+fi
+
 echo "=== Raspberry Pi Wireguard Image Builder ==="
 echo "Work directory: $WORK_DIR"
 echo "Output directory: $OUTPUT_DIR"
+echo "Hostname: $HOSTNAME"
 echo "Client address: $WG_CLIENT_ADDRESS"
 echo "Server endpoint: $WG_SERVER_ENDPOINT"
 echo "Allowed IPs: $WG_ALLOWED_IPS"
@@ -113,6 +125,10 @@ echo "$SSH_PUBKEY" | sudo tee /mnt/rpi-root/root/.ssh/authorized_keys > /dev/nul
 sudo chmod 700 /mnt/rpi-root/root/.ssh
 sudo chmod 600 /mnt/rpi-root/root/.ssh/authorized_keys
 
+echo "Setting hostname..."
+echo "$HOSTNAME" | sudo tee /mnt/rpi-root/etc/hostname > /dev/null
+sudo sed -i "s/127.0.1.1.*/127.0.1.1\t$HOSTNAME/" /mnt/rpi-root/etc/hosts
+
 echo "Creating Wireguard installation script..."
 sudo tee /mnt/rpi-root/root/setup-wireguard.sh > /dev/null << 'SETUP_SCRIPT'
 #!/bin/bash
@@ -158,7 +174,6 @@ sudo touch /mnt/rpi-boot/ssh
 
 echo "Copying image to output directory..."
 mkdir -p "$OUTPUT_DIR"
-CLIENT_IP=$(echo "$WG_CLIENT_ADDRESS" | cut -d'/' -f1)
 OUTPUT_IMAGE="$OUTPUT_DIR/raspios-wg-${CLIENT_IP}.img"
 cp raspios.img "$OUTPUT_IMAGE"
 
@@ -167,6 +182,7 @@ cat > "$OUTPUT_DIR/wireguard-config-${CLIENT_IP}.txt" << EOF
 Raspberry Pi Wireguard Configuration
 ====================================
 
+Hostname: $HOSTNAME
 Client Public Key: $WG_PUBLIC_KEY
 Client Address: $WG_CLIENT_ADDRESS
 Server Endpoint: $WG_SERVER_ENDPOINT
