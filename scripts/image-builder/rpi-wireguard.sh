@@ -140,12 +140,11 @@ apt-get install -y wireguard wireguard-tools
 
 echo "Enabling Wireguard service..."
 systemctl enable wg-quick@wg0
-systemctl start wg-quick@wg0
 
-echo "Wireguard setup complete!"
-wg show
-
+echo "Wireguard installation complete!"
 rm /root/setup-wireguard.sh
+
+systemctl start wg-quick@wg0 || true
 SETUP_SCRIPT
 sudo chmod +x /mnt/rpi-root/root/setup-wireguard.sh
 
@@ -155,12 +154,12 @@ sudo tee /mnt/rpi-root/etc/systemd/system/wireguard-first-boot.service > /dev/nu
 Description=Setup Wireguard on first boot
 After=network-online.target
 Wants=network-online.target
-Before=wg-quick@wg0.service
 
 [Service]
 Type=oneshot
 ExecStart=/root/setup-wireguard.sh
 RemainAfterExit=yes
+TimeoutStartSec=300
 
 [Install]
 WantedBy=multi-user.target
