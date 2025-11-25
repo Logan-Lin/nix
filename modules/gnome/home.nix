@@ -77,6 +77,13 @@ in
       history-length = mkUint32 100;
     };
 
+    # Desktop background configuration
+    "org/gnome/desktop/background" = {
+      picture-uri = "file:///home/yanlin/Documents/app-state/nixos-nineish-dark@4k.png";
+      picture-uri-dark = "file:///home/yanlin/Documents/app-state/nixos-nineish-dark@4k.png";
+      picture-options = "zoom";
+    };
+
     # Disable GNOME Software auto-updates
     "org/gnome/software" = {
       download-updates = false;
