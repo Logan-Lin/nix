@@ -126,6 +126,11 @@
           publicKey = "p3442J2HBGY5Pksu+0F4SFkBGjG99KIgwyk8eAt4YmA=";
           allowedIPs = [ "10.2.2.30/32" ];
         }
+        {
+          name = "rpi-wg-10-2-2-200";
+          publicKey = "vA+jDEtpkqHG0h3AfE0sZXuvw7kkLy/rq5VwwtCOnyE=";
+          allowedIPs = [ "10.2.2.200/32" ];
+        }
       ];
     };
   };
