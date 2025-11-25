@@ -1,8 +1,9 @@
 set -euo pipefail
 
+ORIGINAL_DIR="$PWD"
 WORK_DIR="/tmp/rpi-custom-build"
-OUTPUT_DIR="./result"
-IMAGE_URL="https://downloads.raspberrypi.com/raspios_lite_armhf/images/raspios_lite_armhf-2025-11-24/2025-11-24-raspios-bookworm-armhf-lite.img.xz"
+OUTPUT_DIR="$ORIGINAL_DIR/result"
+IMAGE_URL="https://downloads.raspberrypi.org/raspios_lite_arm64/images/raspios_lite_arm64-2025-11-24/2025-11-24-raspios-trixie-arm64-lite.img.xz"
 
 usage() {
     cat << EOF
