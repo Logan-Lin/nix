@@ -107,42 +107,42 @@
               name = "Radarr";
               url = "https://radarr.yanlincs.com";
             }
+          ];
+        }
+        {
+          name = "Resource";
+          bookmarks = [
             {
-              name = "Resource";
-              bookmarks = [
-                {
-                  name = "M-Teams";
-                  url = "https://next.m-team.cc/index";
-                }
-                {
-                  name = "PTer";
-                  url = "https://pterclub.net/torrents.php";
-                }
-                {
-                  name = "HDSky";
-                  url = "https://hdsky.me/torrents.php";
-                }
-                {
-                  name = "Ourbits";
-                  url = "https://ourbits.club/index.php";
-                }
-                {
-                  name = "U2";
-                  url = "https://u2.dmhy.org/torrents.php";
-                }
-                {
-                  name = "Jpopsuki";
-                  url = "https://jpopsuki.eu/index.php";
-                }
-                {
-                  name = "dmhy";
-                  url = "https://share.dmhy.org/";
-                }
-                {
-                  name = "Azusa";
-                  url = "https://azusa.wiki/torrents.php";
-                }
-              ];
+              name = "M-Teams";
+              url = "https://next.m-team.cc/index";
+            }
+            {
+              name = "PTer";
+              url = "https://pterclub.net/torrents.php";
+            }
+            {
+              name = "HDSky";
+              url = "https://hdsky.me/torrents.php";
+            }
+            {
+              name = "Ourbits";
+              url = "https://ourbits.club/index.php";
+            }
+            {
+              name = "U2";
+              url = "https://u2.dmhy.org/torrents.php";
+            }
+            {
+              name = "Jpopsuki";
+              url = "https://jpopsuki.eu/index.php";
+            }
+            {
+              name = "dmhy";
+              url = "https://share.dmhy.org/";
+            }
+            {
+              name = "Azusa";
+              url = "https://azusa.wiki/torrents.php";
             }
           ];
         }
