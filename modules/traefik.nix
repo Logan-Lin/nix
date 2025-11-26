@@ -67,7 +67,7 @@
     # and will be merged with this base configuration
 
     # Environment variables for Cloudflare
-    environmentFiles = [ "/run/secrets/traefik-env" ];
+    environmentFiles = [ "/etc/traefik-env" ];
   };
 
   # Ensure Traefik can access Docker socket
@@ -77,9 +77,9 @@
     BindPaths = [ "/run/podman/podman.sock:/var/run/docker.sock" ];
   };
 
-  # NOTE: Cloudflare credentials must be manually created in /run/secrets/traefik-env
+  # NOTE: Cloudflare credentials must be manually created in /etc/traefik-env
   # The file should contain:
   #   CF_API_EMAIL=your-email@example.com
   #   CF_DNS_API_TOKEN=your-cloudflare-api-token
-  # Make sure to set permissions: chmod 600 /run/secrets/traefik-env
+  # Make sure to set permissions: chmod 600 /etc/traefik-env
 }
