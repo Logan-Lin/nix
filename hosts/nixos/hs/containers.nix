@@ -135,7 +135,7 @@ in
       autoStart = true;
     };
 
-    # qBittorrent torrent client with host networking
+    # qBittorrent torrent client
     qbittorrent = {
       image = "docker.io/linuxserver/qbittorrent:4.6.7";
 
@@ -152,8 +152,13 @@ in
         WEBUI_PORT = "8080";
       };
 
+      ports = [
+        "8080:8080"    # WebUI
+        "41234:41234"  # P2P incoming connections
+      ];
+
       extraOptions = [
-        "--network=host"
+        "--network=podman"
       ];
 
       autoStart = true;
