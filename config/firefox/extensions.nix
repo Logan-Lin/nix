@@ -7,7 +7,6 @@ args:
     if firefox-addons != null then
       with firefox-addons.packages.${args.pkgs.stdenv.hostPlatform.system}; [
         ublock-origin
-        linkding-extension
         vimium
         cookies-txt
         darkreader

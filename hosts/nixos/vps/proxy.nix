@@ -42,18 +42,6 @@
           };
         };
 
-        # Linkding bookmark manager
-        link = {
-          rule = "Host(`link.yanlincs.com`)";
-          service = "link";
-          tls = {
-            certResolver = "cloudflare";
-            domains = [{
-              main = "*.yanlincs.com";
-            }];
-          };
-        };
-
         # Sonarr TV show management
         sonarr = {
           rule = "Host(`sonarr.yanlincs.com`)";
@@ -105,15 +93,6 @@
           loadBalancer = {
             servers = [{
               url = "http://10.2.2.20:8112";
-            }];
-          };
-        };
-
-        # Linkding backend (via WireGuard)
-        link = {
-          loadBalancer = {
-            servers = [{
-              url = "http://10.2.2.20:5009";
             }];
           };
         };

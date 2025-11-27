@@ -10,10 +10,6 @@
           url = "https://claude.ai";
         }
         {
-          name = "Linkding";
-          url = "https://link.yanlincs.com";
-        }
-        {
           name = "Immich";
           url = "https://photo.yanlincs.com/photos";
         }
