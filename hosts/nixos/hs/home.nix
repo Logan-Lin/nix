@@ -32,6 +32,13 @@
       "dlv youtube -n 3 --days 7 -r 1 --min 1 --max 180 'https://www.youtube.com/@ScottTheWoz/videos'"
       "dlv youtube -n 3 --days 7 -r 1 --min 1 --max 180 'https://www.youtube.com/@BeccaFarsace/videos'"
       "dlv youtube -n 3 --days 7 -r 1 --min 1 --max 180 'https://www.youtube.com/@WolfgangsChannel/videos'"
+      "dlv youtube -n 3 --days 7 -r 1 --min 1 --max 180 'https://www.youtube.com/@DoshDoshington/videos'"
+      "dlv youtube -n 3 --days 7 -r 1 --min 1 --max 180 'https://www.youtube.com/@salmence100/videos'"
+      "dlv youtube -n 3 --days 7 -r 1 --min 1 --max 180 'https://www.youtube.com/@thespiffingbrit/videos'"
+      "dlv youtube -n 3 --days 7 -r 1 --min 1 --max 180 'https://www.youtube.com/@LetsGameItOut/videos'"
+      "dlv youtube -n 3 --days 7 -r 1 --min 1 --max 180 'https://www.youtube.com/@linustechtips/videos'"
+      "dlv youtube -n 3 --days 7 -r 1 --min 1 --max 180 'https://www.youtube.com/@_gerg/videos'"
+      "dlv youtube -n 3 --days 7 -r 1 --min 1 --max 180 'https://www.youtube.com/@Yeah_Jaron/videos'"
       "dlv bilibili -n 3 --days 7 -r 1 --title '摸鱼切片' 'https://space.bilibili.com/15810/upload/video'"  # Mr.Quin
       "dlv bilibili -n 3 --days 7 -r 1 --title 'PGN' 'https://space.bilibili.com/8012266/upload/video'"  # PGN
       "dlv bilibili -n 3 --days 7 -r 1 'https://space.bilibili.com/2799050'"  # 白洋
