@@ -10,6 +10,10 @@
   ];
 
   # hs-specific home configuration
+
+  syncthing-custom = {
+    enabledFolders = [ "Credentials" "Documents" "Obsidian" "Archive" "NSFW" ];
+  };
   
   # yt-dlp configuration - store videos on large storage
   programs.yt-dlp-custom = {

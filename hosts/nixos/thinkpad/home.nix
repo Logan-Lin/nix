@@ -17,6 +17,10 @@
     ../../../modules/schedule.nix
   ];
 
+  syncthing-custom = {
+    enabledFolders = [ "Credentials" "Documents" "Obsidian" "Archive" "NSFW" ];
+  };
+
   services.scheduled-commands.aicloud-backup = {
     enable = true;
     description = "Backup aicloud files";
