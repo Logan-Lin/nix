@@ -19,6 +19,12 @@
         pointer = {
           disableAcceleration = true;
         };
+        buttons = {
+          mappings = [
+            { button = 3; action = "appExpose"; }
+            { button = 4; action = "missionControl"; }
+          ];
+        };
       }
     ];
   };
