@@ -98,43 +98,6 @@ in
       autoStart = true;
     };
 
-    # Jellyfin media server
-    jellyfin = {
-      image = "docker.io/linuxserver/jellyfin:latest";
-      
-      volumes = [
-        "/var/lib/containers/config/jellyfin:/config"
-        "/mnt/storage/Media:/data"
-      ];
-
-      labels = {
-        "traefik.enable" = "true";
-        "traefik.http.routers.jellyfin.rule" = "Host(`jellyfin.${config.networking.hostName}.yanlincs.com`)";
-        "traefik.http.routers.jellyfin.entrypoints" = "websecure";
-        "traefik.http.routers.jellyfin.tls" = "true";
-        "traefik.http.routers.jellyfin.tls.certresolver" = "cloudflare";
-        "traefik.http.routers.jellyfin.tls.domains[0].main" = "*.${config.networking.hostName}.yanlincs.com";
-        "traefik.http.services.jellyfin.loadbalancer.server.port" = "8096";
-      };
-      
-      environment = {
-        PUID = commonUID;
-        PGID = commonGID;
-        TZ = systemTZ;
-      };
-      
-      ports = [
-        "5002:8096"
-      ];
-      
-      extraOptions = [
-        "--network=podman"
-        "--device=/dev/dri:/dev/dri"  # Hardware acceleration
-      ];
-      
-      autoStart = true;
-    };
-
     # qBittorrent torrent client
     qbittorrent = {
       image = "docker.io/linuxserver/qbittorrent:4.6.7";
@@ -174,58 +137,6 @@ in
 
       ports = [
         "5009:9090"
-      ];
-
-      extraOptions = [
-        "--network=podman"
-      ];
-
-      autoStart = true;
-    };
-
-    # Sonarr TV show management
-    sonarr = {
-      image = "docker.io/linuxserver/sonarr:latest";
-
-      volumes = [
-        "/var/lib/containers/config/sonarr:/config"
-        "/mnt/storage/Media:/data"
-      ];
-
-      environment = {
-        PUID = commonUID;
-        PGID = commonGID;
-        TZ = systemTZ;
-      };
-
-      ports = [
-        "5003:8989"
-      ];
-
-      extraOptions = [
-        "--network=podman"
-      ];
-
-      autoStart = true;
-    };
-
-    # Radarr movie management
-    radarr = {
-      image = "docker.io/linuxserver/radarr:latest";
-
-      volumes = [
-        "/var/lib/containers/config/radarr:/config"
-        "/mnt/storage/Media:/data"
-      ];
-
-      environment = {
-        PUID = commonUID;
-        PGID = commonGID;
-        TZ = systemTZ;
-      };
-
-      ports = [
-        "5004:7878"
       ];
 
       extraOptions = [
