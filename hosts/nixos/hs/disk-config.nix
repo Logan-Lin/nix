@@ -103,6 +103,7 @@
             options = {
               canmount = "noauto";
               mountpoint = "/";
+              "com.sun:auto-snapshot" = "true";
             };
           };
           
@@ -113,6 +114,7 @@
             options = {
               canmount = "on";
               mountpoint = "/home";
+              "com.sun:auto-snapshot" = "true";
             };
           };
           
