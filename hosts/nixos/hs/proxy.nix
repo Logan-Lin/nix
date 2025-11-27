@@ -16,6 +16,17 @@
           };
         };
 
+        jellyfin = {
+          rule = "Host(`jellyfin.${config.networking.hostName}.yanlincs.com`)";
+          service = "jellyfin";
+          tls = {
+            certResolver = "cloudflare";
+            domains = [{
+              main = "*.${config.networking.hostName}.yanlincs.com";
+            }];
+          };
+        };
+
       };
 
       services = {
@@ -23,6 +34,14 @@
           loadBalancer = {
             servers = [{
               url = "http://127.0.0.1:8384";
+            }];
+          };
+        };
+
+        jellyfin = {
+          loadBalancer = {
+            servers = [{
+              url = "http://127.0.0.1:8096";
             }];
           };
         };

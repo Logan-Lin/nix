@@ -10,6 +10,7 @@
     ../../../modules/borg/client.nix
     ../../../modules/login-display.nix
     ../../../modules/samba.nix
+    ../../../modules/media-server.nix
   ];
 
   # Automatic container updates
@@ -272,6 +273,15 @@
     sharedPath = "/mnt/storage/Media";
     shareName = "Media";
     user = "yanlin";
+  };
+
+  # Media server services
+  services.media-server = {
+    user = "yanlin";
+    sonarr.enable = true;
+    radarr.enable = true;
+    jellyfin.enable = true;
+    deluge.enable = true;
   };
 
 }
