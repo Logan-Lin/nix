@@ -24,6 +24,8 @@ in
   };
 
   config = {
+    users.users.${cfg.user}.extraGroups = lib.mkIf cfg.jellyfin.enable [ "render" "video" ];
+
     services.sonarr = lib.mkIf cfg.sonarr.enable {
       enable = true;
       user = cfg.user;
@@ -43,6 +45,10 @@ in
       user = cfg.user;
       group = cfg.group;
       openFirewall = false;
+    };
+
+    systemd.services.jellyfin.environment = lib.mkIf cfg.jellyfin.enable {
+      LIBVA_DRIVER_NAME = "iHD";
     };
 
     services.deluge = lib.mkIf cfg.deluge.enable {
