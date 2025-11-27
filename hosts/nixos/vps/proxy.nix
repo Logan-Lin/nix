@@ -30,10 +30,10 @@
           };
         };
 
-        # qBittorrent torrent client
-        qbit = {
-          rule = "Host(`qbit.yanlincs.com`)";
-          service = "qbit";
+        # Deluge torrent client
+        deluge = {
+          rule = "Host(`deluge.yanlincs.com`)";
+          service = "deluge";
           tls = {
             certResolver = "cloudflare";
             domains = [{
@@ -95,16 +95,16 @@
         jellyfin = {
           loadBalancer = {
             servers = [{
-              url = "http://10.2.2.20:5002";
+              url = "http://10.2.2.20:8096";
             }];
           };
         };
 
-        # qBittorrent backend (via WireGuard)
-        qbit = {
+        # Deluge backend (via WireGuard)
+        deluge = {
           loadBalancer = {
             servers = [{
-              url = "http://10.2.2.20:8080";
+              url = "http://10.2.2.20:8112";
             }];
           };
         };
@@ -122,7 +122,7 @@
         sonarr = {
           loadBalancer = {
             servers = [{
-              url = "http://10.2.2.20:5003";
+              url = "http://10.2.2.20:8989";
             }];
           };
         };
@@ -131,7 +131,7 @@
         radarr = {
           loadBalancer = {
             servers = [{
-              url = "http://10.2.2.20:5004";
+              url = "http://10.2.2.20:7878";
             }];
           };
         };
