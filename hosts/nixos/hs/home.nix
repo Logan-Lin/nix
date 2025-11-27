@@ -20,7 +20,8 @@
   services.scheduled-commands.video-downloads = {
     enable = true;
     description = "Download web videos from favorite channels";
-    interval = "*-*-* 18:00:00";
+    interval = "*-*-* 06,18:00:00";
+    randomDelay = "15m";
     commands = [
       "dlv youtube -n 3 --days 7 -r 1 --min 1 --max 180 'https://www.youtube.com/@KitbogaShow/videos'"
       "dlv youtube -n 3 --days 7 -r 1 --min 1 --max 180 'https://www.youtube.com/@JCS/videos'"
