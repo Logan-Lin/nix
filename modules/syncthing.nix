@@ -111,6 +111,14 @@ in
             ignorePerms = true;
             versioning = commonVersioning;
           };
+        })
+        // (lib.optionalAttrs (lib.elem "NSFW" cfg.enabledFolders) {
+          "Archive" = {
+            path = "~/NSFW";
+            devices = pcDevices;
+            ignorePerms = true;
+            versioning = commonVersioning;
+          };
         });
       
       # GUI settings with authentication
@@ -148,6 +156,9 @@ in
     })
     (lib.mkIf (lib.elem "Archive" cfg.enabledFolders) {
       "Archive/.stignore".text = stignoreContent;
+    })
+    (lib.mkIf (lib.elem "NSFW" cfg.enabledFolders) {
+      "NSFW/.stignore".text = stignoreContent;
     })
   ];
 
