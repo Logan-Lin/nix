@@ -36,7 +36,7 @@ in
       python312Packages.bgutil-ytdlp-pot-provider  # PO token provider for YouTube
     ];
 
-    # Cookie files must be manually placed at:
+    # NOTE: Cookie files must be manually placed at:
     #   ~/.config/yt-dlp/cookies-youtube.txt
     #   ~/.config/yt-dlp/cookies-bilibili.txt
 
