@@ -13,7 +13,6 @@
     ../../modules/rsync.nix
     ../../modules/btop.nix
     ../../modules/dictionary.nix
-    ../../modules/yt-dlp.nix
     ../../modules/claude-code.nix
     ../../modules/fonts.nix
   ];
