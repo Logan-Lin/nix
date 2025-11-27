@@ -243,7 +243,6 @@
       "/home"
       "/mnt/storage/appbulk/immich/library/"
       "/mnt/storage/Media/DCIM"
-      "/mnt/storage/Media/nsfw"
     ];
     # Examples:
     # backupFrequency = "daily";           # Midnight (default)
