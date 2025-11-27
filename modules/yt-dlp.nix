@@ -32,6 +32,7 @@ in
       cfg.package
       deno     # Required for YouTube downloads due to JS challenges
       ffmpeg
+      jq       # For JSON parsing in cleanup functions
       python312Packages.bgutil-ytdlp-pot-provider  # PO token provider for YouTube
     ];
 
@@ -461,6 +462,55 @@ in
         echo "  ⊙ Skipped:   $skipped"
         [[ $failed -gt 0 ]] && echo "  ✗ Failed:    $failed"
         echo "════════════════════════════════════════"
+      }
+
+      dlv-remove-older() {
+        local days=""
+        local root_dir=""
+
+        while [[ $# -gt 0 ]]; do
+          case "$1" in
+            --days)
+              days="$2"
+              shift 2
+              ;;
+            *)
+              root_dir="$1"
+              shift
+              ;;
+          esac
+        done
+
+        if [[ -z "$days" ]] || [[ -z "$root_dir" ]]; then
+          echo "Usage: dlv-remove-older --days <N> <root_dir>"
+          echo "Remove videos older than N days (based on upload_date in .info.json)"
+          return 1
+        fi
+
+        root_dir="''${root_dir/#\~/$HOME}"
+
+        if [[ ! -d "$root_dir" ]]; then
+          echo "Directory not found: $root_dir"
+          return 1
+        fi
+
+        local cutoff_date=$(date -d "$days days ago" +%Y%m%d)
+        local removed=0
+
+        echo "Scanning for videos older than $days days (before $cutoff_date)..."
+
+        while IFS= read -r -d $'\0' info_file; do
+          local upload_date=$(jq -r '.upload_date // empty' "$info_file" 2>/dev/null)
+
+          if [[ -n "$upload_date" ]] && [[ "$upload_date" < "$cutoff_date" ]]; then
+            local base="''${info_file%.info.json}"
+            echo "Removing: $(basename "$base")"
+            rm -f "$base".{mp4,webm,mkv,info.json,description,jpg,webp,png}
+            ((removed++))
+          fi
+        done < <(find "$root_dir" -type f -name "*.info.json" -print0)
+
+        echo "Removed $removed video(s) older than $days days"
       }
     '';
   };
