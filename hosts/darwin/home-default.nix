@@ -17,7 +17,6 @@
     ../../modules/ghostty.nix
     ../../modules/syncthing.nix
     ../../modules/dictionary.nix
-    ../../modules/yt-dlp.nix
     ../../modules/claude-code.nix
     ../../modules/tex.nix
     ../../modules/fonts.nix

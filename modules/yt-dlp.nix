@@ -36,15 +36,6 @@ in
       python312Packages.bgutil-ytdlp-pot-provider  # PO token provider for YouTube
     ];
 
-    # Cookie files - managed by Nix (read-only)
-    # The download function copies these to temp files when needed
-    home.file.".config/yt-dlp/cookies-youtube.txt" = {
-      source = ../config/yt-dlp/cookies-youtube.txt;
-    };
-    home.file.".config/yt-dlp/cookies-bilibili.txt" = {
-      source = ../config/yt-dlp/cookies-bilibili.txt;
-    };
-
     # Create yt-dlp configuration file
     home.file.".config/yt-dlp/config".text = ''
       # Quality settings
@@ -92,19 +83,6 @@ in
       MAX_RETRIES=10
       BASE_DELAY=10
 
-      # Helper function to create writable cookie file
-      _setup_temp_cookies() {
-        local cookies_file="$1"
-        if [[ -f "$cookies_file" ]]; then
-          local temp_cookies="/tmp/yt-dlp-cookies-$$.txt"
-          cp "$cookies_file" "$temp_cookies" 2>/dev/null
-          chmod 644 "$temp_cookies" 2>/dev/null
-          echo "$temp_cookies"
-        else
-          echo ""
-        fi
-      }
-      
       # Retry wrapper function with exponential backoff
       _retry_download() {
         local cmd="$1"
@@ -275,7 +253,6 @@ in
           output_template="$DOWNLOAD_DIR/$platform_name/%(uploader|)s/%(upload_date>%Y%m%d|)s-%(title)s.%(ext)s"
         fi
 
-        local temp_cookies=$(_setup_temp_cookies "$cookies_file")
         local archive_file="$DOWNLOAD_DIR/.archive.txt"
 
         # Setup and display info
@@ -296,7 +273,7 @@ in
         fi
         [[ -n "$max_downloads" ]] && cmd="$cmd --playlist-end '$max_downloads'"
         [[ -n "$days_filter" ]] && cmd="$cmd --dateafter 'today-''${days_filter}days'"
-        [[ -n "$temp_cookies" ]] && cmd="$cmd --cookies '$temp_cookies'" || cmd="$cmd --no-cookies"
+        [[ -f "$cookies_file" ]] && cmd="$cmd --cookies '$cookies_file'" || cmd="$cmd --no-cookies"
         cmd="$cmd --download-archive '$archive_file' -o '$output_template' '$url'"
 
         # Execute download with retry
@@ -340,9 +317,6 @@ in
 
           local result=1
         fi
-
-        # Clean up temp cookies
-        [[ -n "$temp_cookies" ]] && rm -f "$temp_cookies"
 
         return $result
       }
