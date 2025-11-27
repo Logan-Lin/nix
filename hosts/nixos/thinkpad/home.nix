@@ -26,11 +26,6 @@
     ];
   };
 
-  programs.yt-dlp-custom = {
-    enable = true;
-    downloadDir = "~/Downloads/web-video";
-  };
-
   # Enable Ghostty terminal with OSC-52 clipboard support
   programs.ghostty-custom = {
     enable = true;

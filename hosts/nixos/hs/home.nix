@@ -6,6 +6,7 @@
     ../../../modules/syncthing.nix
     ../../../modules/tex.nix
     ../../../modules/schedule.nix
+    ../../../modules/yt-dlp.nix
   ];
 
   # hs-specific home configuration
@@ -19,8 +20,7 @@
   services.scheduled-commands.video-downloads = {
     enable = true;
     description = "Download web videos from favorite channels";
-    interval = "*-*-* 19:00:00";
-    randomDelay = "1h";
+    interval = "*-*-* 18:00:00";
     commands = [
       "dlv youtube -n 3 --days 7 -r 1 --min 1 --max 180 'https://www.youtube.com/@KitbogaShow/videos'"
       "dlv youtube -n 3 --days 7 -r 1 --min 1 --max 180 'https://www.youtube.com/@JCS/videos'"
@@ -39,6 +39,8 @@
       "dlv youtube -n 3 --days 7 -r 1 --min 1 --max 180 'https://www.youtube.com/@linustechtips/videos'"
       "dlv youtube -n 3 --days 7 -r 1 --min 1 --max 180 'https://www.youtube.com/@_gerg/videos'"
       "dlv youtube -n 3 --days 7 -r 1 --min 1 --max 180 'https://www.youtube.com/@Yeah_Jaron/videos'"
+      "dlv bilibili -n 7 --days 7 -r 1 'https://space.bilibili.com/1629347259/upload/video'"  # 红警HBK08
+      "dlv bilibili -n 7 --days 7 -r 1 'https://space.bilibili.com/483246073/upload/video'"  # 红警魔鬼蓝天
       "dlv bilibili -n 3 --days 7 -r 1 --title '摸鱼切片' 'https://space.bilibili.com/15810/upload/video'"  # Mr.Quin
       "dlv bilibili -n 3 --days 7 -r 1 --title 'PGN' 'https://space.bilibili.com/8012266/upload/video'"  # PGN
       "dlv bilibili -n 3 --days 7 -r 1 'https://space.bilibili.com/2799050'"  # 白洋
