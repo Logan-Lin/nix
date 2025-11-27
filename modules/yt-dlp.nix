@@ -45,42 +45,6 @@ in
       source = ../config/yt-dlp/cookies-bilibili.txt;
     };
 
-    # Audio normalization post-processing script
-    home.file.".config/yt-dlp/normalize-audio.sh" = {
-      text = ''
-        # Post-processing script to add normalized audio track
-        # Usage: normalize-audio.sh <video-file>
-
-        file="$1"
-
-        # Only process MP4 files
-        if [[ "$file" != *.mp4 ]]; then
-          exit 0
-        fi
-
-        echo "Adding normalized audio track..."
-        temp="''${file}.temp.mp4"
-
-        # Add normalized audio track alongside original
-        # Track 0: Original audio
-        # Track 1: Normalized audio (lower volume, -27 LUFS) with metadata name
-        if ffmpeg -loglevel error -i "$file" \
-          -map 0:v -c:v copy \
-          -map 0:a:0 -c:a:0 copy \
-          -map 0:a:0 -filter:a:1 "loudnorm=I=-27:TP=-2:LRA=7" -c:a:1 aac -b:a:1 128k \
-          -metadata:s:a:1 title="dlv-normalized" \
-          -y "$temp"; then
-          mv "$temp" "$file"
-          echo "✓ Normalized audio track added"
-        else
-          echo "✗ Failed to add normalized audio track"
-          rm -f "$temp"
-          exit 1
-        fi
-      '';
-      executable = true;
-    };
-
     # Create yt-dlp configuration file
     home.file.".config/yt-dlp/config".text = ''
       # Quality settings
@@ -108,9 +72,6 @@ in
 
       # SponsorBlock for YouTube
       --sponsorblock-mark all
-
-      # Audio normalization post-processing
-      --exec after_move:~/.config/yt-dlp/normalize-audio.sh
 
       # Remote components for JavaScript challenge solving (required for YouTube)
       --remote-components ejs:npm
@@ -402,68 +363,6 @@ in
       # Alias for backward compatibility
       alias dlv-clear-archive='dl-clear-archive'
 
-      # Function to retrospectively normalize audio for all videos in a directory
-      dlv-normalize-dir() {
-        local target_dir="''${1:-.}"
-
-        # Normalize path and expand tilde
-        target_dir="''${target_dir/#\~/$HOME}"
-
-        if [[ ! -d "$target_dir" ]]; then
-          echo "✗ Error: Directory not found: $target_dir"
-          return 1
-        fi
-
-        echo "Scanning for MP4 files in: $target_dir"
-
-        # Find all MP4 files
-        local files=()
-        while IFS= read -r -d $'\0' file; do
-          files+=("$file")
-        done < <(find "$target_dir" -type f -name "*.mp4" -print0)
-
-        if [[ ''${#files[@]} -eq 0 ]]; then
-          echo "No MP4 files found in directory"
-          return 0
-        fi
-
-        echo "Found ''${#files[@]} MP4 file(s)"
-        echo ""
-
-        local processed=0
-        local skipped=0
-        local failed=0
-        local current=0
-
-        for file in "''${files[@]}"; do
-          ((current++))
-          echo "[$current/''${#files[@]}] Processing: $(basename "$file")"
-
-          # Check if file already has multiple audio tracks (already processed)
-          local audio_count=$(ffprobe -v error -select_streams a -show_entries stream=index -of csv=p=0 "$file" 2>/dev/null | wc -l)
-
-          if [[ $audio_count -ge 2 ]]; then
-            echo "  ⊙ Skipped (already has $audio_count audio tracks)"
-            ((skipped++))
-          else
-            # Run the normalization script
-            if ~/.config/yt-dlp/normalize-audio.sh "$file"; then
-              ((processed++))
-            else
-              ((failed++))
-            fi
-          fi
-          echo ""
-        done
-
-        echo "════════════════════════════════════════"
-        echo "Summary:"
-        echo "  ✓ Processed: $processed"
-        echo "  ⊙ Skipped:   $skipped"
-        [[ $failed -gt 0 ]] && echo "  ✗ Failed:    $failed"
-        echo "════════════════════════════════════════"
-      }
-
       dlv-remove-older() {
         local days=""
         local root_dir=""
@@ -510,7 +409,16 @@ in
           fi
         done < <(find "$root_dir" -type f -name "*.info.json" -print0)
 
-        echo "Removed $removed video(s) older than $days days"
+        local dirs_removed=0
+        while IFS= read -r -d $'\0' dir; do
+          if [[ -d "$dir" ]] && ! find "$dir" -type f \( -name "*.mp4" -o -name "*.webm" -o -name "*.mkv" \) -print -quit 2>/dev/null | grep -q .; then
+            echo "Removing directory (no videos): $dir"
+            rm -rf "$dir"
+            ((dirs_removed++))
+          fi
+        done < <(find "$root_dir" -mindepth 2 -maxdepth 2 -type d -print0 2>/dev/null)
+
+        echo "Removed $removed video(s) and $dirs_removed directory(ies) with no videos"
       }
     '';
   };
