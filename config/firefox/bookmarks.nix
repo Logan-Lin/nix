@@ -96,8 +96,8 @@
               url = "https://jellyfin.yanlincs.com";
             }
             {
-              name = "qBittorrent";
-              url = "https://qbit.yanlincs.com";
+              name = "Deluge";
+              url = "https://deluge.yanlincs.com";
             }
             {
               name = "Sonarr";
