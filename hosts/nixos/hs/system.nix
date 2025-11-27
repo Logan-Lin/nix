@@ -241,8 +241,6 @@
     repositoryUrl = "ssh://borg-box/./hs";
     backupPaths = [
       "/home"
-      "/var/lib/containers/config" 
-      "/etc" 
       "/mnt/storage/appbulk/immich/library/"
       "/mnt/storage/Media/DCIM"
       "/mnt/storage/Media/nsfw"
