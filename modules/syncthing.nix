@@ -22,8 +22,10 @@ let
   stignoreContent = lib.concatStringsSep "\n" commonIgnores;
 
   # Device groupings
-  pcDevices = [ "hs" "thinkpad" "macbook" ];
+  nixosDevices = [ "hs" "thinkpad" ];
+  darwinDevices = [ "macbook" ];
   touchDevices = [ "iphone" "ipad" ];
+  pcDevices = nixosDevices ++ darwinDevices;
   allDevices = pcDevices ++ touchDevices;
 
   # Common versioning configuration
@@ -113,9 +115,9 @@ in
           };
         })
         // (lib.optionalAttrs (lib.elem "NSFW" cfg.enabledFolders) {
-          "Archive" = {
+          "NSFW" = {
             path = "~/NSFW";
-            devices = pcDevices;
+            devices = nixosDevices;
             ignorePerms = true;
             versioning = commonVersioning;
           };
