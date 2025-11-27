@@ -7,6 +7,7 @@
     ../../../modules/hyprland/system.nix
     ../../../modules/wireguard.nix
     ../../../modules/login-display.nix
+    ../../../modules/dufs.nix
   ];
 
   # Bootloader - standard UEFI setup
@@ -251,6 +252,12 @@
       "/dev/nvme0n1" = "System_SSD";
     };
     showDiskUsage = true;
+  };
+
+  services.dufs = {
+    sharedPath = "/home/yanlin/NSFW";
+    user = "yanlin";
+    group = "users";
   };
 
 }
