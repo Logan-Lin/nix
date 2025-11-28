@@ -55,12 +55,6 @@
     options = [ "defaults" "noatime" ];
   };
 
-  fileSystems."/mnt/wd-14t-1" = {
-    device = "/dev/disk/by-id/ata-WDC_WD140EDFZ-11A0VA0_9MGJULEK-part1";
-    fsType = "xfs";
-    options = [ "defaults" "noatime" ];
-  };
-
   # Parity drive for SnapRAID
   fileSystems."/mnt/parity" = {
     device = "/dev/disk/by-id/ata-ST16000NM000J-2TW103_WRS0F8BE-part1";
@@ -70,7 +64,7 @@
 
   # MergerFS union mount (needs to be after XFS mounts)
   fileSystems."/mnt/storage" = {
-    device = "/mnt/wd-12t-1:/mnt/wd-12t-2:/mnt/wd-14t-1";
+    device = "/mnt/wd-12t-1:/mnt/wd-12t-2";
     fsType = "mergerfs";
     options = [
       "defaults"
@@ -179,14 +173,12 @@
       "/mnt/parity/.snapraid.content"
       "/mnt/wd-12t-1/.snapraid.content"
       "/mnt/wd-12t-2/.snapraid.content"
-      "/mnt/wd-14t-1/.snapraid.content"
     ];
 
     # Data disks to protect
     dataDisks = {
       d1 = "/mnt/wd-12t-1/";
       d2 = "/mnt/wd-12t-2/";
-      d3 = "/mnt/wd-14t-1/";
     };
     
     # Sync and scrub schedule
@@ -225,7 +217,6 @@
       "/dev/disk/by-id/ata-ZHITAI_SC001_XT_1000GB_ZTB401TAB244431KEG" = "ZFS_Mirror_2";
       "/dev/disk/by-id/ata-HGST_HUH721212ALE604_5PK2N4GB" = "Data_1_12TB";
       "/dev/disk/by-id/ata-HGST_HUH721212ALE604_5PJ7Z3LE" = "Data_2_12TB";
-      "/dev/disk/by-id/ata-WDC_WD140EDFZ-11A0VA0_9MGJULEK" = "Data_3_14TB";
       "/dev/disk/by-id/ata-ST16000NM000J-2TW103_WRS0F8BE" = "Parity_16TB";
     };
     showDiskUsage = true;
