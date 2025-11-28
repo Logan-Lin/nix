@@ -18,7 +18,7 @@
   ];
 
   syncthing-custom = {
-    enabledFolders = [ "Credentials" "Documents" "Obsidian" "Archive" "NSFW" ];
+    enabledFolders = [ "Credentials" "Documents" "Archive" "NSFW" ];
   };
 
   services.scheduled-commands.aicloud-backup = {
