@@ -140,6 +140,10 @@
               name = "Azusa";
               url = "https://azusa.wiki/torrents.php";
             }
+            {
+              name = "Kox.moe";
+              url = "https://kxx.moe/";
+            }
           ];
         }
         {
