@@ -51,7 +51,7 @@
       "dlv bilibili -n 3 --days 7 -r 1 'https://space.bilibili.com/2799050'"  # 白洋
       "dlv bilibili --days 7 -r 1 -p 'https://space.bilibili.com/781973/lists/1035653?type=season'"  # 兰柚梓
       "dlv bilibili --days 7 -r 1 -p 'https://space.bilibili.com/387087193/lists/518549?type=season'"  # 平安Draymond
-      "dlv-remove-older --days 14 '/mnt/storage/Media/web/'"
+      "dlv-remove-older --days 30 '/mnt/storage/Media/web/'"
     ];
   };
   
