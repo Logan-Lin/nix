@@ -81,6 +81,7 @@
     notifications.concurrency = 5;
     search.concurrency = 5;
     sidecar.concurrency = 5;
+    ocr.concurrency = 2;  # ML-intensive
     smartSearch.concurrency = 2;  # ML-intensive
     thumbnailGeneration.concurrency = 7;
     videoConversion.concurrency = 1;  # Hardware-accelerated, serialize for stability
@@ -126,6 +127,15 @@
       modelName = "buffalo_l";  # Large model for better accuracy
     };
     
+    # Optical Character Recognition
+    ocr = {
+      enabled = true;
+      maxResolution = 736;
+      minDetectionScore = 0.5;
+      minRecognitionScore = 0.8;
+      modelName = "PP-OCRv5_server";
+    };
+
     # ML processing URLs (internal container network)
     urls = [ "http://127.0.0.1:3003" ];
   };
