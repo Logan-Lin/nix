@@ -36,6 +36,7 @@
       "localsend"
       "calibre"
       "linearmouse"
+      "omnigraffle"
     ];
     taps = [
       # Additional repositories if needed
