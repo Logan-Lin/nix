@@ -37,7 +37,7 @@
       "calibre"
       "linearmouse"
       "omnigraffle"
-      "tailscale"
+      "tailscale-app"
     ];
     taps = [
       # Additional repositories if needed
