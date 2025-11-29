@@ -221,6 +221,15 @@
     };
   };
 
+  launchd.agents.tailscale = {
+    enable = true;
+    config = {
+      ProgramArguments = [ "/Applications/Tailscale.app/Contents/MacOS/Tailscale" ];
+      RunAtLoad = true;
+      KeepAlive = false;
+    };
+  };
+
   # File associations configuration (macOS equivalent of xdg.mimeApps)
   # Uses duti to set default applications for file types via Launch Services
   home.activation.setFileAssociations = config.lib.dag.entryAfter ["writeBoundary"] ''
