@@ -24,6 +24,7 @@
           mappings = [
             { button = 3; action = "appExpose"; }
             { button = 4; action = "missionControl"; }
+            { button = 2; action = "smartZoom"; }
             { scroll = "left"; action = { keyPress = [ "leftArrow" ]; }; }
             { scroll = "right"; action = { keyPress = [ "rightArrow" ]; }; }
           ];
