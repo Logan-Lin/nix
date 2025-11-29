@@ -66,18 +66,6 @@
           };
         };
 
-        # NSFW WebDAV (dufs on thinkpad)
-        nsfw = {
-          rule = "Host(`nsfw.yanlincs.com`)";
-          service = "nsfw";
-          tls = {
-            certResolver = "cloudflare";
-            domains = [{
-              main = "*.yanlincs.com";
-            }];
-          };
-        };
-
       };
 
       services = {
@@ -123,15 +111,6 @@
           loadBalancer = {
             servers = [{
               url = "http://lan.hs.yanlincs.com:7878";
-            }];
-          };
-        };
-
-        # NSFW backend (dufs on thinkpad via WireGuard)
-        nsfw = {
-          loadBalancer = {
-            servers = [{
-              url = "http://10.2.2.30:5099";
             }];
           };
         };

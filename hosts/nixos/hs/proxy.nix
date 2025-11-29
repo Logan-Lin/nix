@@ -27,6 +27,17 @@
           };
         };
 
+        photo = {
+          rule = "Host(`photo.${config.networking.hostName}.yanlincs.com`)";
+          service = "photo";
+          tls = {
+            certResolver = "cloudflare";
+            domains = [{
+              main = "*.${config.networking.hostName}.yanlincs.com";
+            }];
+          };
+        };
+
       };
 
       services = {
@@ -42,6 +53,14 @@
           loadBalancer = {
             servers = [{
               url = "http://127.0.0.1:8096";
+            }];
+          };
+        };
+
+        photo = {
+          loadBalancer = {
+            servers = [{
+              url = "http://127.0.0.1:5000";
             }];
           };
         };
