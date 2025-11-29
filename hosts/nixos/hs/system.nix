@@ -4,7 +4,7 @@
     ./containers.nix
     ./proxy.nix
     ../system-default.nix
-    ../../../modules/wireguard.nix
+    ../../../modules/tailscale.nix
     ../../../modules/podman.nix
     ../../../modules/traefik.nix
     ../../../modules/borg/client.nix
@@ -257,16 +257,9 @@
     '';
   };
 
-  # WireGuard VPN configuration (HS as client/spoke)
-  services.wireguard-custom = {
-    enable = true;
-    mode = "client";
-    clientConfig = {
-      address = "10.2.2.20/24";
-      serverPublicKey = "46QHjSzAas5g9Hll1SCEu9tbR5owCxXAy6wGOUoPwUM=";
-      serverEndpoint = "91.98.84.215:51820";
-      allowedIPs = [ "10.2.2.0/24" ];
-    };
+  services.tailscale-custom = {
+    exitNode = true;
+    subnetRoutes = [ "10.1.1.0/24" ];
   };
 
   # Samba file sharing
