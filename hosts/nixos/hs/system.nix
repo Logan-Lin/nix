@@ -220,7 +220,7 @@
       "/dev/disk/by-id/ata-ST16000NM000J-2TW103_WRS0F8BE" = "Parity_16TB";
     };
     showDiskUsage = true;
-    diskUsagePaths = [ "/" "/mnt/storage" "/mnt/parity" ];
+    diskUsagePaths = [ "/" "/home/" "/mnt/storage" "/mnt/parity" ];
     showSnapraidStatus = true;
     showBorgStatus = true;
   };
