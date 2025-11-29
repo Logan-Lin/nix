@@ -5,7 +5,7 @@
     ./hardware-configuration.nix
     ../system-default.nix
     ../../../modules/hyprland/system.nix
-    ../../../modules/wireguard.nix
+    ../../../modules/tailscale.nix
     ../../../modules/login-display.nix
     ../../../modules/dufs.nix
   ];
@@ -230,18 +230,7 @@
   # Apply XKB config to console (TTY) as well
   console.useXkbConfig = true;
 
-  # WireGuard VPN configuration (ThinkPad as client/spoke)
-  services.wireguard-custom = {
-    enable = true;
-    mode = "client";
-    privateKeyFile = "/etc/wireguard/thinkpad_private.key";
-    clientConfig = {
-      address = "10.2.2.30/24";
-      serverPublicKey = "46QHjSzAas5g9Hll1SCEu9tbR5owCxXAy6wGOUoPwUM=";
-      serverEndpoint = "91.98.84.215:51820";
-      allowedIPs = [ "10.2.2.0/24" ];
-    };
-  };
+  services.tailscale-custom.exitNode = true;
 
   # Login display with SMART disk health status
   services.login-display = {

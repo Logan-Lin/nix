@@ -4,7 +4,7 @@
     ./containers.nix
     ./proxy.nix
     ../system-default.nix
-    ../../../modules/wireguard.nix
+    ../../../modules/tailscale.nix
     ../../../modules/podman.nix
     ../../../modules/traefik.nix
     ../../../modules/borg/client.nix
@@ -42,7 +42,7 @@
     firewall = {
       enable = true;
       allowedTCPPorts = [ 22 80 443 ]; # SSH, HTTP, HTTPS
-      trustedInterfaces = [ "wg0" ]; # Allow all traffic through WireGuard interface
+      trustedInterfaces = [ "tailscale0" ];
     };
   };
 
@@ -109,30 +109,6 @@
     showBorgStatus = true;
   };
 
-  # WireGuard VPN configuration (VPS as hub/server)
-  services.wireguard-custom = {
-    enable = true;
-    mode = "server";
-    serverConfig = {
-      address = "10.2.2.1/24";
-      peers = [
-        {
-          name = "hs";
-          publicKey = "HZY7V8QlnFvY6ZWNiI0WgUgWUISnEqUdzXi7Oq9M1Es=";
-          allowedIPs = [ "10.2.2.20/32" ];
-        }
-        {
-          name = "thinkpad";
-          publicKey = "p3442J2HBGY5Pksu+0F4SFkBGjG99KIgwyk8eAt4YmA=";
-          allowedIPs = [ "10.2.2.30/32" ];
-        }
-        {
-          name = "rpi-wg-10-2-2-200";
-          publicKey = "vA+jDEtpkqHG0h3AfE0sZXuvw7kkLy/rq5VwwtCOnyE=";
-          allowedIPs = [ "10.2.2.200/32" ];
-        }
-      ];
-    };
-  };
+  services.tailscale-custom.exitNode = true;
 
 }

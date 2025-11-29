@@ -37,6 +37,7 @@
       "calibre"
       "linearmouse"
       "omnigraffle"
+      "tailscale"
     ];
     taps = [
       # Additional repositories if needed
