@@ -150,6 +150,14 @@
           name = "Tool";
           bookmarks = [
             {
+              name = "Cloudflare";
+              url = "https://dash.cloudflare.com";
+            }
+            {
+              name = "Hetzner";
+              url = "https://console.hetzner.com";
+            }
+            {
               name = "Tailscale";
               url = "https://login.tailscale.com/admin/machines";
             }
