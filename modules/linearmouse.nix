@@ -17,12 +17,15 @@
           };
         };
         pointer = {
-          disableAcceleration = true;
+          acceleration = 0;
+          speed = 0.6;
         };
         buttons = {
           mappings = [
             { button = 3; action = "appExpose"; }
             { button = 4; action = "missionControl"; }
+            { scroll = "left"; action = { keyPress = [ "leftArrow" ]; }; }
+            { scroll = "right"; action = { keyPress = [ "rightArrow" ]; }; }
           ];
         };
       }
