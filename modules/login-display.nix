@@ -199,13 +199,13 @@ in
 
           # Parse sync status
           if [[ -n "$SNAPRAID_SYNC_LOG" ]]; then
-            # Check for completion messages
-            if echo "$SNAPRAID_SYNC_LOG" | ${pkgs.gnugrep}/bin/grep -q "Everything OK"; then
+            # Check for completion messages (Everything OK or Nothing to do both indicate success)
+            if echo "$SNAPRAID_SYNC_LOG" | ${pkgs.gnugrep}/bin/grep -q "Everything OK\|Nothing to do"; then
               SYNC_STATUS="✓"
               SYNC_COLOR="\\033[38;2;184;187;38m"
 
-              # Get timestamp
-              SYNC_TIMESTAMP=$(journalctl -u snapraid-sync.service --output=short-iso -n 100 --no-pager 2>/dev/null | ${pkgs.gnugrep}/bin/grep "Everything OK" | tail -1 | ${pkgs.gawk}/bin/awk '{print $1}')
+              # Get timestamp from the most recent success message
+              SYNC_TIMESTAMP=$(journalctl -u snapraid-sync.service --output=short-iso -n 100 --no-pager 2>/dev/null | ${pkgs.gnugrep}/bin/grep "Everything OK\|Nothing to do" | tail -1 | ${pkgs.gawk}/bin/awk '{print $1}')
 
               if [[ -n "$SYNC_TIMESTAMP" ]]; then
                 SYNC_EPOCH=$(date -d "$SYNC_TIMESTAMP" +%s 2>/dev/null || echo "0")

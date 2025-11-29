@@ -184,8 +184,4 @@ in
 
   # Generate projects.json for shell scripts
   home.file.".config/nix/config/projects.json".text = builtins.toJSON projectsConfig;
-
-  # Ensure Steam screenshots and recordings directories exist
-  home.file."Pictures/Steam/.gitkeep".text = "";
-  home.file."Pictures/Steam/recordings/.gitkeep".text = "";
 }
