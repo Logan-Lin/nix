@@ -31,17 +31,6 @@
       };
 
       "hs" = {
-        hostname = "10.2.2.20";
-        user = "yanlin";
-        identityFile = "~/.ssh/keys/nas";
-        setEnv = {
-          TERM = "xterm-256color";
-        };
-      } // lib.optionalAttrs pkgs.stdenv.isDarwin {
-        proxyJump = "vps";
-      };
-
-      "hs.lan" = {
         hostname = "lan.hs.yanlincs.com";
         user = "yanlin";
         identityFile = "~/.ssh/keys/nas";
@@ -57,8 +46,6 @@
         setEnv = {
           TERM = "xterm-256color";
         };
-      } // lib.optionalAttrs pkgs.stdenv.isDarwin {
-        proxyJump = "vps";
       };
 
       "vps" = {
