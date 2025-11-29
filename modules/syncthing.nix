@@ -105,7 +105,7 @@ in
             ignorePerms = true;
             versioning = commonVersioning;
           };
-        })
+        });
       
       # GUI settings with authentication
       gui = {
