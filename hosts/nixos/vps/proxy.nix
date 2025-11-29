@@ -82,47 +82,47 @@
 
       services = {
 
-        # Photo service backend (via WireGuard)
+        # Photo service backend 
         photo = {
           loadBalancer = {
             servers = [{
-              url = "http://10.2.2.20:5000";
+              url = "http://lan.hs.yanlincs.com:5000";
             }];
           };
         };
 
-        # Jellyfin backend (via WireGuard)
+        # Jellyfin backend 
         jellyfin = {
           loadBalancer = {
             servers = [{
-              url = "http://10.2.2.20:8096";
+              url = "http://lan.hs.yanlincs.com:8096";
             }];
           };
         };
 
-        # Deluge backend (via WireGuard)
+        # Deluge backend 
         deluge = {
           loadBalancer = {
             servers = [{
-              url = "http://10.2.2.20:8112";
+              url = "http://lan.hs.yanlincs.com:8112";
             }];
           };
         };
 
-        # Sonarr backend (via WireGuard)
+        # Sonarr backend 
         sonarr = {
           loadBalancer = {
             servers = [{
-              url = "http://10.2.2.20:8989";
+              url = "http://lan.hs.yanlincs.com:8989";
             }];
           };
         };
 
-        # Radarr backend (via WireGuard)
+        # Radarr backend 
         radarr = {
           loadBalancer = {
             servers = [{
-              url = "http://10.2.2.20:7878";
+              url = "http://lan.hs.yanlincs.com:7878";
             }];
           };
         };
