@@ -40,7 +40,7 @@
       };
 
       "thinkpad" = {
-        hostname = "10.2.2.30";
+        hostname = "vpn.thinkpad.yanlincs.com";
         user = "yanlin";
         identityFile = "~/.ssh/keys/thinkpad";
         setEnv = {
