@@ -37,7 +37,6 @@ in
       sources = [
         (mkTuple [ "xkb" "us" ])
         (mkTuple [ "ibus" "libpinyin" ])
-        (mkTuple [ "ibus" "mozc-jp" ])
       ];
       xkb-options = [ "" ];
     };
@@ -116,21 +115,6 @@ in
     };
 
   };
-
-  # IBus Mozc (Japanese) configuration - default to Hiragana input mode
-  home.file.".config/mozc/ibus_config.textproto".text = ''
-    engines {
-      name : "mozc-jp"
-      longname : "Mozc"
-      layout : "default"
-      layout_variant : ""
-      layout_option : ""
-      rank : 80
-      symbol : "あ"
-      composition_mode : HIRAGANA
-    }
-    active_on_launch: True
-  '';
 
   # Configure cursor theme system-wide
   home.pointerCursor = {

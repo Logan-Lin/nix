@@ -18,10 +18,6 @@
       Name=rime
       Layout=
 
-      [Groups/0/Items/2]
-      Name=mozc
-      Layout=
-
       [GroupOrder]
       0=Default
     '';
@@ -57,15 +53,6 @@
 
   # Rime addon configuration - 7 candidates per page
   xdg.configFile."fcitx5/conf/rime.conf" = {
-    force = true;
-    text = ''
-      [InputMethod]
-      PageSize=7
-    '';
-  };
-
-  # Mozc addon configuration - 7 candidates per page
-  xdg.configFile."fcitx5/conf/mozc.conf" = {
     force = true;
     text = ''
       [InputMethod]
@@ -203,10 +190,7 @@
             keyboard-us)
               ${pkgs.fcitx5}/bin/fcitx5-remote -s rime
               ;;
-            rime)
-              ${pkgs.fcitx5}/bin/fcitx5-remote -s mozc
-              ;;
-            mozc|*)
+            *)
               ${pkgs.fcitx5}/bin/fcitx5-remote -s keyboard-us
               ;;
           esac
