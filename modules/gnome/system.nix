@@ -86,8 +86,7 @@ in
       enable = true;
       type = "ibus";
       ibus.engines = with pkgs.ibus-engines; [
-        libpinyin  # Chinese Simplified Pinyin
-        mozc       # Japanese (Romaji)
+        libpinyin
       ];
     };
 
