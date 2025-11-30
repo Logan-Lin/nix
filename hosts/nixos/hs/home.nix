@@ -52,6 +52,7 @@
       "dlv bilibili --days 7 -r 1 -p 'https://space.bilibili.com/781973/lists/1035653?type=season'"  # 兰柚梓
       "dlv bilibili --days 7 -r 1 -p 'https://space.bilibili.com/781973/lists/2266217?type=season'"  # 兰柚梓
       "dlv bilibili --days 7 -r 1 -p 'https://space.bilibili.com/387087193/lists/518549?type=season'"  # 平安Draymond
+      "dlv bilibili --days 7 -r 1 -p 'https://space.bilibili.com/24956505/lists/6741234?type=season'"  # 苦命亦云
       "dlv-remove-older --days 30 '/mnt/storage/Media/web/'"
     ];
   };
