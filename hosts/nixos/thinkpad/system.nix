@@ -4,7 +4,7 @@
   imports = [
     ./hardware-configuration.nix
     ../system-default.nix
-    ../../../modules/hyprland/system.nix
+    ../../../modules/gnome/system.nix
     ../../../modules/tailscale.nix
     ../../../modules/login-display.nix
   ];

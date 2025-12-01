@@ -48,10 +48,9 @@ in
         (lib.optionals (!cfg.alwaysShowTopBar) [ "hidetopbar@mathieu.bidon.ca" ])
         ++ [
           "pano@elhan.io"
-          "rounded-window-corners@fxgn"
         ];
       favorite-apps = [
-        "Thunar.desktop"
+        "thunar.desktop"
         "com.mitchellh.ghostty.desktop"
         "firefox.desktop"
         "obsidian.desktop"
@@ -128,9 +127,19 @@ in
   # Configure GTK theme and icon theme
   gtk = {
     enable = true;
+    theme = {
+      name = "Adwaita-dark";
+      package = pkgs.gnome-themes-extra;
+    };
     iconTheme = {
-      package = pkgs.adwaita-icon-theme;
-      name = "Adwaita";
+      package = pkgs.papirus-icon-theme;
+      name = "Papirus-Dark";
+    };
+    gtk3.extraConfig = {
+      gtk-application-prefer-dark-theme = 1;
+    };
+    gtk4.extraConfig = {
+      gtk-application-prefer-dark-theme = 1;
     };
   };
 
@@ -156,7 +165,6 @@ in
     (lib.optionals (!cfg.alwaysShowTopBar) [ gnomeExtensions.hide-top-bar ])
     ++ [
       gnomeExtensions.pano
-      gnomeExtensions.rounded-window-corners
       xfce.thunar
     ];
 
