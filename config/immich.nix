@@ -93,7 +93,7 @@
       cronExpression = "0 0 * * *";  # Daily at midnight
       enabled = true;  # Scan external libraries for changes
     };
-    watch.enabled = false;  # Don't watch for real-time changes (saves resources)
+    watch.enabled = true;  # Don't watch for real-time changes (saves resources)
   };
 
   # Logging configuration
