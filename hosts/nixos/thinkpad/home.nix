@@ -9,7 +9,7 @@
     ../home-default.nix
     ../../../modules/syncthing.nix
     ../../../modules/tex.nix
-    ../../../modules/hyprland/home.nix
+    ../../../modules/gnome/home.nix
     ../../../modules/firefox.nix
     ../../../modules/ghostty.nix
     ../../../modules/papis.nix
