@@ -97,7 +97,7 @@ in
           sleep-inactive-ac-type = "nothing";
         };
         "org/gnome/desktop/a11y/applications" = {
-          screen-keyboard-enabled = true;
+          screen-keyboard-enabled = false;
         };
         "org/gnome/desktop/peripherals/mouse" = {
           accel-profile = "flat";
