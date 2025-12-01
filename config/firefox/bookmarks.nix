@@ -137,6 +137,10 @@
               url = "https://share.dmhy.org/";
             }
             {
+              name = "TSDM";
+              url = "https://www.tsdm39.com/forum.php";
+            }
+            {
               name = "Azusa";
               url = "https://azusa.wiki/torrents.php";
             }
