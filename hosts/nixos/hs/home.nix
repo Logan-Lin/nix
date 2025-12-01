@@ -11,8 +11,13 @@
 
   # hs-specific home configuration
 
-  syncthing-custom = {
-    enabledFolders = [ "Credentials" "Documents" "Archive" "NSFW" ];
+  services.scheduled-commands.aicloud-backup = {
+    enable = true;
+    description = "Backup aicloud files";
+    interval = "*-*-* 12:00:00";
+    commands = [
+      "rsync -avP aicloud:~/ /mnt/storage/Backup/aicloud/ --exclude='/.*'"
+    ];
   };
   
   # yt-dlp configuration - store videos on large storage
