@@ -231,9 +231,9 @@
     # Use SSH alias from SSH config for remote backup to thinkpad borg server
     repositoryUrl = "ssh://borg-box/./hs";
     backupPaths = [
-      "/home"
       "/mnt/storage/appbulk/immich/library/"
       "/mnt/storage/Media/DCIM"
+      "/mnt/storage/Media/nsfw"
     ];
     # Examples:
     # backupFrequency = "daily";           # Midnight (default)
