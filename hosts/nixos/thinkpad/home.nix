@@ -17,19 +17,6 @@
     ../../../modules/schedule.nix
   ];
 
-  syncthing-custom = {
-    enabledFolders = [ "Credentials" "Documents" "Archive" "NSFW" ];
-  };
-
-  services.scheduled-commands.aicloud-backup = {
-    enable = true;
-    description = "Backup aicloud files";
-    interval = "*-*-* 06:00:00";
-    commands = [
-      "rsync -avP aicloud.lan:~/ ~/Backup/aicloud/ --exclude='/.*'"
-    ];
-  };
-
   # Enable Ghostty terminal with OSC-52 clipboard support
   programs.ghostty-custom = {
     enable = true;
