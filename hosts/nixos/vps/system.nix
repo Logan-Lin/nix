@@ -9,6 +9,7 @@
     ../../../modules/traefik.nix
     ../../../modules/borg/client.nix
     ../../../modules/login-display.nix
+    ../../../modules/ntfy.nix
   ];
 
   # GRUB bootloader with UEFI support
