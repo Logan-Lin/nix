@@ -74,9 +74,16 @@ in
       description = "AI for Material";
       windows = [
         {
-          name = "";
-          path = homePath "Documents/Projects/Inverse Design of Disordered Materials";
+          name = "paper";
+          path = homePath "Documents/Projects/Inverse Design of Disordered Materials/mdshortcut-ijcai26-paper";
           ai = true;
+          git = true;
+          shell = false;
+        }
+        {
+          name = "proj";
+          path = homePath "Documents/Projects/Inverse Design of Disordered Materials";
+          ai = false;
           git = false;
           shell = true;
         }
