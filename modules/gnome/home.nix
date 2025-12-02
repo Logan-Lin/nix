@@ -52,6 +52,7 @@ in
       favorite-apps = [
         "thunar.desktop"
         "com.mitchellh.ghostty.desktop"
+        "cursor.desktop"
         "firefox.desktop"
         "obsidian.desktop"
         "org.keepassxc.KeePassXC.desktop"

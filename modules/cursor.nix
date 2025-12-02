@@ -1,6 +1,10 @@
 { config, pkgs, lib, ... }:
 
+with lib;
+
 let
+  cfg = config.programs.cursor;
+
   configDir = if pkgs.stdenv.isDarwin
     then "Library/Application Support/Cursor/User"
     else ".config/Cursor/User";
@@ -48,7 +52,18 @@ let
 
 in
 {
+  options.programs.cursor = {
+    package = mkOption {
+      type = types.nullOr types.package;
+      default = null;
+      example = "pkgs.code-cursor";
+      description = "Cursor package to use. Set to null on Darwin to use Homebrew-installed Cursor, or pkgs.code-cursor on NixOS.";
+    };
+  };
+
   config = {
+    home.packages = mkIf (cfg.package != null) [ cfg.package ];
+
     home.file."${configDir}/settings.json" = {
       text = builtins.toJSON ideSettings;
     };
