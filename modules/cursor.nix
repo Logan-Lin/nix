@@ -20,6 +20,8 @@ let
 
     "workbench.colorTheme" = "Gruvbox Dark Hard";
 
+    "git.openRepositoryInParentFolders" = "never";
+
     "vim.leader" = "<space>";
     "vim.useSystemClipboard" = true;
     "vim.normalModeKeyBindingsNonRecursive" = [
@@ -50,10 +52,10 @@ in
 
     home.activation.installCursorExtensions = config.lib.dag.entryAfter ["writeBoundary"] ''
       if command -v ${cursorCmd} &> /dev/null; then
-        run ${cursorCmd} --install-extension vscodevim.vim 2>/dev/null || true
-        run ${cursorCmd} --install-extension jdinhlife.gruvbox 2>/dev/null || true
-        run ${cursorCmd} --install-extension jnoortheen.nix-ide 2>/dev/null || true
-        run ${cursorCmd} --install-extension tomoki1207.pdf 2>/dev/null || true
+        run ${cursorCmd} --install-extension vscodevim.vim &> /dev/null || true
+        run ${cursorCmd} --install-extension jdinhlife.gruvbox &> /dev/null || true
+        run ${cursorCmd} --install-extension jnoortheen.nix-ide &> /dev/null || true
+        run ${cursorCmd} --install-extension tomoki1207.pdf &> /dev/null || true
       fi
     '';
   };
