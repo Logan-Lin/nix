@@ -61,6 +61,11 @@
         identityFile = "~/.ssh/keys/hetzner";
       };
 
+      "borg-thinkpad" = {
+        hostname = "vpn.thinkpad.yanlincs.com";
+        identityFile = "~/.ssh/keys/thinkpad";
+      };
+
     };
   };
 }
