@@ -15,6 +15,7 @@
     ../../../modules/papis.nix
     ../../../modules/libreoffice.nix
     ../../../modules/schedule.nix
+    ../../../modules/cursor.nix
   ];
 
   # Enable Ghostty terminal with OSC-52 clipboard support
@@ -30,6 +31,9 @@
     enable = true;
     package = pkgs.firefox;
   };
+
+  # Enable Cursor editor
+  programs.cursor.package = pkgs.code-cursor;
 
   # ThinkPad-specific applications
   home.packages = with pkgs; [
