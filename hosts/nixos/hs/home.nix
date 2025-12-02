@@ -14,7 +14,7 @@
   services.scheduled-commands.aicloud-backup = {
     enable = true;
     description = "Backup aicloud files";
-    interval = "*-*-* 12:00:00";
+    interval = "*-*-* 18:00:00";
     commands = [
       "rsync -avP aicloud:~/ /mnt/storage/Backup/aicloud/ --exclude='/.*'"
     ];

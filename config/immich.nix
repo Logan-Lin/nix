@@ -90,8 +90,8 @@
   # External library management
   library = {
     scan = {
-      cronExpression = "0 0 * * *";  # Daily at midnight
-      enabled = true;  # Scan external libraries for changes
+      cronExpression = "0 19 * * *";
+      enabled = false;  # Scan external libraries for changes
     };
     watch.enabled = true;  # Don't watch for real-time changes (saves resources)
   };
