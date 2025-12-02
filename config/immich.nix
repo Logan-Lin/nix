@@ -1,77 +1,61 @@
-# Immich photo and video backup system configuration
-# This configuration is used by the Immich container in modules/podman.nix
-# Documentation: https://immich.app/docs/install/config-file/
-
 {
-  # Database backup configuration
   backup.database = {
-    cronExpression = "0 02 * * *";  # Daily at 2 AM
+    cronExpression = "0 02 * * *";
     enabled = false;  # Using Borg backup instead
-    keepLastAmount = 14;  # Keep 14 days of backups when enabled
+    keepLastAmount = 14;
   };
 
-  # Video transcoding configuration
   ffmpeg = {
-    # Hardware acceleration using Intel QuickSync Video
-    accel = "qsv";
+    accel = "qsv";  # Intel QuickSync Video
     accelDecode = true;
-    
-    # Accepted codecs for direct playback (no transcoding needed)
+
     acceptedAudioCodecs = [ "aac" "mp3" "libopus" "pcm_s16le" ];
     acceptedContainers = [ "mov" "ogg" "webm" ];
     acceptedVideoCodecs = [ "h264" ];
-    
-    # Encoding settings
-    bframes = -1;  # Auto-detect optimal B-frames
+
+    bframes = -1;  # auto
     cqMode = "auto";
-    crf = 23;  # Constant Rate Factor (lower = better quality, larger files)
-    gopSize = 0;  # Auto-detect GOP size
-    maxBitrate = "0";  # No bitrate limit
+    crf = 23;  # lower = better quality, larger files
+    gopSize = 0;  # auto
+    maxBitrate = "0";  # unlimited
     preferredHwDevice = "auto";
-    preset = "ultrafast";  # Fastest encoding preset
-    refs = 0;  # Auto-detect reference frames
-    
-    # Target formats for transcoding
+    preset = "ultrafast";
+    refs = 0;  # auto
+
     targetAudioCodec = "aac";
-    targetResolution = "720";  # Transcode to 720p max
+    targetResolution = "720";
     targetVideoCodec = "h264";
-    
-    # Advanced settings
+
     temporalAQ = false;
-    threads = 0;  # Use all available CPU threads
-    tonemap = "hable";  # HDR to SDR tone mapping algorithm
-    transcode = "bitrate";  # Transcoding strategy
-    twoPass = false;  # Single-pass encoding for speed
+    threads = 0;  # all available
+    tonemap = "hable";  # HDR to SDR tone mapping
+    transcode = "bitrate";
+    twoPass = false;
   };
 
-  # Image processing configuration
   image = {
-    colorspace = "p3";  # Display P3 color space
-    extractEmbedded = true;  # Extract embedded preview images from RAW files
-    
-    # Full-size image settings
+    colorspace = "p3";
+    extractEmbedded = true;  # from RAW files
+
     fullsize = {
       enabled = true;
       format = "jpeg";
       quality = 80;
     };
-    
-    # Preview image settings (for web UI)
+
     preview = {
       format = "jpeg";
       quality = 80;
-      size = 1440;  # Max dimension in pixels
+      size = 1440;
     };
-    
-    # Thumbnail settings
+
     thumbnail = {
-      format = "webp";  # Modern format for smaller files
+      format = "webp";  # smaller files
       quality = 80;
-      size = 250;  # Max dimension in pixels
+      size = 250;
     };
   };
 
-  # Background job concurrency settings
   job = {
     backgroundTask.concurrency = 5;
     faceDetection.concurrency = 2;  # CPU-intensive
@@ -84,50 +68,43 @@
     ocr.concurrency = 1;  # ML-intensive
     smartSearch.concurrency = 2;  # ML-intensive
     thumbnailGeneration.concurrency = 7;
-    videoConversion.concurrency = 1;  # Hardware-accelerated, serialize for stability
+    videoConversion.concurrency = 1;  # serialize for stability
   };
 
-  # External library management
   library = {
     scan = {
       cronExpression = "0 19 * * *";
-      enabled = false;  # Scan external libraries for changes
+      enabled = true;
     };
-    watch.enabled = true;  # Don't watch for real-time changes (saves resources)
+    watch.enabled = false;
   };
 
-  # Logging configuration
   logging = {
     enabled = true;
-    level = "log";  # Options: verbose, debug, log, warn, error
+    level = "log";  # verbose, debug, log, warn, error
   };
 
-  # Machine learning configuration
   machineLearning = {
     enabled = true;
-    
-    # CLIP model for smart search
+
     clip = {
       enabled = true;
-      modelName = "immich-app/ViT-SO400M-16-SigLIP2-384__webli";  # Large model for better accuracy
+      modelName = "immich-app/ViT-SO400M-16-SigLIP2-384__webli";  # smart search
     };
-    
-    # Duplicate photo detection
+
     duplicateDetection = {
       enabled = false;
-      maxDistance = 0.01;  # Similarity threshold (lower = more similar)
+      maxDistance = 0.01;  # lower = more similar
     };
-    
-    # Facial recognition
+
     facialRecognition = {
       enabled = true;
-      maxDistance = 0.5;  # Face similarity threshold
-      minFaces = 3;  # Minimum faces to create a person
-      minScore = 0.7;  # Face detection confidence threshold
-      modelName = "buffalo_l";  # Large model for better accuracy
+      maxDistance = 0.5;
+      minFaces = 3;
+      minScore = 0.7;
+      modelName = "buffalo_l";
     };
-    
-    # Optical Character Recognition
+
     ocr = {
       enabled = true;
       maxResolution = 736;
@@ -136,38 +113,32 @@
       modelName = "PP-OCRv5_server";
     };
 
-    # ML processing URLs (internal container network)
-    urls = [ "http://127.0.0.1:3003" ];
+    urls = [ "http://127.0.0.1:3003" ];  # internal container network
   };
 
-  # Map configuration for geo-location features
   map = {
     enabled = true;
     darkStyle = "https://tiles.immich.cloud/v1/style/dark.json";
     lightStyle = "https://tiles.immich.cloud/v1/style/light.json";
   };
 
-  # Metadata handling
   metadata = {
-    faces.import = false;  # Don't import face tags from image metadata
+    faces.import = false;
   };
 
-  # Version checking
   newVersionCheck.enabled = false;
 
-  # Nightly maintenance tasks
   nightlyTasks = {
-    clusterNewFaces = true;  # Group new faces with existing people
-    databaseCleanup = true;  # Clean up orphaned database entries
-    generateMemories = true;  # Create "On This Day" memories
-    missingThumbnails = true;  # Generate missing thumbnails
-    startTime = "00:00";  # Midnight
-    syncQuotaUsage = true;  # Update storage quota calculations
+    clusterNewFaces = true;
+    databaseCleanup = true;
+    generateMemories = true;
+    missingThumbnails = true;
+    startTime = "00:00";
+    syncQuotaUsage = true;
   };
 
-  # Email notifications (disabled - using Gotify instead)
   notifications.smtp = {
-    enabled = false;
+    enabled = false;  # using Gotify instead
     from = "";
     replyTo = "";
     transport = {
@@ -179,9 +150,8 @@
     };
   };
 
-  # OAuth configuration (disabled - using local accounts)
   oauth = {
-    enabled = false;
+    enabled = false;  # using local accounts
     autoLaunch = false;
     autoRegister = true;
     buttonText = "Login with OAuth";
@@ -201,45 +171,36 @@
     tokenEndpointAuthMethod = "client_secret_post";
   };
 
-  # Password login configuration
   passwordLogin.enabled = true;
 
-  # Reverse geocoding for location names
   reverseGeocoding.enabled = true;
 
-  # Server configuration
   server = {
-    externalDomain = "https://photo.yanlincs.com";  # Public URL
+    externalDomain = "https://photo.yanlincs.com";
     loginPageMessage = "";
-    publicUsers = true;  # Allow public user profiles
+    publicUsers = true;
   };
 
-  # File organization template
   storageTemplate = {
     enabled = true;
-    hashVerificationEnabled = true;  # Verify file integrity
-    # Organize files by year/month-day/original-filename
-    template = "{{y}}/{{y}}-{{MM}}-{{dd}}/{{filename}}";
+    hashVerificationEnabled = true;
+    template = "{{y}}/{{y}}-{{MM}}-{{dd}}/{{filename}}";  # year/year-month-day/filename
   };
 
-  # Email templates (empty - using defaults)
   templates.email = {
     albumInviteTemplate = "";
     albumUpdateTemplate = "";
     welcomeTemplate = "";
   };
 
-  # Theme customization
   theme.customCss = "";
 
-  # Trash/recycle bin configuration
   trash = {
     enabled = true;
-    days = 30;  # Keep deleted items for 30 days
+    days = 30;
   };
 
-  # User management
   user = {
-    deleteDelay = 7;  # Days before permanently deleting user data
+    deleteDelay = 7;
   };
 }
