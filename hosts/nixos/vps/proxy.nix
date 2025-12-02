@@ -66,6 +66,18 @@
           };
         };
 
+        # ntfy notification service
+        ntfy = {
+          rule = "Host(`ntfy.yanlincs.com`)";
+          service = "ntfy";
+          tls = {
+            certResolver = "cloudflare";
+            domains = [{
+              main = "*.yanlincs.com";
+            }];
+          };
+        };
+
       };
 
       services = {
@@ -106,11 +118,20 @@
           };
         };
 
-        # Radarr backend 
+        # Radarr backend
         radarr = {
           loadBalancer = {
             servers = [{
               url = "http://lan.hs.yanlincs.com:7878";
+            }];
+          };
+        };
+
+        # ntfy backend
+        ntfy = {
+          loadBalancer = {
+            servers = [{
+              url = "http://localhost:8080";
             }];
           };
         };
