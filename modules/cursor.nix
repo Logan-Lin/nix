@@ -9,6 +9,13 @@ let
     then "/opt/homebrew/bin/cursor"
     else "cursor";
 
+  extensions = [
+    "vscodevim.vim"
+    "jdinhlife.gruvbox"
+    "jnoortheen.nix-ide"
+    "tomoki1207.pdf"
+  ];
+
   ideSettings = {
     "editor.fontFamily" = "'JetBrainsMono Nerd Font Mono', 'Noto Sans CJK SC', 'Noto Sans CJK TC', monospace";
     "editor.fontSize" = 14;
@@ -52,10 +59,18 @@ in
 
     home.activation.installCursorExtensions = config.lib.dag.entryAfter ["writeBoundary"] ''
       if command -v ${cursorCmd} &> /dev/null; then
-        run ${cursorCmd} --install-extension vscodevim.vim &> /dev/null || true
-        run ${cursorCmd} --install-extension jdinhlife.gruvbox &> /dev/null || true
-        run ${cursorCmd} --install-extension jnoortheen.nix-ide &> /dev/null || true
-        run ${cursorCmd} --install-extension tomoki1207.pdf &> /dev/null || true
+        desired="${lib.concatStringsSep " " extensions}"
+        installed=$(${cursorCmd} --list-extensions 2>/dev/null | tr '[:upper:]' '[:lower:]')
+
+        for ext in $installed; do
+          if ! echo "$desired" | tr '[:upper:]' '[:lower:]' | grep -qw "$ext"; then
+            run ${cursorCmd} --uninstall-extension "$ext" &> /dev/null || true
+          fi
+        done
+
+        for ext in ${lib.concatStringsSep " " extensions}; do
+          run ${cursorCmd} --install-extension "$ext" &> /dev/null || true
+        done
       fi
     '';
   };
