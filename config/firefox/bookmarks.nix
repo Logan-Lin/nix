@@ -109,30 +109,6 @@
           name = "Resource";
           bookmarks = [
             {
-              name = "M-Teams";
-              url = "https://next.m-team.cc/index";
-            }
-            {
-              name = "PTer";
-              url = "https://pterclub.net/torrents.php";
-            }
-            {
-              name = "HDSky";
-              url = "https://hdsky.me/torrents.php";
-            }
-            {
-              name = "Ourbits";
-              url = "https://ourbits.club/index.php";
-            }
-            {
-              name = "U2";
-              url = "https://u2.dmhy.org/torrents.php";
-            }
-            {
-              name = "Jpopsuki";
-              url = "https://jpopsuki.eu/index.php";
-            }
-            {
               name = "dmhy";
               url = "https://share.dmhy.org/";
             }
@@ -141,12 +117,41 @@
               url = "https://www.tsdm39.com/forum.php";
             }
             {
-              name = "Azusa";
-              url = "https://azusa.wiki/torrents.php";
-            }
-            {
               name = "Kox.moe";
               url = "https://kxx.moe/";
+            }
+            {
+              name = "PT";
+              bookmarks = [
+                {
+                  name = "M-Teams";
+                  url = "https://next.m-team.cc/index";
+                }
+                {
+                  name = "PTer";
+                  url = "https://pterclub.net/torrents.php";
+                }
+                {
+                  name = "HDSky";
+                  url = "https://hdsky.me/torrents.php";
+                }
+                {
+                  name = "Ourbits";
+                  url = "https://ourbits.club/index.php";
+                }
+                {
+                  name = "U2";
+                  url = "https://u2.dmhy.org/torrents.php";
+                }
+                {
+                  name = "Jpopsuki";
+                  url = "https://jpopsuki.eu/index.php";
+                }
+                {
+                  name = "Azusa";
+                  url = "https://azusa.wiki/torrents.php";
+                }
+              ];
             }
           ];
         }
