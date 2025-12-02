@@ -1,20 +1,12 @@
 { pkgs, lib, ... }:
 
-let
-  # Python with jupytext for notebook conversion
-  pythonWithJupytext = pkgs.python3.withPackages (ps: with ps; [
-    jupytext
-  ]);
-in
-
 {
   programs.nixvim = {
     enable = true;
     defaultEditor = true;
-    
-    # Ensure jupytext is available for the jupytext.nvim plugin
+
     # scowl provides English word lists for completion on NixOS
-    extraPackages = [ pythonWithJupytext pkgs.scowl ];
+    extraPackages = [ pkgs.scowl ];
 
     # Global settings
     globals.mapleader = " ";
@@ -194,9 +186,7 @@ in
     extraPlugins = with pkgs.vimPlugins; [
       vim-fugitive
       cmp-dictionary
-      plenary-nvim  # Required dependency for telescope
-      jupytext-nvim  # Jupyter notebook viewing/editing support
-      render-markdown-nvim  # Inline markdown rendering with conceals
+      plenary-nvim
     ];
 
     # Keymaps
@@ -276,16 +266,7 @@ in
         action = ":!thunar %:h &<CR><CR>";
         options = { desc = "Open current file directory in file manager"; };
       }
-    ]) ++ [
-
-      # Markdown rendering
-      {
-        mode = "n";
-        key = "<leader>m";
-        action = ":RenderMarkdown toggle<CR>";
-        options = { desc = "Toggle markdown rendering"; };
-      }
-    ];
+    ]);
 
     # Additional Lua configuration for plugins that need custom setup
     extraConfigLua = ''
@@ -330,28 +311,6 @@ in
           first_case_insensitive = true,                          -- Case insensitive matching
         })
       ''}
-
-      -- Jupytext setup for Jupyter notebook viewing
-      require("jupytext").setup({
-        -- Output format for notebooks (markdown with code cells)
-        style = "markdown",
-        output_extension = "md",  -- Convert notebooks to markdown for viewing
-        force_ft = "markdown",     -- Force markdown filetype for syntax highlighting
-        
-        -- Custom conversion parameters
-        custom = {
-          ["notebook_metadata_filter"] = "-all",  -- Remove all notebook metadata
-          ["cell_metadata_filter"] = "-all",      -- Remove all cell metadata
-        },
-      })
-
-      -- Auto-convert .ipynb files when opening
-      vim.api.nvim_create_autocmd({"BufReadPre"}, {
-        pattern = {"*.ipynb"},
-        callback = function()
-          vim.cmd("set ft=markdown")
-        end,
-      })
 
       -- Telescope setup for better file finding
       local telescope = require('telescope')
@@ -430,14 +389,6 @@ in
           end
         end
       ''}
-
-      -- Render-markdown setup (off by default, toggle with <space>+m)
-      require("render-markdown").setup({
-        enabled = false,  -- Off by default, use <space>+m to toggle
-        file_types = { "markdown" },
-        render_modes = { "n", "c" },  -- Render in normal and command mode
-      })
-
     '';
   };
 }
