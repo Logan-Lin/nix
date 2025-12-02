@@ -13,12 +13,6 @@
     ../../../modules/media-server.nix
   ];
 
-  # Automatic container updates
-  virtualisation.podman.updateContainers = {
-    enable = true;
-    interval = "Wed *-*-* 06:00:00";
-  };
-
   # GRUB bootloader with ZFS support
   boot.loader.grub = {
     enable = true;
@@ -182,7 +176,7 @@
     };
     
     # Sync and scrub schedule
-    sync.interval = "03:00";
+    sync.interval = "02:00";
     scrub.interval = "Mon *-*-* 06:00:00";
     
     # Files and directories to exclude from parity
@@ -235,12 +229,7 @@
       "/mnt/storage/Media/DCIM"
       "/mnt/storage/Media/nsfw"
     ];
-    # Examples:
-    # backupFrequency = "daily";           # Midnight (default)
-    # backupFrequency = "*-*-* 03:00:00";  # Every day at 3:00 AM
-    # backupFrequency = "*-*-* 22:30:00";  # Every day at 10:30 PM
-    # backupFrequency = "Mon,Wed,Fri 02:00:00"; # Mon/Wed/Fri at 2:00 AM
-    backupFrequency = "daily";
+    backupFrequency = "*-*-* 00:00:00";
     retention = {
       keepDaily = 7;
       keepWeekly = 4;
