@@ -25,6 +25,9 @@ in
         listen-http = ":${toString cfg.port}";
         base-url = cfg.baseUrl;
 
+        # iOS push notification support
+        upstream-base-url = "https://ntfy.sh";
+
         # Authentication
         auth-file = "/var/lib/ntfy-sh/user.db";
         auth-default-access = "deny-all";
