@@ -8,6 +8,7 @@
     ../../../modules/tailscale.nix
     ../../../modules/login-display.nix
     ../../../modules/borg/server.nix
+    ../../../modules/logiops.nix
   ];
 
   # Bootloader - standard UEFI setup
