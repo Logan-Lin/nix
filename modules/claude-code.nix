@@ -113,6 +113,13 @@ let
       "Bash(systemctl:*)"
       "Bash(service:*)"
       "Bash(launchctl:*)"
+
+      # Nix system operations
+      "Bash(nixos-rebuild:*)"
+      "Bash(nix-collect-garbage:*)"
+      "Bash(nix-channel:*)"
+      "Bash(oss:*)"
+      "Bash(hms:*)"
     ];
     
     ask = [
@@ -122,13 +129,6 @@ let
       "Bash(mv:*)"
       "Bash(cp:*)"
       "Bash(touch:*)"
-
-      # Nix system operations
-      "Bash(nixos-rebuild:*)"
-      "Bash(nix-collect-garbage:*)"
-      "Bash(nix-channel:*)"
-      "Bash(oss:*)"
-      "Bash(hms:*)"
 
       "Bash(curl:*)"
       "Bash(wget:*)"
