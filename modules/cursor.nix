@@ -53,6 +53,7 @@ in
         run ${cursorCmd} --install-extension vscodevim.vim 2>/dev/null || true
         run ${cursorCmd} --install-extension jdinhlife.gruvbox 2>/dev/null || true
         run ${cursorCmd} --install-extension jnoortheen.nix-ide 2>/dev/null || true
+        run ${cursorCmd} --install-extension tomoki1207.pdf 2>/dev/null || true
       fi
     '';
   };
