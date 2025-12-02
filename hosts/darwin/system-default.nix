@@ -49,6 +49,7 @@
       dashboard-in-overlay = false;          # Show Dashboard as overlay
       persistent-apps = [
         "/Applications/Ghostty.app"
+        "/Applications/Cursor.app"
         "/Applications/Firefox.app"
         "/Applications/Obsidian.app"
         "/Applications/KeePassXC.app"
