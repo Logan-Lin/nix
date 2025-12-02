@@ -14,6 +14,7 @@
     ];
     casks = [
       # GUI applications - manually installed apps now managed by Homebrew
+      "cursor"
       "keepassxc"
       "keycastr"
       "inkscape"
@@ -22,7 +23,6 @@
       "obsidian"
       "snipaste"
       "ghostty"
-      "textmate"
       "slidepilot"
       "tencent-meeting"
       "ovito"
