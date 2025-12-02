@@ -45,6 +45,9 @@ let
       { before = ["<leader>" "X"]; commands = ["workbench.action.closeOtherEditors"]; }
       { before = ["<leader>" "t"]; commands = ["workbench.action.quickOpen"]; }
       { before = ["<leader>" "g"]; commands = ["workbench.action.findInFiles"]; }
+      { before = ["<leader>" "f"]; commands = ["revealFileInOS"]; }
+      { before = ["<C-h>"]; commands = ["workbench.action.focusSideBar"]; }
+      { before = ["<C-l>"]; commands = ["workbench.action.focusActiveEditorGroup"]; }
     ];
   };
 
