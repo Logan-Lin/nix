@@ -266,6 +266,7 @@
     radarr.enable = true;
     jellyfin.enable = true;
     deluge.enable = true;
+    plex.enable = true;
   };
 
 }
