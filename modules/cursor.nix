@@ -32,6 +32,7 @@ let
     "workbench.colorTheme" = "Gruvbox Dark Hard";
 
     "git.openRepositoryInParentFolders" = "never";
+    "extensions.ignoreRecommendations" = true;
 
     "vim.leader" = "<space>";
     "vim.useSystemClipboard" = true;
