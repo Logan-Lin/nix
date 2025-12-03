@@ -75,11 +75,9 @@
   services.borg-client-custom = {
     enable = true;
     # Use SSH alias from SSH config for remote backup to thinkpad borg server
-    repositoryUrl = "ssh://borg-box/./vps";
+    repositoryUrl = "ssh://hs@borg-thinkpad/./vps";
     backupPaths = [
       "/home"
-      "/var/lib/containers/config"
-      "/etc"
     ];
     # Examples:
     # backupFrequency = "daily";           # Midnight (default)
