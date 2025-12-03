@@ -110,7 +110,7 @@
       maxResolution = 736;
       minDetectionScore = 0.5;
       minRecognitionScore = 0.8;
-      modelName = "PP-OCRv5_server";
+      modelName = "PP-OCRv5_mobile";
     };
 
     urls = [ "http://127.0.0.1:3003" ];  # internal container network
