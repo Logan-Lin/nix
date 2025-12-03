@@ -54,6 +54,7 @@ in
             "JetBrainsMono Nerd Font Mono"  # Primary font for Latin + symbols
             "Noto Sans CJK SC"              # Simplified Chinese fallback
             "Noto Sans CJK TC"              # Traditional Chinese fallback
+            "Noto Sans CJK JP"              # Japanese fallback
             "Source Han Sans"               # Alternative CJK fallback
           ];
           font-family-bold = "JetBrainsMono NFM Bold";
