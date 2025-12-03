@@ -39,6 +39,7 @@
       "linearmouse"
       "omnigraffle"
       "tailscale-app"
+      "typora"
     ];
     taps = [
       # Additional repositories if needed

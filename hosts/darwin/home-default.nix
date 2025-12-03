@@ -236,8 +236,8 @@
   home.activation.setFileAssociations = config.lib.dag.entryAfter ["writeBoundary"] ''
     # Text and code files - open with TextMate
     run ${pkgs.duti}/bin/duti -s com.todesktop.230313mzl4w4u92 .txt all
-    run ${pkgs.duti}/bin/duti -s com.todesktop.230313mzl4w4u92 .md all
-    run ${pkgs.duti}/bin/duti -s com.todesktop.230313mzl4w4u92 .markdown all
+    run ${pkgs.duti}/bin/duti -s abnerworks.Typora .md all
+    run ${pkgs.duti}/bin/duti -s abnerworks.Typora .markdown all
     run ${pkgs.duti}/bin/duti -s com.todesktop.230313mzl4w4u92 .nix all
     run ${pkgs.duti}/bin/duti -s com.todesktop.230313mzl4w4u92 .sh all
     run ${pkgs.duti}/bin/duti -s com.todesktop.230313mzl4w4u92 .bash all
