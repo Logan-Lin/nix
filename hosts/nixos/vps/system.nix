@@ -7,7 +7,6 @@
     ../../../modules/tailscale.nix
     ../../../modules/podman.nix
     ../../../modules/traefik.nix
-    ../../../modules/borg/client.nix
     ../../../modules/login-display.nix
     ../../../modules/ntfy.nix
   ];
@@ -71,42 +70,12 @@
     ];
   };
 
-  # Borg backup configuration
-  services.borg-client-custom = {
-    enable = true;
-    # Use SSH alias from SSH config for remote backup to thinkpad borg server
-    repositoryUrl = "ssh://hs@borg-thinkpad/./vps";
-    backupPaths = [
-      "/home"
-    ];
-    # Examples:
-    # backupFrequency = "daily";           # Midnight (default)
-    # backupFrequency = "*-*-* 03:00:00";  # Every day at 3:00 AM
-    # backupFrequency = "*-*-* 22:30:00";  # Every day at 10:30 PM
-    # backupFrequency = "Mon,Wed,Fri 02:00:00"; # Mon/Wed/Fri at 2:00 AM
-    backupFrequency = "daily";
-    retention = {
-      keepDaily = 7;
-      keepWeekly = 4;
-      keepMonthly = 6;
-      keepYearly = 2;
-    };
-    passphraseFile = "/etc/borg-passphrase";
-
-    preHook = ''
-      echo "$(date): Starting Borg backup of ${config.networking.hostName}"
-    '';
-    postHook = ''
-      echo "$(date): Borg backup of ${config.networking.hostName} completed successfully"
-    '';
-  };
-
   services.login-display = {
     enable = true;
     showSystemInfo = true;
     showSmartStatus = false;
     showDiskUsage = true;
-    showBorgStatus = true;
+    showBorgStatus = false;
   };
 
   services.tailscale-custom.exitNode = true;
