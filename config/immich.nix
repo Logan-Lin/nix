@@ -65,7 +65,7 @@
     notifications.concurrency = 5;
     search.concurrency = 5;
     sidecar.concurrency = 5;
-    ocr.concurrency = 1;  # ML-intensive
+    ocr.concurrency = 2;  # ML-intensive
     smartSearch.concurrency = 2;  # ML-intensive
     thumbnailGeneration.concurrency = 7;
     videoConversion.concurrency = 1;  # serialize for stability
