@@ -22,6 +22,10 @@
           url = "https://photo.yanlincs.com/photos";
         }
         {
+          name = "Plex";
+          url = "https://plex.yanlincs.com";
+        }
+        {
           name = "Jellyfin";
           url = "https://jellyfin.yanlincs.com";
         }

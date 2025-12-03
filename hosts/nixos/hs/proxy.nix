@@ -27,6 +27,17 @@
           };
         };
 
+        plex = {
+          rule = "Host(`plex.${config.networking.hostName}.yanlincs.com`)";
+          service = "plex";
+          tls = {
+            certResolver = "cloudflare";
+            domains = [{
+              main = "*.${config.networking.hostName}.yanlincs.com";
+            }];
+          };
+        };
+
       };
 
       services = {
@@ -42,6 +53,14 @@
           loadBalancer = {
             servers = [{
               url = "http://127.0.0.1:8096";
+            }];
+          };
+        };
+
+        plex = {
+          loadBalancer = {
+            servers = [{
+              url = "http://127.0.0.1:32400";
             }];
           };
         };

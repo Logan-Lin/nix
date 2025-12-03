@@ -90,6 +90,18 @@
           };
         };
 
+        # Plex Media Server
+        plex = {
+          rule = "Host(`plex.yanlincs.com`)";
+          service = "plex";
+          tls = {
+            certResolver = "cloudflare";
+            domains = [{
+              main = "*.yanlincs.com";
+            }];
+          };
+        };
+
       };
 
       services = {
@@ -153,6 +165,15 @@
           loadBalancer = {
             servers = [{
               url = "http://lan.hs.yanlincs.com:8070";
+            }];
+          };
+        };
+
+        # Plex backend
+        plex = {
+          loadBalancer = {
+            servers = [{
+              url = "http://lan.hs.yanlincs.com:32400";
             }];
           };
         };
