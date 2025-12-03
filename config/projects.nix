@@ -23,7 +23,7 @@ in
       windows = [
         {
           name = "";
-          path = homePath "Obsidian/Personal";
+          path = homePath "Documents/app-state/obsidian";
           ai = true;
           git = false;
           shell = false;
@@ -132,19 +132,6 @@ in
           path = homePath "Documents/Projects/Deep Learning for Spatiotemporal Trajectories";
           ai = false;
           git = false;
-          shell = true;
-        }
-      ];
-    };
-
-    bent = {
-      description = "Trajectory Learning Benchmark";
-      windows = [
-        {
-          name = "";
-          path = homePath "Documents/Projects/Trajectory Modeling Benchmark/BenT-code/";
-          ai = true;
-          git = true;
           shell = true;
         }
       ];
