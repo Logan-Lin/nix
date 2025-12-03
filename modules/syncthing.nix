@@ -82,6 +82,9 @@ in
         "macbook" = {
           id = "XPAMYJX-D7UZKPI-JBLTAWG-EBPSFYV-NEFV42V-NIUZKQN-KTVTGGP-OOXL5AT";
         };
+        "vps" = {
+          id = "C44TBOW-OP4PMMY-O5P7JCJ-F6RBYES-E7R6YWX-5KA2WWR-CWUDLTC-IB3VQAF";
+        };
       };
       
       # Define shared folders (only enabled ones)
