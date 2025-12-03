@@ -378,6 +378,12 @@
         end
       end
 
+      -- Disable italic for code blocks and strings
+      vim.api.nvim_set_hl(0, "@markup.raw", { italic = false })
+      vim.api.nvim_set_hl(0, "@markup.raw.block", { italic = false })
+      vim.api.nvim_set_hl(0, "@markup.raw.markdown_inline", { italic = false })
+      vim.api.nvim_set_hl(0, "String", { fg = "#b8bb26", italic = false })
+
       ${lib.optionalString pkgs.stdenv.isDarwin ''
         function show_file_in_file_manager()
           local filepath = vim.fn.expand('%:p')
