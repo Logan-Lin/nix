@@ -7,12 +7,12 @@
     baseIndex = 1;   # Start windows and panes at 1, not 0
     mouse = true;    # Enable mouse support
     keyMode = "vi";  # Use vi key bindings in copy mode
-    terminal = "screen-256color";  # Force 256 color support
+    terminal = "tmux-256color";
     
     extraConfig = ''
-      # Terminal settings
-      set -g default-terminal "screen-256color"
-      set -ga terminal-overrides ",xterm-256color:Tc"
+      # Terminal settings for true color and italic support
+      set -g default-terminal "tmux-256color"
+      set -ga terminal-overrides ",xterm-256color:Tc,xterm-256color:sitm=\\E[3m:ritm=\\E[23m"
 
       # Enable OSC-52 clipboard integration (works with Ghostty)
       set -g set-clipboard on

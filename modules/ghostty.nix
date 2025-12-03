@@ -56,6 +56,9 @@ in
             "Noto Sans CJK TC"              # Traditional Chinese fallback
             "Source Han Sans"               # Alternative CJK fallback
           ];
+          font-family-bold = "JetBrainsMono NFM Bold";
+          font-family-italic = "JetBrainsMono NFM Italic";
+          font-family-bold-italic = "JetBrainsMono NFM Bold Italic";
           font-size = cfg.fontSize;
           
           # Gruvbox Dark Theme
