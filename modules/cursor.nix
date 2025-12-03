@@ -21,7 +21,7 @@ let
   ];
 
   ideSettings = {
-    "editor.fontFamily" = "'JetBrainsMono Nerd Font Mono', 'Noto Sans CJK SC', 'Noto Sans CJK TC', monospace";
+    "editor.fontFamily" = "'JetBrainsMono Nerd Font Mono', 'Noto Sans CJK SC', 'Noto Sans CJK TC', 'Noto Sans CJK JP', monospace";
     "editor.fontSize" = 14;
     "editor.tabSize" = 2;
     "editor.insertSpaces" = true;
