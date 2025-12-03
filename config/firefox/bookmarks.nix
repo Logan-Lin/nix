@@ -10,12 +10,20 @@
           url = "https://claude.ai";
         }
         {
+          name = "Overleaf";
+          url = "https://www.overleaf.com/project";
+        }
+        {
+          name = "RSS";
+          url = "https://rss.yanlincs.com";
+        }
+        {
           name = "Immich";
           url = "https://photo.yanlincs.com/photos";
         }
         {
-          name = "Overleaf";
-          url = "https://www.overleaf.com/project";
+          name = "Jellyfin";
+          url = "https://jellyfin.yanlincs.com";
         }
         {
           name = "Productivity";
@@ -87,10 +95,6 @@
         {
           name = "Media";
           bookmarks = [
-            {
-              name = "Jellyfin";
-              url = "https://jellyfin.yanlincs.com";
-            }
             {
               name = "Deluge";
               url = "https://deluge.yanlincs.com";
