@@ -22,11 +22,10 @@ let
   stignoreContent = lib.concatStringsSep "\n" commonIgnores;
 
   # Device groupings
-  nixosDevices = [ "hs" "thinkpad" ];
-  darwinDevices = [ "macbook" ];
+  pcDevices = [ "macbook" "hs" "thinkpad" ];
   touchDevices = [ "iphone" "ipad" ];
-  pcDevices = nixosDevices ++ darwinDevices;
-  allDevices = pcDevices ++ touchDevices;
+  cloudDevices = [ "vps" ];
+  allDevices = pcDevices ++ touchDevices ++ cloudDevices;
 
   # Common versioning configuration
   commonVersioning = {
@@ -44,6 +43,11 @@ in
       default = [ "Credentials" "Documents" "Archive" ];
       description = "List of Syncthing folders to enable for this host.";
     };
+    enableGui = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+      description = "Whether to enable the Syncthing web GUI.";
+    };
   };
 
   config = {
@@ -54,7 +58,7 @@ in
     tray.enable = false;
     
     # Listen on all interfaces for the GUI
-    guiAddress = "0.0.0.0:8384";
+    guiAddress = lib.mkIf cfg.enableGui "0.0.0.0:8384";
     
     # Declarative configuration - will override any GUI changes
     overrideDevices = true;
@@ -101,7 +105,7 @@ in
         // (lib.optionalAttrs (lib.elem "Archive" cfg.enabledFolders) {
           "Archive" = {
             path = "~/Archive";
-            devices = allDevices;
+            devices = pcDevices ++ touchDevices;
             ignorePerms = true;
             versioning = commonVersioning;
           };
@@ -109,7 +113,7 @@ in
       
       # GUI settings with authentication
       gui = {
-        enabled = true;
+        enabled = cfg.enableGui;
         user = "yanlin";
         useTLS = false;
       };
