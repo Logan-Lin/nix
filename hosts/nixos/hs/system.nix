@@ -2,11 +2,9 @@
   imports = [
     ./hardware-configuration.nix
     ./containers.nix
-    ./proxy.nix
     ../system-default.nix
     ../../../modules/tailscale.nix
     ../../../modules/podman.nix
-    ../../../modules/traefik.nix
     ../../../modules/borg/client.nix
     ../../../modules/login-display.nix
     ../../../modules/samba.nix
