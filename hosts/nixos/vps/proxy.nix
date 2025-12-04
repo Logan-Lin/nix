@@ -78,18 +78,6 @@
           };
         };
 
-        # Miniflux RSS reader
-        rss = {
-          rule = "Host(`rss.yanlincs.com`)";
-          service = "rss";
-          tls = {
-            certResolver = "cloudflare";
-            domains = [{
-              main = "*.yanlincs.com";
-            }];
-          };
-        };
-
         # Plex Media Server
         plex = {
           rule = "Host(`plex.yanlincs.com`)";
@@ -156,15 +144,6 @@
           loadBalancer = {
             servers = [{
               url = "http://localhost:8080";
-            }];
-          };
-        };
-
-        # Miniflux RSS backend
-        rss = {
-          loadBalancer = {
-            servers = [{
-              url = "http://lan.hs.yanlincs.com:8070";
             }];
           };
         };
