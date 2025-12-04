@@ -51,7 +51,6 @@
       "dlv youtube -n 3 --days 7 -r 1 --min 1 --max 180 'https://www.youtube.com/@Yeah_Jaron/videos'"
       "dlv youtube -n 3 --days 7 -r 1 --min 1 --max 180 'https://www.youtube.com/@DigitalFoundry/videos'"
       "dlv youtube -n 3 --days 7 -r 1 --min 1 --max 180 'https://www.youtube.com/@mkbhd/videos'"
-      "dlv-remove-older --days 30 '/mnt/storage/Media/web/YouTube'"
       "dlv bilibili -n 7 --days 7 -r 1 'https://space.bilibili.com/1629347259/upload/video'"  # 红警HBK08
       "dlv bilibili -n 7 --days 7 -r 1 'https://space.bilibili.com/483246073/upload/video'"  # 红警魔鬼蓝天
       "dlv bilibili -n 3 --days 7 -r 1 --title '摸鱼切片' 'https://space.bilibili.com/15810/upload/video'"  # Mr.Quin
@@ -61,7 +60,7 @@
       "dlv bilibili --days 7 -r 1 -p 'https://space.bilibili.com/781973/lists/2266217?type=season'"  # 兰柚梓
       "dlv bilibili --days 7 -r 1 -p 'https://space.bilibili.com/387087193/lists/518549?type=season'"  # 平安Draymond
       "dlv bilibili --days 7 -r 1 -p 'https://space.bilibili.com/24956505/lists/6741234?type=season'"  # 苦命亦云
-      "dlv-remove-older --days 30 '/mnt/storage/Media/web/Bilibili'"
+      "dlv-remove-older --days 30 '/mnt/storage/Media/web/'"
     ];
   };
   
