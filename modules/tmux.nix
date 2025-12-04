@@ -11,7 +11,7 @@
     
     extraConfig = ''
       # Terminal settings for true color and italic support
-      set -g default-terminal "tmux-256color"
+      set -g default-terminal "xterm-256color"
       set -ga terminal-overrides ",xterm-256color:Tc,xterm-256color:sitm=\\E[3m:ritm=\\E[23m"
 
       # Enable OSC-52 clipboard integration (works with Ghostty)
