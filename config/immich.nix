@@ -58,16 +58,16 @@
 
   job = {
     backgroundTask.concurrency = 5;
-    faceDetection.concurrency = 2;  # CPU-intensive
+    faceDetection.concurrency = 1;
     library.concurrency = 7;
     metadataExtraction.concurrency = 7;
     migration.concurrency = 5;
     notifications.concurrency = 5;
     search.concurrency = 5;
     sidecar.concurrency = 5;
-    ocr.concurrency = 2;  # ML-intensive
-    smartSearch.concurrency = 2;  # ML-intensive
-    thumbnailGeneration.concurrency = 7;
+    ocr.concurrency = 1;  # ML-intensive
+    smartSearch.concurrency = 1;  # ML-intensive
+    thumbnailGeneration.concurrency = 5;
     videoConversion.concurrency = 1;  # serialize for stability
   };
 
