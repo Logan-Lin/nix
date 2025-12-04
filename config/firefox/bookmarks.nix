@@ -155,6 +155,10 @@
                   name = "Azusa";
                   url = "https://azusa.wiki/torrents.php";
                 }
+                {
+                  name = "Skyey Snow";
+                  url = "https://www.skyey2.com/forum.php?mod=torrents";
+                }
               ];
             }
           ];
