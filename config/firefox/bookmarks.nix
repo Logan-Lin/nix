@@ -26,10 +26,6 @@
           url = "https://plex.yanlincs.com";
         }
         {
-          name = "Jellyfin";
-          url = "https://jellyfin.yanlincs.com";
-        }
-        {
           name = "Productivity";
           bookmarks = [
             {

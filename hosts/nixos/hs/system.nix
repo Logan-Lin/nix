@@ -264,7 +264,7 @@
     user = "yanlin";
     sonarr.enable = true;
     radarr.enable = true;
-    jellyfin.enable = true;
+    jellyfin.enable = false;
     deluge.enable = true;
     plex.enable = true;
   };
