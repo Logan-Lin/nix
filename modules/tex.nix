@@ -21,20 +21,32 @@
       local tex_file="''${1}"
       local output_dir="./out"
 
-      if [[ -z "$tex_file" ]]; then
-        # Build all .tex files in current directory
-        local found=0
-        for file in *.tex(N); do
-          found=1
-          echo "Building $file..."
-          latexmk -pdf -bibtex -shell-escape -interaction=nonstopmode \
-            -output-directory="$output_dir" -f "$file"
+      mkdir -p "$output_dir"
 
+      _mkpdf_build() {
+        local file="$1"
+        local log_file="$output_dir/''${file%.tex}.log"
+
+        printf "Building %s... " "$file"
+        if latexmk -pdf -bibtex -shell-escape -interaction=nonstopmode \
+            -output-directory="$output_dir" -f "$file" > "$log_file" 2>&1; then
           local basename="''${file%.tex}"
           if [[ -f "$output_dir/$basename.pdf" ]]; then
             cp "$output_dir/$basename.pdf" "./"
-            echo "Copied $basename.pdf to current directory"
+            echo "done"
+            return 0
           fi
+        fi
+        echo "failed (see $log_file)"
+        tail -20 "$log_file"
+        return 1
+      }
+
+      if [[ -z "$tex_file" ]]; then
+        local found=0
+        for file in *.tex(N); do
+          found=1
+          _mkpdf_build "$file"
         done
         if [[ $found -eq 0 ]]; then
           echo "No .tex files found in current directory"
@@ -45,16 +57,7 @@
           echo "File not found: $tex_file"
           return 1
         fi
-
-        latexmk -pdf -bibtex -shell-escape -interaction=nonstopmode \
-          -output-directory="$output_dir" -f "$tex_file"
-
-        # Copy PDF to current directory
-        local basename="''${tex_file%.tex}"
-        if [[ -f "$output_dir/$basename.pdf" ]]; then
-          cp "$output_dir/$basename.pdf" "./"
-          echo "Copied $basename.pdf to current directory"
-        fi
+        _mkpdf_build "$tex_file"
       fi
     }
 
