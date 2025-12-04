@@ -18,7 +18,7 @@
           url = "https://rss.yanlincs.com";
         }
         {
-          name = "Immich";
+          name = "Photos";
           url = "https://photo.yanlincs.com/photos";
         }
         {
@@ -96,10 +96,6 @@
           name = "Media";
           bookmarks = [
             {
-              name = "Deluge";
-              url = "https://deluge.yanlincs.com";
-            }
-            {
               name = "Sonarr";
               url = "https://sonarr.yanlincs.com";
             }
@@ -107,17 +103,21 @@
               name = "Radarr";
               url = "https://radarr.yanlincs.com";
             }
+            {
+              name = "Deluge";
+              url = "https://deluge.yanlincs.com";
+            }
           ];
         }
         {
           name = "Resource";
           bookmarks = [
             {
-              name = "dmhy";
+              name = "动漫花园";
               url = "https://share.dmhy.org/";
             }
             {
-              name = "TSDM";
+              name = "天使动漫";
               url = "https://www.tsdm39.com/forum.php";
             }
             {
@@ -181,18 +181,6 @@
             {
               name = "Translate";
               url = "https://translate.google.com/?sl=auto&tl=en&op=translate";
-            }
-            {
-              name = "Maps";
-              url = "https://www.google.com/maps";
-            }
-            {
-              name = "Earth";
-              url = "https://earth.google.com/web/";
-            }
-            {
-              name = "Booking";
-              url = "https://www.booking.com/";
             }
           ];
         }
