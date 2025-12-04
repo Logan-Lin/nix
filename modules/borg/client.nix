@@ -227,9 +227,10 @@ in
           fi
           
           # Copy necessary SSH keys
-          if [ -d /home/yanlin/.ssh/keys ]; then
-            cp -r /home/yanlin/.ssh/keys /root/.ssh/
-            chmod -R 600 /root/.ssh/keys
+          if [ -d /home/yanlin/Credentials/ssh_keys ]; then
+            mkdir -p /root/Credentials
+            cp -r /home/yanlin/Credentials/ssh_keys /root/Credentials/
+            chmod -R 600 /root/Credentials/ssh_keys
           fi
           
           # Copy known_hosts to avoid host key verification issues
