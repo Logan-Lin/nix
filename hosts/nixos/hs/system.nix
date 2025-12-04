@@ -122,11 +122,11 @@
 
   # Host-specific packages
   environment.systemPackages = with pkgs; [
-    smartmontools # For monitoring disk health
-    zfs # ZFS utilities
-    mergerfs # Union filesystem for combining multiple drives
-    snapraid # Parity-based backup tool
-    intel-gpu-tools # GPU monitoring (intel_gpu_top, etc.)
+    smartmontools
+    zfs
+    mergerfs
+    snapraid
+    intel-gpu-tools
   ];
 
   # ZFS services configuration
@@ -138,11 +138,11 @@
     };
     autoSnapshot = {
       enable = true;
-      frequent = 4;  # Keep 4 15-minute snapshots
-      hourly = 24;   # Keep 24 hourly snapshots
-      daily = 7;     # Keep 7 daily snapshots
-      weekly = 4;    # Keep 4 weekly snapshots
-      monthly = 12;  # Keep 12 monthly snapshots
+      frequent = 4;
+      hourly = 24;
+      daily = 7;
+      weekly = 4;
+      monthly = 12;
     };
     trim = {
       enable = true;
@@ -220,7 +220,6 @@
   # Borg backup configuration
   services.borg-client-custom = {
     enable = true;
-    # Use SSH alias from SSH config for remote backup to thinkpad borg server
     repositoryUrl = "ssh://hs@borg-thinkpad/./hs";
     backupPaths = [
       "/mnt/storage/appbulk/immich/library/"
