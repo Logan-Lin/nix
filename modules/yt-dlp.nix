@@ -387,16 +387,7 @@ in
           fi
         done < <(find "$root_dir" -type f -name "*.info.json" -print0)
 
-        local dirs_removed=0
-        while IFS= read -r -d $'\0' dir; do
-          if [[ -d "$dir" ]] && ! find "$dir" -type f \( -name "*.mp4" -o -name "*.webm" -o -name "*.mkv" \) -print -quit 2>/dev/null | grep -q .; then
-            echo "Removing directory (no videos): $dir"
-            rm -rf "$dir"
-            ((dirs_removed++))
-          fi
-        done < <(find "$root_dir" -mindepth 2 -maxdepth 2 -type d -print0 2>/dev/null)
-
-        echo "Removed $removed video(s) and $dirs_removed directory(ies) with no videos"
+        echo "Removed $removed video(s)"
       }
     '';
   };
