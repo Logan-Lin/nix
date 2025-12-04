@@ -14,10 +14,6 @@
           url = "https://www.overleaf.com/project";
         }
         {
-          name = "RSS";
-          url = "https://rss.yanlincs.com";
-        }
-        {
           name = "Photos";
           url = "https://photo.yanlincs.com/photos";
         }

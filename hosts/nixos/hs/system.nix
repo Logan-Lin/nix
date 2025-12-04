@@ -9,7 +9,6 @@
     ../../../modules/login-display.nix
     ../../../modules/samba.nix
     ../../../modules/media-server.nix
-    ../../../modules/miniflux.nix
   ];
 
   # GRUB bootloader with ZFS support
