@@ -244,14 +244,4 @@
     showDiskUsage = true;
   };
 
-  services.borg-server-custom = {
-    enable = true;
-    dataDir = "/srv/borg";
-    users = {
-      hs = {
-        publicKeys = [ "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICp2goZiuSfwMA02GsHhYzUZHrQPPBgP5sWSNP9kQR3e yanlin@imac" ];
-      };
-    };
-  };
-
 }
