@@ -22,8 +22,8 @@
     description = "Backup files to thinkpad";
     interval = "*-*-* 00:00:00";
     commands = [
-      "rsync-backup /mnt/storage/appbulk/immich/library/admin thinkpad:~/Backup/photos/immich-library"
-      "rsync-backup /mnt/storage/Media/DCIM thinkpad:~/Backup/photos/DCIM"
+      "rsync-backup /mnt/storage/appbulk/immich/library/admin thinkpad:~/Backup/photo-library"
+      "rsync-backup /mnt/storage/Media/DCIM thinkpad:~/Backup/DCIM"
       "rsync-backup /mnt/storage/Media/nsfw thinkpad:~/Backup/nsfw"
     ];
   };
