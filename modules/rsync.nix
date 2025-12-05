@@ -3,39 +3,6 @@
 {
   # Install rsync package
   home.packages = with pkgs; [ rsync exiftool ];
-  # Rsync exclude patterns for common files and directories
-  home.file.".rsync-exclude".text = ''
-  '';
-
-  # Rsync configuration for common backup scenarios
-  home.file.".rsync-backup.conf".text = ''
-    # Common rsync options for backups
-    # Usage: rsync @backup-options source/ destination/
-    
-    # Standard backup options
-    --archive
-    --verbose
-    --progress
-    --human-readable
-    --exclude-from=~/.rsync-exclude
-    --delete
-    --delete-excluded
-    --partial
-    --partial-dir=.rsync-partial
-
-    ${lib.optionalString pkgs.stdenv.isDarwin ''
-      # Preserve extended attributes and ACLs (macOS)
-      --extended-attributes
-      --acls
-    ''}
-
-    # Network optimization
-    --compress
-    --compress-level=6
-    
-    # Safety options
-    --dry-run  # Remove this line when you're ready to run for real
-  '';
 
   programs.zsh.initContent = ''
     function rsync-backup() {
@@ -57,7 +24,7 @@
       echo "Destination: $DEST"
       echo "==================="
 
-      rsync $(cat ~/.rsync-backup.conf | grep -v '^#' | grep -v '^$' | tr '\n' ' ') "$SOURCE" "$DEST"
+      rsync -avh --progress --delete --partial --partial-dir=.rsync-partial --compress "$SOURCE" "$DEST"
 
       if [[ $? -eq 0 ]]; then
         echo "Backup completed successfully!"
@@ -133,10 +100,10 @@
   '';
 
   programs.zsh.shellAliases = {
-    rsync-quick = "rsync -avh --progress --exclude-from=~/.rsync-exclude";
-    rsync-dry = "rsync -avh --progress --exclude-from=~/.rsync-exclude --dry-run";
+    rsync-quick = "rsync -avh --progress";
+    rsync-dry = "rsync -avh --progress --dry-run";
     rsync-full = "rsync-backup";
-    rsync-sync = "rsync -avh --progress --exclude-from=~/.rsync-exclude";
-    rsync-mirror = "rsync -avh --progress --exclude-from=~/.rsync-exclude --delete";
+    rsync-sync = "rsync -avh --progress";
+    rsync-mirror = "rsync -avh --progress --delete";
   };
 }
