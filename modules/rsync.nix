@@ -107,9 +107,12 @@
       local failed=0
 
       while IFS= read -r -d "" file; do
+        local filename=$(basename "$file")
+
+        [[ "$filename" == .* ]] && continue
+
         local date_dir=$(_get_video_date "$file")
         local year=''${date_dir:0:4}
-        local filename=$(basename "$file")
 
         echo "[$date_dir] $filename"
 
