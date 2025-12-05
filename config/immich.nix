@@ -76,7 +76,7 @@
       cronExpression = "0 19 * * *";
       enabled = true;
     };
-    watch.enabled = false;
+    watch.enabled = true;
   };
 
   logging = {
