@@ -2,7 +2,7 @@
 
 {
   # Install rsync package
-  home.packages = [ pkgs.rsync ];
+  home.packages = with pkgs; [ rsync exiftool ];
   # Rsync exclude patterns for common files and directories
   home.file.".rsync-exclude".text = ''
   '';
@@ -37,64 +37,103 @@
     --dry-run  # Remove this line when you're ready to run for real
   '';
 
-  # Create a convenient rsync wrapper script
-  home.file.".local/bin/rsync-backup".text = ''
-    # Convenient rsync backup wrapper
-    # Usage: rsync-backup source/ destination/
-    #
-    
-    if [ $# -ne 2 ]; then
-        echo "Usage: $0 <source/> <destination/>"
-        echo "Example: $0 ~/Documents/ /backup/documents/"
-        exit 1
-    fi
-    
-    SOURCE="$1"
-    DEST="$2"
-    
-    # Ensure source ends with slash for proper rsync behavior
-    if [[ "$SOURCE" != */ ]]; then
+  programs.zsh.initContent = ''
+    function rsync-backup() {
+      if [[ $# -ne 2 ]]; then
+        echo "Usage: rsync-backup <source/> <destination/>"
+        echo "Example: rsync-backup ~/Documents/ /backup/documents/"
+        return 1
+      fi
+
+      local SOURCE="$1"
+      local DEST="$2"
+
+      if [[ "$SOURCE" != */ ]]; then
         SOURCE="$SOURCE/"
-    fi
-    
-    echo "=== Rsync Backup ==="
-    echo "Source: $SOURCE"
-    echo "Destination: $DEST"
-    echo "==================="
-    
-    # Use the configuration file options
-    rsync $(cat ~/.rsync-backup.conf | grep -v '^#' | grep -v '^$' | tr '\n' ' ') "$SOURCE" "$DEST"
-    
-    if [ $? -eq 0 ]; then
+      fi
+
+      echo "=== Rsync Backup ==="
+      echo "Source: $SOURCE"
+      echo "Destination: $DEST"
+      echo "==================="
+
+      rsync $(cat ~/.rsync-backup.conf | grep -v '^#' | grep -v '^$' | tr '\n' ' ') "$SOURCE" "$DEST"
+
+      if [[ $? -eq 0 ]]; then
         echo "Backup completed successfully!"
-    else
+      else
         echo "Backup failed with exit code $?"
-        exit 1
-    fi
+        return 1
+      fi
+    }
+
+    function camera-copy() {
+      if [[ $# -ne 2 ]]; then
+        echo "Usage: camera-copy <source_dir> <destination>"
+        echo ""
+        echo "Copy video files organized by date (YYYY-MM-DD/filename)"
+        echo ""
+        echo "Examples:"
+        echo "  camera-copy /media/sdcard/DCIM ~/Videos/imports"
+        echo "  camera-copy /Volumes/CAMERA/DCIM user@nas:/backup/camera"
+        return 1
+      fi
+
+      local SOURCE="$1"
+      local DEST="$2"
+
+      if [[ ! -d "$SOURCE" ]]; then
+        echo "Error: Source directory does not exist: $SOURCE"
+        return 1
+      fi
+
+      _get_video_date() {
+        local file="$1"
+        local raw_date
+
+        raw_date=$(${pkgs.exiftool}/bin/exiftool -s3 -d '%Y-%m-%d' \
+          -DateTimeOriginal -CreateDate -MediaCreateDate "$file" 2>/dev/null | head -1)
+
+        if [[ -n "$raw_date" && "$raw_date" != "0000-00-00" ]]; then
+          echo "$raw_date"
+        else
+          local mtime
+          mtime=$(${pkgs.coreutils}/bin/stat -c '%Y' "$file" 2>/dev/null)
+          ${pkgs.coreutils}/bin/date -d "@$mtime" +%Y-%m-%d
+        fi
+      }
+
+      local copied=0
+      local failed=0
+
+      while IFS= read -r -d "" file; do
+        local date_dir=$(_get_video_date "$file")
+        local year=''${date_dir:0:4}
+        local filename=$(basename "$file")
+
+        echo "[$date_dir] $filename"
+
+        if ${pkgs.rsync}/bin/rsync -a --mkpath --progress --partial --ignore-existing \
+            "$file" "$DEST/$year/$date_dir/$filename"; then
+          ((copied++)) || true
+        else
+          echo "  Failed to copy: $file"
+          ((failed++)) || true
+        fi
+      done < <(find "$SOURCE" -type f \( -iname "*.mp4" -o -iname "*.mov" -o -iname "*.mts" -o -iname "*.m2ts" -o -iname "*.avi" \) -print0)
+
+      echo ""
+      echo "=== Summary ==="
+      echo "Copied: $copied"
+      echo "Failed: $failed"
+    }
   '';
 
-  # Make the backup script executable
-  home.file.".local/bin/rsync-backup".executable = true;
-
-  # Optional: Add rsync aliases to shell configuration
-  # This can be integrated with your existing zsh module
-  home.file.".rsync-aliases".text = ''
-    # Rsync aliases for common operations
-    # Source this file in your shell configuration
-    
-    # Quick backup with progress
-    alias rsync-quick='rsync -avh --progress --exclude-from=~/.rsync-exclude'
-    
-    # Dry run backup (safe testing)
-    alias rsync-dry='rsync -avh --progress --exclude-from=~/.rsync-exclude --dry-run'
-    
-    # Full backup with all safety options
-    alias rsync-full='rsync-backup'
-    
-    # Sync directories (no delete)
-    alias rsync-sync='rsync -avh --progress --exclude-from=~/.rsync-exclude'
-    
-    # Mirror directories (with delete)  
-    alias rsync-mirror='rsync -avh --progress --exclude-from=~/.rsync-exclude --delete'
-  '';
+  programs.zsh.shellAliases = {
+    rsync-quick = "rsync -avh --progress --exclude-from=~/.rsync-exclude";
+    rsync-dry = "rsync -avh --progress --exclude-from=~/.rsync-exclude --dry-run";
+    rsync-full = "rsync-backup";
+    rsync-sync = "rsync -avh --progress --exclude-from=~/.rsync-exclude";
+    rsync-mirror = "rsync -avh --progress --exclude-from=~/.rsync-exclude --delete";
+  };
 }
