@@ -18,18 +18,6 @@
           };
         };
 
-        # Jellyfin Media Server
-        jellyfin = {
-          rule = "Host(`jellyfin.yanlincs.com`)";
-          service = "jellyfin";
-          tls = {
-            certResolver = "cloudflare";
-            domains = [{
-              main = "*.yanlincs.com";
-            }];
-          };
-        };
-
         # Deluge torrent client
         deluge = {
           rule = "Host(`deluge.yanlincs.com`)";
@@ -66,18 +54,6 @@
           };
         };
 
-        # ntfy notification service
-        ntfy = {
-          rule = "Host(`ntfy.yanlincs.com`)";
-          service = "ntfy";
-          tls = {
-            certResolver = "cloudflare";
-            domains = [{
-              main = "*.yanlincs.com";
-            }];
-          };
-        };
-
         # Plex Media Server
         plex = {
           rule = "Host(`plex.yanlincs.com`)";
@@ -99,15 +75,6 @@
           loadBalancer = {
             servers = [{
               url = "http://lan.hs.yanlincs.com:5000";
-            }];
-          };
-        };
-
-        # Jellyfin backend 
-        jellyfin = {
-          loadBalancer = {
-            servers = [{
-              url = "http://lan.hs.yanlincs.com:8096";
             }];
           };
         };
@@ -135,15 +102,6 @@
           loadBalancer = {
             servers = [{
               url = "http://lan.hs.yanlincs.com:7878";
-            }];
-          };
-        };
-
-        # ntfy backend
-        ntfy = {
-          loadBalancer = {
-            servers = [{
-              url = "http://localhost:8080";
             }];
           };
         };

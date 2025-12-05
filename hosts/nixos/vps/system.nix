@@ -8,7 +8,6 @@
     ../../../modules/podman.nix
     ../../../modules/traefik.nix
     ../../../modules/login-display.nix
-    ../../../modules/ntfy.nix
   ];
 
   # GRUB bootloader with UEFI support
