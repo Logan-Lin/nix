@@ -54,18 +54,6 @@
         identityFile = "~/Credentials/ssh_keys/hetzner";
       };
 
-      "borg-box" = {
-        hostname = "u501367.your-storagebox.de";
-        user = "u501367";
-        port = 23;
-        identityFile = "~/Credentials/ssh_keys/hetzner";
-      };
-
-      "borg-thinkpad" = {
-        hostname = "vpn.thinkpad.yanlincs.com";
-        identityFile = "~/Credentials/ssh_keys/thinkpad";
-      };
-
     };
   };
 }

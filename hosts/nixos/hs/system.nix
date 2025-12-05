@@ -217,32 +217,6 @@
     showBorgStatus = true;
   };
 
-  # Borg backup configuration
-  services.borg-client-custom = {
-    enable = true;
-    repositoryUrl = "ssh://hs@borg-thinkpad/./hs";
-    backupPaths = [
-      "/mnt/storage/appbulk/immich/library/"
-      "/mnt/storage/Media/DCIM"
-      "/mnt/storage/Media/nsfw"
-    ];
-    backupFrequency = "*-*-* 00:00:00";
-    retention = {
-      keepDaily = 7;
-      keepWeekly = 4;
-      keepMonthly = 6;
-      keepYearly = 2;
-    };
-    passphraseFile = "/etc/borg-passphrase";
-
-    preHook = ''
-      echo "$(date): Starting Borg backup of ${config.networking.hostName}"
-    '';
-    postHook = ''
-      echo "$(date): Borg backup of ${config.networking.hostName} completed successfully"
-    '';
-  };
-
   services.tailscale-custom = {
     exitNode = true;
     subnetRoutes = [ "10.1.1.0/24" ];
