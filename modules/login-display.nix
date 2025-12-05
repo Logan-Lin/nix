@@ -269,12 +269,12 @@ in
 
           # Parse scrub status
           if [[ -n "$SNAPRAID_SCRUB_LOG" ]]; then
-            if echo "$SNAPRAID_SCRUB_LOG" | ${pkgs.gnugrep}/bin/grep -q "Everything OK"; then
+            if echo "$SNAPRAID_SCRUB_LOG" | ${pkgs.gnugrep}/bin/grep -q "Everything OK\|Nothing to do"; then
               SCRUB_STATUS="✓"
               SCRUB_COLOR="\\033[38;2;184;187;38m"
 
               # Get timestamp
-              SCRUB_TIMESTAMP=$(journalctl -u snapraid-scrub.service --output=short-iso -n 100 --no-pager 2>/dev/null | ${pkgs.gnugrep}/bin/grep "Everything OK" | tail -1 | ${pkgs.gawk}/bin/awk '{print $1}')
+              SCRUB_TIMESTAMP=$(journalctl -u snapraid-scrub.service --output=short-iso -n 100 --no-pager 2>/dev/null | ${pkgs.gnugrep}/bin/grep "Everything OK\|Nothing to do" | tail -1 | ${pkgs.gawk}/bin/awk '{print $1}')
 
               if [[ -n "$SCRUB_TIMESTAMP" ]]; then
                 SCRUB_EPOCH=$(date -d "$SCRUB_TIMESTAMP" +%s 2>/dev/null || echo "0")
