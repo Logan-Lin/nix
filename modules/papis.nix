@@ -8,9 +8,19 @@ in
 {
   # Install papis package
   home.packages = [
-    (pkgs.papis.overridePythonAttrs (old: {
-      doCheck = false;  # Skip tests due to Click incompatibility with Python 3.13
-    }))
+    (pkgs.symlinkJoin {
+      name = "papis-wrapped";
+      paths = [
+        (pkgs.papis.overridePythonAttrs (old: {
+          doCheck = false;
+        }))
+      ];
+      buildInputs = [ pkgs.makeWrapper ];
+      postBuild = ''
+        wrapProgram $out/bin/papis \
+          --set PYTHONWARNINGS "ignore::UserWarning"
+      '';
+    })
   ];
   # Papis configuration
   home.file."${papisConfigDir}/config".text = ''
