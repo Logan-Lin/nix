@@ -57,5 +57,6 @@
     chromium
     localsend
     calibre
+    zotero
   ];
 }
