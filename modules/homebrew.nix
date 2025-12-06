@@ -40,6 +40,7 @@
       "omnigraffle"
       "tailscale-app"
       "typora"
+      "zotero"
     ];
     taps = [
       # Additional repositories if needed
