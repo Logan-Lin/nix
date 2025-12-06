@@ -214,7 +214,7 @@
     showDiskUsage = true;
     diskUsagePaths = [ "/" "/home/" "/mnt/storage" "/mnt/parity" ];
     showSnapraidStatus = true;
-    showBorgStatus = true;
+    showBorgStatus = false;
   };
 
   services.tailscale-custom = {
