@@ -73,7 +73,7 @@
 
     finder = {
       AppleShowAllExtensions = true;       # Show all file extensions
-      AppleShowAllFiles = true;           # Show hidden files
+      AppleShowAllFiles = false;           # Show hidden files
       CreateDesktop = true;                # Show icons on desktop
       FXEnableExtensionChangeWarning = false; # Warn when changing file extension
       FXPreferredViewStyle = "Nlsv";       # Default view: "icnv"=Icon, "Nlsv"=List, "clmv"=Column, "glyv"=Gallery
