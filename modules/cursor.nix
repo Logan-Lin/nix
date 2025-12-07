@@ -33,6 +33,9 @@ let
 
     "git.openRepositoryInParentFolders" = "never";
     "extensions.ignoreRecommendations" = true;
+    "cursor.cpp.disabledLanguages" = [
+      "plaintext"
+    ];
 
     "vim.leader" = "<space>";
     "vim.useSystemClipboard" = true;
