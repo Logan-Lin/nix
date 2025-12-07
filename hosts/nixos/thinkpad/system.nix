@@ -4,11 +4,9 @@
   imports = [
     ./hardware-configuration.nix
     ../system-default.nix
-    ../../../modules/gnome/system.nix
     ../../../modules/tailscale.nix
     ../../../modules/login-display.nix
     ../../../modules/borg/client.nix
-    ../../../modules/logiops.nix
   ];
 
   # Bootloader - standard UEFI setup
@@ -24,13 +22,9 @@
 
   # Kernel parameters for ThinkPad
   boot.kernelParams = [
-    # Better power management
     "i915.enable_psr=1"
     "i915.enable_fbc=1"
-    # Disable GPU power management debugging
     "drm.debug=0"
-    # Prefer S3 deep sleep over s2idle
-    "mem_sleep_default=deep"
   ];
 
   # Blacklist NVIDIA kernel modules to disable discrete GPU completely
@@ -55,20 +49,7 @@
       ];
     };
 
-    # Bluetooth support
-    bluetooth = {
-      enable = true;
-      powerOnBoot = true;
-      settings = {
-        General = {
-          Enable = "Source,Sink,Media,Socket";
-        };
-      };
-    };
   };
-
-  # Blueman Bluetooth manager
-  services.blueman.enable = true;
 
   # Network configuration
   networking = {
@@ -80,30 +61,6 @@
     firewall.enable = false;
   };
 
-
-  # Sound configuration with PipeWire (better than PulseAudio)
-  services.pulseaudio.enable = false;
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-    wireplumber.enable = true;
-  };
-
-  # Touchpad configuration (host-specific overrides)
-  services.libinput.touchpad = {
-    disableWhileTyping = true;
-    accelProfile = "adaptive";
-  };
-
-  # TrackPoint configuration (treated as mouse device)
-  services.libinput.mouse = {
-    accelSpeed = "0.0";         # Higher sensitivity for trackpoint (-1.0 to 1.0)
-    accelProfile = "flat";      # No acceleration curve for precise control
-    middleEmulation = false;    # ThinkPad trackpoints have real middle buttons
-  };
 
   # Power management for laptops
   powerManagement = {
@@ -143,18 +100,17 @@
     };
   };
 
-  # Suspend behavior configuration
-  services.logind.settings = {
-    Login = {
-      HandleLidSwitch = "suspend";          # Suspend on lid close (all power modes)
-      HandleLidSwitchDocked = "ignore";     # Don't suspend when docked
-      HandleLidSwitchExternalPower = "ignore";  # Don't suspend when on external power (docked setup)
-      HandlePowerKey = "suspend";           # Suspend on power button press
-      HandleSuspendKey = "suspend";         # Allow manual suspend from GNOME menu
-      HandleHibernateKey = "ignore";
-      IdleAction = "ignore";                # No automatic idle suspend
-      IdleActionSec = "0";
-    };
+  # Disable all suspend/sleep for headless server operation
+  services.logind = {
+    lidSwitch = "ignore";
+    lidSwitchExternalPower = "ignore";
+    lidSwitchDocked = "ignore";
+    extraConfig = ''
+      HandlePowerKey=ignore
+      HandleSuspendKey=ignore
+      HandleHibernateKey=ignore
+      IdleAction=ignore
+    '';
   };
 
   # Thermal management
@@ -215,21 +171,13 @@
     # GPU monitoring
     intel-gpu-tools
 
-    # Laptop utilities
-    brightnessctl
-
     # ThinkPad specific
     lm_sensors  # Temperature monitoring
     smartmontools  # Disk health monitoring (SMART)
   ];
 
 
-  # Laptop-specific services
   services.acpid.enable = true;
-  services.upower.enable = true;
-
-  # Apply XKB config to console (TTY) as well
-  console.useXkbConfig = true;
 
   services.tailscale-custom.exitNode = true;
 
