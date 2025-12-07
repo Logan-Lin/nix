@@ -105,12 +105,10 @@
     lidSwitch = "ignore";
     lidSwitchExternalPower = "ignore";
     lidSwitchDocked = "ignore";
-    extraConfig = ''
-      HandlePowerKey=ignore
-      HandleSuspendKey=ignore
-      HandleHibernateKey=ignore
-      IdleAction=ignore
-    '';
+    powerKey = "ignore";
+    suspendKey = "ignore";
+    hibernateKey = "ignore";
+    settings.Login.IdleAction = "ignore";
   };
 
   # Thermal management
