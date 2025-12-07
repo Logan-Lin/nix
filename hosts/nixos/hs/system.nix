@@ -214,7 +214,7 @@
     showDiskUsage = true;
     diskUsagePaths = [ "/" "/home/" "/mnt/storage" "/mnt/parity" ];
     showSnapraidStatus = true;
-    showBorgStatus = false;
+    showBorgStatus = true;
   };
 
   services.tailscale-custom = {
@@ -237,6 +237,32 @@
     jellyfin.enable = false;
     deluge.enable = true;
     plex.enable = true;
+  };
+
+    # Borg backup configuration
+  services.borg-client-custom = {
+    enable = true;
+    repositoryUrl = "ssh://backup-box/./hs";
+    backupPaths = [
+      "/mnt/storage/appbulk/immich/library/"
+      "/mnt/storage/Media/DCIM"
+      "/mnt/storage/Media/nsfw"
+    ];
+    backupFrequency = "*-*-* 00:00:00";
+    retention = {
+      keepDaily = 7;
+      keepWeekly = 4;
+      keepMonthly = 6;
+      keepYearly = 2;
+    };
+    passphraseFile = "/etc/borg-passphrase";
+
+    preHook = ''
+      echo "$(date): Starting Borg backup of ${config.networking.hostName}"
+    '';
+    postHook = ''
+      echo "$(date): Borg backup of ${config.networking.hostName} completed successfully"
+    '';
   };
 
 }
