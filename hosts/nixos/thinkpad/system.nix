@@ -101,14 +101,14 @@
   };
 
   # Disable all suspend/sleep for headless server operation
-  services.logind = {
-    lidSwitch = "ignore";
-    lidSwitchExternalPower = "ignore";
-    lidSwitchDocked = "ignore";
-    powerKey = "ignore";
-    suspendKey = "ignore";
-    hibernateKey = "ignore";
-    settings.Login.IdleAction = "ignore";
+  services.logind.settings.Login = {
+    HandleLidSwitch = "ignore";
+    HandleLidSwitchExternalPower = "ignore";
+    HandleLidSwitchDocked = "ignore";
+    HandlePowerKey = "ignore";
+    HandleSuspendKey = "ignore";
+    HandleHibernateKey = "ignore";
+    IdleAction = "ignore";
   };
 
   # Thermal management
