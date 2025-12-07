@@ -41,6 +41,7 @@
       "tailscale-app"
       "typora"
       "zotero"
+      "raspberry-pi-imager"
     ];
     taps = [
       # Additional repositories if needed
