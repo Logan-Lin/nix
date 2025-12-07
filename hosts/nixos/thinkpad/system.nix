@@ -261,14 +261,6 @@
       keepMonthly = 6;
       keepYearly = 2;
     };
-    passphraseFile = "/etc/borg-passphrase";
-
-    preHook = ''
-      echo "$(date): Starting Borg backup of ${config.networking.hostName}"
-    '';
-    postHook = ''
-      echo "$(date): Borg backup of ${config.networking.hostName} completed successfully"
-    '';
   };
 
 }
