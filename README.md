@@ -27,6 +27,7 @@ sudo nix --experimental-features "nix-command flakes" run github:nix-community/d
 sudo nixos-install --flake .#<host>
 
 # For nix-darwin
+xcode-select --install
 sudo nix --extra-experimental-features "nix-command flakes" run nix-darwin -- switch --flake github:Logan-Lin/nix-config#<host>
 nix --extra-experimental-features "nix-command flakes" run home-manager/master -- switch --flake github:Logan-Lin/nix-config#<user>@<host>
 ```
