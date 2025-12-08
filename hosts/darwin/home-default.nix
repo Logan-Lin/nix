@@ -177,6 +177,7 @@
     bzip2
     unzip
     duti           # Set default applications for file types (macOS)
+    ffmpeg
 
     # Development and build tools
     python312
