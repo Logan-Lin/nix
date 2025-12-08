@@ -6,6 +6,7 @@
     ../../../modules/syncthing.nix
     ../../../modules/tex.nix
     ../../../modules/schedule.nix
+    ../../../modules/yt-dlp.nix
   ];
 
   services.scheduled-commands.aicloud-backup = {
@@ -15,6 +16,11 @@
     commands = [
       "rsync -avP aicloud:~/ /mnt/storage/Backup/aicloud/ --exclude='/.*'"
     ];
+  };
+
+  programs.yt-dlp-custom = {
+    enable = true;
+    downloadDir = "/mnt/storage/Media/web-video";
   };
 
   home.packages = with pkgs; [
