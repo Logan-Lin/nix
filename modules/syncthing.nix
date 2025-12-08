@@ -22,7 +22,7 @@ let
   stignoreContent = lib.concatStringsSep "\n" commonIgnores;
 
   # Device groupings
-  pcDevices = [ "macbook" "hs" "thinkpad" ];
+  pcDevices = [ "macbook" "imac" "hs" "thinkpad" ];
   touchDevices = [ "iphone" "ipad" ];
   cloudDevices = [ "vps" ];
   allDevices = pcDevices ++ touchDevices ++ cloudDevices;
@@ -81,6 +81,9 @@ in
         };
         "macbook" = {
           id = "XPAMYJX-D7UZKPI-JBLTAWG-EBPSFYV-NEFV42V-NIUZKQN-KTVTGGP-OOXL5AT";
+        };
+        "imac" = {
+          id = "2ST6EEF-KN3R2E6-PN64WAS-XGJ22NV-BAWAQX6-OCZLYE3-V5IM2SE-S22REAA";
         };
         "vps" = {
           id = "C44TBOW-OP4PMMY-O5P7JCJ-F6RBYES-E7R6YWX-5KA2WWR-CWUDLTC-IB3VQAF";
