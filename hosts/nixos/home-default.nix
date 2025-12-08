@@ -56,6 +56,7 @@
     fastfetch
     coreutils      # GNU core utilities (base64, etc.)
     bzip2
+    ffmpeg
 
     # Development and build tools
     python312
