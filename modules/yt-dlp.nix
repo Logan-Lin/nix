@@ -117,6 +117,92 @@ in
         return 1
       }
       
+      # Generate Jellyfin-compatible NFO files from yt-dlp metadata
+      _generate_jellyfin_nfo() {
+        local filepath="$1"
+        [[ -z "$filepath" ]] && return 1
+
+        local dir=$(dirname "$filepath")
+        local basename=$(basename "$filepath")
+        local name_noext="''${basename%.*}"
+        local season_dir="$dir"
+        local series_dir=$(dirname "$season_dir")
+        local json_file="$dir/$name_noext.info.json"
+
+        [[ ! -f "$json_file" ]] && return 1
+
+        local title=$(jq -r '.title // "Unknown"' "$json_file")
+        local description=$(jq -r '.description // ""' "$json_file" | head -c 2000)
+        local upload_date=$(jq -r '.upload_date // ""' "$json_file")
+        local uploader=$(jq -r '.uploader // "Unknown"' "$json_file")
+
+        local season_num=""
+        local episode_num=""
+        local aired_date=""
+        if [[ ''${#upload_date} -eq 8 ]]; then
+          season_num="''${upload_date:0:4}"
+          episode_num="''${upload_date:4:4}"
+          aired_date="''${upload_date:0:4}-''${upload_date:4:2}-''${upload_date:6:2}"
+        fi
+
+        description=$(echo "$description" | sed 's/&/\&amp;/g; s/</\&lt;/g; s/>/\&gt;/g')
+        title=$(echo "$title" | sed 's/&/\&amp;/g; s/</\&lt;/g; s/>/\&gt;/g')
+        uploader=$(echo "$uploader" | sed 's/&/\&amp;/g; s/</\&lt;/g; s/>/\&gt;/g')
+
+        local nfo_file="$dir/$name_noext.nfo"
+        cat > "$nfo_file" << EPISODENFO
+<?xml version="1.0" encoding="UTF-8"?>
+<episodedetails>
+  <title>$title</title>
+  <season>$season_num</season>
+  <episode>$episode_num</episode>
+  <aired>''${aired_date:-}</aired>
+  <plot>$description</plot>
+</episodedetails>
+EPISODENFO
+
+        if [[ ! -f "$series_dir/tvshow.nfo" ]]; then
+          cat > "$series_dir/tvshow.nfo" << TVSHOWNFO
+<?xml version="1.0" encoding="UTF-8"?>
+<tvshow>
+  <title>$uploader</title>
+  <plot>Videos from $uploader</plot>
+</tvshow>
+TVSHOWNFO
+        fi
+
+        if [[ ! -f "$season_dir/season.nfo" ]] && [[ -n "$season_num" ]]; then
+          cat > "$season_dir/season.nfo" << SEASONNFO
+<?xml version="1.0" encoding="UTF-8"?>
+<season>
+  <title>Season $season_num</title>
+  <seasonnumber>$season_num</seasonnumber>
+</season>
+SEASONNFO
+        fi
+
+        local thumb_file=""
+        for ext in jpg webp png; do
+          if [[ -f "$dir/$name_noext.$ext" ]]; then
+            thumb_file="$dir/$name_noext.$ext"
+            break
+          fi
+        done
+
+        if [[ -n "$thumb_file" ]]; then
+          local thumb_ext="''${thumb_file##*.}"
+          mv "$thumb_file" "$dir/$name_noext-thumb.$thumb_ext" 2>/dev/null
+
+          if [[ ! -f "$series_dir/poster.jpg" ]] && [[ ! -f "$series_dir/poster.webp" ]] && [[ ! -f "$series_dir/poster.png" ]]; then
+            cp "$dir/$name_noext-thumb.$thumb_ext" "$series_dir/poster.$thumb_ext"
+          fi
+
+          if [[ ! -f "$season_dir/poster.jpg" ]] && [[ ! -f "$season_dir/poster.webp" ]] && [[ ! -f "$season_dir/poster.png" ]]; then
+            cp "$dir/$name_noext-thumb.$thumb_ext" "$season_dir/poster.$thumb_ext"
+          fi
+        fi
+      }
+
       # Unified video download function
       dlv() {
         local platform=""
@@ -249,12 +335,12 @@ in
           match_filter="--match-filter \"$combined_filter\""
         fi
 
-        # Build output template based on playlist mode
+        # Build output template based on playlist mode (Jellyfin TV show format)
         local output_template
         if [[ "$playlist_mode" == true ]]; then
-          output_template="$DOWNLOAD_DIR/$platform_name/%(uploader|)s-%(playlist|)s/%(upload_date>%Y%m%d|)s-%(title)s.%(ext)s"
+          output_template="$DOWNLOAD_DIR/$platform_name/%(uploader|Unknown)s-%(playlist|)s/Season %(upload_date>%Y|0000)s/S%(upload_date>%Y|0000)sE%(upload_date>%m%d|0000)s - %(title)s.%(ext)s"
         else
-          output_template="$DOWNLOAD_DIR/$platform_name/%(uploader|)s/%(upload_date>%Y%m%d|)s-%(title)s.%(ext)s"
+          output_template="$DOWNLOAD_DIR/$platform_name/%(uploader|Unknown)s/Season %(upload_date>%Y|0000)s/S%(upload_date>%Y|0000)sE%(upload_date>%m%d|0000)s - %(title)s.%(ext)s"
         fi
 
         local archive_file="$DOWNLOAD_DIR/.archive.txt"
@@ -271,7 +357,7 @@ in
         echo "Output directory: $DOWNLOAD_DIR/$platform_name"
 
         # Build command
-        local cmd="yt-dlp $platform_flags $match_filter"
+        local cmd="yt-dlp $platform_flags $match_filter --no-write-playlist-metafiles"
         if [[ "$playlist_mode" == true ]]; then
           cmd="$cmd --yes-playlist"
         fi
@@ -282,6 +368,18 @@ in
 
         # Execute download with retry
         if _retry_download "$cmd"; then
+          # Generate NFO files for any videos missing them
+          local series_base="$DOWNLOAD_DIR/$platform_name"
+          find "$series_base" -name "*.info.json" 2>/dev/null | while read -r json_file; do
+            local base="''${json_file%.info.json}"
+            local nfo_file="$base.nfo"
+            if [[ ! -f "$nfo_file" ]]; then
+              for ext in mp4 mkv webm; do
+                [[ -f "$base.$ext" ]] && _generate_jellyfin_nfo "$base.$ext" && break
+              done
+            fi
+          done
+
           # Build success message
           local success_msg="$platform_name download completed"
           [[ "$playlist_mode" == true ]] && success_msg="$platform_name playlist download completed"
