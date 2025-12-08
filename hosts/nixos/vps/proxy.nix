@@ -66,6 +66,18 @@
           };
         };
 
+        # Jellyfin Media Server
+        jellyfin = {
+          rule = "Host(`jellyfin.yanlincs.com`)";
+          service = "jellyfin";
+          tls = {
+            certResolver = "cloudflare";
+            domains = [{
+              main = "*.yanlincs.com";
+            }];
+          };
+        };
+
       };
 
       services = {
@@ -111,6 +123,15 @@
           loadBalancer = {
             servers = [{
               url = "http://lan.hs.yanlincs.com:32400";
+            }];
+          };
+        };
+
+        # Jellyfin backend
+        jellyfin = {
+          loadBalancer = {
+            servers = [{
+              url = "http://lan.hs.yanlincs.com:8096";
             }];
           };
         };
