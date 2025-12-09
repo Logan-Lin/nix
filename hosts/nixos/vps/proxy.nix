@@ -78,6 +78,18 @@
           };
         };
 
+        # Lidarr music management
+        lidarr = {
+          rule = "Host(`lidarr.yanlincs.com`)";
+          service = "lidarr";
+          tls = {
+            certResolver = "cloudflare";
+            domains = [{
+              main = "*.yanlincs.com";
+            }];
+          };
+        };
+
       };
 
       services = {
@@ -132,6 +144,15 @@
           loadBalancer = {
             servers = [{
               url = "http://lan.hs.yanlincs.com:8096";
+            }];
+          };
+        };
+
+        # Lidarr backend
+        lidarr = {
+          loadBalancer = {
+            servers = [{
+              url = "http://lan.hs.yanlincs.com:8686";
             }];
           };
         };

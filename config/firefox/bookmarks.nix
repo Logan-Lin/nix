@@ -104,6 +104,10 @@
               url = "https://radarr.yanlincs.com";
             }
             {
+              name = "Lidarr";
+              url = "https://lidarr.yanlincs.com";
+            }
+            {
               name = "Deluge";
               url = "https://deluge.yanlincs.com";
             }
