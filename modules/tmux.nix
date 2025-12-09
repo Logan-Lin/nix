@@ -26,8 +26,7 @@
       # Window status colors
       set -g window-status-style 'bg=#3c3836,fg=#a89984'
       set -g window-status-current-style 'bg=#fabd2f,fg=#282828'
-      set -g window-status-activity-style 'bg=#d3869b,fg=#282828'
-      
+
       # Pane border colors
       set -g pane-border-style 'fg=#3c3836'
       set -g pane-active-border-style 'fg=#fabd2f'
@@ -95,13 +94,6 @@
       
       # Faster command sequences
       set -s escape-time 0
-      
-      # Activity monitoring
-      setw -g monitor-activity on
-      set -g visual-activity off
-      
-      # Manual toggle for activity monitoring
-      bind A setw monitor-activity \; display-message "Activity monitoring: #{?monitor-activity,ON,OFF}"
       
       # Automatically renumber windows
       set -g renumber-windows on
