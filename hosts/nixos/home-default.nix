@@ -15,6 +15,7 @@
     ../../modules/dictionary.nix
     ../../modules/claude-code.nix
     ../../modules/fonts.nix
+    ../../modules/seq-command.nix
   ];
 
   home.username = "yanlin";
