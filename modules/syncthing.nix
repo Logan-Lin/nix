@@ -57,7 +57,7 @@ in
     tray.enable = false;
     
     # Listen on all interfaces for the GUI
-    guiAddress = lib.mkIf cfg.enableGui "0.0.0.0:8384";
+    guiAddress = lib.mkIf cfg.enableGui "127.0.0.1:8384";
     
     # Declarative configuration - will override any GUI changes
     overrideDevices = true;
