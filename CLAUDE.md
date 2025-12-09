@@ -1,6 +1,7 @@
 ## Coding Style
 - Never write shebang unless specifically requested
 - Do not abuse comments when writing code, especially code intuitive enough that does not need comments to further explain
+- When writing shell scripts, prefer zsh over bash; use `zsh -i -c` to run commands that need access to user-defined shell functions
 
 ## NixOS
 - This is my nixOS configuration for all my personal computers, and you are running on one of the nixOS hosts

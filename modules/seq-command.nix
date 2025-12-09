@@ -41,11 +41,12 @@ let
 
     while [[ -s "$file" ]]; do
       cmd="$(head -n 1 "$file")"
-      tail -n +2 "$file" > "$file.tmp" && mv "$file.tmp" "$file"
 
       if [[ -n "$cmd" ]]; then
-        eval "$cmd"
+        zsh -i -c "$cmd"
       fi
+
+      tail -n +2 "$file" > "$file.tmp" && mv "$file.tmp" "$file"
 
       if [[ -s "$file" ]]; then
         sleep "$gap_seconds"
