@@ -248,7 +248,6 @@ while IFS= read -r window_config; do
         
         tmux new-window -t "$SESSION_NAME:$WINDOW_INDEX" -n "$GIT_WINDOW_NAME" -c "$WINDOW_PATH"
         tmux send-keys -t "$SESSION_NAME:$WINDOW_INDEX" "lazygit" C-m
-        tmux setw -t "$SESSION_NAME:$WINDOW_INDEX" monitor-activity off
         WINDOW_INDEX=$((WINDOW_INDEX + 1))
     fi
     
