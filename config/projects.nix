@@ -87,6 +87,13 @@ in
           git = false;
           shell = true;
         }
+        {
+          name = "code";
+          path = homePath "Documents/Projects/Material Design Shortcut/MDShortcut-code";
+          ai = true;
+          git = true;
+          shell = false;
+        }
       ];
     };
 
