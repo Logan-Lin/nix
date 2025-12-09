@@ -3,7 +3,6 @@
 let
   seqCommandScript = pkgs.writeShellScriptBin "seq-command" ''
     gap=0
-    service=false
     file=""
 
     while [[ $# -gt 0 ]]; do
@@ -11,10 +10,6 @@ let
         --gap)
           gap="$2"
           shift 2
-          ;;
-        --service)
-          service=true
-          shift
           ;;
         *)
           file="$1"
@@ -26,11 +21,10 @@ let
     if [[ -z "$file" || "$gap" -eq 0 ]]; then
       echo "seq-command - Execute commands from a file sequentially with gaps"
       echo ""
-      echo "Usage: seq-command --gap <minutes> [--service] <commands-file>"
+      echo "Usage: seq-command --gap <minutes> <commands-file>"
       echo ""
       echo "Options:"
       echo "  --gap <minutes>  Wait time between command executions"
-      echo "  --service        Run as a background systemd user service"
       echo ""
       echo "The commands file is treated as a FIFO queue - each line is removed after execution."
       exit 1
@@ -41,10 +35,6 @@ let
     if [[ ! -f "$file" ]]; then
       echo "File not found: $file"
       exit 1
-    fi
-
-    if $service; then
-      exec systemd-run --user --unit="seq-command-$(date +%s)" seq-command --gap "$gap" "$file"
     fi
 
     gap_seconds=$((gap * 60))
