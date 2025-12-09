@@ -246,6 +246,7 @@
     jellyfin.enable = true;
     deluge.enable = true;
     plex.enable = true;
+    lidarr.enable = true;
   };
 
     # Borg backup configuration
