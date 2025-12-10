@@ -42,6 +42,7 @@
       "typora"
       "zotero"
       "raspberry-pi-imager"
+      "musicbrainz-picard"
     ];
     taps = [
       # Additional repositories if needed
