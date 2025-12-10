@@ -90,6 +90,18 @@
           };
         };
 
+        # Bazarr subtitle management
+        bazarr = {
+          rule = "Host(`bazarr.yanlincs.com`)";
+          service = "bazarr";
+          tls = {
+            certResolver = "cloudflare";
+            domains = [{
+              main = "*.yanlincs.com";
+            }];
+          };
+        };
+
       };
 
       services = {
@@ -153,6 +165,15 @@
           loadBalancer = {
             servers = [{
               url = "http://lan.hs.yanlincs.com:8686";
+            }];
+          };
+        };
+
+        # Bazarr backend
+        bazarr = {
+          loadBalancer = {
+            servers = [{
+              url = "http://lan.hs.yanlincs.com:6767";
             }];
           };
         };
