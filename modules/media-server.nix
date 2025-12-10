@@ -23,6 +23,7 @@ in
     deluge.enable = lib.mkEnableOption "Deluge torrent client"; # web port 8112
     plex.enable = lib.mkEnableOption "Plex media server"; # port 32400
     lidarr.enable = lib.mkEnableOption "Lidarr music management"; # port 8686
+    bazarr.enable = lib.mkEnableOption "Bazarr subtitle management"; # port 6767
   };
 
   config = {
@@ -70,6 +71,13 @@ in
     };
 
     services.lidarr = lib.mkIf cfg.lidarr.enable {
+      enable = true;
+      user = cfg.user;
+      group = cfg.group;
+      openFirewall = false;
+    };
+
+    services.bazarr = lib.mkIf cfg.bazarr.enable {
       enable = true;
       user = cfg.user;
       group = cfg.group;

@@ -247,6 +247,7 @@
     deluge.enable = true;
     plex.enable = true;
     lidarr.enable = true;
+    bazarr.enable = true;
   };
 
     # Borg backup configuration
