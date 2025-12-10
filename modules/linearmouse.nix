@@ -6,28 +6,27 @@
     "$schema" = "https://schema.linearmouse.app/0.10.2";
     schemes = [
       {
-        "if" = {
-          device = {
-            category = "mouse";
-          };
-        };
-        scrolling = {
-          reverse = {
-            vertical = true;
-          };
-        };
+        "if".device.productName = "MX Master 3 Mac";
+        scrolling.reverse.vertical = true;
         pointer = {
           acceleration = 0;
           speed = 0.6;
         };
-        buttons = {
-          mappings = [
-            { button = 3; action = "appExpose"; }
-            { button = 4; action = "missionControl"; }
-            { button = 2; action = "smartZoom"; }
-            { scroll = "left"; action = { keyPress = [ "leftArrow" ]; }; }
-            { scroll = "right"; action = { keyPress = [ "rightArrow" ]; }; }
-          ];
+        buttons.mappings = [
+          { button = 3; action = "appExpose"; }
+          { button = 4; action = "missionControl"; }
+          { button = 2; action = "smartZoom"; }
+          { scroll = "left"; action = { keyPress = [ "leftArrow" ]; }; }
+          { scroll = "right"; action = { keyPress = [ "rightArrow" ]; }; }
+        ];
+      }
+      {
+        "if".device = {
+          vendorID = "0x004C";
+          productID = "0x0269";
+        };
+        pointer = {
+          acceleration = 0;
         };
       }
     ];
