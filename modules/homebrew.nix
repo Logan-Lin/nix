@@ -43,6 +43,7 @@
       "zotero"
       "raspberry-pi-imager"
       "musicbrainz-picard"
+      "plexamp"
     ];
     taps = [
       # Additional repositories if needed
