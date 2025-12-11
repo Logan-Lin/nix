@@ -110,7 +110,7 @@
         photo = {
           loadBalancer = {
             servers = [{
-              url = "http://lan.hs.yanlincs.com:5000";
+              url = "http://hs.yanlincs.com:5000";
             }];
           };
         };
@@ -119,7 +119,7 @@
         deluge = {
           loadBalancer = {
             servers = [{
-              url = "http://lan.hs.yanlincs.com:8112";
+              url = "http://hs.yanlincs.com:8112";
             }];
           };
         };
@@ -128,7 +128,7 @@
         sonarr = {
           loadBalancer = {
             servers = [{
-              url = "http://lan.hs.yanlincs.com:8989";
+              url = "http://hs.yanlincs.com:8989";
             }];
           };
         };
@@ -137,7 +137,7 @@
         radarr = {
           loadBalancer = {
             servers = [{
-              url = "http://lan.hs.yanlincs.com:7878";
+              url = "http://hs.yanlincs.com:7878";
             }];
           };
         };
@@ -146,7 +146,7 @@
         plex = {
           loadBalancer = {
             servers = [{
-              url = "http://lan.hs.yanlincs.com:32400";
+              url = "http://hs.yanlincs.com:32400";
             }];
           };
         };
@@ -155,7 +155,7 @@
         jellyfin = {
           loadBalancer = {
             servers = [{
-              url = "http://lan.hs.yanlincs.com:8096";
+              url = "http://hs.yanlincs.com:8096";
             }];
           };
         };
@@ -164,7 +164,7 @@
         lidarr = {
           loadBalancer = {
             servers = [{
-              url = "http://lan.hs.yanlincs.com:8686";
+              url = "http://hs.yanlincs.com:8686";
             }];
           };
         };
@@ -173,7 +173,7 @@
         bazarr = {
           loadBalancer = {
             servers = [{
-              url = "http://lan.hs.yanlincs.com:6767";
+              url = "http://hs.yanlincs.com:6767";
             }];
           };
         };
