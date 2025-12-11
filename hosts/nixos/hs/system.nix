@@ -253,7 +253,7 @@
     # Borg backup configuration
   services.borg-client-custom = {
     enable = true;
-    repositoryUrl = "ssh://backup-box/./hs";
+    repositoryUrl = "ssh://borg-server/./hs";
     backupPaths = [
       "/mnt/storage/appbulk/immich/library/"
       "/mnt/storage/Media/DCIM"

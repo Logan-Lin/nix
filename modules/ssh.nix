@@ -61,6 +61,12 @@
         port = 23;
       };
 
+      "borg-server" = {
+        hostname = "vpn.thinkpad.yanlincs.com";
+        user = "borg";
+        identityFile = "~/Credentials/ssh_keys/thinkpad";
+      };
+
     };
   };
 }
