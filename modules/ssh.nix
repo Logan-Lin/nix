@@ -31,7 +31,7 @@
       };
 
       "hs" = {
-        hostname = "lan.hs.yanlincs.com";
+        hostname = "hs.yanlincs.com";
         user = "yanlin";
         identityFile = "~/Credentials/ssh_keys/nas";
         setEnv = {
@@ -40,7 +40,7 @@
       };
 
       "thinkpad" = {
-        hostname = "vpn.thinkpad.yanlincs.com";
+        hostname = "thinkpad.yanlincs.com";
         user = "yanlin";
         identityFile = "~/Credentials/ssh_keys/thinkpad";
         setEnv = {
@@ -55,7 +55,7 @@
       };
 
       "borg-server" = {
-        hostname = "vpn.thinkpad.yanlincs.com";
+        hostname = "thinkpad.yanlincs.com";
         user = "borg";
         identityFile = "~/Credentials/ssh_keys/thinkpad";
         proxyJump = "vps";
