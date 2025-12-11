@@ -12,7 +12,6 @@
     ../../modules/termscp.nix
     ../../modules/rsync.nix
     ../../modules/btop.nix
-    ../../modules/dictionary.nix
     ../../modules/claude-code.nix
     ../../modules/fonts.nix
     ../../modules/seq-command.nix
