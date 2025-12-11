@@ -6,7 +6,7 @@
     ../system-default.nix
     ../../../modules/tailscale.nix
     ../../../modules/login-display.nix
-    ../../../modules/borg/client.nix
+    ../../../modules/borg/server.nix
   ];
 
   # Bootloader - standard UEFI setup
@@ -191,21 +191,12 @@
     showBorgStatus = true;
   };
 
-  # Borg backup configuration
-  services.borg-client-custom = {
+  services.borg-server-custom = {
     enable = true;
-    repositoryUrl = "ssh://backup-box/./thinkpad";
-    backupPaths = [
-      "/home/yanlin/Archive"
-      "/home/yanlin/Credentials"
-      "/home/yanlin/Documents"
-    ];
-    backupFrequency = "*-*-* 00:00:00";
-    retention = {
-      keepDaily = 7;
-      keepWeekly = 4;
-      keepMonthly = 6;
-      keepYearly = 2;
+    users = {
+      borg = {
+        publicKeys = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICp2goZiuSfwMA02GsHhYzUZHrQPPBgP5sWSNP9kQR3e yanlin@imac";
+      };
     };
   };
 
