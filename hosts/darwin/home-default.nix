@@ -9,14 +9,12 @@
     ../../modules/ssh.nix
     ../../modules/git.nix
     ../../modules/lazygit.nix
-    ../../modules/papis.nix
     ../../modules/termscp.nix
     ../../modules/rsync.nix
     ../../modules/btop.nix
     ../../modules/firefox.nix
     ../../modules/ghostty.nix
     ../../modules/syncthing.nix
-    ../../modules/dictionary.nix
     ../../modules/claude-code.nix
     ../../modules/tex.nix
     ../../modules/fonts.nix

@@ -101,9 +101,6 @@ if is_session_running "$SESSION_NAME"; then
     fi
 fi
 
-# Update papis cache
-papis cache reset > /dev/null 2>&1
-
 # Check if directory exists
 check_directory_exists() {
     local dir_path="$1"
