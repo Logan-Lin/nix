@@ -54,17 +54,11 @@
         identityFile = "~/Credentials/ssh_keys/hetzner";
       };
 
-      "backup-box" = {
-        hostname = "u515619.your-storagebox.de";
-        user = "u515619";
-        identityFile = "~/Credentials/ssh_keys/hetzner";
-        port = 23;
-      };
-
       "borg-server" = {
         hostname = "vpn.thinkpad.yanlincs.com";
         user = "borg";
         identityFile = "~/Credentials/ssh_keys/thinkpad";
+        proxyJump = "vps";
       };
 
     };
