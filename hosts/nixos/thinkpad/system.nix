@@ -3,7 +3,9 @@
 {
   imports = [
     ./hardware-configuration.nix
+    ./containers.nix
     ../system-default.nix
+    ../../../modules/podman.nix
     ../../../modules/tailscale.nix
     ../../../modules/login-display.nix
     ../../../modules/borg/server.nix
@@ -46,6 +48,8 @@
         intel-vaapi-driver # LIBVA_DRIVER_NAME=i965 (older but sometimes works better)
         libva-vdpau-driver
         libvdpau-va-gl
+        vpl-gpu-rt
+        intel-compute-runtime
       ];
     };
 
