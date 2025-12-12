@@ -18,6 +18,17 @@ args:
         meta = {};
       }
     else null;
+
+    goodlinks = if buildFirefoxXpiAddon != null then
+      buildFirefoxXpiAddon {
+        pname = "save-to-goodlinks";
+        version = "1.0.16";
+        addonId = "support@goodlinks.app";
+        url = "https://addons.mozilla.org/firefox/downloads/file/4624640/save_to_goodlinks-1.0.16.xpi";
+        sha256 = "0qilr1vfvjyv91vk7rm6ypl6rxdpyd8h47hwf3nfsbyny27kb0cd";
+        meta = {};
+      }
+    else null;
   in
     (if firefox-addons != null then
       with firefox-addons.packages.${system}; [
@@ -27,5 +38,6 @@ args:
         darkreader
       ]
     else [])
-    ++ (if zotero-connector != null then [ zotero-connector ] else []);
+    ++ (if zotero-connector != null then [ zotero-connector ] else [])
+    ++ (if goodlinks != null then [ goodlinks ] else []);
 }
