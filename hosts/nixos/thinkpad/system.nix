@@ -188,7 +188,6 @@
       "/dev/nvme0n1" = "System_SSD";
     };
     showDiskUsage = true;
-    showBorgStatus = true;
   };
 
   services.borg-server-custom = {
