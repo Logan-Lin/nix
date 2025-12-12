@@ -65,7 +65,6 @@ sudo nixos-rebuild switch --rollback
 │       └── <host>/
 ├── modules/            # Reusable modules
 ├── config/             # Static config files
-├── archive/            # Unused modules/config files
 └── scripts/            # Helper scripts
 ```
 
