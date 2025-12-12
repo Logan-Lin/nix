@@ -110,7 +110,7 @@
         photo = {
           loadBalancer = {
             servers = [{
-              url = "http://hs.yanlincs.com:5000";
+              url = "http://thinkpad.yanlincs.com:5000";
             }];
           };
         };
