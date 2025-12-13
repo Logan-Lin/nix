@@ -30,15 +30,6 @@
         identityFile = "~/Credentials/ssh_keys/aicloud";
       };
 
-      "hs" = {
-        hostname = "hs.yanlincs.com";
-        user = "yanlin";
-        identityFile = "~/Credentials/ssh_keys/nas";
-        setEnv = {
-          TERM = "xterm-256color";
-        };
-      };
-
       "thinkpad" = {
         hostname = "thinkpad.yanlincs.com";
         user = "yanlin";
@@ -54,11 +45,11 @@
         identityFile = "~/Credentials/ssh_keys/hetzner";
       };
 
-      "borg-server" = {
-        hostname = "thinkpad.yanlincs.com";
-        user = "borg";
-        identityFile = "~/Credentials/ssh_keys/thinkpad";
-        proxyJump = "vps";
+      "borg-box" = {
+        hostname = "u518619.your-storagebox.de";
+        user = "u518619";
+        port = 23;
+        identityFile = "~/Credentials/ssh_keys/hetzner";
       };
 
     };
