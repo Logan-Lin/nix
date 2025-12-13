@@ -42,8 +42,7 @@
       "typora"
       "zotero"
       "raspberry-pi-imager"
-      "musicbrainz-picard"
-      "plexamp"
+      "transmission"
     ];
     taps = [
       # Additional repositories if needed

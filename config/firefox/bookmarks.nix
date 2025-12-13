@@ -18,14 +18,6 @@
           url = "https://photo.yanlincs.com/photos";
         }
         {
-          name = "Plex";
-          url = "https://plex.yanlincs.com";
-        }
-        {
-          name = "Jellyfin";
-          url = "https://jellyfin.yanlincs.com";
-        }
-        {
           name = "Productivity";
           bookmarks = [
             {
@@ -72,31 +64,6 @@
             {
               name = "DBLP";
               url = "https://dblp.org/";
-            }
-          ];
-        }
-        {
-          name = "Media";
-          bookmarks = [
-            {
-              name = "Sonarr";
-              url = "https://sonarr.yanlincs.com";
-            }
-            {
-              name = "Radarr";
-              url = "https://radarr.yanlincs.com";
-            }
-            {
-              name = "Lidarr";
-              url = "https://lidarr.yanlincs.com";
-            }
-            {
-              name = "Bazarr";
-              url = "https://bazarr.yanlincs.com";
-            }
-            {
-              name = "Deluge";
-              url = "https://deluge.yanlincs.com";
             }
           ];
         }
