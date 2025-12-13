@@ -94,17 +94,23 @@ in
                 HEALTH="UNKNOWN"
               fi
 
-              # Get temperature
+              # Get temperature and wear percentage
               TEMP="N/A"
+              WEAR="N/A"
               if [[ "$HEALTH" == "PASSED" ]]; then
                 if [[ "${device}" == *"nvme"* ]]; then
                   SMART_DATA=$(sudo ${pkgs.smartmontools}/bin/smartctl -d nvme -A "${device}" 2>/dev/null)
                   TEMP=$(echo "$SMART_DATA" | ${pkgs.gawk}/bin/awk '/^Temperature:/ {print $2}' | head -1)
                   [[ -n "$TEMP" && "$TEMP" =~ ^[0-9]+$ ]] && TEMP="''${TEMP}" || TEMP="N/A"
+                  WEAR=$(echo "$SMART_DATA" | ${pkgs.gawk}/bin/awk '/^Percentage Used:/ {print $3}' | head -1 | tr -d '%')
+                  [[ -n "$WEAR" && "$WEAR" =~ ^[0-9]+$ ]] || WEAR="N/A"
                 else
                   SMART_DATA=$(sudo ${pkgs.smartmontools}/bin/smartctl -A "${device}" 2>/dev/null)
                   TEMP=$(echo "$SMART_DATA" | ${pkgs.gawk}/bin/awk '/Temperature_Celsius/ {print $10}' | head -1)
                   [[ -n "$TEMP" && "$TEMP" =~ ^[0-9]+$ ]] && TEMP="''${TEMP}" || TEMP="N/A"
+                  # Try various wear indicators for SATA SSDs (value is remaining life, so subtract from 100)
+                  WEAR=$(echo "$SMART_DATA" | ${pkgs.gawk}/bin/awk '/Wear_Leveling_Count|Media_Wearout_Indicator|SSD_Life_Left/ {print 100 - $4; exit}')
+                  [[ -n "$WEAR" && "$WEAR" =~ ^[0-9]+$ ]] || WEAR="N/A"
                 fi
               fi
 
@@ -125,17 +131,32 @@ in
                 else
                   TEMP_STR="$(printf "%b" "\\033[2m$TEMP\\033[0m")"
                 fi
+                # Color wear based on value
+                if [[ "$WEAR" =~ ^[0-9]+$ ]]; then
+                  if [[ $WEAR -ge 80 ]]; then
+                    WEAR_COLOR="\\033[38;2;251;73;52m"
+                  elif [[ $WEAR -ge 50 ]]; then
+                    WEAR_COLOR="\\033[38;2;254;128;25m"
+                  else
+                    WEAR_COLOR="\\033[38;2;184;187;38m"
+                  fi
+                  WEAR_STR="$(printf "%b" "''${WEAR_COLOR}''${WEAR}%\\033[0m")"
+                else
+                  WEAR_STR="$(printf "%b" "\\033[2m$WEAR\\033[0m")"
+                fi
               elif [[ "$HEALTH" == "FAILED" ]]; then
                 STATUS="\\033[38;2;251;73;52m✗\\033[0m"
                 HEALTH_COLOR="\\033[38;2;251;73;52m"
                 TEMP_STR="$(printf "%b" "\\033[2m$TEMP\\033[0m")"
+                WEAR_STR="$(printf "%b" "\\033[2m$WEAR\\033[0m")"
               else
                 STATUS="\\033[38;2;250;189;47m⚠\\033[0m"
                 HEALTH_COLOR="\\033[38;2;250;189;47m"
                 TEMP_STR="$(printf "%b" "\\033[2m$TEMP\\033[0m")"
+                WEAR_STR="$(printf "%b" "\\033[2m$WEAR\\033[0m")"
               fi
 
-              printf "  %b \\033[2m%-15s\\033[0m %b%-7s\\033[0m %s\n" "$STATUS" "${name}" "$HEALTH_COLOR" "$HEALTH" "$TEMP_STR"
+              printf "  %b \\033[2m%-15s\\033[0m %b%-7s\\033[0m %s  %s\n" "$STATUS" "${name}" "$HEALTH_COLOR" "$HEALTH" "$TEMP_STR" "$WEAR_STR"
             else
               printf "  \\033[38;2;250;189;47m⚠\\033[0m \\033[2m%-15s\\033[0m \\033[38;2;251;73;52m%-20s\\033[0m\n" "${name}" "Not found"
             fi
