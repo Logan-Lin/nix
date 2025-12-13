@@ -8,7 +8,8 @@
     ../../../modules/podman.nix
     ../../../modules/tailscale.nix
     ../../../modules/login-display.nix
-    ../../../modules/borg/server.nix
+    ../../../modules/borg/client.nix
+    ../../../modules/samba.nix
   ];
 
   # Bootloader - standard UEFI setup
@@ -192,15 +193,30 @@
       "/dev/nvme0n1" = "System_SSD";
     };
     showDiskUsage = true;
+    showBorgStatus = true;
   };
 
-  services.borg-server-custom = {
+  services.borg-client-custom = {
     enable = true;
-    users = {
-      borg = {
-        publicKeys = [ "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICp2goZiuSfwMA02GsHhYzUZHrQPPBgP5sWSNP9kQR3e yanlin@imac" ];
-      };
+    repositoryUrl = "ssh://borg-box/./thinkpad";
+    backupPaths = [
+      "/home/yanlin/immich/ext-library/"
+      "/home/yanlin/immich/photo-library/library/admin/"
+      "/home/yanlin/nsfw"
+    ];
+    backupFrequency = "*-*-* 00:00:00";
+    retention = {
+      keepDaily = 7;
+      keepWeekly = 4;
+      keepMonthly = 6;
+      keepYearly = 2;
     };
+  };
+
+  services.samba-custom = {
+    sharedPath = "/home/yanlin/nsfw/";
+    shareName = "nsfw";
+    user = "yanlin";
   };
 
 }
