@@ -18,6 +18,10 @@
           url = "https://photo.yanlincs.com/photos";
         }
         {
+          name = "Translate";
+          url = "https://translate.google.com/?sl=auto&tl=en&op=translate";
+        }
+        {
           name = "Productivity";
           bookmarks = [
             {
@@ -135,10 +139,6 @@
             {
               name = "Tailscale";
               url = "https://login.tailscale.com/admin/machines";
-            }
-            {
-              name = "Translate";
-              url = "https://translate.google.com/?sl=auto&tl=en&op=translate";
             }
           ];
         }
