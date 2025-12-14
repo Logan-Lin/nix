@@ -9,7 +9,7 @@
     ../../../modules/tailscale.nix
     ../../../modules/login-display.nix
     ../../../modules/borg/client.nix
-    ../../../modules/samba.nix
+    ../../../modules/dufs.nix
   ];
 
   # Bootloader - standard UEFI setup
@@ -213,10 +213,11 @@
     };
   };
 
-  services.samba-custom = {
-    sharedPath = "/home/yanlin/nsfw/";
-    shareName = "nsfw";
+  services.dufs = {
+    sharedPath = "/home/yanlin/nsfw";
+    port = 5099;
     user = "yanlin";
+    group = "users";
   };
 
 }
