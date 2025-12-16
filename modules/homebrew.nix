@@ -43,6 +43,7 @@
       "zotero"
       "raspberry-pi-imager"
       "transmission"
+      "pdf-expert"
     ];
     taps = [
       # Additional repositories if needed
