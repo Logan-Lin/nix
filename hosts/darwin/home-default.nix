@@ -273,8 +273,8 @@
     run ${pkgs.duti}/bin/duti -s com.todesktop.230313mzl4w4u92 .tex all
     run ${pkgs.duti}/bin/duti -s com.todesktop.230313mzl4w4u92 .bib all
 
-    # Documents - PDF with Preview
-    run ${pkgs.duti}/bin/duti -s com.apple.Preview .pdf all
+    # Documents - PDF with PDF Expert
+    run ${pkgs.duti}/bin/duti -s com.readdle.PDFExpert-Mac .pdf all
 
     # Images - Preview
     run ${pkgs.duti}/bin/duti -s com.apple.Preview .png all
