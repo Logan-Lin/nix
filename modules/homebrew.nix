@@ -44,6 +44,7 @@
       "raspberry-pi-imager"
       "transmission"
       "pdf-expert"
+      "drawio"
     ];
     taps = [
       # Additional repositories if needed
