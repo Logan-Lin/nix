@@ -276,6 +276,9 @@
     # Documents - PDF with PDF Expert
     run ${pkgs.duti}/bin/duti -s com.readdle.PDFExpert-Mac .pdf all
 
+    # Diagrams - Draw.io
+    run ${pkgs.duti}/bin/duti -s com.jgraph.drawio.desktop .drawio all
+
     # Images - Preview
     run ${pkgs.duti}/bin/duti -s com.apple.Preview .png all
     run ${pkgs.duti}/bin/duti -s com.apple.Preview .jpg all
