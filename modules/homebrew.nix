@@ -45,6 +45,7 @@
       "transmission"
       "pdf-expert"
       "drawio"
+      "protonvpn"
     ];
     taps = [
       # Additional repositories if needed
