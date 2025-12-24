@@ -164,5 +164,17 @@ in
       ];
     };
 
+    aau-ap = {
+      description = "AAU 2026 AP Application";
+      windows = [
+        {
+          name = "";
+          path = homePath "Documents/Misc/2025/AAU 2026 AP";
+          git = true;
+          shell = true;
+        }
+      ];
+    };
+
   };
 }
