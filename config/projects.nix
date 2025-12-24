@@ -170,6 +170,7 @@ in
         {
           name = "";
           path = homePath "Documents/Misc/2025/AAU 2026 AP";
+          ai = true;
           git = true;
           shell = true;
         }
