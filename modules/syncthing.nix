@@ -39,7 +39,7 @@ in
   options.syncthing-custom = {
     enabledFolders = lib.mkOption {
       type = lib.types.listOf lib.types.str;
-      default = [ "Credentials" "Documents" "Archive" "Share" ];
+      default = [ "Credentials" "Documents" "Archive" ];
       description = "List of Syncthing folders to enable for this host.";
     };
     enableGui = lib.mkOption {
@@ -108,14 +108,6 @@ in
             ignorePerms = true;
             versioning = commonVersioning;
           };
-        })
-        // (lib.optionalAttrs (lib.elem "Share" cfg.enabledFolders) {
-          "Share" = {
-            path = "~/Share";
-            devices = allDevices;
-            ignorePerms = true;
-            versioning = commonVersioning;
-          };
         });
       
       # GUI settings with authentication
@@ -152,9 +144,6 @@ in
     })
     (lib.mkIf (lib.elem "Archive" cfg.enabledFolders) {
       "Archive/.stignore".text = stignoreContent;
-    })
-    (lib.mkIf (lib.elem "Share" cfg.enabledFolders) {
-      "Share/.stignore".text = stignoreContent;
     })
   ];
 
