@@ -140,6 +140,10 @@
               name = "Tailscale";
               url = "https://login.tailscale.com/admin/machines";
             }
+            {
+              name = "Homebrew";
+              url = "https://formulae.brew.sh/";
+            }
           ];
         }
       ];
