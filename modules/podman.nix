@@ -44,14 +44,6 @@ let
     done
 
     echo "Container update scan complete!"
-
-    # Clean up dangling images
-    echo "Cleaning up dangling images..."
-    if podman image prune -af; then
-      echo "Image cleanup complete!"
-    else
-      echo "Warning: Image cleanup failed"
-    fi
   '';
 in
 {
