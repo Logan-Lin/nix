@@ -45,7 +45,6 @@
       "transmission"
       "pdf-expert"
       "drawio"
-      "protonvpn"
       "clash-verge-rev"
     ];
     taps = [
