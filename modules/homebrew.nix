@@ -46,6 +46,7 @@
       "pdf-expert"
       "drawio"
       "clash-verge-rev"
+      "the-unarchiver"
     ];
     taps = [
       # Additional repositories if needed
