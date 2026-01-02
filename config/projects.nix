@@ -101,25 +101,11 @@ in
       description = "DAKI3 2025 Semester";
       windows = [
         {
-          name = "code";
-          path = homePath "Documents/Projects/AI systems & infrastructure/Codes";
+          name = "";
+          path = homePath "Documents/Projects/AI systems & infrastructure";
           ai = true;
           git = false;
           shell = true;
-        }
-        {
-          name = "slide";
-          path = homePath "Documents/Projects/AI systems & infrastructure/Slides";
-          ai = true;
-          git = false;
-          shell = false;
-        }
-        {
-          name = "group";
-          path = homePath "Documents/Projects/DAKI3 Semester Project Group";
-          ai = true;
-          git = false;
-          shell = false;
         }
       ];
     };
