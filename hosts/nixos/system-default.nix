@@ -25,7 +25,7 @@
     settings = {
       PasswordAuthentication = false;
       KbdInteractiveAuthentication = false;
-      AcceptEnv = "LANG LC_* TERM COLORTERM TMUX TMUX_PANE";
+      AcceptEnv = [ "LANG" "LC_*" "TERM" "COLORTERM" "TMUX" "TMUX_PANE" ];
     };
   };
 
