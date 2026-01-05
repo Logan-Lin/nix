@@ -24,6 +24,7 @@ in
     plex.enable = lib.mkEnableOption "Plex media server"; # port 32400
     lidarr.enable = lib.mkEnableOption "Lidarr music management"; # port 8686
     bazarr.enable = lib.mkEnableOption "Bazarr subtitle management"; # port 6767
+    audiobookshelf.enable = lib.mkEnableOption "Audiobookshelf audiobook server"; # port 8000
   };
 
   config = {
@@ -78,6 +79,13 @@ in
     };
 
     services.bazarr = lib.mkIf cfg.bazarr.enable {
+      enable = true;
+      user = cfg.user;
+      group = cfg.group;
+      openFirewall = false;
+    };
+
+    services.audiobookshelf = lib.mkIf cfg.audiobookshelf.enable {
       enable = true;
       user = cfg.user;
       group = cfg.group;
