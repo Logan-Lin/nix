@@ -101,9 +101,8 @@ in
           # Quit behavior
           confirm-close-surface = false;
 
-          # Platform-specific: Hide title bar to save space
-          macos-titlebar-style = "hidden";  # macOS
-          gtk-titlebar = false;              # GNOME/Linux
+          macos-titlebar-style = "hidden";
+          macos-option-as-alt = "left";
         }
         
         # Conditional window settings based on mode
