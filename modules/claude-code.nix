@@ -140,6 +140,7 @@ let
     spinnerTipsEnabled = false;
     todoEnabled = true;
     autoCompactEnabled = true;
+    alwaysThinkingEnabled = true;
     permissions = defaultPermissions;
   };
 
