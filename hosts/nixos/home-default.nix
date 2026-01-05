@@ -9,7 +9,6 @@
     ../../modules/ssh.nix
     ../../modules/git.nix
     ../../modules/lazygit.nix
-    ../../modules/termscp.nix
     ../../modules/rsync.nix
     ../../modules/btop.nix
     ../../modules/claude-code.nix
