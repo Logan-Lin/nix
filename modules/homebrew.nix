@@ -14,7 +14,7 @@
     ];
     casks = [
       # GUI applications - manually installed apps now managed by Homebrew
-      "textmate"
+      "coteditor"
       "keepassxc"
       "keycastr"
       "inkscape"
