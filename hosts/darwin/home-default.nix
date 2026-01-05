@@ -18,7 +18,6 @@
     ../../modules/tex.nix
     ../../modules/fonts.nix
     ../../modules/linearmouse.nix
-    ../../modules/cursor.nix
   ];
 
   nixpkgs.config.allowUnfree = true;
@@ -233,44 +232,44 @@
   # Uses duti to set default applications for file types via Launch Services
   home.activation.setFileAssociations = config.lib.dag.entryAfter ["writeBoundary"] ''
     # Text and code files - open with TextMate
-    run ${pkgs.duti}/bin/duti -s com.todesktop.230313mzl4w4u92 .txt all
-    run ${pkgs.duti}/bin/duti -s com.todesktop.230313mzl4w4u92 .md all
-    run ${pkgs.duti}/bin/duti -s com.todesktop.230313mzl4w4u92 .markdown all
-    run ${pkgs.duti}/bin/duti -s com.todesktop.230313mzl4w4u92 .nix all
-    run ${pkgs.duti}/bin/duti -s com.todesktop.230313mzl4w4u92 .sh all
-    run ${pkgs.duti}/bin/duti -s com.todesktop.230313mzl4w4u92 .bash all
-    run ${pkgs.duti}/bin/duti -s com.todesktop.230313mzl4w4u92 .zsh all
-    run ${pkgs.duti}/bin/duti -s com.todesktop.230313mzl4w4u92 .fish all
-    run ${pkgs.duti}/bin/duti -s com.todesktop.230313mzl4w4u92 .py all
-    run ${pkgs.duti}/bin/duti -s com.todesktop.230313mzl4w4u92 .js all
-    run ${pkgs.duti}/bin/duti -s com.todesktop.230313mzl4w4u92 .ts all
-    run ${pkgs.duti}/bin/duti -s com.todesktop.230313mzl4w4u92 .jsx all
-    run ${pkgs.duti}/bin/duti -s com.todesktop.230313mzl4w4u92 .tsx all
-    run ${pkgs.duti}/bin/duti -s com.todesktop.230313mzl4w4u92 .json all
-    run ${pkgs.duti}/bin/duti -s com.todesktop.230313mzl4w4u92 .yaml all
-    run ${pkgs.duti}/bin/duti -s com.todesktop.230313mzl4w4u92 .yml all
-    run ${pkgs.duti}/bin/duti -s com.todesktop.230313mzl4w4u92 .toml all
-    run ${pkgs.duti}/bin/duti -s com.todesktop.230313mzl4w4u92 .xml all
-    run ${pkgs.duti}/bin/duti -s com.todesktop.230313mzl4w4u92 .css all
-    run ${pkgs.duti}/bin/duti -s com.todesktop.230313mzl4w4u92 .log all
-    run ${pkgs.duti}/bin/duti -s com.todesktop.230313mzl4w4u92 .csv all
-    run ${pkgs.duti}/bin/duti -s com.todesktop.230313mzl4w4u92 .conf all
-    run ${pkgs.duti}/bin/duti -s com.todesktop.230313mzl4w4u92 .config all
-    run ${pkgs.duti}/bin/duti -s com.todesktop.230313mzl4w4u92 .ini all
-    run ${pkgs.duti}/bin/duti -s com.todesktop.230313mzl4w4u92 .env all
-    run ${pkgs.duti}/bin/duti -s com.todesktop.230313mzl4w4u92 .c all
-    run ${pkgs.duti}/bin/duti -s com.todesktop.230313mzl4w4u92 .cpp all
-    run ${pkgs.duti}/bin/duti -s com.todesktop.230313mzl4w4u92 .h all
-    run ${pkgs.duti}/bin/duti -s com.todesktop.230313mzl4w4u92 .hpp all
-    run ${pkgs.duti}/bin/duti -s com.todesktop.230313mzl4w4u92 .rs all
-    run ${pkgs.duti}/bin/duti -s com.todesktop.230313mzl4w4u92 .go all
-    run ${pkgs.duti}/bin/duti -s com.todesktop.230313mzl4w4u92 .java all
-    run ${pkgs.duti}/bin/duti -s com.todesktop.230313mzl4w4u92 .rb all
-    run ${pkgs.duti}/bin/duti -s com.todesktop.230313mzl4w4u92 .php all
-    run ${pkgs.duti}/bin/duti -s com.todesktop.230313mzl4w4u92 .lua all
-    run ${pkgs.duti}/bin/duti -s com.todesktop.230313mzl4w4u92 .vim all
-    run ${pkgs.duti}/bin/duti -s com.todesktop.230313mzl4w4u92 .tex all
-    run ${pkgs.duti}/bin/duti -s com.todesktop.230313mzl4w4u92 .bib all
+    run ${pkgs.duti}/bin/duti -s com.macromates.TextMate .txt all
+    run ${pkgs.duti}/bin/duti -s com.macromates.TextMate .md all
+    run ${pkgs.duti}/bin/duti -s com.macromates.TextMate .markdown all
+    run ${pkgs.duti}/bin/duti -s com.macromates.TextMate .nix all
+    run ${pkgs.duti}/bin/duti -s com.macromates.TextMate .sh all
+    run ${pkgs.duti}/bin/duti -s com.macromates.TextMate .bash all
+    run ${pkgs.duti}/bin/duti -s com.macromates.TextMate .zsh all
+    run ${pkgs.duti}/bin/duti -s com.macromates.TextMate .fish all
+    run ${pkgs.duti}/bin/duti -s com.macromates.TextMate .py all
+    run ${pkgs.duti}/bin/duti -s com.macromates.TextMate .js all
+    run ${pkgs.duti}/bin/duti -s com.macromates.TextMate .ts all
+    run ${pkgs.duti}/bin/duti -s com.macromates.TextMate .jsx all
+    run ${pkgs.duti}/bin/duti -s com.macromates.TextMate .tsx all
+    run ${pkgs.duti}/bin/duti -s com.macromates.TextMate .json all
+    run ${pkgs.duti}/bin/duti -s com.macromates.TextMate .yaml all
+    run ${pkgs.duti}/bin/duti -s com.macromates.TextMate .yml all
+    run ${pkgs.duti}/bin/duti -s com.macromates.TextMate .toml all
+    run ${pkgs.duti}/bin/duti -s com.macromates.TextMate .xml all
+    run ${pkgs.duti}/bin/duti -s com.macromates.TextMate .css all
+    run ${pkgs.duti}/bin/duti -s com.macromates.TextMate .log all
+    run ${pkgs.duti}/bin/duti -s com.macromates.TextMate .csv all
+    run ${pkgs.duti}/bin/duti -s com.macromates.TextMate .conf all
+    run ${pkgs.duti}/bin/duti -s com.macromates.TextMate .config all
+    run ${pkgs.duti}/bin/duti -s com.macromates.TextMate .ini all
+    run ${pkgs.duti}/bin/duti -s com.macromates.TextMate .env all
+    run ${pkgs.duti}/bin/duti -s com.macromates.TextMate .c all
+    run ${pkgs.duti}/bin/duti -s com.macromates.TextMate .cpp all
+    run ${pkgs.duti}/bin/duti -s com.macromates.TextMate .h all
+    run ${pkgs.duti}/bin/duti -s com.macromates.TextMate .hpp all
+    run ${pkgs.duti}/bin/duti -s com.macromates.TextMate .rs all
+    run ${pkgs.duti}/bin/duti -s com.macromates.TextMate .go all
+    run ${pkgs.duti}/bin/duti -s com.macromates.TextMate .java all
+    run ${pkgs.duti}/bin/duti -s com.macromates.TextMate .rb all
+    run ${pkgs.duti}/bin/duti -s com.macromates.TextMate .php all
+    run ${pkgs.duti}/bin/duti -s com.macromates.TextMate .lua all
+    run ${pkgs.duti}/bin/duti -s com.macromates.TextMate .vim all
+    run ${pkgs.duti}/bin/duti -s com.macromates.TextMate .tex all
+    run ${pkgs.duti}/bin/duti -s com.macromates.TextMate .bib all
 
     # Documents - PDF with PDF Expert
     run ${pkgs.duti}/bin/duti -s com.readdle.PDFExpert-Mac .pdf all
