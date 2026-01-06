@@ -53,7 +53,7 @@
       };
 
       "rpi" = {
-        hostname = "100.117.162.102";
+        hostname = "rpi.yanlincs.com";
         user = "yanlin";
         identityFile = "~/Credentials/ssh_keys/rpi";
       };
