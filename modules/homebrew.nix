@@ -36,7 +36,6 @@
       "hiddenbar"
       "localsend"
       "calibre"
-      "linearmouse"
       "omnigraffle"
       "tailscale-app"
       "typora"

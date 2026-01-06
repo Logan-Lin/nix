@@ -17,7 +17,6 @@
     ../../modules/claude-code.nix
     ../../modules/tex.nix
     ../../modules/fonts.nix
-    ../../modules/linearmouse.nix
   ];
 
   nixpkgs.config.allowUnfree = true;
