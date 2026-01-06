@@ -52,6 +52,12 @@
         identityFile = "~/Credentials/ssh_keys/hetzner";
       };
 
+      "rpi" = {
+        hostname = "100.117.162.102";
+        user = "yanlin";
+        identityFile = "~/Credentials/ssh_keys/rpi";
+      };
+
     };
   };
 }
