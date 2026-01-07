@@ -58,6 +58,12 @@
         identityFile = "~/Credentials/ssh_keys/rpi";
       };
 
+      "nfss" = {
+        hostname = "nfss.yanlincs.com";
+        user = "yanlin";
+        identityFile = "~/Credentials/ssh_keys/nas";
+      };
+
     };
   };
 }
