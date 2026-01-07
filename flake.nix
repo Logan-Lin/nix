@@ -35,15 +35,6 @@
       specialArgs = { inherit nix-homebrew; };
     };
 
-    nixosConfigurations."hs" = nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
-      modules = [
-        disko.nixosModules.disko
-        ./hosts/nixos/hs/system.nix
-        ./hosts/nixos/hs/disk-config.nix
-      ];
-    };
-
     nixosConfigurations."vps" = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [
@@ -84,12 +75,6 @@
         extraSpecialArgs = { inherit claude-code nixvim firefox-addons; };
       };
 
-      "yanlin@hs" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.x86_64-linux;
-        modules = [ ./hosts/nixos/hs/home.nix ];
-        extraSpecialArgs = { inherit claude-code nixvim; };
-      };
-
       "yanlin@vps" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux;
         modules = [ ./hosts/nixos/vps/home.nix ];
@@ -99,7 +84,7 @@
       "yanlin@thinkpad" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux;
         modules = [ ./hosts/nixos/thinkpad/home.nix ];
-        extraSpecialArgs = { inherit claude-code nixvim firefox-addons; };
+        extraSpecialArgs = { inherit claude-code nixvim; };
       };
 
       "yanlin@nfss" = home-manager.lib.homeManagerConfiguration {
