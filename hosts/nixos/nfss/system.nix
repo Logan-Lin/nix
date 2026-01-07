@@ -2,6 +2,7 @@
   imports = [
     ./hardware-configuration.nix
     ../system-default.nix
+    ../../../modules/tailscale.nix
     ../../../modules/login-display.nix
   ];
 
@@ -117,6 +118,11 @@
     };
     showDiskUsage = true;
     diskUsagePaths = [ "/" "/home/" ];
+  };
+
+  services.tailscale-custom = {
+    exitNode = true;
+    subnetRoutes = [ "10.1.1.0/24" ];
   };
 
 }
