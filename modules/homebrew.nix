@@ -30,7 +30,7 @@
       "microsoft-word"
       "microsoft-excel"
       "balenaetcher"
-      "rectangle"
+      "aerospace"
       "maccy"
       "iina"
       "hiddenbar"
@@ -48,7 +48,7 @@
       "the-unarchiver"
     ];
     taps = [
-      # Additional repositories if needed
+      "nikitabobko/tap"
     ];
   };
 
