@@ -2,18 +2,14 @@
 
 {
   home.file.".aerospace.toml".text = ''
-    # AeroSpace configuration
-    # Default to floating windows (like Hyprland)
-
-    start-at-login = true
-
     # Make all new windows floating by default
     [[on-window-detected]]
     run = ['layout floating']
 
     [mode.main.binding]
-    # Toggle between floating and tiling
     alt-enter = 'layout floating tiling'
+    alt-f = 'fullscreen'
+    alt-q = 'close'
 
     # Window focus (vim-style)
     alt-h = 'focus left'
@@ -52,11 +48,5 @@
     alt-shift-7 = 'move-node-to-workspace 7'
     alt-shift-8 = 'move-node-to-workspace 8'
     alt-shift-9 = 'move-node-to-workspace 9'
-
-    # Fullscreen
-    alt-f = 'fullscreen'
-
-    # Close window
-    alt-q = 'close'
   '';
 }
