@@ -17,6 +17,7 @@
     ../../modules/claude-code.nix
     ../../modules/tex.nix
     ../../modules/fonts.nix
+    ../../modules/aerospace.nix
   ];
 
   nixpkgs.config.allowUnfree = true;
@@ -209,10 +210,10 @@
     };
   };
 
-  launchd.agents.rectangle = {
+  launchd.agents.aerospace = {
     enable = true;
     config = {
-      ProgramArguments = [ "/Applications/Rectangle.app/Contents/MacOS/Rectangle" ];
+      ProgramArguments = [ "/Applications/AeroSpace.app/Contents/MacOS/AeroSpace" ];
       RunAtLoad = true;
       KeepAlive = false;
     };
