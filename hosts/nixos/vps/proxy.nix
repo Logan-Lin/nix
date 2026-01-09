@@ -28,6 +28,17 @@
           };
         };
 
+        deluge = {
+          rule = "Host(`deluge.yanlincs.com`)";
+          service = "file";
+          tls = {
+            certResolver = "cloudflare";
+            domains = [{
+              main = "*.yanlincs.com";
+            }];
+          };
+        };
+
       };
 
       services = {
@@ -44,6 +55,14 @@
           loadBalancer = {
             servers = [{
               url = "http://thinkpad.yanlincs.com:5099";
+            }];
+          };
+        };
+
+        deluge = {
+          loadBalancer = {
+            servers = [{
+              url = "http://nfss.yanlincs.com:8112";
             }];
           };
         };

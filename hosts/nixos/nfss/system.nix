@@ -4,6 +4,7 @@
     ../system-default.nix
     ../../../modules/tailscale.nix
     ../../../modules/login-display.nix
+    ../../../modules/media-server.nix
   ];
 
   # GRUB bootloader with ZFS support
@@ -123,6 +124,12 @@
   services.tailscale-custom = {
     exitNode = true;
     subnetRoutes = [ "10.1.1.0/24" ];
+  };
+
+  # Media server services
+  services.media-server = {
+    user = "yanlin";
+    deluge.enable = true;
   };
 
 }
