@@ -16,6 +16,7 @@
     ../../modules/syncthing.nix
     ../../modules/claude-code.nix
     ../../modules/tex.nix
+    ../../modules/audio.nix
     ../../modules/fonts.nix
     ../../modules/aerospace.nix
   ];
