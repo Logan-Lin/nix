@@ -46,6 +46,7 @@
       "drawio"
       "clash-verge-rev"
       "the-unarchiver"
+      "musicbrainz-picard"
     ];
     taps = [
       "nikitabobko/tap"

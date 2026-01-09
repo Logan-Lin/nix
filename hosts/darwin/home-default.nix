@@ -174,6 +174,7 @@
     unzip
     duti           # Set default applications for file types (macOS)
     ffmpeg
+    pdftk
 
     # Development and build tools
     python312
