@@ -30,7 +30,7 @@
 
         deluge = {
           rule = "Host(`deluge.yanlincs.com`)";
-          service = "file";
+          service = "deluge";
           tls = {
             certResolver = "cloudflare";
             domains = [{
