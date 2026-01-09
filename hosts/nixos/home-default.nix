@@ -55,6 +55,7 @@
     coreutils      # GNU core utilities (base64, etc.)
     bzip2
     ffmpeg
+    pdftk
 
     # Development and build tools
     python312
