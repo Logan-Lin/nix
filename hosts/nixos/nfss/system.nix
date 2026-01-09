@@ -5,6 +5,7 @@
     ../../../modules/tailscale.nix
     ../../../modules/login-display.nix
     ../../../modules/media-server.nix
+    ../../../modules/samba.nix
   ];
 
   # GRUB bootloader with ZFS support
@@ -130,6 +131,13 @@
   services.media-server = {
     user = "yanlin";
     deluge.enable = true;
+  };
+
+  # Samba file sharing
+  services.samba-custom = {
+    sharedPath = "/home/yanlin/Downloads";
+    shareName = "Downloads";
+    user = "yanlin";
   };
 
 }
