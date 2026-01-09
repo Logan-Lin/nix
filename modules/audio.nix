@@ -12,7 +12,7 @@
         if [[ -f "$f" ]]; then
           local outfile="./transcode/''${f%.flac}.m4a"
           mkdir -p "$(dirname "$outfile")"
-          ffmpeg -i "$f" -c:a aac -b:a 256k -movflags +faststart "$outfile"
+          ffmpeg -i "$f" -vn -c:a aac -b:a 256k -movflags +faststart "$outfile"
         fi
       done
     }
