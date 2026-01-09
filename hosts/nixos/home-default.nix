@@ -12,6 +12,7 @@
     ../../modules/rsync.nix
     ../../modules/btop.nix
     ../../modules/claude-code.nix
+    ../../modules/audio.nix
     ../../modules/fonts.nix
   ];
 
