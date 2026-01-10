@@ -34,12 +34,21 @@ let
       cleanInterval = "3600"; # Clean every hour
     };
   };
+
+  liteVersioning = {
+    type = "staggered";
+    params = {
+      maxAge = "2592000"; # 30 days in seconds
+      cleanInterval = "3600"; # Clean every hour
+    };
+  };
+
 in
 {
   options.syncthing-custom = {
     enabledFolders = lib.mkOption {
       type = lib.types.listOf lib.types.str;
-      default = [ "Credentials" "Documents" "Archive" ];
+      default = [ "Credentials" "Documents" "Archive" "Media" ];
       description = "List of Syncthing folders to enable for this host.";
     };
     enableGui = lib.mkOption {
@@ -104,10 +113,18 @@ in
             versioning = commonVersioning;
           };
         })
+        // (lib.optionalAttrs (lib.elem "Media" cfg.enabledFolders) {
+          "Media" = {
+            path = "~/Media";
+            devices = allDevices;
+            ignorePerms = true;
+            versioning = liteVersioning;
+          };
+        })
         // (lib.optionalAttrs (lib.elem "Archive" cfg.enabledFolders) {
           "Archive" = {
             path = "~/Archive";
-            devices = pcDevices ++ touchDevices;
+            devices = allDevices;
             ignorePerms = true;
             versioning = commonVersioning;
           };
@@ -144,6 +161,9 @@ in
     })
     (lib.mkIf (lib.elem "Documents" cfg.enabledFolders) {
       "Documents/.stignore".text = stignoreContent;
+    })
+    (lib.mkIf (lib.elem "Media" cfg.enabledFolders) {
+      "Media/.stignore".text = stignoreContent;
     })
     (lib.mkIf (lib.elem "Archive" cfg.enabledFolders) {
       "Archive/.stignore".text = stignoreContent;
