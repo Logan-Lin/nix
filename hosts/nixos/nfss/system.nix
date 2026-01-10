@@ -33,6 +33,9 @@
     "zfs.zfs_arc_min=2147483648"   # 2GB min ARC size
   ];
 
+  # Kernel tuning for MongoDB
+  boot.kernel.sysctl."vm.max_map_count" = 262144;
+
   # Network configuration
   networking = {
     hostName = "nfss";
