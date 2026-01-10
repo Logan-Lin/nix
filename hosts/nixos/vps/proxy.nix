@@ -70,5 +70,21 @@
       };
 
     };
+
+    tcp = {
+      routers.mongodb = {
+        rule = "HostSNI(`mongodb.yanlincs.com`)";
+        service = "mongodb";
+        entrypoints = [ "mongodb" ];
+        tls = {
+          certResolver = "cloudflare";
+          domains = [{ main = "*.yanlincs.com"; }];
+        };
+      };
+      services.mongodb = {
+        loadBalancer.servers = [{ address = "nfss.yanlincs.com:27017"; }];
+      };
+    };
+
   };
 }

@@ -26,6 +26,9 @@
         websecure = {
           address = ":443";
         };
+        mongodb = {
+          address = ":27017";
+        };
       };
 
       # Certificate resolver using Cloudflare DNS challenge
