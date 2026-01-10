@@ -141,6 +141,7 @@ let
     todoEnabled = true;
     autoCompactEnabled = true;
     alwaysThinkingEnabled = true;
+    surveyDisabled = true;
     permissions = defaultPermissions;
   };
 
