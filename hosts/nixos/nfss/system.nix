@@ -1,8 +1,10 @@
 { config, pkgs, ... }: {
   imports = [
     ./hardware-configuration.nix
+    ./containers.nix
     ../system-default.nix
     ../../../modules/tailscale.nix
+    ../../../modules/podman.nix
     ../../../modules/login-display.nix
     ../../../modules/media-server.nix
     ../../../modules/samba.nix
