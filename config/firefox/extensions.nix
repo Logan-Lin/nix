@@ -24,7 +24,6 @@ args:
       with firefox-addons.packages.${system}; [
         ublock-origin
         vimium
-        cookies-txt
         darkreader
       ]
     else [])
