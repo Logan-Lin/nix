@@ -47,7 +47,7 @@
       "clash-verge-rev"
       "the-unarchiver"
       "musicbrainz-picard"
-      "mongodb-compass"
+      "datagrip"
     ];
     taps = [
       "nikitabobko/tap"
