@@ -25,7 +25,7 @@ in
           name = "";
           path = homePath "Documents/app-state/obsidian";
           ai = true;
-          git = false;
+          git = true;
           shell = false;
         }
       ];
