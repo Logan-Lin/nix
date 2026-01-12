@@ -23,9 +23,9 @@
         if [[ -f "$f" ]]; then
           local outfile="./transcode/''${f%.*}.mkv"
           mkdir -p "$(dirname "$outfile")"
-          ffmpeg -hwaccel qsv -i "$f" \
-            -c:v av1_qsv -global_quality 30 \
-            -vf "scale='min(720,iw)':-2" \
+          ffmpeg -i "$f" \
+            -c:v libsvtav1 -crf 30 -preset 6 \
+            -vf "scale='min(480,iw)':-2" \
             -c:a copy \
             "$outfile"
         fi
