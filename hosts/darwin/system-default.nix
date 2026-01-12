@@ -109,7 +109,7 @@
     };
 
     screencapture = {
-      disable-shadow = true;               # Disable shadow in screenshots
+      disable-shadow = false;               # Disable shadow in screenshots
       location = "~/Desktop";              # Default save location
       type = "png";                        # Screenshot format: png, jpg, pdf, etc.
       show-thumbnail = true;               # Show thumbnail after taking screenshot
