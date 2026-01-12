@@ -6,8 +6,8 @@
   };
 
   ffmpeg = {
-    accel = "qsv";  # Intel QuickSync Video
-    accelDecode = true;
+    accel = "qsv";
+    accelDecode = false;
 
     acceptedAudioCodecs = [ "aac" "mp3" "libopus" "pcm_s16le" ];
     acceptedContainers = [ "mov" "ogg" "webm" ];
