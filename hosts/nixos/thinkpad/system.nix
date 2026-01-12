@@ -9,7 +9,6 @@
     ../../../modules/tailscale.nix
     ../../../modules/login-display.nix
     ../../../modules/borg/client.nix
-    ../../../modules/dufs.nix
   ];
 
   # Bootloader - standard UEFI setup
@@ -202,7 +201,6 @@
     backupPaths = [
       "/home/yanlin/immich/ext-library/"
       "/home/yanlin/immich/photo-library/library/admin/"
-      "/home/yanlin/nsfw"
     ];
     backupFrequency = "*-*-* 00:00:00";
     retention = {
@@ -211,13 +209,6 @@
       keepMonthly = 6;
       keepYearly = 2;
     };
-  };
-
-  services.dufs = {
-    sharedPath = "/home/yanlin/nsfw";
-    port = 5099;
-    user = "yanlin";
-    group = "users";
   };
 
 }

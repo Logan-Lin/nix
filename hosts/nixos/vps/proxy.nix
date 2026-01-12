@@ -17,17 +17,6 @@
           };
         };
 
-        file = {
-          rule = "Host(`file.yanlincs.com`)";
-          service = "file";
-          tls = {
-            certResolver = "cloudflare";
-            domains = [{
-              main = "*.yanlincs.com";
-            }];
-          };
-        };
-
         audio = {
           rule = "Host(`audio.yanlincs.com`)";
           service = "audio";
@@ -58,14 +47,6 @@
           loadBalancer = {
             servers = [{
               url = "http://thinkpad.yanlincs.com:5000";
-            }];
-          };
-        };
-
-        file = {
-          loadBalancer = {
-            servers = [{
-              url = "http://thinkpad.yanlincs.com:5099";
             }];
           };
         };
