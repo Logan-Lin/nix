@@ -89,6 +89,7 @@ in
       enable = true;
       user = cfg.user;
       group = cfg.group;
+      host = "0.0.0.0";
       openFirewall = false;
     };
   };
