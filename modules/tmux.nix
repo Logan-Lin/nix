@@ -15,6 +15,7 @@
         extraConfig = ''
           set -g @resurrect-strategy-nvim 'session'
           set -g @resurrect-processes 'nvim lazygit claude ssh'
+          set -g @resurrect-hook-post-save-all 'target=$(readlink -f ~/.tmux/resurrect/last); sed -i "" "s|/nix/store/[^/]*/bin/nvim --cmd .*|nvim|g" "$target"'
         '';
       }
       {
