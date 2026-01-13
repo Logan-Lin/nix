@@ -5,7 +5,6 @@ let
 
   # Common ignore patterns for all synced folders
   commonIgnores = [
-    ".DS_Store"
     "*.tmp"
     "*.temp"
     ".*.swp"
@@ -13,7 +12,6 @@ let
     ".Trash"
     ".Trash-*"
     "Thumbs.db"
-    "desktop.ini"
   ];
 
   # Convert ignore list to .stignore file content
