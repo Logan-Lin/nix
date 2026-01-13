@@ -180,6 +180,8 @@
           };
         };
       };
+
+      auto-session.enable = true;
     };
 
     # Extra plugins that don't have dedicated modules
