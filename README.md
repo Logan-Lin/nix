@@ -70,9 +70,6 @@ sudo nixos-rebuild switch --rollback
 
 ## Workflows
 
-### Project Management
-`proj` - Launch tmux sessions from `config/projects.json`
-
 ### Quick Aliases
 - `hms` - Rebuild home-manager
 - `oss` - Rebuild NixOS system
