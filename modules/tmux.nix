@@ -8,6 +8,23 @@
     mouse = true;    # Enable mouse support
     keyMode = "vi";  # Use vi key bindings in copy mode
     terminal = "tmux-256color";
+
+    plugins = with pkgs.tmuxPlugins; [
+      {
+        plugin = resurrect;
+        extraConfig = ''
+          set -g @resurrect-strategy-nvim 'session'
+          set -g @resurrect-processes 'nvim lazygit claude ssh'
+        '';
+      }
+      {
+        plugin = continuum;
+        extraConfig = ''
+          set -g @continuum-restore 'on'
+          set -g @continuum-save-interval '15'
+        '';
+      }
+    ];
     
     extraConfig = ''
       # Terminal settings for true color and italic support
