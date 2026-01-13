@@ -2,21 +2,7 @@
 
 let
   cfg = config.syncthing-custom;
-
-  # Common ignore patterns for all synced folders
-  commonIgnores = [
-    "*.tmp"
-    "*.temp"
-    ".*.swp"
-    ".*.swo"
-    ".Trash"
-    ".Trash-*"
-    "Thumbs.db"
-  ];
-
-  # Convert ignore list to .stignore file content
-  stignoreContent = lib.concatStringsSep "\n" commonIgnores;
-
+  
   # Device groupings
   pcDevices = [ "macbook" "imac" "thinkpad" "nfss" ];
   touchDevices = [ "iphone" "ipad" ];
@@ -149,22 +135,6 @@ in
   launchd.agents.syncthing = lib.mkIf (pkgs.stdenv.isDarwin && config.services.syncthing.enable) {
     config.RunAtLoad = true;
   };
-
-  # Deploy .stignore files to synced folders (only for enabled folders)
-  home.file = lib.mkMerge [
-    (lib.mkIf (lib.elem "Credentials" cfg.enabledFolders) {
-      "Credentials/.stignore".text = stignoreContent;
-    })
-    (lib.mkIf (lib.elem "Documents" cfg.enabledFolders) {
-      "Documents/.stignore".text = stignoreContent;
-    })
-    (lib.mkIf (lib.elem "Media" cfg.enabledFolders) {
-      "Media/.stignore".text = stignoreContent;
-    })
-    (lib.mkIf (lib.elem "Archive" cfg.enabledFolders) {
-      "Archive/.stignore".text = stignoreContent;
-    })
-  ];
 
   # For NixOS systems, we need to add Syncthing as a manual service in Traefik
   # Since Syncthing runs as a systemd service (not container), we'll handle routing via static config
