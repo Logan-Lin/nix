@@ -112,6 +112,7 @@ in
       
       # Display messages for longer
       set -g display-time 2000
+      set -g display-panes-time 3000
       
       # Faster command sequences
       set -s escape-time 0
