@@ -19,6 +19,7 @@
     ../../modules/transcode.nix
     ../../modules/fonts.nix
     ../../modules/aerospace.nix
+    ../../modules/env.nix
   ];
 
   nixpkgs.config.allowUnfree = true;

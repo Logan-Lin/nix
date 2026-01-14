@@ -14,6 +14,7 @@
     ../../modules/claude-code.nix
     ../../modules/transcode.nix
     ../../modules/fonts.nix
+    ../../modules/env.nix
   ];
 
   home.username = "yanlin";
