@@ -129,6 +129,7 @@
 
   system.activationScripts.extraActivation.text = ''
     sudo -u yanlin defaults -currentHost write -globalDomain NSStatusItemSpacing -int 10
+    sudo -u yanlin defaults write -globalDomain NSUserKeyEquivalents -dict-add Minimize '\0'
 
     /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
   '';
