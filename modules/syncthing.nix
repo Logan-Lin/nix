@@ -98,7 +98,7 @@ in
         // (lib.optionalAttrs (lib.elem "Media" cfg.enabledFolders) {
           "Media" = {
             path = "~/Media";
-            devices = allDevices;
+            devices = lib.filter (d: d != "iphone") allDevices;
             ignorePerms = true;
             versioning = liteVersioning;
           };
