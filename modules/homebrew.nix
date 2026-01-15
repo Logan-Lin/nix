@@ -15,7 +15,6 @@
     casks = [
       # Development
       "coteditor"
-      "datagrip"
       "ghostty"
       "ovito"
       "balenaetcher"
