@@ -6,10 +6,6 @@
       toolbar = true;
       bookmarks = [
         {
-          name = "Claude";
-          url = "https://claude.ai";
-        }
-        {
           name = "Overleaf";
           url = "https://www.overleaf.com/project";
         }
@@ -22,32 +18,27 @@
           url = "https://translate.google.com/?sl=auto&tl=en&op=translate";
         }
         {
-          name = "Productivity";
-          bookmarks = [
-            {
-              name = "iCloud";
-              url = "https://www.icloud.com/mail/";
-            }
-            {
-              name = "Outlook";
-              url = "https://outlook.office.com/mail/";
-            }
-            {
-              name = "Gmail";
-              url = "https://mail.google.com/mail/u/0/#inbox";
-            }
-            {
-              name = "Teams";
-              url = "https://teams.microsoft.com/v2/";
-            }
-            {
-              name = "AAU Admin";
-              url = "https://www.its.aau.dk/systemoversigt";
-            }
-          ];
+          name = "iCloud";
+          url = "https://www.icloud.com/mail/";
+        }
+        {
+          name = "Outlook";
+          url = "https://outlook.office.com/mail/";
+        }
+        {
+          name = "Gmail";
+          url = "https://mail.google.com/mail/u/0/#inbox";
         }
         {
           name = "Scholar";
+          url = "https://scholar.google.com/";
+        }
+        {
+          name = "DBLP";
+          url = "https://dblp.org/";
+        }
+        {
+          name = "Productivity";
           bookmarks = [
             {
               name = "OpenReview";
@@ -62,12 +53,12 @@
               url = "https://arxiv.org/user/";
             }
             {
-              name = "Google Scholar";
-              url = "https://scholar.google.com/";
+              name = "Teams";
+              url = "https://teams.microsoft.com/v2/";
             }
             {
-              name = "DBLP";
-              url = "https://dblp.org/";
+              name = "AAU Admin";
+              url = "https://www.its.aau.dk/systemoversigt";
             }
           ];
         }
