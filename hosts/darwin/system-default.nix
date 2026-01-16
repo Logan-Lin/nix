@@ -78,7 +78,7 @@
       FXPreferredViewStyle = "Nlsv";       # Default view: "icnv"=Icon, "Nlsv"=List, "clmv"=Column, "glyv"=Gallery
       QuitMenuItem = false;                # Allow quitting Finder with ⌘Q
       ShowPathbar = true;                  # Show path bar at bottom
-      ShowStatusBar = true;                # Show status bar at bottom
+      ShowStatusBar = false;                # Show status bar at bottom
       _FXShowPosixPathInTitle = false;     # Show full POSIX path in title
       _FXSortFoldersFirst = true;          # Sort folders before files
     };
