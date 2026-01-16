@@ -93,7 +93,7 @@
           auto_install = false;
         };
         grammarPackages = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
-          bash c cpp css dockerfile go html javascript json lua markdown nix python rust typescript yaml
+          bash c cpp css dockerfile go html javascript json lua markdown nix python rust typescript yaml latex
         ];
       };
 
