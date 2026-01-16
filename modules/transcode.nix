@@ -17,14 +17,15 @@
     }
 
     function video2av1() {
-      local dir="''${1:-.}"
+      local height="''${1:-720}"
+      local dir="''${2:-.}"
       for f in "$dir"/**/*.(mp4|mkv|avi); do
         if [[ -f "$f" ]]; then
           local outfile="./transcode/''${f%.*}.mkv"
           mkdir -p "$(dirname "$outfile")"
           ffmpeg -i "$f" \
             -c:v libsvtav1 -crf 30 -preset 6 \
-            -vf "scale='min(480,iw)':-2" \
+            -vf "scale=-2:'min($height,ih)'" \
             -c:a copy \
             "$outfile"
         fi
