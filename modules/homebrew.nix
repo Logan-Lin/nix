@@ -9,6 +9,7 @@
       cleanup = "zap";    # Removes unlisted formulae/casks
       upgrade = true;
     };
+    greedyCasks = true;
     brews = [
       # Command-line tools go here
     ];
