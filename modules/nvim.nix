@@ -182,6 +182,19 @@
       };
 
       auto-session.enable = true;
+
+      aerial = {
+        enable = true;
+        settings = {
+          backends = ["treesitter"];
+          layout = {
+            min_width = 30;
+            default_direction = "right";
+          };
+          show_guides = true;
+          filter_kind = false;
+        };
+      };
     };
 
     # Extra plugins that don't have dedicated modules
@@ -199,6 +212,20 @@
         key = "<leader>e";
         action = ":NvimTreeToggle<CR>";
         options = { desc = "Toggle file explorer"; };
+      }
+
+      # Aerial outline
+      {
+        mode = "n";
+        key = "<leader>h";
+        action = ":AerialToggle<CR>";
+        options = { desc = "Toggle outline sidebar"; };
+      }
+      {
+        mode = "n";
+        key = "<leader>s";
+        action = ":Telescope aerial<CR>";
+        options = { desc = "Search symbols"; };
       }
 
       # Basic keymaps
@@ -329,6 +356,7 @@
           }
         }
       }
+      telescope.load_extension('aerial')
 
       -- OSC-52 clipboard integration (matches tmux setup, works with Ghostty)
       -- This enables clipboard functionality across SSH, tmux, and multi-platform
