@@ -195,6 +195,13 @@
           filter_kind = false;
         };
       };
+
+      render-markdown = {
+        enable = true;
+        settings = {
+          enabled = false;  # Disabled by default
+        };
+      };
     };
 
     # Extra plugins that don't have dedicated modules
@@ -220,6 +227,14 @@
         key = "<leader>h";
         action = ":AerialToggle<CR>";
         options = { desc = "Toggle outline sidebar"; };
+      }
+
+      # Markdown rendering
+      {
+        mode = "n";
+        key = "<leader>m";
+        action = ":RenderMarkdown toggle<CR>";
+        options = { desc = "Toggle markdown rendering"; };
       }
       {
         mode = "n";
