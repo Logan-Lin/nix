@@ -17,6 +17,17 @@
           };
         };
 
+        immich-lib = {
+          rule = "Host(`immich-lib.yanlincs.com`)";
+          service = "immich-lib";
+          tls = {
+            certResolver = "cloudflare";
+            domains = [{
+              main = "*.yanlincs.com";
+            }];
+          };
+        };
+
         audio = {
           rule = "Host(`audio.yanlincs.com`)";
           service = "audio";
@@ -58,6 +69,14 @@
           loadBalancer = {
             servers = [{
               url = "http://thinkpad.yanlincs.com:5000";
+            }];
+          };
+        };
+
+        immich-lib = {
+          loadBalancer = {
+            servers = [{
+              url = "http://thinkpad.yanlincs.com:5099";
             }];
           };
         };
