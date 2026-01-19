@@ -150,7 +150,7 @@
   # Borg backup configuration
   services.borg-client-custom = {
     enable = true;
-    repositoryUrl = "ssh://borg-server/./nfss";
+    repositoryUrl = "ssh://borg-box/./nfss";
     backupPaths = [
       "/var/lib/mongodb"
     ];
