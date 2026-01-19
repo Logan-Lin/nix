@@ -28,7 +28,7 @@ in
     navidrome.enable = lib.mkEnableOption "Navidrome music server"; # port 4533
     navidrome.musicFolder = lib.mkOption {
       type = lib.types.str;
-      default = "/home/Media/music";
+      default = "/home/yanlin/Media/music";
       description = "Path to music folder for Navidrome";
     };
   };
