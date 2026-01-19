@@ -5,6 +5,9 @@ with lib;
 let
   cfg = config.services.borg-client-custom;
   sshCommand = "ssh -F /home/yanlin/.ssh/config -o StrictHostKeyChecking=accept-new -o ServerAliveInterval=60 -o ServerAliveCountMax=240";
+  # NOTE: Passphrase file: /etc/borg-passphrase
+  # Should contain: BORG_PASSPHRASE=your-passphrase
+  # Place on host with mode 0600
   passphraseFile = "/etc/borg-passphrase";
   excludePatterns = [
     "*.tmp" "*.temp" "*/.cache/*" "*/.local/share/Trash/*" "*/tmp/*" "*/temp/*"
