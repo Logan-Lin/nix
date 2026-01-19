@@ -5,6 +5,7 @@
     ../system-default.nix
     ../../../modules/tailscale.nix
     ../../../modules/podman.nix
+    ../../../modules/borg/client.nix
     ../../../modules/login-display.nix
     ../../../modules/media-server.nix
     ../../../modules/samba.nix
@@ -144,6 +145,22 @@
     sharedPath = "/home/yanlin/Downloads";
     shareName = "Downloads";
     user = "yanlin";
+  };
+
+  # Borg backup configuration
+  services.borg-client-custom = {
+    enable = true;
+    repositoryUrl = "ssh://borg-server/./nfss";
+    backupPaths = [
+      "/var/lib/mongodb"
+    ];
+    backupFrequency = "*-*-* 01:00:00";
+    retention = {
+      keepDaily = 7;
+      keepWeekly = 4;
+      keepMonthly = 6;
+      keepYearly = 2;
+    };
   };
 
 }
