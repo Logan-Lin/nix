@@ -66,11 +66,6 @@ let
     ];
     
     deny = [
-      # Prevent access to sensitive files
-      "Read(.env*)"
-      "Read(*.env*)"
-      "Read(./.env*)"
-      
       # Prevent dangerous system operations
       "Bash(rm -rf:*)"
       "Bash(sudo:*)"
@@ -132,6 +127,10 @@ let
 
       "Bash(curl:*)"
       "Bash(wget:*)"
+
+      "Read(.env*)"
+      "Read(*.env*)"
+      "Read(./.env*)"
     ];
   };
 
