@@ -107,6 +107,7 @@ in
       settings = {
         Address = "0.0.0.0";
         MusicFolder = cfg.navidrome.musicFolder;
+        "Deezer.Enabled" = false;
       };
     };
 
