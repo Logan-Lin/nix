@@ -28,6 +28,17 @@
           };
         };
 
+        music = {
+          rule = "Host(`music.yanlincs.com`)";
+          service = "music";
+          tls = {
+            certResolver = "cloudflare";
+            domains = [{
+              main = "*.yanlincs.com";
+            }];
+          };
+        };
+
         deluge = {
           rule = "Host(`deluge.yanlincs.com`)";
           service = "deluge";
@@ -55,6 +66,14 @@
           loadBalancer = {
             servers = [{
               url = "http://nfss.yanlincs.com:8000";
+            }];
+          };
+        };
+
+        music = {
+          loadBalancer = {
+            servers = [{
+              url = "http://nfss.yanlincs.com:4533";
             }];
           };
         };

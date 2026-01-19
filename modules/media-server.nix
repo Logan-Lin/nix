@@ -25,6 +25,12 @@ in
     lidarr.enable = lib.mkEnableOption "Lidarr music management"; # port 8686
     bazarr.enable = lib.mkEnableOption "Bazarr subtitle management"; # port 6767
     audiobookshelf.enable = lib.mkEnableOption "Audiobookshelf audiobook server"; # port 8000
+    navidrome.enable = lib.mkEnableOption "Navidrome music server"; # port 4533
+    navidrome.musicFolder = lib.mkOption {
+      type = lib.types.str;
+      default = "/home/Media/music";
+      description = "Path to music folder for Navidrome";
+    };
   };
 
   config = {
@@ -91,6 +97,20 @@ in
       group = cfg.group;
       host = "0.0.0.0";
       openFirewall = false;
+    };
+
+    services.navidrome = lib.mkIf cfg.navidrome.enable {
+      enable = true;
+      user = cfg.user;
+      group = cfg.group;
+      openFirewall = false;
+      settings = {
+        MusicFolder = cfg.navidrome.musicFolder;
+      };
+    };
+
+    systemd.services.navidrome.serviceConfig = lib.mkIf cfg.navidrome.enable {
+      ProtectHome = lib.mkForce false;
     };
   };
 }

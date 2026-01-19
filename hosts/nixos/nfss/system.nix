@@ -138,6 +138,7 @@
     user = "yanlin";
     audiobookshelf.enable = true;
     deluge.enable = true;
+    navidrome.enable = true;
   };
 
   # Samba file sharing
