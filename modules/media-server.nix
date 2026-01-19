@@ -105,6 +105,7 @@ in
       group = cfg.group;
       openFirewall = false;
       settings = {
+        Address = "0.0.0.0";
         MusicFolder = cfg.navidrome.musicFolder;
       };
     };
