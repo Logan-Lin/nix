@@ -19,7 +19,7 @@
       shiftwidth = 2;
       tabstop = 2;
       smartindent = true;
-      wrap = false;
+      wrap = true;
       linebreak = true;      # Don't break words when wrapping
       breakindent = true;    # Preserve indentation when wrapping
       termguicolors = true;
