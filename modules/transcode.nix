@@ -8,13 +8,12 @@
   programs.zsh.initContent = ''
     function audio2aac() {
       local dir="''${1:-.}"
-      for f in "$dir"/**/*.(flac|mp3|wav|ogg|wma|aiff)(N); do
-        if [[ -f "$f" ]]; then
-          local outfile="./transcode/''${f%.*}.m4a"
-          mkdir -p "$(dirname "$outfile")"
-          ffmpeg -i "$f" -vn -c:a aac -b:a 256k -movflags +faststart "$outfile"
-        fi
-      done
+      find "$dir" \( -name '*.flac' -o -name '*.mp3' -o -name '*.wav' -o -name '*.ogg' -o -name '*.wma' -o -name '*.aiff' \) -type f -print0 | xargs -0 -P4 -n1 sh -c '
+        f="$1"
+        outfile="./transcode/''${f%.*}.m4a"
+        mkdir -p "$(dirname "$outfile")"
+        ffmpeg -i "$f" -vn -c:a aac -b:a 256k -movflags +faststart "$outfile"
+      ' _
     }
 
     function video2av1() {
