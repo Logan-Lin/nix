@@ -6,14 +6,6 @@
       toolbar = true;
       bookmarks = [
         {
-          name = "Overleaf";
-          url = "https://www.overleaf.com/project";
-        }
-        {
-          name = "Photos";
-          url = "https://photo.yanlincs.com/photos";
-        }
-        {
           name = "Translate";
           url = "https://translate.google.com/?sl=auto&tl=en&op=translate";
         }
@@ -30,6 +22,10 @@
           url = "https://mail.google.com/mail/u/0/#inbox";
         }
         {
+          name = "Overleaf";
+          url = "https://www.overleaf.com/project";
+        }
+        {
           name = "Scholar";
           url = "https://scholar.google.com/";
         }
@@ -38,27 +34,23 @@
           url = "https://dblp.org/";
         }
         {
-          name = "Productivity";
+          name = "Media";
           bookmarks = [
             {
-              name = "OpenReview";
-              url = "https://openreview.net/";
+              name = "Photos";
+              url = "https://photo.yanlincs.com/photos";
             }
             {
-              name = "CMT";
-              url = "https://cmt3.research.microsoft.com/Conference/Recent";
+              name = "Music";
+              url = "https://music.yanlincs.com";
             }
             {
-              name = "Arxiv";
-              url = "https://arxiv.org/user/";
+              name = "Audio";
+              url = "https://audio.yanlincs.com";
             }
             {
-              name = "Teams";
-              url = "https://teams.microsoft.com/v2/";
-            }
-            {
-              name = "AAU Admin";
-              url = "https://www.its.aau.dk/systemoversigt";
+              name = "Deluge";
+              url = "https://deluge.yanlincs.com";
             }
           ];
         }
@@ -134,6 +126,10 @@
             {
               name = "Homebrew";
               url = "https://formulae.brew.sh/";
+            }
+            {
+              name = "Nix packages";
+              url = "https://search.nixos.org/packages";
             }
           ];
         }
