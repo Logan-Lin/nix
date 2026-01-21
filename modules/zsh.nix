@@ -122,9 +122,9 @@
         local tokens=(''${(z)LBUFFER})
         if [[ ''${tokens[1]} == "cd" && -z ''${tokens[2]} ]]; then
           local selected
-          selected=$(fd --type d --max-depth 1 . "$PWD" 2>/dev/null | fzf --height 40% --preview 'ls -la {}' --header="Select directory")
+          selected=$(fd --type d --max-depth 1 2>/dev/null | fzf --height 40% --preview 'ls -la {}' --header="Select directory")
           if [[ -n "$selected" ]]; then
-            LBUFFER="cd $selected"
+            LBUFFER="cd \"$selected\""
           fi
           zle redisplay
         else
