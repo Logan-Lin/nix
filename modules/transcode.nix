@@ -3,6 +3,8 @@
 {
   home.packages = with pkgs; [
     ffmpeg
+    shntool
+    cuetools
   ];
 
   programs.zsh.initContent = ''
@@ -30,6 +32,23 @@
             "$outfile"
         fi
       done
+    }
+
+    function cuesplit() {
+      local audio="$1"
+      local cue="''${2:-''${audio%.*}.cue}"
+      if [[ ! -f "$audio" ]]; then
+        echo "Audio file not found: $audio" >&2
+        return 1
+      fi
+      if [[ ! -f "$cue" ]]; then
+        echo "Cue file not found: $cue" >&2
+        return 1
+      fi
+      local ext="''${audio##*.}"
+      local fmt="''${ext:l}"
+      mkdir -p ./tracks
+      shnsplit -f "$cue" -t "%n - %t" -o "$fmt" -d ./tracks "$audio"
     }
   '';
 }
