@@ -15,6 +15,7 @@
     ../../modules/ghostty.nix
     ../../modules/syncthing.nix
     ../../modules/claude-code.nix
+    ../../modules/gemini-cli.nix
     ../../modules/tex.nix
     ../../modules/transcode.nix
     ../../modules/fonts.nix

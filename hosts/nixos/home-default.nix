@@ -12,6 +12,7 @@
     ../../modules/rsync.nix
     ../../modules/btop.nix
     ../../modules/claude-code.nix
+    ../../modules/gemini-cli.nix
     ../../modules/transcode.nix
     ../../modules/fonts.nix
     ../../modules/env.nix
