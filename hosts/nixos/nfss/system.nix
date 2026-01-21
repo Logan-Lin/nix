@@ -126,6 +126,7 @@
     };
     showDiskUsage = true;
     diskUsagePaths = [ "/" "/home/" ];
+    showBorgStatus = true;
   };
 
   services.tailscale-custom = {
