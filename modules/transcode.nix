@@ -5,6 +5,7 @@
     ffmpeg
     shntool
     cuetools
+    flac
   ];
 
   programs.zsh.initContent = ''
