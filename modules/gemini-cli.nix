@@ -5,7 +5,7 @@
     enable = true;
 
     settings = {
-      previewFeatures = true;
+      general.previewFeatures = true;
 
       ui = {
         useFullWidth = true;
@@ -58,6 +58,6 @@
       };
     };
 
-    context."GEMINI.md" = "";
+    context."GEMINI" = "";
   };
 }
