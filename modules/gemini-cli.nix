@@ -6,6 +6,7 @@
 
     settings = {
       general.previewFeatures = true;
+      security.auth.selectedType = "gemini-api-key";
 
       ui = {
         useFullWidth = true;
@@ -60,4 +61,10 @@
 
     context."GEMINI" = "";
   };
+
+  # NOTE: API key must be manually created in ~/.gemini/.env
+  # The file should contain:
+  #   GEMINI_API_KEY=your-api-key
+  # Get your API key from https://aistudio.google.com/apikey
+  # Make sure to set permissions: chmod 600 ~/.gemini/.env
 }
