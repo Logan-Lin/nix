@@ -1,6 +1,3 @@
-# Disko configuration for ThinkPad P14s Gen 2
-# Reflects the actual installed system configuration
-# NOTE: This uses UUIDs from the existing installation
 {
   disko.devices = {
     disk = {

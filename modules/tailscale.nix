@@ -1,3 +1,6 @@
+# NOTE: Auth key file at: `/etc/tailscale/authkey` with mode 600
+# content: `tailscale-api-key`
+
 { config, pkgs, lib, ... }:
 
 with lib;
@@ -8,10 +11,6 @@ let
 in
 
 {
-  # NOTE: Auth key file: /etc/tailscale/authkey
-  # Generate at https://login.tailscale.com/admin/settings/keys
-  # Place on host with mode 0600
-
   options.services.tailscale-custom = {
     exitNode = mkOption {
       type = types.bool;

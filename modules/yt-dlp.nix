@@ -1,3 +1,7 @@
+# NOTE: Cookie files at:
+#   ~/.config/yt-dlp/cookies-youtube.txt
+#   ~/.config/yt-dlp/cookies-bilibili.txt
+
 { config, pkgs, lib, ... }:
 
 with lib;
@@ -35,10 +39,6 @@ in
       jq       # For JSON parsing in cleanup functions
       python312Packages.bgutil-ytdlp-pot-provider  # PO token provider for YouTube
     ];
-
-    # NOTE: Cookie files must be manually placed at:
-    #   ~/.config/yt-dlp/cookies-youtube.txt
-    #   ~/.config/yt-dlp/cookies-bilibili.txt
 
     # Create yt-dlp configuration file
     home.file.".config/yt-dlp/config".text = ''
