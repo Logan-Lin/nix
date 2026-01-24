@@ -1,3 +1,6 @@
+# NOTE: API key file at: `~/.gemini/.env` with mode 600
+# content: `GEMINI_API_KEY=your-api-key`
+
 { config, pkgs, lib, ... }:
 
 {
@@ -61,10 +64,4 @@
 
     context."GEMINI" = "";
   };
-
-  # NOTE: API key must be manually created in ~/.gemini/.env
-  # The file should contain:
-  #   GEMINI_API_KEY=your-api-key
-  # Get your API key from https://aistudio.google.com/apikey
-  # Make sure to set permissions: chmod 600 ~/.gemini/.env
 }

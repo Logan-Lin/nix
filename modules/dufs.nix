@@ -1,3 +1,6 @@
+# NOTE: Authentication file at: `/etc/dufs-auth` with mode 600
+# content: `username:password`
+
 { config, pkgs, lib, ... }:
 
 let
@@ -36,10 +39,6 @@ in
     # Install dufs package
     environment.systemPackages = [ pkgs.dufs ];
 
-    # Create systemd service
-    # NOTE: Authentication credentials must be manually created in /etc/dufs-auth
-    # The file should contain a single line in format: username:password
-    # Make sure to set permissions: chmod 600 /etc/dufs-auth
     systemd.services.dufs = {
       description = "Dufs WebDAV File Server";
       wantedBy = [ "multi-user.target" ];

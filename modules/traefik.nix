@@ -1,3 +1,8 @@
+# NOTE: environment file at: `/etc/traefik-env` with mode 600
+# content (for Cloudflare API):
+#   CF_API_EMAIL=your-email@example.com
+#   CF_DNS_API_TOKEN=your-cloudflare-api-token
+
 { config, pkgs, lib, ... }:
 
 {
@@ -79,10 +84,4 @@
     # Mount Docker/Podman socket for service discovery
     BindPaths = [ "/run/podman/podman.sock:/var/run/docker.sock" ];
   };
-
-  # NOTE: Cloudflare credentials must be manually created in /etc/traefik-env
-  # The file should contain:
-  #   CF_API_EMAIL=your-email@example.com
-  #   CF_DNS_API_TOKEN=your-cloudflare-api-token
-  # Make sure to set permissions: chmod 600 /etc/traefik-env
 }

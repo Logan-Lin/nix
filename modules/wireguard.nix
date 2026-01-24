@@ -1,3 +1,6 @@
+# NOTE: Private key file at: `/etc/wireguard/private.key` with mode 600
+# Generate with: `wg genkey > /etc/wireguard/private.key`
+
 { config, pkgs, lib, ... }:
 
 with lib;
@@ -27,9 +30,6 @@ in
       description = "UDP port to listen on (server mode only)";
     };
 
-    # NOTE: Private key file: /etc/wireguard/private.key
-    # Generate with: wg genkey > /etc/wireguard/private.key
-    # Place on host with mode 0600 (auto-generated if missing)
     privateKeyFile = mkOption {
       type = types.str;
       default = "/etc/wireguard/private.key";

@@ -1,3 +1,5 @@
+# NOTE: Samba user password manually set: `sudo smbpasswd -a ${cfg.user}`
+
 { config, pkgs, lib, ... }:
 
 let
@@ -62,9 +64,5 @@ in
       "d ${cfg.sharedPath} 0755 ${cfg.user} users - -"
     ];
 
-    # NOTE: Samba user password must be manually set using:
-    # sudo smbpasswd -a ${cfg.user}
-    # This creates a Samba password for the specified user.
-    # The user must already exist as a Unix user on the system.
   };
 }
