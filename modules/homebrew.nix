@@ -32,7 +32,6 @@
       "iina"
       "musicbrainz-picard"
       # Productivity
-      "affinity"
       "drawio"
       "inkscape"
       "microsoft-excel"
