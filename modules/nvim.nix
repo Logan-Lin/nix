@@ -48,14 +48,6 @@
         settings = {
           options = {
             separator_style = [ "" "" ];  # Remove gaps between tabs
-            offsets = [
-              {
-                filetype = "NvimTree";
-                text = "File Explorer";
-                text_align = "left";
-                separator = true;  # Remove separator line
-              }
-            ];
           };
         };
       };
@@ -70,12 +62,6 @@
             enabled = false;  # Disable scope highlighting
           };
         };
-      };
-
-      # File explorer
-      nvim-tree = {
-        enable = true;
-        # NixVim nvim-tree uses extraConfig for detailed settings
       };
 
       # Syntax highlighting
@@ -202,6 +188,30 @@
           enabled = false;  # Disabled by default
         };
       };
+
+      neo-tree = {
+        enable = true;
+        settings = {
+          filesystem = {
+            follow_current_file = {
+              enabled = true;
+              leave_dirs_open = true;
+            };
+            filtered_items = {
+              hide_dotfiles = false;
+              hide_gitignored = false;
+              hide_hidden = false;
+            };
+          };
+          window = {
+            position = "float";
+            popup = {
+              size = { width = "50%"; height = "75%"; };
+              border = "rounded";
+            };
+          };
+        };
+      };
     };
 
     # Extra plugins that don't have dedicated modules
@@ -213,11 +223,11 @@
 
     # Keymaps
     keymaps = [
-      # File explorer
+      # File explorer (neo-tree)
       {
         mode = "n";
         key = "<leader>e";
-        action = ":NvimTreeToggle<CR>";
+        action = ":Neotree toggle reveal<CR>";
         options = { desc = "Toggle file explorer"; };
       }
 
@@ -314,32 +324,6 @@
 
     # Additional Lua configuration for plugins that need custom setup
     extraConfigLua = ''
-      -- Nvim-tree setup with filters and auto-sync
-      require("nvim-tree").setup({
-        sync_root_with_cwd = true,
-        respect_buf_cwd = true,
-        update_focused_file = {
-          enable = true,
-          update_root = true,
-          ignore_list = {},
-        },
-        filters = {
-          dotfiles = true,      -- Hide dotfiles by default (H to toggle)
-          git_ignored = true,  -- Show gitignored files by default (I to toggle)
-          custom = {            -- Hide macOS system files
-            ".DS_Store",
-          },
-        },
-        view = {
-          width = 30,
-          side = "left",
-        },
-        renderer = {
-          highlight_opened_files = "all",
-          highlight_modified = "all",
-        },
-      })
-
       -- Dictionary completion setup
       ${lib.optionalString pkgs.stdenv.isDarwin ''
         require("cmp_dictionary").setup({
@@ -369,7 +353,7 @@
               ["<C-q>"] = actions.send_selected_to_qflist + actions.open_qflist,
             }
           }
-        }
+        },
       }
       telescope.load_extension('aerial')
 
@@ -390,7 +374,7 @@
         }
       ''}
 
-      -- Close all buffers except current (preserving NvimTree and other special buffers)
+      -- Close all buffers except current (preserving special buffers)
       function close_other_buffers()
         local current_buf = vim.api.nvim_get_current_buf()
         local buffers = vim.api.nvim_list_bufs()
@@ -398,11 +382,9 @@
         for _, buf in ipairs(buffers) do
           if buf ~= current_buf and vim.api.nvim_buf_is_valid(buf) then
             local buftype = vim.api.nvim_buf_get_option(buf, 'buftype')
-            local filetype = vim.api.nvim_buf_get_option(buf, 'filetype')
 
-            -- Skip special buffers (NvimTree, terminals, quickfix, etc.)
-            if buftype == "" and filetype ~= "NvimTree" then
-              -- Only delete if it's a normal file buffer
+            -- Skip special buffers (terminals, quickfix, etc.)
+            if buftype == "" then
               vim.api.nvim_buf_delete(buf, { force = false })
             end
           end
