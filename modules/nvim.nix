@@ -174,11 +174,27 @@
         settings = {
           backends = ["treesitter"];
           layout = {
-            min_width = 30;
-            default_direction = "right";
+            default_direction = "float";
+          };
+          float = {
+            border = "rounded";
+            relative = "editor";
+            override.__raw = ''
+              function(conf)
+                local target_width = math.floor(vim.o.columns * 0.5)
+                conf.width = math.min(math.max(86, target_width), math.floor(vim.o.columns * 0.85))
+                conf.height = math.floor(vim.o.lines * 0.75)
+                conf.col = math.floor((vim.o.columns - conf.width) / 2)
+                conf.row = math.floor((vim.o.lines - conf.height) / 2)
+                return conf
+              end
+            '';
           };
           show_guides = true;
           filter_kind = false;
+          keymaps = {
+            "<esc>" = "actions.close";
+          };
         };
       };
 
@@ -206,9 +222,87 @@
           window = {
             position = "float";
             popup = {
-              size = { width = "50%"; height = "75%"; };
+              size = {
+                width.__raw = "math.min(math.max(86, math.floor(vim.o.columns * 0.5)), math.floor(vim.o.columns * 0.85))";
+                height = "75%";
+              };
               border = "rounded";
             };
+            mappings = {
+              # Keep: navigation & file operations
+              "." = "set_root";
+              "<bs>" = "navigate_up";
+              "<cr>" = "open";
+              "<esc>" = "cancel";
+              q = "close_window";
+              "?" = "show_help";
+              a = "add";
+              r = "rename";
+              b = "rename_basename";
+              m = "none";
+              c = "copy_to_clipboard";
+              y = "none";
+              x = "cut_to_clipboard";
+              p = "paste_from_clipboard";
+              d = "delete";
+              o = { command = "system_open"; nowait = true; };
+              # Disable everything else
+              "#" = "none";
+              "/" = "none";
+              "<" = "none";
+              ">" = "none";
+              "<C-b>" = "none";
+              "<C-f>" = "none";
+              "<C-r>" = "none";
+              "<C-x>" = "none";
+              "<space>" = "none";
+              A = "none";
+              C = "none";
+              D = "none";
+              H = "toggle_hidden";
+              P = "none";
+              R = "none";
+              S = "none";
+              "[g" = "none";
+              "]g" = "none";
+              e = "none";
+              f = { command = "show_in_finder"; nowait = true; };
+              i = "none";
+              l = "none";
+              s = "none";
+              t = "none";
+              w = "none";
+              z = "none";
+              oc = "none";
+              od = "none";
+              og = "none";
+              om = "none";
+              on = "none";
+              os = "none";
+              ot = "none";
+            };
+          };
+          commands = {
+            system_open.__raw = ''
+              function(state)
+                local node = state.tree:get_node()
+                local path = node:get_id()
+                ${if pkgs.stdenv.isDarwin then
+                  ''vim.fn.system('open ' .. vim.fn.shellescape(path))''
+                else
+                  ''vim.fn.system('xdg-open ' .. vim.fn.shellescape(path))''}
+              end
+            '';
+            show_in_finder.__raw = ''
+              function(state)
+                local node = state.tree:get_node()
+                local path = node:get_id()
+                ${if pkgs.stdenv.isDarwin then
+                  ''vim.fn.system('open -R ' .. vim.fn.shellescape(path))''
+                else
+                  ''vim.fn.system('thunar ' .. vim.fn.shellescape(vim.fn.fnamemodify(path, ':h')) .. ' &')''}
+              end
+            '';
           };
         };
       };
@@ -299,28 +393,7 @@
         options = { desc = "Close all buffers except current"; };
       }
 
-      # System integration
-      {
-        mode = "n";
-        key = "<leader>o";
-        action = ":lua open_file_with_system_app()<CR>";
-        options = { desc = "Open file with system default app"; };
-      }
-    ] ++ (if pkgs.stdenv.isDarwin then [
-      {
-        mode = "n";
-        key = "<leader>f";
-        action = ":lua show_file_in_file_manager()<CR>";
-        options = { desc = "Show current file in Finder"; };
-      }
-    ] else [
-      {
-        mode = "n";
-        key = "<leader>f";
-        action = ":!thunar %:h &<CR><CR>";
-        options = { desc = "Open current file directory in file manager"; };
-      }
-    ]);
+    ];
 
     # Additional Lua configuration for plugins that need custom setup
     extraConfigLua = ''
@@ -391,37 +464,12 @@
         end
       end
 
-      -- Unicode-safe file operations (async to prevent blocking)
-      function open_file_with_system_app()
-        local filepath = vim.fn.expand('%:p')
-        if filepath ~= "" then
-          local escaped_path = vim.fn.shellescape(filepath)
-          ${if pkgs.stdenv.isDarwin then
-            "vim.fn.system('open ' .. escaped_path)"
-          else
-            "vim.fn.system('xdg-open ' .. escaped_path)"}
-        else
-          print("No file to open")
-        end
-      end
-
       -- Disable italic for code blocks and strings
       vim.api.nvim_set_hl(0, "@markup.raw", { italic = false })
       vim.api.nvim_set_hl(0, "@markup.raw.block", { italic = false })
       vim.api.nvim_set_hl(0, "@markup.raw.markdown_inline", { italic = false })
       vim.api.nvim_set_hl(0, "String", { fg = "#b8bb26", italic = false })
 
-      ${lib.optionalString pkgs.stdenv.isDarwin ''
-        function show_file_in_file_manager()
-          local filepath = vim.fn.expand('%:p')
-          if filepath ~= "" then
-            local escaped_path = vim.fn.shellescape(filepath)
-            vim.fn.system('open -R ' .. escaped_path)
-          else
-            print("No file to show")
-          end
-        end
-      ''}
     '';
   };
 }
