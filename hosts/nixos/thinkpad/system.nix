@@ -201,6 +201,10 @@
     backupPaths = [
       "/home/yanlin/immich/ext-library/"
       "/home/yanlin/immich/photo-library/library/admin/"
+      "/home/yanlin/Archive"
+      "/home/yanlin/Credentials"
+      "/home/yanlin/Documents"
+      "/home/yanlin/Media"
     ];
     backupFrequency = "*-*-* 00:00:00";
     retention = {
