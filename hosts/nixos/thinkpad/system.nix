@@ -8,7 +8,6 @@
     ../../../modules/podman.nix
     ../../../modules/tailscale.nix
     ../../../modules/login-display.nix
-    ../../../modules/dufs.nix
     ../../../modules/borg/client.nix
   ];
 
@@ -210,12 +209,6 @@
       keepMonthly = 6;
       keepYearly = 2;
     };
-  };
-
-  services.dufs = {
-    sharedPath = "/home/yanlin/immich/ext-library";
-    user = "yanlin";
-    group = "users";
   };
 
 }
