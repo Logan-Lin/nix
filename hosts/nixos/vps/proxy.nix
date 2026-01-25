@@ -80,7 +80,7 @@
             servers = [{
               url = "http://thinkpad.yanlincs.com:5000";
             }];
-            serversTransport = "longTimeout";
+            serversTransport = "longTimeout@file";
           };
         };
 
@@ -89,7 +89,7 @@
             servers = [{
               url = "http://thinkpad.yanlincs.com:5099";
             }];
-            serversTransport = "longTimeout";
+            serversTransport = "longTimeout@file";
           };
         };
 
