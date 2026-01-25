@@ -79,7 +79,7 @@
           auto_install = false;
         };
         grammarPackages = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
-          bash c cpp css dockerfile go html javascript json lua markdown nix python rust typescript yaml latex
+          bash c cpp css dockerfile go html javascript json lua markdown nix python rust typescript yaml
         ];
       };
 
@@ -168,35 +168,6 @@
       };
 
       auto-session.enable = true;
-
-      aerial = {
-        enable = true;
-        settings = {
-          backends = ["treesitter"];
-          layout = {
-            default_direction = "float";
-          };
-          float = {
-            border = "rounded";
-            relative = "editor";
-            override.__raw = ''
-              function(conf)
-                local target_width = math.floor(vim.o.columns * 0.5)
-                conf.width = math.min(math.max(86, target_width), math.floor(vim.o.columns * 0.85))
-                conf.height = math.floor(vim.o.lines * 0.75)
-                conf.col = math.floor((vim.o.columns - conf.width) / 2)
-                conf.row = math.floor((vim.o.lines - conf.height) / 2)
-                return conf
-              end
-            '';
-          };
-          show_guides = true;
-          filter_kind = false;
-          keymaps = {
-            "<esc>" = "actions.close";
-          };
-        };
-      };
 
       render-markdown = {
         enable = true;
@@ -325,14 +296,6 @@
         options = { desc = "Toggle file explorer"; };
       }
 
-      # Aerial outline
-      {
-        mode = "n";
-        key = "<leader>h";
-        action = ":AerialToggle<CR>";
-        options = { desc = "Toggle outline sidebar"; };
-      }
-
       # Markdown rendering
       {
         mode = "n";
@@ -340,13 +303,6 @@
         action = ":RenderMarkdown toggle<CR>";
         options = { desc = "Toggle markdown rendering"; };
       }
-      {
-        mode = "n";
-        key = "<leader>s";
-        action = ":Telescope aerial<CR>";
-        options = { desc = "Search symbols"; };
-      }
-
       # Basic keymaps
       {
         mode = "n";
@@ -428,8 +384,6 @@
           }
         },
       }
-      telescope.load_extension('aerial')
-
       -- OSC-52 clipboard integration (matches tmux setup, works with Ghostty)
       -- This enables clipboard functionality across SSH, tmux, and multi-platform
       -- Only enabled on Linux; macOS uses native clipboard with "unnamedplus"
