@@ -4,6 +4,16 @@
   # Traefik dynamic configuration for vps host
   services.traefik.dynamicConfigOptions = {
     http = {
+      serversTransports = {
+        longTimeout = {
+          forwardingTimeouts = {
+            dialTimeout = "30s";
+            responseHeaderTimeout = "1200s";
+            idleConnTimeout = "1200s";
+          };
+        };
+      };
+
       routers = {
 
         photo = {
@@ -70,6 +80,7 @@
             servers = [{
               url = "http://thinkpad.yanlincs.com:5000";
             }];
+            serversTransport = "longTimeout";
           };
         };
 
@@ -78,6 +89,7 @@
             servers = [{
               url = "http://thinkpad.yanlincs.com:5099";
             }];
+            serversTransport = "longTimeout";
           };
         };
 
