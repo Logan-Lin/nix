@@ -155,10 +155,6 @@
     repositoryUrl = "ssh://borg-box/./nfss";
     backupPaths = [
       "/var/lib/mongodb"
-      "/home/yanlin/Archive"
-      "/home/yanlin/Credentials"
-      "/home/yanlin/Documents"
-      "/home/yanlin/Media"
     ];
     backupFrequency = "*-*-* 01:00:00";
     retention = {
