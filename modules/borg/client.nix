@@ -10,12 +10,10 @@ let
   sshCommand = "ssh -F /home/yanlin/.ssh/config -o StrictHostKeyChecking=accept-new -o ServerAliveInterval=60 -o ServerAliveCountMax=240";
   passphraseFile = "/etc/borg-passphrase";
   excludePatterns = [
-    "*.tmp" "*.temp" "*/.cache/*" "*/.local/share/Trash/*" "*/tmp/*" "*/temp/*"
-    "/proc/*" "/sys/*" "/dev/*" "/run/*" "/var/tmp/*" "/var/cache/*" "/var/log/*"
-    "*/overlay2/*" "*/containers/storage/overlay/*"
-    ".DS_Store" "._.DS_Store" ".Spotlight-V100" ".TemporaryItems" ".Trashes" ".fseventsd"
-    "node_modules/*" "target/*" "*.o" "*.so" "*.pyc" "__pycache__/*"
-    ".vscode/*" "*.swp" "*.swo" "*~"
+    "**/.stversions/"  # Syncthing versioning folders
+    "**/.Trash/"
+    "**/.Trash-*/"
+    "**/.local/share/Trash/"
   ];
   excludeArgs = concatMapStrings (pattern: " --exclude '${pattern}'") excludePatterns;
 in
