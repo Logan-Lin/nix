@@ -204,15 +204,17 @@ description=$description
 ABSMETA
 
         local thumb_file=""
+        local thumb_ext=""
         for ext in jpg webp png; do
           if [[ -f "$dir/$name_noext.$ext" ]]; then
             thumb_file="$dir/$name_noext.$ext"
+            thumb_ext="$ext"
             break
           fi
         done
 
         if [[ -n "$thumb_file" ]]; then
-          mv "$thumb_file" "$dir/cover.jpg" 2>/dev/null
+          mv "$thumb_file" "$dir/cover.$thumb_ext" 2>/dev/null
         fi
       }
 
@@ -227,11 +229,16 @@ ABSMETA
         local days_filter=""
         local audio_only=false
         local max_resolution=""
+        local custom_download_dir=""
         local url=""
 
         # Parse arguments
         while [[ $# -gt 0 ]]; do
           case "$1" in
+            -d|--dir)
+              custom_download_dir="$2"
+              shift 2
+              ;;
             -n|--count)
               max_downloads="$2"
               shift 2
@@ -285,6 +292,7 @@ ABSMETA
           echo "  youtube|bilibili           Platform to download from"
           echo ""
           echo "Options:"
+          echo "  -d, --dir <path>           Override download directory"
           echo "  -n, --count <number>       Limit number of videos to process/download"
           echo "  -r, --retries <number>     Number of retry attempts (0 for no retries, default: 10)"
           echo "  --min <minutes>            Minimum video duration in minutes"
@@ -302,11 +310,18 @@ ABSMETA
           echo "  dlv bilibili -n 10 <url>                  - Download first 10 videos"
           echo "  dlv youtube -a <url>                      - Download audio only"
           echo "  dlv youtube --res 720 <url>               - Download max 720p video"
+          echo "  dlv youtube -d /mnt/media <url>           - Download to custom directory"
           return 1
         fi
 
         # Override MAX_RETRIES if specified
         [[ -n "$custom_retries" ]] && local MAX_RETRIES="$custom_retries"
+
+        # Override download directory if specified
+        local DOWNLOAD_DIR="$DOWNLOAD_DIR"
+        if [[ -n "$custom_download_dir" ]]; then
+          DOWNLOAD_DIR="''${custom_download_dir/#\~/$HOME}"
+        fi
 
         # Platform-specific configuration
         local cookies_file platform_name platform_flags
