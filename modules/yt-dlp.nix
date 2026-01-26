@@ -171,6 +171,51 @@ MOVIENFO
         fi
       }
 
+      # Generate Audiobookshelf-compatible metadata from yt-dlp metadata
+      _generate_audiobookshelf_metadata() {
+        local filepath="$1"
+        [[ -z "$filepath" ]] && return 1
+
+        local dir=$(dirname "$filepath")
+        local basename=$(basename "$filepath")
+        local name_noext="''${basename%.*}"
+        local json_file="$dir/$name_noext.info.json"
+
+        [[ ! -f "$json_file" ]] && return 1
+
+        local title=$(jq -r '.title // "Unknown"' "$json_file")
+        local uploader=$(jq -r '.uploader // "Unknown"' "$json_file")
+        local description=$(jq -r '.description // ""' "$json_file" | head -c 2000)
+        local upload_date=$(jq -r '.upload_date // ""' "$json_file")
+
+        local year=""
+        if [[ ''${#upload_date} -eq 8 ]]; then
+          year="''${upload_date:0:4}"
+        fi
+
+        local metadata_file="$dir/metadata.abs"
+        cat > "$metadata_file" << ABSMETA
+#metadata-version=v1.0.0
+
+title=$title
+authors=$uploader
+publishedYear=$year
+description=$description
+ABSMETA
+
+        local thumb_file=""
+        for ext in jpg webp png; do
+          if [[ -f "$dir/$name_noext.$ext" ]]; then
+            thumb_file="$dir/$name_noext.$ext"
+            break
+          fi
+        done
+
+        if [[ -n "$thumb_file" ]]; then
+          mv "$thumb_file" "$dir/cover.jpg" 2>/dev/null
+        fi
+      }
+
       # Unified video download function
       dlv() {
         local platform=""
@@ -310,16 +355,26 @@ MOVIENFO
           match_filter="--match-filter \"$combined_filter\""
         fi
 
-        # Build output template (Jellyfin movie format)
-        local output_template="$DOWNLOAD_DIR/$platform_name/%(title)s (%(upload_date>%Y|0000)s)/%(title)s (%(upload_date>%Y|0000)s).%(ext)s"
+        # Build output template based on download type
+        local output_template
+        if [[ "$audio_only" == true ]]; then
+          output_template="$DOWNLOAD_DIR/$platform_name-Audio/%(uploader|Unknown)s/%(title)s/%(title)s.%(ext)s"
+        else
+          output_template="$DOWNLOAD_DIR/$platform_name/%(title)s (%(upload_date>%Y|0000)s)/%(title)s (%(upload_date>%Y|0000)s).%(ext)s"
+        fi
 
         local archive_file="$DOWNLOAD_DIR/.archive.txt"
 
         # Setup and display info
         mkdir -p "$DOWNLOAD_DIR"
-        echo "Downloading $platform_name video..."
+        if [[ "$audio_only" == true ]]; then
+          echo "Downloading $platform_name audio..."
+          echo "Output directory: $DOWNLOAD_DIR/$platform_name-Audio"
+        else
+          echo "Downloading $platform_name video..."
+          echo "Output directory: $DOWNLOAD_DIR/$platform_name"
+        fi
         [[ -n "$max_downloads" ]] && echo "Processing max $max_downloads videos"
-        echo "Output directory: $DOWNLOAD_DIR/$platform_name"
 
         # Build format string for audio-only or resolution limit
         local format_string=""
@@ -338,17 +393,30 @@ MOVIENFO
 
         # Execute download with retry
         if _retry_download "$cmd"; then
-          # Generate NFO files for any videos missing them
-          local series_base="$DOWNLOAD_DIR/$platform_name"
-          find "$series_base" -name "*.info.json" 2>/dev/null | while read -r json_file; do
-            local base="''${json_file%.info.json}"
-            local nfo_file="$base.nfo"
-            if [[ ! -f "$nfo_file" ]]; then
-              for ext in mp4 mkv webm m4a mp3 wav flac; do
-                [[ -f "$base.$ext" ]] && _generate_jellyfin_nfo "$base.$ext" && break
-              done
-            fi
-          done
+          # Generate metadata files based on download type
+          if [[ "$audio_only" == true ]]; then
+            local series_base="$DOWNLOAD_DIR/$platform_name-Audio"
+            find "$series_base" -name "*.info.json" 2>/dev/null | while read -r json_file; do
+              local base="''${json_file%.info.json}"
+              local metadata_file="$(dirname "$base")/metadata.abs"
+              if [[ ! -f "$metadata_file" ]]; then
+                for ext in m4a mp3 wav flac opus ogg; do
+                  [[ -f "$base.$ext" ]] && _generate_audiobookshelf_metadata "$base.$ext" && break
+                done
+              fi
+            done
+          else
+            local series_base="$DOWNLOAD_DIR/$platform_name"
+            find "$series_base" -name "*.info.json" 2>/dev/null | while read -r json_file; do
+              local base="''${json_file%.info.json}"
+              local nfo_file="$base.nfo"
+              if [[ ! -f "$nfo_file" ]]; then
+                for ext in mp4 mkv webm m4a mp3 wav flac; do
+                  [[ -f "$base.$ext" ]] && _generate_jellyfin_nfo "$base.$ext" && break
+                done
+              fi
+            done
+          fi
 
           # Build success message
           local success_msg="$platform_name download completed"
