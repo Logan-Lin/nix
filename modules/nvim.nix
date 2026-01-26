@@ -179,6 +179,19 @@
       neo-tree = {
         enable = true;
         settings = {
+          default_component_configs = {
+            file_size = {
+              enabled = true;
+              required_width = 40;
+            };
+            type = {
+              enabled = false;
+            };
+            last_modified = {
+              enabled = true;
+              required_width = 68;
+            };
+          };
           filesystem = {
             follow_current_file = {
               enabled = true;
