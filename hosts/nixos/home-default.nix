@@ -13,7 +13,7 @@
     ../../modules/btop.nix
     ../../modules/claude-code.nix
     ../../modules/gemini-cli.nix
-    ../../modules/transcode.nix
+    ../../modules/media-process.nix
     ../../modules/fonts.nix
     ../../modules/env.nix
   ];

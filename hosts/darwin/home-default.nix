@@ -17,7 +17,7 @@
     ../../modules/claude-code.nix
     ../../modules/gemini-cli.nix
     ../../modules/tex.nix
-    ../../modules/transcode.nix
+    ../../modules/media-process.nix
     ../../modules/fonts.nix
     ../../modules/aerospace.nix
     ../../modules/env.nix
