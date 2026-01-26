@@ -14,7 +14,7 @@
 
   programs.yt-dlp-custom = {
     enable = true;
-    downloadDir = "/home/yanlin/Downloads";
+    downloadDir = "/home/yanlin/Media";
   };
 
 }
