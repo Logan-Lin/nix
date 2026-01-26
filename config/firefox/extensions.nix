@@ -25,6 +25,7 @@ args:
         ublock-origin
         vimium
         darkreader
+        cookies-txt
       ]
     else [])
     ++ (if zotero-connector != null then [ zotero-connector ] else []);
