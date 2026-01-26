@@ -376,7 +376,7 @@ SEASONNFO
             local base="''${json_file%.info.json}"
             local nfo_file="$base.nfo"
             if [[ ! -f "$nfo_file" ]]; then
-              for ext in mp4 mkv webm; do
+              for ext in mp4 mkv webm m4a mp3 wav flac; do
                 [[ -f "$base.$ext" ]] && _generate_jellyfin_nfo "$base.$ext" && break
               done
             fi
