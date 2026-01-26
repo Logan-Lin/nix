@@ -206,22 +206,19 @@ SEASONNFO
       # Unified video download function
       dlv() {
         local platform=""
-        local playlist_mode=false
         local max_downloads=""
         local custom_retries=""
         local min_duration=""
         local max_duration=""
         local title_filter=""
         local days_filter=""
+        local audio_only=false
+        local max_resolution=""
         local url=""
 
         # Parse arguments
         while [[ $# -gt 0 ]]; do
           case "$1" in
-            -p|--playlist)
-              playlist_mode=true
-              shift
-              ;;
             -n|--count)
               max_downloads="$2"
               shift 2
@@ -246,6 +243,14 @@ SEASONNFO
               days_filter="$2"
               shift 2
               ;;
+            -a|--audio)
+              audio_only=true
+              shift
+              ;;
+            --res|--resolution)
+              max_resolution="$2"
+              shift 2
+              ;;
             youtube|bilibili)
               platform="$1"
               shift
@@ -267,21 +272,23 @@ SEASONNFO
           echo "  youtube|bilibili           Platform to download from"
           echo ""
           echo "Options:"
-          echo "  -p, --playlist             Download as playlist"
           echo "  -n, --count <number>       Limit number of videos to process/download"
           echo "  -r, --retries <number>     Number of retry attempts (0 for no retries, default: 10)"
           echo "  --min <minutes>            Minimum video duration in minutes"
           echo "  --max <minutes>            Maximum video duration in minutes"
           echo "  --title <string>           Filter videos by title (case-insensitive)"
           echo "  --days <number>            Download videos uploaded within N days"
+          echo "  -a, --audio                Download audio only (no video)"
+          echo "  --res <resolution>         Max video resolution (e.g., 720, 1080, 2160)"
           echo ""
           echo "Examples:"
           echo "  dlv youtube <url>                         - Download single YouTube video"
-          echo "  dlv youtube -p <url>                      - Download YouTube playlist"
           echo "  dlv youtube --min 5 --max 30 <url>        - Download videos between 5-30 minutes"
           echo "  dlv youtube --title \"tutorial\" <url>      - Download videos with 'tutorial' in title"
-          echo "  dlv youtube --days 7 -p <url>             - Download playlist videos from last 7 days"
-          echo "  dlv bilibili -p -n 10 <url>               - Download first 10 videos from playlist"
+          echo "  dlv youtube --days 7 <url>                - Download videos from last 7 days"
+          echo "  dlv bilibili -n 10 <url>                  - Download first 10 videos"
+          echo "  dlv youtube -a <url>                      - Download audio only"
+          echo "  dlv youtube --res 720 <url>               - Download max 720p video"
           return 1
         fi
 
@@ -335,32 +342,27 @@ SEASONNFO
           match_filter="--match-filter \"$combined_filter\""
         fi
 
-        # Build output template based on playlist mode (Jellyfin TV show format)
-        local output_template
-        if [[ "$playlist_mode" == true ]]; then
-          output_template="$DOWNLOAD_DIR/$platform_name/%(uploader|Unknown)s-%(playlist|)s/Season %(upload_date>%Y|0000)s/S%(upload_date>%Y|0000)sE%(upload_date>%m%d|0000)s - %(title)s.%(ext)s"
-        else
-          output_template="$DOWNLOAD_DIR/$platform_name/%(uploader|Unknown)s/Season %(upload_date>%Y|0000)s/S%(upload_date>%Y|0000)sE%(upload_date>%m%d|0000)s - %(title)s.%(ext)s"
-        fi
+        # Build output template (Jellyfin TV show format)
+        local output_template="$DOWNLOAD_DIR/$platform_name/%(uploader|Unknown)s/Season %(upload_date>%Y|0000)s/S%(upload_date>%Y|0000)sE%(upload_date>%m%d|0000)s - %(title)s.%(ext)s"
 
         local archive_file="$DOWNLOAD_DIR/.archive.txt"
 
         # Setup and display info
         mkdir -p "$DOWNLOAD_DIR"
-        if [[ "$playlist_mode" == true ]]; then
-          echo "Downloading $platform_name playlist..."
-          [[ -n "$max_downloads" ]] && echo "Limiting to $max_downloads videos"
-        else
-          echo "Downloading $platform_name video..."
-          [[ -n "$max_downloads" ]] && echo "Processing max $max_downloads videos"
-        fi
+        echo "Downloading $platform_name video..."
+        [[ -n "$max_downloads" ]] && echo "Processing max $max_downloads videos"
         echo "Output directory: $DOWNLOAD_DIR/$platform_name"
 
-        # Build command
-        local cmd="yt-dlp $platform_flags $match_filter --no-write-playlist-metafiles"
-        if [[ "$playlist_mode" == true ]]; then
-          cmd="$cmd --yes-playlist"
+        # Build format string for audio-only or resolution limit
+        local format_string=""
+        if [[ "$audio_only" == true ]]; then
+          format_string="--format 'bestaudio[ext=m4a]/bestaudio/best' --extract-audio --audio-format m4a"
+        elif [[ -n "$max_resolution" ]]; then
+          format_string="--format 'bestvideo[ext=mp4][height<=$max_resolution]+bestaudio[ext=m4a]/best[ext=mp4][height<=$max_resolution]/best'"
         fi
+
+        # Build command
+        local cmd="yt-dlp $platform_flags $format_string $match_filter --no-write-playlist-metafiles"
         [[ -n "$max_downloads" ]] && cmd="$cmd --playlist-end '$max_downloads'"
         [[ -n "$days_filter" ]] && cmd="$cmd --dateafter 'today-''${days_filter}days'"
         [[ -f "$cookies_file" ]] && cmd="$cmd --cookies '$cookies_file'" || cmd="$cmd --no-cookies"
@@ -382,12 +384,13 @@ SEASONNFO
 
           # Build success message
           local success_msg="$platform_name download completed"
-          [[ "$playlist_mode" == true ]] && success_msg="$platform_name playlist download completed"
 
           # Add filter info if any
           local filter_info=""
-          if [[ -n "$min_duration" ]] || [[ -n "$max_duration" ]] || [[ -n "$title_filter" ]] || [[ -n "$days_filter" ]]; then
+          if [[ -n "$min_duration" ]] || [[ -n "$max_duration" ]] || [[ -n "$title_filter" ]] || [[ -n "$days_filter" ]] || [[ "$audio_only" == true ]] || [[ -n "$max_resolution" ]]; then
             filter_info=" (Filters:"
+            [[ "$audio_only" == true ]] && filter_info="$filter_info audio-only"
+            [[ -n "$max_resolution" ]] && filter_info="$filter_info max ''${max_resolution}p"
             [[ -n "$min_duration" ]] && filter_info="$filter_info min ''${min_duration}m"
             [[ -n "$max_duration" ]] && filter_info="$filter_info max ''${max_duration}m"
             [[ -n "$title_filter" ]] && filter_info="$filter_info title: \"$title_filter\""
@@ -398,24 +401,14 @@ SEASONNFO
 
           success_msg="''${success_msg}''${filter_info}: $url"
 
-          if [[ "$playlist_mode" == true ]]; then
-            echo "✓ Playlist download completed successfully"
-          else
-            echo "✓ Download completed successfully"
-          fi
+          echo "✓ Download completed successfully"
 
           local result=0
         else
           # Build failure message
-          local fail_msg="$platform_name download failed after $MAX_RETRIES attempts"
-          [[ "$playlist_mode" == true ]] && fail_msg="$platform_name playlist download failed after $MAX_RETRIES attempts"
-          fail_msg="''${fail_msg}: $url"
+          local fail_msg="$platform_name download failed after $MAX_RETRIES attempts: $url"
 
-          if [[ "$playlist_mode" == true ]]; then
-            echo "✗ Playlist download failed after $MAX_RETRIES attempts"
-          else
-            echo "✗ Download failed after $MAX_RETRIES attempts"
-          fi
+          echo "✗ Download failed after $MAX_RETRIES attempts"
 
           local result=1
         fi
@@ -424,7 +417,7 @@ SEASONNFO
       }
       
       # Function to clear download archive
-      dl-clear-archive() {
+      dlv-clear-archive() {
         local archive_file="$DOWNLOAD_DIR/.archive.txt"
         
         if [[ -f "$archive_file" ]]; then
@@ -436,57 +429,6 @@ SEASONNFO
         fi
       }
       
-      # Alias for backward compatibility
-      alias dlv-clear-archive='dl-clear-archive'
-
-      dlv-remove-older() {
-        local days=""
-        local root_dir=""
-
-        while [[ $# -gt 0 ]]; do
-          case "$1" in
-            --days)
-              days="$2"
-              shift 2
-              ;;
-            *)
-              root_dir="$1"
-              shift
-              ;;
-          esac
-        done
-
-        if [[ -z "$days" ]] || [[ -z "$root_dir" ]]; then
-          echo "Usage: dlv-remove-older --days <N> <root_dir>"
-          echo "Remove videos older than N days (based on upload_date in .info.json)"
-          return 1
-        fi
-
-        root_dir="''${root_dir/#\~/$HOME}"
-
-        if [[ ! -d "$root_dir" ]]; then
-          echo "Directory not found: $root_dir"
-          return 1
-        fi
-
-        local cutoff_date=$(date -d "$days days ago" +%Y%m%d)
-        local removed=0
-
-        echo "Scanning for videos older than $days days (before $cutoff_date)..."
-
-        while IFS= read -r -d $'\0' info_file; do
-          local upload_date=$(jq -r '.upload_date // empty' "$info_file" 2>/dev/null)
-
-          if [[ -n "$upload_date" ]] && [[ "$upload_date" < "$cutoff_date" ]]; then
-            local base="''${info_file%.info.json}"
-            echo "Removing: $(basename "$base")"
-            rm -f "$base".{mp4,webm,mkv,info.json,description,jpg,webp,png}
-            ((removed++))
-          fi
-        done < <(find "$root_dir" -type f -name "*.info.json" -print0)
-
-        echo "Removed $removed video(s)"
-      }
     '';
   };
 }
