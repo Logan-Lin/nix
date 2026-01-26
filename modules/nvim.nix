@@ -188,8 +188,7 @@
               enabled = false;
             };
             last_modified = {
-              enabled = true;
-              required_width = 68;
+              enabled = false;
             };
           };
           filesystem = {
@@ -207,7 +206,7 @@
             position = "float";
             popup = {
               size = {
-                width.__raw = "math.min(math.max(86, math.floor(vim.o.columns * 0.5)), math.floor(vim.o.columns * 0.85))";
+                width = 76;
                 height = "75%";
               };
               border = "rounded";
@@ -230,6 +229,7 @@
               p = "paste_from_clipboard";
               d = "delete";
               o = { command = "system_open"; nowait = true; };
+              f = { command = "show_in_finder"; nowait = true; };
               # Disable everything else
               "#" = "none";
               "/" = "none";
@@ -250,8 +250,6 @@
               "[g" = "none";
               "]g" = "none";
               e = "none";
-              f = { command = "show_in_finder"; nowait = true; };
-              i = "none";
               l = "none";
               s = "none";
               t = "none";
