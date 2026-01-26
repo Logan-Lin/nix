@@ -117,7 +117,7 @@ in
         return 1
       }
       
-      # Generate Jellyfin-compatible NFO files from yt-dlp metadata
+      # Generate Jellyfin-compatible NFO files from yt-dlp metadata (movie format)
       _generate_jellyfin_nfo() {
         local filepath="$1"
         [[ -z "$filepath" ]] && return 1
@@ -125,8 +125,6 @@ in
         local dir=$(dirname "$filepath")
         local basename=$(basename "$filepath")
         local name_noext="''${basename%.*}"
-        local season_dir="$dir"
-        local series_dir=$(dirname "$season_dir")
         local json_file="$dir/$name_noext.info.json"
 
         [[ ! -f "$json_file" ]] && return 1
@@ -136,13 +134,11 @@ in
         local upload_date=$(jq -r '.upload_date // ""' "$json_file")
         local uploader=$(jq -r '.uploader // "Unknown"' "$json_file")
 
-        local season_num=""
-        local episode_num=""
-        local aired_date=""
+        local year=""
+        local premiered=""
         if [[ ''${#upload_date} -eq 8 ]]; then
-          season_num="''${upload_date:0:4}"
-          episode_num="''${upload_date:4:4}"
-          aired_date="''${upload_date:0:4}-''${upload_date:4:2}-''${upload_date:6:2}"
+          year="''${upload_date:0:4}"
+          premiered="''${upload_date:0:4}-''${upload_date:4:2}-''${upload_date:6:2}"
         fi
 
         description=$(echo "$description" | sed 's/&/\&amp;/g; s/</\&lt;/g; s/>/\&gt;/g')
@@ -150,36 +146,16 @@ in
         uploader=$(echo "$uploader" | sed 's/&/\&amp;/g; s/</\&lt;/g; s/>/\&gt;/g')
 
         local nfo_file="$dir/$name_noext.nfo"
-        cat > "$nfo_file" << EPISODENFO
+        cat > "$nfo_file" << MOVIENFO
 <?xml version="1.0" encoding="UTF-8"?>
-<episodedetails>
+<movie>
   <title>$title</title>
-  <season>$season_num</season>
-  <episode>$episode_num</episode>
-  <aired>''${aired_date:-}</aired>
+  <year>$year</year>
+  <premiered>$premiered</premiered>
   <plot>$description</plot>
-</episodedetails>
-EPISODENFO
-
-        if [[ ! -f "$series_dir/tvshow.nfo" ]]; then
-          cat > "$series_dir/tvshow.nfo" << TVSHOWNFO
-<?xml version="1.0" encoding="UTF-8"?>
-<tvshow>
-  <title>$uploader</title>
-  <plot>Videos from $uploader</plot>
-</tvshow>
-TVSHOWNFO
-        fi
-
-        if [[ ! -f "$season_dir/season.nfo" ]] && [[ -n "$season_num" ]]; then
-          cat > "$season_dir/season.nfo" << SEASONNFO
-<?xml version="1.0" encoding="UTF-8"?>
-<season>
-  <title>Season $season_num</title>
-  <seasonnumber>$season_num</seasonnumber>
-</season>
-SEASONNFO
-        fi
+  <studio>$uploader</studio>
+</movie>
+MOVIENFO
 
         local thumb_file=""
         for ext in jpg webp png; do
@@ -192,14 +168,6 @@ SEASONNFO
         if [[ -n "$thumb_file" ]]; then
           local thumb_ext="''${thumb_file##*.}"
           mv "$thumb_file" "$dir/$name_noext-thumb.$thumb_ext" 2>/dev/null
-
-          if [[ ! -f "$series_dir/poster.jpg" ]] && [[ ! -f "$series_dir/poster.webp" ]] && [[ ! -f "$series_dir/poster.png" ]]; then
-            cp "$dir/$name_noext-thumb.$thumb_ext" "$series_dir/poster.$thumb_ext"
-          fi
-
-          if [[ ! -f "$season_dir/poster.jpg" ]] && [[ ! -f "$season_dir/poster.webp" ]] && [[ ! -f "$season_dir/poster.png" ]]; then
-            cp "$dir/$name_noext-thumb.$thumb_ext" "$season_dir/poster.$thumb_ext"
-          fi
         fi
       }
 
@@ -342,8 +310,8 @@ SEASONNFO
           match_filter="--match-filter \"$combined_filter\""
         fi
 
-        # Build output template (Jellyfin TV show format)
-        local output_template="$DOWNLOAD_DIR/$platform_name/%(uploader|Unknown)s/Season %(upload_date>%Y|0000)s/S%(upload_date>%Y|0000)sE%(upload_date>%m%d|0000)s - %(title)s.%(ext)s"
+        # Build output template (Jellyfin movie format)
+        local output_template="$DOWNLOAD_DIR/$platform_name/%(title)s (%(upload_date>%Y|0000)s)/%(title)s (%(upload_date>%Y|0000)s).%(ext)s"
 
         local archive_file="$DOWNLOAD_DIR/.archive.txt"
 
