@@ -149,6 +149,7 @@
             file_ignore_patterns = [
               "^.git/"
               "^node_modules/"
+              "^.venv/"
               ".DS_Store"
             ];
             layout_config = {
