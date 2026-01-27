@@ -31,6 +31,7 @@
       "handbrake-app"
       "iina"
       "musicbrainz-picard"
+      "affinity"
       # Productivity
       "drawio"
       "inkscape"
