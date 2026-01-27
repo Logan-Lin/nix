@@ -18,6 +18,10 @@
           url = "https://outlook.office.com/mail/";
         }
         {
+          name = "Teams";
+          url = "https://teams.microsoft.com/v2/";
+        }
+        {
           name = "Gmail";
           url = "https://mail.google.com/mail/u/0/#inbox";
         }
@@ -26,33 +30,8 @@
           url = "https://www.overleaf.com/project";
         }
         {
-          name = "Scholar";
-          url = "https://scholar.google.com/";
-        }
-        {
-          name = "DBLP";
-          url = "https://dblp.org/";
-        }
-        {
-          name = "Media";
-          bookmarks = [
-            {
-              name = "Photos";
-              url = "https://photo.yanlincs.com/photos";
-            }
-            {
-              name = "Music";
-              url = "https://music.yanlincs.com";
-            }
-            {
-              name = "Audio";
-              url = "https://audio.yanlincs.com";
-            }
-            {
-              name = "Deluge";
-              url = "https://deluge.yanlincs.com";
-            }
-          ];
+          name = "Photos";
+          url = "https://photo.yanlincs.com/photos";
         }
         {
           name = "Resource";
@@ -105,31 +84,6 @@
                   url = "https://www.skyey2.com/forum.php?mod=torrents";
                 }
               ];
-            }
-          ];
-        }
-        {
-          name = "Tool";
-          bookmarks = [
-            {
-              name = "Cloudflare";
-              url = "https://dash.cloudflare.com";
-            }
-            {
-              name = "Hetzner";
-              url = "https://console.hetzner.com";
-            }
-            {
-              name = "Tailscale";
-              url = "https://login.tailscale.com/admin/machines";
-            }
-            {
-              name = "Homebrew";
-              url = "https://formulae.brew.sh/";
-            }
-            {
-              name = "Nix packages";
-              url = "https://search.nixos.org/packages";
             }
           ];
         }
