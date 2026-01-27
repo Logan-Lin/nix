@@ -23,6 +23,7 @@
       linebreak = true;      # Don't break words when wrapping
       breakindent = true;    # Preserve indentation when wrapping
       termguicolors = true;
+      signcolumn = "yes";
       autoread = true;       # Automatically reload files when changed externally
       clipboard = "unnamedplus";  # Use system clipboard by default
     };
@@ -147,9 +148,9 @@
               "--no-ignore"
             ];
             file_ignore_patterns = [
-              "^.git/"
-              "^node_modules/"
-              "^.venv/"
+              ".git/"
+              "node_modules/"
+              ".venv/"
               ".DS_Store"
             ];
             layout_config = {
@@ -169,6 +170,8 @@
       };
 
       auto-session.enable = true;
+
+      todo-comments.enable = true;
 
       render-markdown = {
         enable = true;
