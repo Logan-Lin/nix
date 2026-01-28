@@ -168,7 +168,6 @@
     ncdu
     imagemagick
     git-credential-oauth
-    zoxide
     delta
     fastfetch
     coreutils      # GNU core utilities (base64, etc.)

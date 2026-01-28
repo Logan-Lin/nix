@@ -52,7 +52,6 @@
     # Command-line utilities
     ncdu
     git-credential-oauth
-    zoxide
     delta
     fastfetch
     coreutils      # GNU core utilities (base64, etc.)
