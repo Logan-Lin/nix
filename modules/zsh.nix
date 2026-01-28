@@ -128,22 +128,6 @@ in
           "thunar \"$current_dir\" &"}
       }
 
-      # Custom cd completion with fzf (only for empty cd command)
-      function _fzf_cd_complete() {
-        local tokens=(''${(z)LBUFFER})
-        if [[ ''${tokens[1]} == "cd" && -z ''${tokens[2]} ]]; then
-          local selected
-          selected=$(fd --type d --max-depth 1 2>/dev/null | fzf --height 40% --preview 'ls -la {}' --header="Select directory")
-          if [[ -n "$selected" ]]; then
-            LBUFFER="cd \"$selected\""
-          fi
-          zle redisplay
-        else
-          zle expand-or-complete
-        fi
-      }
-      zle -N _fzf_cd_complete
-      bindkey '^I' _fzf_cd_complete
     '';
   };
   
