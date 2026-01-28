@@ -328,12 +328,12 @@ ABSMETA
         case "$platform" in
           youtube)
             cookies_file="$HOME/.config/yt-dlp/cookies-youtube.txt"
-            platform_name="YouTube"
+            platform_name="youtube"
             platform_flags=""
             ;;
           bilibili)
             cookies_file="$HOME/.config/yt-dlp/cookies-bilibili.txt"
-            platform_name="Bilibili"
+            platform_name="bilibili"
             platform_flags="--referer https://www.bilibili.com/"
             ;;
         esac
@@ -373,7 +373,7 @@ ABSMETA
         # Build output template based on download type
         local output_template
         if [[ "$audio_only" == true ]]; then
-          output_template="$DOWNLOAD_DIR/$platform_name-Audio/%(uploader|Unknown)s/%(title)s/%(title)s.%(ext)s"
+          output_template="$DOWNLOAD_DIR/$platform_name-audio/%(uploader|Unknown)s/%(title)s/%(title)s.%(ext)s"
         else
           output_template="$DOWNLOAD_DIR/$platform_name/%(title)s (%(upload_date>%Y|0000)s)/%(title)s (%(upload_date>%Y|0000)s).%(ext)s"
         fi
