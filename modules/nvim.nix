@@ -145,7 +145,6 @@
               "--column"
               "--smart-case"
               "--hidden"
-              "--no-ignore"
             ];
             file_ignore_patterns = [
               ".git/"
@@ -163,7 +162,6 @@
           pickers = {
             find_files = {
               hidden = true;
-              no_ignore = true;
             };
           };
         };
@@ -249,7 +247,6 @@
               D = "none";
               H = "toggle_hidden";
               P = "none";
-              R = "none";
               S = "none";
               "[g" = "none";
               "]g" = "none";
