@@ -22,10 +22,6 @@
           url = "https://teams.microsoft.com/v2/";
         }
         {
-          name = "Gmail";
-          url = "https://mail.google.com/mail/u/0/#inbox";
-        }
-        {
           name = "Overleaf";
           url = "https://www.overleaf.com/project";
         }
