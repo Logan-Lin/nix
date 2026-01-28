@@ -24,8 +24,8 @@ in
     
     shellAliases = {
       ls = "eza";
-      ll = "eza -l --icons --git";
-      la = "eza -la --icons --git";
+      ll = "eza -l --icons --group --git";
+      la = "eza -la --icons --group --git";
       lt = "eza --tree --icons";
 
       # Nix helpers
