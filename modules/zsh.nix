@@ -23,7 +23,10 @@ in
     };
     
     shellAliases = {
-      ll = "ls -alF";
+      ls = "eza";
+      ll = "eza -l --icons --git";
+      la = "eza -la --icons --git";
+      lt = "eza --tree --icons";
 
       # Nix helpers
       hm = "home-manager";
@@ -163,7 +166,13 @@ in
     enable = true;
     enableZshIntegration = true;
   };
-  
+
+  programs.eza = {
+    enable = true;
+    icons = "auto";
+    git = true;
+  };
+
   # Manage Powerlevel10k configuration
   home.file.".p10k.zsh".source = ../config/p10k.zsh;
 }
