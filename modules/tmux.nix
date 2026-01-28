@@ -4,6 +4,10 @@ let
   continuumSaveScript = "${pkgs.tmuxPlugins.continuum}/share/tmux-plugins/continuum/scripts/continuum_save.sh";
 in
 {
+  home.packages = [ pkgs.sesh ];
+
+  programs.zsh.shellAliases.ts = "sesh connect $(sesh list --icons | fzf --reverse --border --ansi)";
+
   programs.tmux = {
     enable = true;
     shortcut = "a";
@@ -95,7 +99,10 @@ in
       
       # Reload config file
       bind r source-file ~/.config/tmux/tmux.conf \; display-message "Config reloaded!"
-      
+
+      # Fast session switcher with sesh + fzf
+      bind s display-popup -B -E "sesh connect $(sesh list --icons | fzf --reverse --border --ansi)"
+
       # Better copy mode with OSC-52 clipboard
       bind-key -T copy-mode-vi v send-keys -X begin-selection
       bind-key -T copy-mode-vi y send-keys -X copy-pipe
