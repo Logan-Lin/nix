@@ -37,6 +37,15 @@
     alt-7 = 'workspace 7'
     alt-8 = 'workspace 8'
     alt-9 = 'workspace 9'
+    alt-0 = 'workspace 10'
+
+    # Focus monitor
+    alt-comma = 'focus-monitor prev'
+    alt-period = 'focus-monitor next'
+
+    # Move window to monitor
+    alt-shift-comma = 'move-node-to-monitor prev'
+    alt-shift-period = 'move-node-to-monitor next'
 
     # Move window to workspace
     alt-shift-1 = 'move-node-to-workspace 1'
@@ -48,5 +57,6 @@
     alt-shift-7 = 'move-node-to-workspace 7'
     alt-shift-8 = 'move-node-to-workspace 8'
     alt-shift-9 = 'move-node-to-workspace 9'
+    alt-shift-0 = 'move-node-to-workspace 10'
   '';
 }
