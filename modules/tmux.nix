@@ -101,7 +101,7 @@ in
       bind r source-file ~/.config/tmux/tmux.conf \; display-message "Config reloaded!"
 
       # Fast session switcher with sesh + fzf
-      bind s display-popup -B -E "sesh connect $(sesh list --icons | fzf --reverse --border --ansi)"
+      bind s display-popup -w 76 -h 75% -B -E "sesh connect $(sesh list --icons | fzf --reverse --border --ansi)"
 
       # Better copy mode with OSC-52 clipboard
       bind-key -T copy-mode-vi v send-keys -X begin-selection
