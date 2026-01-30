@@ -18,20 +18,15 @@
       "coteditor"
       "ghostty"
       "ovito"
-      "balenaetcher"
-      "raspberry-pi-imager"
       # Internet & Network
       "clash-verge-rev"
       "firefox"
       "keepassxc"
       "tailscale-app"
-      "transmission"
       # Media
       "calibre"
-      "handbrake-app"
       "iina"
       "musicbrainz-picard"
-      "affinity"
       # Productivity
       "drawio"
       "inkscape"
@@ -52,7 +47,6 @@
       "localsend"
       "maccy"
       "snipaste"
-      "the-unarchiver"
     ];
     taps = [
       "nikitabobko/tap"
