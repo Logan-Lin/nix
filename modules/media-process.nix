@@ -6,6 +6,8 @@
     shntool
     cuetools
     flac
+    unzip
+    p7zip
   ];
 
   programs.zsh.initContent = ''
@@ -130,6 +132,78 @@
       echo "Copied: $copied"
       echo "Failed: $failed"
       [[ $delete_source -eq 1 ]] && echo "(source files removed)"
+    }
+
+    function extract() {
+      if [[ $# -eq 0 ]]; then
+        echo "Usage: extract <archive> [dest_dir]" >&2
+        return 1
+      fi
+
+      local file="$1"
+      local dest="''${2:-.}"
+
+      if [[ ! -f "$file" ]]; then
+        echo "File not found: $file" >&2
+        return 1
+      fi
+
+      mkdir -p "$dest"
+
+      case "''${file:l}" in
+        *.tar.gz|*.tgz)     tar -xzf "$file" -C "$dest" ;;
+        *.tar.bz2|*.tbz2)   tar -xjf "$file" -C "$dest" ;;
+        *.tar.xz|*.txz)     tar -xJf "$file" -C "$dest" ;;
+        *.tar.zst|*.tzst)   tar --zstd -xf "$file" -C "$dest" ;;
+        *.tar)              tar -xf "$file" -C "$dest" ;;
+        *.gz)               gunzip -k "$file" ;;
+        *.bz2)              bunzip2 -k "$file" ;;
+        *.xz)               unxz -k "$file" ;;
+        *.zip)              unzip -q "$file" -d "$dest" ;;
+        *.7z)               7z x "$file" -o"$dest" ;;
+        *.rar)              7z x "$file" -o"$dest" ;;
+        *)
+          echo "Unknown archive format: $file" >&2
+          return 1
+          ;;
+      esac
+    }
+
+    function mktar() {
+      if [[ $# -lt 2 ]]; then
+        echo "Usage: mktar <format> <name> <files...>  (format: gz, bz2, xz, zst)" >&2
+        return 1
+      fi
+
+      local fmt="$1"
+      shift
+      local name="$1"
+      shift
+
+      case "$fmt" in
+        gz)   tar -czf "''${name}.tar.gz" "$@" ;;
+        bz2)  tar -cjf "''${name}.tar.bz2" "$@" ;;
+        xz)   tar -cJf "''${name}.tar.xz" "$@" ;;
+        zst)  tar --zstd -cf "''${name}.tar.zst" "$@" ;;
+        *)    echo "Unknown format: $fmt (use gz, bz2, xz, zst)" >&2; return 1 ;;
+      esac
+    }
+
+    function lsarchive() {
+      if [[ $# -eq 0 ]]; then
+        echo "Usage: lsarchive <archive>" >&2
+        return 1
+      fi
+
+      local file="$1"
+      case "''${file:l}" in
+        *.tar.gz|*.tgz|*.tar.bz2|*.tbz2|*.tar.xz|*.txz|*.tar.zst|*.tzst|*.tar)
+          tar -tf "$file" ;;
+        *.zip)    unzip -l "$file" ;;
+        *.7z)     7z l "$file" ;;
+        *.rar)    7z l "$file" ;;
+        *)        echo "Unknown archive format: $file" >&2; return 1 ;;
+      esac
     }
 
   '';
