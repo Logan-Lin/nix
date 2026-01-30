@@ -91,6 +91,9 @@
         
         # Diff context size
         diffContextSize = 3;
+
+        # Scroll amount per keystroke
+        scrollHeight = 20;
       };
       
       # Git settings
@@ -205,12 +208,8 @@
           new = "n";
           edit = "e";
           openFile = "o";
-          scrollUpMain = "<pgup>";
-          scrollDownMain = "<pgdown>";
-          scrollUpMain-alt1 = "K";
-          scrollDownMain-alt1 = "J";
-          scrollUpMain-alt2 = "<c-u>";
-          scrollDownMain-alt2 = "<c-d>";
+          scrollUpMain = "<c-b>";
+          scrollDownMain = "<c-f>";
           executeShellCommand = ":";
           createRebaseOptionsMenu = "m";
           
