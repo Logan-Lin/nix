@@ -11,9 +11,6 @@ let
   passphraseFile = "/etc/borg-passphrase";
   excludePatterns = [
     "**/.stversions/"  # Syncthing versioning folders
-    "**/.Trash/"
-    "**/.Trash-*/"
-    "**/.local/share/Trash/"
   ];
   excludeArgs = concatMapStrings (pattern: " --exclude '${pattern}'") excludePatterns;
 in
