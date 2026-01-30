@@ -10,7 +10,7 @@ let
   commonVersioning = {
     type = "staggered";
     params = {
-      maxAge = "15552000"; # 180 days
+      maxAge = "2592000"; # 30 days
       cleanInterval = "3600";  # 1 hour
     };
   };
@@ -18,7 +18,7 @@ let
   liteVersioning = {
     type = "staggered";
     params = {
-      maxAge = "2592000"; # 30 days
+      maxAge = "604800"; # 7 days
       cleanInterval = "3600";
     };
   };
