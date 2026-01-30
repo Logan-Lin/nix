@@ -306,21 +306,6 @@
     run ${pkgs.duti}/bin/duti -s com.colliderli.iina .mpg all
     run ${pkgs.duti}/bin/duti -s com.colliderli.iina .mpeg all
 
-    # Archives - The Unarchiver
-    run ${pkgs.duti}/bin/duti -s com.macpaw.site.theunarchiver .zip all
-    run ${pkgs.duti}/bin/duti -s com.macpaw.site.theunarchiver .rar all
-    run ${pkgs.duti}/bin/duti -s com.macpaw.site.theunarchiver .7z all
-    run ${pkgs.duti}/bin/duti -s com.macpaw.site.theunarchiver .tar all
-    run ${pkgs.duti}/bin/duti -s com.macpaw.site.theunarchiver .gz all
-    run ${pkgs.duti}/bin/duti -s com.macpaw.site.theunarchiver .bz2 all
-    run ${pkgs.duti}/bin/duti -s com.macpaw.site.theunarchiver .xz all
-    run ${pkgs.duti}/bin/duti -s com.macpaw.site.theunarchiver .tgz all
-    run ${pkgs.duti}/bin/duti -s com.macpaw.site.theunarchiver .tbz2 all
-    run ${pkgs.duti}/bin/duti -s com.macpaw.site.theunarchiver .lzma all
-    run ${pkgs.duti}/bin/duti -s com.macpaw.site.theunarchiver .cab all
-    run ${pkgs.duti}/bin/duti -s com.macpaw.site.theunarchiver .iso all
-    run ${pkgs.duti}/bin/duti -s com.macpaw.site.theunarchiver .dmg all
-
     # Audio - IINA
     run ${pkgs.duti}/bin/duti -s com.colliderli.iina .mp3 all
     run ${pkgs.duti}/bin/duti -s com.colliderli.iina .m4a all

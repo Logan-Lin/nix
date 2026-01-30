@@ -37,6 +37,7 @@ nix --extra-experimental-features "nix-command flakes" run home-manager/master -
 # Garbage collection
 nix-collect-garbage -d
 sudo nix-collect-garbage -d
+brew cleanup --prune=all
 
 # Check flake
 nix flake check
