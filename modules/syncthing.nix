@@ -10,16 +10,8 @@ let
   commonVersioning = {
     type = "staggered";
     params = {
-      maxAge = "2592000"; # 30 days
-      cleanInterval = "3600";  # 1 hour
-    };
-  };
-
-  liteVersioning = {
-    type = "staggered";
-    params = {
       maxAge = "604800"; # 7 days
-      cleanInterval = "3600";
+      cleanInterval = "3600";  # 1 hour
     };
   };
 
@@ -88,7 +80,6 @@ in
             "Media" = {
               path = "~/Media";
               devices = lib.filter (d: d != "iphone") allDevices;
-              versioning = liteVersioning;
             };
           })
           // (lib.optionalAttrs (lib.elem "Archive" cfg.enabledFolders) {
