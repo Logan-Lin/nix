@@ -27,39 +27,6 @@
           };
         };
 
-        audio = {
-          rule = "Host(`audio.yanlincs.com`)";
-          service = "audio";
-          tls = {
-            certResolver = "cloudflare";
-            domains = [{
-              main = "*.yanlincs.com";
-            }];
-          };
-        };
-
-        music = {
-          rule = "Host(`music.yanlincs.com`)";
-          service = "music";
-          tls = {
-            certResolver = "cloudflare";
-            domains = [{
-              main = "*.yanlincs.com";
-            }];
-          };
-        };
-
-        deluge = {
-          rule = "Host(`deluge.yanlincs.com`)";
-          service = "deluge";
-          tls = {
-            certResolver = "cloudflare";
-            domains = [{
-              main = "*.yanlincs.com";
-            }];
-          };
-        };
-
       };
 
       services = {
@@ -70,30 +37,6 @@
               url = "http://thinkpad.yanlincs.com:5000";
             }];
             serversTransport = "longTimeout@file";
-          };
-        };
-
-        audio = {
-          loadBalancer = {
-            servers = [{
-              url = "http://nfss.yanlincs.com:8000";
-            }];
-          };
-        };
-
-        music = {
-          loadBalancer = {
-            servers = [{
-              url = "http://nfss.yanlincs.com:4533";
-            }];
-          };
-        };
-
-        deluge = {
-          loadBalancer = {
-            servers = [{
-              url = "http://nfss.yanlincs.com:8112";
-            }];
           };
         };
 
