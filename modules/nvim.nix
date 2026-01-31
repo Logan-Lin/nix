@@ -256,6 +256,7 @@
               t = "none";
               w = "none";
               z = "none";
+              Z = "close_all_nodes";
               oc = "none";
               od = "none";
               og = "none";
