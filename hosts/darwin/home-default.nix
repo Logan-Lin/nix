@@ -36,8 +36,6 @@
     enable = true;
     package = null;  # Use Homebrew-installed Ghostty on Darwin
     windowMode = "windowed";
-    windowWidth = 999;
-    windowHeight = 999;
   };
 
   home.username = "yanlin";
