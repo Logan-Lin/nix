@@ -8,6 +8,7 @@
     flac
     unzip
     p7zip
+    imagemagick
   ];
 
   programs.zsh.initContent = ''
@@ -52,6 +53,24 @@
       local fmt="''${ext:l}"
       mkdir -p ./tracks
       shnsplit -f "$cue" -t "%n - %t" -o "$fmt" -d ./tracks "$audio"
+    }
+
+    function image2webp() {
+      local dir="''${1:-.}"
+      find "$dir" -type f \( -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' \) | while read -r img; do
+        outfile="''${img%.*}.webp"
+        ${pkgs.imagemagick}/bin/magick "$img" -resize '1800>' -quality 82 "$outfile"
+        echo "Converted: $img -> $outfile"
+      done
+    }
+
+    function webp2png() {
+      local dir="''${1:-.}"
+      find "$dir" -type f -iname '*.webp' | while read -r img; do
+        outfile="''${img%.*}.png"
+        ${pkgs.imagemagick}/bin/magick "$img" "$outfile"
+        echo "Converted: $img -> $outfile"
+      done
     }
 
     function camera-copy() {
