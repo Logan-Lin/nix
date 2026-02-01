@@ -56,8 +56,7 @@
       persistent-others = [
         "/Users/yanlin/Desktop"
         "/Users/yanlin/Downloads"
-        "/Users/yanlin/Documents"
-      ];              # List of folders/files to keep in dock
+      ];  # List of folders/files to keep in dock
 
       # Hot Corners - Actions:
       # 1 = Disabled, 2 = Mission Control, 3 = Application Windows,
