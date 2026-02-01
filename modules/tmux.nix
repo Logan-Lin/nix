@@ -126,6 +126,12 @@ in
       
       # Automatically renumber windows
       set -g renumber-windows on
+
+      # Switch to another session instead of detaching when current session is destroyed
+      set -g detach-on-destroy off
+
+      # Kill pane without confirmation
+      bind-key x kill-pane
       
       # Quick window movement
       bind-key -n C-S-Left swap-window -t -1\; select-window -t -1
