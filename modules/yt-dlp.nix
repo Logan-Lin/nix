@@ -48,9 +48,7 @@ in
       # Download options
       --no-playlist
       --embed-thumbnail
-      --write-thumbnail
-      --write-description
-      --write-info-json
+      --no-embed-chapters
 
       # Error handling
       --ignore-errors
@@ -282,7 +280,7 @@ in
         mkdir -p "$DOWNLOAD_DIR"
         if [[ "$audio_only" == true ]]; then
           echo "Downloading $platform_name audio..."
-          echo "Output directory: $DOWNLOAD_DIR/$platform_name-Audio"
+          echo "Output directory: $DOWNLOAD_DIR/$platform_name-audio"
         else
           echo "Downloading $platform_name video..."
           echo "Output directory: $DOWNLOAD_DIR/$platform_name"
@@ -292,7 +290,7 @@ in
         # Build format string for audio-only or resolution limit
         local format_string=""
         if [[ "$audio_only" == true ]]; then
-          format_string="--format 'bestaudio[ext=m4a]/bestaudio/best' --extract-audio --audio-format m4a"
+          format_string="--format 'bestaudio[ext=m4a]/bestaudio/best' --extract-audio --audio-format m4a --embed-metadata --parse-metadata '%(uploader)s:%(meta_album)s' --parse-metadata '%(uploader)s:%(meta_album_artist)s'"
         elif [[ -n "$max_resolution" ]]; then
           format_string="--format 'bestvideo[ext=mp4][height<=$max_resolution]+bestaudio[ext=m4a]/best[ext=mp4][height<=$max_resolution]/best'"
         fi

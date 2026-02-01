@@ -3,8 +3,11 @@
 {
   imports = [
     ../home-default.nix
+    ../../../modules/yt-dlp.nix
   ];
 
-  # MacBook-specific home configuration
-  # Example: Laptop-specific tools, power management, etc.
+  programs.yt-dlp-custom = {
+    enable = true;
+    downloadDir = "~/Downloads";
+  };
 }
