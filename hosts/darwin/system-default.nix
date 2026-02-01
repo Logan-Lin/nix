@@ -54,7 +54,6 @@
         "/Applications/KeePassXC.app"
       ];
       persistent-others = [
-        "/Users/yanlin/Desktop"
         "/Users/yanlin/Downloads"
       ];  # List of folders/files to keep in dock
 
@@ -72,7 +71,7 @@
     finder = {
       AppleShowAllExtensions = true;       # Show all file extensions
       AppleShowAllFiles = false;           # Show hidden files
-      CreateDesktop = true;                # Show icons on desktop
+      CreateDesktop = false;                # Show icons on desktop
       FXEnableExtensionChangeWarning = false; # Warn when changing file extension
       FXPreferredViewStyle = "Nlsv";       # Default view: "icnv"=Icon, "Nlsv"=List, "clmv"=Column, "glyv"=Gallery
       QuitMenuItem = false;                # Allow quitting Finder with ⌘Q
@@ -109,7 +108,7 @@
 
     screencapture = {
       disable-shadow = false;               # Disable shadow in screenshots
-      location = "~/Desktop";              # Default save location
+      location = "~/Downloads";              # Default save location
       type = "png";                        # Screenshot format: png, jpg, pdf, etc.
       show-thumbnail = true;               # Show thumbnail after taking screenshot
     };
