@@ -38,7 +38,6 @@
       "omnigraffle"
       "pdf-expert"
       "slidepilot"
-      "typora"
       "zotero"
       # Utilities
       "aerospace"
