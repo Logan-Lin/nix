@@ -35,7 +35,6 @@
       "microsoft-word"
       "tencent-meeting"
       "obsidian"
-      "omnigraffle"
       "pdf-expert"
       "slidepilot"
       "zotero"
