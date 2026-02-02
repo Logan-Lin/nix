@@ -289,8 +289,10 @@
     run ${pkgs.duti}/bin/duti -s com.apple.Preview .webp all
     run ${pkgs.duti}/bin/duti -s com.apple.Preview .heic all
     run ${pkgs.duti}/bin/duti -s com.apple.Preview .heif all
-    run ${pkgs.duti}/bin/duti -s com.apple.Preview .svg all
     run ${pkgs.duti}/bin/duti -s com.apple.Preview .ico all
+
+    # SVG - Inkscape
+    run ${pkgs.duti}/bin/duti -s org.inkscape.Inkscape .svg all
 
     # Videos - IINA
     run ${pkgs.duti}/bin/duti -s com.colliderli.iina .mp4 all
