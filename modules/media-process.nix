@@ -22,6 +22,18 @@
       ' _
     }
 
+    function audio-normalize() {
+      local target="''${1:--23}"
+      local dir="''${2:-.}"
+      find "$dir" \( -name '*.flac' -o -name '*.mp3' -o -name '*.wav' -o -name '*.ogg' -o -name '*.wma' -o -name '*.aiff' \) -type f -print0 | xargs -0 -P4 -n1 sh -c '
+        f="$1"
+        target="$2"
+        outfile="./normalized/''${f%.*}.m4a"
+        mkdir -p "$(dirname "$outfile")"
+        ffmpeg -i "$f" -af loudnorm=I="$target":TP=-1.5:LRA=11 -c:a aac -b:a 128k -map_metadata 0 -c:v copy -movflags +faststart "$outfile"
+      ' _ {} "$target"
+    }
+
     function video2av1() {
       local height="''${1:-720}"
       local dir="''${2:-.}"
