@@ -87,11 +87,19 @@
     ];
   };
 
+  # USB SSD mount
+  fileSystems."/mnt/essd" = {
+    device = "/dev/disk/by-id/usb-NVME_USB_3.2_0123456789ABC-0:0-part2";
+    fsType = "exfat";
+    options = [ "nofail" "x-systemd.device-timeout=5s" ];
+  };
+
   # Host-specific packages
   environment.systemPackages = with pkgs; [
     smartmontools
     zfs
     intel-gpu-tools
+    exfatprogs
   ];
 
   # ZFS services configuration
