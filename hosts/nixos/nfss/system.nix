@@ -90,9 +90,14 @@
   # USB SSD mount
   fileSystems."/mnt/essd" = {
     device = "/dev/disk/by-id/usb-NVME_USB_3.2_0123456789ABC-0:0-part2";
-    fsType = "exfat";
+    fsType = "ext4";
     options = [ "nofail" "x-systemd.device-timeout=5s" ];
   };
+
+  # Set ownership of mount point
+  systemd.tmpfiles.rules = [
+    "d /mnt/essd 0755 yanlin users -"
+  ];
 
   # Host-specific packages
   environment.systemPackages = with pkgs; [
@@ -147,6 +152,8 @@
     user = "yanlin";
     audiobookshelf.enable = true;
     deluge.enable = true;
+    sonarr.enable = true;
+    plex.enable = true;
   };
 
   # Samba file sharing
