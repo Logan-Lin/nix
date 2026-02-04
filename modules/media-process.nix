@@ -14,7 +14,7 @@
   programs.zsh.initContent = ''
     function audio2aac() {
       local dir="''${1:-.}"
-      find "$dir" \( -name '*.flac' -o -name '*.mp3' -o -name '*.wav' -o -name '*.ogg' -o -name '*.wma' -o -name '*.aiff' \) -type f -print0 | xargs -0 -P4 -n1 sh -c '
+      find "$dir" \( -name '*.flac' -o -name '*.mp3' -o -name '*.wav' -o -name '*.ogg' -o -name '*.wma' -o -name '*.aiff' -o -name '*.m4a' -o -name '*.aac' \) -type f -print0 | xargs -0 -P4 -n1 sh -c '
         f="$1"
         outfile="./transcode/''${f%.*}.m4a"
         mkdir -p "$(dirname "$outfile")"
@@ -24,7 +24,7 @@
 
     function audio-normalize() {
       local dir="''${1:-.}"
-      find "$dir" \( -name '*.flac' -o -name '*.mp3' -o -name '*.wav' -o -name '*.ogg' -o -name '*.wma' -o -name '*.aiff' \) -type f -print0 | xargs -0 -P4 -n1 sh -c '
+      find "$dir" \( -name '*.flac' -o -name '*.mp3' -o -name '*.wav' -o -name '*.ogg' -o -name '*.wma' -o -name '*.aiff' -o -name '*.m4a' -o -name '*.aac' \) -type f -print0 | xargs -0 -P4 -n1 sh -c '
         f="$1"
         outfile="./normalized/''${f%.*}.m4a"
         mkdir -p "$(dirname "$outfile")"
