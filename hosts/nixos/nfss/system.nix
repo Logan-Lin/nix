@@ -156,13 +156,6 @@
     plex.enable = true;
   };
 
-  # Samba file sharing
-  services.samba-custom = {
-    sharedPath = "/home/yanlin/Downloads";
-    shareName = "Downloads";
-    user = "yanlin";
-  };
-
   # Borg backup configuration
   services.borg-client-custom = {
     enable = true;
