@@ -20,6 +20,7 @@
     ../../modules/media-process.nix
     ../../modules/fonts.nix
     ../../modules/aerospace.nix
+    ../../modules/peripheral/home.nix
     ../../modules/env.nix
   ];
 
@@ -224,6 +225,15 @@
     enable = true;
     config = {
       ProgramArguments = [ "/Applications/Tailscale.app/Contents/MacOS/Tailscale" ];
+      RunAtLoad = true;
+      KeepAlive = false;
+    };
+  };
+
+  launchd.agents.linearmouse = {
+    enable = true;
+    config = {
+      ProgramArguments = [ "/Applications/LinearMouse.app/Contents/MacOS/LinearMouse" ];
       RunAtLoad = true;
       KeepAlive = false;
     };
