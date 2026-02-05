@@ -84,12 +84,21 @@
     }
 
     function video2webp() {
+      local speed=1
+      while [[ "$1" == --* ]]; do
+        case "$1" in
+          --speed) speed="$2"; shift 2 ;;
+          *) echo "Unknown option: $1" >&2; return 1 ;;
+        esac
+      done
       local dir="''${1:-.}"
+      local vf="fps=10,scale='min(1280,iw)':-1"
+      [[ "$speed" != "1" ]] && vf="setpts=PTS/$speed,$vf"
       for f in "$dir"/**/*.(mp4|mkv|mov); do
         if [[ -f "$f" ]]; then
           local outfile="''${f%.*}.webp"
           ffmpeg -i "$f" \
-            -vf "fps=10,scale='min(1280,iw)':-1" \
+            -vf "$vf" \
             -quality 75 -compression_level 4 -loop 0 \
             "$outfile"
           echo "Converted: $f -> $outfile"
