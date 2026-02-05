@@ -67,7 +67,7 @@
 
     function image2webp() {
       local dir="''${1:-.}"
-      find "$dir" -type f \( -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' \) | while read -r img; do
+      find "$dir" -type f \( -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.gif' \) | while read -r img; do
         outfile="''${img%.*}.webp"
         ${pkgs.imagemagick}/bin/magick "$img" -resize '1800>' -quality 82 "$outfile"
         echo "Converted: $img -> $outfile"
@@ -80,6 +80,20 @@
         outfile="''${img%.*}.png"
         ${pkgs.imagemagick}/bin/magick "$img" "$outfile"
         echo "Converted: $img -> $outfile"
+      done
+    }
+
+    function video2webp() {
+      local dir="''${1:-.}"
+      for f in "$dir"/**/*.(mp4|mkv|mov); do
+        if [[ -f "$f" ]]; then
+          local outfile="''${f%.*}.webp"
+          ffmpeg -i "$f" \
+            -vf "fps=10,scale='min(1280,iw)':-1" \
+            -quality 75 -compression_level 4 -loop 0 \
+            "$outfile"
+          echo "Converted: $f -> $outfile"
+        fi
       done
     }
 
