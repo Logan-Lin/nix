@@ -141,6 +141,8 @@ let
     autoCompactEnabled = true;
     alwaysThinkingEnabled = true;
     surveyDisabled = true;
+    prefersReducedMotion = true;
+    promptSuggestionEnabled = false;
     permissions = defaultPermissions;
   };
 
