@@ -150,9 +150,9 @@
   # Media server services
   services.media-server = {
     user = "yanlin";
-    audiobookshelf.enable = true;
     deluge.enable = true;
     sonarr.enable = true;
+    radarr.enable = true;
     plex.enable = true;
   };
 
