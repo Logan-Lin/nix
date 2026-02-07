@@ -151,7 +151,10 @@ in
 {
   config = {
     # Install Claude Code package
-    home.packages = [ claudePackage ];
+    home.packages = [
+      claudePackage
+      pkgs.poppler-utils
+    ];
 
     # Create global settings file (with permissions included)
     home.file.".claude/settings.json" = {
@@ -160,7 +163,13 @@ in
 
     # Create global memory file
     home.file.".claude/CLAUDE.md" = {
-      text = "";
+      text = ''
+        ## Environment
+        - System is managed with Nix (flakes) for global development runtime
+        - Projects may use flake + direnv for project-specific runtimes
+        - Common development tools (git, gh, ripgrep, jq, fzf, etc.) are globally available via nix
+        - PDF reading is supported (poppler-utils installed)
+      '';
     };
   };
 }

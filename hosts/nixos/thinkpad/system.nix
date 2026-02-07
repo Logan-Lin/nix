@@ -7,7 +7,6 @@
     ../system-default.nix
     ../../../modules/podman.nix
     ../../../modules/tailscale.nix
-    ../../../modules/login-display.nix
     ../../../modules/borg/client.nix
   ];
 
@@ -182,18 +181,6 @@
   services.acpid.enable = true;
 
   services.tailscale-custom.exitNode = true;
-
-  # Login display with SMART disk health status
-  services.login-display = {
-    enable = true;
-    showSystemInfo = true;
-    showSmartStatus = true;
-    smartDrives = {
-      "/dev/nvme0n1" = "System_SSD";
-    };
-    showDiskUsage = true;
-    showBorgStatus = true;
-  };
 
   services.borg-client-custom = {
     enable = true;
