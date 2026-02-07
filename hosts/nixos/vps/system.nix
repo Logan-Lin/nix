@@ -1,4 +1,6 @@
-{ config, pkgs, ... }: {
+{ config, pkgs, ... }: 
+
+{
   imports = [
     ./hardware-configuration.nix
     ./containers.nix
@@ -7,7 +9,6 @@
     ../../../modules/tailscale.nix
     ../../../modules/podman.nix
     ../../../modules/traefik.nix
-    ../../../modules/login-display.nix
   ];
 
   # GRUB bootloader with UEFI support
@@ -67,14 +68,6 @@
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGVvviqbwBEGDIbAUnmgHQJi+N5Qfvo5u49biWl6R7oC yanlin@MacBook-Air"
     ];
-  };
-
-  services.login-display = {
-    enable = true;
-    showSystemInfo = true;
-    showSmartStatus = false;
-    showDiskUsage = true;
-    showBorgStatus = false;
   };
 
   services.tailscale-custom.exitNode = true;

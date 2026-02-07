@@ -1,4 +1,6 @@
-{ config, pkgs, ... }: {
+{ config, pkgs, ... }: 
+
+{
   imports = [
     ./hardware-configuration.nix
     ./containers.nix
@@ -6,9 +8,7 @@
     ../../../modules/tailscale.nix
     ../../../modules/podman.nix
     ../../../modules/borg/client.nix
-    ../../../modules/login-display.nix
     ../../../modules/media-server.nix
-    ../../../modules/samba.nix
   ];
 
   # GRUB bootloader with ZFS support
@@ -114,20 +114,6 @@
       enable = true;
       interval = "weekly";
     };
-  };
-
-  # Login display with SMART disk health status
-  services.login-display = {
-    enable = true;
-    showSystemInfo = true;
-    showSmartStatus = true;
-    smartDrives = {
-      "/dev/disk/by-id/ata-ZHITAI_SC001_XT_1000GB_ZTB401TAB244431J4R" = "ZFS_Mirror_1";
-      "/dev/disk/by-id/ata-ZHITAI_SC001_XT_1000GB_ZTB401TAB244431KEG" = "ZFS_Mirror_2";
-    };
-    showDiskUsage = true;
-    diskUsagePaths = [ "/" "/home/" ];
-    showBorgStatus = true;
   };
 
   services.tailscale-custom = {
