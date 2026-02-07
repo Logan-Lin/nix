@@ -27,17 +27,6 @@
           };
         };
 
-        tv = {
-          rule = "Host(`tv.yanlincs.com`)";
-          service = "tv";
-          tls = {
-            certResolver = "cloudflare";
-            domains = [{
-              main = "*.yanlincs.com";
-            }];
-          };
-        };
-
       };
 
       services = {
@@ -48,14 +37,6 @@
               url = "http://thinkpad.yanlincs.com:5000";
             }];
             serversTransport = "longTimeout@file";
-          };
-        };
-
-        tv = {
-          loadBalancer = {
-            servers = [{
-              url = "http://nfss.yanlincs.com:32400";
-            }];
           };
         };
 
