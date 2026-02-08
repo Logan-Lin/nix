@@ -27,6 +27,8 @@
 
   hardware.enableRedistributableFirmware = true;
 
+  security.rtkit.enable = true;
+
   networking = {
     hostName = "deck";
     networkmanager.enable = true;
