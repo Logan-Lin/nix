@@ -17,9 +17,11 @@
     nix-homebrew.url = "github:zhaofengli/nix-homebrew";
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
+    jovian.url = "github:Jovian-Experiments/Jovian-NixOS";
+    jovian.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, nixvim, claude-code, firefox-addons, nix-homebrew, disko }:
+  outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, nixvim, claude-code, firefox-addons, nix-homebrew, disko, jovian }:
   {
     darwinConfigurations."macbook" = nix-darwin.lib.darwinSystem {
       modules = [
@@ -62,6 +64,16 @@
       ];
     };
 
+    nixosConfigurations."deck" = nixpkgs.lib.nixosSystem {
+      system = "x86_64-linux";
+      modules = [
+        jovian.nixosModules.default
+        disko.nixosModules.disko
+        ./hosts/nixos/deck/system.nix
+        ./hosts/nixos/deck/disk-config.nix
+      ];
+    };
+
     homeConfigurations = {
       "yanlin@macbook" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.aarch64-darwin;
@@ -90,6 +102,12 @@
       "yanlin@nfss" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux;
         modules = [ ./hosts/nixos/nfss/home.nix ];
+        extraSpecialArgs = { inherit claude-code nixvim; };
+      };
+
+      "yanlin@deck" = home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages.x86_64-linux;
+        modules = [ ./hosts/nixos/deck/home.nix ];
         extraSpecialArgs = { inherit claude-code nixvim; };
       };
     };
