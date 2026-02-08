@@ -67,7 +67,7 @@
 
     function image2webp() {
       local dir="''${1:-.}"
-      find "$dir" -type f \( -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.gif' \) | while read -r img; do
+      find "$dir" -type f \( -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.gif' -o -iname '*.heic' -o -iname '*.heif' \) | while read -r img; do
         outfile="''${img%.*}.webp"
         ${pkgs.imagemagick}/bin/magick "$img" -resize '1800>' -quality 82 "$outfile"
         echo "Converted: $img -> $outfile"

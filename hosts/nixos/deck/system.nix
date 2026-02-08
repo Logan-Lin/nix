@@ -35,6 +35,9 @@
 
   users.users.yanlin = {
     extraGroups = [ "networkmanager" "wheel" "video" "audio" "input" ];
+    openssh.authorizedKeys.keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGmKZ0FbXhYRHVkVTeSmpPrvuG8sC8La3Yx2gWb4ncuc yanlin@imac"
+    ];
   };
 
   environment.systemPackages = with pkgs; [
