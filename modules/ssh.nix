@@ -9,6 +9,7 @@
       
       "*" = {
         addKeysToAgent = "yes";
+        identitiesOnly = true;
       };
 
       "github.com" = {
