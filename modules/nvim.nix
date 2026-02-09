@@ -71,7 +71,7 @@
         settings = {
           highlight = {
             enable = true;
-            additional_vim_regex_highlighting = true;
+            additional_vim_regex_highlighting = false;
           };
           indent = {
             enable = true;
@@ -80,7 +80,7 @@
           auto_install = false;
         };
         grammarPackages = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
-          bash c cpp css dockerfile go html javascript json lua markdown nix python rust typescript yaml
+          bash c cpp css dockerfile go html javascript json lua markdown nix python rust typescript yaml latex
         ];
       };
 
