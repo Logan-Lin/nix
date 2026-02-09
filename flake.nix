@@ -90,25 +90,25 @@
       "yanlin@vps" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux;
         modules = [ ./hosts/nixos/vps/home.nix ];
-        extraSpecialArgs = { inherit claude-code nixvim; };
+        extraSpecialArgs = { inherit nixvim; };
       };
 
       "yanlin@thinkpad" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux;
         modules = [ ./hosts/nixos/thinkpad/home.nix ];
-        extraSpecialArgs = { inherit claude-code nixvim; };
+        extraSpecialArgs = { inherit nixvim; };
       };
 
       "yanlin@nfss" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux;
         modules = [ ./hosts/nixos/nfss/home.nix ];
-        extraSpecialArgs = { inherit claude-code nixvim; };
+        extraSpecialArgs = { inherit nixvim; };
       };
 
       "yanlin@deck" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux;
         modules = [ ./hosts/nixos/deck/home.nix ];
-        extraSpecialArgs = { inherit claude-code nixvim; };
+        extraSpecialArgs = { inherit nixvim; };
       };
     };
   };
