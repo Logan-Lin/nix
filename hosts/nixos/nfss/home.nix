@@ -3,18 +3,8 @@
 {
   imports = [
     ../home-default.nix
-    ../../../modules/tex.nix
     ../../../modules/syncthing.nix
-    ../../../modules/schedule.nix
-    ../../../modules/yt-dlp.nix
+    ../../../modules/media-process.nix
   ];
-
-  home.packages = with pkgs; [
-  ];
-
-  programs.yt-dlp-custom = {
-    enable = true;
-    downloadDir = "/home/yanlin/Media";
-  };
 
 }
