@@ -11,10 +11,10 @@ args:
     zotero-connector = if buildFirefoxXpiAddon != null then
       buildFirefoxXpiAddon {
         pname = "zotero-connector";
-        version = "5.0.193";
+        version = "5.0.195";
         addonId = "zotero@chnm.gmu.edu";
-        url = "https://download.zotero.org/connector/firefox/release/Zotero_Connector-5.0.193.xpi";
-        sha256 = "jQLtVkFeRDZ8IiVGRKFcJ5b6AncXHnLuM5TS8vaAiQY=";
+        url = "https://download.zotero.org/connector/firefox/release/Zotero_Connector-5.0.195.xpi";
+        sha256 = "gTfwxRyzJ3e92+bvvt52eXUE2mhRhPybq1gqKAdtwcg=";
         meta = {};
       }
     else null;
