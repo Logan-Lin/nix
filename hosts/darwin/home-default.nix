@@ -278,8 +278,8 @@
     run ${pkgs.duti}/bin/duti -s com.coteditor.CotEditor .tex all
     run ${pkgs.duti}/bin/duti -s com.coteditor.CotEditor .bib all
 
-    # Documents - PDF with PDF Expert
-    run ${pkgs.duti}/bin/duti -s com.readdle.PDFExpert-Mac .pdf all
+    # Documents
+    run ${pkgs.duti}/bin/duti -s com.apple.Preview .pdf all
 
     # Diagrams - Draw.io
     run ${pkgs.duti}/bin/duti -s com.jgraph.drawio.desktop .drawio all

@@ -35,7 +35,6 @@
       "microsoft-word"
       "tencent-meeting"
       "obsidian"
-      "pdf-expert"
       "slidepilot"
       "zotero"
       # Utilities
