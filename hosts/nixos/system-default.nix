@@ -55,8 +55,7 @@
     iotop
     unzip
     
-    # Shell and system management
-    zsh
+    # System management
     home-manager
   ];
 

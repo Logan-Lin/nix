@@ -23,7 +23,4 @@
     downloadDir = "/mnt/storage/Media/web-video";
   };
 
-  home.packages = with pkgs; [
-  ];
-  
 }

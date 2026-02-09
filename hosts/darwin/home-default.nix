@@ -165,16 +165,12 @@
 
     # Command-line utilities
     ncdu
-    imagemagick
-    git-credential-oauth
     delta
     fastfetch
     coreutils      # GNU core utilities (base64, etc.)
     tree
     bzip2
-    unzip
     duti           # Set default applications for file types (macOS)
-    ffmpeg
     pdftk
 
     # Development and build tools
