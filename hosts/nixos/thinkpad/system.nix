@@ -16,6 +16,13 @@
     systemd-boot.configurationLimit = 50;
     efi.canTouchEfiVariables = true;
     timeout = 3;
+    configurationLimit = 10;
+  };
+
+  nix.gc = {
+    automatic = true;
+    dates = "monthly";
+    options = "--delete-older-than 30d";
   };
 
   # Use latest kernel for better hardware support
