@@ -129,8 +129,6 @@
         return 1
       fi
 
-      local count=0 skipped=0
-
       while IFS= read -r -d "" file; do
         local name=$(basename "$file")
         [[ "$name" == .* ]] && continue
@@ -146,25 +144,16 @@
         local target="$dest/''${raw_date:0:4}/$raw_date"
         mkdir -p "$target"
 
-        if [[ -e "$target/$name" ]]; then
-          ((skipped++)) || true
-          continue
-        fi
-
-        echo "[$raw_date] $name"
         if (( delete_source )); then
           mv "$file" "$target/$name"
         else
           cp -a "$file" "$target/$name"
         fi
-        ((count++)) || true
       done < <(find "$src" -type f \( \
         -iname "*.mp4" -o -iname "*.mov" -o -iname "*.mts" -o -iname "*.m2ts" -o -iname "*.avi" \
         -o -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.heic" -o -iname "*.heif" \
         -o -iname "*.cr2" -o -iname "*.cr3" -o -iname "*.nef" -o -iname "*.arw" -o -iname "*.dng" -o -iname "*.raf" -o -iname "*.orf" -o -iname "*.rw2" \
         \) -print0)
-
-      echo "Done: $count files, $skipped skipped"
     }
 
     function extract() {
