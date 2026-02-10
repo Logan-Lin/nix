@@ -9,6 +9,7 @@
     ../../../modules/tailscale.nix
     ../../../modules/podman.nix
     ../../../modules/traefik.nix
+    ../../../modules/borg/client.nix
   ];
 
   # GRUB bootloader with UEFI support
@@ -70,5 +71,21 @@
   };
 
   services.tailscale-custom.exitNode = true;
+
+  # Borg backup configuration
+  services.borg-client-custom = {
+    enable = false;
+    repositoryUrl = "ssh://borg-box/./vps";
+    backupPaths = [
+      "/var/lib/mongodb"
+    ];
+    backupFrequency = "*-*-* 03:00:00";
+    retention = {
+      keepDaily = 7;
+      keepWeekly = 4;
+      keepMonthly = 6;
+      keepYearly = 2;
+    };
+  };
 
 }
