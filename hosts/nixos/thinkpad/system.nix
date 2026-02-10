@@ -3,7 +3,7 @@
 {
   imports = [
     ./hardware-configuration.nix
-    # ./containers.nix
+    ./containers.nix
     ../system-default.nix
     ../../../modules/podman.nix
     ../../../modules/tailscale.nix
