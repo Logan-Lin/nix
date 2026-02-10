@@ -24,9 +24,9 @@ in
       image = "ghcr.io/imagegenius/immich:latest";
 
       volumes = [
-        "/var/lib/containers/config/immich:/config"
-        "/home/yanlin/immich/photo-library:/photos"
-        "/home/yanlin/immich/ext-library:/libraries"
+        "/var/lib/immich/config:/config"
+        "/var/lib/immich/int-lib:/photos"
+        "/home/yanlin/DCIM:/ext-lib"
         # Mount the declarative config file
         "${immichConfigFile}:/config/immich.json:ro"
       ];
@@ -71,7 +71,7 @@ in
       image = "docker.io/tensorchord/pgvecto-rs:pg14-v0.2.0";
 
       volumes = [
-        "/var/lib/containers/config/immich-db:/var/lib/postgresql/data"
+        "/var/lib/immich/db:/var/lib/postgresql/data"
       ];
 
       environment = {
