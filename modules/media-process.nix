@@ -167,10 +167,15 @@
 
         echo "[$date_dir] $filename"
 
+        local target_dir="$DEST/$year/$date_dir"
+        if [[ "$DEST" != *:* ]]; then
+          mkdir -p "$target_dir"
+        fi
+
         local rsync_opts=(-a --mkpath --progress --partial --ignore-existing)
         [[ $delete_source -eq 1 ]] && rsync_opts+=(--remove-source-files)
 
-        if ${pkgs.rsync}/bin/rsync "''${rsync_opts[@]}" "$file" "$DEST/$year/$date_dir/$filename"; then
+        if ${pkgs.rsync}/bin/rsync "''${rsync_opts[@]}" "$file" "$target_dir/$filename"; then
           ((copied++)) || true
         else
           echo "  Failed to copy: $file"
