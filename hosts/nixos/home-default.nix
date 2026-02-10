@@ -49,12 +49,5 @@
     ncdu
     delta
     fastfetch
-    bzip2
-
-    # Development and build tools
-    python312
-    uv
-    lazysql
-    sqlite
   ];
 }
