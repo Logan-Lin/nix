@@ -2,6 +2,7 @@
 
 {
   home.packages = with pkgs; [
+    rsync
     pdftk
     ffmpeg
     shntool
@@ -10,6 +11,7 @@
     unzip
     p7zip
     imagemagick
+    exiftool
   ];
 
   programs.zsh.initContent = ''
