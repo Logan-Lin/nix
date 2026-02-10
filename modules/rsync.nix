@@ -2,7 +2,7 @@
 
 {
   # Install rsync package
-  home.packages = with pkgs; [ rsync exiftool ];
+  home.packages = with pkgs; [ rsync ];
 
   programs.zsh.initContent = ''
     function rsync-backup() {
