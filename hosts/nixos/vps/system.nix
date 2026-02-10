@@ -41,7 +41,7 @@
     useDHCP = true; # VPS typically use DHCP
     firewall = {
       enable = true;
-      allowedTCPPorts = [ 22 80 443 ];
+      allowedTCPPorts = [ 22 80 443 27017 ];
       trustedInterfaces = [ "tailscale0" ];
     };
   };
