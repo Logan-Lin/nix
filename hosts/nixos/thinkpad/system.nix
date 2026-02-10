@@ -16,7 +16,7 @@
     systemd-boot.configurationLimit = 50;
     efi.canTouchEfiVariables = true;
     timeout = 3;
-    configurationLimit = 10;
+    grub.configurationLimit = 10;
   };
 
   nix.gc = {
