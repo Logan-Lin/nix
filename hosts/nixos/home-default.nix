@@ -36,7 +36,6 @@
     # Network and file transfer
     lftp
     httpie
-    openssh
     gnumake
 
     # Network diagnostic tools
