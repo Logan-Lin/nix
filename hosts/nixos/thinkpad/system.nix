@@ -3,7 +3,7 @@
 {
   imports = [
     ./hardware-configuration.nix
-    ./containers.nix
+    # ./containers.nix
     ../system-default.nix
     ../../../modules/podman.nix
     ../../../modules/tailscale.nix
@@ -71,6 +71,7 @@
     firewall.enable = false;
   };
 
+  systemd.services.NetworkManager-wait-online.enable = false;
 
   # Power management for laptops
   powerManagement = {
@@ -190,11 +191,9 @@
   services.tailscale-custom.exitNode = true;
 
   services.borg-client-custom = {
-    enable = true;
+    enable = false;
     repositoryUrl = "ssh://borg-box/./thinkpad";
     backupPaths = [
-      "/home/yanlin/immich/ext-library/"
-      "/home/yanlin/immich/photo-library/library/admin/"
       "/home/yanlin/Archive"
       "/home/yanlin/Credentials"
       "/home/yanlin/Documents"
