@@ -131,11 +131,11 @@
         return 1
       fi
 
+      local name raw_date target
       while IFS= read -r -d "" file; do
-        local name=$(basename "$file")
+        name=$(basename "$file")
         [[ "$name" == .* ]] && continue
 
-        local raw_date
         raw_date=$(${pkgs.exiftool}/bin/exiftool -s3 -d '%Y-%m-%d' \
           -DateTimeOriginal -CreateDate -MediaCreateDate "$file" 2>/dev/null | head -1)
 
@@ -143,7 +143,7 @@
           raw_date=$(${pkgs.coreutils}/bin/date -d "@$(${pkgs.coreutils}/bin/stat -c '%Y' "$file")" +%Y-%m-%d)
         fi
 
-        local target="$dest/''${raw_date:0:4}/$raw_date"
+        target="$dest/''${raw_date:0:4}/$raw_date"
         mkdir -p "$target"
 
         case $mode in
