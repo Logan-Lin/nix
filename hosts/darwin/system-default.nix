@@ -7,7 +7,12 @@
     nix-homebrew.darwinModules.nix-homebrew
   ];
 
-  # Nix configuration
+  nix.gc = {
+    automatic = true;
+    interval = { Day = 1; };
+    options = "--delete-older-than 30d";
+  };
+
   nix.settings.experimental-features = "nix-command flakes";
   nix.settings.substituters = [
     "https://cache.nixos.org/"
