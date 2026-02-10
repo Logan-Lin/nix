@@ -74,7 +74,7 @@
 
   # Borg backup configuration
   services.borg-client-custom = {
-    enable = false;
+    enable = true;
     repositoryUrl = "ssh://borg-box/./vps";
     backupPaths = [
       "/var/lib/mongodb"
