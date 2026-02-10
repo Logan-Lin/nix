@@ -109,15 +109,17 @@
     }
 
     function photo-move() {
-      local delete_source=0
+      local mode=copy
       if [[ "$1" == "-d" || "$1" == "--delete" ]]; then
-        delete_source=1
-        shift
+        mode=move; shift
+      elif [[ "$1" == "-l" || "$1" == "--link" ]]; then
+        mode=link; shift
       fi
 
       if [[ $# -ne 2 ]]; then
-        echo "Usage: photo-move [-d|--delete] <source_dir> <destination>"
+        echo "Usage: photo-move [-d|--delete|-l|--link] <source_dir> <destination>"
         echo "  -d, --delete    Move files instead of copying"
+        echo "  -l, --link      Hardlink instead of copying"
         echo "  photo-move /Volumes/CAMERA/DCIM ~/DCIM"
         return 1
       fi
@@ -144,11 +146,11 @@
         local target="$dest/''${raw_date:0:4}/$raw_date"
         mkdir -p "$target"
 
-        if (( delete_source )); then
-          mv "$file" "$target/$name"
-        else
-          cp -a "$file" "$target/$name"
-        fi
+        case $mode in
+          move) mv "$file" "$target/$name" ;;
+          link) ln "$file" "$target/$name" ;;
+          *)    cp -a "$file" "$target/$name" ;;
+        esac
       done < <(find "$src" -type f \( \
         -iname "*.mp4" -o -iname "*.mov" -o -iname "*.mts" -o -iname "*.m2ts" -o -iname "*.avi" \
         -o -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.heic" -o -iname "*.heif" \
