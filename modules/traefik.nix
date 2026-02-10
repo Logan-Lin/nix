@@ -32,9 +32,6 @@
           address = ":443";
           transport.respondingTimeouts.readTimeout = "0s";
         };
-        mongodb = {
-          address = ":27017";
-        };
       };
 
       # Certificate resolver using Cloudflare DNS challenge
