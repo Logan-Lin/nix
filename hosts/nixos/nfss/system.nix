@@ -21,6 +21,13 @@
     efiSupport = true;
     efiInstallAsRemovable = true;
     zfsSupport = true;
+    configurationLimit = 10;
+  };
+
+  nix.gc = {
+    automatic = true;
+    dates = "monthly";
+    options = "--delete-older-than 30d";
   };
 
   # Disable systemd stage-1 (use traditional initrd for ZFS compatibility)
