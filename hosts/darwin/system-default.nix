@@ -113,8 +113,8 @@
     };
 
     screencapture = {
-      disable-shadow = false;               # Disable shadow in screenshots
-      location = "~/Downloads";              # Default save location
+      disable-shadow = false;              # Disable shadow in screenshots
+      location = "~/Media/dcim-consume/";  # Default save location
       type = "png";                        # Screenshot format: png, jpg, pdf, etc.
       show-thumbnail = true;               # Show thumbnail after taking screenshot
     };
