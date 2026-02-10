@@ -16,7 +16,7 @@
   programs.zsh.initContent = ''
     function audio2aac() {
       local dir="''${1:-.}"
-      find "$dir" \( -name '*.flac' -o -name '*.mp3' -o -name '*.wav' -o -name '*.ogg' -o -name '*.wma' -o -name '*.aiff' -o -name '*.m4a' -o -name '*.aac' \) -type f -print0 | xargs -0 -P4 -n1 sh -c '
+      find "$dir" \( -iname '*.flac' -o -iname '*.mp3' -o -iname '*.wav' -o -iname '*.ogg' -o -iname '*.wma' -o -iname '*.aiff' -o -iname '*.m4a' -o -iname '*.aac' \) -type f -print0 | xargs -0 -P4 -n1 sh -c '
         f="$1"
         outfile="./transcode/''${f%.*}.m4a"
         mkdir -p "$(dirname "$outfile")"
@@ -26,7 +26,7 @@
 
     function audio-normalize() {
       local dir="''${1:-.}"
-      find "$dir" \( -name '*.flac' -o -name '*.mp3' -o -name '*.wav' -o -name '*.ogg' -o -name '*.wma' -o -name '*.aiff' -o -name '*.m4a' -o -name '*.aac' \) -type f -print0 | xargs -0 -P4 -n1 sh -c '
+      find "$dir" \( -iname '*.flac' -o -iname '*.mp3' -o -iname '*.wav' -o -iname '*.ogg' -o -iname '*.wma' -o -iname '*.aiff' -o -iname '*.m4a' -o -iname '*.aac' \) -type f -print0 | xargs -0 -P4 -n1 sh -c '
         f="$1"
         outfile="./normalized/''${f%.*}.m4a"
         mkdir -p "$(dirname "$outfile")"
@@ -37,7 +37,7 @@
     function video2av1() {
       local height="''${1:-720}"
       local dir="''${2:-.}"
-      for f in "$dir"/**/*.(mp4|mkv|avi); do
+      for f in "$dir"/**/(#i)*.(mp4|mkv|avi); do
         if [[ -f "$f" ]]; then
           local outfile="./transcode/''${f%.*}.mkv"
           mkdir -p "$(dirname "$outfile")"
@@ -96,7 +96,7 @@
       local dir="''${1:-.}"
       local vf="fps=10,scale='min(1280,iw)':-1"
       [[ "$speed" != "1" ]] && vf="setpts=PTS/$speed,$vf"
-      for f in "$dir"/**/*.(mp4|mkv|mov); do
+      for f in "$dir"/**/(#i)*.(mp4|mkv|mov); do
         if [[ -f "$f" ]]; then
           local outfile="''${f%.*}.webp"
           ffmpeg -i "$f" \
