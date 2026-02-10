@@ -9,7 +9,6 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     nixvim.url = "github:nix-community/nixvim";
     nixvim.inputs.nixpkgs.follows = "nixpkgs";
-    claude-code.url = "github:sadjow/claude-code-nix";
     firefox-addons = {
       url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -17,11 +16,9 @@
     nix-homebrew.url = "github:zhaofengli/nix-homebrew";
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
-    jovian.url = "github:Jovian-Experiments/Jovian-NixOS";
-    jovian.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, nixvim, claude-code, firefox-addons, nix-homebrew, disko, jovian }:
+  outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, nixvim, firefox-addons, nix-homebrew, disko }:
   {
     darwinConfigurations."macbook" = nix-darwin.lib.darwinSystem {
       modules = [
@@ -64,27 +61,17 @@
       ];
     };
 
-    nixosConfigurations."deck" = nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
-      modules = [
-        jovian.nixosModules.default
-        disko.nixosModules.disko
-        ./hosts/nixos/deck/system.nix
-        ./hosts/nixos/deck/disk-config.nix
-      ];
-    };
-
     homeConfigurations = {
       "yanlin@macbook" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.aarch64-darwin;
         modules = [ ./hosts/darwin/macbook/home.nix ];
-        extraSpecialArgs = { inherit claude-code nixvim firefox-addons; };
+        extraSpecialArgs = { inherit nixvim firefox-addons; };
       };
 
       "yanlin@imac" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.aarch64-darwin;
         modules = [ ./hosts/darwin/imac/home.nix ];
-        extraSpecialArgs = { inherit claude-code nixvim firefox-addons; };
+        extraSpecialArgs = { inherit nixvim firefox-addons; };
       };
 
       "yanlin@vps" = home-manager.lib.homeManagerConfiguration {
@@ -105,11 +92,6 @@
         extraSpecialArgs = { inherit nixvim; };
       };
 
-      "yanlin@deck" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.x86_64-linux;
-        modules = [ ./hosts/nixos/deck/home.nix ];
-        extraSpecialArgs = { inherit nixvim; };
-      };
     };
   };
 }

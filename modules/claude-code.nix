@@ -1,18 +1,8 @@
-{ config, pkgs, lib, claude-code, ... }:
+{ config, pkgs, lib, ... }:
 
 with lib;
 
 let
-  # Detect system architecture and select appropriate package
-  claudePackage = if pkgs.stdenv.hostPlatform.system == "aarch64-darwin" then
-    claude-code.packages.aarch64-darwin.claude-code
-  else if pkgs.stdenv.hostPlatform.system == "x86_64-linux" then
-    claude-code.packages.x86_64-linux.claude-code
-  else if pkgs.stdenv.hostPlatform.system == "aarch64-linux" then
-    claude-code.packages.aarch64-linux.claude-code
-  else
-    throw "Unsupported system for Claude Code: ${pkgs.stdenv.hostPlatform.system}";
-
   # Default global permissions
   defaultPermissions = {
     allow = [
@@ -152,7 +142,7 @@ in
   config = {
     # Install Claude Code package
     home.packages = [
-      claudePackage
+      pkgs.claude-code
       pkgs.poppler-utils
     ];
 

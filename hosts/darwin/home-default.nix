@@ -1,4 +1,4 @@
-{ config, pkgs, nixvim, claude-code, firefox-addons, ... }:
+{ config, pkgs, nixvim, firefox-addons, ... }:
 
 {
   imports = [
@@ -168,16 +168,7 @@
     delta
     fastfetch
     coreutils      # GNU core utilities (base64, etc.)
-    tree
-    bzip2
     duti           # Set default applications for file types (macOS)
-    pdftk
-
-    # Development and build tools
-    python312
-    uv
-    lazysql
-    sqlite
   ];
 
   # Startup applications via launchd agents
