@@ -153,6 +153,8 @@
   '';
 
   home.packages = with pkgs; [
+    texlive.combined.scheme-full
+
     # Network and file transfer
     lftp
     httpie
