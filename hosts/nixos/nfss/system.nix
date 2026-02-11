@@ -8,7 +8,7 @@
     ../../../modules/tailscale.nix
     ../../../modules/podman.nix
     ../../../modules/borg/client.nix
-    ../../../modules/media-server.nix
+    ../../../modules/media/server.nix
   ];
 
   # GRUB bootloader with ZFS support
