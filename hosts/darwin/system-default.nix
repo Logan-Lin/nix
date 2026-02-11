@@ -3,7 +3,6 @@
 {
   imports = [
     ../../modules/homebrew.nix
-    ../../modules/peripheral/system.nix
     nix-homebrew.darwinModules.nix-homebrew
   ];
 
@@ -25,34 +24,31 @@
     "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw="
   ];
 
-  # System configuration
   system.stateVersion = 6;
   nixpkgs.hostPlatform = "aarch64-darwin";
   programs.zsh.enable = true;
 
-  # Set primary user for system preferences
   system.primaryUser = "yanlin";
 
-  # Security configuration - passwordless sudo for yanlin
   security.sudo.extraConfig = ''
     yanlin ALL=(ALL) NOPASSWD: ALL
   '';
 
   system.defaults = {
     dock = {
-      autohide = true;                     # Automatically hide and show the dock
-      autohide-delay = 0.2;                # Delay before showing the dock (in seconds)
-      autohide-time-modifier = 0.5;        # Animation duration for dock show/hide
-      orientation = "bottom";               # Dock position: "bottom", "left", or "right"
-      tilesize = 48;                       # Size of dock icons (16-128)
-      magnification = false;               # Enable magnification when hovering
-      minimize-to-application = false;     # Minimize windows to application icon
-      show-recents = true;                 # Show recent applications in dock
-      show-process-indicators = true;      # Show dots under running apps
-      static-only = false;                 # Show only open applications
-      mru-spaces = false;                   # Automatically rearrange spaces based on use
-      expose-animation-duration = 0.5;     # Mission Control animation speed
-      dashboard-in-overlay = false;          # Show Dashboard as overlay
+      autohide = true;
+      autohide-delay = 0.2;
+      autohide-time-modifier = 0.5;
+      orientation = "bottom";
+      tilesize = 48;
+      magnification = false;
+      minimize-to-application = false;
+      show-recents = true;
+      show-process-indicators = true;
+      static-only = false;
+      mru-spaces = false;
+      expose-animation-duration = 0.5;
+      dashboard-in-overlay = false;
       persistent-apps = [
         "/Applications/Ghostty.app"
         "/Applications/Firefox.app"
@@ -61,73 +57,65 @@
       ];
       persistent-others = [
         "/Users/yanlin/Downloads"
-      ];  # List of folders/files to keep in dock
+      ];
 
-      # Hot Corners - Actions:
-      # 1 = Disabled, 2 = Mission Control, 3 = Application Windows,
-      # 4 = Desktop, 5 = Start Screen Saver, 6 = Disable Screen Saver,
-      # 7 = Dashboard, 10 = Put Display to Sleep, 11 = Launchpad,
-      # 12 = Notification Center, 13 = Lock Screen, 14 = Quick Note
-      wvous-tl-corner = 1;                 # Top left corner action
-      wvous-tr-corner = 1;                 # Top right corner action
-      wvous-bl-corner = 1;                 # Bottom left corner action
-      wvous-br-corner = 1;                 # Bottom right corner action
+      wvous-tl-corner = 1;
+      wvous-tr-corner = 1;
+      wvous-bl-corner = 1;
+      wvous-br-corner = 1;
     };
 
     finder = {
-      AppleShowAllExtensions = true;       # Show all file extensions
-      AppleShowAllFiles = false;           # Show hidden files
-      CreateDesktop = false;                # Show icons on desktop
-      FXEnableExtensionChangeWarning = false; # Warn when changing file extension
-      FXPreferredViewStyle = "Nlsv";       # Default view: "icnv"=Icon, "Nlsv"=List, "clmv"=Column, "glyv"=Gallery
-      QuitMenuItem = false;                # Allow quitting Finder with ⌘Q
-      ShowPathbar = true;                  # Show path bar at bottom
-      ShowStatusBar = false;                # Show status bar at bottom
-      _FXShowPosixPathInTitle = false;     # Show full POSIX path in title
-      _FXSortFoldersFirst = true;          # Sort folders before files
+      AppleShowAllExtensions = true;
+      AppleShowAllFiles = false;
+      CreateDesktop = false;
+      FXEnableExtensionChangeWarning = false;
+      FXPreferredViewStyle = "Nlsv";
+      QuitMenuItem = false;
+      ShowPathbar = true;
+      ShowStatusBar = false;
+      _FXShowPosixPathInTitle = false;
+      _FXSortFoldersFirst = true;
     };
 
-    # --------------------------------------------------------------------------
-    # Global Domain Settings (NSGlobalDomain)
-    # --------------------------------------------------------------------------
     NSGlobalDomain = {
-      AppleInterfaceStyle = "Dark";        # Dark mode: "Dark" or remove for light
-      AppleInterfaceStyleSwitchesAutomatically = false; # Auto switch dark/light
-      NSAutomaticWindowAnimationsEnabled = true; # Window animations
-      NSDocumentSaveNewDocumentsToCloud = false; # Save to iCloud by default
-      NSNavPanelExpandedStateForSaveMode = true; # Expand save panel by default
-      PMPrintingExpandedStateForPrint = true; # Expand print panel by default
-      NSTableViewDefaultSizeMode = 2;      # Sidebar icon size: 1=small, 2=medium, 3=large
-      AppleShowScrollBars = "WhenScrolling";   # "WhenScrolling", "Automatic", or "Always"
-      NSScrollAnimationEnabled = true;     # Smooth scrolling
-      NSWindowResizeTime = 0.2;            # Window resize animation duration
-      _HIHideMenuBar = false;              # Auto-hide menu bar
+      AppleInterfaceStyle = "Dark";
+      AppleInterfaceStyleSwitchesAutomatically = false;
+      NSAutomaticWindowAnimationsEnabled = true;
+      NSDocumentSaveNewDocumentsToCloud = false;
+      NSNavPanelExpandedStateForSaveMode = true;
+      PMPrintingExpandedStateForPrint = true;
+      NSTableViewDefaultSizeMode = 2;
+      AppleShowScrollBars = "WhenScrolling";
+      NSScrollAnimationEnabled = true;
+      NSWindowResizeTime = 0.2;
+      _HIHideMenuBar = false;
 
-      NSAutomaticCapitalizationEnabled = false; # Disable automatic capitalization
-      NSAutomaticDashSubstitutionEnabled = false; # Disable smart dashes
-      NSAutomaticPeriodSubstitutionEnabled = false; # Disable automatic period with double-space
-      NSAutomaticQuoteSubstitutionEnabled = false; # Disable smart quotes
-      NSAutomaticSpellingCorrectionEnabled = false; # Disable auto-correction
-      NSAutomaticInlinePredictionEnabled = false; # Disable inline predictive text
-      "com.apple.keyboard.fnState" = false; # Use F1, F2, etc. as standard function keys
+      NSAutomaticCapitalizationEnabled = false;
+      NSAutomaticDashSubstitutionEnabled = false;
+      NSAutomaticPeriodSubstitutionEnabled = false;
+      NSAutomaticQuoteSubstitutionEnabled = false;
+      NSAutomaticSpellingCorrectionEnabled = false;
+      NSAutomaticInlinePredictionEnabled = false;
+      "com.apple.keyboard.fnState" = false;
     };
 
     screencapture = {
-      disable-shadow = false;              # Disable shadow in screenshots
-      location = "~/Media/dcim-consume/";  # Default save location
-      type = "png";                        # Screenshot format: png, jpg, pdf, etc.
-      show-thumbnail = true;               # Show thumbnail after taking screenshot
+      disable-shadow = false;
+      location = "~/Media/dcim-consume/";
+      type = "png";
+      show-thumbnail = true;
     };
 
     loginwindow = {
-      GuestEnabled = false;                # Disable guest account
-      ShutDownDisabled = false;            # Allow shutdown from login window
-      RestartDisabled = false;             # Allow restart from login window
-      SleepDisabled = false;               # Allow sleep from login window
+      GuestEnabled = false;
+      ShutDownDisabled = false;
+      RestartDisabled = false;
+      SleepDisabled = false;
     };
 
     spaces = {
-      spans-displays = false;              # Each display has separate spaces
+      spans-displays = false;
     };
   };
 
@@ -138,4 +126,20 @@
 
     /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
   '';
+
+  launchd.user.agents.remap-keys = {
+    serviceConfig = {
+      ProgramArguments = [
+        "/usr/bin/hidutil"
+        "property"
+        "--set"
+        ''{"UserKeyMapping":[{"HIDKeyboardModifierMappingSrc":0x700000039,"HIDKeyboardModifierMappingDst":0x7000000E0},{"HIDKeyboardModifierMappingSrc":0x7000000E4,"HIDKeyboardModifierMappingDst":0x700000039}]}''
+      ];
+      RunAtLoad = true;
+      KeepAlive = false;
+      Label = "org.nixos.remap-keys";
+      StandardErrorPath = "/tmp/remap-keys.err";
+      StandardOutPath = "/tmp/remap-keys.out";
+    };
+  };
 }

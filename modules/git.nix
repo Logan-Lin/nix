@@ -1,29 +1,19 @@
 { config, pkgs, ... }:
 
 {
-  # Enable git-credential-oauth for GitHub, GitLab, BitBucket
   programs.git-credential-oauth = {
     enable = true;
   };
+
   programs.git = {
     enable = true;
 
     ignores = [
-      # Claude Code
       "**/.claude/settings.local.json"
-
-      # macOS
       ".DS_Store"
-
-      # Editors
-      ".vscode/"
-      ".idea/"
-
-      # Development
-      "node_modules/"
       ".env"
-      ".env.local"
-      ".env.*.local"
+      "node_modules/"
+      ".venv/"
     ];
 
     settings = {
@@ -32,14 +22,10 @@
         email = "github@yanlincs.com";
       };
 
-      # Platform-specific credential configuration
       credential = {
-        # OAuth platforms (handled by git-credential-oauth)
         "https://github.com".helper = "oauth";
         "https://gitlab.com".helper = "oauth";
         "https://bitbucket.org".helper = "oauth";
-
-        # Token-based platforms
         "https://git.overleaf.com".helper = "store";
         "https://git.overleaf.com".username = "git";
       };
