@@ -4,5 +4,4 @@
   imports = [
     ../home-default.nix
   ];
-
 }
