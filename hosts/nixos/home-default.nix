@@ -29,11 +29,6 @@
   # nixOS-specific alias
   programs.zsh.shellAliases = {
       oss = "sudo nixos-rebuild switch --flake ~/.config/nix#$(hostname)";
-
-      # Network monitoring aliases (no sudo needed - NixOS module handles permissions)
-      bw = "bandwhich";
-      bw-raw = "bandwhich --raw";
-      bw-dns = "bandwhich --show-dns";
   };
 
   home.packages = with pkgs; [
