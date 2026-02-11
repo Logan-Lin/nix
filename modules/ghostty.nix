@@ -46,75 +46,51 @@ in
     programs.ghostty = {
       enable = true;
       package = cfg.package;
-      
+
       settings = mkMerge [
         {
-          # Font settings with CJK fallback
           font-family = [
-            "JetBrainsMono Nerd Font Mono"  # Primary font for Latin + symbols
-            "Noto Sans CJK SC"              # Simplified Chinese fallback
-            "Noto Sans CJK TC"              # Traditional Chinese fallback
-            "Noto Sans CJK JP"              # Japanese fallback
-            "Source Han Sans"               # Alternative CJK fallback
+            "JetBrainsMono Nerd Font Mono"
+            "Noto Sans CJK SC"
+            "Noto Sans CJK TC"
+            "Noto Sans CJK JP"
+            "Source Han Sans"
           ];
           font-family-bold = "JetBrainsMono NFM Bold";
           font-family-italic = "JetBrainsMono NFM Italic";
           font-family-bold-italic = "JetBrainsMono NFM Bold Italic";
           font-size = cfg.fontSize;
-          
-          # Gruvbox Dark Theme
+
           background = "#14191f";
           cursor-style-blink = false;
-
-          # Window config
           window-theme = "dark";
           window-padding-balance = true;
-          
-          # Shell integration
           shell-integration = "detect";
           shell-integration-features = "cursor,sudo,title";
-
-          # Terminal type - use widely-supported xterm-256color for SSH compatibility
           term = "xterm-256color";
-
-          # Mouse settings
           mouse-hide-while-typing = true;
           mouse-shift-capture = false;
-          
-          # Performance and appearance
           adjust-cell-height = "10%";
           minimum-contrast = 1.0;
-          
-          # Copy/paste
           copy-on-select = false;
-
-          # OSC-52 clipboard integration (works with Neovim and tmux)
-          clipboard-read = "allow";   # Allow programs to read clipboard without prompting
-          clipboard-write = "allow";  # Allow programs to write to clipboard without prompting
-          
-          # Scrollback
+          clipboard-read = "allow";
+          clipboard-write = "allow";
           scrollback-limit = 10000;
-          
-          # Bell
           desktop-notifications = false;
-          
-          # Quit behavior
           confirm-close-surface = false;
-
           macos-titlebar-style = "hidden";
           macos-option-as-alt = "left";
         }
-        
-        # Conditional window settings based on mode
+
         (mkIf (cfg.windowMode == "windowed") {
           window-width = cfg.windowWidth;
           window-height = cfg.windowHeight;
         })
-        
+
         (mkIf (cfg.windowMode == "maximized") {
           maximize = true;
         })
-        
+
         (mkIf (cfg.windowMode == "fullscreen") {
           fullscreen = true;
         })

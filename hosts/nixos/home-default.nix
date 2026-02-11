@@ -9,7 +9,6 @@
     ../../modules/ssh.nix
     ../../modules/git.nix
     ../../modules/lazygit.nix
-    ../../modules/rsync.nix
     ../../modules/btop.nix
     ../../modules/font/home.nix
   ];
@@ -38,18 +37,13 @@
   };
 
   home.packages = with pkgs; [
-    # Network and file transfer
-    lftp
     httpie
     gnumake
-
-    # Network diagnostic tools
+    rsync
     bind           # DNS utilities (dig, nslookup, mdig)
     iputils        # Core network tools (ping, traceroute)
     inetutils      # Network utilities (telnet)
     netcat-gnu     # Network connection utility
-
-    # Command-line utilities
     ncdu
     delta
     fastfetch

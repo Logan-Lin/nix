@@ -1,17 +1,15 @@
 { config, pkgs, ... }:
 
 {
-  # Homebrew configuration for package management
   homebrew = {
     enable = true;
     onActivation = {
       autoUpdate = true;
-      cleanup = "zap";    # Removes unlisted formulae/casks
+      cleanup = "zap";
       upgrade = true;
     };
     greedyCasks = true;
     brews = [
-      # Command-line tools go here
     ];
     casks = [
       # Development
@@ -51,11 +49,10 @@
     ];
   };
 
-  # nix-homebrew configuration for declarative Homebrew installation
   nix-homebrew = {
     enable = true;
-    enableRosetta = true;  # Apple Silicon support
+    enableRosetta = true;
     user = "yanlin";
-    autoMigrate = true;    # Migrate existing Homebrew if present
+    autoMigrate = true;
   };
 }
