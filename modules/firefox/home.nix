@@ -43,13 +43,13 @@ in
         name = "yanlin";
         
         # Extensions
-        extensions = import ../config/firefox/extensions.nix args;
+        extensions = import ./extensions.nix args;
         
         # Bookmarks
-        bookmarks = import ../config/firefox/bookmarks.nix;
+        bookmarks = import ./bookmarks.nix;
         
         # Search configuration
-        search = import ../config/firefox/search.nix;
+        search = import ./search.nix;
         
         # Firefox settings
         settings = {

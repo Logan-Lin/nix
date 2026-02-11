@@ -6,7 +6,7 @@
     ./containers.nix
     ../system-default.nix
     ../../../modules/podman.nix
-    ../../../modules/tailscale.nix
+    ../../../modules/vpn/tailscale.nix
     ../../../modules/borg/client.nix
   ];
 
