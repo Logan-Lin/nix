@@ -6,7 +6,7 @@
     ../../../modules/syncthing.nix
     ../../../modules/tex.nix
     ../../../modules/schedule.nix
-    ../../../modules/yt-dlp.nix
+    ../../../modules/media/yt-dlp.nix
   ];
 
   services.scheduled-commands.aicloud-backup = {

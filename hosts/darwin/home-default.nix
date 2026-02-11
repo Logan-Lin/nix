@@ -16,7 +16,7 @@
     ../../modules/syncthing.nix
     ../../modules/claude-code.nix
     ../../modules/tex.nix
-    ../../modules/media-process.nix
+    ../../modules/media/tool.nix
     ../../modules/fonts.nix
     ../../modules/aerospace.nix
     ../../modules/peripheral/home.nix
