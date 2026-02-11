@@ -5,7 +5,7 @@
     ./hardware-configuration.nix
     ./containers.nix
     ../system-default.nix
-    ../../../modules/tailscale.nix
+    ../../../modules/vpn/tailscale.nix
     ../../../modules/podman.nix
     ../../../modules/borg/client.nix
     ../../../modules/media/server.nix

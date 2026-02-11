@@ -11,7 +11,7 @@
     ../../modules/lazygit.nix
     ../../modules/rsync.nix
     ../../modules/btop.nix
-    ../../modules/firefox.nix
+    ../../modules/firefox/home.nix
     ../../modules/ghostty.nix
     ../../modules/syncthing.nix
     ../../modules/claude-code.nix
