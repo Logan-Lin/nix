@@ -11,7 +11,7 @@
     ../../modules/lazygit.nix
     ../../modules/rsync.nix
     ../../modules/btop.nix
-    ../../modules/fonts.nix
+    ../../modules/font/home.nix
   ];
 
   home.username = "yanlin";

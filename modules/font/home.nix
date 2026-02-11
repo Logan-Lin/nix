@@ -4,11 +4,11 @@ let
   # Custom fonts from local files
   customFonts = pkgs.stdenvNoCC.mkDerivation {
     name = "custom-fonts";
-    src = ../config/fonts;
+    src = ./fonts;
 
     installPhase = ''
       mkdir -p $out/share/fonts
-      find $src -type f \( -name "*.ttf" -o -name "*.otf" -o -name "*.ttc" -o -name "*.woff" -o -name "*.woff2" \) -exec cp {} $out/share/fonts/ \;
+      find $src -type f \( -iname "*.ttf" -o -iname "*.otf" -o -iname "*.ttc" -o -iname "*.woff" -o -iname "*.woff2" \) -exec cp {} $out/share/fonts/ \;
     '';
   };
 in

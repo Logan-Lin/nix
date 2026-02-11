@@ -17,7 +17,7 @@
     ../../modules/claude-code.nix
     ../../modules/tex.nix
     ../../modules/media/tool.nix
-    ../../modules/fonts.nix
+    ../../modules/font/home.nix
     ../../modules/aerospace.nix
     ../../modules/peripheral/home.nix
   ];
