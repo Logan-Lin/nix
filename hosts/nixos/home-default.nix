@@ -12,7 +12,6 @@
     ../../modules/rsync.nix
     ../../modules/btop.nix
     ../../modules/fonts.nix
-    ../../modules/env.nix
   ];
 
   home.username = "yanlin";
@@ -21,6 +20,12 @@
 
   programs.home-manager.enable = true;
   nixpkgs.config.allowUnfree = true;
+
+  programs.direnv = {
+    enable = true;
+    nix-direnv.enable = true;
+    silent = true;
+  };
 
   # nixOS-specific alias
   programs.zsh.shellAliases = {
