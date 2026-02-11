@@ -7,7 +7,7 @@
     ../../../modules/podman.nix
     ../../../modules/borg/client.nix
     ../../../modules/login-display.nix
-    ../../../modules/samba.nix
+    ../../../modules/file-server/samba.nix
     ../../../modules/media/server.nix
   ];
 
