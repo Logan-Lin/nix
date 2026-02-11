@@ -4,7 +4,6 @@
   imports = [
     ../home-default.nix
     ../../../modules/syncthing.nix
-    ../../../modules/tex.nix
     ../../../modules/schedule.nix
     ../../../modules/media/yt-dlp.nix
   ];
