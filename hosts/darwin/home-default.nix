@@ -20,10 +20,15 @@
     ../../modules/fonts.nix
     ../../modules/aerospace.nix
     ../../modules/peripheral/home.nix
-    ../../modules/env.nix
   ];
 
   nixpkgs.config.allowUnfree = true;
+
+  programs.direnv = {
+    enable = true;
+    nix-direnv.enable = true;
+    silent = true;
+  };
 
   # Firefox configuration
   programs.firefox-custom = {
