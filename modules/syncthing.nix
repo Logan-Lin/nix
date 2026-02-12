@@ -2,26 +2,45 @@
 
 let
   cfg = config.syncthing-custom;
-  
+
   pcDevices = [ "macbook" "imac" "thinkpad" "nfss" ];
   touchDevices = [ "iphone" "ipad" ];
   allDevices = pcDevices ++ touchDevices;
 
-  commonVersioning = {
-    type = "staggered";
-    params = {
-      maxAge = "604800"; # 7 days
-      cleanInterval = "3600";  # 1 hour
-    };
+  mkFolderOptions = name: { maxAgeDays ? 0 }: {
+    enable = lib.mkEnableOption "${name} folder" // { default = true; };
+    path = lib.mkOption { type = lib.types.str; default = "~/${name}"; };
+    maxAgeDays = lib.mkOption { type = lib.types.int; default = maxAgeDays; };
   };
+
+  mkVersioning = days:
+    if days == 0 then {}
+    else {
+      versioning = {
+        type = "staggered";
+        params = {
+          maxAge = toString (days * 86400);
+          cleanInterval = "3600";
+        };
+      };
+    };
+
+  mkFolder = name: folderCfg: extraAttrs:
+    lib.optionalAttrs folderCfg.enable {
+      ${name} = {
+        path = folderCfg.path;
+        devices = extraAttrs.devices;
+      } // mkVersioning folderCfg.maxAgeDays;
+    };
 
 in
 {
   options.syncthing-custom = {
-    enabledFolders = lib.mkOption {
-      type = lib.types.listOf lib.types.str;
-      default = [ "Credentials" "Documents" "Archive" "Media" ];
-      description = "List of Syncthing folders to enable for this host.";
+    folders = {
+      Credentials = mkFolderOptions "Credentials" {};
+      Documents = mkFolderOptions "Documents" {};
+      Media = mkFolderOptions "Media" {};
+      Archive = mkFolderOptions "Archive" {};
     };
     enableGui = lib.mkOption {
       type = lib.types.bool;
@@ -36,9 +55,9 @@ in
       tray.enable = false;
       overrideDevices = true;
       overrideFolders = true;
-      
+
       guiAddress = lib.mkIf cfg.enableGui "127.0.0.1:8384";
-      
+
       settings = {
         devices = {
           "iphone" = {
@@ -60,36 +79,13 @@ in
             id = "S4QZW76-BOLIOW7-DVP326F-JIGW5DW-3PAD47L-OA456LB-2L6JZW7-YUGJRA6";
           };
         };
-        
+
         folders =
-          (lib.optionalAttrs (lib.elem "Credentials" cfg.enabledFolders) {
-            "Credentials" = {
-              path = "~/Credentials";
-              devices = allDevices;
-              versioning = commonVersioning;
-            };
-          })
-          // (lib.optionalAttrs (lib.elem "Documents" cfg.enabledFolders) {
-            "Documents" = {
-              path = "~/Documents";
-              devices = pcDevices;
-              versioning = commonVersioning;
-            };
-          })
-          // (lib.optionalAttrs (lib.elem "Media" cfg.enabledFolders) {
-            "Media" = {
-              path = "~/Media";
-              devices = lib.filter (d: d != "iphone") allDevices;
-            };
-          })
-          // (lib.optionalAttrs (lib.elem "Archive" cfg.enabledFolders) {
-            "Archive" = {
-              path = "~/Archive";
-              devices = allDevices;
-              versioning = commonVersioning;
-            };
-          });
-        
+          mkFolder "Credentials" cfg.folders.Credentials { devices = allDevices; }
+          // mkFolder "Documents" cfg.folders.Documents { devices = pcDevices; }
+          // mkFolder "Media" cfg.folders.Media { devices = lib.filter (d: d != "iphone") allDevices; }
+          // mkFolder "Archive" cfg.folders.Archive { devices = allDevices; };
+
         gui = {
           enabled = cfg.enableGui;
           user = "yanlin";
@@ -97,7 +93,7 @@ in
           useTLS = false;
           insecureSkipHostcheck = true;
         };
-        
+
         options = {
           urAccepted = -1;
           relaysEnabled = true;

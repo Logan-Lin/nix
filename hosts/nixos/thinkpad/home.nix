@@ -8,6 +8,13 @@
     ../../../modules/schedule.nix
   ];
 
+  syncthing-custom.folders = {
+    Credentials.maxAgeDays = 30;
+    Documents.maxAgeDays = 30;
+    Media.maxAgeDays = 7;
+    Archive.maxAgeDays = 30;
+  };
+
   services.scheduled-commands.dcim-consume = {
     enable = true;
     description = "Move files in dcim consume folder to DCIM";
