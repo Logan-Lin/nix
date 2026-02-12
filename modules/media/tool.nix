@@ -51,7 +51,7 @@
     }
 
     function to-utf8() {
-      local enc=$(file --brief --mime-encoding "$1")
+      local enc=$(${pkgs.file}/bin/file --brief --mime-encoding "$1")
       if [[ "$enc" == "utf-8" || "$enc" == "us-ascii" ]]; then
         return 0
       fi
