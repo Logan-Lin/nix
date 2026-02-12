@@ -155,7 +155,6 @@
     ];
     casks = [
       # Development
-      "coteditor"
       "ghostty"
       "ovito"
       # Internet & Network
