@@ -122,6 +122,7 @@
     find /Users/yanlin -name ".DS_Store" -delete 2>/dev/null || true
     sudo -u yanlin defaults -currentHost write -globalDomain NSStatusItemSpacing -int 10
     sudo -u yanlin defaults write -globalDomain NSUserKeyEquivalents -dict-add Minimize '\0'
+    sudo -u yanlin defaults write com.apple.universalaccess closeViewScrollWheelToggle -bool false
 
     /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
   '';
