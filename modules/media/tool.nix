@@ -50,6 +50,15 @@
       done
     }
 
+    function to-utf8() {
+      local enc=$(file --brief --mime-encoding "$1")
+      if [[ "$enc" == "utf-8" || "$enc" == "us-ascii" ]]; then
+        return 0
+      fi
+      local tmp=$(mktemp)
+      iconv -f "$enc" -t UTF-8 "$1" > "$tmp" && mv "$tmp" "$1"
+    }
+
     function cuesplit() {
       local audio="$1"
       local cue="''${2:-''${audio%.*}.cue}"
@@ -61,6 +70,7 @@
         echo "Cue file not found: $cue" >&2
         return 1
       fi
+      to-utf8 "$cue"
       local ext="''${audio##*.}"
       local fmt="''${ext:l}"
       mkdir -p ./tracks
