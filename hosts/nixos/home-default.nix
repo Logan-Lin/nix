@@ -7,8 +7,8 @@
     ../../modules/tmux.nix 
     ../../modules/zsh.nix 
     ../../modules/ssh.nix
-    ../../modules/git.nix
-    ../../modules/lazygit.nix
+    ../../modules/git/home.nix
+    ../../modules/git/lazygit.nix
     ../../modules/btop.nix
     ../../modules/font/home.nix
   ];
