@@ -7,11 +7,17 @@ let
   touchDevices = [ "iphone" "ipad" ];
   allDevices = pcDevices ++ touchDevices;
 
-  mkFolderOptions = name: { maxAgeDays ? 0 }: {
-    enable = lib.mkEnableOption "${name} folder" // { default = true; };
-    path = lib.mkOption { type = lib.types.str; default = "~/${name}"; };
-    maxAgeDays = lib.mkOption { type = lib.types.int; default = maxAgeDays; };
-  };
+  mkFolderOptions = name: overrides: let
+    opts = {
+      enable = { type = lib.types.bool; default = true; };
+      path = { type = lib.types.str; default = "~/${name}"; };
+      maxAgeDays = { type = lib.types.int; default = 0; };
+      devices = { type = lib.types.listOf lib.types.str; default = allDevices; };
+    };
+  in lib.mapAttrs (k: v: lib.mkOption {
+    type = v.type;
+    default = overrides.${k} or v.default;
+  }) opts;
 
   mkVersioning = days:
     if days == 0 then {}
@@ -25,21 +31,13 @@ let
       };
     };
 
-  mkFolder = name: folderCfg: extraAttrs:
-    lib.optionalAttrs folderCfg.enable {
-      ${name} = {
-        path = folderCfg.path;
-        devices = extraAttrs.devices;
-      } // mkVersioning folderCfg.maxAgeDays;
-    };
-
 in
 {
   options.syncthing-custom = {
     folders = {
       Credentials = mkFolderOptions "Credentials" {};
-      Documents = mkFolderOptions "Documents" {};
-      Media = mkFolderOptions "Media" {};
+      Documents = mkFolderOptions "Documents" { devices = pcDevices; };
+      Media = mkFolderOptions "Media" { devices = lib.filter (d: d != "iphone") allDevices; };
       Archive = mkFolderOptions "Archive" {};
     };
     enableGui = lib.mkOption {
@@ -80,11 +78,12 @@ in
           };
         };
 
-        folders =
-          mkFolder "Credentials" cfg.folders.Credentials { devices = allDevices; }
-          // mkFolder "Documents" cfg.folders.Documents { devices = pcDevices; }
-          // mkFolder "Media" cfg.folders.Media { devices = lib.filter (d: d != "iphone") allDevices; }
-          // mkFolder "Archive" cfg.folders.Archive { devices = allDevices; };
+        folders = let
+          enabled = lib.filterAttrs (_: f: f.enable) cfg.folders;
+        in lib.mapAttrs (_: f: {
+          path = f.path;
+          devices = f.devices;
+        } // mkVersioning f.maxAgeDays) enabled;
 
         gui = {
           enabled = cfg.enableGui;
