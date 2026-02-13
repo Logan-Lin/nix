@@ -1,4 +1,4 @@
-{ config, pkgs, nixvim, firefox-addons, ... }:
+{ config, lib, pkgs, nixvim, firefox-addons, ... }:
 
 {
   imports = [
@@ -209,6 +209,24 @@
     run ${pkgs.duti}/bin/duti -s com.colliderli.iina .ogg all
     run ${pkgs.duti}/bin/duti -s com.colliderli.iina .opus all
   '';
+
+  home.file.".snipaste/config.ini".text = lib.generators.toINI {} {
+    General = {
+      language = "en";
+      last_save_folder = "/Users/yanlin/Documents/consume/dcim";
+    };
+    Hotkey = {
+      snip = ''"100663345, 100663314"''; 
+      custom_snip = ""; hide = ""; paste = ""; snip_and_copy = ""; switch = "";
+    };
+    Output = {
+      quick_save_notification = false;
+      quick_save_path = "/Users/yanlin/Documents/consume/dcim/Snipaste_$yyyy-MM-dd_HH-mm-ss$.png";
+    };
+    Snip = {
+      ask_for_confirm_on_esc = false;
+    };
+  };
 
   home.file.".config/linearmouse/linearmouse.json".text = builtins.toJSON {
     "$schema" = "https://app.linearmouse.org/schema/0.10.0";
