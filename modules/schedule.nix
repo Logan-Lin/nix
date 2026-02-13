@@ -5,7 +5,6 @@ with lib;
 let
   cfg = config.services.scheduled-commands;
 
-  # Create wrapper script for a specific instance
   makeCommandScript = name: instanceCfg: pkgs.writeScriptBin "${name}-run" ''
     #!${pkgs.zsh}/bin/zsh
     # Source user shell to get environment and functions
@@ -15,7 +14,6 @@ let
     ${concatStringsSep "\n" instanceCfg.commands}
   '';
 
-  # Filter for enabled instances
   enabledInstances = filterAttrs (_: instanceCfg: instanceCfg.enable) cfg;
 in
 
@@ -63,14 +61,12 @@ in
   };
 
   config = mkMerge [
-    # Install wrapper scripts for all enabled instances
     {
       home.packages = mapAttrsToList (name: instanceCfg:
         makeCommandScript name instanceCfg
       ) enabledInstances;
     }
 
-    # Create systemd services and timers for all enabled instances
     {
       systemd.user.services = mapAttrs' (name: instanceCfg:
         nameValuePair name {

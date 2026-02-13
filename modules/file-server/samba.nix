@@ -4,31 +4,33 @@
 
 let
   cfg = config.services.samba-custom;
+
+  mkShareSettings = _: path: {
+    "path" = path;
+    "valid users" = cfg.user;
+    "public" = "no";
+    "writeable" = "yes";
+    "force user" = cfg.user;
+    "create mask" = "0644";
+    "directory mask" = "0755";
+  };
 in
 {
   options.services.samba-custom = {
-    sharedPath = lib.mkOption {
-      type = lib.types.nullOr lib.types.str;
-      default = null;
-      description = "Path to the folder to share via Samba. Set to null to disable Samba sharing.";
-      example = "/mnt/storage/shared";
-    };
-
-    shareName = lib.mkOption {
-      type = lib.types.str;
-      default = "shared";
-      description = "Name of the Samba share as it appears on the network";
+    shares = lib.mkOption {
+      type = lib.types.attrsOf lib.types.str;
+      default = {};
+      description = "Samba shares to expose. Keys are share names, values are paths.";
     };
 
     user = lib.mkOption {
       type = lib.types.str;
       default = "yanlin";
-      description = "Unix user that owns the shared directory and will be used for Samba authentication";
+      description = "Unix user that owns the shared directories and will be used for Samba authentication";
     };
   };
 
-  config = lib.mkIf (cfg.sharedPath != null) {
-    # Enable Samba service
+  config = lib.mkIf (cfg.shares != {}) {
     services.samba = {
       enable = true;
       openFirewall = true;
@@ -41,28 +43,14 @@ in
           "security" = "user";
           "guest account" = "nobody";
           "map to guest" = "bad user";
-
-          # Security enhancements
           "server min protocol" = "SMB3_00";
           "smb encrypt" = "desired";
         };
-
-        "${cfg.shareName}" = {
-          "path" = cfg.sharedPath;
-          "valid users" = cfg.user;
-          "public" = "no";
-          "writeable" = "yes";
-          "force user" = cfg.user;
-          "create mask" = "0644";
-          "directory mask" = "0755";
-        };
-      };
+      } // lib.mapAttrs mkShareSettings cfg.shares;
     };
 
-    # Create directory and set permissions
-    systemd.tmpfiles.rules = [
-      "d ${cfg.sharedPath} 0755 ${cfg.user} users - -"
-    ];
-
+    systemd.tmpfiles.rules = lib.mapAttrsToList
+      (_: path: "d ${path} 0755 ${cfg.user} users - -")
+      cfg.shares;
   };
 }
