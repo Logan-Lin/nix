@@ -123,13 +123,11 @@
               "--hidden"
             ];
             file_ignore_patterns = [
-              ".git/"
-              "node_modules/"
-              ".venv/"
-              ".DS_Store"
+              "%.git/"
             ];
             layout_config = {
               prompt_position = "bottom";
+              width = 160;
               horizontal = {
                 preview_width = 0.55;
               };
@@ -185,7 +183,7 @@
             popup = {
               size = {
                 width = 76;
-                height = "75%";
+                height = "85%";
               };
               border = "rounded";
             };
