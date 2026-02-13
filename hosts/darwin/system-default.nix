@@ -101,7 +101,7 @@
 
     screencapture = {
       disable-shadow = false;
-      location = "~/Media/dcim-consume/";
+      location = "~/Documents/consume/dcim";
       type = "png";
       show-thumbnail = true;
     };
