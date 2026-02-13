@@ -26,16 +26,14 @@
     silent = true;
   };
 
-  # Firefox configuration
   programs.firefox-custom = {
     enable = true;
-    package = null;  # Use system Firefox on Darwin
+    package = null;
   };
 
-  # Ghostty configuration
   programs.ghostty-custom = {
     enable = true;
-    package = null;  # Use Homebrew-installed Ghostty on Darwin
+    package = null;
     windowMode = "windowed";
   };
 
@@ -45,7 +43,6 @@
 
   programs.home-manager.enable = true;
 
-  # darwin-specific alias
   programs.zsh.shellAliases = {
       oss = "sudo darwin-rebuild switch --flake ~/.config/nix#$(hostname)";
   };
@@ -68,7 +65,6 @@
     rsync
   ];
 
-  # Startup applications via launchd agents
   launchd.agents.snipaste = {
     enable = true;
     config = {
@@ -123,10 +119,7 @@
     };
   };
 
-  # File associations configuration (macOS equivalent of xdg.mimeApps)
-  # Uses duti to set default applications for file types via Launch Services
   home.activation.setFileAssociations = config.lib.dag.entryAfter ["writeBoundary"] ''
-    # Text and code files - open with TextMate
     run ${pkgs.duti}/bin/duti -s com.apple.TextEdit .txt all
     run ${pkgs.duti}/bin/duti -s com.apple.TextEdit .md all
     run ${pkgs.duti}/bin/duti -s com.apple.TextEdit .markdown all
@@ -165,14 +158,9 @@
     run ${pkgs.duti}/bin/duti -s com.apple.TextEdit .vim all
     run ${pkgs.duti}/bin/duti -s com.apple.TextEdit .tex all
     run ${pkgs.duti}/bin/duti -s com.apple.TextEdit .bib all
-
-    # Documents
     run ${pkgs.duti}/bin/duti -s com.apple.Preview .pdf all
-
-    # Diagrams - Draw.io
+    run ${pkgs.duti}/bin/duti -s org.inkscape.Inkscape .svg all
     run ${pkgs.duti}/bin/duti -s com.jgraph.drawio.desktop .drawio all
-
-    # Images - Preview
     run ${pkgs.duti}/bin/duti -s com.apple.Preview .png all
     run ${pkgs.duti}/bin/duti -s com.apple.Preview .jpg all
     run ${pkgs.duti}/bin/duti -s com.apple.Preview .jpeg all
@@ -184,11 +172,6 @@
     run ${pkgs.duti}/bin/duti -s com.apple.Preview .heic all
     run ${pkgs.duti}/bin/duti -s com.apple.Preview .heif all
     run ${pkgs.duti}/bin/duti -s com.apple.Preview .ico all
-
-    # SVG - Inkscape
-    run ${pkgs.duti}/bin/duti -s org.inkscape.Inkscape .svg all
-
-    # Videos - IINA
     run ${pkgs.duti}/bin/duti -s com.colliderli.iina .mp4 all
     run ${pkgs.duti}/bin/duti -s com.colliderli.iina .mkv all
     run ${pkgs.duti}/bin/duti -s com.colliderli.iina .avi all
@@ -199,8 +182,6 @@
     run ${pkgs.duti}/bin/duti -s com.colliderli.iina .m4v all
     run ${pkgs.duti}/bin/duti -s com.colliderli.iina .mpg all
     run ${pkgs.duti}/bin/duti -s com.colliderli.iina .mpeg all
-
-    # Audio - IINA
     run ${pkgs.duti}/bin/duti -s com.colliderli.iina .mp3 all
     run ${pkgs.duti}/bin/duti -s com.colliderli.iina .m4a all
     run ${pkgs.duti}/bin/duti -s com.colliderli.iina .flac all

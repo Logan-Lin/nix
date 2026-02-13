@@ -155,19 +155,15 @@
     brews = [
     ];
     casks = [
-      # Development
       "ghostty"
       "ovito"
-      # Internet & Network
       "clash-verge-rev"
       "firefox"
       "keepassxc"
       "tailscale-app"
-      # Media
       "calibre"
       "iina"
       "musicbrainz-picard"
-      # Productivity
       "drawio"
       "inkscape"
       "microsoft-excel"
@@ -177,7 +173,6 @@
       "obsidian"
       "slidepilot"
       "zotero"
-      # Utilities
       "aerospace"
       "hiddenbar"
       "keycastr"
