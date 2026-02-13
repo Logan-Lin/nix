@@ -20,7 +20,7 @@
     description = "Move files in dcim consume folder to DCIM";
     interval = "*-*-* *:00/15:00";
     commands = [
-      "photo-move -d /home/yanlin/Media/dcim-consume /home/yanlin/DCIM"
+      "photo-move -d /home/yanlin/Documents/consume/dcim /home/yanlin/DCIM"
     ];
   };
 
