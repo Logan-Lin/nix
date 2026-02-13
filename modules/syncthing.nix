@@ -1,3 +1,6 @@
+# NOTE: Obtain device id using command `syncthing device-id`
+# Add the device under `config.settings.devices`
+
 { config, pkgs, lib, ... }:
 
 let
