@@ -4,9 +4,11 @@
   imports = [
     ./hardware-configuration.nix
     ./containers.nix
+    ./proxy.nix
     ../system-default.nix
     ../../../modules/vpn/tailscale.nix
     ../../../modules/podman.nix
+    ../../../modules/traefik.nix
     ../../../modules/borg/client.nix
     ../../../modules/media/server.nix
   ];
