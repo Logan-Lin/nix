@@ -9,7 +9,9 @@
   services.traefik = {
     enable = true;
 
-    staticConfigOptions = {
+    dynamic.dir = "/var/lib/traefik/dynamic";
+
+    static.settings = {
       providers.docker = {
         endpoint = "unix:///var/run/docker.sock";
         exposedByDefault = false;

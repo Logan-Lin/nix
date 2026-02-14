@@ -2,7 +2,7 @@
 
 {
   # Traefik dynamic configuration for vps host
-  services.traefik.dynamicConfigOptions = {
+  services.traefik.dynamic.files."proxy".settings = {
     http = {
       serversTransports = {
         longTimeout = {
