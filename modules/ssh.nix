@@ -1,5 +1,8 @@
 { config, pkgs, lib, ... }:
 
+let
+  keyDir = "~/Credentials/ssh_keys";
+in
 {
   home.packages = [ pkgs.openssh ];
 
@@ -17,26 +20,26 @@
       "github.com" = {
         hostname = "github.com";
         user = "git";
-        identityFile = "~/Credentials/ssh_keys/github";
+        identityFile = "${keyDir}/github";
       };
 
       "aicloud" = {
         hostname = "ai-fe02.srv.aau.dk";
         user = "hb05nk@cs.aau.dk";
-        identityFile = "~/Credentials/ssh_keys/aicloud";
+        identityFile = "${keyDir}/aicloud";
         proxyJump = "thinkpad";
       };
 
       "aicloud.lan" = {
         hostname = "ai-fe02.srv.aau.dk";
         user = "hb05nk@cs.aau.dk";
-        identityFile = "~/Credentials/ssh_keys/aicloud";
+        identityFile = "${keyDir}/aicloud";
       };
 
       "thinkpad" = {
         hostname = "100.116.49.65";
         user = "yanlin";
-        identityFile = "~/Credentials/ssh_keys/thinkpad";
+        identityFile = "${keyDir}/thinkpad";
         setEnv = {
           TERM = "xterm-256color";
         };
@@ -45,26 +48,26 @@
       "vps" = {
         hostname = "91.98.84.215";
         user = "yanlin";
-        identityFile = "~/Credentials/ssh_keys/hetzner";
+        identityFile = "${keyDir}/hetzner";
       };
 
       "borg-box" = {
         hostname = "u518619.your-storagebox.de";
         user = "u518619";
         port = 23;
-        identityFile = "~/Credentials/ssh_keys/hetzner";
+        identityFile = "${keyDir}/hetzner";
       };
 
       "rpi" = {
         hostname = "100.117.162.102";
         user = "yanlin";
-        identityFile = "~/Credentials/ssh_keys/rpi";
+        identityFile = "${keyDir}/rpi";
       };
 
       "nfss" = {
         hostname = "10.1.1.152";
         user = "yanlin";
-        identityFile = "~/Credentials/ssh_keys/nas";
+        identityFile = "${keyDir}/nas";
       };
 
     };
