@@ -34,7 +34,7 @@
         photo = {
           loadBalancer = {
             servers = [{
-              url = "http://thinkpad.yanlincs.com:5000";
+              url = "http://nfss.yanlincs.com:8080";
             }];
             serversTransport = "longTimeout@file";
           };

@@ -7,7 +7,7 @@
 
   ffmpeg = {
     accel = "qsv";
-    accelDecode = false;
+    accelDecode = true;
 
     acceptedAudioCodecs = [ "aac" "mp3" "libopus" "pcm_s16le" ];
     acceptedContainers = [ "mov" "ogg" "webm" ];

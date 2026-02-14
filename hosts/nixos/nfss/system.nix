@@ -41,6 +41,15 @@
     "zfs.zfs_arc_min=2147483648"   # 2GB min ARC size
   ];
 
+  fileSystems."/mnt/essd" = {
+    device = "/dev/disk/by-uuid/20251dfb-f99a-4393-8c9e-0bb26d04b718";
+    fsType = "ext4";
+  };
+
+  systemd.tmpfiles.rules = [
+    "d /mnt/essd 0755 yanlin users -"
+  ];
+
   # Network configuration
   networking = {
     hostName = "nfss";
