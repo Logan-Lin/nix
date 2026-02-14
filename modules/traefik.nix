@@ -17,10 +17,10 @@
         exposedByDefault = false;
         network = "podman";
       };
-      entrypoints = {
-        web = {
+      entryPoints = {
+        http = {
           address = ":80";
-          http.redirections.entrypoint = {
+          http.redirections.entryPoint = {
             to = "websecure";
             scheme = "https";
             permanent = true;
