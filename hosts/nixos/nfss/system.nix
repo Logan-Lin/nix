@@ -144,9 +144,10 @@
 
   # Borg backup configuration
   services.borg-client-custom = {
-    enable = false;
-    repositoryUrl = "ssh://borg-box/./nfss";
+    enable = true;
+    repositoryUrl = "ssh://nfss@thinkpad/./";
     backupPaths = [
+      "/mnt/essd/DCIM"
     ];
     backupFrequency = "*-*-* 01:00:00";
     retention = {

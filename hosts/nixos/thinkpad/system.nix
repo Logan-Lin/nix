@@ -8,6 +8,7 @@
     ../../../modules/podman.nix
     ../../../modules/vpn/tailscale.nix
     ../../../modules/borg/client.nix
+    ../../../modules/borg/server.nix
   ];
 
   # Bootloader - standard UEFI setup
@@ -190,14 +191,22 @@
 
   services.tailscale-custom.exitNode = true;
 
-  services.borg-client-custom = {
+  services.borg-server-custom = {
     enable = true;
+    users = {
+      nfss.publicKeys = [
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICp2goZiuSfwMA02GsHhYzUZHrQPPBgP5sWSNP9kQR3e yanlin@imac"
+      ];
+      vps.publicKeys = [
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICp2goZiuSfwMA02GsHhYzUZHrQPPBgP5sWSNP9kQR3e yanlin@imac"
+      ];
+    };
+  };
+
+  services.borg-client-custom = {
+    enable = false;
     repositoryUrl = "ssh://borg-box/./thinkpad";
     backupPaths = [
-      "/home/yanlin/Archive"
-      "/home/yanlin/Credentials"
-      "/home/yanlin/Documents"
-      "/home/yanlin/Media"
     ];
     backupFrequency = "*-*-* 00:00:00";
     retention = {
