@@ -3,7 +3,7 @@
 #   CF_API_EMAIL=your-email@example.com
 #   CF_DNS_API_TOKEN=your-cloudflare-api-token
 
-{ config, pkgs, lib, ... }:
+{ ... }:
 
 {
   services.traefik = {
@@ -13,11 +13,6 @@
     dynamic.dir = "/var/lib/traefik/dynamic";
 
     static.settings = {
-      providers.docker = {
-        endpoint = "unix:///var/run/docker.sock";
-        exposedByDefault = false;
-        network = "podman";
-      };
       entryPoints = {
         http = {
           address = ":80";
@@ -67,8 +62,4 @@
     environmentFiles = [ "/etc/traefik-env" ];
   };
 
-  systemd.services.traefik.serviceConfig = {
-    SupplementaryGroups = [ "podman" ];
-    BindPaths = [ "/run/podman/podman.sock:/var/run/docker.sock" ];
-  };
 }
