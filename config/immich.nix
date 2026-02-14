@@ -41,8 +41,8 @@
 
     preview = {
       format = "jpeg";
-      quality = 85;
-      size = 2160;
+      quality = 80;
+      size = 1080;
     };
 
     thumbnail = {
