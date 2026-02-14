@@ -34,7 +34,7 @@
       };
 
       "thinkpad" = {
-        hostname = "thinkpad.yanlincs.com";
+        hostname = "100.116.49.65";
         user = "yanlin";
         identityFile = "~/Credentials/ssh_keys/thinkpad";
         setEnv = {
@@ -56,13 +56,13 @@
       };
 
       "rpi" = {
-        hostname = "rpi.yanlincs.com";
+        hostname = "100.117.162.102";
         user = "yanlin";
         identityFile = "~/Credentials/ssh_keys/rpi";
       };
 
       "nfss" = {
-        hostname = "nfss.yanlincs.com";
+        hostname = "10.1.1.152";
         user = "yanlin";
         identityFile = "~/Credentials/ssh_keys/nas";
       };
