@@ -5,6 +5,7 @@
     ../home-default.nix
     ../../../modules/syncthing.nix
     ../../../modules/media/tool.nix
+    ../../../modules/schedule.nix
   ];
 
   syncthing-custom.folders = {
@@ -13,4 +14,14 @@
     Media.maxAgeDays = 7;
     Archive.maxAgeDays = 30;
   };
+
+  services.scheduled-commands.dcim-consume = {
+    enable = true;
+    description = "Move files in dcim consume folder to DCIM";
+    interval = "*-*-* *:00/15:00";
+    commands = [
+      "photo-move -d /home/yanlin/Documents/consume/dcim /mnt/essd/DCIM"
+    ];
+  };
+
 }
