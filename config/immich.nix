@@ -23,7 +23,7 @@
     refs = 0;  # auto
 
     targetAudioCodec = "aac";
-    targetResolution = "480";
+    targetResolution = "720";
     targetVideoCodec = "hevc";
 
     temporalAQ = false;
@@ -41,8 +41,8 @@
 
     preview = {
       format = "jpeg";
-      quality = 80;
-      size = 1080;
+      quality = 85;
+      size = 2160;
     };
 
     thumbnail = {
