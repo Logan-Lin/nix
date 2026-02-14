@@ -6,9 +6,10 @@
 let
   cfg = config.syncthing-custom;
 
-  pcDevices = [ "macbook" "imac" "thinkpad" "nfss" ];
+  pcDevices = [ "macbook" "imac" ];
+  serverDevices = [ "thinkpad" "nfss" ];
   touchDevices = [ "iphone" "ipad" ];
-  allDevices = pcDevices ++ touchDevices;
+  allDevices = pcDevices ++ serverDevices ++ touchDevices;
 
   mkFolderOptions = name: overrides: let
     opts = {
@@ -39,9 +40,10 @@ in
   options.syncthing-custom = {
     folders = {
       Credentials = mkFolderOptions "Credentials" {};
-      Documents = mkFolderOptions "Documents" { devices = pcDevices; };
+      Documents = mkFolderOptions "Documents" { devices = pcDevices ++ serverDevices; };
       Media = mkFolderOptions "Media" { devices = lib.filter (d: d != "iphone") allDevices; };
       Archive = mkFolderOptions "Archive" {};
+      DCIM = mkFolderOptions "DCIM" { devices = serverDevices; };
     };
     enableGui = lib.mkOption {
       type = lib.types.bool;
