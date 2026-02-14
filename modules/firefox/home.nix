@@ -101,8 +101,8 @@ in
           "browser.download.always_ask_before_handling_new_types" = false;
           
           # Security
-          "dom.security.https_only_mode" = true;
-          "dom.security.https_only_mode_ever_enabled" = true;
+          "dom.security.https_only_mode" = false;
+          "dom.security.https_only_mode_ever_enabled" = false;
           
           # Disable telemetry
           "datareporting.healthreport.uploadEnabled" = false;
