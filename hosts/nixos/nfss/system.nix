@@ -3,7 +3,7 @@
 {
   imports = [
     ./hardware-configuration.nix
-    ./containers.nix
+    # ./containers.nix
     ./proxy.nix
     ../system-default.nix
     ../../../modules/vpn/tailscale.nix
