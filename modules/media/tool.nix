@@ -156,6 +156,8 @@
         target="$dest/''${raw_date:0:4}/$raw_date"
         mkdir -p "$target"
 
+        [[ -e "$target/$name" ]] && continue
+
         case $mode in
           move) mv "$file" "$target/$name" ;;
           link) ln "$file" "$target/$name" ;;
