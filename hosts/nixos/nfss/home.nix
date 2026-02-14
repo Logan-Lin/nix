@@ -17,7 +17,7 @@
   };
 
   services.scheduled-commands.dcim-consume = {
-    enable = true;
+    enable = false;
     description = "Move files in dcim consume folder to DCIM";
     interval = "*-*-* *:00/15:00";
     commands = [
