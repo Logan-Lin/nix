@@ -16,29 +16,9 @@
 
       routers = {
 
-        photo = {
-          rule = "Host(`photo.yanlincs.com`)";
-          service = "photo";
-          tls = {
-            certResolver = "cloudflare";
-            domains = [{
-              main = "*.yanlincs.com";
-            }];
-          };
-        };
-
       };
 
       services = {
-
-        photo = {
-          loadBalancer = {
-            servers = [{
-              url = "http://10.1.1.152:8080";
-            }];
-            serversTransport = "longTimeout@file";
-          };
-        };
 
       };
 
