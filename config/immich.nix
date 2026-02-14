@@ -37,14 +37,10 @@
     colorspace = "p3";
     extractEmbedded = true;  # from RAW files
 
-    fullsize = {
-      enabled = true;
-      format = "jpeg";
-      quality = 80;
-    };
+    fullsize.enabled = false;
 
     preview = {
-      format = "jpeg";
+      format = "webp";
       quality = 80;
       size = 1440;
     };
