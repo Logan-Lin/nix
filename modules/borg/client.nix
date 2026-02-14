@@ -169,12 +169,8 @@ in
     systemd.targets.multi-user.wants = [ "borg-backup.timer" ];
 
     environment.shellAliases = {
-      borg-init = "BORG_REPO='${cfg.repositoryUrl}' BORG_RSH='${sshCommand}' borg init --encryption=repokey-blake2";
-      borg-status = "systemctl status borg-backup.service borg-backup.timer";
-      borg-logs = "journalctl -u borg-backup.service -f";
-      borg-backup-now = "sudo systemctl start borg-backup.service";
-      borg-list = "BORG_REPO='${cfg.repositoryUrl}' BORG_RSH='${sshCommand}' borg list";
-      borg-info = "BORG_REPO='${cfg.repositoryUrl}' BORG_RSH='${sshCommand}' borg info";
+      borg-list = "sudo bash -c 'source ${passphraseFile} && BORG_REPO=${cfg.repositoryUrl} BORG_RSH=\"${sshCommand}\" borg list'";
+      borg-info = "sudo bash -c 'source ${passphraseFile} && BORG_REPO=${cfg.repositoryUrl} BORG_RSH=\"${sshCommand}\" borg info'";
       borg-unlock = "sudo rm -f /run/borg-backup.lock && BORG_REPO='${cfg.repositoryUrl}' BORG_RSH='${sshCommand}' borg break-lock";
     };
   };
