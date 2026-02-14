@@ -11,11 +11,11 @@
 
     acceptedAudioCodecs = [ "aac" "mp3" "libopus" "pcm_s16le" ];
     acceptedContainers = [ "mov" "ogg" "webm" ];
-    acceptedVideoCodecs = [ "h264" ];
+    acceptedVideoCodecs = [ "h264" "hevc" ];
 
     bframes = -1;  # auto
     cqMode = "auto";
-    crf = 23;  # lower = better quality, larger files
+    crf = 28;  # lower = better quality, larger files
     gopSize = 0;  # auto
     maxBitrate = "0";  # unlimited
     preferredHwDevice = "auto";
@@ -24,7 +24,7 @@
 
     targetAudioCodec = "aac";
     targetResolution = "720";
-    targetVideoCodec = "h264";
+    targetVideoCodec = "hevc";
 
     temporalAQ = false;
     threads = 0;  # all available
