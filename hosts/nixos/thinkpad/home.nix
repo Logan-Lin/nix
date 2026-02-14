@@ -14,7 +14,6 @@
     Media = { enable = true; maxAgeDays = 7; };
     Archive = { enable = true; maxAgeDays = 30; };
     Consume = { enable = true; maxAgeDays = 7; };
-    DCIM = { enable = true; maxAgeDays = 7; path = "~/DCIM"; };
   };
   
   services.scheduled-commands.aicloud-backup = {
