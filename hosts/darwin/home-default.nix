@@ -22,6 +22,7 @@
     Credentials.enable = true;
     Documents.enable = true;
     Media.enable = true;
+    Consume.enable = true;
     Archive.enable = true;
   };
 
@@ -201,7 +202,7 @@
   home.file.".snipaste/config.ini".text = lib.generators.toINI {} {
     General = {
       language = "en";
-      last_save_folder = "/Users/yanlin/Documents/consume/dcim";
+      last_save_folder = "/Users/yanlin/Consume/dcim";
     };
     Hotkey = {
       snip = ''"100663345, 100663314"''; 
@@ -209,7 +210,7 @@
     };
     Output = {
       quick_save_notification = false;
-      quick_save_path = "/Users/yanlin/Documents/consume/dcim/Snipaste_$yyyy-MM-dd_HH-mm-ss$.png";
+      quick_save_path = "/Users/yanlin/Consume/dcim/Snipaste_$yyyy-MM-dd_HH-mm-ss$.png";
     };
     Snip = {
       ask_for_confirm_on_esc = false;

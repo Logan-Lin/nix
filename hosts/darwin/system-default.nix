@@ -100,8 +100,8 @@
     };
 
     screencapture = {
-      disable-shadow = false;
-      location = "~/Documents/consume/dcim";
+      disable-shadow = true;
+      location = "~/Consume/dcim";
       type = "png";
       show-thumbnail = true;
     };

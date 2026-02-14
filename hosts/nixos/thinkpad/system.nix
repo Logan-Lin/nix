@@ -191,7 +191,7 @@
   services.tailscale-custom.exitNode = true;
 
   services.borg-client-custom = {
-    enable = false;
+    enable = true;
     repositoryUrl = "ssh://borg-box/./thinkpad";
     backupPaths = [
       "/home/yanlin/Archive"
