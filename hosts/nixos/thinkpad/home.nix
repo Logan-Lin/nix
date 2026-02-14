@@ -9,10 +9,10 @@
   ];
 
   syncthing-custom.folders = {
-    Credentials.maxAgeDays = 30;
-    Documents.maxAgeDays = 30;
-    Media.maxAgeDays = 7;
-    Archive.maxAgeDays = 30;
+    Credentials = { enable = true; maxAgeDays = 30; };
+    Documents = { enable = true; maxAgeDays = 30; };
+    Media = { enable = true; maxAgeDays = 7; };
+    Archive = { enable = true; maxAgeDays = 30; };
   };
   
   services.scheduled-commands.aicloud-backup = {

@@ -12,7 +12,7 @@ let
 
   mkFolderOptions = name: overrides: let
     opts = {
-      enable = { type = lib.types.bool; default = true; };
+      enable = { type = lib.types.bool; default = false; };
       path = { type = lib.types.str; default = "~/${name}"; };
       maxAgeDays = { type = lib.types.int; default = 0; };
       devices = { type = lib.types.listOf lib.types.str; default = allDevices; };
