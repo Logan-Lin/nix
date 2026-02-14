@@ -11,6 +11,7 @@
     ../../../modules/traefik.nix
     ../../../modules/borg/client.nix
     ../../../modules/media/server.nix
+    ../../../modules/file-server/samba.nix
   ];
 
   # GRUB bootloader with ZFS support
@@ -43,13 +44,13 @@
     "zfs.zfs_arc_min=2147483648"   # 2GB min ARC size
   ];
 
-  fileSystems."/mnt/essd" = {
+  fileSystems."/mnt/storage" = {
     device = "/dev/disk/by-uuid/20251dfb-f99a-4393-8c9e-0bb26d04b718";
     fsType = "ext4";
   };
 
   systemd.tmpfiles.rules = [
-    "d /mnt/essd 0755 yanlin users -"
+    "d /mnt/storage 0755 yanlin users -"
   ];
 
   # Network configuration
@@ -140,6 +141,10 @@
   services.media-server = {
     user = "yanlin";
     deluge.enable = true;
+  };
+
+  services.samba-custom.shares = {
+    DCIM = "/mnt/storage/DCIM";
   };
 
   # Borg backup configuration

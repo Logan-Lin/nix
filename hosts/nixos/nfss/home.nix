@@ -14,14 +14,15 @@
     Media = { enable = true; maxAgeDays = 7; };
     Archive = { enable = true; maxAgeDays = 30; };
     Consume = { enable = true; maxAgeDays = 7; };
+    DCIM = { enable = true; maxAgeDays = 7; path = "/mnt/storage/DCIM"; };
   };
 
   services.scheduled-commands.dcim-consume = {
-    enable = false;
+    enable = true;
     description = "Move files in dcim consume folder to DCIM";
     interval = "*-*-* *:00/15:00";
     commands = [
-      "photo-move -d /home/yanlin/Consume/dcim /mnt/essd/DCIM"
+      "photo-move -d /home/yanlin/Consume/dcim /mnt/storage/DCIM"
     ];
   };
 
