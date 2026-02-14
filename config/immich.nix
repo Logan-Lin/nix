@@ -6,7 +6,7 @@
   };
 
   ffmpeg = {
-    accel = "qsv";
+    accel = "vaapi";
     accelDecode = true;
 
     acceptedAudioCodecs = [ "aac" "mp3" "libopus" "pcm_s16le" ];
@@ -23,7 +23,7 @@
     refs = 0;  # auto
 
     targetAudioCodec = "aac";
-    targetResolution = "720";
+    targetResolution = "480";
     targetVideoCodec = "hevc";
 
     temporalAQ = false;
@@ -40,9 +40,9 @@
     fullsize.enabled = false;
 
     preview = {
-      format = "webp";
+      format = "jpeg";
       quality = 80;
-      size = 1440;
+      size = 1080;
     };
 
     thumbnail = {
