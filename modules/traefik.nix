@@ -8,6 +8,7 @@
 {
   services.traefik = {
     enable = true;
+    useEnvSubst = false;
 
     dynamic.dir = "/var/lib/traefik/dynamic";
 
