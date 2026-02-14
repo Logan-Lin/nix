@@ -1,7 +1,10 @@
 { config, pkgs, lib, ... }:
 
 let
-  # Universal container configuration
+  immichConfig = import ../../../config/immich.nix;
+  immichConfigJson = builtins.toJSON immichConfig;
+  immichConfigFile = pkgs.writeText "immich.json" immichConfigJson;
+
   commonUID = "1000";
   commonGID = "100";
   systemTZ = config.time.timeZone;
