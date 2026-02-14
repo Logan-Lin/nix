@@ -43,11 +43,6 @@
         };
       };
 
-      api = {
-        dashboard = true;
-        debug = false;
-      };
-
       log = {
         level = "INFO";
       };
