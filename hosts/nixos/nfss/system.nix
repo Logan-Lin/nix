@@ -150,9 +150,10 @@
 
   # Borg backup configuration
   services.borg-client-custom = {
-    enable = false;
+    enable = true;
     repositoryUrl = "ssh://helsinki-box/./nfss";
     backupPaths = [
+      "/mnt/storage/DCIM"
     ];
     backupFrequency = "*-*-* 01:00:00";
     retention = {

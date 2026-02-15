@@ -44,7 +44,6 @@ in
       Media = mkFolderOptions "Media" { devices = lib.filter (d: d != "iphone") allDevices; };
       Archive = mkFolderOptions "Archive" {};
       Consume = mkFolderOptions "Consume" {};
-      DCIM = mkFolderOptions "DCIM" { devices = serverDevices; };
     };
     enableGui = lib.mkOption {
       type = lib.types.bool;
