@@ -124,7 +124,7 @@
       hourly = 24;
       daily = 7;
       weekly = 4;
-      monthly = 12;
+      monthly = 0;
     };
     trim = {
       enable = true;
