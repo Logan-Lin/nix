@@ -204,9 +204,14 @@
   };
 
   services.borg-client-custom = {
-    enable = false;
+    enable = true;
     repositoryUrl = "ssh://borg-box/./thinkpad";
     backupPaths = [
+      "/home/yanlin/Archive"
+      "/home/yanlin/Credentials"
+      "/home/yanlin/Documents"
+      "/home/yanlin/Media"
+      "/home/yanlin/DCIM"
     ];
     backupFrequency = "*-*-* 00:00:00";
     retention = {
