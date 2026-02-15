@@ -118,15 +118,6 @@
     };
   };
 
-  launchd.agents.linearmouse = {
-    enable = true;
-    config = {
-      ProgramArguments = [ "/Applications/LinearMouse.app/Contents/MacOS/LinearMouse" ];
-      RunAtLoad = true;
-      KeepAlive = false;
-    };
-  };
-
   home.activation.setFileAssociations = config.lib.dag.entryAfter ["writeBoundary"] ''
     run ${pkgs.duti}/bin/duti -s com.apple.TextEdit .txt all
     run ${pkgs.duti}/bin/duti -s com.apple.TextEdit .md all
@@ -215,20 +206,6 @@
     Snip = {
       ask_for_confirm_on_esc = false;
     };
-  };
-
-  home.file.".config/linearmouse/linearmouse.json".text = builtins.toJSON {
-    "$schema" = "https://app.linearmouse.org/schema/0.10.0";
-    schemes = [{
-      "if" = {
-        device.category = "mouse";
-      };
-      scrolling.reverse.vertical = true;
-      pointer = {
-        acceleration = 0;
-        speed = 0.6;
-      };
-    }];
   };
 
   home.file.".aerospace.toml".text = ''

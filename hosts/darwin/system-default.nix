@@ -176,7 +176,6 @@
       "aerospace"
       "hiddenbar"
       "keycastr"
-      "linearmouse"
       "localsend"
       "maccy"
       "snipaste"
