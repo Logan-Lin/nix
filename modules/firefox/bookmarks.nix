@@ -26,6 +26,10 @@
           url = "https://www.overleaf.com/project";
         }
         {
+          name = "Photo";
+          url = "https://photo.yanlincs.com";
+        }
+        {
           name = "Resource";
           bookmarks = [
             {
