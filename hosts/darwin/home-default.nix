@@ -73,15 +73,6 @@
     rsync
   ];
 
-  launchd.agents.snipaste = {
-    enable = true;
-    config = {
-      ProgramArguments = [ "/Applications/Snipaste.app/Contents/MacOS/Snipaste" ];
-      RunAtLoad = true;
-      KeepAlive = false;
-    };
-  };
-
   launchd.agents.maccy = {
     enable = true;
     config = {
@@ -189,24 +180,6 @@
     run ${pkgs.duti}/bin/duti -s com.colliderli.iina .ogg all
     run ${pkgs.duti}/bin/duti -s com.colliderli.iina .opus all
   '';
-
-  home.file.".snipaste/config.ini".text = lib.generators.toINI {} {
-    General = {
-      language = "en";
-      last_save_folder = "/Users/yanlin/Consume/dcim";
-    };
-    Hotkey = {
-      snip = ''"100663345, 100663314"''; 
-      custom_snip = ""; hide = ""; paste = ""; snip_and_copy = ""; switch = "";
-    };
-    Output = {
-      quick_save_notification = false;
-      quick_save_path = "/Users/yanlin/Consume/dcim/Snipaste_$yyyy-MM-dd_HH-mm-ss$.png";
-    };
-    Snip = {
-      ask_for_confirm_on_esc = false;
-    };
-  };
 
   home.file.".aerospace.toml".text = ''
     # Make all new windows floating by default
