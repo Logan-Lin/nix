@@ -79,18 +79,7 @@
         enable = true;
         settings = {
           options = {
-            theme.__raw = ''
-              (function()
-                local theme = require('lualine.themes.gruvbox_dark')
-                for _, mode in ipairs({'insert', 'visual', 'replace', 'command'}) do
-                  if theme[mode] then
-                    theme[mode].b = theme.normal.b
-                    theme[mode].c = theme.normal.c
-                  end
-                end
-                return theme
-              end)()
-            '';
+            theme = "gruvbox_dark";
             component_separators = { left = "|"; right = "|"; };
             section_separators = { left = " "; right = " "; };
           };
