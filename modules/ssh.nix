@@ -58,6 +58,13 @@ in
         identityFile = "${keyDir}/hetzner";
       };
 
+      "helsinki-box" = {
+        hostname = "u546684.your-storagebox.de";
+        user = "u546684";
+        port = 23;
+        identityFile = "${keyDir}/hetzner";
+      };
+
       "rpi" = {
         hostname = "100.117.162.102";
         user = "yanlin";

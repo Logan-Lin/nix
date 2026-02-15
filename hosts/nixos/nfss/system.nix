@@ -150,7 +150,7 @@
   # Borg backup configuration
   services.borg-client-custom = {
     enable = false;
-    repositoryUrl = "ssh://nfss@thinkpad/./";
+    repositoryUrl = "ssh://helsinki-box/./nfss";
     backupPaths = [
     ];
     backupFrequency = "*-*-* 01:00:00";
