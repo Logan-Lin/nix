@@ -10,7 +10,8 @@ let
   sshCommand = "ssh -F /home/yanlin/.ssh/config -o StrictHostKeyChecking=accept-new -o ServerAliveInterval=60 -o ServerAliveCountMax=240";
   passphraseFile = "/etc/borg-passphrase";
   excludePatterns = [
-    "**/.stversions/"  # Syncthing versioning folders
+    "**/.stversions/"
+    "**/.syncthing.*.tmp"
   ];
   excludeArgs = concatMapStrings (pattern: " --exclude '${pattern}'") excludePatterns;
   ntfyUrl = "ntfy.sh/yanlincs-homelab";
