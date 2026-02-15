@@ -145,6 +145,7 @@
 
   services.samba-custom.shares = {
     DCIM = "/mnt/storage/DCIM";
+    Downloads = "/home/yanlin/Downloads";
   };
 
   # Borg backup configuration
