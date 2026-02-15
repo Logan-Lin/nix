@@ -53,18 +53,18 @@
   };
 
   job = {
-    backgroundTask.concurrency = 5;
+    backgroundTask.concurrency = 3;
     faceDetection.concurrency = 1;
-    library.concurrency = 7;
-    metadataExtraction.concurrency = 7;
+    library.concurrency = 5;
+    metadataExtraction.concurrency = 5;
     migration.concurrency = 5;
     notifications.concurrency = 5;
     search.concurrency = 5;
     sidecar.concurrency = 5;
-    ocr.concurrency = 1;  # ML-intensive
-    smartSearch.concurrency = 1;  # ML-intensive
-    thumbnailGeneration.concurrency = 5;
-    videoConversion.concurrency = 2;
+    ocr.concurrency = 1;
+    smartSearch.concurrency = 1;
+    thumbnailGeneration.concurrency = 3;
+    videoConversion.concurrency = 1;
   };
 
   library = {
