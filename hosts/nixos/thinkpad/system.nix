@@ -198,7 +198,6 @@
       "/home/yanlin/Credentials"
       "/home/yanlin/Documents"
       "/home/yanlin/Media"
-      "/home/yanlin/DCIM"
     ];
     backupFrequency = "*-*-* 00:00:00";
     retention = {
