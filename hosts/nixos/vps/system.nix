@@ -75,7 +75,7 @@
   # Borg backup configuration
   services.borg-client-custom = {
     enable = true;
-    repositoryUrl = "ssh://vps@thinkpad/./";
+    repositoryUrl = "ssh://helsinki-box/./vps";
     backupPaths = [
       "/var/lib/mongodb"
     ];
