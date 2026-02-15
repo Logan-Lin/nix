@@ -178,7 +178,6 @@
       "keycastr"
       "localsend"
       "maccy"
-      "snipaste"
     ];
     taps = [
       "nikitabobko/tap"
