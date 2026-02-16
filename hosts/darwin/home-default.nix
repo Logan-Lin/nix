@@ -22,7 +22,6 @@
     Credentials.enable = true;
     Documents.enable = true;
     Media.enable = true;
-    Consume.enable = true;
     Archive.enable = true;
   };
 

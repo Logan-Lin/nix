@@ -27,6 +27,17 @@
           };
         };
 
+        photo = {
+          rule = "Host(`photo.home.yanlincs.com`)";
+          service = "photo";
+          tls = {
+            certResolver = "cloudflare";
+            domains = [{
+              main = "*.home.yanlincs.com";
+            }];
+          };
+        };
+
       };
 
       services = {
@@ -35,6 +46,15 @@
           loadBalancer = {
             servers = [{
               url = "http://127.0.0.1:8112";
+            }];
+          };
+        };
+
+        photo = {
+          loadBalancer = {
+            serversTransport = "longTimeout";
+            servers = [{
+              url = "http://127.0.0.1:8080";
             }];
           };
         };

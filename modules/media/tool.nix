@@ -1,3 +1,5 @@
+# NOTE: Immich credentials file at: `~/.config/immich-env` with IMMICH_URL and IMMICH_APIKEY
+
 { config, pkgs, lib, ... }:
 
 {
@@ -11,6 +13,7 @@
     p7zip
     imagemagick
     exiftool
+    immich-go
   ];
 
   programs.zsh.initContent = ''
@@ -118,56 +121,24 @@
       done
     }
 
-    function photo-move() {
-      local mode=copy
-      if [[ "$1" == "-d" || "$1" == "--delete" ]]; then
-        mode=move; shift
-      elif [[ "$1" == "-l" || "$1" == "--link" ]]; then
-        mode=link; shift
+    function photo-upload() {
+      local envfile="$HOME/.config/immich-env"
+      if [[ ! -f "$envfile" ]]; then
+        echo "Missing $envfile" >&2
+        return 1
       fi
-
-      if [[ $# -ne 2 ]]; then
-        echo "Usage: photo-move [-d|--delete|-l|--link] <source_dir> <destination>"
-        echo "  -d, --delete    Move files instead of copying"
-        echo "  -l, --link      Hardlink instead of copying"
-        echo "  photo-move /Volumes/CAMERA/DCIM ~/DCIM"
+      source "$envfile"
+      if [[ -z "$IMMICH_URL" || -z "$IMMICH_APIKEY" ]]; then
+        echo "IMMICH_URL and IMMICH_APIKEY must be set in $envfile" >&2
         return 1
       fi
 
-      local src="$1" dest="$2"
-
-      if [[ ! -d "$src" ]]; then
-        echo "Source not found: $src" >&2
+      if [[ $# -eq 0 ]]; then
+        echo "Usage: photo-upload <source_dir>" >&2
         return 1
       fi
 
-      local name raw_date target
-      while IFS= read -r -d "" file; do
-        name=$(basename "$file")
-        [[ "$name" == .* ]] && continue
-
-        raw_date=$(${pkgs.exiftool}/bin/exiftool -s3 -d '%Y-%m-%d' \
-          -DateTimeOriginal -CreateDate -MediaCreateDate "$file" 2>/dev/null | head -1)
-
-        if [[ ! "$raw_date" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ || "$raw_date" == "0000-00-00" ]]; then
-          raw_date=$(${pkgs.coreutils}/bin/date -d "@$(${pkgs.coreutils}/bin/stat -c '%Y' "$file")" +%Y-%m-%d)
-        fi
-
-        target="$dest/''${raw_date:0:4}/$raw_date"
-        mkdir -p "$target"
-
-        [[ -e "$target/$name" ]] && continue
-
-        case $mode in
-          move) mv "$file" "$target/$name" ;;
-          link) ln "$file" "$target/$name" ;;
-          *)    cp -a "$file" "$target/$name" ;;
-        esac
-      done < <(find "$src" -type f \( \
-        -iname "*.mp4" -o -iname "*.mov" -o -iname "*.mts" -o -iname "*.m2ts" -o -iname "*.avi" \
-        -o -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.heic" -o -iname "*.heif" \
-        -o -iname "*.cr2" -o -iname "*.cr3" -o -iname "*.nef" -o -iname "*.arw" -o -iname "*.dng" -o -iname "*.raf" -o -iname "*.orf" -o -iname "*.rw2" \
-        \) -print0)
+      immich-go upload from-folder --server="$IMMICH_URL" --api-key="$IMMICH_APIKEY" "$1"
     }
 
     function extract() {
