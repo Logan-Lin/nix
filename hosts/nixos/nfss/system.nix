@@ -144,7 +144,6 @@
   };
 
   services.samba-custom.shares = {
-    DCIM = "/mnt/storage/DCIM";
     Downloads = "/home/yanlin/Downloads";
   };
 
@@ -153,7 +152,7 @@
     enable = true;
     repositoryUrl = "ssh://helsinki-box/./nfss";
     backupPaths = [
-      "/mnt/storage/DCIM"
+      "/mnt/storage/photos/library"
     ];
     backupFrequency = "*-*-* 01:00:00";
     retention = {

@@ -43,7 +43,6 @@ in
       Documents = mkFolderOptions "Documents" { devices = pcDevices ++ serverDevices; };
       Media = mkFolderOptions "Media" { devices = lib.filter (d: d != "iphone") allDevices; };
       Archive = mkFolderOptions "Archive" {};
-      Consume = mkFolderOptions "Consume" {};
     };
     enableGui = lib.mkOption {
       type = lib.types.bool;

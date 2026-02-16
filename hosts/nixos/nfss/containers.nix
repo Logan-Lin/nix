@@ -17,8 +17,7 @@ in
       
       volumes = [
         "/var/lib/immich/config:/config"
-        "/var/lib/immich/photos:/photos"
-        "/mnt/storage/DCIM:/library:ro"
+        "/mnt/storage/photos:/photos"
         "${immichConfigFile}:/config/immich.json:ro"
       ];
       

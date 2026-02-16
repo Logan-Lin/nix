@@ -13,7 +13,6 @@
     Documents = { enable = true; maxAgeDays = 30; };
     Media = { enable = true; maxAgeDays = 7; };
     Archive = { enable = true; maxAgeDays = 30; };
-    Consume = { enable = true; maxAgeDays = 7; };
   };
   
   services.scheduled-commands.aicloud-backup = {
