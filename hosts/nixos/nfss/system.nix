@@ -140,6 +140,7 @@
   # Media server services
   services.media-server = {
     user = "yanlin";
+    navidrome.enable = true;
     deluge.enable = true;
   };
 
