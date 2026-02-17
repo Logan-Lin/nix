@@ -9,6 +9,7 @@
     shntool
     cuetools
     flac
+    zip
     unzip
     p7zip
     imagemagick
@@ -89,6 +90,29 @@
       done
     }
 
+    function cbz-compress() {
+      local dir="''${1:-.}"
+      dir="$(cd "$dir" && pwd)"
+      mkdir -p "$dir/compressed"
+      find "$dir" -path "$dir/compressed" -prune -o -type f \( -iname '*.zip' -o -iname '*.cbz' \) -print | while read -r f; do
+        echo "Processing: $f"
+        local tmpdir=$(mktemp -d)
+        7z x -o"$tmpdir" -y "$f" > /dev/null
+        find "$tmpdir" -type f \( -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.gif' -o -iname '*.heic' -o -iname '*.heif' \) -print0 | xargs -0 -P4 -n1 sh -c '
+          img="$1"
+          outfile="''${img%.*}.webp"
+          ${pkgs.imagemagick}/bin/magick "$img" -resize "1500>" -quality 75 "$outfile"
+          [ "$img" != "$outfile" ] && rm "$img"
+        ' _
+        local relpath="''${f#$dir/}"
+        local outfile="$dir/compressed/$relpath"
+        mkdir -p "$(dirname "$outfile")"
+        (cd "$tmpdir" && zip -r -q "$outfile" .)
+        rm -rf "$tmpdir"
+        echo "Done: $outfile"
+      done
+    }
+
     function webp2png() {
       local dir="''${1:-.}"
       find "$dir" -type f -iname '*.webp' | while read -r img; do
@@ -166,7 +190,7 @@
         *.gz)               gunzip -k "$file" ;;
         *.bz2)              bunzip2 -k "$file" ;;
         *.xz)               unxz -k "$file" ;;
-        *.zip)              unzip -q "$file" -d "$dest" ;;
+        *.zip|*.cbz)        unzip -q "$file" -d "$dest" ;;
         *.7z)               7z x "$file" -o"$dest" ;;
         *.rar)              7z x "$file" -o"$dest" ;;
         *)
@@ -206,7 +230,7 @@
       case "''${file:l}" in
         *.tar.gz|*.tgz|*.tar.bz2|*.tbz2|*.tar.xz|*.txz|*.tar.zst|*.tzst|*.tar)
           tar -tf "$file" ;;
-        *.zip)    unzip -l "$file" ;;
+        *.zip|*.cbz)    unzip -l "$file" ;;
         *.7z)     7z l "$file" ;;
         *.rar)    7z l "$file" ;;
         *)        echo "Unknown archive format: $file" >&2; return 1 ;;

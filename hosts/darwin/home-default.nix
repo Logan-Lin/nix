@@ -21,7 +21,6 @@
   syncthing-custom.folders = {
     Credentials.enable = true;
     Documents.enable = true;
-    Media.enable = true;
     Archive.enable = true;
   };
 
