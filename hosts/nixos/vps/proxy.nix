@@ -27,6 +27,17 @@
           };
         };
 
+        music = {
+          rule = "Host(`music.yanlincs.com`)";
+          service = "music";
+          tls = {
+            certResolver = "cloudflare";
+            domains = [{
+              main = "*.yanlincs.com";
+            }];
+          };
+        };
+
       };
 
       services = {
@@ -36,6 +47,14 @@
             serversTransport = "longTimeout";
             servers = [{
               url = "http://10.1.1.152:8080";
+            }];
+          };
+        };
+
+        music = {
+          loadBalancer = {
+            servers = [{
+              url = "http://10.1.1.152:4533";
             }];
           };
         };
