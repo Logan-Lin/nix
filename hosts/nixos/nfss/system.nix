@@ -146,6 +146,7 @@
 
   services.samba-custom.shares = {
     Downloads = "/home/yanlin/Downloads";
+    Media = "/home/yanlin/Media";
   };
 
   # Borg backup configuration

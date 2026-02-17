@@ -41,7 +41,7 @@ in
     folders = {
       Credentials = mkFolderOptions "Credentials" {};
       Documents = mkFolderOptions "Documents" { devices = pcDevices ++ serverDevices; };
-      Media = mkFolderOptions "Media" { devices = lib.filter (d: d != "iphone") allDevices; };
+      Media = mkFolderOptions "Media" { devices = serverDevices ++ [ "ipad" ]; };
       Archive = mkFolderOptions "Archive" {};
     };
     enableGui = lib.mkOption {
