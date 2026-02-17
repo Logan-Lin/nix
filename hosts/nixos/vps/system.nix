@@ -10,6 +10,7 @@
     ../../../modules/podman.nix
     ../../../modules/traefik.nix
     ../../../modules/borg/client.nix
+    ../../../modules/git/server.nix
   ];
 
   # GRUB bootloader with UEFI support
@@ -72,12 +73,18 @@
 
   services.tailscale-custom.exitNode = true;
 
+  services.git-server-custom = {
+    enable = true;
+    domain = "git.yanlincs.com";
+  };
+
   # Borg backup configuration
   services.borg-client-custom = {
     enable = true;
     repositoryUrl = "ssh://helsinki-box/./vps";
     backupPaths = [
       "/var/lib/mongodb"
+      "/var/lib/forgejo"
     ];
     backupFrequency = "*-*-* 03:00:00";
     retention = {

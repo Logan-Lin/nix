@@ -1,4 +1,7 @@
-{ config, lib, ... }:
+# NOTE: After install, use the following command to create admin account.
+# sudo -u forgejo forgejo --config /var/lib/forgejo/custom/conf/app.ini admin user create --admin --username <user> --password <pass> --email <email>
+
+{ config, lib, pkgs, ... }:
 
 let
   cfg = config.services.git-server-custom;
@@ -24,17 +27,21 @@ in
   };
 
   config = lib.mkIf cfg.enable {
+    environment.systemPackages = [ config.services.forgejo.package ];
+
     services.forgejo = {
       enable = true;
       lfs.enable = true;
       database.type = "sqlite3";
       settings = {
+        DEFAULT.APP_NAME = "Yan Lin's Git Server";
         server = {
           DOMAIN = cfg.domain;
           ROOT_URL = "https://${cfg.domain}/";
           HTTP_ADDR = "127.0.0.1";
           HTTP_PORT = cfg.httpPort;
           SSH_PORT = cfg.sshPort;
+          LANDING_PAGE = "/yanlin";
         };
         service.DISABLE_REGISTRATION = true;
       };

@@ -38,6 +38,17 @@
           };
         };
 
+        git = {
+          rule = "Host(`git.yanlincs.com`)";
+          service = "git";
+          tls = {
+            certResolver = "cloudflare";
+            domains = [{
+              main = "*.yanlincs.com";
+            }];
+          };
+        };
+
       };
 
       services = {
@@ -55,6 +66,14 @@
           loadBalancer = {
             servers = [{
               url = "http://10.1.1.152:4533";
+            }];
+          };
+        };
+
+        git = {
+          loadBalancer = {
+            servers = [{
+              url = "http://127.0.0.1:3000";
             }];
           };
         };
