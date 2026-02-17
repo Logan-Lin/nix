@@ -144,6 +144,8 @@ in
     home.packages = [
       pkgs.claude-code
       pkgs.poppler-utils
+      pkgs.pandoc
+      pkgs.yq-go
     ];
 
     # Create global settings file (with permissions included)
@@ -159,6 +161,8 @@ in
         - Projects may use flake + direnv for project-specific runtimes
         - Common development tools (git, gh, ripgrep, jq, fzf, etc.) are globally available via nix
         - PDF reading is supported (poppler-utils installed)
+        - Document format conversion is supported (pandoc installed)
+        - YAML/TOML/XML processing is supported (yq-go installed)
       '';
     };
   };
