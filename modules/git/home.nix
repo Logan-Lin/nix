@@ -1,6 +1,10 @@
 { config, pkgs, ... }:
 
 {
+  home.packages = [
+    pkgs.gh
+  ];
+
   programs.git-credential-oauth = {
     enable = true;
   };
