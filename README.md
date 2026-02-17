@@ -23,13 +23,13 @@ nix flake update
 ### New Host Installation
 ```bash
 # For NixOS and disko
-sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko -- --mode disko --flake github:Logan-Lin/nix-config#<host>
+sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko -- --mode disko --flake git+https://git.yanlincs.com/yanlin/nix#<host>
 sudo nixos-install --flake .#<host>
 
 # For nix-darwin
 xcode-select --install
-sudo nix --extra-experimental-features "nix-command flakes" run nix-darwin -- switch --flake github:Logan-Lin/nix-config#<host>
-nix --extra-experimental-features "nix-command flakes" run home-manager/master -- switch --flake github:Logan-Lin/nix-config#<user>@<host>
+sudo nix --extra-experimental-features "nix-command flakes" run nix-darwin -- switch --flake git+https://git.yanlincs.com/yanlin/nix#<host>
+nix --extra-experimental-features "nix-command flakes" run home-manager/master -- switch --flake git+https://git.yanlincs.com/yanlin/nix#<user>@<host>
 ```
 
 ### Occasional Commands

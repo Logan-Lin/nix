@@ -24,7 +24,7 @@
     settings = {
       user = {
         name = "Yan Lin";
-        email = "github@yanlincs.com";
+        email = "git@yanlincs.com";
       };
 
       credential = {

@@ -51,6 +51,11 @@ in
         identityFile = "${keyDir}/hetzner";
       };
 
+      "git.yanlincs.com" = {
+        user = "forgejo";
+        identityFile = "${keyDir}/hetzner";
+      };
+
       "borg-box" = {
         hostname = "u518619.your-storagebox.de";
         user = "u518619";
