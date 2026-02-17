@@ -1,6 +1,8 @@
 { config, pkgs, lib, ... }:
 
 {
+  home.packages = [ pkgs.delta ];
+
   programs.lazygit = {
     enable = true;
     settings = {

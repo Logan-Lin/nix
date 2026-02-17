@@ -26,7 +26,6 @@
     silent = true;
   };
 
-  # nixOS-specific alias
   programs.zsh.shellAliases = {
       oss = "sudo nixos-rebuild switch --flake ~/.config/nix#$(hostname)";
   };
@@ -35,12 +34,11 @@
     httpie
     gnumake
     rsync
-    bind           # DNS utilities (dig, nslookup, mdig)
-    iputils        # Core network tools (ping, traceroute)
-    inetutils      # Network utilities (telnet)
-    netcat-gnu     # Network connection utility
+    bind
+    iputils
+    inetutils
+    netcat-gnu
     ncdu
-    delta
     fastfetch
   ];
 }

@@ -58,17 +58,16 @@
     texlive.combined.scheme-full
     httpie
     gnumake
-    bind           # DNS utilities (dig, nslookup, mdig)
-    inetutils      # Network utilities (telnet)
-    netcat-gnu     # Network connection utility
-    curl           # HTTP client
-    wget           # Web downloader
-    bandwhich      # Terminal bandwidth utilization tool
+    bind
+    inetutils
+    netcat-gnu
+    curl
+    wget
+    bandwhich
     ncdu
-    delta
     fastfetch
-    coreutils      # GNU core utilities (base64, etc.)
-    duti           # Set default applications for file types (macOS)
+    coreutils
+    duti
     rsync
   ];
 
