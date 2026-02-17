@@ -174,8 +174,6 @@
       "slidepilot"
       "zotero"
       "aerospace"
-      "hiddenbar"
-      "keycastr"
       "localsend"
       "maccy"
     ];
