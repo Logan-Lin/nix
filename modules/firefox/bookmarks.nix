@@ -10,24 +10,41 @@
           url = "https://translate.google.com/?sl=auto&tl=en&op=translate";
         }
         {
-          name = "iCloud";
-          url = "https://www.icloud.com/mail/";
+          name = "Mailbox";
+          url = "https://app.mailbox.org/appsuite/#!!&app=io.ox/mail&folder=default0/INBOX";
         }
         {
-          name = "Outlook";
-          url = "https://outlook.office.com/mail/";
-        }
-        {
-          name = "Teams";
-          url = "https://teams.microsoft.com/v2/";
-        }
-        {
-          name = "Overleaf";
-          url = "https://www.overleaf.com/project";
+          name = "Git";
+          url = "https://git.yanlincs.com";
         }
         {
           name = "Photo";
           url = "https://photo.yanlincs.com";
+        }
+        {
+          name = "Music";
+          url = "https://music.yanlincs.com";
+        }
+        {
+          name = "Productivity";
+          bookmarks = [
+            {
+              name = "Outlook";
+              url = "https://outlook.office.com/mail/";
+            }
+            {
+              name = "Teams";
+              url = "https://teams.microsoft.com/v2/";
+            }
+            {
+              name = "Overleaf";
+              url = "https://www.overleaf.com/project";
+            }
+            {
+              name = "AAU Admin";
+              url = "https://www.its.aau.dk/systemoversigt";
+            }
+          ];
         }
         {
           name = "Resource";

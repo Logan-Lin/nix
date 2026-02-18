@@ -166,8 +166,6 @@
       "musicbrainz-picard"
       "drawio"
       "inkscape"
-      "microsoft-excel"
-      "microsoft-powerpoint"
       "microsoft-word"
       "tencent-meeting"
       "obsidian"
