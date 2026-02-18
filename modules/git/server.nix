@@ -1,6 +1,10 @@
 # NOTE: After install, use the following command to create admin account.
 # sudo -u forgejo forgejo --config /var/lib/forgejo/custom/conf/app.ini admin user create --admin --username <user> --password <pass> --email <email>
 
+# NOTE: To initialize the actions runner, create a registration token in
+# Site Administration > Actions > Runners, then:
+#   echo "TOKEN=<token>" > /var/lib/gitea-runner/default/token
+
 { config, lib, pkgs, ... }:
 
 let
@@ -44,7 +48,20 @@ in
           LANDING_PAGE = "/yanlin";
         };
         service.DISABLE_REGISTRATION = true;
+        actions.ENABLED = true;
       };
+    };
+
+    virtualisation.podman.enable = true;
+
+    services.gitea-actions-runner.instances.default = {
+      enable = true;
+      name = "default";
+      url = "https://${cfg.domain}";
+      tokenFile = "/var/lib/gitea-runner/default/token";
+      labels = [
+        "node-20:docker://node:20-bookworm"
+      ];
     };
   };
 }
