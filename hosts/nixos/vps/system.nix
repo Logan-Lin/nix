@@ -13,58 +13,50 @@
     ../../../modules/git/server.nix
   ];
 
-  # GRUB bootloader with UEFI support
   boot.loader.grub = {
     enable = true;
-    device = "nodev"; # Required for EFI systems
+    device = "nodev";
     efiSupport = true;
-    efiInstallAsRemovable = true; # Better compatibility with VPS
-    configurationLimit = 5; # Keep only 5 boot entries to save storage
+    efiInstallAsRemovable = true;
+    configurationLimit = 5;
   };
 
-  # Automatic garbage collection to save storage
   nix.gc = {
     automatic = true;
     dates = "weekly";
     options = "--delete-older-than 7d";
   };
 
-  # Automatic store optimization to deduplicate files
   nix.optimise = {
     automatic = true;
     dates = [ "weekly" ];
   };
 
-  # Network configuration
   networking = {
     hostName = "vps";
-    hostId = "a8c06f42"; # Required for some services, generated randomly
-    networkmanager.enable = false; # Use systemd-networkd for VPS
-    useDHCP = true; # VPS typically use DHCP
+    hostId = "a8c06f42";
+    networkmanager.enable = false;
+    useDHCP = true;
     firewall = {
       enable = true;
       allowedTCPPorts = [ 22 80 443 27017 ];
     };
   };
 
-
-  # Host-specific SSH configuration
   services.openssh = {
     settings = {
-      PermitRootLogin = "prohibit-password"; # Allow key-based root login for nixos-anywhere
+      PermitRootLogin = "prohibit-password";
     };
   };
 
-  # Root user configuration (for nixos-anywhere initial access)
   users.users.root = {
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGVvviqbwBEGDIbAUnmgHQJi+N5Qfvo5u49biWl6R7oC yanlin@MacBook-Air"
     ];
   };
 
-  # Host-specific user configuration
   users.users.yanlin = {
-    extraGroups = [ "wheel" ]; # Enable sudo
+    extraGroups = [ "wheel" ];
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGVvviqbwBEGDIbAUnmgHQJi+N5Qfvo5u49biWl6R7oC yanlin@MacBook-Air"
     ];
@@ -75,12 +67,12 @@
     address = "10.2.2.1/24";
     peers = [
       {
-      publicKey = "MCuSF/aFZy7Jq3nI6VpU7jbfZOuEGuMjgpxRWazxtmY=";
-      allowedIPs = [ "10.2.2.10/32" ];
+        publicKey = "MCuSF/aFZy7Jq3nI6VpU7jbfZOuEGuMjgpxRWazxtmY=";
+        allowedIPs = [ "10.2.2.10/32" ];
       }
       {
-      publicKey = "xqsOWaCaEK1ehC+66deEQxAN92AYPyL9IrIeM4ujIRM=";
-      allowedIPs = [ "10.2.2.20/32" ];
+        publicKey = "xqsOWaCaEK1ehC+66deEQxAN92AYPyL9IrIeM4ujIRM=";
+        allowedIPs = [ "10.2.2.20/32" ];
       }
     ];
   };
@@ -90,7 +82,6 @@
     domain = "git.yanlincs.com";
   };
 
-  # Borg backup configuration
   services.borg-client-custom = {
     enable = true;
     repositoryUrl = "ssh://helsinki-box/./vps";
