@@ -37,12 +37,13 @@ in
       };
 
       "thinkpad" = {
-        hostname = "100.116.49.65";
+        hostname = "10.2.2.20";
         user = "yanlin";
         identityFile = "${keyDir}/thinkpad";
         setEnv = {
           TERM = "xterm-256color";
         };
+        proxyJump = "vps";
       };
 
       "vps" = {
@@ -70,13 +71,14 @@ in
         identityFile = "${keyDir}/hetzner";
       };
 
-      "rpi" = {
-        hostname = "100.117.162.102";
+      "nfss" = {
+        hostname = "10.2.2.10";
         user = "yanlin";
-        identityFile = "${keyDir}/rpi";
+        identityFile = "${keyDir}/nas";
+        proxyJump = "vps";
       };
 
-      "nfss" = {
+      "nfss.lan" = {
         hostname = "10.1.1.152";
         user = "yanlin";
         identityFile = "${keyDir}/nas";

@@ -38,6 +38,17 @@
           };
         };
 
+        deluge = {
+          rule = "Host(`deluge.yanlincs.com`)";
+          service = "deluge";
+          tls = {
+            certResolver = "cloudflare";
+            domains = [{
+              main = "*.yanlincs.com";
+            }];
+          };
+        };
+
         git = {
           rule = "Host(`git.yanlincs.com`)";
           service = "git";
@@ -57,7 +68,7 @@
           loadBalancer = {
             serversTransport = "longTimeout";
             servers = [{
-              url = "http://10.1.1.152:8080";
+              url = "http://10.2.2.10:8080";
             }];
           };
         };
@@ -65,7 +76,15 @@
         music = {
           loadBalancer = {
             servers = [{
-              url = "http://10.1.1.152:4533";
+              url = "http://10.2.2.10:4533";
+            }];
+          };
+        };
+
+        deluge = {
+          loadBalancer = {
+            servers = [{
+              url = "http://10.2.2.10:8112";
             }];
           };
         };

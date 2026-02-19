@@ -4,11 +4,9 @@
   imports = [
     ./hardware-configuration.nix
     ./containers.nix
-    ./proxy.nix
     ../system-default.nix
-    ../../../modules/vpn/tailscale.nix
+    ../../../modules/vpn/client.nix
     ../../../modules/podman.nix
-    ../../../modules/traefik.nix
     ../../../modules/borg/client.nix
     ../../../modules/media/server.nix
     ../../../modules/file-server/samba.nix
@@ -132,9 +130,11 @@
     };
   };
 
-  services.tailscale-custom = {
-    exitNode = true;
-    subnetRoutes = [ "10.1.1.0/24" ];
+  services.wireguard-client = {
+    enable = true;
+    address = "10.2.2.10/24";
+    serverPublicKey = "46QHjSzAas5g9Hll1SCEu9tbR5owCxXAy6wGOUoPwUM=";
+    serverEndpoint = "91.98.84.215:51820";
   };
 
   # Media server services

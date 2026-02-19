@@ -49,6 +49,7 @@ in
         };
         service.DISABLE_REGISTRATION = true;
         actions.ENABLED = true;
+        repository.DISABLE_DOWNLOAD_SOURCE_ARCHIVES = true;
       };
     };
 

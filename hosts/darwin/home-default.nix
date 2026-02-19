@@ -97,15 +97,6 @@
     };
   };
 
-  launchd.agents.tailscale = {
-    enable = true;
-    config = {
-      ProgramArguments = [ "/Applications/Tailscale.app/Contents/MacOS/Tailscale" ];
-      RunAtLoad = true;
-      KeepAlive = false;
-    };
-  };
-
   home.activation.setFileAssociations = config.lib.dag.entryAfter ["writeBoundary"] ''
     run ${pkgs.duti}/bin/duti -s com.apple.TextEdit .txt all
     run ${pkgs.duti}/bin/duti -s com.apple.TextEdit .md all
