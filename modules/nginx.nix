@@ -8,6 +8,23 @@
 let
   cfg = config.services.reverse-proxy;
 
+  rateLimitSubmodule = lib.types.submodule {
+    options = {
+      rate = lib.mkOption {
+        type = lib.types.str;
+        example = "10r/s";
+      };
+      burst = lib.mkOption {
+        type = lib.types.int;
+        default = 20;
+      };
+      zoneSize = lib.mkOption {
+        type = lib.types.str;
+        default = "10m";
+      };
+    };
+  };
+
   proxySubmodule = lib.types.submodule {
     options = {
       domain = lib.mkOption {
@@ -22,10 +39,19 @@ let
         type = lib.types.lines;
         default = "";
       };
+      rateLimit = lib.mkOption {
+        type = lib.types.nullOr rateLimitSubmodule;
+        default = null;
+      };
+      blockRobots = lib.mkOption {
+        type = lib.types.bool;
+        default = true;
+      };
     };
   };
 
   allDomains = lib.unique (lib.mapAttrsToList (_: p: p.domain) cfg.proxies);
+  rateLimitedProxies = lib.filterAttrs (_: p: p.rateLimit != null) cfg.proxies;
 in
 {
   options.services.reverse-proxy = {
@@ -68,6 +94,10 @@ in
       recommendedTlsSettings = true;
       recommendedOptimisation = true;
 
+      appendHttpConfig = lib.concatStringsSep "\n" (lib.mapAttrsToList (name: proxy:
+        "limit_req_zone $binary_remote_addr zone=ratelimit_${name}:${proxy.rateLimit.zoneSize} rate=${proxy.rateLimit.rate};"
+      ) rateLimitedProxies);
+
       virtualHosts = lib.mapAttrs' (name: proxy:
         lib.nameValuePair "${name}.${proxy.domain}" {
           forceSSL = true;
@@ -75,7 +105,16 @@ in
           locations."/" = {
             proxyPass = proxy.backend;
             proxyWebsockets = true;
-            extraConfig = proxy.extraConfig;
+            extraConfig = (lib.optionalString (proxy.rateLimit != null) ''
+              limit_req zone=ratelimit_${name} burst=${toString proxy.rateLimit.burst} nodelay;
+              limit_req_status 429;
+            '') + proxy.extraConfig;
+          };
+          locations."= /robots.txt" = lib.mkIf proxy.blockRobots {
+            extraConfig = ''
+              default_type text/plain;
+              return 200 "User-agent: *\nDisallow: /\n";
+            '';
           };
         }
       ) cfg.proxies;
