@@ -12,13 +12,12 @@
     ../../../modules/file-server/samba.nix
   ];
 
-  # GRUB bootloader with ZFS support
   boot.loader.grub = {
     enable = true;
     devices = [
       "/dev/disk/by-id/ata-ZHITAI_SC001_XT_1000GB_ZTB401TAB244431J4R"
       "/dev/disk/by-id/ata-ZHITAI_SC001_XT_1000GB_ZTB401TAB244431KEG"
-    ]; # Install GRUB on both ZFS mirror drives
+    ];
     efiSupport = true;
     efiInstallAsRemovable = true;
     zfsSupport = true;
@@ -31,15 +30,13 @@
     options = "--delete-older-than 30d";
   };
 
-  # Disable systemd stage-1 (use traditional initrd for ZFS compatibility)
   boot.initrd.systemd.enable = false;
   boot.supportedFilesystems = [ "zfs" ];
   boot.zfs.forceImportRoot = false;
 
-  # ZFS ARC memory configuration for 32GB system
   boot.kernelParams = [
-    "zfs.zfs_arc_max=17179869184"  # 16GB max ARC size
-    "zfs.zfs_arc_min=2147483648"   # 2GB min ARC size
+    "zfs.zfs_arc_max=17179869184"
+    "zfs.zfs_arc_min=2147483648"
   ];
 
   fileSystems."/mnt/storage" = {
@@ -51,15 +48,13 @@
     "d /mnt/storage 0755 yanlin users -"
   ];
 
-  # Network configuration
   networking = {
     hostName = "nfss";
-    hostId = "8425e349"; # Required for ZFS
+    hostId = "8425e349";
     networkmanager.enable = true;
     firewall = { enable = false; };
   };
 
-  # Host-specific SSH configuration
   services.openssh = {
     settings = {
       PermitRootLogin = "yes";
@@ -67,7 +62,6 @@
     openFirewall = true;
   };
 
-  # Define a user account
   users.users.root = {
     hashedPassword = null;
     hashedPasswordFile = null;
@@ -79,7 +73,6 @@
     ];
   };
 
-  # Host-specific user configuration
   users.users.yanlin = {
     extraGroups = [ "networkmanager" "wheel" ];
     hashedPassword = "$6$8NUV0JK33hs3XBYe$osnYKzENDLYHQEpj8Z5F6ECpLdc8Y3RZcVGxQ0bc/6DepTwugAkfX8h6ItI01dJyk8RstiGsWVVCKGwXaL.sN.";
@@ -88,7 +81,6 @@
     ];
   };
 
-  # Intel graphics for hardware acceleration (QSV/VA-API)
   hardware.graphics = {
     enable = true;
     extraPackages = with pkgs; [
@@ -101,7 +93,6 @@
     ];
   };
 
-  # Host-specific packages
   environment.systemPackages = with pkgs; [
     smartmontools
     zfs
@@ -109,7 +100,6 @@
     exfatprogs
   ];
 
-  # ZFS services configuration
   services.zfs = {
     autoScrub = {
       enable = true;
@@ -137,7 +127,6 @@
     serverEndpoint = "91.98.84.215:51820";
   };
 
-  # Media server services
   services.media-server = {
     user = "yanlin";
     navidrome.enable = true;
@@ -149,7 +138,6 @@
     Media = "/home/yanlin/Media";
   };
 
-  # Borg backup configuration
   services.borg-client-custom = {
     enable = true;
     repositoryUrl = "ssh://helsinki-box/./nfss";

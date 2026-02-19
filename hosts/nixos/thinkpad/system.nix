@@ -10,7 +10,6 @@
     ../../../modules/borg/client.nix
   ];
 
-  # Bootloader - standard UEFI setup
   boot.loader = {
     systemd-boot.enable = true;
     systemd-boot.configurationLimit = 50;
@@ -25,33 +24,27 @@
     options = "--delete-older-than 30d";
   };
 
-  # Use latest kernel for better hardware support
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
-  # Kernel parameters for ThinkPad
   boot.kernelParams = [
     "i915.enable_psr=1"
     "i915.enable_fbc=1"
     "drm.debug=0"
   ];
 
-  # Blacklist NVIDIA kernel modules to disable discrete GPU completely
   boot.blacklistedKernelModules = [ "nouveau" "nvidia" "nvidia_drm" "nvidia_modeset" "nvidia_uvm" ];
 
-  # Enable firmware updates
   services.fwupd.enable = true;
 
-  # Hardware support for ThinkPad P14s Gen 2 Intel (Intel graphics only)
   hardware = {
     enableRedistributableFirmware = true;
     cpu.intel.updateMicrocode = true;
     
-    # Graphics configuration
     graphics = {
       enable = true;
       extraPackages = with pkgs; [
-        intel-media-driver  # LIBVA_DRIVER_NAME=iHD
-        intel-vaapi-driver # LIBVA_DRIVER_NAME=i965 (older but sometimes works better)
+        intel-media-driver
+        intel-vaapi-driver
         libva-vdpau-driver
         libvdpau-va-gl
         vpl-gpu-rt
@@ -61,7 +54,6 @@
 
   };
 
-  # Network configuration
   networking = {
     hostName = "thinkpad";
     networkmanager = {
@@ -73,45 +65,32 @@
 
   systemd.services.NetworkManager-wait-online.enable = false;
 
-  # Power management for laptops
   powerManagement = {
     enable = true;
     powertop.enable = true;
   };
 
-  # TLP for advanced power management
-  services.power-profiles-daemon.enable = false; # Conflicts with TLP
+  services.power-profiles-daemon.enable = false;
   services.tlp = {
     enable = true;
     settings = {
-      # CPU power management
       CPU_SCALING_GOVERNOR_ON_AC = "performance";
       CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
       CPU_ENERGY_PERF_POLICY_ON_AC = "balance_performance";
       CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
-      
-      # Intel GPU power management
       INTEL_GPU_MIN_FREQ_ON_AC = 300;
       INTEL_GPU_MIN_FREQ_ON_BAT = 300;
       INTEL_GPU_MAX_FREQ_ON_AC = 1100;
       INTEL_GPU_MAX_FREQ_ON_BAT = 900;
       INTEL_GPU_BOOST_FREQ_ON_AC = 1100;
       INTEL_GPU_BOOST_FREQ_ON_BAT = 1100;
-      
-      # ThinkPad battery charge thresholds (preserve battery health)
       START_CHARGE_THRESH_BAT0 = 80;
       STOP_CHARGE_THRESH_BAT0 = 100;
-      
-      # PCIe power management
       RUNTIME_PM_ON_AC = "auto";
       RUNTIME_PM_ON_BAT = "auto";
-      
-      # Keep Bluetooth available on battery
-      # DEVICES_TO_DISABLE_ON_BAT_NOT_IN_USE = "bluetooth";
     };
   };
 
-  # Disable all suspend/sleep for headless server operation
   services.logind.settings.Login = {
     HandleLidSwitch = "ignore";
     HandleLidSwitchExternalPower = "ignore";
@@ -122,10 +101,8 @@
     IdleAction = "ignore";
   };
 
-  # Thermal management
   services.thermald.enable = true;
 
-  # ThinkPad specific: thinkfan for better fan control
   services.thinkfan = {
     enable = true;
     levels = [
@@ -140,14 +117,12 @@
     ];
   };
 
-  # Host-specific SSH configuration
   services.openssh = {
     settings = {
-      PermitRootLogin = "no";  # Disable root login for laptop
+      PermitRootLogin = "no";
     };
   };
 
-  # Host-specific user configuration
   users.users.yanlin = {
     extraGroups = [ "networkmanager" "wheel" "video" "audio" "input" ];
     hashedPassword = "$6$4tNeZ9/B3SSapStU$vX1pco.IuMMu/AcLeGvZoOGxSNNlorVdnRGSVFIWou5ybcpwxrJHAFqvKpJiObejHe2sy7CnJ8fiMACaTwDN5/";
@@ -171,18 +146,12 @@
     };
   };
 
-  # Host-specific packages
   environment.systemPackages = with pkgs; [
-    # System utilities
     pciutils
     usbutils
-
-    # GPU monitoring
     intel-gpu-tools
-
-    # ThinkPad specific
-    lm_sensors  # Temperature monitoring
-    smartmontools  # Disk health monitoring (SMART)
+    lm_sensors
+    smartmontools
   ];
 
 
