@@ -10,6 +10,7 @@
     ../../../modules/nginx.nix
     ../../../modules/borg/client.nix
     ../../../modules/git/server.nix
+    ../../../modules/git/runner.nix
   ];
 
   boot.loader.grub = {
@@ -95,6 +96,9 @@
       deluge.backend = "http://10.2.2.10:8112";
       git = {
         backend = "http://127.0.0.1:3000";
+        extraConfig = ''
+          client_max_body_size 100M;
+        '';
         rateLimit = {
           rate = "10r/s";
           burst = 40;
@@ -106,6 +110,14 @@
   services.git-server-custom = {
     enable = true;
     domain = "git.yanlincs.com";
+  };
+
+  services.git-runner-custom = {
+    enable = true;
+    url = "https://git.yanlincs.com";
+    instances.default.labels = [
+      "node-20:docker://node:20-bookworm"
+    ];
   };
 
   services.borg-client-custom = {

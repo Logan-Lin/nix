@@ -7,6 +7,7 @@
     ../system-default.nix
     ../../../modules/vpn/client.nix
     ../../../modules/podman.nix
+    ../../../modules/git/runner.nix
     ../../../modules/borg/client.nix
     ../../../modules/media/server.nix
     ../../../modules/file-server/samba.nix
@@ -136,6 +137,14 @@
   services.samba-custom.shares = {
     Downloads = "/home/yanlin/Downloads";
     Media = "/home/yanlin/Media";
+  };
+
+  services.git-runner-custom = {
+    enable = true;
+    url = "https://git.yanlincs.com";
+    instances.tex.labels = [
+      "tex:docker://texlive/texlive:latest-full"
+    ];
   };
 
   services.borg-client-custom = {
