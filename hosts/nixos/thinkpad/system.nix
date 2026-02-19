@@ -5,8 +5,8 @@
     ./hardware-configuration.nix
     ./containers.nix
     ../system-default.nix
+    ../../../modules/vpn/client.nix
     ../../../modules/podman.nix
-    ../../../modules/vpn/tailscale.nix
     ../../../modules/borg/client.nix
   ];
 
@@ -150,7 +150,7 @@
   # Host-specific user configuration
   users.users.yanlin = {
     extraGroups = [ "networkmanager" "wheel" "video" "audio" "input" ];
-    hashedPassword = "$6$kSyaRzAtj8VPcNeX$NsEP6zQAfp6O8YWcolfPRKnhIcJlKu5luZgWqozJAHtbE/gv90KoOOKU7Dt.FnbPB0Ej26jXoBH4X.7y/OLGB1";
+    hashedPassword = "$6$4tNeZ9/B3SSapStU$vX1pco.IuMMu/AcLeGvZoOGxSNNlorVdnRGSVFIWou5ybcpwxrJHAFqvKpJiObejHe2sy7CnJ8fiMACaTwDN5/";
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICp2goZiuSfwMA02GsHhYzUZHrQPPBgP5sWSNP9kQR3e yanlin@imac"
     ];
@@ -188,7 +188,12 @@
 
   services.acpid.enable = true;
 
-  services.tailscale-custom.exitNode = true;
+  services.wireguard-client = {
+    enable = true;
+    address = "10.2.2.20/24";
+    serverPublicKey = "46QHjSzAas5g9Hll1SCEu9tbR5owCxXAy6wGOUoPwUM=";
+    serverEndpoint = "91.98.84.215:51820";
+  };
 
   services.borg-client-custom = {
     enable = true;

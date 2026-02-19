@@ -2,6 +2,8 @@
 
 {
   config = {
+    boot.kernel.sysctl."net.ipv4.conf.all.forwarding" = true;
+
     virtualisation = {
       podman = {
         enable = true;

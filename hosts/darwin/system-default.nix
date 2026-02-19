@@ -160,7 +160,6 @@
       "clash-verge-rev"
       "firefox"
       "keepassxc"
-      "tailscale-app"
       "calibre"
       "iina"
       "musicbrainz-picard"

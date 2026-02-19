@@ -6,7 +6,7 @@
     ./containers.nix
     ./proxy.nix
     ../system-default.nix
-    ../../../modules/vpn/tailscale.nix
+    ../../../modules/vpn/server.nix
     ../../../modules/podman.nix
     ../../../modules/traefik.nix
     ../../../modules/borg/client.nix
@@ -44,7 +44,6 @@
     firewall = {
       enable = true;
       allowedTCPPorts = [ 22 80 443 27017 ];
-      trustedInterfaces = [ "tailscale0" ];
     };
   };
 
@@ -71,7 +70,20 @@
     ];
   };
 
-  services.tailscale-custom.exitNode = true;
+  services.wireguard-server = {
+    enable = true;
+    address = "10.2.2.1/24";
+    peers = [
+      {
+      publicKey = "MCuSF/aFZy7Jq3nI6VpU7jbfZOuEGuMjgpxRWazxtmY=";
+      allowedIPs = [ "10.2.2.10/32" ];
+      }
+      {
+      publicKey = "xqsOWaCaEK1ehC+66deEQxAN92AYPyL9IrIeM4ujIRM=";
+      allowedIPs = [ "10.2.2.20/32" ];
+      }
+    ];
+  };
 
   services.git-server-custom = {
     enable = true;
