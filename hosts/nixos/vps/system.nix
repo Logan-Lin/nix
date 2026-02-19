@@ -93,7 +93,13 @@
       };
       music.backend = "http://10.2.2.10:4533";
       deluge.backend = "http://10.2.2.10:8112";
-      git.backend = "http://127.0.0.1:3000";
+      git = {
+        backend = "http://127.0.0.1:3000";
+        rateLimit = {
+          rate = "10r/s";
+          burst = 40;
+        };
+      };
     };
   };
 

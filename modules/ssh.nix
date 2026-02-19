@@ -57,13 +57,6 @@ in
         identityFile = "${keyDir}/hetzner";
       };
 
-      "borg-box" = {
-        hostname = "u518619.your-storagebox.de";
-        user = "u518619";
-        port = 23;
-        identityFile = "${keyDir}/hetzner";
-      };
-
       "helsinki-box" = {
         hostname = "u546684.your-storagebox.de";
         user = "u546684";
