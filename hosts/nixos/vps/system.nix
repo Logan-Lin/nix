@@ -4,11 +4,10 @@
   imports = [
     ./hardware-configuration.nix
     ./containers.nix
-    ./proxy.nix
     ../system-default.nix
     ../../../modules/vpn/server.nix
     ../../../modules/podman.nix
-    ../../../modules/traefik.nix
+    ../../../modules/nginx.nix
     ../../../modules/borg/client.nix
     ../../../modules/git/server.nix
   ];
@@ -75,6 +74,27 @@
         allowedIPs = [ "10.2.2.20/32" ];
       }
     ];
+  };
+
+  services.reverse-proxy = {
+    enable = true;
+    defaultDomain = "yanlincs.com";
+    acmeEmail = "cloudflare@yanlincs.com";
+
+    proxies = {
+      photo = {
+        backend = "http://10.2.2.10:8080";
+        extraConfig = ''
+          client_max_body_size 0;
+          proxy_read_timeout 1200s;
+          proxy_send_timeout 1200s;
+          proxy_connect_timeout 30s;
+        '';
+      };
+      music.backend = "http://10.2.2.10:4533";
+      deluge.backend = "http://10.2.2.10:8112";
+      git.backend = "http://127.0.0.1:3000";
+    };
   };
 
   services.git-server-custom = {
