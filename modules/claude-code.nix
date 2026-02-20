@@ -10,8 +10,12 @@ let
       "WebSearch"
       "WebFetch"
       
+      # Non-destructive tools (unrestricted paths)
+      "Read"
+      "Glob"
+      "Grep"
+
       # Claude configuration files
-      "Read(~/.claude/**)"
       "Write(~/.claude/**)"
       "Edit(~/.claude/**)"
       
@@ -107,6 +111,10 @@ let
       "Bash(hms:*)"
     ];
     
+    additionalDirectories = [
+      "~/Documents/"
+    ];
+
     ask = [
       # File system modifications
       "Bash(mkdir:*)"
