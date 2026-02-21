@@ -97,7 +97,7 @@
       git = {
         backend = "http://127.0.0.1:3000";
         extraConfig = ''
-          client_max_body_size 100M;
+          client_max_body_size 0;
         '';
         rateLimit = {
           rate = "10r/s";
