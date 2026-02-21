@@ -174,6 +174,7 @@
       "/home/yanlin/Media"
     ];
     backupFrequency = "*-*-* 00:00:00";
+    checkFrequency = "Sun *-*-* 12:00:00";
     retention = {
       keepDaily = 7;
       keepWeekly = 4;
