@@ -89,14 +89,24 @@ in
         "limit_req_zone $binary_remote_addr zone=ratelimit_${name}:10m rate=${proxy.rateLimit.rate};"
       ) rateLimitedProxies);
 
-      virtualHosts = lib.mapAttrs' (name: proxy:
+      virtualHosts = {
+        "_" = {
+          default = true;
+          rejectSSL = true;
+        };
+      } // lib.mapAttrs' (name: proxy:
         lib.nameValuePair "${name}.${proxy.domain}" {
           forceSSL = true;
           useACMEHost = proxy.domain;
           locations."/" = {
             proxyPass = proxy.backend;
             proxyWebsockets = true;
-            extraConfig = (lib.optionalString (proxy.rateLimit != null) ''
+            extraConfig = ''
+              client_max_body_size 0;
+              proxy_read_timeout 600s;
+              proxy_send_timeout 600s;
+              send_timeout 600s;
+            '' + (lib.optionalString (proxy.rateLimit != null) ''
               limit_req zone=ratelimit_${name} burst=${toString proxy.rateLimit.burst} nodelay;
               limit_req_status 429;
             '') + proxy.extraConfig;

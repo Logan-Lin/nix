@@ -1,4 +1,4 @@
-{ config, pkgs, ... }: 
+{ config, pkgs, ... }:
 
 {
   imports = [
@@ -83,27 +83,16 @@
     acmeEmail = "cloudflare@yanlincs.com";
 
     proxies = {
-      photo = {
-        backend = "http://10.2.2.10:8080";
-        extraConfig = ''
-          client_max_body_size 0;
-          proxy_read_timeout 1200s;
-          proxy_send_timeout 1200s;
-          proxy_connect_timeout 30s;
-        '';
-      };
-      music.backend = "http://10.2.2.10:4533";
-      deluge.backend = "http://10.2.2.10:8112";
       git = {
         backend = "http://127.0.0.1:3000";
-        extraConfig = ''
-          client_max_body_size 0;
-        '';
         rateLimit = {
           rate = "10r/s";
           burst = 40;
         };
       };
+      photo.backend = "http://10.2.2.10:8080";
+      music.backend = "http://10.2.2.10:4533";
+      deluge.backend = "http://10.2.2.10:8112";
     };
   };
 
