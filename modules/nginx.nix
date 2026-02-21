@@ -18,10 +18,6 @@ let
         type = lib.types.int;
         default = 20;
       };
-      zoneSize = lib.mkOption {
-        type = lib.types.str;
-        default = "10m";
-      };
     };
   };
 
@@ -66,11 +62,6 @@ in
       type = lib.types.str;
     };
 
-    environmentFile = lib.mkOption {
-      type = lib.types.path;
-      default = "/etc/acme-env";
-    };
-
     proxies = lib.mkOption {
       type = lib.types.attrsOf proxySubmodule;
       default = {};
@@ -84,7 +75,7 @@ in
       certs = lib.genAttrs allDomains (domain: {
         domain = "*.${domain}";
         dnsProvider = "cloudflare";
-        inherit (cfg) environmentFile;
+        environmentFile = "/etc/acme-env";
       });
     };
 
@@ -95,7 +86,7 @@ in
       recommendedOptimisation = true;
 
       appendHttpConfig = lib.concatStringsSep "\n" (lib.mapAttrsToList (name: proxy:
-        "limit_req_zone $binary_remote_addr zone=ratelimit_${name}:${proxy.rateLimit.zoneSize} rate=${proxy.rateLimit.rate};"
+        "limit_req_zone $binary_remote_addr zone=ratelimit_${name}:10m rate=${proxy.rateLimit.rate};"
       ) rateLimitedProxies);
 
       virtualHosts = lib.mapAttrs' (name: proxy:
