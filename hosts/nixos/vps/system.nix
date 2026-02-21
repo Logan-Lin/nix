@@ -115,6 +115,7 @@
     backupPaths = [
       "/var/lib/mongodb"
       "/var/lib/forgejo"
+      "/var/lib/postgresql"
     ];
     backupFrequency = "*-*-* 03:00:00";
     retention = {

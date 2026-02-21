@@ -35,7 +35,36 @@
         }
         {
           name = "Hetzner";
-          url = "https://accounts.hetzner.com";
+          url = "https://console.hetzner.com/projects";
+        }
+        {
+          name = "Productivity";
+          bookmarks = [
+            {
+              name = "Outlook";
+              url = "https://outlook.office.com/mail/";
+            }
+            {
+              name = "Teams";
+              url = "https://teams.microsoft.com/v2/";
+            }
+            {
+              name = "GitHub";
+              url = "https://github.com/Logan-Lin?tab=repositories";
+            }
+            {
+              name = "Overleaf";
+              url = "https://www.overleaf.com/project";
+            }
+            {
+              name = "OpenReview";
+              url = "https://openreview.net/";
+            }
+            {
+              name = "AAU Admin";
+              url = "https://www.its.aau.dk/systemoversigt";
+            }
+          ];
         }
         {
           name = "Resource";

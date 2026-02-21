@@ -32,7 +32,7 @@ in
     services.forgejo = {
       enable = true;
       lfs.enable = true;
-      database.type = "sqlite3";
+      database.type = "postgres";
       settings = {
         DEFAULT.APP_NAME = "Yan Lin's Git Server";
         "ui.meta".DESCRIPTION = "Yan Lin's personal Git server: A small-scale, self-hosted Git server for personal projects and CI/CD workflows.";
