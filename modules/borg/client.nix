@@ -41,6 +41,12 @@ in
       description = "Systemd timer frequency (OnCalendar format or shortcuts like daily, hourly)";
     };
 
+    checkFrequency = mkOption {
+      type = types.str;
+      default = "Sun *-*-* 12:00:00";
+      description = "Systemd timer frequency for borg check";
+    };
+
     retention = mkOption {
       type = types.submodule {
         options = {
@@ -156,6 +162,59 @@ in
       '';
     };
 
+    systemd.services.borg-check = {
+      description = "Borg Repository Check";
+      wants = [ "network-online.target" ];
+      after = [ "network-online.target" ];
+      path = [ pkgs.borgbackup pkgs.openssh pkgs.curl ];
+
+      unitConfig = {
+        ConditionPathExists = "!/run/borg-backup.lock";
+      };
+
+      serviceConfig = {
+        Type = "oneshot";
+        User = "root";
+        Group = "root";
+        ExecStartPre = "${pkgs.coreutils}/bin/touch /run/borg-backup.lock";
+        ExecStopPost = "${pkgs.coreutils}/bin/rm -f /run/borg-backup.lock";
+        PrivateTmp = true;
+        ProtectSystem = "strict";
+        ProtectHome = mkIf (!(lib.hasPrefix "ssh://" cfg.repositoryUrl)) "read-only";
+        ReadWritePaths = [ "/run" ] ++ (if (lib.hasPrefix "ssh://" cfg.repositoryUrl) then [] else [ cfg.repositoryUrl ]);
+        Environment = [
+          "BORG_REPO=${cfg.repositoryUrl}"
+          "BORG_RELOCATED_REPO_ACCESS_IS_OK=yes"
+          "BORG_UNKNOWN_UNENCRYPTED_REPO_ACCESS_IS_OK=no"
+        ];
+        EnvironmentFile = passphraseFile;
+      };
+
+      script = ''
+        trap 'curl -s -d "Borg check FAILED on ${config.networking.hostName} (exit $? at line $LINENO)" "${ntfyUrl}" || true; exit 1' ERR
+        set -e
+
+        export BORG_RSH="${sshCommand}"
+
+        if [ -f "${passphraseFile}" ]; then
+          source "${passphraseFile}"
+        fi
+
+        if [[ "${cfg.repositoryUrl}" == ssh://* ]]; then
+          mkdir -p /root/.ssh && chmod 700 /root/.ssh
+          [ -f /home/yanlin/.ssh/config ] && cp /home/yanlin/.ssh/config /root/.ssh/config && chmod 600 /root/.ssh/config
+          [ -d /home/yanlin/Credentials/ssh_keys ] && mkdir -p /root/Credentials && cp -r /home/yanlin/Credentials/ssh_keys /root/Credentials/ && chmod -R 600 /root/Credentials/ssh_keys
+          [ -f /home/yanlin/.ssh/known_hosts ] && cp /home/yanlin/.ssh/known_hosts /root/.ssh/known_hosts && chmod 600 /root/.ssh/known_hosts
+        fi
+
+        CHECK_START=$(date +%s)
+        borg check --verbose --last 7
+        CHECK_DURATION=$(( $(date +%s) - CHECK_START ))
+
+        curl -s -d "Borg check OK on ${config.networking.hostName} (''${CHECK_DURATION}s)" "${ntfyUrl}" || true
+      '';
+    };
+
     systemd.timers.borg-backup = {
       description = "Borg Backup Timer";
       wantedBy = [ "timers.target" ];
@@ -167,11 +226,20 @@ in
       };
     };
 
-    systemd.targets.multi-user.wants = [ "borg-backup.timer" ];
+    systemd.timers.borg-check = {
+      description = "Borg Repository Check Timer";
+      wantedBy = [ "timers.target" ];
+
+      timerConfig = {
+        OnCalendar = cfg.checkFrequency;
+        Persistent = true;
+        RandomizedDelaySec = "1h";
+      };
+    };
+
+    systemd.targets.multi-user.wants = [ "borg-backup.timer" "borg-check.timer" ];
 
     environment.shellAliases = {
-      borg-list = "sudo bash -c 'source ${passphraseFile} && BORG_REPO=${cfg.repositoryUrl} BORG_RSH=\"${sshCommand}\" borg list'";
-      borg-info = "sudo bash -c 'source ${passphraseFile} && BORG_REPO=${cfg.repositoryUrl} BORG_RSH=\"${sshCommand}\" borg info'";
       borg-unlock = "sudo rm -f /run/borg-backup.lock && BORG_REPO='${cfg.repositoryUrl}' BORG_RSH='${sshCommand}' borg break-lock";
     };
   };

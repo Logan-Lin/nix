@@ -154,6 +154,7 @@
       "/mnt/storage/photos/library"
     ];
     backupFrequency = "*-*-* 01:00:00";
+    checkFrequency = "Sun *-*-* 13:00:00";
     retention = {
       keepDaily = 7;
       keepWeekly = 4;
