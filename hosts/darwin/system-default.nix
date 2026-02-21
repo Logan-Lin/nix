@@ -173,6 +173,7 @@
       "aerospace"
       "localsend"
       "maccy"
+      "linearmouse"
     ];
     taps = [
       "nikitabobko/tap"

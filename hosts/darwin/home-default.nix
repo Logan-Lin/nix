@@ -79,10 +79,10 @@
     };
   };
 
-  launchd.agents.hidden-bar = {
+  launchd.agents.linearmouse = {
     enable = true;
     config = {
-      ProgramArguments = [ "/Applications/Hidden Bar.app/Contents/MacOS/Hidden Bar" ];
+      ProgramArguments = [ "/Applications/LinearMouse.app/Contents/MacOS/LinearMouse" ];
       RunAtLoad = true;
       KeepAlive = false;
     };
@@ -168,6 +168,25 @@
     run ${pkgs.duti}/bin/duti -s com.colliderli.iina .ogg all
     run ${pkgs.duti}/bin/duti -s com.colliderli.iina .opus all
   '';
+
+  home.file.".config/linearmouse/linearmouse.json".text = builtins.toJSON {
+    schemes = [{
+      "if".device.category = "mouse";
+      scrolling.distance = "64px";
+      scrolling.reverse = {
+        vertical = true;
+        horizontal = false;
+      };
+      pointer = {
+        acceleration = 0;
+        speed = 0.8;
+      };
+      buttons.mappings = [{
+        button = 2;
+        action = "smartZoom";
+      }];
+    }];
+  };
 
   home.file.".aerospace.toml".text = ''
     # Make all new windows floating by default
