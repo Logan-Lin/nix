@@ -165,6 +165,7 @@ in
     home.file.".claude/CLAUDE.md" = {
       text = ''
         ## Environment
+        - Always use `builtin cd` instead of `cd` when changing directories in Bash commands
         - System is managed with Nix (flakes) for global development runtime
         - Projects may use flake + direnv for project-specific runtimes
         - Common development tools (git, gh, ripgrep, jq, fzf, etc.) are globally available via nix

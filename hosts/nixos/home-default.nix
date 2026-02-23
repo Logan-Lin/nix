@@ -31,7 +31,6 @@
   };
 
   home.packages = with pkgs; [
-    httpie
     gnumake
     rsync
     bind

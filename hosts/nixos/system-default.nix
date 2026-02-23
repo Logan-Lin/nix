@@ -39,24 +39,9 @@
   # Enable sudo for wheel group without password
   security.sudo.wheelNeedsPassword = false;
 
-  # Common system packages
   environment.systemPackages = with pkgs; [
-    # Essential command-line tools
     vim
-    git
-    htop
     curl
-    wget
-    rsync
-    tmux
-    tree
-    lsof
-    tcpdump
-    iotop
-    unzip
-    
-    # System management
-    home-manager
   ];
 
   # Default system state version

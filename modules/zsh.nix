@@ -96,9 +96,6 @@ in
       ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=(vi-add-next)
       ZSH_AUTOSUGGEST_ACCEPT_WIDGETS=(end-of-line vi-end-of-line vi-add-eol)
       
-      # Zoxide configuration - replace cd with z for smart directory jumping
-      eval "$(zoxide init zsh --cmd cd)"
-      
       # Function to cd to directory containing a file selected with fzf
       function cdf() {
         local search_dir="''${1:-~}"
@@ -149,6 +146,7 @@ in
   programs.zoxide = {
     enable = true;
     enableZshIntegration = true;
+    options = ["--cmd cd"];
   };
 
   programs.eza = {
