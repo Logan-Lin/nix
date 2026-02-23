@@ -85,8 +85,8 @@ in
       bind-key x kill-pane
       bind-key & confirm-before -p "kill-window? (y/n)" kill-window
       bind-key * confirm-before -p "kill-session? (y/n)" kill-session
-      bind-key C-S-Left swap-window -t -1\; select-window -t -1
-      bind-key C-S-Right swap-window -t +1\; select-window -t +1
+      bind-key -n C-S-Left swap-window -t -1\; select-window -t -1
+      bind-key -n C-S-Right swap-window -t +1\; select-window -t +1
 
       bind-key -T copy-mode-vi v send-keys -X begin-selection
       bind-key -T copy-mode-vi y send-keys -X copy-pipe
@@ -96,6 +96,8 @@ in
       set -g history-limit 10000
       set -g display-time 2000
       set -g display-panes-time 3000
+      set -s extended-keys on
+      set -as terminal-features 'xterm*:extkeys'
       set -s escape-time 0
       set -g renumber-windows on
       set -g detach-on-destroy off

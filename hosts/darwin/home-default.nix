@@ -189,6 +189,9 @@
   };
 
   home.file.".aerospace.toml".text = ''
+    [workspace-to-monitor-force-assignment]
+    10 = 'secondary'
+
     # Make all new windows floating by default
     [[on-window-detected]]
     run = ['layout floating']
