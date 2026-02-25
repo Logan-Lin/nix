@@ -152,6 +152,7 @@
     repositoryUrl = "ssh://helsinki-box/./nfss";
     backupPaths = [
       "/mnt/storage/photos/library"
+      "/home/yanlin/.config/"
     ];
     backupFrequency = "*-*-* 01:00:00";
     checkFrequency = "Sun *-*-* 13:00:00";
