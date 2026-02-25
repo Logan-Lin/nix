@@ -116,6 +116,7 @@
       "/var/lib/mongodb"
       "/var/lib/forgejo"
       "/var/lib/postgresql"
+      "/home/yanlin/.config/"
     ];
     backupFrequency = "*-*-* 03:00:00";
     checkFrequency = "Sun *-*-* 11:00:00";
