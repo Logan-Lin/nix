@@ -3,23 +3,16 @@
 with lib;
 
 let
-  # Default global permissions
   defaultPermissions = {
     allow = [
-      # Web and search capabilities
       "WebSearch"
       "WebFetch"
-      
-      # Non-destructive tools (unrestricted paths)
       "Read"
       "Glob"
       "Grep"
-
-      # Claude configuration files
       "Write(~/.claude/**)"
       "Edit(~/.claude/**)"
       
-      # Git operations (read-only and safe operations)
       "Bash(git status)"
       "Bash(git status:*)"
       "Bash(git log:*)"
@@ -28,8 +21,8 @@ let
       "Bash(git branch:*)"
       "Bash(git remote:*)"
       "Bash(git ls-files:*)"
+      "Bash(gh api:*)"
 
-      # Nix operations
       "Bash(nix-shell:*)"
       "Bash(nix develop:*)"
       "Bash(nix build:*)"
@@ -37,7 +30,6 @@ let
       "Bash(nix-env -q:*)"
       "Bash(nix search:*)"
 
-      # File operations (safe read operations)
       "Bash(ls:*)"
       "Bash(find:*)"
       "Bash(grep:*)"
@@ -49,7 +41,6 @@ let
       "Bash(du:*)"
       "Bash(tree:*)"
 
-      # Development environment info
       "Bash(which:*)"
       "Bash(whereis:*)"
       "Bash(whoami)"
@@ -60,7 +51,6 @@ let
     ];
     
     deny = [
-      # Prevent dangerous system operations
       "Bash(rm -rf:*)"
       "Bash(sudo:*)"
       "Bash(su:*)"
@@ -78,7 +68,6 @@ let
       "Bash(mkfs:*)"
       "Bash(dd:*)"
 
-      # Prevent network/security risks
       "Bash(nc:*)"
       "Bash(netcat:*)"
       "Bash(telnet:*)"
@@ -87,7 +76,6 @@ let
       "Bash(rsync:*)"
       "Bash(nmap:*)"
 
-      # Prevent package installations without confirmation
       "Bash(npm install:*)"
       "Bash(npm uninstall:*)"
       "Bash(pip install:*)"
@@ -98,12 +86,10 @@ let
       "Bash(yum install:*)"
       "Bash(pacman -S:*)"
 
-      # Prevent system service manipulation
       "Bash(systemctl:*)"
       "Bash(service:*)"
       "Bash(launchctl:*)"
 
-      # Nix system operations
       "Bash(nixos-rebuild:*)"
       "Bash(nix-collect-garbage:*)"
       "Bash(nix-channel:*)"
@@ -116,7 +102,6 @@ let
     ];
 
     ask = [
-      # File system modifications
       "Bash(mkdir:*)"
       "Bash(rmdir:*)"
       "Bash(mv:*)"
@@ -132,7 +117,6 @@ let
     ];
   };
 
-  # Global settings configuration (merged with permissions)
   globalSettings = {
     spinnerTipsEnabled = false;
     todoEnabled = true;
@@ -148,7 +132,6 @@ in
 
 {
   config = {
-    # Install Claude Code package
     home.packages = [
       pkgs.claude-code
       pkgs.poppler-utils
@@ -156,12 +139,10 @@ in
       pkgs.yq-go
     ];
 
-    # Create global settings file (with permissions included)
     home.file.".claude/settings.json" = {
       text = builtins.toJSON globalSettings;
     };
 
-    # Create global memory file
     home.file.".claude/CLAUDE.md" = {
       text = ''
         ## Environment
