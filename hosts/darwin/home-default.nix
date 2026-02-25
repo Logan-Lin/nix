@@ -68,6 +68,7 @@
     coreutils
     duti
     rsync
+    choose-gui
   ];
 
   launchd.agents.maccy = {
@@ -248,6 +249,9 @@
     alt-shift-8 = ['move-node-to-workspace 8', 'workspace 8']
     alt-shift-9 = ['move-node-to-workspace 9', 'workspace 9']
     alt-shift-0 = ['move-node-to-workspace 10', 'workspace 10']
+
+    # Window switcher
+    alt-tab = "exec-and-forget aerospace list-windows --all --format '%{window-id} | %{app-name}: %{window-title}' | ${pkgs.choose-gui}/bin/choose | ${pkgs.coreutils}/bin/cut -d'|' -f1 | xargs aerospace focus --window-id"
   '';
 
 }

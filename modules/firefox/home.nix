@@ -66,6 +66,7 @@ in
           "browser.newtabpage.activity-stream.feeds.system.topstories" = false;
           "browser.newtabpage.activity-stream.showSponsored" = false;
           "browser.newtabpage.activity-stream.showSponsoredTopSites" = false;
+          "browser.newtabpage.activity-stream.showWeather" = false;
           
           # Privacy settings - Disable all tracking protection
           "privacy.trackingprotection.enabled" = false;
