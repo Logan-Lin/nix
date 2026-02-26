@@ -34,6 +34,8 @@ in
       description = "List of directories to backup";
     };
 
+    dumpPostgres = mkEnableOption "PostgreSQL dump before backup";
+
     backupFrequency = mkOption {
       type = types.str;
       default = "daily";
@@ -80,6 +82,10 @@ in
   config = mkIf cfg.enable {
     environment.systemPackages = [ pkgs.borgbackup ];
 
+    systemd.tmpfiles.rules = lib.optionals cfg.dumpPostgres [
+      "d /var/backup/postgresql 0700 root root -"
+    ];
+
     users.users.borg-backup = {
       isSystemUser = true;
       group = "borg-backup";
@@ -91,7 +97,8 @@ in
       description = "Borg Backup Service";
       wants = [ "network-online.target" ];
       after = [ "network-online.target" ];
-      path = [ pkgs.borgbackup pkgs.openssh pkgs.curl ];
+      path = [ pkgs.borgbackup pkgs.openssh pkgs.curl ]
+        ++ lib.optionals cfg.dumpPostgres [ pkgs.postgresql pkgs.gzip pkgs.util-linux ];
 
       unitConfig = {
         ConditionPathExists = "!/run/borg-backup.lock";
@@ -106,7 +113,9 @@ in
         PrivateTmp = true;
         ProtectSystem = "strict";
         ProtectHome = mkIf (!(lib.hasPrefix "ssh://" cfg.repositoryUrl)) "read-only";
-        ReadWritePaths = [ "/run" ] ++ (if (lib.hasPrefix "ssh://" cfg.repositoryUrl) then [] else [ cfg.repositoryUrl ]);
+        ReadWritePaths = [ "/run" ]
+          ++ (if (lib.hasPrefix "ssh://" cfg.repositoryUrl) then [] else [ cfg.repositoryUrl ])
+          ++ lib.optionals cfg.dumpPostgres [ "/var/backup" ];
         Environment = [
           "BORG_REPO=${cfg.repositoryUrl}"
           "BORG_RELOCATED_REPO_ACCESS_IS_OK=yes"
@@ -116,7 +125,8 @@ in
       };
 
       script = let
-        backupPathsStr = concatStringsSep " " (map (path: "'${path}'") cfg.backupPaths);
+        backupPathsStr = concatStringsSep " " (map (path: "'${path}'") cfg.backupPaths)
+          + optionalString cfg.dumpPostgres " '/var/backup/postgresql'";
         retentionArgs = with cfg.retention; concatStringsSep " " [
           "--keep-daily ${toString keepDaily}"
           "--keep-weekly ${toString keepWeekly}"
@@ -144,6 +154,10 @@ in
           borg init --encryption=repokey-blake2
         fi
 
+        ${optionalString cfg.dumpPostgres ''
+        mkdir -p /var/backup/postgresql
+        runuser -u postgres -- pg_dumpall | gzip > /var/backup/postgresql/all.sql.gz
+        ''}
         BACKUP_START=$(date +%s)
         borg create \
           --verbose --stats \
