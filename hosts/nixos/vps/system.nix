@@ -112,10 +112,10 @@
   services.borg-client-custom = {
     enable = true;
     repositoryUrl = "ssh://helsinki-box/./vps";
+    dumpPostgres = true;
     backupPaths = [
       "/var/lib/mongodb"
       "/var/lib/forgejo"
-      "/var/lib/postgresql"
       "/home/yanlin/.config/"
     ];
     backupFrequency = "*-*-* 03:00:00";
