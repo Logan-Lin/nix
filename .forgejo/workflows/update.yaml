@@ -1,0 +1,97 @@
+name: Update Flake Inputs
+on:
+  schedule:
+    - cron: '0 4 * * 1'
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: nix
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Update flake inputs
+        run: nix flake update
+
+      - name: Check for changes
+        id: check
+        run: |
+          if git diff --quiet flake.lock; then
+            echo "No changes to flake.lock"
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "flake.lock updated"
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Build NixOS configs
+        if: steps.check.outputs.changed == 'true'
+        run: |
+          for host in $(nix eval .#nixosConfigurations --apply 'x: builtins.attrNames x' --json | jq -r '.[]'); do
+            echo "Building nixosConfigurations.${host}..."
+            nix build ".#nixosConfigurations.${host}.config.system.build.toplevel" --no-link
+          done
+
+      - name: Build Linux Home Manager configs
+        if: steps.check.outputs.changed == 'true'
+        run: |
+          for config in $(nix eval .#homeConfigurations --apply 'x: builtins.attrNames x' --json | jq -r '.[]'); do
+            pkg_system=$(nix eval ".#homeConfigurations.\"${config}\".activationPackage.system" --raw 2>/dev/null || true)
+            if [ "$pkg_system" = "x86_64-linux" ]; then
+              echo "Building homeConfigurations.${config}..."
+              nix build ".#homeConfigurations.\"${config}\".activationPackage" --no-link
+            fi
+          done
+
+      - name: Evaluate Darwin configs
+        if: steps.check.outputs.changed == 'true'
+        run: |
+          for host in $(nix eval .#darwinConfigurations --apply 'x: builtins.attrNames x' --json | jq -r '.[]'); do
+            echo "Evaluating darwinConfigurations.${host}..."
+            nix eval ".#darwinConfigurations.${host}.config.system.build.toplevel.drvPath"
+          done
+
+      - name: Evaluate Darwin Home Manager configs
+        if: steps.check.outputs.changed == 'true'
+        run: |
+          for config in $(nix eval .#homeConfigurations --apply 'x: builtins.attrNames x' --json | jq -r '.[]'); do
+            pkg_system=$(nix eval ".#homeConfigurations.\"${config}\".activationPackage.system" --raw 2>/dev/null || true)
+            if [ "$pkg_system" != "x86_64-linux" ]; then
+              echo "Evaluating homeConfigurations.${config}..."
+              nix eval ".#homeConfigurations.\"${config}\".activationPackage.drvPath"
+            fi
+          done
+
+      - name: Create PR
+        if: steps.check.outputs.changed == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config user.name "Forgejo Actions"
+          git config user.email "git-actions@yanlincs.com"
+          git checkout -B flake-update
+          git add flake.lock
+          git commit -m "update flake inputs"
+          git push -f origin flake-update
+
+          existing=$(curl -s \
+            -H "Authorization: token ${GITHUB_TOKEN}" \
+            "${GITHUB_SERVER_URL}/api/v1/repos/${GITHUB_REPOSITORY}/pulls?state=open&head=flake-update" \
+            | jq 'length')
+
+          if [ "$existing" = "0" ]; then
+            curl -s -X POST \
+              -H "Authorization: token ${GITHUB_TOKEN}" \
+              -H "Content-Type: application/json" \
+              "${GITHUB_SERVER_URL}/api/v1/repos/${GITHUB_REPOSITORY}/pulls" \
+              -d '{"title":"Update flake inputs","head":"flake-update","base":"master"}'
+            echo "PR created"
+          else
+            echo "PR already exists, branch updated"
+          fi
+
+      - name: Send notification
+        if: always()
+        run: curl -s -d "Nix flake update ${{ job.status }}" https://ntfy.sh/yanlincs-homelab
