@@ -91,7 +91,6 @@
         };
       };
       photo.backend = "http://10.2.2.10:8080";
-      music.backend = "http://10.2.2.10:4533";
       deluge.backend = "http://10.2.2.10:8112";
     };
   };

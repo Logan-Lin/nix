@@ -22,15 +22,6 @@ in
     jellyfin.enable = lib.mkEnableOption "Jellyfin media server"; # port 8096
     deluge.enable = lib.mkEnableOption "Deluge torrent client"; # web port 8112
     plex.enable = lib.mkEnableOption "Plex media server"; # port 32400
-    lidarr.enable = lib.mkEnableOption "Lidarr music management"; # port 8686
-    bazarr.enable = lib.mkEnableOption "Bazarr subtitle management"; # port 6767
-    audiobookshelf.enable = lib.mkEnableOption "Audiobookshelf audiobook server"; # port 8000
-    navidrome.enable = lib.mkEnableOption "Navidrome music server"; # port 4533
-    navidrome.musicFolder = lib.mkOption {
-      type = lib.types.str;
-      default = "/home/yanlin/Media/music";
-      description = "Path to music folder for Navidrome";
-    };
   };
 
   config = {
@@ -77,42 +68,5 @@ in
       openFirewall = false;
     };
 
-    services.lidarr = lib.mkIf cfg.lidarr.enable {
-      enable = true;
-      user = cfg.user;
-      group = cfg.group;
-      openFirewall = false;
-    };
-
-    services.bazarr = lib.mkIf cfg.bazarr.enable {
-      enable = true;
-      user = cfg.user;
-      group = cfg.group;
-      openFirewall = false;
-    };
-
-    services.audiobookshelf = lib.mkIf cfg.audiobookshelf.enable {
-      enable = true;
-      user = cfg.user;
-      group = cfg.group;
-      host = "0.0.0.0";
-      openFirewall = false;
-    };
-
-    services.navidrome = lib.mkIf cfg.navidrome.enable {
-      enable = true;
-      user = cfg.user;
-      group = cfg.group;
-      openFirewall = false;
-      settings = {
-        Address = "0.0.0.0";
-        MusicFolder = cfg.navidrome.musicFolder;
-        "Deezer.Enabled" = false;
-      };
-    };
-
-    systemd.services.navidrome.serviceConfig = lib.mkIf cfg.navidrome.enable {
-      ProtectHome = lib.mkForce false;
-    };
   };
 }

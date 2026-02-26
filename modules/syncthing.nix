@@ -106,14 +106,5 @@ in
       };
     };
 
-    launchd.agents.syncthing = lib.mkIf (pkgs.stdenv.isDarwin && config.services.syncthing.enable) {
-      config.RunAtLoad = true;
-    };
-
-    home.activation.reloadSyncthing = lib.mkIf (pkgs.stdenv.isDarwin && config.services.syncthing.enable) (
-      lib.hm.dag.entryAfter ["writeBoundary"] ''
-        $DRY_RUN_CMD /bin/launchctl kickstart -k gui/$(id -u)/org.nix-community.home.syncthing || true
-      ''
-    );
   };
 }

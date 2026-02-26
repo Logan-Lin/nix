@@ -13,7 +13,7 @@ in
   virtualisation.oci-containers.containers = {
 
     immich = {
-      image = "ghcr.io/imagegenius/immich:2.5.6";
+      image = "ghcr.io/imagegenius/immich:latest";
       
       volumes = [
         "/var/lib/immich/config:/config"

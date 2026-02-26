@@ -15,7 +15,7 @@
     ../../modules/syncthing.nix
     ../../modules/claude-code.nix
     ../../modules/media/tool.nix
-    ../../modules/font/home.nix
+    ../../modules/font.nix
   ];
 
   syncthing-custom.folders = {
