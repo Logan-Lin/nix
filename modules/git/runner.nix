@@ -18,6 +18,10 @@ in
         options.labels = lib.mkOption {
           type = lib.types.listOf lib.types.str;
         };
+        options.hostPackages = lib.mkOption {
+          type = lib.types.nullOr (lib.types.listOf lib.types.package);
+          default = null;
+        };
       });
       default = {};
     };
@@ -32,6 +36,8 @@ in
       inherit (inst) labels;
       url = cfg.url;
       tokenFile = "/var/lib/gitea-runner/${name}/token";
+    } // lib.optionalAttrs (inst.hostPackages != null) {
+      inherit (inst) hostPackages;
     }) cfg.instances;
   };
 }

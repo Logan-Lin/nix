@@ -1,0 +1,33 @@
+name: Evaluate Nix Configs
+on: [push]
+
+jobs:
+  evaluate:
+    runs-on: nix
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Evaluate NixOS configs
+        run: |
+          for host in $(nix eval .#nixosConfigurations --apply 'x: builtins.attrNames x' --json | jq -r '.[]'); do
+            echo "Evaluating nixosConfigurations.${host}..."
+            nix eval ".#nixosConfigurations.${host}.config.system.build.toplevel.drvPath"
+          done
+
+      - name: Evaluate Darwin configs
+        run: |
+          for host in $(nix eval .#darwinConfigurations --apply 'x: builtins.attrNames x' --json | jq -r '.[]'); do
+            echo "Evaluating darwinConfigurations.${host}..."
+            nix eval ".#darwinConfigurations.${host}.config.system.build.toplevel.drvPath"
+          done
+
+      - name: Evaluate Home Manager configs
+        run: |
+          for config in $(nix eval .#homeConfigurations --apply 'x: builtins.attrNames x' --json | jq -r '.[]'); do
+            echo "Evaluating homeConfigurations.${config}..."
+            nix eval ".#homeConfigurations.\"${config}\".activationPackage.drvPath"
+          done
+
+      - name: Send notification
+        if: always()
+        run: curl -s -d "Nix config evaluate ${{ job.status }}" https://ntfy.sh/yanlincs-homelab

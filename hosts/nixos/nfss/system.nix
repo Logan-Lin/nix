@@ -144,6 +144,12 @@
     instances.tex.labels = [
       "tex:docker://texlive/texlive:latest-full"
     ];
+    instances.nix = {
+      labels = [ "nix:host" ];
+      hostPackages = with pkgs; [
+        bash coreutils curl gawk gitMinimal gnused jq nodejs wget nix
+      ];
+    };
   };
 
   services.borg-client-custom = {
