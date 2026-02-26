@@ -10,7 +10,7 @@
     ../../modules/git/home.nix
     ../../modules/git/lazygit.nix
     ../../modules/btop.nix
-    ../../modules/font/home.nix
+    ../../modules/font.nix
   ];
 
   home.username = "yanlin";

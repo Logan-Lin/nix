@@ -131,21 +131,6 @@
     ];
   };
 
-  services.keyd = {
-    enable = true;
-    keyboards = {
-      internal = {
-        ids = [ "*" ];
-        settings = {
-          main = {
-            capslock = "leftcontrol";
-            leftalt = "leftmeta";
-          };
-        };
-      };
-    };
-  };
-
   environment.systemPackages = with pkgs; [
     pciutils
     usbutils
@@ -153,7 +138,6 @@
     lm_sensors
     smartmontools
   ];
-
 
   services.acpid.enable = true;
 
