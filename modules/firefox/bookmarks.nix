@@ -34,6 +34,10 @@
           url = "https://console.hetzner.com/projects";
         }
         {
+          name = "ntfy";
+          url = "https://ntfy.sh/app";
+        }
+        {
           name = "Productivity";
           bookmarks = [
             {

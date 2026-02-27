@@ -10,7 +10,6 @@
     noto-fonts-cjk-serif
     source-sans-pro
     fira
-    source-han-sans
   ];
 
   fonts.fontconfig.enable = true;

@@ -117,6 +117,8 @@
     ];
   };
 
+  services.journald.extraConfig = "SystemMaxUse=5G";
+
   services.openssh = {
     settings = {
       PermitRootLogin = "no";

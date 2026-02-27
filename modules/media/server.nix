@@ -21,7 +21,6 @@ in
     radarr.enable = lib.mkEnableOption "Radarr movie management"; # port 7878
     jellyfin.enable = lib.mkEnableOption "Jellyfin media server"; # port 8096
     deluge.enable = lib.mkEnableOption "Deluge torrent client"; # web port 8112
-    plex.enable = lib.mkEnableOption "Plex media server"; # port 32400
   };
 
   config = {
@@ -59,13 +58,6 @@ in
       openFirewall = false;
       web.enable = true;
       web.openFirewall = false;
-    };
-
-    services.plex = lib.mkIf cfg.plex.enable {
-      enable = true;
-      user = cfg.user;
-      group = cfg.group;
-      openFirewall = false;
     };
 
   };

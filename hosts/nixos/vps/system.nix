@@ -95,6 +95,8 @@
     };
   };
 
+  services.journald.extraConfig = "SystemMaxUse=1G";
+
   services.git-server-custom = {
     enable = true;
     domain = "git.yanlincs.com";

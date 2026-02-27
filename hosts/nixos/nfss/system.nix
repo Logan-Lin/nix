@@ -138,12 +138,11 @@
     Media = "/home/yanlin/Media";
   };
 
+  services.journald.extraConfig = "SystemMaxUse=5G";
+
   services.git-runner-custom = {
     enable = true;
     url = "https://git.yanlincs.com";
-    instances.tex.labels = [
-      "tex:docker://texlive/texlive:latest-full"
-    ];
     instances.nix = {
       labels = [ "nix:host" ];
       hostPackages = with pkgs; [
