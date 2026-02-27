@@ -21,7 +21,7 @@ in
         plugin = resurrect;
         extraConfig = ''
           set -g @resurrect-strategy-nvim 'session'
-          set -g @resurrect-processes 'nvim lazygit claude ssh'
+          set -g @resurrect-processes 'nvim lazygit claude ssh btop'
           set -g @resurrect-hook-post-save-all 'target=$(readlink -f ~/.tmux/resurrect/last); perl -i -pe "s|/nix/store/[^/]*/bin/nvim --cmd .*|nvim|g" "$target"'
         '';
       }
@@ -81,6 +81,8 @@ in
       bind r source-file ~/.config/tmux/tmux.conf \; display-message "Config reloaded!"
       bind s display-popup -w 76 -h 75% -B -E "sesh connect $(sesh list --icons | fzf --reverse --border --ansi)"
       unbind w
+      unbind q
+      bind Tab display-panes
       bind c new-window -c "#{pane_current_path}"
       bind-key x kill-pane
       bind-key & confirm-before -p "kill-window? (y/n)" kill-window
