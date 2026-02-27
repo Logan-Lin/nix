@@ -40,6 +40,7 @@ let
       "Bash(file:*)"
       "Bash(du:*)"
       "Bash(tree:*)"
+      "Bash(pdftotext:*)"
 
       "Bash(which:*)"
       "Bash(whereis:*)"
@@ -150,7 +151,7 @@ in
         - System is managed with Nix (flakes) for global development runtime
         - Projects may use flake + direnv for project-specific runtimes
         - Common development tools (git, gh, ripgrep, jq, fzf, etc.) are globally available via nix
-        - PDF reading is supported (poppler-utils installed)
+        - When the Read tool broke on PDF files, use `pdftotext <file> -` via Bash instead
         - Document format conversion is supported (pandoc installed)
         - YAML/TOML/XML processing is supported (yq-go installed)
       '';
