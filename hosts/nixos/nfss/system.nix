@@ -8,8 +8,7 @@
     ../../../modules/vpn/client.nix
     ../../../modules/podman.nix
     ../../../modules/git/runner.nix
-    ../../../modules/borg/client.nix
-    ../../../modules/media/server.nix
+    ../../../modules/borg.nix
     ../../../modules/file-server/samba.nix
   ];
 
@@ -128,9 +127,13 @@
     serverEndpoint = "91.98.84.215:51820";
   };
 
-  services.media-server = {
+  services.deluge = {
+    enable = true;
     user = "yanlin";
-    deluge.enable = true;
+    group = "users";
+    openFirewall = false;
+    web.enable = true;
+    web.openFirewall = false;
   };
 
   services.samba-custom.shares = {
@@ -151,7 +154,7 @@
     };
   };
 
-  services.borg-client-custom = {
+  services.borg-custom = {
     enable = true;
     repositoryUrl = "ssh://helsinki-box/./nfss";
     backupPaths = [

@@ -7,7 +7,7 @@
     ../system-default.nix
     ../../../modules/vpn/client.nix
     ../../../modules/podman.nix
-    ../../../modules/borg/client.nix
+    ../../../modules/borg.nix
   ];
 
   boot.loader = {
@@ -150,7 +150,7 @@
     serverEndpoint = "91.98.84.215:51820";
   };
 
-  services.borg-client-custom = {
+  services.borg-custom = {
     enable = true;
     repositoryUrl = "ssh://helsinki-box/./thinkpad";
     backupPaths = [

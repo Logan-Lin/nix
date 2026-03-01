@@ -4,7 +4,6 @@
 
 {
   home.packages = with pkgs; [
-    pdftk
     ffmpeg
     shntool
     cuetools
@@ -13,7 +12,6 @@
     unzip
     p7zip
     imagemagick
-    exiftool
     immich-go
   ];
 
@@ -28,41 +26,6 @@
       ' _
     }
 
-    function audio-normalize() {
-      local dir="''${1:-.}"
-      find "$dir" \( -iname '*.flac' -o -iname '*.mp3' -o -iname '*.wav' -o -iname '*.ogg' -o -iname '*.wma' -o -iname '*.aiff' -o -iname '*.m4a' -o -iname '*.aac' \) -type f -print0 | xargs -0 -P4 -n1 sh -c '
-        f="$1"
-        outfile="./normalized/''${f%.*}.m4a"
-        mkdir -p "$(dirname "$outfile")"
-        ffmpeg -i "$f" -af loudnorm=I=-23:TP=-1.5:LRA=11 -c:a aac -b:a 128k -map_metadata 0 -c:v copy -movflags +faststart "$outfile"
-      ' _
-    }
-
-    function video2av1() {
-      local height="''${1:-720}"
-      local dir="''${2:-.}"
-      for f in "$dir"/**/(#i)*.(mp4|mkv|avi); do
-        if [[ -f "$f" ]]; then
-          local outfile="./transcode/''${f%.*}.mkv"
-          mkdir -p "$(dirname "$outfile")"
-          ffmpeg -i "$f" \
-            -c:v libsvtav1 -crf 30 -preset 6 \
-            -vf "scale=-2:'min($height,ih)'" \
-            -c:a copy \
-            "$outfile"
-        fi
-      done
-    }
-
-    function to-utf8() {
-      local enc=$(${pkgs.file}/bin/file --brief --mime-encoding "$1")
-      if [[ "$enc" == "utf-8" || "$enc" == "us-ascii" ]]; then
-        return 0
-      fi
-      local tmp=$(mktemp)
-      iconv -f "$enc" -t UTF-8 "$1" > "$tmp" && mv "$tmp" "$1"
-    }
-
     function cuesplit() {
       local audio="$1"
       local cue="''${2:-''${audio%.*}.cue}"
@@ -74,7 +37,11 @@
         echo "Cue file not found: $cue" >&2
         return 1
       fi
-      to-utf8 "$cue"
+      local enc=$(${pkgs.file}/bin/file --brief --mime-encoding "$cue")
+      if [[ "$enc" != "utf-8" && "$enc" != "us-ascii" ]]; then
+        local tmp=$(mktemp)
+        iconv -f "$enc" -t UTF-8 "$cue" > "$tmp" && mv "$tmp" "$cue"
+      fi
       local ext="''${audio##*.}"
       local fmt="''${ext:l}"
       mkdir -p ./tracks
@@ -87,29 +54,6 @@
         outfile="''${img%.*}.webp"
         ${pkgs.imagemagick}/bin/magick "$img" -resize '1800>' -quality 82 "$outfile"
         echo "Converted: $img -> $outfile"
-      done
-    }
-
-    function cbz-compress() {
-      local dir="''${1:-.}"
-      dir="$(cd "$dir" && pwd)"
-      mkdir -p "$dir/compressed"
-      find "$dir" -path "$dir/compressed" -prune -o -type f \( -iname '*.zip' -o -iname '*.cbz' \) -print | while read -r f; do
-        echo "Processing: $f"
-        local tmpdir=$(mktemp -d)
-        7z x -o"$tmpdir" -y "$f" > /dev/null
-        find "$tmpdir" -type f \( -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.gif' -o -iname '*.heic' -o -iname '*.heif' \) -print0 | xargs -0 -P4 -n1 sh -c '
-          img="$1"
-          outfile="''${img%.*}.webp"
-          ${pkgs.imagemagick}/bin/magick "$img" -resize "1500>" -quality 75 "$outfile"
-          [ "$img" != "$outfile" ] && rm "$img"
-        ' _
-        local relpath="''${f#$dir/}"
-        local outfile="$dir/compressed/$relpath"
-        mkdir -p "$(dirname "$outfile")"
-        (cd "$tmpdir" && zip -r -q "$outfile" .)
-        rm -rf "$tmpdir"
-        echo "Done: $outfile"
       done
     }
 
@@ -141,6 +85,22 @@
             -quality 75 -compression_level 4 -loop 0 \
             "$outfile"
           echo "Converted: $f -> $outfile"
+        fi
+      done
+    }
+
+    function video2av1() {
+      local height="''${1:-720}"
+      local dir="''${2:-.}"
+      for f in "$dir"/**/(#i)*.(mp4|mkv|avi); do
+        if [[ -f "$f" ]]; then
+          local outfile="./transcode/''${f%.*}.mkv"
+          mkdir -p "$(dirname "$outfile")"
+          ffmpeg -i "$f" \
+            -c:v libsvtav1 -crf 30 -preset 6 \
+            -vf "scale=-2:'min($height,ih)'" \
+            -c:a copy \
+            "$outfile"
         fi
       done
     }
