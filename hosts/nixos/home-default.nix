@@ -1,8 +1,8 @@
-{ config, pkgs, nixvim, ... }:
+{ config, pkgs, inputs, ... }:
 
 {
-  imports = [ 
-    nixvim.homeModules.nixvim
+  imports = [
+    inputs.nixvim.homeModules.nixvim
     ../../modules/nvim.nix 
     ../../modules/tmux.nix 
     ../../modules/zsh.nix 

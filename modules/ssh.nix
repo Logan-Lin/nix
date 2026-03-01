@@ -23,6 +23,12 @@ in
         identityFile = "${keyDir}/github";
       };
 
+      "aau-gateway" = {
+        hostname = "sshgw.aau.dk";
+        user = "hb05nk@cs.aau.dk";
+        identityFile = "${keyDir}/aicloud";
+      };
+
       "aicloud" = {
         hostname = "ai-fe02.srv.aau.dk";
         user = "hb05nk@cs.aau.dk";

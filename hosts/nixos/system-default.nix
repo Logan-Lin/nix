@@ -1,25 +1,29 @@
-{ config, pkgs, ... }:
+{ config, pkgs, inputs, ... }:
 
 {
-  # Common NixOS system configuration shared across all hosts
+  imports = [
+    inputs.disko.nixosModules.disko
+  ];
 
-  # Time zone and localization
   time.timeZone = "Europe/Copenhagen";
   i18n.defaultLocale = "en_US.UTF-8";
 
-  # Enable zsh system-wide (required when set as user shell)
   programs.zsh.enable = true;
 
-  # Enable bandwhich network monitoring tool
-  programs.bandwhich.enable = true;
-
-  # Enable experimental nix features
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.substituters = [
+    "https://cache.nixos.org/"
+    "https://nix-community.cachix.org"
+    "https://devenv.cachix.org"
+  ];
+  nix.settings.trusted-public-keys = [
+    "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+    "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+    "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw="
+  ];
 
-  # Allow unfree packages globally
   nixpkgs.config.allowUnfree = true;
 
-  # Basic SSH configuration
   services.openssh = {
     enable = true;
     settings = {
@@ -29,14 +33,12 @@
     };
   };
 
-  # Common user configuration
   users.users.yanlin = {
     isNormalUser = true;
     description = "yanlin";
     shell = pkgs.zsh;
   };
 
-  # Enable sudo for wheel group without password
   security.sudo.wheelNeedsPassword = false;
 
   environment.systemPackages = with pkgs; [
@@ -44,6 +46,5 @@
     curl
   ];
 
-  # Default system state version
   system.stateVersion = "24.05";
 }

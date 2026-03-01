@@ -1,8 +1,8 @@
-{ config, lib, pkgs, nixvim, firefox-addons, ... }:
+{ config, lib, pkgs, inputs, ... }:
 
 {
   imports = [
-    nixvim.homeModules.nixvim
+    inputs.nixvim.homeModules.nixvim
     ../../modules/nvim.nix
     ../../modules/tmux.nix
     ../../modules/zsh.nix
@@ -62,7 +62,6 @@
     netcat-gnu
     curl
     wget
-    bandwhich
     ncdu
     fastfetch
     coreutils

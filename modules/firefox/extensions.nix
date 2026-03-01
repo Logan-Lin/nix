@@ -2,7 +2,7 @@ args:
 
 {
   packages = let
-    firefox-addons = args.firefox-addons or null;
+    firefox-addons = args.inputs.firefox-addons or null;
     pkgs = args.pkgs;
     system = pkgs.stdenv.hostPlatform.system;
 
