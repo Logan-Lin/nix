@@ -8,7 +8,7 @@
     ../../../modules/vpn/server.nix
     ../../../modules/podman.nix
     ../../../modules/nginx.nix
-    ../../../modules/borg/client.nix
+    ../../../modules/borg.nix
     ../../../modules/git/server.nix
     ../../../modules/git/runner.nix
   ];
@@ -110,7 +110,7 @@
     ];
   };
 
-  services.borg-client-custom = {
+  services.borg-custom = {
     enable = true;
     repositoryUrl = "ssh://helsinki-box/./vps";
     dumpPostgres = true;

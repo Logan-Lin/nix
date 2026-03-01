@@ -14,7 +14,7 @@
     ../../modules/ghostty.nix
     ../../modules/syncthing.nix
     ../../modules/claude-code.nix
-    ../../modules/media/tool.nix
+    ../../modules/media-tool.nix
     ../../modules/font.nix
   ];
 

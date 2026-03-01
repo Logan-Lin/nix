@@ -6,7 +6,7 @@
 with lib;
 
 let
-  cfg = config.services.borg-client-custom;
+  cfg = config.services.borg-custom;
   sshCommand = "ssh -F /home/yanlin/.ssh/config -o StrictHostKeyChecking=accept-new -o ServerAliveInterval=60 -o ServerAliveCountMax=240";
   passphraseFile = "/etc/borg-passphrase";
   excludePatterns = [
@@ -18,7 +18,7 @@ let
 in
 
 {
-  options.services.borg-client-custom = {
+  options.services.borg-custom = {
     enable = mkEnableOption "Borg backup service";
 
     repositoryUrl = mkOption {
