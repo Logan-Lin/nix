@@ -1,8 +1,8 @@
-{ config, pkgs, nix-homebrew, ... }:
+{ config, pkgs, inputs, ... }:
 
 {
   imports = [
-    nix-homebrew.darwinModules.nix-homebrew
+    inputs.nix-homebrew.darwinModules.nix-homebrew
   ];
 
   nix.gc = {

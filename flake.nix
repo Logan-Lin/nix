@@ -21,75 +21,71 @@
   outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, nixvim, firefox-addons, nix-homebrew, disko }:
   {
     darwinConfigurations."macbook" = nix-darwin.lib.darwinSystem {
-      modules = [
-        ./hosts/darwin/macbook/system.nix
-      ];
-      specialArgs = { inherit nix-homebrew; };
+      modules = [ ./hosts/darwin/macbook/system.nix ];
+      specialArgs = { inherit inputs; };
     };
 
     darwinConfigurations."imac" = nix-darwin.lib.darwinSystem {
-      modules = [
-        ./hosts/darwin/imac/system.nix
-      ];
-      specialArgs = { inherit nix-homebrew; };
+      modules = [ ./hosts/darwin/imac/system.nix ];
+      specialArgs = { inherit inputs; };
     };
 
     nixosConfigurations."vps" = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [
-        disko.nixosModules.disko
         ./hosts/nixos/vps/system.nix
         ./hosts/nixos/vps/disk-config.nix
       ];
+      specialArgs = { inherit inputs; };
     };
 
     nixosConfigurations."thinkpad" = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [
-        disko.nixosModules.disko
         ./hosts/nixos/thinkpad/system.nix
         ./hosts/nixos/thinkpad/disk-config.nix
       ];
+      specialArgs = { inherit inputs; };
     };
 
     nixosConfigurations."nfss" = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [
-        disko.nixosModules.disko
         ./hosts/nixos/nfss/system.nix
         ./hosts/nixos/nfss/disk-config.nix
       ];
+      specialArgs = { inherit inputs; };
     };
 
     homeConfigurations = {
       "yanlin@macbook" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.aarch64-darwin;
         modules = [ ./hosts/darwin/macbook/home.nix ];
-        extraSpecialArgs = { inherit nixvim firefox-addons; };
+        extraSpecialArgs = { inherit inputs; };
       };
 
       "yanlin@imac" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.aarch64-darwin;
         modules = [ ./hosts/darwin/imac/home.nix ];
-        extraSpecialArgs = { inherit nixvim firefox-addons; };
+        extraSpecialArgs = { inherit inputs; };
       };
 
       "yanlin@vps" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux;
         modules = [ ./hosts/nixos/vps/home.nix ];
-        extraSpecialArgs = { inherit nixvim; };
+        extraSpecialArgs = { inherit inputs; };
       };
 
       "yanlin@thinkpad" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux;
         modules = [ ./hosts/nixos/thinkpad/home.nix ];
-        extraSpecialArgs = { inherit nixvim; };
+        extraSpecialArgs = { inherit inputs; };
       };
 
       "yanlin@nfss" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux;
         modules = [ ./hosts/nixos/nfss/home.nix ];
-        extraSpecialArgs = { inherit nixvim; };
+        extraSpecialArgs = { inherit inputs; };
       };
 
     };
