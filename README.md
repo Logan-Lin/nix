@@ -2,9 +2,24 @@
 
 Flake-based NixOS configuration with home-manager.
 
+## Structure
+
+```
+.
+├── flake.nix       # Entry point
+├── .forgejo/
+│   └── workflows/  # Automated workflows
+├── hosts/
+│   ├── nixos/      # NixOS configurations
+│   └── darwin/     # Nix-darwin configurations
+├── modules/        # Reusable modules
+└── config/         # Static config files
+```
+
 ## Commands
 
 ### Daily Use
+
 ```bash
 # System rebuild
 sudo nixos-rebuild switch --flake .#<host>  # NixOS
@@ -16,11 +31,14 @@ home-manager switch --flake .#<user>@<host>
 # or use alias: hms
 # the full switch alias `fs` will perform system rebuild then home manager switch
 
-# Update flake
-nix flake update
+# Garbage collection
+nix-collect-garbage -d
+sudo nix-collect-garbage -d
+brew cleanup --prune=all
 ```
 
 ### New Host Installation
+
 ```bash
 # For NixOS and disko
 sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko -- --mode disko --flake git+https://git.yanlincs.com/yanlin/nix#<host>
@@ -32,75 +50,16 @@ sudo nix --extra-experimental-features "nix-command flakes" run nix-darwin -- sw
 nix --extra-experimental-features "nix-command flakes" run home-manager/master -- switch --flake git+https://git.yanlincs.com/yanlin/nix#<user>@<host>
 ```
 
-### Occasional Commands
-```bash
-# Garbage collection
-nix-collect-garbage -d
-sudo nix-collect-garbage -d
-brew cleanup --prune=all
-
-# Check flake
-nix flake check
-nix flake show
-
-# Search packages
-nix search nixpkgs <package>
-
-# Rollback
-sudo nixos-rebuild switch --rollback
-```
-
-## Structure
-
-```
-.
-├── flake.nix           # Entry point
-├── hosts/
-│   ├── nixos/          # NixOS configurations
-│   │   ├── system-default.nix
-│   │   ├── home-default.nix
-│   │   └── <host>/
-│   └── darwin/         # Nix-darwin configurations
-│       ├── system-default.nix
-│       ├── home-default.nix
-│       └── <host>/
-├── modules/            # Reusable modules
-├── config/             # Static config files
-└── scripts/            # Helper scripts
-```
-
-## Workflows
-
-### Quick Aliases
-- `hms` - Rebuild home-manager
-- `oss` - Rebuild NixOS system
-- `cdf` - Interactive file search with cd
-- `pwdf` - Get file path interactively
-- `fm` - Open current directory in GUI file manager
-
-### Tmux Reminders
-- Prefix: `Ctrl-a`
-- Split: `|` and `-`
-- Navigate: `hjkl`
-- Resize: `HJKL`
-
-## Service Management
+### Service Management
 
 ```bash
+# Normal services
+sudo systemctl start/stop/restart/status <service>
+sudo journalctl -u <service> -f
+sudo systemctl list-timers
+
 # Container services
-sudo systemctl start/stop/restart podman-<container>.service
-sudo systemctl status podman-<container>.service
-sudo journalctl -u podman-<container>.service -f  # Follow logs
-sudo journalctl -u podman-<container>.service -n 100  # Last 100 lines
-
-# Podman commands
-sudo podman ps -a
-sudo podman logs -f <container>
-sudo podman exec -it <container> bash
-
-# Other services
-systemctl status <service>
-journalctl -u <service> -f
-systemctl list-timers
+sudo systemctl start/stop/restart/status podman-<container>.service
+sudo journalctl -u podman-<container>.service -f
 ```
 
