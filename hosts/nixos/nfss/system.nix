@@ -9,6 +9,7 @@
     ../../../modules/podman.nix
     ../../../modules/git/runner.nix
     ../../../modules/borg.nix
+    ../../../modules/deluge.nix
     ../../../modules/file-server/samba.nix
   ];
 
@@ -127,13 +128,9 @@
     serverEndpoint = "91.98.84.215:51820";
   };
 
-  services.deluge = {
+  services.deluge-custom = {
     enable = true;
-    user = "yanlin";
-    group = "users";
-    openFirewall = false;
-    web.enable = true;
-    web.openFirewall = false;
+    downloadDir = "/home/yanlin/Downloads";
   };
 
   services.samba-custom.shares = {
