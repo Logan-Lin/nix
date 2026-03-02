@@ -53,6 +53,46 @@
       oss = "sudo darwin-rebuild switch --flake ~/.config/nix#$(hostname)";
   };
 
+  programs.zsh.initContent = ''
+    function tunnel-on() {
+      local host="$1"
+      local port="''${2:-1080}"
+      local sock="$HOME/.ssh/tunnel.sock"
+
+      if [[ -z "$host" ]]; then
+        echo "Usage: tunnel-on <ssh-host> [port]" >&2
+        return 1
+      fi
+
+      if [[ -S "$sock" ]]; then
+        echo "Tunnel already active" >&2
+        return 1
+      fi
+
+      ssh -D "$port" -f -C -q -N -M -S "$sock" "$host" || {
+        rm -f "$sock"
+        echo "Failed to establish tunnel" >&2
+        return 1
+      }
+
+      networksetup -setsocksfirewallproxy Wi-Fi localhost "$port"
+      networksetup -setsocksfirewallproxystate Wi-Fi on
+      echo "Tunnel to $host on :$port, Wi-Fi SOCKS proxy enabled"
+    }
+
+    function tunnel-off() {
+      local sock="$HOME/.ssh/tunnel.sock"
+
+      if [[ -S "$sock" ]]; then
+        ssh -S "$sock" -O exit _ 2>/dev/null
+      fi
+      rm -f "$sock"
+
+      networksetup -setsocksfirewallproxystate Wi-Fi off
+      echo "Tunnel closed, Wi-Fi SOCKS proxy disabled"
+    }
+  '';
+
   home.packages = with pkgs; [
     texlive.combined.scheme-full
     httpie
