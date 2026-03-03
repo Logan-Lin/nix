@@ -8,7 +8,7 @@ let
 
   pcDevices = [ "macbook" "imac" ];
   serverDevices = [ "thinkpad" "nfss" ];
-  touchDevices = [ "iphone" "ipad" ];
+  touchDevices = [ "iphone" ];
   allDevices = pcDevices ++ serverDevices ++ touchDevices;
 
   mkFolderOptions = name: overrides: let
@@ -41,7 +41,7 @@ in
     folders = {
       Credentials = mkFolderOptions "Credentials" {};
       Documents = mkFolderOptions "Documents" { devices = pcDevices ++ serverDevices; };
-      Media = mkFolderOptions "Media" { devices = serverDevices ++ [ "ipad" ]; };
+      Media = mkFolderOptions "Media" { devices = serverDevices ++ touchDevices; };
       Archive = mkFolderOptions "Archive" {};
     };
     enableGui = lib.mkOption {
@@ -67,9 +67,6 @@ in
           };
           "thinkpad" = {
             id = "OMZKASU-QPZDCQ2-7QRHRD4-3TPAXLM-AYRMWXB-A6E5OIZ-MGR422V-JYARQA6";
-          };
-          "ipad" = {
-            id = "ZN3W6K7-VTRRRMT-Y35PSVU-EARJ6FP-6JBFIOF-YAFUAUZ-2TSFW3T-5YGDZAO";
           };
           "macbook" = {
             id = "XPAMYJX-D7UZKPI-JBLTAWG-EBPSFYV-NEFV42V-NIUZKQN-KTVTGGP-OOXL5AT";

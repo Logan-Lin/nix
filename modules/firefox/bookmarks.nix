@@ -70,6 +70,10 @@
           name = "Resource";
           bookmarks = [
             {
+              name = "Kobo Store";
+              url = "https://books.rakuten.co.jp/e-book/";
+            }
+            {
               name = "动漫花园";
               url = "https://share.dmhy.org/";
             }

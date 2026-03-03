@@ -19,6 +19,7 @@
       "node_modules/"
       ".venv/"
       "__pycache__/"
+      ".direnv/"
     ];
 
     settings = {

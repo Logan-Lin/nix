@@ -4,7 +4,6 @@
   programs.nixvim = {
     enable = true;
     defaultEditor = true;
-    extraPackages = [ pkgs.scowl ];
     globals.mapleader = " ";
 
     opts = {
