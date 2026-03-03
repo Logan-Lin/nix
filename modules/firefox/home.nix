@@ -167,11 +167,10 @@ in
           "browser.urlbar.suggest.history" = true;
           "browser.urlbar.maxHistoricalSearchSuggestions" = 3;
           
-          # Disable sidebar and Firefox tools
-          "sidebar.revamp" = false; # Completely disable the new sidebar feature
-          "sidebar.verticalTabs" = false; # Disable vertical tabs in sidebar
-          "sidebar.visibility" = "hide"; # Ensure sidebar is hidden
-          "browser.toolbarbuttons.introduced.sidebar-button" = false; # Prevent sidebar button introduction
+          # Vertical tabs via sidebar
+          "sidebar.revamp" = true;
+          "sidebar.verticalTabs" = true;
+          "sidebar.visibility" = "always-show";
           
           # Language and translation settings
           "intl.accept_languages" = "en-US,en,zh-CN,zh-TW,zh-HK,zh"; # Accept English and all Chinese variants

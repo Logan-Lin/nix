@@ -93,6 +93,7 @@ in
         "_" = {
           default = true;
           rejectSSL = true;
+          locations."/".return = "444";
         };
       } // lib.mapAttrs' (name: proxy:
         lib.nameValuePair "${name}.${proxy.domain}" {
