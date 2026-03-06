@@ -6,6 +6,7 @@
     ../../../modules/syncthing.nix
     ../../../modules/media-tool.nix
     ../../../modules/schedule.nix
+    ../../../modules/claude-code.nix
   ];
 
   syncthing-custom.folders = {
