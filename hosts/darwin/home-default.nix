@@ -212,7 +212,7 @@
   home.file.".config/linearmouse/linearmouse.json".text = builtins.toJSON {
     schemes = [{
       "if".device.category = "mouse";
-      scrolling.distance = "64px";
+      scrolling.distance = "128px";
       scrolling.reverse = {
         vertical = true;
         horizontal = false;
@@ -221,10 +221,20 @@
         acceleration = 0;
         speed = 0.8;
       };
-      buttons.mappings = [{
-        button = 2;
-        action = "smartZoom";
-      }];
+      buttons.mappings = [
+        {
+          button = 2;
+          action = "smartZoom";
+        }
+        {
+          button = 3;
+          action.run = "/opt/homebrew/bin/aerospace workspace prev --wrap-around --no-stdin";
+        }
+        {
+          button = 4;
+          action.run = "/opt/homebrew/bin/aerospace workspace next --wrap-around --no-stdin";
+        }
+      ];
     }];
   };
 

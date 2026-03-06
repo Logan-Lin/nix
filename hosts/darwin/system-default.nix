@@ -177,6 +177,7 @@
       "localsend"
       "maccy"
       "linearmouse"
+      "ungoogled-chromium"
     ];
     taps = [
       "nikitabobko/tap"
