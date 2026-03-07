@@ -10,7 +10,7 @@
     ../../../modules/git/runner.nix
     ../../../modules/borg.nix
     ../../../modules/deluge.nix
-    ../../../modules/file-server/samba.nix
+    ../../../modules/share/samba.nix
   ];
 
   boot.loader.grub = {

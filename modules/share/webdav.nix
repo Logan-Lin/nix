@@ -1,14 +1,14 @@
-# NOTE: Authentication file at: `/etc/dufs-auth` with mode 600
+# NOTE: Authentication file at: `/etc/webdav-auth` with mode 600
 # content: `username:password`
 
 { config, pkgs, lib, ... }:
 
 let
-  cfg = config.services.dufs;
-  authFile = "/etc/dufs-auth";
+  cfg = config.services.webdav;
+  authFile = "/etc/webdav-auth";
 in
 {
-  options.services.dufs = {
+  options.services.webdav = {
     shares = lib.mkOption {
       type = lib.types.attrsOf (lib.types.submodule {
         options = {
@@ -24,7 +24,7 @@ in
         };
       });
       default = {};
-      description = "WebDAV shares to expose via dufs. Each entry creates a separate dufs instance.";
+      description = "WebDAV shares to expose. Each entry creates a separate dufs instance.";
     };
 
     user = lib.mkOption {
@@ -44,8 +44,8 @@ in
     environment.systemPackages = [ pkgs.dufs ];
 
     systemd.services = lib.mapAttrs' (name: s:
-      lib.nameValuePair "dufs-${name}" {
-        description = "Dufs WebDAV File Server - ${name}";
+      lib.nameValuePair "webdav-${name}" {
+        description = "WebDAV File Server - ${name}";
         wantedBy = [ "multi-user.target" ];
         after = [ "network.target" ];
 
