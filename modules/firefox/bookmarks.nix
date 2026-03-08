@@ -82,15 +82,15 @@
               url = "https://www.tsdm39.com/forum.php";
             }
             {
-              name = "Kox.moe";
-              url = "https://kxx.moe/";
-            }
-            {
               name = "PT";
               bookmarks = [
                 {
-                  name = "M-Teams";
-                  url = "https://next.m-team.cc/index";
+                  name = "Jpopsuki";
+                  url = "https://jpopsuki.eu/index.php";
+                }
+                {
+                  name = "Azusa";
+                  url = "https://azusa.wiki/torrents.php";
                 }
                 {
                   name = "PTer";
@@ -107,18 +107,6 @@
                 {
                   name = "U2";
                   url = "https://u2.dmhy.org/torrents.php";
-                }
-                {
-                  name = "Jpopsuki";
-                  url = "https://jpopsuki.eu/index.php";
-                }
-                {
-                  name = "Azusa";
-                  url = "https://azusa.wiki/torrents.php";
-                }
-                {
-                  name = "Skyey Snow";
-                  url = "https://www.skyey2.com/forum.php?mod=torrents";
                 }
               ];
             }
