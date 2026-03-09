@@ -6,11 +6,11 @@
     ../system-default.nix
     ../../../modules/vpn/client.nix
     ../../../modules/podman.nix
-    ../../../modules/immich.nix
+    ../../../modules/media/immich.nix
     ../../../modules/git/runner.nix
     ../../../modules/borg.nix
-    ../../../modules/deluge.nix
-    ../../../modules/navidrome.nix
+    ../../../modules/media/deluge.nix
+    ../../../modules/media/navidrome.nix
     ../../../modules/share/samba.nix
   ];
 
