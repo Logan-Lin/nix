@@ -155,6 +155,9 @@
         bash coreutils curl gawk gitMinimal gnused jq nodejs wget nix
       ];
     };
+    instances.tex = {
+      labels = [ "tex:docker://texlive/texlive:latest" ];
+    };
   };
 
   services.borg-custom = {
