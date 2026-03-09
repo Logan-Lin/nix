@@ -22,6 +22,10 @@
           url = "https://photo.yanlincs.com";
         }
         {
+          name = "Music";
+          url = "https://music.yanlincs.com";
+        }
+        {
           name = "Deluge";
           url = "https://deluge.yanlincs.com/";
         }
