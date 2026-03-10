@@ -12,6 +12,7 @@
     unzip
     p7zip
     imagemagick
+    poppler-utils
     immich-go
   ];
 
@@ -86,6 +87,15 @@
             "$outfile"
           echo "Converted: $f -> $outfile"
         fi
+      done
+    }
+
+    function pdf2svg() {
+      local dir="''${1:-.}"
+      find "$dir" -type f -iname '*.pdf' | while read -r pdf; do
+        local outfile="''${pdf%.pdf}.svg"
+        pdftocairo -svg "$pdf" "$outfile"
+        echo "Converted: $pdf -> $outfile"
       done
     }
 

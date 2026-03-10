@@ -155,9 +155,8 @@ in
     home.file.".claude/CLAUDE.md" = {
       text = ''
         ## Environment
-        - System is managed with Nix (flakes) for global development runtime
+        - System is managed with Nix for global development runtime, config repo at `~/.config/nix`
         - Projects may use flake + direnv for project-specific runtimes
-        - `cd` is aliased to `zoxide`, use `builtin cd` for chaning directories in bash commands; do not use `builtin` prefix for other bash commands
         - Common development tools (git, gh, ripgrep, jq, fzf, etc.) are globally available via nix
         - When the Read tool broke on PDF files, use `pdftotext <file> -` via Bash instead
         - Document format conversion is supported (pandoc installed)
