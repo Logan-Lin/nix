@@ -19,14 +19,11 @@ in
   };
 
   config = mkIf cfg.enable {
-    # Create userChrome.css to hide Firefox View button
     home.file."${config.home.homeDirectory}/.mozilla/firefox/yanlin/chrome/userChrome.css".text = ''
-      /* Hide Firefox View button */
       #firefox-view-button {
         display: none !important;
       }
-      
-      /* Also hide from tab context menu */
+
       #context_moveTabOptions > menuitem[data-l10n-id="tab-context-send-tabs-to-device"] + menuseparator,
       #context_moveTabOptions > menuitem[command="Browser:SendTabToDevice"] {
         display: none !important;
@@ -36,29 +33,21 @@ in
     programs.firefox = {
       enable = true;
       package = cfg.package;
-      
+
       profiles.yanlin = {
         id = 0;
         isDefault = true;
         name = "yanlin";
-        
-        # Extensions
+
         extensions = import ./extensions.nix args;
-        
-        # Bookmarks
         bookmarks = import ./bookmarks.nix;
-        
-        # Search configuration
         search = import ./search.nix;
-        
-        # Firefox settings
+
         settings = {
-          # General preferences
           "browser.startup.homepage" = "about:home";
-          "browser.startup.page" = 3; # Restore previous windows and tabs
+          "browser.startup.page" = 3;
           "browser.newtabpage.enabled" = true;
-          
-          # New tab page - show only search bar
+
           "browser.newtabpage.activity-stream.feeds.topsites" = false;
           "browser.newtabpage.activity-stream.feeds.section.highlights" = false;
           "browser.newtabpage.activity-stream.feeds.section.topstories" = false;
@@ -67,45 +56,37 @@ in
           "browser.newtabpage.activity-stream.showSponsored" = false;
           "browser.newtabpage.activity-stream.showSponsoredTopSites" = false;
           "browser.newtabpage.activity-stream.showWeather" = false;
-          
-          # Privacy settings - Disable all tracking protection
+
           "privacy.trackingprotection.enabled" = false;
           "privacy.trackingprotection.socialtracking.enabled" = false;
-          "privacy.trackingprotection.pbmode.enabled" = false;  # Disable in private browsing
+          "privacy.trackingprotection.pbmode.enabled" = false;
           "privacy.trackingprotection.cryptomining.enabled" = false;
           "privacy.trackingprotection.fingerprinting.enabled" = false;
           "privacy.trackingprotection.annotate_channels" = false;
           "privacy.donottrackheader.enabled" = false;
-          "browser.contentblocking.category" = "custom";  # Set to custom to ensure our settings apply
-          "network.cookie.cookieBehavior" = 0;  # 0 = Accept all cookies
+          "browser.contentblocking.category" = "custom";
+          "network.cookie.cookieBehavior" = 0;
           "privacy.firstparty.isolate" = false;
           "privacy.resistFingerprinting" = false;
 
-          # Permissions - Reject location and notification requests
-          "permissions.default.geo" = 2;  # 2 = Block location requests
-          "permissions.default.desktop-notification" = 2;  # 2 = Block notification requests
+          "permissions.default.geo" = 2;
+          "permissions.default.desktop-notification" = 2;
 
-          # Performance
           "gfx.webrender.all" = true;
           "media.ffmpeg.vaapi.enabled" = true;
           "media.hardware-video-decoding.force-enabled" = true;
-          
-          # UI preferences
+
           "browser.tabs.loadInBackground" = true;
           "browser.ctrlTab.recentlyUsedOrder" = true;
-          
-          # Bookmarks toolbar (only show on new tab/home page)
+
           "browser.toolbars.bookmarks.visibility" = "newtab";
-          
-          # Downloads
+
           "browser.download.useDownloadDir" = true;
           "browser.download.always_ask_before_handling_new_types" = false;
-          
-          # Security
+
           "dom.security.https_only_mode" = false;
           "dom.security.https_only_mode_ever_enabled" = false;
-          
-          # Disable telemetry
+
           "datareporting.healthreport.uploadEnabled" = false;
           "datareporting.policy.dataSubmissionEnabled" = false;
           "toolkit.telemetry.unified" = false;
@@ -117,71 +98,59 @@ in
           "toolkit.telemetry.updatePing.enabled" = false;
           "toolkit.telemetry.bhrPing.enabled" = false;
           "toolkit.telemetry.firstShutdownPing.enabled" = false;
-          
-          # Disable experiments
+
           "experiments.activeExperiment" = false;
           "experiments.enabled" = false;
           "experiments.supported" = false;
           "network.allow-experiments" = false;
-          
-          # Disable Pocket
+
           "extensions.pocket.enabled" = false;
           "browser.newtabpage.activity-stream.section.highlights.includePocket" = false;
-          
-          # Password Manager - disable all functionality
+
           "signon.rememberSignons" = false;
           "signon.autofillForms" = false;
           "signon.prefillForms" = false;
-          
-          # Form Auto-complete - disable all form history and suggestions
+
           "browser.formfill.enable" = false;
           "browser.formfill.saveHttpsForms" = false;
-          
-          # Additional Auto-fill features - disable address and credit card autofill
+
           "extensions.formautofill.addresses.enabled" = false;
           "extensions.formautofill.creditCards.enabled" = false;
           "extensions.formautofill.heuristics.enabled" = false;
-          
-          # Hide UI elements
+
           "browser.tabs.firefox-view" = false;
           "browser.tabs.firefox-view-max-entries" = 0;
           "browser.tabs.firefox-view-next" = false;
           "browser.firefox-view.feature-tour" = "{\"screen\":\"\",\"complete\":true}";
           "browser.firefox-view.view-count" = 0;
           "identity.fxaccounts.enabled" = false;
-          
-          # Disable all search suggestions
+
           "browser.urlbar.suggest.searches" = false;
           "browser.urlbar.suggest.engines" = false;
           "browser.urlbar.quicksuggest.enabled" = false;
           "browser.urlbar.quicksuggest.sponsored" = false;
           "browser.urlbar.quicksuggest.dataCollection.enabled" = false;
           "browser.search.suggest.enabled" = false;
-          
-          # Additional search-related privacy settings
+
           "browser.urlbar.suggest.clipboard" = false;
           "browser.urlbar.suggest.topsites" = false;
           "browser.urlbar.speculativeConnect.enabled" = false;
-          
-          # Disable recent searches
+
           "browser.urlbar.suggest.history" = true;
           "browser.urlbar.maxHistoricalSearchSuggestions" = 3;
-          
-          # Vertical tabs via sidebar
+
           "sidebar.revamp" = true;
           "sidebar.verticalTabs" = true;
           "sidebar.visibility" = "always-show";
-          
-          # Language and translation settings
-          "intl.accept_languages" = "en-US,en,zh-CN,zh-TW,zh-HK,zh"; # Accept English and all Chinese variants
-          "browser.translations.automaticallyPopup" = false; # Prevent automatic translation suggestions
+          "sidebar.main.tools" = "";
 
-          # Disable AI features
-          "browser.ml.enable" = false; # Disable all local ML/inference features
-          "browser.ml.chat.enabled" = false; # Disable AI chatbot
-          "browser.ml.chat.shortcuts" = false; # Disable "Ask an AI bot" right-click shortcut
+          "intl.accept_languages" = "en-US,en,zh-CN,zh-TW,zh-HK,zh";
+          "browser.translations.automaticallyPopup" = false;
 
-          # Enable userChrome.css support
+          "browser.ml.enable" = false;
+          "browser.ml.chat.enabled" = false;
+          "browser.ml.chat.shortcuts" = false;
+
           "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
         };
       };

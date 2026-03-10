@@ -173,7 +173,7 @@
       "obsidian"
       "slidepilot"
       "zotero"
-      "aerospace"
+      "nikitabobko/tap/aerospace"
       "localsend"
       "maccy"
       "linearmouse"
