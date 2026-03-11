@@ -147,6 +147,9 @@ in
           "intl.accept_languages" = "en-US,en,zh-CN,zh-TW,zh-HK,zh";
           "browser.translations.automaticallyPopup" = false;
 
+          "dom.webmidi.enabled" = true;
+          "dom.webmidi.gated" = false;
+
           "browser.ml.enable" = false;
           "browser.ml.chat.enabled" = false;
           "browser.ml.chat.shortcuts" = false;
