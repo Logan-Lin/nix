@@ -51,8 +51,8 @@
       persistent-apps = [
         "/Applications/Ghostty.app"
         "/Applications/Firefox.app"
-        "/Applications/Obsidian.app"
-        "/Applications/KeePassXC.app"
+        "/Users/yanlin/Applications/Home Manager Apps/Obsidian.app"
+        "/Users/yanlin/Applications/Home Manager Apps/KeePassXC.app"
       ];
       persistent-others = [
         "/Users/yanlin/Downloads"
@@ -147,6 +147,11 @@
     };
   };
 
+  environment.variables = {
+    HOMEBREW_NO_ENV_HINTS = "1";
+    HOMEBREW_NO_AUTO_UPDATE = "1";
+  };
+
   homebrew = {
     enable = true;
     onActivation = {
@@ -162,25 +167,14 @@
       "ovito"
       "clash-verge-rev"
       "firefox"
-      "keepassxc"
       "calibre"
-      "iina"
       "musicbrainz-picard"
       "drawio"
       "inkscape"
       "microsoft-word"
-      "tencent-meeting"
-      "obsidian"
       "slidepilot"
       "zotero"
-      "nikitabobko/tap/aerospace"
-      "localsend"
-      "maccy"
       "linearmouse"
-      "ungoogled-chromium"
-    ];
-    taps = [
-      "nikitabobko/tap"
     ];
   };
 

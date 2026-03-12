@@ -45,6 +45,10 @@
           name = "Productivity";
           bookmarks = [
             {
+              name = "Claude";
+              url = "https://claude.ai/new";
+            }
+            {
               name = "Outlook";
               url = "https://outlook.office.com/mail/";
             }

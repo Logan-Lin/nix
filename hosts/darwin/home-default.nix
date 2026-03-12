@@ -80,6 +80,12 @@
       echo "Tunnel to $host on :$port, Wi-Fi SOCKS proxy enabled"
     }
 
+    function app() {
+      local app
+      app=$(find -L /Applications /System/Applications "$HOME/Applications/Home Manager Apps" -maxdepth 2 -name "*.app" 2>/dev/null | sort | fzf --header="Select app to open" --height 40%)
+      [[ -n "$app" ]] && open "$app"
+    }
+
     function tunnel-off() {
       local sock="$HOME/.ssh/tunnel.sock"
 
@@ -107,13 +113,20 @@
     coreutils
     duti
     rsync
+
     choose-gui
+    keepassxc
+    localsend
+    aerospace
+    maccy
+    obsidian
+    iina
   ];
 
   launchd.agents.maccy = {
     enable = true;
     config = {
-      ProgramArguments = [ "/Applications/Maccy.app/Contents/MacOS/Maccy" ];
+      ProgramArguments = [ "${pkgs.maccy}/Applications/Maccy.app/Contents/MacOS/Maccy" ];
       RunAtLoad = true;
       KeepAlive = false;
     };
@@ -131,7 +144,7 @@
   launchd.agents.aerospace = {
     enable = true;
     config = {
-      ProgramArguments = [ "/Applications/AeroSpace.app/Contents/MacOS/AeroSpace" ];
+      ProgramArguments = [ "${pkgs.aerospace}/Applications/AeroSpace.app/Contents/MacOS/AeroSpace" ];
       RunAtLoad = true;
       KeepAlive = false;
     };
@@ -228,11 +241,11 @@
         }
         {
           button = 3;
-          action.run = "/opt/homebrew/bin/aerospace workspace prev --wrap-around --no-stdin";
+          action.run = "${pkgs.aerospace}/bin/aerospace workspace prev --wrap-around --no-stdin";
         }
         {
           button = 4;
-          action.run = "/opt/homebrew/bin/aerospace workspace next --wrap-around --no-stdin";
+          action.run = "${pkgs.aerospace}/bin/aerospace workspace next --wrap-around --no-stdin";
         }
       ];
     }];
@@ -300,6 +313,7 @@
     alt-shift-0 = ['move-node-to-workspace 10', 'workspace 10']
 
     # Window switcher
+    alt-space = "exec-and-forget /bin/zsh -c 'selected=$(find -L /Applications /System/Applications \"$HOME/Applications/Home Manager Apps\" -maxdepth 2 -name \"*.app\" 2>/dev/null | sort | ${pkgs.choose-gui}/bin/choose) && [[ -n \"$selected\" ]] && open \"$selected\"'"
     alt-tab = "exec-and-forget aerospace list-windows --all --format '%{window-id} | %{app-name}: %{window-title}' | ${pkgs.choose-gui}/bin/choose | ${pkgs.coreutils}/bin/cut -d'|' -f1 | xargs aerospace focus --window-id"
   '';
 
