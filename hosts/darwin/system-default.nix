@@ -42,17 +42,13 @@
       tilesize = 48;
       magnification = false;
       minimize-to-application = false;
-      show-recents = true;
+      show-recents = false;
       show-process-indicators = true;
       static-only = false;
       mru-spaces = false;
       expose-animation-duration = 0.5;
       dashboard-in-overlay = false;
       persistent-apps = [
-        "/Applications/Ghostty.app"
-        "/Applications/Firefox.app"
-        "/Users/yanlin/Applications/Home Manager Apps/Obsidian.app"
-        "/Users/yanlin/Applications/Home Manager Apps/KeePassXC.app"
       ];
       persistent-others = [
         "/Users/yanlin/Downloads"
@@ -69,12 +65,10 @@
       AppleShowAllFiles = false;
       CreateDesktop = false;
       FXEnableExtensionChangeWarning = false;
-      FXPreferredViewStyle = "Nlsv";
       QuitMenuItem = false;
       ShowPathbar = true;
       ShowStatusBar = false;
       _FXShowPosixPathInTitle = false;
-      _FXSortFoldersFirst = true;
     };
 
     NSGlobalDomain = {
@@ -85,7 +79,7 @@
       NSNavPanelExpandedStateForSaveMode = true;
       PMPrintingExpandedStateForPrint = true;
       NSTableViewDefaultSizeMode = 2;
-      AppleShowScrollBars = "WhenScrolling";
+      AppleShowScrollBars = "Always";
       NSScrollAnimationEnabled = true;
       NSWindowResizeTime = 0.2;
       _HIHideMenuBar = false;
@@ -97,6 +91,11 @@
       NSAutomaticSpellingCorrectionEnabled = false;
       NSAutomaticInlinePredictionEnabled = false;
       "com.apple.keyboard.fnState" = false;
+      AppleScrollerPagingBehavior = true;
+    };
+
+    CustomUserPreferences = {
+      NSGlobalDomain.NSGlassDiffusionSetting = 1;
     };
 
     screencapture = {
@@ -120,8 +119,6 @@
 };
 
   system.activationScripts.extraActivation.text = ''
-    find /Users/yanlin -name ".DS_Store" -delete 2>/dev/null || true
-    find /Users/yanlin -name ".sync-conflict-*.DS_Store" -delete 2>/dev/null || true
     sudo -u yanlin defaults -currentHost write -globalDomain NSStatusItemSpacing -int 10
     sudo -u yanlin defaults write -globalDomain NSUserKeyEquivalents -dict-add Minimize '\0'
     sudo -u yanlin defaults write com.apple.universalaccess closeViewScrollWheelToggle -bool false

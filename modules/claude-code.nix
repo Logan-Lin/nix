@@ -29,6 +29,12 @@ let
       "Bash(nix run:*)"
       "Bash(nix-env -q:*)"
       "Bash(nix search:*)"
+      "Bash(nix eval:*)"
+      "Bash(nix flake show:*)"
+      "Bash(nix flake metadata:*)"
+      "Bash(nix flake check:*)"
+      "Bash(nix derivation show:*)"
+      "Bash(nix why-depends:*)"
 
       "Bash(builtin cd:*)"
       "Bash(cd:*)"
@@ -43,12 +49,6 @@ let
       "Bash(du:*)"
       "Bash(tree:*)"
       "Bash(pdftotext:*)"
-
-      "Bash(* | head:*)"
-      "Bash(* | tail:*)"
-      "Bash(* | wc:*)"
-      "Bash(* | grep:*)"
-      "Bash(* | cat:*)"
 
       "Bash(which:*)"
       "Bash(whereis:*)"
@@ -102,6 +102,8 @@ let
       "Bash(nixos-rebuild:*)"
       "Bash(nix-collect-garbage:*)"
       "Bash(nix-channel:*)"
+
+      "Read(/nix/**)"
       "Bash(oss:*)"
       "Bash(hms:*)"
     ];
@@ -134,6 +136,8 @@ let
     surveyDisabled = true;
     prefersReducedMotion = true;
     promptSuggestionEnabled = false;
+    effortLevel = "high";
+    terminalProgressBarEnabled = false;
     permissions = defaultPermissions;
   };
 
@@ -161,6 +165,11 @@ in
         - When the Read tool broke on PDF files, use `pdftotext <file> -` via Bash instead
         - Document format conversion is supported (pandoc installed)
         - YAML/TOML/XML processing is supported (yq-go installed)
+
+        ## Bash Commands
+        - Issue exactly ONE simple command per Bash tool call. Do NOT chain commands with `;`, `&&`, `||`, or use subshells.
+        - Use multiple parallel Bash tool calls instead of chaining commands in a single call.
+        - Avoid shell redirections like `2>/dev/null` or `2>&1` — let stderr appear naturally.
       '';
     };
   };

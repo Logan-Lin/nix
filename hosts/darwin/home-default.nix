@@ -292,6 +292,9 @@
     alt-9 = 'workspace 9'
     alt-0 = 'workspace 10'
 
+    alt-left = 'workspace prev --wrap-around'
+    alt-right = 'workspace next --wrap-around'
+
     # Focus monitor
     alt-comma = 'focus-monitor prev'
     alt-period = 'focus-monitor next'
@@ -314,7 +317,7 @@
 
     # Window switcher
     alt-space = "exec-and-forget /bin/zsh -c 'selected=$(find -L /Applications /System/Applications \"$HOME/Applications/Home Manager Apps\" -maxdepth 2 -name \"*.app\" 2>/dev/null | sort | ${pkgs.choose-gui}/bin/choose) && [[ -n \"$selected\" ]] && open \"$selected\"'"
-    alt-tab = "exec-and-forget aerospace list-windows --all --format '%{window-id} | %{app-name}: %{window-title}' | ${pkgs.choose-gui}/bin/choose | ${pkgs.coreutils}/bin/cut -d'|' -f1 | xargs aerospace focus --window-id"
+    alt-tab = "exec-and-forget ${pkgs.aerospace}/bin/aerospace list-windows --all --format '%{window-id} | %{app-name}: %{window-title}' | ${pkgs.choose-gui}/bin/choose | ${pkgs.coreutils}/bin/cut -d'|' -f1 | xargs ${pkgs.aerospace}/bin/aerospace focus --window-id"
   '';
 
 }
