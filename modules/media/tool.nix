@@ -28,25 +28,47 @@
     }
 
     function cuesplit() {
-      local audio="$1"
-      local cue="''${2:-''${audio%.*}.cue}"
-      if [[ ! -f "$audio" ]]; then
-        echo "Audio file not found: $audio" >&2
-        return 1
-      fi
-      if [[ ! -f "$cue" ]]; then
-        echo "Cue file not found: $cue" >&2
-        return 1
-      fi
-      local enc=$(${pkgs.file}/bin/file --brief --mime-encoding "$cue")
-      if [[ "$enc" != "utf-8" && "$enc" != "us-ascii" ]]; then
-        local tmp=$(mktemp)
-        iconv -f "$enc" -t UTF-8 "$cue" > "$tmp" && mv "$tmp" "$cue"
-      fi
-      local ext="''${audio##*.}"
-      local fmt="''${ext:l}"
-      mkdir -p ./tracks
-      shnsplit -f "$cue" -t "%n - %t" -o "$fmt" -d ./tracks "$audio"
+      local dir="''${1:-.}"
+      find "$dir" -type f -iname '*.cue' | while read -r cue; do
+        local base="''${cue%.*}"
+        local cuedir="''${cue:h}"
+        local audio=""
+        for ext in wav flac ape tta; do
+          if [[ -f "$base.$ext" ]]; then
+            audio="$base.$ext"
+            break
+          fi
+        done
+        if [[ -z "$audio" ]]; then
+          echo "No matching audio for: $cue" >&2
+          continue
+        fi
+        local enc=$(${pkgs.file}/bin/file --brief --mime-encoding "$cue")
+        if [[ "$enc" != "utf-8" && "$enc" != "us-ascii" ]]; then
+          local tmp=$(mktemp)
+          local converted=0
+          if [[ "$enc" == "unknown-8bit" ]]; then
+            for try_enc in CP932 Shift_JIS EUC-JP GB18030 BIG5; do
+              if iconv -f "$try_enc" -t UTF-8 "$cue" > "$tmp" 2>/dev/null; then
+                mv "$tmp" "$cue"
+                converted=1
+                break
+              fi
+            done
+            if (( ! converted )); then
+              echo "Could not detect encoding for: $cue" >&2
+              rm -f "$tmp"
+              continue
+            fi
+          else
+            iconv -f "$enc" -t UTF-8 "$cue" > "$tmp" && mv "$tmp" "$cue"
+          fi
+        fi
+        local afmt="''${audio##*.}"
+        local outdir="$cuedir/tracks"
+        mkdir -p "$outdir"
+        shnsplit -f "$cue" -t "%n - %t" -o "''${afmt:l}" -d "$outdir" "$audio"
+      done
     }
 
     function image2webp() {
