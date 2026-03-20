@@ -10,7 +10,6 @@
     ../../../modules/git/runner.nix
     ../../../modules/borg.nix
     ../../../modules/media/deluge.nix
-    ../../../modules/media/navidrome.nix
     ../../../modules/share/samba.nix
   ];
 
@@ -133,11 +132,6 @@
     enable = true;
     photoDir = "/mnt/storage/photos";
     externalDomain = "https://photo.yanlincs.com";
-  };
-
-  services.navidrome-custom = {
-    enable = true;
-    musicDir = "/home/yanlin/Media/music";
   };
 
   services.deluge-custom = {

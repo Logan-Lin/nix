@@ -121,7 +121,6 @@
     maccy
     obsidian
     iina
-    supersonic
   ];
 
   launchd.agents.maccy = {

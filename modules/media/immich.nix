@@ -134,7 +134,7 @@ let
     nightlyTasks = {
       clusterNewFaces = true;
       databaseCleanup = true;
-      generateMemories = true;
+      generateMemories = false;
       missingThumbnails = true;
       startTime = "00:00";
       syncQuotaUsage = true;
