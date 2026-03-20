@@ -78,7 +78,7 @@ in
       };
 
       "nfss.lan" = {
-        hostname = "10.1.1.152";
+        hostname = "10.1.1.10";
         user = "yanlin";
         identityFile = "${keyDir}/nas";
       };

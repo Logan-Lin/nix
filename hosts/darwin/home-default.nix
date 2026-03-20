@@ -1,5 +1,8 @@
 { config, lib, pkgs, inputs, ... }:
 
+let
+  casks = inputs.nix-casks.packages.${pkgs.stdenv.hostPlatform.system};
+in
 {
   imports = [
     inputs.nixvim.homeModules.nixvim
@@ -121,7 +124,21 @@
     maccy
     obsidian
     iina
-  ];
+    drawio
+  ] ++ (with casks; [
+    ghostty
+    firefox
+    calibre
+    musicbrainz-picard
+    inkscape
+    ovito
+    slidepilot
+    zotero
+    clash-verge-rev
+    linearmouse
+    obs
+    kdenlive
+  ]);
 
   launchd.agents.maccy = {
     enable = true;
@@ -135,7 +152,7 @@
   launchd.agents.linearmouse = {
     enable = true;
     config = {
-      ProgramArguments = [ "/Applications/LinearMouse.app/Contents/MacOS/LinearMouse" ];
+      ProgramArguments = [ "${casks.linearmouse}/Applications/LinearMouse.app/Contents/MacOS/LinearMouse" ];
       RunAtLoad = true;
       KeepAlive = false;
     };
@@ -232,7 +249,7 @@
       };
       pointer = {
         acceleration = 0;
-        speed = 0.8;
+        speed = 0.65;
       };
       buttons.mappings = [
         {

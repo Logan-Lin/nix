@@ -13,12 +13,13 @@
       url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nix-casks.url = "github:atahanyorganci/nix-casks/archive";
     nix-homebrew.url = "github:zhaofengli/nix-homebrew";
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, nixvim, firefox-addons, nix-homebrew, disko }:
+  outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, nixvim, firefox-addons, nix-casks, nix-homebrew, disko }:
   {
     darwinConfigurations."macbook" = nix-darwin.lib.darwinSystem {
       modules = [ ./hosts/darwin/macbook/system.nix ];

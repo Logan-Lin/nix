@@ -5,6 +5,11 @@
     inputs.nix-homebrew.darwinModules.nix-homebrew
   ];
 
+  nix-homebrew = {
+    enable = true;
+    user = "yanlin";
+  };
+
   nix.gc = {
     automatic = true;
     interval = { Day = 1; };
@@ -142,44 +147,6 @@
       StandardErrorPath = "/tmp/remap-keys.err";
       StandardOutPath = "/tmp/remap-keys.out";
     };
-  };
-
-  environment.variables = {
-    HOMEBREW_NO_ENV_HINTS = "1";
-    HOMEBREW_NO_AUTO_UPDATE = "1";
-  };
-
-  homebrew = {
-    enable = true;
-    onActivation = {
-      autoUpdate = true;
-      cleanup = "zap";
-      upgrade = true;
-    };
-    greedyCasks = true;
-    brews = [
-    ];
-    casks = [
-      "ghostty"
-      "ovito"
-      "clash-verge-rev"
-      "firefox"
-      "calibre"
-      "musicbrainz-picard"
-      "drawio"
-      "inkscape"
-      "microsoft-word"
-      "slidepilot"
-      "zotero"
-      "linearmouse"
-    ];
-  };
-
-  nix-homebrew = {
-    enable = true;
-    enableRosetta = true;
-    user = "yanlin";
-    autoMigrate = true;
   };
 
 }
