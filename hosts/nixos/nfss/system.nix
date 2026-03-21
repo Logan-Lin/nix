@@ -11,6 +11,7 @@
     ../../../modules/borg.nix
     ../../../modules/media/deluge.nix
     ../../../modules/share/samba.nix
+    ../../../modules/disk-health.nix
   ];
 
   boot.loader.grub = {
@@ -142,6 +143,15 @@
   services.samba-custom.shares = {
     Downloads = "/home/yanlin/Downloads";
     Media = "/home/yanlin/Media";
+  };
+
+  services.disk-health = {
+    enable = true;
+    devices = [
+      "/dev/disk/by-id/ata-ZHITAI_SC001_XT_1000GB_ZTB401TAB244431J4R"
+      "/dev/disk/by-id/ata-ZHITAI_SC001_XT_1000GB_ZTB401TAB244431KEG"
+      "/dev/disk/by-id/nvme-Samsung_SSD_970_EVO_Plus_1TB_S6P7NX0T407791Z"
+    ];
   };
 
   services.journald.extraConfig = "SystemMaxUse=5G";

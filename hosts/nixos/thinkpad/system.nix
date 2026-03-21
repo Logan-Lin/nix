@@ -6,6 +6,7 @@
     ../system-default.nix
     ../../../modules/vpn/client.nix
     ../../../modules/borg.nix
+    ../../../modules/disk-health.nix
   ];
 
   boot.loader = {
@@ -113,6 +114,11 @@
       [7  70  82]
       [127 80 32767]
     ];
+  };
+
+  services.disk-health = {
+    enable = true;
+    devices = [ "/dev/nvme0n1" ];
   };
 
   services.journald.extraConfig = "SystemMaxUse=5G";
