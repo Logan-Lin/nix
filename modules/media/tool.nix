@@ -14,6 +14,8 @@
     imagemagick
     poppler-utils
     immich-go
+    kepubify
+    exiftool
   ];
 
   programs.zsh.initContent = ''
@@ -68,6 +70,16 @@
         local outdir="$cuedir/tracks"
         mkdir -p "$outdir"
         shnsplit -f "$cue" -t "%n - %t" -o "''${afmt:l}" -d "$outdir" "$audio"
+      done
+    }
+
+    function epub2kepub() {
+      local dir="''${1:-.}"
+      find "$dir" -type f -iname '*.epub' ! -iname '*.kepub.epub' | while read -r epub; do
+        local rel="''${epub#$dir/}"
+        local outdir="./transcode/$(dirname "$rel")"
+        mkdir -p "$outdir"
+        kepubify --inplace -o "$outdir" "$epub"
       done
     }
 

@@ -85,7 +85,7 @@ in
 
     function app() {
       local app
-      app=$(find -L /Applications /System/Applications "$HOME/Applications/Home Manager Apps" -maxdepth 2 -name "*.app" 2>/dev/null | sort | fzf --header="Select app to open" --height 40%)
+      app=$(find -L /Applications /System/Applications /System/Library/CoreServices "$HOME/Applications/Home Manager Apps" -maxdepth 2 -name "*.app" 2>/dev/null | sort | fzf --header="Select app to open" --height 40%)
       [[ -n "$app" ]] && open "$app"
     }
 
@@ -125,10 +125,10 @@ in
     obsidian
     iina
     drawio
+    audacity
   ] ++ (with casks; [
     ghostty
     firefox
-    calibre
     musicbrainz-picard
     inkscape
     ovito
@@ -333,7 +333,7 @@ in
     alt-shift-0 = ['move-node-to-workspace 10', 'workspace 10']
 
     # Window switcher
-    alt-space = "exec-and-forget /bin/zsh -c 'selected=$(find -L /Applications /System/Applications \"$HOME/Applications/Home Manager Apps\" -maxdepth 2 -name \"*.app\" 2>/dev/null | sort | ${pkgs.choose-gui}/bin/choose) && [[ -n \"$selected\" ]] && open \"$selected\"'"
+    alt-space = "exec-and-forget /bin/zsh -c 'selected=$(find -L /Applications /System/Applications /System/Library/CoreServices \"$HOME/Applications/Home Manager Apps\" -maxdepth 2 -name \"*.app\" 2>/dev/null | sort | ${pkgs.choose-gui}/bin/choose) && [[ -n \"$selected\" ]] && open \"$selected\"'"
     alt-tab = "exec-and-forget ${pkgs.aerospace}/bin/aerospace list-windows --all --format '%{window-id} | %{app-name}: %{window-title}' | ${pkgs.choose-gui}/bin/choose | ${pkgs.coreutils}/bin/cut -d'|' -f1 | xargs ${pkgs.aerospace}/bin/aerospace focus --window-id"
   '';
 
