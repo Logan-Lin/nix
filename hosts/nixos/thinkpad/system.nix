@@ -3,10 +3,8 @@
 {
   imports = [
     ./hardware-configuration.nix
-    ./containers.nix
     ../system-default.nix
     ../../../modules/vpn/client.nix
-    ../../../modules/podman.nix
     ../../../modules/borg.nix
   ];
 
