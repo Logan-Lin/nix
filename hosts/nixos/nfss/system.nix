@@ -142,7 +142,6 @@
 
   services.samba-custom.shares = {
     Downloads = "/home/yanlin/Downloads";
-    Media = "/home/yanlin/Media";
   };
 
   services.disk-health = {

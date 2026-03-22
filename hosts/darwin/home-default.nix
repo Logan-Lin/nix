@@ -24,16 +24,11 @@ in
   syncthing-custom.folders = {
     Credentials.enable = true;
     Documents.enable = true;
+    Media.enable = true;
     Archive.enable = true;
   };
 
   nixpkgs.config.allowUnfree = true;
-
-  programs.direnv = {
-    enable = true;
-    nix-direnv.enable = true;
-    silent = true;
-  };
 
   programs.firefox-custom = {
     enable = true;
@@ -42,7 +37,7 @@ in
 
   programs.ghostty-custom = {
     enable = true;
-    package = null;
+    package = pkgs.ghostty-bin;
     windowMode = "windowed";
   };
 
@@ -116,8 +111,8 @@ in
     coreutils
     duti
     rsync
-
     choose-gui
+
     keepassxc
     localsend
     aerospace
@@ -127,7 +122,6 @@ in
     drawio
     audacity
   ] ++ (with casks; [
-    ghostty
     firefox
     musicbrainz-picard
     inkscape

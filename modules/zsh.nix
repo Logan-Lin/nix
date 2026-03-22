@@ -10,12 +10,11 @@ in
 {
   programs.zsh = {
     enable = true;
-    defaultKeymap = "viins";
     enableVteIntegration = true;
     enableCompletion = true;
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
-    
+
     sessionVariables = {
       COLORTERM = "truecolor";
       EDITOR = "nvim";
@@ -37,65 +36,11 @@ in
     };
     
     initContent = ''
-      # Load Powerlevel10k theme
-      if [[ -f ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme ]]; then
-        source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
-      fi
+      bindkey -e
+      autoload -Uz edit-command-line
+      zle -N edit-command-line
+      bindkey '^G' edit-command-line
 
-      # Load Powerlevel10k configuration (managed by Nix)
-      source ~/.p10k.zsh
-
-      # Vim mode configuration
-      # Reduce delay when switching modes (10ms instead of 400ms)
-      export KEYTIMEOUT=1
-      
-      # Cursor shape changes for vim modes
-      function zle-keymap-select {
-        case $KEYMAP in
-          vicmd)      echo -ne '\e[1 q';;  # block cursor for normal mode
-          viins|main) echo -ne '\e[5 q';;  # line cursor for insert mode
-        esac
-      }
-      zle -N zle-keymap-select
-      
-      # Ensure we start with line cursor in insert mode
-      function zle-line-init {
-        echo -ne '\e[5 q'
-      }
-      zle -N zle-line-init
-      
-      # Fix cursor after each command
-      function preexec {
-        echo -ne '\e[5 q'
-      }
-      
-      # Additional vim-like bindings
-      bindkey -M vicmd 'k' history-search-backward
-      bindkey -M vicmd 'j' history-search-forward
-      bindkey -M vicmd '/' history-incremental-search-backward
-      bindkey -M vicmd '?' history-incremental-search-forward
-      
-      # Better word movement in insert mode
-      bindkey '^[[1;5C' forward-word      # Ctrl+Right
-      bindkey '^[[1;5D' backward-word     # Ctrl+Left
-      
-      # Fix backspace in vim insert mode
-      bindkey '^?' backward-delete-char   # Backspace
-      bindkey '^H' backward-delete-char   # Ctrl+H (alternative backspace)
-      
-      # Prevent Shift+A from triggering autocomplete in vim insert mode
-      # Try multiple potential key sequences for Shift+A across different terminals
-      bindkey -M viins 'A' self-insert
-      bindkey -M viins '^[[1;2A' self-insert
-      bindkey -M viins '^[[65;2u' self-insert
-      
-      # Disable expand-or-complete on potential problematic keys in vim insert mode
-      
-      # Configure autosuggestions to not interfere with vim mode
-      ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=(vi-add-eol)
-      ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=(vi-add-next)
-      ZSH_AUTOSUGGEST_ACCEPT_WIDGETS=(end-of-line vi-end-of-line vi-add-eol)
-      
       # Function to cd to directory containing a file selected with fzf
       function cdf() {
         local search_dir="''${1:-~}"
@@ -130,7 +75,6 @@ in
   
   # Essential packages for enhanced zsh experience
   home.packages = with pkgs; [
-    zsh-powerlevel10k
     fzf
     fd
     ripgrep
@@ -155,6 +99,106 @@ in
     git = true;
   };
 
-  # Manage Powerlevel10k configuration
-  home.file.".p10k.zsh".source = ../config/p10k.zsh;
+  programs.direnv = {
+    enable = true;
+    nix-direnv.enable = true;
+    silent = true;
+  };
+
+  programs.starship = {
+    enable = true;
+    enableZshIntegration = true;
+    settings = {
+      add_newline = false;
+
+      format = lib.concatStrings [
+        "$directory"
+        "$git_branch"
+        "$git_status"
+        "$cmd_duration"
+        "$jobs"
+        "$python"
+        "$direnv"
+        "$nix_shell"
+        "$username"
+        "$hostname"
+        "$line_break"
+        "$character"
+      ];
+
+      character = {
+        success_symbol = "[❯](bold #b8bb26)";
+        error_symbol = "[❯](bold #fb4934)";
+      };
+
+      directory = {
+        style = "bold #83a598";
+        truncation_length = 5;
+        truncate_to_repo = true;
+        fish_style_pwd_dir_length = 1;
+        read_only = " ";
+      };
+
+      git_branch = {
+        style = "bold #d3869b";
+        symbol = " ";
+      };
+
+      git_status = {
+        style = "bold #fb4934";
+        modified = "!";
+        staged = "+";
+        untracked = "?";
+        ahead = "⇡";
+        behind = "⇣";
+        diverged = "⇕";
+      };
+
+      cmd_duration = {
+        min_time = 3000;
+        style = "#fabd2f";
+      };
+
+      jobs.style = "bold #83a598";
+
+      python = {
+        style = "bold #fabd2f";
+        format = "[ $virtualenv]($style) ";
+        detect_extensions = [];
+        detect_files = [];
+        detect_folders = [];
+      };
+
+      direnv = {
+        disabled = false;
+        style = "bold #fe8019";
+        format = "[$symbol$allowed]($style) ";
+        symbol = " ";
+        allowed_msg = "";
+        denied_msg = "direnv!";
+        loaded_msg = "";
+        not_allowed_msg = "direnv!";
+        unloaded_msg = "";
+      };
+
+      nix_shell = {
+        style = "bold #83a598";
+        symbol = " ";
+        format = "[$symbol$state]($style) ";
+      };
+
+      username = {
+        show_always = false;
+        style_user = "bold #fabd2f";
+        format = "[$user]($style) ";
+      };
+
+      hostname = {
+        ssh_only = true;
+        style = "bold #8ec07c";
+        ssh_symbol = " ";
+        format = "[$ssh_symbol$hostname]($style) ";
+      };
+    };
+  };
 }

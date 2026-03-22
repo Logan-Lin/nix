@@ -66,7 +66,7 @@ in
           window-theme = "dark";
           window-padding-balance = true;
           shell-integration = "detect";
-          shell-integration-features = "cursor,sudo,title";
+          shell-integration-features = "no-cursor";
           term = "xterm-256color";
           mouse-hide-while-typing = true;
           mouse-shift-capture = false;

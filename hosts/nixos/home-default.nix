@@ -20,12 +20,6 @@
   programs.home-manager.enable = true;
   nixpkgs.config.allowUnfree = true;
 
-  programs.direnv = {
-    enable = true;
-    nix-direnv.enable = true;
-    silent = true;
-  };
-
   programs.zsh.shellAliases = {
       oss = "sudo nixos-rebuild switch --flake ~/.config/nix#$(hostname)";
   };

@@ -36,7 +36,7 @@ in
 
     extraConfig = ''
       set -g default-terminal "xterm-256color"
-      set -ga terminal-overrides ",xterm-256color:Tc,xterm-256color:sitm=\\E[3m:ritm=\\E[23m"
+      set -ga terminal-overrides ",xterm-256color:Tc,xterm-256color:sitm=\\E[3m:ritm=\\E[23m,xterm-256color:Ss=\\E[%p1%d q:Se=\\E[2 q"
       set -g set-clipboard on
 
       set -g status-style 'bg=#282828,fg=#ebdbb2'
