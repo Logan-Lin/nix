@@ -12,8 +12,7 @@ Flake-based NixOS configuration with home-manager.
 ├── hosts/
 │   ├── nixos/      # NixOS configurations
 │   └── darwin/     # Nix-darwin configurations
-├── modules/        # Reusable modules
-└── config/         # Static config files
+└── modules/        # Reusable modules
 ```
 
 ## Commands

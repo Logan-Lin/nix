@@ -4,6 +4,7 @@
 
 {
   home.packages = with pkgs; [
+    findutils
     ffmpeg
     shntool
     cuetools
@@ -21,7 +22,7 @@
   programs.zsh.initContent = ''
     function audio2aac() {
       local dir="''${1:-.}"
-      find "$dir" \( -iname '*.flac' -o -iname '*.mp3' -o -iname '*.wav' -o -iname '*.ogg' -o -iname '*.wma' -o -iname '*.aiff' -o -iname '*.m4a' -o -iname '*.aac' \) -type f -print0 | xargs -0 -P4 -n1 sh -c '
+      ${pkgs.findutils}/bin/find "$dir" \( -iname '*.flac' -o -iname '*.mp3' -o -iname '*.wav' -o -iname '*.ogg' -o -iname '*.wma' -o -iname '*.aiff' -o -iname '*.m4a' -o -iname '*.aac' \) -type f -print0 | xargs -0 -P4 -n1 sh -c '
         f="$1"
         outfile="./transcode/''${f%.*}.m4a"
         mkdir -p "$(dirname "$outfile")"
@@ -31,7 +32,7 @@
 
     function cuesplit() {
       local dir="''${1:-.}"
-      find "$dir" -type f -iname '*.cue' | while read -r cue; do
+      ${pkgs.findutils}/bin/find "$dir" -type f -iname '*.cue' | while read -r cue; do
         local base="''${cue%.*}"
         local cuedir="''${cue:h}"
         local audio=""
@@ -75,7 +76,7 @@
 
     function epub2kepub() {
       local dir="''${1:-.}"
-      find "$dir" -type f -iname '*.epub' ! -iname '*.kepub.epub' | while read -r epub; do
+      ${pkgs.findutils}/bin/find "$dir" -type f -iname '*.epub' ! -iname '*.kepub.epub' | while read -r epub; do
         local rel="''${epub#$dir/}"
         local outdir="./transcode/$(dirname "$rel")"
         mkdir -p "$outdir"
@@ -85,7 +86,7 @@
 
     function image2webp() {
       local dir="''${1:-.}"
-      find "$dir" -type f \( -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.gif' -o -iname '*.heic' -o -iname '*.heif' \) | while read -r img; do
+      ${pkgs.findutils}/bin/find "$dir" -type f \( -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.gif' -o -iname '*.heic' -o -iname '*.heif' \) | while read -r img; do
         outfile="''${img%.*}.webp"
         ${pkgs.imagemagick}/bin/magick "$img" -resize '1800>' -quality 82 "$outfile"
         echo "Converted: $img -> $outfile"
@@ -94,7 +95,7 @@
 
     function webp2png() {
       local dir="''${1:-.}"
-      find "$dir" -type f -iname '*.webp' | while read -r img; do
+      ${pkgs.findutils}/bin/find "$dir" -type f -iname '*.webp' | while read -r img; do
         outfile="''${img%.*}.png"
         ${pkgs.imagemagick}/bin/magick "$img" "$outfile"
         echo "Converted: $img -> $outfile"
@@ -126,7 +127,7 @@
 
     function pdf2svg() {
       local dir="''${1:-.}"
-      find "$dir" -type f -iname '*.pdf' | while read -r pdf; do
+      ${pkgs.findutils}/bin/find "$dir" -type f -iname '*.pdf' | while read -r pdf; do
         local outfile="''${pdf%.pdf}.svg"
         pdftocairo -svg "$pdf" "$outfile"
         echo "Converted: $pdf -> $outfile"

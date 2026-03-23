@@ -4,6 +4,19 @@ with lib;
 
 let
   cfg = config.programs.firefox-custom;
+
+  firefox-addons = args.inputs.firefox-addons or null;
+  system = pkgs.stdenv.hostPlatform.system;
+
+  extensions =
+    if firefox-addons != null then
+      with firefox-addons.packages.${system}; [
+        ublock-origin
+        vimium
+        darkreader
+        cookies-txt
+      ]
+    else [];
 in
 
 {
@@ -14,7 +27,6 @@ in
       type = types.nullOr types.package;
       default = null;
       example = "pkgs.firefox";
-      description = "Firefox package to use. Set to null on Darwin to use system Firefox, or pkgs.firefox on NixOS.";
     };
   };
 
@@ -39,9 +51,29 @@ in
         isDefault = true;
         name = "yanlin";
 
-        extensions = import ./extensions.nix args;
-        bookmarks = import ./bookmarks.nix;
-        search = import ./search.nix;
+        extensions.packages = extensions;
+
+        bookmarks = {
+          force = true;
+          settings = [{
+            name = "Toolbar";
+            toolbar = true;
+            bookmarks = [{ name = "DuckDuckGo"; url = "https://duckduckgo.com/"; }];
+          }];
+        };
+
+        search = {
+          force = true;
+          default = "ddg";
+          engines = {
+            "google".metaData.hidden = true;
+            "bing".metaData.hidden = true;
+            "amazondotcom-us".metaData.hidden = true;
+            "ebay".metaData.hidden = true;
+            "wikipedia".metaData.hidden = true;
+            "perplexity".metaData.hidden = true;
+          };
+        };
 
         settings = {
           "browser.startup.homepage" = "about:home";
@@ -79,10 +111,12 @@ in
           "browser.tabs.loadInBackground" = true;
           "browser.ctrlTab.recentlyUsedOrder" = true;
 
-          "browser.toolbars.bookmarks.visibility" = "newtab";
+          "browser.toolbars.bookmarks.visibility" = "never";
 
           "browser.download.useDownloadDir" = true;
           "browser.download.always_ask_before_handling_new_types" = false;
+          "browser.download.open_pdf_attachments_inline" = false;
+          "browser.helperApps.deleteTempFileOnExit" = true;
 
           "dom.security.https_only_mode" = false;
           "dom.security.https_only_mode_ever_enabled" = false;
@@ -155,6 +189,40 @@ in
           "browser.ml.chat.shortcuts" = false;
 
           "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
+
+          "browser.mailto.dualPrompt" = false;
+          "network.protocol-handler.external.mailto" = false;
+          "network.protocol-handler.external.webcal" = false;
+          "network.protocol-handler.external.tel" = false;
+
+          "browser.shell.checkDefaultBrowser" = false;
+
+          "browser.newtabpage.activity-stream.asrouter.userprefs.cfr.addons" = false;
+          "browser.newtabpage.activity-stream.asrouter.userprefs.cfr.features" = false;
+
+          "signon.management.page.breach-alerts.enabled" = false;
+          "browser.contentblocking.report.monitor.enabled" = false;
+
+          "browser.messaging-system.whatsNewPanel.enabled" = false;
+          "browser.aboutwelcome.enabled" = false;
+          "browser.startup.homepage_override.mstone" = "ignore";
+
+          "browser.vpn_promo.enabled" = false;
+          "browser.promo.focus.enabled" = false;
+          "browser.promo.pin.enabled" = false;
+
+          "app.normandy.enabled" = false;
+          "app.normandy.api_url" = "";
+
+          "browser.discovery.enabled" = false;
+          "extensions.htmlaboutaddons.recommendations.enabled" = false;
+          "extensions.getAddons.showPane" = false;
+
+          "browser.tabs.crashReporting.sendReport" = false;
+          "browser.crashReports.unsubmittedCheck.enabled" = false;
+
+          "browser.download.alwaysOpenPanel" = false;
+          "full-screen-api.warning.timeout" = 0;
         };
       };
     };
