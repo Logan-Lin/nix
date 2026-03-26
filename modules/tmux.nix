@@ -4,7 +4,7 @@ let
   continuumSaveScript = "${pkgs.tmuxPlugins.continuum}/share/tmux-plugins/continuum/scripts/continuum_save.sh";
 in
 {
-  home.packages = [ pkgs.sesh ];
+  home.packages = [ pkgs.sesh pkgs.perl ];
 
   programs.zsh.shellAliases.ts = "sesh connect $(sesh list --icons | fzf --reverse --border --ansi)";
 
@@ -22,7 +22,7 @@ in
         extraConfig = ''
           set -g @resurrect-strategy-nvim 'session'
           set -g @resurrect-processes 'nvim lazygit claude ssh btop'
-          set -g @resurrect-hook-post-save-all 'target=$(readlink -f ~/.tmux/resurrect/last); perl -i -pe "s|/nix/store/[^/]*/bin/nvim --cmd .*|nvim|g" "$target"'
+          set -g @resurrect-hook-post-save-all 'target=$(${pkgs.coreutils}/bin/readlink -f ~/.tmux/resurrect/last); ${pkgs.perl}/bin/perl -i -pe "s|/nix/store/[^/]*/bin/nvim --cmd .*|nvim|g" "$target"'
         '';
       }
       {

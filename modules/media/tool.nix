@@ -4,7 +4,12 @@
 
 {
   home.packages = with pkgs; [
+    coreutils
     findutils
+    gnutar
+    gzip
+    bzip2
+    xz
     ffmpeg
     shntool
     cuetools
@@ -22,11 +27,11 @@
   programs.zsh.initContent = ''
     function audio2aac() {
       local dir="''${1:-.}"
-      ${pkgs.findutils}/bin/find "$dir" \( -iname '*.flac' -o -iname '*.mp3' -o -iname '*.wav' -o -iname '*.ogg' -o -iname '*.wma' -o -iname '*.aiff' -o -iname '*.m4a' -o -iname '*.aac' \) -type f -print0 | xargs -0 -P4 -n1 sh -c '
+      ${pkgs.findutils}/bin/find "$dir" \( -iname '*.flac' -o -iname '*.mp3' -o -iname '*.wav' -o -iname '*.ogg' -o -iname '*.wma' -o -iname '*.aiff' -o -iname '*.m4a' -o -iname '*.aac' \) -type f -print0 | ${pkgs.findutils}/bin/xargs -0 -P4 -n1 sh -c '
         f="$1"
         outfile="./transcode/''${f%.*}.m4a"
-        mkdir -p "$(dirname "$outfile")"
-        ffmpeg -i "$f" -vn -c:a aac -b:a 256k -movflags +faststart "$outfile"
+        ${pkgs.coreutils}/bin/mkdir -p "$(${pkgs.coreutils}/bin/dirname "$outfile")"
+        ${pkgs.ffmpeg}/bin/ffmpeg -i "$f" -vn -c:a aac -b:a 256k -movflags +faststart "$outfile"
       ' _
     }
 
@@ -48,29 +53,29 @@
         fi
         local enc=$(${pkgs.file}/bin/file --brief --mime-encoding "$cue")
         if [[ "$enc" != "utf-8" && "$enc" != "us-ascii" ]]; then
-          local tmp=$(mktemp)
+          local tmp=$(${pkgs.coreutils}/bin/mktemp)
           local converted=0
           if [[ "$enc" == "unknown-8bit" ]]; then
             for try_enc in CP932 Shift_JIS EUC-JP GB18030 BIG5; do
               if iconv -f "$try_enc" -t UTF-8 "$cue" > "$tmp" 2>/dev/null; then
-                mv "$tmp" "$cue"
+                ${pkgs.coreutils}/bin/mv "$tmp" "$cue"
                 converted=1
                 break
               fi
             done
             if (( ! converted )); then
               echo "Could not detect encoding for: $cue" >&2
-              rm -f "$tmp"
+              ${pkgs.coreutils}/bin/rm -f "$tmp"
               continue
             fi
           else
-            iconv -f "$enc" -t UTF-8 "$cue" > "$tmp" && mv "$tmp" "$cue"
+            iconv -f "$enc" -t UTF-8 "$cue" > "$tmp" && ${pkgs.coreutils}/bin/mv "$tmp" "$cue"
           fi
         fi
         local afmt="''${audio##*.}"
         local outdir="$cuedir/tracks"
-        mkdir -p "$outdir"
-        shnsplit -f "$cue" -t "%n - %t" -o "''${afmt:l}" -d "$outdir" "$audio"
+        ${pkgs.coreutils}/bin/mkdir -p "$outdir"
+        ${pkgs.shntool}/bin/shnsplit -f "$cue" -t "%n - %t" -o "''${afmt:l}" -d "$outdir" "$audio"
       done
     }
 
@@ -78,9 +83,9 @@
       local dir="''${1:-.}"
       ${pkgs.findutils}/bin/find "$dir" -type f -iname '*.epub' ! -iname '*.kepub.epub' | while read -r epub; do
         local rel="''${epub#$dir/}"
-        local outdir="./transcode/$(dirname "$rel")"
-        mkdir -p "$outdir"
-        kepubify --inplace -o "$outdir" "$epub"
+        local outdir="./transcode/$(${pkgs.coreutils}/bin/dirname "$rel")"
+        ${pkgs.coreutils}/bin/mkdir -p "$outdir"
+        ${pkgs.kepubify}/bin/kepubify --inplace -o "$outdir" "$epub"
       done
     }
 
@@ -116,7 +121,7 @@
       for f in "$dir"/**/(#i)*.(mp4|mkv|mov); do
         if [[ -f "$f" ]]; then
           local outfile="''${f%.*}.webp"
-          ffmpeg -i "$f" \
+          ${pkgs.ffmpeg}/bin/ffmpeg -i "$f" \
             -vf "$vf" \
             -quality 75 -compression_level 4 -loop 0 \
             "$outfile"
@@ -129,7 +134,7 @@
       local dir="''${1:-.}"
       ${pkgs.findutils}/bin/find "$dir" -type f -iname '*.pdf' | while read -r pdf; do
         local outfile="''${pdf%.pdf}.svg"
-        pdftocairo -svg "$pdf" "$outfile"
+        ${pkgs.poppler-utils}/bin/pdftocairo -svg "$pdf" "$outfile"
         echo "Converted: $pdf -> $outfile"
       done
     }
@@ -140,8 +145,8 @@
       for f in "$dir"/**/(#i)*.(mp4|mkv|avi); do
         if [[ -f "$f" ]]; then
           local outfile="./transcode/''${f%.*}.mkv"
-          mkdir -p "$(dirname "$outfile")"
-          ffmpeg -i "$f" \
+          ${pkgs.coreutils}/bin/mkdir -p "$(${pkgs.coreutils}/bin/dirname "$outfile")"
+          ${pkgs.ffmpeg}/bin/ffmpeg -i "$f" \
             -c:v libsvtav1 -crf 30 -preset 6 \
             -vf "scale=-2:'min($height,ih)'" \
             -c:a copy \
@@ -167,7 +172,7 @@
         return 1
       fi
 
-      immich-go upload from-folder --server="$IMMICH_URL" --api-key="$IMMICH_APIKEY" "$1"
+      ${pkgs.immich-go}/bin/immich-go upload from-folder --server="$IMMICH_URL" --api-key="$IMMICH_APIKEY" "$1"
     }
 
     function extract() {
@@ -184,20 +189,20 @@
         return 1
       fi
 
-      mkdir -p "$dest"
+      ${pkgs.coreutils}/bin/mkdir -p "$dest"
 
       case "''${file:l}" in
-        *.tar.gz|*.tgz)     tar -xzf "$file" -C "$dest" ;;
-        *.tar.bz2|*.tbz2)   tar -xjf "$file" -C "$dest" ;;
-        *.tar.xz|*.txz)     tar -xJf "$file" -C "$dest" ;;
-        *.tar.zst|*.tzst)   tar --zstd -xf "$file" -C "$dest" ;;
-        *.tar)              tar -xf "$file" -C "$dest" ;;
-        *.gz)               gunzip -k "$file" ;;
-        *.bz2)              bunzip2 -k "$file" ;;
-        *.xz)               unxz -k "$file" ;;
-        *.zip|*.cbz)        unzip -q "$file" -d "$dest" ;;
-        *.7z)               7z x "$file" -o"$dest" ;;
-        *.rar)              7z x "$file" -o"$dest" ;;
+        *.tar.gz|*.tgz)     ${pkgs.gnutar}/bin/tar -xzf "$file" -C "$dest" ;;
+        *.tar.bz2|*.tbz2)   ${pkgs.gnutar}/bin/tar -xjf "$file" -C "$dest" ;;
+        *.tar.xz|*.txz)     ${pkgs.gnutar}/bin/tar -xJf "$file" -C "$dest" ;;
+        *.tar.zst|*.tzst)   ${pkgs.gnutar}/bin/tar --zstd -xf "$file" -C "$dest" ;;
+        *.tar)              ${pkgs.gnutar}/bin/tar -xf "$file" -C "$dest" ;;
+        *.gz)               ${pkgs.gzip}/bin/gunzip -k "$file" ;;
+        *.bz2)              ${pkgs.bzip2}/bin/bunzip2 -k "$file" ;;
+        *.xz)               ${pkgs.xz}/bin/unxz -k "$file" ;;
+        *.zip|*.cbz)        ${pkgs.unzip}/bin/unzip -q "$file" -d "$dest" ;;
+        *.7z)               ${pkgs.p7zip}/bin/7z x "$file" -o"$dest" ;;
+        *.rar)              ${pkgs.p7zip}/bin/7z x "$file" -o"$dest" ;;
         *)
           echo "Unknown archive format: $file" >&2
           return 1
@@ -217,10 +222,10 @@
       shift
 
       case "$fmt" in
-        gz)   tar -czf "''${name}.tar.gz" "$@" ;;
-        bz2)  tar -cjf "''${name}.tar.bz2" "$@" ;;
-        xz)   tar -cJf "''${name}.tar.xz" "$@" ;;
-        zst)  tar --zstd -cf "''${name}.tar.zst" "$@" ;;
+        gz)   ${pkgs.gnutar}/bin/tar -czf "''${name}.tar.gz" "$@" ;;
+        bz2)  ${pkgs.gnutar}/bin/tar -cjf "''${name}.tar.bz2" "$@" ;;
+        xz)   ${pkgs.gnutar}/bin/tar -cJf "''${name}.tar.xz" "$@" ;;
+        zst)  ${pkgs.gnutar}/bin/tar --zstd -cf "''${name}.tar.zst" "$@" ;;
         *)    echo "Unknown format: $fmt (use gz, bz2, xz, zst)" >&2; return 1 ;;
       esac
     }
@@ -234,10 +239,10 @@
       local file="$1"
       case "''${file:l}" in
         *.tar.gz|*.tgz|*.tar.bz2|*.tbz2|*.tar.xz|*.txz|*.tar.zst|*.tzst|*.tar)
-          tar -tf "$file" ;;
-        *.zip|*.cbz)    unzip -l "$file" ;;
-        *.7z)     7z l "$file" ;;
-        *.rar)    7z l "$file" ;;
+          ${pkgs.gnutar}/bin/tar -tf "$file" ;;
+        *.zip|*.cbz)    ${pkgs.unzip}/bin/unzip -l "$file" ;;
+        *.7z)     ${pkgs.p7zip}/bin/7z l "$file" ;;
+        *.rar)    ${pkgs.p7zip}/bin/7z l "$file" ;;
         *)        echo "Unknown archive format: $file" >&2; return 1 ;;
       esac
     }

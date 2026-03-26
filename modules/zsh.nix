@@ -115,7 +115,6 @@ in
         "$directory"
         "$git_branch"
         "$git_status"
-        "$cmd_duration"
         "$jobs"
         "$python"
         "$direnv"
@@ -142,6 +141,7 @@ in
       git_branch = {
         style = "bold #d3869b";
         symbol = " ";
+        format = "[$symbol$branch(:$remote_branch)]($style) ";
       };
 
       git_status = {
@@ -152,11 +152,7 @@ in
         ahead = "⇡";
         behind = "⇣";
         diverged = "⇕";
-      };
-
-      cmd_duration = {
-        min_time = 3000;
-        style = "#fabd2f";
+        deleted = "󰩹";
       };
 
       jobs.style = "bold #83a598";
@@ -175,9 +171,9 @@ in
         format = "[$symbol$allowed]($style) ";
         symbol = " ";
         allowed_msg = "";
-        denied_msg = "direnv!";
+        denied_msg = "!";
         loaded_msg = "";
-        not_allowed_msg = "direnv!";
+        not_allowed_msg = "!";
         unloaded_msg = "";
       };
 

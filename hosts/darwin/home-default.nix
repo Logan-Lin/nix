@@ -327,11 +327,11 @@ in
     alt-shift-0 = ['move-node-to-workspace 10', 'workspace 10']
 
     # Window switcher
-    alt-space = "exec-and-forget ${pkgs.findutils}/bin/find -L /Applications /System/Applications /System/Library/CoreServices $HOME/Applications/Home\\ Manager\\ Apps -maxdepth 2 -name '*.app' | ${pkgs.coreutils}/bin/sort | ${pkgs.choose-gui}/bin/choose | xargs -I{} open {}"
-    alt-tab = "exec-and-forget ${pkgs.aerospace}/bin/aerospace list-windows --all --format '%{window-id} | %{app-name}: %{window-title}' | ${pkgs.choose-gui}/bin/choose | ${pkgs.coreutils}/bin/cut -d'|' -f1 | xargs ${pkgs.aerospace}/bin/aerospace focus --window-id"
+    alt-space = "exec-and-forget ${pkgs.findutils}/bin/find -L /Applications /System/Applications /System/Library/CoreServices $HOME/Applications/Home\\ Manager\\ Apps -maxdepth 2 -name '*.app' | ${pkgs.coreutils}/bin/sort | ${pkgs.choose-gui}/bin/choose | ${pkgs.findutils}/bin/xargs -I{} open {}"
+    alt-tab = "exec-and-forget ${pkgs.aerospace}/bin/aerospace list-windows --all --format '%{window-id} | %{app-name}: %{window-title}' | ${pkgs.choose-gui}/bin/choose | ${pkgs.coreutils}/bin/cut -d'|' -f1 | ${pkgs.findutils}/bin/xargs ${pkgs.aerospace}/bin/aerospace focus --window-id"
 
     # Bookmark picker
-    alt-b = "exec-and-forget ${pkgs.yq-go}/bin/yq -r '[.[] | {\"line\": (.name + (.tags | select(. != null) | \" [\" + join(\", \") + \"]\") + \" | \" + .url), \"sort\": ((.tags // [] | join(\",\")) + \"|\" + .name)}] | sort_by(.sort) | .[].line' $HOME/Documents/app-state/bookmarks.yaml | ${pkgs.choose-gui}/bin/choose | ${pkgs.coreutils}/bin/cut -d'|' -f2 | xargs open -a ${pkgs.firefox-bin}/Applications/Firefox.app"
+    alt-b = "exec-and-forget ${pkgs.yq-go}/bin/yq -r '[.[] | {\"line\": (.name + (.tags | select(. != null) | \" [\" + join(\", \") + \"]\") + \" | \" + .url), \"sort\": ((.tags // [] | join(\",\")) + \"|\" + .name)}] | sort_by(.sort) | .[].line' $HOME/Documents/app-state/bookmarks.yaml | ${pkgs.choose-gui}/bin/choose | ${pkgs.coreutils}/bin/cut -d'|' -f2 | ${pkgs.findutils}/bin/xargs -r open -a ${pkgs.firefox-bin}/Applications/Firefox.app"
   '';
 
 }
