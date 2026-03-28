@@ -137,11 +137,12 @@
 
   services.deluge-custom = {
     enable = true;
-    downloadDir = "/home/yanlin/Downloads";
+    downloadDir = "/mnt/storage/downloads";
   };
 
   services.samba-custom.shares = {
-    Downloads = "/home/yanlin/Downloads";
+    Downloads = "/mnt/storage/downloads";
+    Media = "/home/yanlin/Media";
   };
 
   services.disk-health = {

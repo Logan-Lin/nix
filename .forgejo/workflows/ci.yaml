@@ -21,6 +21,33 @@ jobs:
             nix eval ".#darwinConfigurations.${host}.config.system.build.toplevel.drvPath"
           done
 
+      - name: Evaluate Linux Home Manager configs
+        run: |
+          for config in $(nix eval .#homeConfigurations --apply 'x: builtins.attrNames x' --json | jq -r '.[]'); do
+            pkg_system=$(nix eval ".#homeConfigurations.\"${config}\".activationPackage.system" --raw 2>/dev/null || true)
+            if [ "$pkg_system" = "x86_64-linux" ]; then
+              echo "Evaluating homeConfigurations.${config}..."
+              nix eval ".#homeConfigurations.\"${config}\".activationPackage.drvPath"
+            fi
+          done
+
+      - name: Build NixOS configs
+        run: |
+          for host in $(nix eval .#nixosConfigurations --apply 'x: builtins.attrNames x' --json | jq -r '.[]'); do
+            echo "Building nixosConfigurations.${host}..."
+            nix build ".#nixosConfigurations.${host}.config.system.build.toplevel" --no-link
+          done
+
+      - name: Build Linux Home Manager configs
+        run: |
+          for config in $(nix eval .#homeConfigurations --apply 'x: builtins.attrNames x' --json | jq -r '.[]'); do
+            pkg_system=$(nix eval ".#homeConfigurations.\"${config}\".activationPackage.system" --raw 2>/dev/null || true)
+            if [ "$pkg_system" = "x86_64-linux" ]; then
+              echo "Building homeConfigurations.${config}..."
+              nix build ".#homeConfigurations.\"${config}\".activationPackage" --no-link
+            fi
+          done
+
       - name: Send notification
         if: always()
         run: curl -s -d "Nix config evaluate ${{ job.status }}" https://ntfy.sh/yanlincs-homelab

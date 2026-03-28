@@ -132,6 +132,7 @@ let
     spinnerTipsEnabled = false;
     todoEnabled = true;
     autoCompactEnabled = true;
+    autoMemoryEnabled = false;
     alwaysThinkingEnabled = true;
     surveyDisabled = true;
     prefersReducedMotion = true;

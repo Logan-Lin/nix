@@ -2,6 +2,43 @@
 
 let
   casks = inputs.nix-casks.packages.${pkgs.stdenv.hostPlatform.system};
+  setFileAssociationsScript = pkgs.writeText "set-file-associations.swift" ''
+    import AppKit
+    import UniformTypeIdentifiers
+
+    let associations: [(bundleId: String, extensions: [String])] = [
+      ("com.apple.TextEdit", [
+        "txt", "md", "markdown", "nix", "sh", "bash", "zsh", "fish",
+        "py", "js", "ts", "jsx", "tsx", "json", "yaml", "yml", "toml",
+        "xml", "css", "log", "csv", "conf", "config", "ini", "env",
+        "c", "cpp", "h", "hpp", "rs", "go", "java", "rb", "php",
+        "lua", "vim", "tex", "bib"
+      ]),
+      ("com.apple.Preview", [
+        "pdf", "png", "jpg", "jpeg", "gif", "bmp", "tiff", "tif",
+        "webp", "heic", "heif", "ico"
+      ]),
+      ("org.inkscape.Inkscape", ["svg"]),
+      ("com.jgraph.drawio.desktop", ["drawio"]),
+      ("com.colliderli.iina", [
+        "mp4", "mkv", "avi", "mov", "wmv", "flv", "webm", "m4v",
+        "mpg", "mpeg", "mp3", "m4a", "flac", "wav", "aac", "ogg", "opus"
+      ])
+    ]
+
+    let ws = NSWorkspace.shared
+
+    for (bundleId, extensions) in associations {
+      guard let appURL = ws.urlForApplication(withBundleIdentifier: bundleId) else {
+        fputs("Warning: app not found: \(bundleId), skipping\n", stderr)
+        continue
+      }
+      for ext in extensions {
+        guard let utType = UTType(filenameExtension: ext) else { continue }
+        ws.setDefaultApplication(at: appURL, toOpen: utType)
+      }
+    }
+  '';
 in
 {
   imports = [
@@ -24,7 +61,6 @@ in
   syncthing-custom.folders = {
     Credentials.enable = true;
     Documents.enable = true;
-    Media.enable = true;
     Archive.enable = true;
   };
 
@@ -109,7 +145,6 @@ in
     ncdu
     fastfetch
     coreutils
-    duti
     rsync
     choose-gui
     yq-go
@@ -122,7 +157,6 @@ in
     obsidian
     iina
     drawio
-    audacity
   ] ++ (with casks; [
     musicbrainz-picard
     inkscape
@@ -130,8 +164,6 @@ in
     slidepilot
     clash-verge-rev
     linearmouse
-    obs
-    kdenlive
   ]);
 
   launchd.agents.maccy = {
@@ -162,75 +194,7 @@ in
   };
 
   home.activation.setFileAssociations = config.lib.dag.entryAfter ["writeBoundary"] ''
-    run ${pkgs.duti}/bin/duti -s com.apple.TextEdit .txt all
-    run ${pkgs.duti}/bin/duti -s com.apple.TextEdit .md all
-    run ${pkgs.duti}/bin/duti -s com.apple.TextEdit .markdown all
-    run ${pkgs.duti}/bin/duti -s com.apple.TextEdit .nix all
-    run ${pkgs.duti}/bin/duti -s com.apple.TextEdit .sh all
-    run ${pkgs.duti}/bin/duti -s com.apple.TextEdit .bash all
-    run ${pkgs.duti}/bin/duti -s com.apple.TextEdit .zsh all
-    run ${pkgs.duti}/bin/duti -s com.apple.TextEdit .fish all
-    run ${pkgs.duti}/bin/duti -s com.apple.TextEdit .py all
-    run ${pkgs.duti}/bin/duti -s com.apple.TextEdit .js all
-    run ${pkgs.duti}/bin/duti -s com.apple.TextEdit .ts all
-    run ${pkgs.duti}/bin/duti -s com.apple.TextEdit .jsx all
-    run ${pkgs.duti}/bin/duti -s com.apple.TextEdit .tsx all
-    run ${pkgs.duti}/bin/duti -s com.apple.TextEdit .json all
-    run ${pkgs.duti}/bin/duti -s com.apple.TextEdit .yaml all
-    run ${pkgs.duti}/bin/duti -s com.apple.TextEdit .yml all
-    run ${pkgs.duti}/bin/duti -s com.apple.TextEdit .toml all
-    run ${pkgs.duti}/bin/duti -s com.apple.TextEdit .xml all
-    run ${pkgs.duti}/bin/duti -s com.apple.TextEdit .css all
-    run ${pkgs.duti}/bin/duti -s com.apple.TextEdit .log all
-    run ${pkgs.duti}/bin/duti -s com.apple.TextEdit .csv all
-    run ${pkgs.duti}/bin/duti -s com.apple.TextEdit .conf all
-    run ${pkgs.duti}/bin/duti -s com.apple.TextEdit .config all
-    run ${pkgs.duti}/bin/duti -s com.apple.TextEdit .ini all
-    run ${pkgs.duti}/bin/duti -s com.apple.TextEdit .env all
-    run ${pkgs.duti}/bin/duti -s com.apple.TextEdit .c all
-    run ${pkgs.duti}/bin/duti -s com.apple.TextEdit .cpp all
-    run ${pkgs.duti}/bin/duti -s com.apple.TextEdit .h all
-    run ${pkgs.duti}/bin/duti -s com.apple.TextEdit .hpp all
-    run ${pkgs.duti}/bin/duti -s com.apple.TextEdit .rs all
-    run ${pkgs.duti}/bin/duti -s com.apple.TextEdit .go all
-    run ${pkgs.duti}/bin/duti -s com.apple.TextEdit .java all
-    run ${pkgs.duti}/bin/duti -s com.apple.TextEdit .rb all
-    run ${pkgs.duti}/bin/duti -s com.apple.TextEdit .php all
-    run ${pkgs.duti}/bin/duti -s com.apple.TextEdit .lua all
-    run ${pkgs.duti}/bin/duti -s com.apple.TextEdit .vim all
-    run ${pkgs.duti}/bin/duti -s com.apple.TextEdit .tex all
-    run ${pkgs.duti}/bin/duti -s com.apple.TextEdit .bib all
-    run ${pkgs.duti}/bin/duti -s com.apple.Preview .pdf all
-    run ${pkgs.duti}/bin/duti -s org.inkscape.Inkscape .svg all
-    run ${pkgs.duti}/bin/duti -s com.jgraph.drawio.desktop .drawio all
-    run ${pkgs.duti}/bin/duti -s com.apple.Preview .png all
-    run ${pkgs.duti}/bin/duti -s com.apple.Preview .jpg all
-    run ${pkgs.duti}/bin/duti -s com.apple.Preview .jpeg all
-    run ${pkgs.duti}/bin/duti -s com.apple.Preview .gif all
-    run ${pkgs.duti}/bin/duti -s com.apple.Preview .bmp all
-    run ${pkgs.duti}/bin/duti -s com.apple.Preview .tiff all
-    run ${pkgs.duti}/bin/duti -s com.apple.Preview .tif all
-    run ${pkgs.duti}/bin/duti -s com.apple.Preview .webp all
-    run ${pkgs.duti}/bin/duti -s com.apple.Preview .heic all
-    run ${pkgs.duti}/bin/duti -s com.apple.Preview .heif all
-    run ${pkgs.duti}/bin/duti -s com.apple.Preview .ico all
-    run ${pkgs.duti}/bin/duti -s com.colliderli.iina .mp4 all
-    run ${pkgs.duti}/bin/duti -s com.colliderli.iina .mkv all
-    run ${pkgs.duti}/bin/duti -s com.colliderli.iina .avi all
-    run ${pkgs.duti}/bin/duti -s com.colliderli.iina .mov all
-    run ${pkgs.duti}/bin/duti -s com.colliderli.iina .wmv all
-    run ${pkgs.duti}/bin/duti -s com.colliderli.iina .flv all
-    run ${pkgs.duti}/bin/duti -s com.colliderli.iina .webm all
-    run ${pkgs.duti}/bin/duti -s com.colliderli.iina .m4v all
-    run ${pkgs.duti}/bin/duti -s com.colliderli.iina .mpg all
-    run ${pkgs.duti}/bin/duti -s com.colliderli.iina .mpeg all
-    run ${pkgs.duti}/bin/duti -s com.colliderli.iina .mp3 all
-    run ${pkgs.duti}/bin/duti -s com.colliderli.iina .m4a all
-    run ${pkgs.duti}/bin/duti -s com.colliderli.iina .flac all
-    run ${pkgs.duti}/bin/duti -s com.colliderli.iina .wav all
-    run ${pkgs.duti}/bin/duti -s com.colliderli.iina .aac all
-    run ${pkgs.duti}/bin/duti -s com.colliderli.iina .ogg all
-    run ${pkgs.duti}/bin/duti -s com.colliderli.iina .opus all
+    run /usr/bin/swift ${setFileAssociationsScript}
   '';
 
   home.file.".config/linearmouse/linearmouse.json".text = builtins.toJSON {
