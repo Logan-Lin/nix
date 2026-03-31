@@ -13,7 +13,8 @@
       url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nix-casks.url = "github:atahanyorganci/nix-casks/archive";
+    nix-casks.url = "git+https://git.yanlincs.com/yanlin/nix-casks.git?ref=archive";
+    nix-casks.inputs.nixpkgs.follows = "nixpkgs";
     nix-homebrew.url = "github:zhaofengli/nix-homebrew";
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";

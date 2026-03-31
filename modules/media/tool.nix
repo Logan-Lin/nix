@@ -22,6 +22,7 @@
     immich-go
     kepubify
     exiftool
+    pdftk
   ];
 
   programs.zsh.initContent = ''

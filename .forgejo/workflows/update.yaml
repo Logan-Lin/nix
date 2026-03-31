@@ -72,10 +72,8 @@ jobs:
             fi
           done
 
-      - name: Create PR
+      - name: Commit and push
         if: steps.check.outputs.changed == 'true'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config user.name "Forgejo Actions"
           git config user.email "git-actions@yanlincs.com"
@@ -83,22 +81,6 @@ jobs:
           git add flake.lock
           git commit -m "update flake inputs"
           git push -f origin flake-update
-
-          existing=$(curl -s \
-            -H "Authorization: token ${GITHUB_TOKEN}" \
-            "${GITHUB_SERVER_URL}/api/v1/repos/${GITHUB_REPOSITORY}/pulls?state=open&head=flake-update" \
-            | jq 'length')
-
-          if [ "$existing" = "0" ]; then
-            curl -s -X POST \
-              -H "Authorization: token ${GITHUB_TOKEN}" \
-              -H "Content-Type: application/json" \
-              "${GITHUB_SERVER_URL}/api/v1/repos/${GITHUB_REPOSITORY}/pulls" \
-              -d '{"title":"Update flake inputs","head":"flake-update","base":"master"}'
-            echo "PR created"
-          else
-            echo "PR already exists, branch updated"
-          fi
 
       - name: Send notification
         if: always()
