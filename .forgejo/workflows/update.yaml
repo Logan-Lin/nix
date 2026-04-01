@@ -26,32 +26,12 @@ jobs:
             echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Evaluate NixOS configs
+      - name: Check config syntax
         if: steps.check.outputs.changed == 'true'
         run: |
-          for host in $(nix eval .#nixosConfigurations --apply 'x: builtins.attrNames x' --json | jq -r '.[]'); do
-            echo "Evaluating nixosConfigurations.${host}..."
-            nix eval ".#nixosConfigurations.${host}.config.system.build.toplevel.drvPath"
-          done
-
-      - name: Evaluate Darwin configs
-        if: steps.check.outputs.changed == 'true'
-        run: |
-          for host in $(nix eval .#darwinConfigurations --apply 'x: builtins.attrNames x' --json | jq -r '.[]'); do
-            echo "Evaluating darwinConfigurations.${host}..."
-            nix eval ".#darwinConfigurations.${host}.config.system.build.toplevel.drvPath"
-          done
-
-      - name: Evaluate Linux Home Manager configs
-        if: steps.check.outputs.changed == 'true'
-        run: |
-          for config in $(nix eval .#homeConfigurations --apply 'x: builtins.attrNames x' --json | jq -r '.[]'); do
-            pkg_system=$(nix eval ".#homeConfigurations.\"${config}\".activationPackage.system" --raw 2>/dev/null || true)
-            if [ "$pkg_system" = "x86_64-linux" ]; then
-              echo "Evaluating homeConfigurations.${config}..."
-              nix eval ".#homeConfigurations.\"${config}\".activationPackage.drvPath"
-            fi
-          done
+          nix eval .#nixosConfigurations --apply 'builtins.mapAttrs (_: v: v.config.system.build.toplevel.drvPath)' --json > /dev/null
+          nix eval .#darwinConfigurations --apply 'builtins.mapAttrs (_: v: v.config.system.build.toplevel.drvPath)' --json > /dev/null
+          nix eval .#homeConfigurations --apply 'builtins.mapAttrs (_: v: v.activationPackage.drvPath)' --json > /dev/null
 
       - name: Build NixOS configs
         if: steps.check.outputs.changed == 'true'
