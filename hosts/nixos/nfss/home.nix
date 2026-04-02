@@ -6,7 +6,7 @@
     ../../../modules/syncthing.nix
     ../../../modules/media/tool.nix
     ../../../modules/media/yt-dlp.nix
-    ../../../modules/claude-code.nix
+    ../../../modules/terminal/claude.nix
   ];
 
   syncthing-custom.folders = {

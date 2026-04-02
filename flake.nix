@@ -36,7 +36,6 @@
       system = "x86_64-linux";
       modules = [
         ./hosts/nixos/vps/system.nix
-        ./hosts/nixos/vps/disk-config.nix
       ];
       specialArgs = { inherit inputs; };
     };
@@ -45,7 +44,6 @@
       system = "x86_64-linux";
       modules = [
         ./hosts/nixos/thinkpad/system.nix
-        ./hosts/nixos/thinkpad/disk-config.nix
       ];
       specialArgs = { inherit inputs; };
     };
@@ -54,7 +52,6 @@
       system = "x86_64-linux";
       modules = [
         ./hosts/nixos/nfss/system.nix
-        ./hosts/nixos/nfss/disk-config.nix
       ];
       specialArgs = { inherit inputs; };
     };

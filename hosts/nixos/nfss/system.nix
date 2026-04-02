@@ -3,6 +3,7 @@
 {
   imports = [
     ./hardware-configuration.nix
+    ./disk-config.nix
     ../system-default.nix
     ../../../modules/vpn/client.nix
     ../../../modules/podman.nix

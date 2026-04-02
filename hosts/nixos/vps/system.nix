@@ -3,6 +3,7 @@
 {
   imports = [
     ./hardware-configuration.nix
+    ./disk-config.nix
     ./containers.nix
     ../system-default.nix
     ../../../modules/vpn/server.nix

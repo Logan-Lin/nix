@@ -2,14 +2,13 @@
 
 {
   imports = [
-    inputs.nixvim.homeModules.nixvim
-    ../../modules/nvim.nix 
-    ../../modules/tmux.nix 
-    ../../modules/zsh.nix 
+    ../../modules/terminal/nvim.nix
+    ../../modules/terminal/tmux.nix 
+    ../../modules/terminal/zsh.nix 
     ../../modules/ssh.nix
     ../../modules/git/home.nix
     ../../modules/git/lazygit.nix
-    ../../modules/btop.nix
+    ../../modules/terminal/btop.nix
     ../../modules/font.nix
   ];
 
