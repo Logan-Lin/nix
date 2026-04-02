@@ -145,10 +145,10 @@ in
     fastfetch
     coreutils
     rsync
-    choose-gui
     yq-go
     findutils
 
+    choose-gui
     keepassxc
     localsend
     aerospace

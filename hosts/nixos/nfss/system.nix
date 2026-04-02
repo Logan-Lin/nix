@@ -157,6 +157,13 @@
 
   services.journald.extraConfig = "SystemMaxUse=5G";
 
+  # NOTE: Generate keypair: nix-store --generate-binary-cache-key <url> /etc/harmonia/signing-key.sec /etc/harmonia/signing-key.pub
+  services.harmonia.cache = {
+    enable = true;
+    signKeyPaths = [ "/etc/harmonia/signing-key.sec" ];
+    settings.bind = "[::]:5000";
+  };
+
   services.git-runner-custom = {
     enable = true;
     url = "https://git.yanlincs.com";

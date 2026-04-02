@@ -36,7 +36,6 @@ let
       "Bash(nix derivation show:*)"
       "Bash(nix why-depends:*)"
 
-      "Bash(builtin cd:*)"
       "Bash(cd:*)"
       "Bash(ls:*)"
       "Bash(find:*)"
@@ -63,70 +62,16 @@ let
       "Bash(rm -rf:*)"
       "Bash(sudo:*)"
       "Bash(su:*)"
-      "Bash(chmod +x:*)"
-      "Bash(chown:*)"
-      "Bash(passwd:*)"
-      "Bash(userdel:*)"
-      "Bash(useradd:*)"
-      "Bash(usermod:*)"
-      "Bash(groupadd:*)"
-      "Bash(groupdel:*)"
-      "Bash(mount:*)"
-      "Bash(umount:*)"
-      "Bash(fdisk:*)"
-      "Bash(mkfs:*)"
       "Bash(dd:*)"
-
-      "Bash(nc:*)"
-      "Bash(netcat:*)"
-      "Bash(telnet:*)"
-      "Bash(ssh:*)"
-      "Bash(scp:*)"
-      "Bash(rsync:*)"
-      "Bash(nmap:*)"
-
-      "Bash(npm install:*)"
-      "Bash(npm uninstall:*)"
-      "Bash(pip install:*)"
-      "Bash(pip uninstall:*)"
-      "Bash(cargo install:*)"
-      "Bash(brew install:*)"
-      "Bash(apt install:*)"
-      "Bash(yum install:*)"
-      "Bash(pacman -S:*)"
-
-      "Bash(systemctl:*)"
-      "Bash(service:*)"
-      "Bash(launchctl:*)"
-
-      "Bash(nixos-rebuild:*)"
-      "Bash(nix-collect-garbage:*)"
-      "Bash(nix-channel:*)"
-
-      "Read(/nix/**)"
-      "Bash(oss:*)"
-      "Bash(hms:*)"
+      "Bash(mkfs:*)"
+      "Bash(fdisk:*)"
     ];
     
     additionalDirectories = [
       "~/Documents/"
     ];
 
-    ask = [
-      "Bash(mkdir:*)"
-      "Bash(rmdir:*)"
-      "Bash(mv:*)"
-      "Bash(cp:*)"
-      "Bash(touch:*)"
-
-      "Bash(curl:*)"
-      "Bash(wget:*)"
-
-      "Read(.env*)"
-      "Read(*.env*)"
-      "Read(./.env*)"
-    ];
-  };
+};
 
   globalSettings = {
     spinnerTipsEnabled = false;
@@ -166,11 +111,6 @@ in
         - When the Read tool broke on PDF files, use `pdftotext <file> -` via Bash instead
         - Document format conversion is supported (pandoc installed)
         - YAML/TOML/XML processing is supported (yq-go installed)
-
-        ## Bash Commands
-        - Issue exactly ONE simple command per Bash tool call. Do NOT chain commands with `;`, `&&`, `||`, or use subshells.
-        - Use multiple parallel Bash tool calls instead of chaining commands in a single call.
-        - Avoid shell redirections like `2>/dev/null` or `2>&1` — let stderr appear naturally.
       '';
     };
   };

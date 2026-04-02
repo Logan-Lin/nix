@@ -24,6 +24,8 @@
   };
 
   home.packages = with pkgs; [
+    curl
+    wget
     gnumake
     rsync
     bind
@@ -32,5 +34,7 @@
     netcat-gnu
     ncdu
     fastfetch
+    findutils
+    yq-go
   ];
 }
