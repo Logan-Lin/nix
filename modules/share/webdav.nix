@@ -4,11 +4,11 @@
 { config, pkgs, lib, ... }:
 
 let
-  cfg = config.services.webdav;
+  cfg = config.services.webdav-custom;
   authFile = "/etc/webdav-auth";
 in
 {
-  options.services.webdav = {
+  options.services.webdav-custom = {
     shares = lib.mkOption {
       type = lib.types.attrsOf (lib.types.submodule {
         options = {
@@ -29,13 +29,13 @@ in
 
     user = lib.mkOption {
       type = lib.types.str;
-      default = "root";
+      default = "yanlin";
       description = "User account under which dufs runs";
     };
 
     group = lib.mkOption {
       type = lib.types.str;
-      default = "root";
+      default = "users";
       description = "Group under which dufs runs";
     };
   };

@@ -45,6 +45,9 @@ in
           "map to guest" = "bad user";
           "server min protocol" = "SMB3_00";
           "smb encrypt" = "desired";
+          "vfs objects" = "catia fruit streams_xattr";
+          "fruit:metadata" = "stream";
+          "fruit:nfs_aces" = "no";
         };
       } // lib.mapAttrs mkShareSettings cfg.shares;
     };

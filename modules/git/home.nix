@@ -12,6 +12,8 @@
   programs.git = {
     enable = true;
 
+    signing.format = null;
+
     ignores = [
       "**/.claude/settings.local.json"
       ".DS_Store"
