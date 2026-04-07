@@ -75,6 +75,14 @@
         publicKey = "xqsOWaCaEK1ehC+66deEQxAN92AYPyL9IrIeM4ujIRM=";
         allowedIPs = [ "10.2.2.20/32" ];
       }
+      {
+        publicKey = "00K2AHKt7lWz91U77SQaG+Vmql2BRVQG53yVFRACqEc=";
+        allowedIPs = [ "10.2.2.30/32" ];
+      }
+      {
+        publicKey = "eufamkZ/LKkIxe8tHzKbtyV7MtWJN4ujCHqgf5m4TjY=";
+        allowedIPs = [ "10.2.2.40/32" ];
+      }
     ];
   };
 
