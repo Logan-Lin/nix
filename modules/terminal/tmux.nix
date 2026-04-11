@@ -2,11 +2,15 @@
 
 let
   continuumSaveScript = "${pkgs.tmuxPlugins.continuum}/share/tmux-plugins/continuum/scripts/continuum_save.sh";
+  resurrectSaveScript = "${pkgs.tmuxPlugins.resurrect}/share/tmux-plugins/resurrect/scripts/save.sh";
+  resurrectRestoreScript = "${pkgs.tmuxPlugins.resurrect}/share/tmux-plugins/resurrect/scripts/restore.sh";
 in
 {
   home.packages = [ pkgs.sesh pkgs.perl ];
 
   programs.zsh.shellAliases.ts = "sesh connect $(sesh list --icons | fzf --reverse --border --ansi)";
+  programs.zsh.shellAliases.tss = "tmux run-shell ${resurrectSaveScript}";
+  programs.zsh.shellAliases.tsr = "tmux run-shell ${resurrectRestoreScript}";
 
   programs.tmux = {
     enable = true;
@@ -30,6 +34,8 @@ in
         extraConfig = ''
           set -g @continuum-restore 'on'
           set -g @continuum-save-interval '60'
+          unbind C-s
+          unbind C-r
         '';
       }
     ];
