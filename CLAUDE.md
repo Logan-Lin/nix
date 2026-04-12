@@ -1,10 +1,3 @@
-## Coding Style
-- Never write shebang unless specifically requested
-- Do not abuse comments when writing code, especially code intuitive enough that does not need comments to further explain
-- When writing shell scripts, prefer zsh over bash; use `zsh -i -c` to run commands that need access to user-defined shell functions
-
-## NixOS
-- This is my nixOS configuration for all my personal computers, and you are running on one of the nixOS hosts
-- Check existing nix config when interacting with runtime environments
-- Per spirit of nixOS reproducibility, try to analysis problems purely based on my nixOS configuration system first, since it should be representative of the actual runtime environment of the host machine; especially avoid interacting with temporarily runtime environments, like searching in nix store or using `nix-env`.
-- Use `oss` alias for nixos-rebuild switch and `hms` alias for home-manager switch
+## NixOS Configuration Repo
+- This is my NixOS configuration for all my personal computers and servers, and you are running on one of the NixOS/nix-darwin hosts
+- Per the spirit of NixOS reproducibility, start from this configuration repo when doing analysis and edits, since it should be representative of the actual runtime environment of the host machine
