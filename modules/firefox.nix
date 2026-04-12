@@ -31,17 +31,6 @@ in
   };
 
   config = mkIf cfg.enable {
-    home.file."${config.home.homeDirectory}/.mozilla/firefox/yanlin/chrome/userChrome.css".text = ''
-      #firefox-view-button {
-        display: none !important;
-      }
-
-      #context_moveTabOptions > menuitem[data-l10n-id="tab-context-send-tabs-to-device"] + menuseparator,
-      #context_moveTabOptions > menuitem[command="Browser:SendTabToDevice"] {
-        display: none !important;
-      }
-    '';
-
     programs.firefox = {
       enable = true;
       package = cfg.package;
