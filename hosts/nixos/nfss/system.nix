@@ -34,7 +34,7 @@
     options = "--delete-older-than 30d";
   };
 
-  boot.initrd.systemd.enable = false;
+  boot.initrd.systemd.enable = true;
   boot.supportedFilesystems = [ "zfs" ];
   boot.zfs.forceImportRoot = false;
 

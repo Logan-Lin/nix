@@ -93,7 +93,7 @@
         };
       };
 
-      memory.text = ''
+      context = ''
         ## Environment
         1. System is managed with Nix for global development runtime, config repo at `~/.config/nix`
         2. Projects may use flake + direnv for project-specific runtimes

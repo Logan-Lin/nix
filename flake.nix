@@ -3,21 +3,31 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    nix-darwin.url = "github:nix-darwin/nix-darwin/master";
-    nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
-    home-manager.url = "github:nix-community/home-manager";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
-    nixvim.url = "github:nix-community/nixvim";
-    nixvim.inputs.nixpkgs.follows = "nixpkgs";
+    nix-homebrew.url = "github:zhaofengli/nix-homebrew";
+    nix-darwin = {
+      url = "github:nix-darwin/nix-darwin/master";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    nixvim = {
+      url = "github:nix-community/nixvim";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     firefox-addons = {
       url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nix-casks.url = "git+https://git.yanlincs.com/yanlin/nix-casks.git?ref=archive";
-    nix-casks.inputs.nixpkgs.follows = "nixpkgs";
-    nix-homebrew.url = "github:zhaofengli/nix-homebrew";
-    disko.url = "github:nix-community/disko";
-    disko.inputs.nixpkgs.follows = "nixpkgs";
+    nix-casks = {
+      url = "git+https://git.yanlincs.com/yanlin/nix-casks.git?ref=archive";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, nixvim, firefox-addons, nix-casks, nix-homebrew, disko }:
@@ -34,25 +44,19 @@
 
     nixosConfigurations."vps" = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
-      modules = [
-        ./hosts/nixos/vps/system.nix
-      ];
+      modules = [ ./hosts/nixos/vps/system.nix ];
       specialArgs = { inherit inputs; };
     };
 
     nixosConfigurations."thinkpad" = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
-      modules = [
-        ./hosts/nixos/thinkpad/system.nix
-      ];
+      modules = [ ./hosts/nixos/thinkpad/system.nix ];
       specialArgs = { inherit inputs; };
     };
 
     nixosConfigurations."nfss" = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
-      modules = [
-        ./hosts/nixos/nfss/system.nix
-      ];
+      modules = [ ./hosts/nixos/nfss/system.nix ];
       specialArgs = { inherit inputs; };
     };
 
