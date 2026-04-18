@@ -55,6 +55,9 @@
             "Bash(nix flake check:*)"
             "Bash(nix derivation show:*)"
             "Bash(nix why-depends:*)"
+            "Bash(nix path-info:*)"
+            "Bash(nix log:*)"
+            "Bash(nix registry:*)"
 
             "Bash(cd:*)"
             "Bash(ls:*)"
@@ -68,6 +71,8 @@
             "Bash(du:*)"
             "Bash(tree:*)"
             "Bash(pdftotext:*)"
+            "Bash(curl:*)"
+            "Bash(yq:*)"
 
             "Bash(which:*)"
             "Bash(whereis:*)"
@@ -103,6 +108,7 @@
         2. For text-heavy content, keep writing straightforward
           - Avoid using em dashes and en dashes to connect sentences
           - Do not abuse punctuation like semicolons/colons/parentheses to join or compress sentences, or formatting like bold/italic/itemize/enumeration (LaTeX or Markdown). Use them only when they genuinely help
+        3. In prose-heavy files (Markdown, LaTeX, etc.) where linebreaks do not affect rendering, break lines between sentences at natural pauses to make diffs and editing easier. Never break in the middle of a sentence
       '';
 
       commands = {
@@ -146,7 +152,7 @@
         document-conversion = ''
           ---
           name: document-conversion
-          description: Convert between document formats (markdown, HTML, docx, LaTeX, etc.). Use when the user asks to convert documents or needs format transformation.
+          description: Convert between document formats (markdown, HTML, docx, LaTeX, etc.). Use when you need to read non-plain-text documents or convert between formats.
           ---
 
           # Document Conversion
@@ -165,7 +171,7 @@
         structured-data = ''
           ---
           name: structured-data
-          description: Process YAML, TOML, XML, and JSON files. Use when the user needs to query, transform, or convert between structured data formats.
+          description: Process YAML, TOML, XML, and JSON files. Use when you need to query, transform, or convert between structured data formats.
           ---
 
           # Structured Data Processing
@@ -179,6 +185,160 @@
           yq -o json '.' file.yaml        # convert YAML to JSON
           yq -p json -o yaml '.' file.json # convert JSON to YAML
           ```
+        '';
+
+        academic-search = ''
+          ---
+          name: academic-search
+          description: Search for academic papers, scholarly articles, research publications, and citations. Use when you want to find papers, look up a DOI, search by author, explore citations, or do a literature search.
+          ---
+
+          # Academic Paper Search
+
+          Use the OpenAlex API via `curl` and parse results with `yq`.
+
+          ## Search for papers
+
+          ```sh
+          curl -s 'https://api.openalex.org/works?search=QUERY&per_page=10&select=id,doi,title,authorships,publication_year,cited_by_count,open_access,primary_location&sort=cited_by_count:desc' | yq -P '.'
+          ```
+
+          URL-encode the query string. Use `sort=publication_date:desc` for most recent results instead.
+
+          ## Filter by author, year, or field
+
+          Add filters with `&filter=`:
+
+          ```sh
+          # By author name
+          curl -s 'https://api.openalex.org/works?filter=raw_author_name.search:Hinton&per_page=10&select=id,doi,title,publication_year,cited_by_count&sort=cited_by_count:desc' | yq -P '.'
+
+          # By year range
+          curl -s 'https://api.openalex.org/works?search=QUERY&filter=publication_year:2020-2024&per_page=10&select=id,doi,title,authorships,publication_year,cited_by_count&sort=cited_by_count:desc' | yq -P '.'
+
+          # By field
+          curl -s 'https://api.openalex.org/works?search=QUERY&filter=primary_topic.field.display_name.search:Computer%20Science&per_page=10&select=id,doi,title,publication_year,cited_by_count&sort=cited_by_count:desc' | yq -P '.'
+          ```
+
+          Filters can be combined with commas: `filter=publication_year:>2020,raw_author_name.search:Vaswani`.
+
+          ## Look up a specific paper by DOI
+
+          ```sh
+          curl -s 'https://api.openalex.org/works/doi:10.1234/example?select=id,doi,title,authorships,publication_year,cited_by_count,open_access,abstract_inverted_index,primary_location,referenced_works' | yq -P '.'
+          ```
+
+          ## Find papers that cite a given paper
+
+          Use the OpenAlex work ID (e.g., W2741809807) from search results:
+
+          ```sh
+          curl -s 'https://api.openalex.org/works?filter=cites:W2741809807&per_page=10&select=id,doi,title,publication_year,cited_by_count&sort=cited_by_count:desc' | yq -P '.'
+          ```
+
+          ## Get abstract
+
+          OpenAlex stores abstracts as an inverted index in `abstract_inverted_index`. Reconstruct it, or use Semantic Scholar as a fallback for a plain text abstract:
+
+          ```sh
+          curl -s 'https://api.semanticscholar.org/graph/v1/paper/DOI:10.1234/example?fields=abstract' | yq -P '.abstract'
+          ```
+
+          ## Access full text
+
+          Check `open_access.oa_url` from search results for a free PDF link. Use the `pdf` skill to read downloaded PDFs.
+
+          ## Presentation
+
+          Present results as a table with: title, authors (first author et al.), year, citation count, and DOI link.
+        '';
+
+        nix-search = ''
+          ---
+          name: nix-search
+          description: Search NixOS options, Home Manager options, nix-darwin options, and nixpkgs packages. Use when you need to look up Nix module options, find packages, or check option types, defaults, and module source.
+          ---
+
+          # Nix Options and Package Search
+
+          The user's config flake is at `~/.config/nix` with NixOS, nix-darwin, and Home Manager.
+
+          ## Search NixOS options
+
+          Query the search.nixos.org Elasticsearch backend. Replace QUERY with the search term.
+
+          ```sh
+          curl -s -X POST 'https://search.nixos.org/backend/latest-45-nixos-unstable/_search' \
+            -u 'aWVSALXpZv:X8gPHnzL52wFEekuxsfQ9cSh' \
+            -H 'Content-Type: application/json' \
+            -d '{"size":10,"query":{"bool":{"must":[{"term":{"type":"option"}},{"dis_max":{"queries":[{"wildcard":{"option_name":{"value":"*QUERY*"}}},{"match":{"option_description":"QUERY"}}]}}]}},"_source":["option_name","option_type","option_default","option_description","option_source"]}' \
+            | yq -P '.hits.hits[]._source | del(.option_description)'
+          ```
+
+          Include `option_description` in the yq output when details are needed. For the stable channel, replace `unstable` with `25.11`.
+
+          ## Look up a specific NixOS option
+
+          Use an exact term match on `option_name`:
+
+          ```sh
+          curl -s -X POST 'https://search.nixos.org/backend/latest-45-nixos-unstable/_search' \
+            -u 'aWVSALXpZv:X8gPHnzL52wFEekuxsfQ9cSh' \
+            -H 'Content-Type: application/json' \
+            -d '{"size":1,"query":{"bool":{"must":[{"term":{"type":"option"}},{"term":{"option_name":"OPTION_NAME"}}]}},"_source":["option_name","option_type","option_default","option_example","option_description","option_source"]}' \
+            | yq -P '.hits.hits[]._source'
+          ```
+
+          The `option_source` field gives the module path in nixpkgs. View source at `https://github.com/NixOS/nixpkgs/blob/master/OPTION_SOURCE`.
+
+          ## Search nixpkgs packages
+
+          ```sh
+          nix search nixpkgs QUERY --json | yq -P '.'
+          ```
+
+          ## Search Home Manager options
+
+          Filter the options JSON from home-manager-options.extranix.com. Replace PATTERN with a regex.
+
+          ```sh
+          curl -s 'https://home-manager-options.extranix.com/data/options-master.json' \
+            | yq -P '[.options[] | select(.title | test("PATTERN"))] | .[:10] | .[] | {"name": .title, "type": .type, "default": .default, "description": .description}'
+          ```
+
+          For a specific option, use exact match: `select(.title == "OPTION_NAME")`. For stable releases, replace `master` with `release-25.11`.
+
+          ## Search nix-darwin options
+
+          Use `nix eval` on the flake at `~/.config/nix`. Darwin configs are `macbook` and `imac`.
+
+          List suboptions under a path:
+
+          ```sh
+          nix eval ~/.config/nix#darwinConfigurations.macbook.options.PATH --apply 'opt: builtins.attrNames opt'
+          ```
+
+          Get details for a specific option:
+
+          ```sh
+          nix eval ~/.config/nix#darwinConfigurations.macbook.options.OPTION.type.description
+          nix eval ~/.config/nix#darwinConfigurations.macbook.options.OPTION.default
+          nix eval ~/.config/nix#darwinConfigurations.macbook.options.OPTION.description
+          ```
+
+          ## Home Manager options via nix eval
+
+          Useful for exploring option trees interactively. Home configs use the `"yanlin@HOST"` naming.
+
+          ```sh
+          nix eval ~/.config/nix#homeConfigurations.'"yanlin@macbook"'.options.programs.PROGRAM --apply 'opt: builtins.attrNames opt'
+          nix eval ~/.config/nix#homeConfigurations.'"yanlin@macbook"'.options.programs.PROGRAM.enable.description
+          ```
+
+          ## Notes
+
+          - The ES credentials are public, from the open-source nixos-search frontend
+          - If ES queries return 404, the schema version (45) may have changed. Find the current version: `curl -s https://search.nixos.org/bundle.js | grep -o 'SchemaVersion:parseInt("[0-9]*")'`
         '';
       };
     };
