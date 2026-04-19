@@ -185,6 +185,10 @@
     enable = true;
     repositoryUrl = "ssh://helsinki-box/./nfss";
     backupPaths = [
+      "/home/yanlin/Archive"
+      "/home/yanlin/Credentials"
+      "/home/yanlin/Documents"
+      "/home/yanlin/Media"
       "/mnt/storage/photos/library"
       "/home/yanlin/.config/"
     ];

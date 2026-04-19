@@ -6,7 +6,6 @@
     ./disk-config.nix
     ../system-default.nix
     ../../../modules/vpn/client.nix
-    ../../../modules/borg.nix
     ../../../modules/disk-health.nix
   ];
 
@@ -153,26 +152,6 @@
     address = "10.2.2.20/24";
     serverPublicKey = "46QHjSzAas5g9Hll1SCEu9tbR5owCxXAy6wGOUoPwUM=";
     serverEndpoint = "91.98.84.215:51820";
-  };
-
-  services.borg-custom = {
-    enable = true;
-    repositoryUrl = "ssh://helsinki-box/./thinkpad";
-    backupPaths = [
-      "/home/yanlin/Archive"
-      "/home/yanlin/Credentials"
-      "/home/yanlin/Documents"
-      "/home/yanlin/Media"
-      "/home/yanlin/.config/"
-    ];
-    backupFrequency = "*-*-* 00:00:00";
-    checkFrequency = "Sun *-*-* 12:00:00";
-    retention = {
-      keepDaily = 7;
-      keepWeekly = 4;
-      keepMonthly = 6;
-      keepYearly = 2;
-    };
   };
 
 }
