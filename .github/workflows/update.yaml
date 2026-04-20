@@ -9,6 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      pull-requests: write
     steps:
       - uses: actions/checkout@v5
         with:
@@ -59,12 +60,24 @@ jobs:
       - name: Commit and push
         if: steps.check.outputs.changed == 'true'
         run: |
-          git config user.name "GitHub Actions"
-          git config user.email "git-actions@yanlincs.com"
+          git config user.name "github-actions[bot]"
+          git config user.email "git.bot@yanlincs.com"
           git checkout -B flake-update
           git add flake.lock
           git commit -m "update flake inputs"
           git push -f origin flake-update
+
+      - name: Create or update pull request
+        if: steps.check.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          existing=$(gh pr list --head flake-update --state open --json number --jq '.[0].number')
+          if [ -n "$existing" ]; then
+            echo "PR #${existing} already exists"
+          else
+            gh pr create --title "Update flake inputs" --body "Automated flake input update." --head flake-update --base master
+          fi
 
       - name: Send notification
         if: always()
