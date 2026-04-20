@@ -1,40 +1,21 @@
-name: Update Flake Inputs
-on:
-  schedule:
-    - cron: '0 4 * * 6'
-  workflow_dispatch:
+name: Evaluate Nix Configs
+on: [push]
 
 jobs:
-  update:
-    runs-on: nix
+  evaluate:
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
-      - name: Update flake inputs
-        run: nix flake update
-
-      - name: Check for changes
-        id: check
-        run: |
-          if git diff --quiet flake.lock; then
-            echo "No changes to flake.lock"
-            echo "changed=false" >> "$GITHUB_OUTPUT"
-          else
-            echo "flake.lock updated"
-            echo "changed=true" >> "$GITHUB_OUTPUT"
-          fi
+      - uses: DeterminateSystems/nix-installer-action@main
 
       - name: Check config syntax
-        if: steps.check.outputs.changed == 'true'
         run: |
           nix eval .#nixosConfigurations --apply 'builtins.mapAttrs (_: v: v.config.system.build.toplevel.drvPath)' --json > /dev/null
           nix eval .#darwinConfigurations --apply 'builtins.mapAttrs (_: v: v.config.system.build.toplevel.drvPath)' --json > /dev/null
           nix eval .#homeConfigurations --apply 'builtins.mapAttrs (_: v: v.activationPackage.drvPath)' --json > /dev/null
 
       - name: Build NixOS configs
-        if: steps.check.outputs.changed == 'true'
         run: |
           for host in $(nix eval .#nixosConfigurations --apply 'x: builtins.attrNames x' --json | jq -r '.[]'); do
             echo "Building nixosConfigurations.${host}..."
@@ -42,7 +23,6 @@ jobs:
           done
 
       - name: Build Linux Home Manager configs
-        if: steps.check.outputs.changed == 'true'
         run: |
           for config in $(nix eval .#homeConfigurations --apply 'x: builtins.attrNames x' --json | jq -r '.[]'); do
             pkg_system=$(nix eval ".#homeConfigurations.\"${config}\".activationPackage.system" --raw 2>/dev/null || true)
@@ -52,16 +32,6 @@ jobs:
             fi
           done
 
-      - name: Commit and push
-        if: steps.check.outputs.changed == 'true'
-        run: |
-          git config user.name "Forgejo Actions"
-          git config user.email "git-actions@yanlincs.com"
-          git checkout -B flake-update
-          git add flake.lock
-          git commit -m "update flake inputs"
-          git push -f origin flake-update
-
       - name: Send notification
         if: always()
-        run: curl -s -d "Nix flake update ${{ job.status }}" https://ntfy.sh/yanlincs-homelab
+        run: curl -s -d "Nix config evaluate ${{ job.status }}" https://ntfy.sh/yanlincs-homelab

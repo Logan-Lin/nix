@@ -107,18 +107,17 @@
         ]
       },
       "locked": {
-        "lastModified": 1776211231,
-        "narHash": "sha256-fARY5h+j3IB3ATpQeSr9xL+kmvflt8mYYtt126GJeXc=",
-        "ref": "archive",
-        "rev": "5b81f279ff3963823785b9bf744a41ef1808463b",
-        "revCount": 581,
-        "type": "git",
-        "url": "https://git.yanlincs.com/yanlin/nix-casks.git"
+        "lastModified": 1776706326,
+        "narHash": "sha256-sTS1n0yAj/vcklaUNvOzwlErK+t6qPAaEebCDe4mt9Y=",
+        "owner": "Logan-Lin",
+        "repo": "nix-casks",
+        "rev": "645a27a9463d50059b1a8433a1b1182908766ff2",
+        "type": "github"
       },
       "original": {
-        "ref": "archive",
-        "type": "git",
-        "url": "https://git.yanlincs.com/yanlin/nix-casks.git"
+        "owner": "Logan-Lin",
+        "repo": "nix-casks",
+        "type": "github"
       }
     },
     "nix-darwin": {
