@@ -10,8 +10,6 @@
     ../../../modules/podman.nix
     ../../../modules/nginx.nix
     ../../../modules/borg.nix
-    ../../../modules/git/server.nix
-    ../../../modules/git/runner.nix
   ];
 
   boot.loader.grub = {
@@ -92,15 +90,7 @@
     acmeEmail = "cloudflare@yanlincs.com";
 
     proxies = {
-      git = {
-        backend = "http://127.0.0.1:3000";
-        rateLimit = {
-          rate = "10r/s";
-          burst = 40;
-        };
-      };
       photo.backend = "http://10.2.2.10:8080";
-      nix-cache.backend = "http://10.2.2.10:5000";
       deluge.backend = "http://10.2.2.10:8112";
       music.backend = "http://10.2.2.10:4533";
     };
@@ -108,26 +98,11 @@
 
   services.journald.extraConfig = "SystemMaxUse=1G";
 
-  services.git-server-custom = {
-    enable = true;
-    domain = "git.yanlincs.com";
-  };
-
-  services.git-runner-custom = {
-    enable = true;
-    url = "https://git.yanlincs.com";
-    instances.default.labels = [
-      "node-20:docker://node:20-bookworm"
-    ];
-  };
-
   services.borg-custom = {
     enable = true;
     repositoryUrl = "ssh://helsinki-box/./vps";
-    dumpPostgres = true;
     backupPaths = [
       "/var/lib/mongodb"
-      "/var/lib/forgejo"
       "/home/yanlin/.config/"
     ];
     backupFrequency = "*-*-* 03:00:00";

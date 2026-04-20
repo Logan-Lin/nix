@@ -8,7 +8,6 @@
     ../../../modules/vpn/client.nix
     ../../../modules/podman.nix
     ../../../modules/media/immich.nix
-    ../../../modules/git/runner.nix
     ../../../modules/borg.nix
     ../../../modules/media/deluge.nix
     ../../../modules/media/navidrome.nix
@@ -159,27 +158,6 @@
   };
 
   services.journald.extraConfig = "SystemMaxUse=5G";
-
-  # NOTE: Generate keypair: nix-store --generate-binary-cache-key <url> /etc/harmonia/signing-key.sec /etc/harmonia/signing-key.pub
-  services.harmonia.cache = {
-    enable = true;
-    signKeyPaths = [ "/etc/harmonia/signing-key.sec" ];
-    settings.bind = "[::]:5000";
-  };
-
-  services.git-runner-custom = {
-    enable = true;
-    url = "https://git.yanlincs.com";
-    instances.nix = {
-      labels = [ "nix:host" ];
-      hostPackages = with pkgs; [
-        bash coreutils curl gawk gitMinimal gnused jq nodejs wget nix
-      ];
-    };
-    instances.tex = {
-      labels = [ "tex:docker://texlive/texlive:latest" ];
-    };
-  };
 
   services.borg-custom = {
     enable = true;

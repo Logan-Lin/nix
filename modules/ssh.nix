@@ -54,11 +54,6 @@ in
         identityFile = "${keyDir}/hetzner";
       };
 
-      "git.yanlincs.com" = {
-        user = "forgejo";
-        identityFile = "${keyDir}/hetzner";
-      };
-
       "helsinki-box" = {
         hostname = "u546684.your-storagebox.de";
         user = "u546684";
