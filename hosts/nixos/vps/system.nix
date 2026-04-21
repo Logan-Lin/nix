@@ -92,7 +92,6 @@
     proxies = {
       photo.backend = "http://10.2.2.10:8080";
       deluge.backend = "http://10.2.2.10:8112";
-      music.backend = "http://10.2.2.10:4533";
     };
   };
 

@@ -10,7 +10,6 @@
     ../../../modules/media/immich.nix
     ../../../modules/borg.nix
     ../../../modules/media/deluge.nix
-    ../../../modules/media/navidrome.nix
     ../../../modules/share/samba.nix
     ../../../modules/disk-health.nix
   ];
@@ -140,8 +139,6 @@
     enable = true;
     downloadDir = "/mnt/storage/downloads";
   };
-
-  services.navidrome-custom.enable = true;
 
   services.samba-custom.shares = {
     Downloads = "/mnt/storage/downloads";
