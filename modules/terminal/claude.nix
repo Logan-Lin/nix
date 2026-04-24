@@ -1,5 +1,11 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 
+let
+  bleed = import inputs.nixpkgs-bleed {
+    inherit (pkgs.stdenv.hostPlatform) system;
+    config.allowUnfree = true;
+  };
+in
 {
   config = {
     home.packages = [
@@ -10,6 +16,7 @@
 
     programs.claude-code = {
       enable = true;
+      package = bleed.claude-code;
 
       settings = {
         spinnerTipsEnabled = false;
@@ -18,10 +25,14 @@
         autoMemoryEnabled = false;
         alwaysThinkingEnabled = true;
         feedbackSurveyRate = 0;
-        env.CLAUDE_CODE_DISABLE_FEEDBACK_SURVEY = "1";
+        env = {
+          CLAUDE_CODE_DISABLE_FEEDBACK_SURVEY = "1";
+          CLAUDE_CODE_EFFORT_LEVEL = "max";
+        };
         prefersReducedMotion = true;
         promptSuggestionEnabled = false;
-        effortLevel = "high";
+        skipAutoPermissionPrompt = true;
+        effortLevel = "xhigh";
         terminalProgressBarEnabled = false;
         permissions = {
           allow = [

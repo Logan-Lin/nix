@@ -28,9 +28,10 @@
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nixpkgs-bleed.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, nixvim, firefox-addons, nix-casks, nix-homebrew, disko }:
+  outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, nixvim, firefox-addons, nix-casks, nix-homebrew, disko, nixpkgs-bleed }:
   {
     darwinConfigurations."macbook" = nix-darwin.lib.darwinSystem {
       modules = [ ./hosts/darwin/macbook/system.nix ];
