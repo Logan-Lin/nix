@@ -27,6 +27,7 @@
     curl
     wget
     gnumake
+    gnused
     rsync
     bind
     iputils

@@ -136,6 +136,7 @@ in
     texlive.combined.scheme-full
     httpie
     gnumake
+    gnused
     bind
     inetutils
     netcat-gnu
