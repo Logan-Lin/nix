@@ -99,6 +99,13 @@ in
     git = true;
   };
 
+  nixpkgs.overlays = [
+    (final: prev: lib.optionalAttrs prev.stdenv.isDarwin {
+      direnv = prev.direnv.overrideAttrs { doCheck = false; };
+    })
+  ];
+
+
   programs.direnv = {
     enable = true;
     nix-direnv.enable = true;
