@@ -7,21 +7,15 @@ on:
 jobs:
   update:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      pull-requests: write
+    outputs:
+      changed: ${{ steps.check.outputs.changed }}
     steps:
-      - name: Send start notification
-        run: curl -s -d "Nix flake update started" https://ntfy.sh/yanlincs-homelab
-
       - uses: actions/checkout@v5
-        with:
-          fetch-depth: 0
 
       - uses: DeterminateSystems/nix-installer-action@main
 
       - name: Update flake inputs
-        run: nix flake update
+        run: nix flake update 2>&1 | tee flake-update.log
 
       - name: Check for changes
         id: check
@@ -34,34 +28,170 @@ jobs:
             echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Check config syntax
+      - name: Write input change report
         if: steps.check.outputs.changed == 'true'
         run: |
-          nix eval .#nixosConfigurations --apply 'builtins.mapAttrs (_: v: v.config.system.build.toplevel.drvPath)' --json > /dev/null
-          nix eval .#darwinConfigurations --apply 'builtins.mapAttrs (_: v: v.config.system.build.toplevel.drvPath)' --json > /dev/null
-          nix eval .#homeConfigurations --apply 'builtins.mapAttrs (_: v: v.activationPackage.drvPath)' --json > /dev/null
+          {
+            echo "## Flake input changes"
+            echo ""
+            echo '```'
+            cat flake-update.log
+            echo '```'
+          } > inputs.md
+          cat inputs.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload flake.lock and input report
+        if: steps.check.outputs.changed == 'true'
+        uses: actions/upload-artifact@v7
+        with:
+          name: update-output
+          path: |
+            flake.lock
+            inputs.md
+          retention-days: 1
+
+  build-linux:
+    runs-on: ubuntu-latest
+    needs: update
+    if: needs.update.outputs.changed == 'true'
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/download-artifact@v8
+        with:
+          name: update-output
+
+      - uses: DeterminateSystems/nix-installer-action@main
 
       - name: Build NixOS configs
-        if: steps.check.outputs.changed == 'true'
         run: |
+          {
+            echo "## Linux closure sizes"
+            echo ""
+            echo "### NixOS hosts"
+            echo ""
+            echo "| Host | Closure |"
+            echo "|------|---------|"
+          } > linux-sizes.md
           for host in $(nix eval .#nixosConfigurations --apply 'x: builtins.attrNames x' --json | jq -r '.[]'); do
             echo "Building nixosConfigurations.${host}..."
-            nix build ".#nixosConfigurations.${host}.config.system.build.toplevel" --no-link
+            out=$(nix build ".#nixosConfigurations.${host}.config.system.build.toplevel" --no-link --print-out-paths)
+            sz=$(nix path-info -Sh "$out" | awk '{print $(NF-1), $NF}')
+            echo "| ${host} | ${sz} |" >> linux-sizes.md
           done
 
-      - name: Build Linux Home Manager configs
-        if: steps.check.outputs.changed == 'true'
+      - name: Build x86_64-linux Home Manager configs
         run: |
+          {
+            echo ""
+            echo "### Home configs (x86_64-linux)"
+            echo ""
+            echo "| Config | Closure |"
+            echo "|--------|---------|"
+          } >> linux-sizes.md
           for config in $(nix eval .#homeConfigurations --apply 'x: builtins.attrNames x' --json | jq -r '.[]'); do
-            pkg_system=$(nix eval ".#homeConfigurations.\"${config}\".activationPackage.system" --raw 2>/dev/null || true)
-            if [ "$pkg_system" = "x86_64-linux" ]; then
+            sys=$(nix eval ".#homeConfigurations.\"${config}\".activationPackage.system" --raw 2>/dev/null || true)
+            if [ "$sys" = "x86_64-linux" ]; then
               echo "Building homeConfigurations.${config}..."
-              nix build ".#homeConfigurations.\"${config}\".activationPackage" --no-link
+              out=$(nix build ".#homeConfigurations.\"${config}\".activationPackage" --no-link --print-out-paths)
+              sz=$(nix path-info -Sh "$out" | awk '{print $(NF-1), $NF}')
+              echo "| ${config} | ${sz} |" >> linux-sizes.md
             fi
           done
+          cat linux-sizes.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload size report
+        uses: actions/upload-artifact@v7
+        with:
+          name: report-linux
+          path: linux-sizes.md
+          retention-days: 1
+
+  build-darwin:
+    runs-on: macos-latest
+    needs: update
+    if: needs.update.outputs.changed == 'true'
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/download-artifact@v8
+        with:
+          name: update-output
+
+      - uses: DeterminateSystems/nix-installer-action@main
+
+      - name: Build darwin configs
+        run: |
+          {
+            echo "## Darwin closure sizes"
+            echo ""
+            echo "### Darwin hosts"
+            echo ""
+            echo "| Host | Closure |"
+            echo "|------|---------|"
+          } > darwin-sizes.md
+          for host in $(nix eval .#darwinConfigurations --apply 'x: builtins.attrNames x' --json | jq -r '.[]'); do
+            echo "Building darwinConfigurations.${host}..."
+            out=$(nix build ".#darwinConfigurations.${host}.config.system.build.toplevel" --no-link --print-out-paths)
+            sz=$(nix path-info -Sh "$out" | awk '{print $(NF-1), $NF}')
+            echo "| ${host} | ${sz} |" >> darwin-sizes.md
+          done
+
+      - name: Build aarch64-darwin Home Manager configs
+        run: |
+          {
+            echo ""
+            echo "### Home configs (aarch64-darwin)"
+            echo ""
+            echo "| Config | Closure |"
+            echo "|--------|---------|"
+          } >> darwin-sizes.md
+          for config in $(nix eval .#homeConfigurations --apply 'x: builtins.attrNames x' --json | jq -r '.[]'); do
+            sys=$(nix eval ".#homeConfigurations.\"${config}\".activationPackage.system" --raw 2>/dev/null || true)
+            if [ "$sys" = "aarch64-darwin" ]; then
+              echo "Building homeConfigurations.${config}..."
+              out=$(nix build ".#homeConfigurations.\"${config}\".activationPackage" --no-link --print-out-paths)
+              sz=$(nix path-info -Sh "$out" | awk '{print $(NF-1), $NF}')
+              echo "| ${config} | ${sz} |" >> darwin-sizes.md
+            fi
+          done
+          cat darwin-sizes.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload size report
+        uses: actions/upload-artifact@v7
+        with:
+          name: report-darwin
+          path: darwin-sizes.md
+          retention-days: 1
+
+  pr:
+    runs-on: ubuntu-latest
+    needs: [update, build-linux, build-darwin]
+    if: needs.update.outputs.changed == 'true'
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Download all reports
+        uses: actions/download-artifact@v8
+        with:
+          merge-multiple: true
+
+      - name: Assemble PR body
+        run: |
+          {
+            cat inputs.md
+            echo ""
+            cat linux-sizes.md
+            echo ""
+            cat darwin-sizes.md
+          } > pr-body.md
 
       - name: Commit and push
-        if: steps.check.outputs.changed == 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "git.bot@yanlincs.com"
@@ -71,17 +201,41 @@ jobs:
           git push -f origin flake-update
 
       - name: Create or update pull request
-        if: steps.check.outputs.changed == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           existing=$(gh pr list --head flake-update --state open --json number --jq '.[0].number')
           if [ -n "$existing" ]; then
-            echo "PR #${existing} already exists"
+            echo "PR #${existing} already exists, updating body"
+            gh pr edit "$existing" --body-file pr-body.md
           else
-            gh pr create --title "Update flake inputs" --body "Automated flake input update." --head flake-update --base master
+            gh pr create --title "Update flake inputs" --body-file pr-body.md --head flake-update --base master
+          fi
+
+  notify:
+    runs-on: ubuntu-latest
+    needs: [update, build-linux, build-darwin, pr]
+    if: always()
+    steps:
+      - name: Compute aggregate status
+        id: status
+        run: |
+          for r in "${{ needs.update.result }}" \
+                   "${{ needs.build-linux.result }}" \
+                   "${{ needs.build-darwin.result }}" \
+                   "${{ needs.pr.result }}"; do
+            case "$r" in
+              success|skipped) ;;
+              *) echo "status=failure" >> "$GITHUB_OUTPUT"; exit 0 ;;
+            esac
+          done
+          if [ "${{ needs.update.outputs.changed }}" = "true" ]; then
+            echo "status=success (PR opened/updated)" >> "$GITHUB_OUTPUT"
+          else
+            echo "status=success (no changes)" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Send notification
-        if: always()
-        run: curl -s -d "Nix flake update ${{ job.status }}" https://ntfy.sh/yanlincs-homelab
+        run: |
+          curl -s -d "Nix flake update: ${{ steps.status.outputs.status }}" \
+            https://ntfy.sh/yanlincs-homelab
