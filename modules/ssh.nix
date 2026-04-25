@@ -46,6 +46,7 @@ in
         hostname = "10.2.2.20";
         user = "yanlin";
         identityFile = "${keyDir}/thinkpad";
+        proxyJump = "vps";
       };
 
       "vps" = {
@@ -65,6 +66,7 @@ in
         hostname = "10.2.2.10";
         user = "yanlin";
         identityFile = "${keyDir}/nas";
+        proxyJump = "vps";
       };
 
       "nfss.lan" = {
