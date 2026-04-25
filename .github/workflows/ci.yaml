@@ -61,6 +61,15 @@ jobs:
             } >> "$GITHUB_STEP_SUMMARY"
           fi
 
+      - name: Upload eval stderr
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: eval-stderr-${{ matrix.system }}
+          path: eval.stderr
+          if-no-files-found: ignore
+          retention-days: 1
+
   notify:
     runs-on: ubuntu-latest
     needs: evaluate

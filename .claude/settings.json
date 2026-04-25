@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(gh run list:*)",
+      "Bash(gh run view:*)",
+      "Bash(gh run download:*)",
+      "Bash(gh pr list:*)",
+      "Bash(gh pr view:*)",
+      "Bash(gh pr diff:*)",
+      "Bash(gh pr checks:*)",
+      "Bash(gh pr comment:*)",
+      "Bash(gh api:*)",
+      "Bash(mkdir:*)",
+      "Bash(ls:*)",
+      "Bash(jq:*)",
+      "Bash(awk:*)",
+      "Write(/tmp/**)"
+    ]
+  }
+}
