@@ -3,18 +3,70 @@ on: [push]
 
 jobs:
   evaluate:
-    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            system: x86_64-linux
+            host-attr: nixosConfigurations
+          - os: macos-latest
+            system: aarch64-darwin
+            host-attr: darwinConfigurations
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v5
 
       - uses: DeterminateSystems/nix-installer-action@main
 
-      - name: Check config syntax
+      - name: Evaluate ${{ matrix.host-attr }}
         run: |
-          nix eval .#nixosConfigurations --apply 'builtins.mapAttrs (_: v: v.config.system.build.toplevel.drvPath)' --json > /dev/null
-          nix eval .#darwinConfigurations --apply 'builtins.mapAttrs (_: v: v.config.system.build.toplevel.drvPath)' --json > /dev/null
-          nix eval .#homeConfigurations --apply 'builtins.mapAttrs (_: v: v.activationPackage.drvPath)' --json > /dev/null
+          {
+            echo "## Evaluated configs (${{ matrix.system }})"
+            echo ""
+            echo "### ${{ matrix.host-attr }}"
+            nix eval ".#${{ matrix.host-attr }}" --apply 'x: builtins.attrNames x' --json | jq -r '.[] | "- " + .'
+          } >> "$GITHUB_STEP_SUMMARY"
+          nix eval ".#${{ matrix.host-attr }}" \
+            --apply 'builtins.mapAttrs (_: v: v.config.system.build.toplevel.drvPath)' \
+            --json 2>>eval.stderr 1>/dev/null
 
-      - name: Send notification
+      - name: Evaluate matching home configs
+        run: |
+          {
+            echo ""
+            echo "### homeConfigurations"
+          } >> "$GITHUB_STEP_SUMMARY"
+          for config in $(nix eval .#homeConfigurations --apply 'x: builtins.attrNames x' --json | jq -r '.[]'); do
+            sys=$(nix eval ".#homeConfigurations.\"${config}\".activationPackage.system" --raw 2>/dev/null || true)
+            if [ "$sys" = "${{ matrix.system }}" ]; then
+              echo "- ${config}" >> "$GITHUB_STEP_SUMMARY"
+              echo "Evaluating homeConfigurations.${config}..."
+              nix eval ".#homeConfigurations.\"${config}\".activationPackage.drvPath" --raw 2>>eval.stderr 1>/dev/null
+            fi
+          done
+
+      - name: Surface eval warnings
         if: always()
-        run: curl -s -d "Nix config evaluate ${{ job.status }}" https://ntfy.sh/yanlincs-homelab
+        run: |
+          if [ -s eval.stderr ]; then
+            echo "::warning::Eval emitted stderr on ${{ matrix.system }}, see step summary"
+            {
+              echo ""
+              echo "### Warnings"
+              echo ""
+              echo '```'
+              cat eval.stderr
+              echo '```'
+            } >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+  notify:
+    runs-on: ubuntu-latest
+    needs: evaluate
+    if: always()
+    steps:
+      - name: Send notification
+        run: |
+          curl -s -d "Nix config evaluate ${{ needs.evaluate.result }}" \
+            https://ntfy.sh/yanlincs-homelab
