@@ -41,7 +41,7 @@ in
     folders = {
       Credentials = mkFolderOptions "Credentials" {};
       Documents = mkFolderOptions "Documents" { devices = pcDevices ++ serverDevices; };
-      Media = mkFolderOptions "Media" { devices = serverDevices; };
+      Media = mkFolderOptions "Media" { devices = touchDevices ++ serverDevices; };
       Archive = mkFolderOptions "Archive" {};
     };
     enableGui = lib.mkOption {
