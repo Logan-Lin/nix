@@ -142,114 +142,77 @@
         };
       };
 
-      neo-tree = {
+      nvim-tree = {
         enable = true;
         settings = {
-          default_component_configs = {
-            file_size = {
-              enabled = true;
-              required_width = 40;
-            };
-            type = {
-              enabled = false;
-            };
-            last_modified = {
-              enabled = false;
-            };
-          };
-          filesystem = {
-            follow_current_file = {
-              enabled = true;
-              leave_dirs_open = true;
-            };
-            filtered_items = {
-              hide_dotfiles = false;
-              hide_gitignored = false;
-              hide_hidden = false;
-            };
-          };
-          window = {
-            position = "float";
-            popup = {
-              size = {
-                width = 76;
-                height = "85%";
-              };
-              border = "rounded";
-            };
-            mappings = {
-              "." = "set_root";
-              "<bs>" = "navigate_up";
-              "<cr>" = "open";
-              "<esc>" = "cancel";
-              q = "close_window";
-              "?" = "show_help";
-              a = "add";
-              r = "rename";
-              b = "rename_basename";
-              m = "none";
-              c = "copy_to_clipboard";
-              y = "none";
-              x = "cut_to_clipboard";
-              p = "paste_from_clipboard";
-              d = "delete";
-              o = { command = "system_open"; nowait = true; };
-              f = { command = "show_in_finder"; nowait = true; };
-              "#" = "none";
-              "/" = "none";
-              "<" = "none";
-              ">" = "none";
-              "<C-b>" = "none";
-              "<C-f>" = "none";
-              "<C-r>" = "none";
-              "<C-x>" = "none";
-              "<space>" = "none";
-              A = "none";
-              C = "none";
-              D = "none";
-              H = "toggle_hidden";
-              P = "none";
-              S = "none";
-              "[g" = "none";
-              "]g" = "none";
-              e = "none";
-              l = "none";
-              s = "none";
-              t = "none";
-              w = "none";
-              z = "none";
-              Z = "close_all_nodes";
-              oc = "none";
-              od = "none";
-              og = "none";
-              om = "none";
-              on = "none";
-              os = "none";
-              ot = "none";
+          disable_netrw = true;
+          hijack_netrw = true;
+          respect_buf_cwd = true;
+          sync_root_with_cwd = true;
+          view = {
+            width = 76;
+            float = {
+              enable = true;
+              open_win_config.__raw = ''
+                function()
+                  local width = 76
+                  local height = math.floor(vim.o.lines * 0.85)
+                  return {
+                    relative = "editor",
+                    border = "rounded",
+                    width = width,
+                    height = height,
+                    row = math.floor((vim.o.lines - height) / 2) - 1,
+                    col = math.floor((vim.o.columns - width) / 2),
+                  }
+                end
+              '';
             };
           };
-          commands = {
-            system_open.__raw = ''
-              function(state)
-                local node = state.tree:get_node()
-                local path = node:get_id()
-                ${if pkgs.stdenv.isDarwin then
-                  ''vim.fn.system('open ' .. vim.fn.shellescape(path))''
-                else
-                  ''vim.fn.system('xdg-open ' .. vim.fn.shellescape(path))''}
+          renderer = {
+            group_empty = true;
+            indent_markers.enable = true;
+            highlight_opened_files = "name";
+          };
+          update_focused_file = {
+            enable = true;
+            update_root = false;
+          };
+          filters = {
+            dotfiles = false;
+            git_ignored = false;
+          };
+          actions = {
+            open_file = {
+              quit_on_open = true;
+            };
+          };
+          on_attach.__raw = ''
+            function(bufnr)
+              local api = require("nvim-tree.api")
+              api.config.mappings.default_on_attach(bufnr)
+
+              local function opts(desc)
+                return { desc = "nvim-tree: " .. desc, buffer = bufnr,
+                         noremap = true, silent = true, nowait = true }
               end
-            '';
-            show_in_finder.__raw = ''
-              function(state)
-                local node = state.tree:get_node()
-                local path = node:get_id()
-                ${if pkgs.stdenv.isDarwin then
-                  ''vim.fn.system('open -R ' .. vim.fn.shellescape(path))''
-                else
-                  ''vim.fn.system('thunar ' .. vim.fn.shellescape(vim.fn.fnamemodify(path, ':h')) .. ' &')''}
-              end
-            '';
-          };
+
+              vim.keymap.set("n", "f", function()
+                local node = api.tree.get_node_under_cursor()
+                if not node then return end
+                ${if pkgs.stdenv.isDarwin
+                  then ''vim.fn.jobstart({ "open", "-R", node.absolute_path }, { detach = true })''
+                  else ''vim.fn.jobstart({ "xdg-open", vim.fn.fnamemodify(node.absolute_path, ":h") }, { detach = true })''}
+              end, opts("Reveal in Finder"))
+
+              vim.keymap.set("n", "o", api.node.run.system, opts("System Open"))
+              vim.keymap.set("n", "i", function()
+                local node = api.tree.get_node_under_cursor()
+                if node then vim.notify(node.absolute_path) end
+              end, opts("Show Path"))
+              vim.keymap.set("n", "<esc>", api.tree.close, opts("Close"))
+            end
+          '';
         };
       };
     };
@@ -263,8 +226,8 @@
       {
         mode = "n";
         key = "<leader>e";
-        action = ":Neotree toggle reveal<CR>";
-        options = { desc = "Toggle file explorer"; };
+        action = ":NvimTreeFindFileToggle<CR>";
+        options = { desc = "Toggle file tree"; };
       }
       {
         mode = "n";
@@ -365,6 +328,18 @@
       vim.api.nvim_set_hl(0, "@markup.raw.block", { italic = false })
       vim.api.nvim_set_hl(0, "@markup.raw.markdown_inline", { italic = false })
       vim.api.nvim_set_hl(0, "String", { fg = "#b8bb26", italic = false })
+
+      vim.api.nvim_set_hl(0, "NvimTreeNormal", { link = "Normal" })
+      vim.api.nvim_set_hl(0, "NvimTreeNormalFloat", { link = "Normal" })
+      vim.api.nvim_set_hl(0, "NvimTreeEndOfBuffer", { link = "Normal" })
+      vim.api.nvim_set_hl(0, "NvimTreeCutHL", { fg = "#fb4934", italic = true })
+      vim.api.nvim_set_hl(0, "NvimTreeCopiedHL", { fg = "#fabd2f", italic = true })
+
+      do
+        local normal_bg = vim.api.nvim_get_hl(0, { name = "Normal" }).bg
+        local fb_fg = vim.api.nvim_get_hl(0, { name = "FloatBorder" }).fg
+        vim.api.nvim_set_hl(0, "FloatBorder", { fg = fb_fg, bg = normal_bg })
+      end
 
     '';
   };
