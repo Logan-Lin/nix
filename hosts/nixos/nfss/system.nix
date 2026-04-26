@@ -7,7 +7,7 @@
     ../system-default.nix
     ../../../modules/vpn/client.nix
     ../../../modules/borg.nix
-    ../../../modules/media/deluge.nix
+    ../../../modules/deluge.nix
     ../../../modules/share/samba.nix
     ../../../modules/disk-health.nix
   ];

@@ -53,7 +53,7 @@ in
     ../../modules/terminal/ghostty.nix
     ../../modules/syncthing.nix
     ../../modules/terminal/claude.nix
-    ../../modules/media/tool.nix
+    ../../modules/media-tool.nix
     ../../modules/font.nix
   ];
 

@@ -9,7 +9,7 @@
   imports = [
     ../home-default.nix
     ../../../modules/syncthing.nix
-    ../../../modules/media/tool.nix
+    ../../../modules/media-tool.nix
     ../../../modules/schedule.nix
     ../../../modules/terminal/claude.nix
   ];

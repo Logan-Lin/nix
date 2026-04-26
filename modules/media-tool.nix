@@ -17,7 +17,6 @@
     p7zip
     imagemagick
     poppler-utils
-    kepubify
     exiftool
     pdftk
   ];
@@ -77,23 +76,14 @@
       done
     }
 
-    function epub2kepub() {
-      local dir="''${1:-.}"
-      ${pkgs.findutils}/bin/find "$dir" -type f -iname '*.epub' ! -iname '*.kepub.epub' | while read -r epub; do
-        local rel="''${epub#$dir/}"
-        local outdir="./transcode/$(${pkgs.coreutils}/bin/dirname "$rel")"
-        ${pkgs.coreutils}/bin/mkdir -p "$outdir"
-        ${pkgs.kepubify}/bin/kepubify --inplace -o "$outdir" "$epub"
-      done
-    }
-
     function image2webp() {
       local dir="''${1:-.}"
-      ${pkgs.findutils}/bin/find "$dir" -type f \( -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.gif' -o -iname '*.heic' -o -iname '*.heif' \) | while read -r img; do
-        outfile="''${img%.*}.webp"
-        ${pkgs.imagemagick}/bin/magick "$img" -resize '1800>' -quality 82 "$outfile"
-        echo "Converted: $img -> $outfile"
-      done
+      ${pkgs.findutils}/bin/find "$dir" -type f \( -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.gif' -o -iname '*.heic' -o -iname '*.heif' \) -print0 | ${pkgs.findutils}/bin/xargs -0 -P4 -n1 sh -c '
+        f="$1"
+        outfile="''${f%.*}.webp"
+        ${pkgs.imagemagick}/bin/magick "$f" -resize "1800x1800>" -quality 82 "$outfile"
+        echo "Converted: $f -> $outfile"
+      ' _
     }
 
     function webp2png() {
