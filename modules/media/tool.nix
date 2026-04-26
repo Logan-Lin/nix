@@ -1,5 +1,3 @@
-# NOTE: Immich credentials file at: `~/.config/immich-env` with IMMICH_URL and IMMICH_APIKEY
-
 { config, pkgs, lib, ... }:
 
 {
@@ -19,7 +17,6 @@
     p7zip
     imagemagick
     poppler-utils
-    immich-go
     kepubify
     exiftool
     pdftk
@@ -154,26 +151,6 @@
             "$outfile"
         fi
       done
-    }
-
-    function photo-upload() {
-      local envfile="$HOME/.config/immich-env"
-      if [[ ! -f "$envfile" ]]; then
-        echo "Missing $envfile" >&2
-        return 1
-      fi
-      source "$envfile"
-      if [[ -z "$IMMICH_URL" || -z "$IMMICH_APIKEY" ]]; then
-        echo "IMMICH_URL and IMMICH_APIKEY must be set in $envfile" >&2
-        return 1
-      fi
-
-      if [[ $# -eq 0 ]]; then
-        echo "Usage: photo-upload <source_dir>" >&2
-        return 1
-      fi
-
-      ${pkgs.immich-go}/bin/immich-go upload from-folder --server="$IMMICH_URL" --api-key="$IMMICH_APIKEY" "$1"
     }
 
     function extract() {

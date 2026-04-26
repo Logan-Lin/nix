@@ -6,8 +6,6 @@
     ./disk-config.nix
     ../system-default.nix
     ../../../modules/vpn/client.nix
-    ../../../modules/podman.nix
-    ../../../modules/media/immich.nix
     ../../../modules/borg.nix
     ../../../modules/media/deluge.nix
     ../../../modules/share/samba.nix
@@ -129,12 +127,6 @@
     serverEndpoint = "91.98.84.215:51820";
   };
 
-  services.immich-custom = {
-    enable = true;
-    photoDir = "/mnt/storage/photos";
-    externalDomain = "https://photo.yanlincs.com";
-  };
-
   services.deluge-custom = {
     enable = true;
     downloadDir = "/mnt/storage/downloads";
@@ -164,7 +156,6 @@
       "/home/yanlin/Credentials"
       "/home/yanlin/Documents"
       "/home/yanlin/Media"
-      "/mnt/storage/photos/library"
       "/home/yanlin/.config/"
     ];
     backupFrequency = "*-*-* 01:00:00";
