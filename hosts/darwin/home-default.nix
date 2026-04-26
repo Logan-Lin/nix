@@ -108,9 +108,11 @@ in
         return 1
       }
 
-      networksetup -setsocksfirewallproxy Wi-Fi localhost "$port"
-      networksetup -setsocksfirewallproxystate Wi-Fi on
-      echo "Tunnel to $host on :$port, Wi-Fi SOCKS proxy enabled"
+      for svc in Wi-Fi Ethernet; do
+        networksetup -setsocksfirewallproxy "$svc" localhost "$port"
+        networksetup -setsocksfirewallproxystate "$svc" on
+      done
+      echo "Tunnel to $host on :$port, SOCKS proxy enabled on Wi-Fi and Ethernet"
     }
 
     function app() {
@@ -127,8 +129,10 @@ in
       fi
       rm -f "$sock"
 
-      networksetup -setsocksfirewallproxystate Wi-Fi off
-      echo "Tunnel closed, Wi-Fi SOCKS proxy disabled"
+      for svc in Wi-Fi Ethernet; do
+        networksetup -setsocksfirewallproxystate "$svc" off
+      done
+      echo "Tunnel closed, SOCKS proxy disabled on Wi-Fi and Ethernet"
     }
   '';
 

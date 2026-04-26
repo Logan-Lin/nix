@@ -121,10 +121,6 @@
       spans-displays = false;
     };
 
-    universalaccess = {
-      reduceTransparency = true;
-    };
-
   };
 
   system.activationScripts.extraActivation.text = ''
