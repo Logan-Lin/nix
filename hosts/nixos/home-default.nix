@@ -2,14 +2,14 @@
 
 {
   imports = [
-    ../../modules/terminal/nvim.nix
-    ../../modules/terminal/tmux.nix 
-    ../../modules/terminal/zsh.nix 
-    ../../modules/ssh.nix
-    ../../modules/git/home.nix
-    ../../modules/git/lazygit.nix
-    ../../modules/terminal/btop.nix
     ../../modules/font.nix
+    ../../modules/terminal/zsh.nix 
+    ../../modules/terminal/tmux.nix 
+    ../../modules/terminal/nvim.nix
+    ../../modules/ssh.nix
+    ../../modules/git.nix
+    ../../modules/terminal/lazygit.nix
+    ../../modules/terminal/btop.nix
   ];
 
   home.username = "yanlin";

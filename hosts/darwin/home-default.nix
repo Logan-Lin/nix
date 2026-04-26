@@ -42,19 +42,19 @@ let
 in
 {
   imports = [
-    ../../modules/terminal/nvim.nix
-    ../../modules/terminal/tmux.nix
-    ../../modules/terminal/zsh.nix
-    ../../modules/ssh.nix
-    ../../modules/git/home.nix
-    ../../modules/git/lazygit.nix
-    ../../modules/terminal/btop.nix
-    ../../modules/firefox.nix
-    ../../modules/terminal/ghostty.nix
-    ../../modules/syncthing.nix
-    ../../modules/terminal/claude.nix
-    ../../modules/media-tool.nix
     ../../modules/font.nix
+    ../../modules/terminal/zsh.nix
+    ../../modules/terminal/tmux.nix
+    ../../modules/terminal/nvim.nix
+    ../../modules/ssh.nix
+    ../../modules/git.nix
+    ../../modules/terminal/lazygit.nix
+    ../../modules/terminal/btop.nix
+    ../../modules/terminal/ghostty.nix
+    ../../modules/terminal/claude.nix
+    ../../modules/firefox.nix
+    ../../modules/syncthing.nix
+    ../../modules/media-tool.nix
   ];
 
   syncthing-custom.folders = {
