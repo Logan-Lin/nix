@@ -6,6 +6,7 @@
     ./disk-config.nix
     ../system-default.nix
     ../../../modules/vpn/client.nix
+    ../../../modules/share/samba.nix
     ../../../modules/disk-health.nix
   ];
 
@@ -152,6 +153,10 @@
     address = "10.2.2.20/24";
     serverPublicKey = "46QHjSzAas5g9Hll1SCEu9tbR5owCxXAy6wGOUoPwUM=";
     serverEndpoint = "91.98.84.215:51820";
+  };
+
+  services.samba-custom.shares = {
+    Media = "/home/yanlin/Media";
   };
 
 }
