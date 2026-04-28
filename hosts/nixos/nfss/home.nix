@@ -18,6 +18,7 @@
     Documents = { enable = true; maxAgeDays = 30; };
     Media = { enable = true; maxAgeDays = 7; };
     Archive = { enable = true; maxAgeDays = 30; };
+    Share = { enable = true; maxAgeDays = 7; };
   };
 
 }

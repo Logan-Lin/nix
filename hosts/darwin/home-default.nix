@@ -61,6 +61,7 @@ in
     Credentials.enable = true;
     Documents.enable = true;
     Archive.enable = true;
+    Share.enable = true;
   };
 
   nixpkgs.config.allowUnfree = true;

@@ -43,6 +43,7 @@ in
       Documents = mkFolderOptions "Documents" { devices = pcDevices ++ serverDevices; };
       Media = mkFolderOptions "Media" { devices = touchDevices ++ serverDevices; };
       Archive = mkFolderOptions "Archive" {};
+      Share = mkFolderOptions "Share" {};
     };
     enableGui = lib.mkOption {
       type = lib.types.bool;
