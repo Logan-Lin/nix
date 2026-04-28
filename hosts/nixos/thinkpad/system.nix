@@ -8,6 +8,7 @@
     ../../../modules/vpn/client.nix
     ../../../modules/share/samba.nix
     ../../../modules/disk-health.nix
+    ../../../modules/deluge.nix
   ];
 
   boot.loader = {
@@ -156,7 +157,13 @@
   };
 
   services.samba-custom.shares = {
+    Downloads = "/home/yanlin/downloads";
     Media = "/home/yanlin/Media";
+  };
+
+  services.deluge-custom = {
+    enable = true;
+    downloadDir = "/home/yanlin/downloads";
   };
 
 }

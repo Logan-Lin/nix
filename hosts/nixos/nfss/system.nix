@@ -7,7 +7,6 @@
     ../system-default.nix
     ../../../modules/vpn/client.nix
     ../../../modules/borg.nix
-    ../../../modules/deluge.nix
     ../../../modules/share/samba.nix
     ../../../modules/disk-health.nix
   ];
@@ -37,15 +36,6 @@
   boot.kernelParams = [
     "zfs.zfs_arc_max=17179869184"
     "zfs.zfs_arc_min=2147483648"
-  ];
-
-  fileSystems."/mnt/storage" = {
-    device = "/dev/disk/by-uuid/20251dfb-f99a-4393-8c9e-0bb26d04b718";
-    fsType = "ext4";
-  };
-
-  systemd.tmpfiles.rules = [
-    "d /mnt/storage 0755 yanlin users -"
   ];
 
   networking = {
@@ -127,13 +117,7 @@
     serverEndpoint = "91.98.84.215:51820";
   };
 
-  services.deluge-custom = {
-    enable = true;
-    downloadDir = "/mnt/storage/downloads";
-  };
-
   services.samba-custom.shares = {
-    Downloads = "/mnt/storage/downloads";
     Media = "/home/yanlin/Media";
   };
 
@@ -142,7 +126,6 @@
     devices = [
       "/dev/disk/by-id/ata-ZHITAI_SC001_XT_1000GB_ZTB401TAB244431J4R"
       "/dev/disk/by-id/ata-ZHITAI_SC001_XT_1000GB_ZTB401TAB244431KEG"
-      "/dev/disk/by-id/nvme-Samsung_SSD_970_EVO_Plus_1TB_S6P7NX0T407791Z"
     ];
   };
 

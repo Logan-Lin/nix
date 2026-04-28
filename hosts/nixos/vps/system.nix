@@ -90,7 +90,7 @@
     acmeEmail = "cloudflare@yanlincs.com";
 
     proxies = {
-      deluge.backend = "http://10.2.2.10:8112";
+      deluge.backend = "http://10.2.2.20:8112";
     };
   };
 
