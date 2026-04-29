@@ -55,6 +55,7 @@ in
     ../../modules/firefox.nix
     ../../modules/syncthing.nix
     ../../modules/media-tool.nix
+    ../../modules/vpn/tunnel.nix
   ];
 
   syncthing-custom.folders = {
@@ -88,52 +89,10 @@ in
   };
 
   programs.zsh.initContent = ''
-    function tunnel-on() {
-      local host="$1"
-      local port="''${2:-1080}"
-      local sock="$HOME/.ssh/tunnel.sock"
-
-      if [[ -z "$host" ]]; then
-        echo "Usage: tunnel-on <ssh-host> [port]" >&2
-        return 1
-      fi
-
-      if [[ -S "$sock" ]]; then
-        echo "Tunnel already active" >&2
-        return 1
-      fi
-
-      ssh -D "$port" -f -C -q -N -M -S "$sock" "$host" || {
-        rm -f "$sock"
-        echo "Failed to establish tunnel" >&2
-        return 1
-      }
-
-      for svc in Wi-Fi Ethernet; do
-        networksetup -setsocksfirewallproxy "$svc" localhost "$port"
-        networksetup -setsocksfirewallproxystate "$svc" on
-      done
-      echo "Tunnel to $host on :$port, SOCKS proxy enabled on Wi-Fi and Ethernet"
-    }
-
     function app() {
       local app
       app=$(${pkgs.findutils}/bin/find -L /Applications /System/Applications /System/Library/CoreServices "$HOME/Applications/Home Manager Apps" -maxdepth 2 -name "*.app" 2>/dev/null | ${pkgs.coreutils}/bin/sort | fzf --header="Select app to open" --height 40%)
       [[ -n "$app" ]] && open "$app"
-    }
-
-    function tunnel-off() {
-      local sock="$HOME/.ssh/tunnel.sock"
-
-      if [[ -S "$sock" ]]; then
-        ssh -S "$sock" -O exit _ 2>/dev/null
-      fi
-      rm -f "$sock"
-
-      for svc in Wi-Fi Ethernet; do
-        networksetup -setsocksfirewallproxystate "$svc" off
-      done
-      echo "Tunnel closed, SOCKS proxy disabled on Wi-Fi and Ethernet"
     }
   '';
 
