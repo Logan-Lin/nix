@@ -135,13 +135,6 @@
 
       todo-comments.enable = true;
 
-      render-markdown = {
-        enable = true;
-        settings = {
-          enabled = false;
-        };
-      };
-
       nvim-tree = {
         enable = true;
         settings = {
@@ -228,12 +221,6 @@
         key = "<leader>e";
         action = ":NvimTreeFindFileToggle<CR>";
         options = { desc = "Toggle file tree"; };
-      }
-      {
-        mode = "n";
-        key = "<leader>m";
-        action = ":RenderMarkdown toggle<CR>";
-        options = { desc = "Toggle markdown rendering"; };
       }
       {
         mode = "n";
