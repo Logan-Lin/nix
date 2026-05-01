@@ -1,19 +1,18 @@
-# Nix Configuration
+# Yan Lin's Nix Configuration
 
-Flake-based NixOS configuration with home-manager.
+Flake-based NixOS/nix-darwin configuration with home-manager.
 
 ## Structure
 
-```
-.
-├── flake.nix       # Entry point
-├── .github/
-│   └── workflows/  # Automated workflows
-├── hosts/
-│   ├── nixos/      # NixOS configurations
-│   └── darwin/     # Nix-darwin configurations
-└── modules/        # Reusable modules
-```
+- `flake.nix`: Entry point, defines inputs and host outputs
+- `flake.lock`: Pinned input versions
+- `.github/`
+  - `workflows/`: CI builds and scheduled flake input updates
+  - `scripts/`: Helper scripts used by workflows
+- `hosts/`: Per-host configurations, organized by platform
+  - `nixos/`: NixOS hosts, with shared `system-default.nix` and `home-default.nix` as common bases
+  - `darwin/`: Nix-darwin hosts, following the same shared-defaults layout
+- `modules/`: Reusable modules shared across hosts, either as single files (e.g. `git.nix`, `nginx.nix`) or grouped subdirectories (e.g. `terminal/`, `vpn/`, `share/`)
 
 ## Commands
 
@@ -39,7 +38,7 @@ brew cleanup --prune=all
 ### New Host Installation
 
 ```bash
-# For NixOS and disko
+# For NixOS
 sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko -- --mode disko --flake github:Logan-Lin/nix#<host>
 sudo nixos-install --flake .#<host>
 
@@ -47,18 +46,5 @@ sudo nixos-install --flake .#<host>
 xcode-select --install
 sudo nix --extra-experimental-features "nix-command flakes" run nix-darwin -- switch --flake github:Logan-Lin/nix#<host>
 nix --extra-experimental-features "nix-command flakes" run home-manager/master -- switch --flake github:Logan-Lin/nix#<user>@<host>
-```
-
-### Service Management
-
-```bash
-# Normal services
-sudo systemctl start/stop/restart/status <service>
-sudo journalctl -u <service> -f
-sudo systemctl list-timers
-
-# Container services
-sudo systemctl start/stop/restart/status podman-<container>.service
-sudo journalctl -u podman-<container>.service -f
 ```
 
