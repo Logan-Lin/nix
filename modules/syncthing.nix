@@ -7,7 +7,7 @@ let
   cfg = config.syncthing-custom;
 
   pcDevices = [ "macbook" "imac" ];
-  serverDevices = [ "thinkpad" "nfss" ];
+  serverDevices = [ "nfss" ];
   touchDevices = [ "iphone" ];
   allDevices = pcDevices ++ serverDevices ++ touchDevices;
 
@@ -65,9 +65,6 @@ in
         devices = {
           "iphone" = {
             id = "NMWI5MP-J4FC4A6-SDDXZPD-G66TJCO-2W7KGFD-RJWQ53U-I7GUVWP-WHF4QQO";
-          };
-          "thinkpad" = {
-            id = "OMZKASU-QPZDCQ2-7QRHRD4-3TPAXLM-AYRMWXB-A6E5OIZ-MGR422V-JYARQA6";
           };
           "macbook" = {
             id = "XPAMYJX-D7UZKPI-JBLTAWG-EBPSFYV-NEFV42V-NIUZKQN-KTVTGGP-OOXL5AT";

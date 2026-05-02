@@ -70,10 +70,6 @@
         allowedIPs = [ "10.2.2.10/32" ];
       }
       {
-        publicKey = "xqsOWaCaEK1ehC+66deEQxAN92AYPyL9IrIeM4ujIRM=";
-        allowedIPs = [ "10.2.2.20/32" ];
-      }
-      {
         publicKey = "00K2AHKt7lWz91U77SQaG+Vmql2BRVQG53yVFRACqEc=";
         allowedIPs = [ "10.2.2.30/32" ];
       }
@@ -90,7 +86,7 @@
     acmeEmail = "cloudflare@yanlincs.com";
 
     proxies = {
-      deluge.backend = "http://10.2.2.20:8112";
+      deluge.backend = "http://10.2.2.10:8112";
     };
   };
 

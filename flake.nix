@@ -49,12 +49,6 @@
       specialArgs = { inherit inputs; };
     };
 
-    nixosConfigurations."thinkpad" = nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
-      modules = [ ./hosts/nixos/thinkpad/system.nix ];
-      specialArgs = { inherit inputs; };
-    };
-
     nixosConfigurations."nfss" = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [ ./hosts/nixos/nfss/system.nix ];
@@ -77,12 +71,6 @@
       "yanlin@vps" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux;
         modules = [ ./hosts/nixos/vps/home.nix ];
-        extraSpecialArgs = { inherit inputs; };
-      };
-
-      "yanlin@thinkpad" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.x86_64-linux;
-        modules = [ ./hosts/nixos/thinkpad/home.nix ];
         extraSpecialArgs = { inherit inputs; };
       };
 

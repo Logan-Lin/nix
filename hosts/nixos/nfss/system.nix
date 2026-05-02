@@ -9,6 +9,7 @@
     ../../../modules/borg.nix
     ../../../modules/share/samba.nix
     ../../../modules/disk-health.nix
+    ../../../modules/deluge.nix
   ];
 
   boot.loader.grub = {
@@ -119,6 +120,12 @@
 
   services.samba-custom.shares = {
     Media = "/home/yanlin/Media";
+    Downloads = "/mnt/storage/downloads";
+  };
+
+  services.deluge-custom = {
+    enable = true;
+    downloadDir = "/mnt/storage/downloads";
   };
 
   services.disk-health = {
@@ -138,6 +145,7 @@
 
   systemd.tmpfiles.rules = [
     "d /mnt/storage 0755 yanlin users -"
+    "d /mnt/storage/run 0755 yanlin users -"
   ];
 
   services.journald.extraConfig = "SystemMaxUse=5G";

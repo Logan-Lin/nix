@@ -42,12 +42,6 @@ in
         identityFile = "${keyDir}/aicloud";
       };
 
-      "thinkpad" = {
-        hostname = "10.2.2.20";
-        user = "yanlin";
-        identityFile = "${keyDir}/thinkpad";
-      };
-
       "vps" = {
         hostname = "91.98.84.215";
         user = "yanlin";
