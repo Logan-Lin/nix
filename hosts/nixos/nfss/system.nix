@@ -94,7 +94,7 @@
     autoScrub = {
       enable = true;
       interval = "monthly";
-      pools = [ "rpool" ];
+      pools = [ "rpool" "storage" ];
     };
     autoSnapshot = {
       enable = true;
@@ -126,8 +126,19 @@
     devices = [
       "/dev/disk/by-id/ata-ZHITAI_SC001_XT_1000GB_ZTB401TAB244431J4R"
       "/dev/disk/by-id/ata-ZHITAI_SC001_XT_1000GB_ZTB401TAB244431KEG"
+      "/dev/disk/by-id/nvme-WD_Blue_SN580_2TB_2444EL405513"
     ];
   };
+
+  fileSystems."/mnt/storage" = {
+    device = "storage";
+    fsType = "zfs";
+    options = [ "defaults" "zfsutil" ];
+  };
+
+  systemd.tmpfiles.rules = [
+    "d /mnt/storage 0755 yanlin users -"
+  ];
 
   services.journald.extraConfig = "SystemMaxUse=5G";
 
