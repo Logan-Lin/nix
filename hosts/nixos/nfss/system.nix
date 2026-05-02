@@ -7,7 +7,6 @@
     ../system-default.nix
     ../../../modules/vpn/client.nix
     ../../../modules/borg.nix
-    ../../../modules/share/samba.nix
     ../../../modules/disk-health.nix
     ../../../modules/deluge.nix
   ];
@@ -116,11 +115,6 @@
     address = "10.2.2.10/24";
     serverPublicKey = "46QHjSzAas5g9Hll1SCEu9tbR5owCxXAy6wGOUoPwUM=";
     serverEndpoint = "91.98.84.215:51820";
-  };
-
-  services.samba-custom.shares = {
-    Media = "/home/yanlin/Media";
-    Downloads = "/mnt/storage/downloads";
   };
 
   services.deluge-custom = {
