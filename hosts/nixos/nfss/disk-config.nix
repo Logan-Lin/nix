@@ -69,6 +69,16 @@
         };
       };
 
+      # Storage NVMe (whole-disk ZFS, single-vdev)
+      storage = {
+        type = "disk";
+        device = "/dev/disk/by-id/nvme-WD_Blue_SN580_2TB_2444EL405513";
+        content = {
+          type = "zfs";
+          pool = "storage";
+        };
+      };
+
     };
 
     zpool = {
@@ -129,6 +139,21 @@
             };
           };
         };
+      };
+
+      storage = {
+        type = "zpool";
+        options = {
+          ashift = "12";
+          autotrim = "on";
+        };
+        rootFsOptions = {
+          compression = "lz4";
+          acltype = "posix";
+          xattr = "sa";
+          relatime = "on";
+        };
+        mountpoint = "/mnt/storage";
       };
 
     };

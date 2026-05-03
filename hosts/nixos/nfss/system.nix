@@ -131,12 +131,6 @@
     ];
   };
 
-  fileSystems."/mnt/storage" = {
-    device = "storage";
-    fsType = "zfs";
-    options = [ "defaults" "zfsutil" ];
-  };
-
   systemd.tmpfiles.rules = [
     "d /mnt/storage 0755 yanlin users -"
     "d /mnt/storage/run 0755 yanlin users -"
