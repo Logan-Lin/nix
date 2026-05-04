@@ -23,24 +23,73 @@
 
   programs.zsh.initContent = ''
     function audio2aac() {
-      local dir="''${1:-.}"
-      ${pkgs.findutils}/bin/find "$dir" \( -iname '*.flac' -o -iname '*.mp3' -o -iname '*.wav' -o -iname '*.ogg' -o -iname '*.wma' -o -iname '*.aiff' -o -iname '*.m4a' -o -iname '*.aac' \) -type f -print0 | ${pkgs.findutils}/bin/xargs -0 -P4 -n1 sh -c '
+      if [[ $# -lt 2 ]]; then
+        echo "Usage: audio2aac <source> <dest>" >&2
+        return 1
+      fi
+      local src="''${1%/}"
+      local dst="$2"
+      local base
+      if [[ -f "$src" ]]; then
+        base="''${src:h}"
+      elif [[ -d "$src" ]]; then
+        base="$src"
+      else
+        echo "Source not found: $src" >&2
+        return 1
+      fi
+      ${pkgs.coreutils}/bin/mkdir -p "$dst"
+      {
+        if [[ -f "$src" ]]; then
+          printf '%s\0' "$src"
+        else
+          ${pkgs.findutils}/bin/find "$src" -type f \( -iname '*.flac' -o -iname '*.mp3' -o -iname '*.wav' -o -iname '*.ogg' -o -iname '*.wma' -o -iname '*.aiff' -o -iname '*.m4a' -o -iname '*.aac' \) -print0
+        fi
+      } | _BASE="$base" _DST="$dst" ${pkgs.findutils}/bin/xargs -0 -P4 -n1 sh -c '
         f="$1"
-        outfile="./transcode/''${f%.*}.m4a"
-        ${pkgs.coreutils}/bin/mkdir -p "$(${pkgs.coreutils}/bin/dirname "$outfile")"
-        ${pkgs.ffmpeg}/bin/ffmpeg -i "$f" -vn -c:a aac -b:a 256k -movflags +faststart "$outfile"
+        rel="''${f#$_BASE/}"
+        bn="''${rel##*/}"
+        stem="''${bn%.*}"
+        case "$rel" in
+          */*) outdir="$_DST/''${rel%/*}" ;;
+          *) outdir="$_DST" ;;
+        esac
+        outfile="$outdir/$stem.m4a"
+        ${pkgs.coreutils}/bin/mkdir -p "$outdir"
+        ${pkgs.ffmpeg}/bin/ffmpeg -nostdin -loglevel error -nostats -i "$f" -vn -c:a aac -b:a 256k -movflags +faststart "$outfile" >/dev/null </dev/null
+        echo "Converted: $f -> $outfile"
       ' _
     }
 
     function cuesplit() {
-      local dir="''${1:-.}"
-      ${pkgs.findutils}/bin/find "$dir" -type f -iname '*.cue' | while read -r cue; do
-        local base="''${cue%.*}"
-        local cuedir="''${cue:h}"
+      if [[ $# -lt 2 ]]; then
+        echo "Usage: cuesplit <source> <dest>" >&2
+        return 1
+      fi
+      local src="''${1%/}"
+      local tgt="$2"
+      local base
+      if [[ -f "$src" ]]; then
+        base="''${src:h}"
+      elif [[ -d "$src" ]]; then
+        base="$src"
+      else
+        echo "Source not found: $src" >&2
+        return 1
+      fi
+      ${pkgs.coreutils}/bin/mkdir -p "$tgt"
+      {
+        if [[ -f "$src" ]]; then
+          printf '%s\n' "$src"
+        else
+          ${pkgs.findutils}/bin/find "$src" -type f -iname '*.cue'
+        fi
+      } | while IFS= read -r cue; do
+        local audio_stem="''${cue%.*}"
         local audio=""
         for ext in wav flac ape tta; do
-          if [[ -f "$base.$ext" ]]; then
-            audio="$base.$ext"
+          if [[ -f "$audio_stem.$ext" ]]; then
+            audio="$audio_stem.$ext"
             break
           fi
         done
@@ -69,30 +118,96 @@
             iconv -f "$enc" -t UTF-8 "$cue" > "$tmp" && ${pkgs.coreutils}/bin/mv "$tmp" "$cue"
           fi
         fi
+        local rel="''${cue#$base/}"
+        local cue_bn="''${rel##*/}"
+        local cue_stem="''${cue_bn%.*}"
+        local outdir
+        case "$rel" in
+          */*) outdir="$tgt/''${rel%/*}/$cue_stem" ;;
+          *) outdir="$tgt/$cue_stem" ;;
+        esac
         local afmt="''${audio##*.}"
-        local outdir="$cuedir/tracks"
         ${pkgs.coreutils}/bin/mkdir -p "$outdir"
         ${pkgs.shntool}/bin/shnsplit -f "$cue" -t "%n - %t" -o "''${afmt:l}" -d "$outdir" "$audio"
       done
     }
 
     function image2webp() {
-      local dir="''${1:-.}"
-      ${pkgs.findutils}/bin/find "$dir" -type f \( -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.gif' -o -iname '*.heic' -o -iname '*.heif' \) -print0 | ${pkgs.findutils}/bin/xargs -0 -P4 -n1 sh -c '
+      if [[ $# -lt 2 ]]; then
+        echo "Usage: image2webp <source> <dest>" >&2
+        return 1
+      fi
+      local src="''${1%/}"
+      local dst="$2"
+      local base
+      if [[ -f "$src" ]]; then
+        base="''${src:h}"
+      elif [[ -d "$src" ]]; then
+        base="$src"
+      else
+        echo "Source not found: $src" >&2
+        return 1
+      fi
+      ${pkgs.coreutils}/bin/mkdir -p "$dst"
+      {
+        if [[ -f "$src" ]]; then
+          printf '%s\0' "$src"
+        else
+          ${pkgs.findutils}/bin/find "$src" -type f \( -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.gif' -o -iname '*.heic' -o -iname '*.heif' \) -print0
+        fi
+      } | _BASE="$base" _DST="$dst" ${pkgs.findutils}/bin/xargs -0 -P4 -n1 sh -c '
         f="$1"
-        outfile="''${f%.*}.webp"
-        ${pkgs.imagemagick}/bin/magick "$f" -resize "1800x1800>" -quality 82 "$outfile"
+        rel="''${f#$_BASE/}"
+        bn="''${rel##*/}"
+        stem="''${bn%.*}"
+        case "$rel" in
+          */*) outdir="$_DST/''${rel%/*}" ;;
+          *) outdir="$_DST" ;;
+        esac
+        outfile="$outdir/$stem.webp"
+        ${pkgs.coreutils}/bin/mkdir -p "$outdir"
+        ${pkgs.imagemagick}/bin/magick "$f" -resize "1800x1800>" -quality 82 "$outfile" >/dev/null
         echo "Converted: $f -> $outfile"
       ' _
     }
 
     function webp2png() {
-      local dir="''${1:-.}"
-      ${pkgs.findutils}/bin/find "$dir" -type f -iname '*.webp' | while read -r img; do
-        outfile="''${img%.*}.png"
-        ${pkgs.imagemagick}/bin/magick "$img" "$outfile"
-        echo "Converted: $img -> $outfile"
-      done
+      if [[ $# -lt 2 ]]; then
+        echo "Usage: webp2png <source> <dest>" >&2
+        return 1
+      fi
+      local src="''${1%/}"
+      local dst="$2"
+      local base
+      if [[ -f "$src" ]]; then
+        base="''${src:h}"
+      elif [[ -d "$src" ]]; then
+        base="$src"
+      else
+        echo "Source not found: $src" >&2
+        return 1
+      fi
+      ${pkgs.coreutils}/bin/mkdir -p "$dst"
+      {
+        if [[ -f "$src" ]]; then
+          printf '%s\0' "$src"
+        else
+          ${pkgs.findutils}/bin/find "$src" -type f -iname '*.webp' -print0
+        fi
+      } | _BASE="$base" _DST="$dst" ${pkgs.findutils}/bin/xargs -0 -P4 -n1 sh -c '
+        f="$1"
+        rel="''${f#$_BASE/}"
+        bn="''${rel##*/}"
+        stem="''${bn%.*}"
+        case "$rel" in
+          */*) outdir="$_DST/''${rel%/*}" ;;
+          *) outdir="$_DST" ;;
+        esac
+        outfile="$outdir/$stem.png"
+        ${pkgs.coreutils}/bin/mkdir -p "$outdir"
+        ${pkgs.imagemagick}/bin/magick "$f" "$outfile" >/dev/null
+        echo "Converted: $f -> $outfile"
+      ' _
     }
 
     function video2webp() {
@@ -103,44 +218,83 @@
           *) echo "Unknown option: $1" >&2; return 1 ;;
         esac
       done
-      local dir="''${1:-.}"
+      if [[ $# -lt 2 ]]; then
+        echo "Usage: video2webp [--speed N] <source> <dest>" >&2
+        return 1
+      fi
+      local src="''${1%/}"
+      local dst="$2"
+      local base
+      if [[ -f "$src" ]]; then
+        base="''${src:h}"
+      elif [[ -d "$src" ]]; then
+        base="$src"
+      else
+        echo "Source not found: $src" >&2
+        return 1
+      fi
+      ${pkgs.coreutils}/bin/mkdir -p "$dst"
       local vf="fps=10,scale='min(1280,iw)':-1"
       [[ "$speed" != "1" ]] && vf="setpts=PTS/$speed,$vf"
-      for f in "$dir"/**/(#i)*.(mp4|mkv|mov); do
-        if [[ -f "$f" ]]; then
-          local outfile="''${f%.*}.webp"
-          ${pkgs.ffmpeg}/bin/ffmpeg -i "$f" \
-            -vf "$vf" \
-            -quality 75 -compression_level 4 -loop 0 \
-            "$outfile"
-          echo "Converted: $f -> $outfile"
+      {
+        if [[ -f "$src" ]]; then
+          printf '%s\0' "$src"
+        else
+          ${pkgs.findutils}/bin/find "$src" -type f \( -iname '*.mp4' -o -iname '*.mkv' -o -iname '*.mov' \) -print0
         fi
-      done
+      } | _BASE="$base" _DST="$dst" _VF="$vf" ${pkgs.findutils}/bin/xargs -0 -P4 -n1 sh -c '
+        f="$1"
+        rel="''${f#$_BASE/}"
+        bn="''${rel##*/}"
+        stem="''${bn%.*}"
+        case "$rel" in
+          */*) outdir="$_DST/''${rel%/*}" ;;
+          *) outdir="$_DST" ;;
+        esac
+        outfile="$outdir/$stem.webp"
+        ${pkgs.coreutils}/bin/mkdir -p "$outdir"
+        ${pkgs.ffmpeg}/bin/ffmpeg -nostdin -loglevel error -nostats -i "$f" -vf "$_VF" -quality 75 -compression_level 4 -loop 0 "$outfile" >/dev/null </dev/null
+        echo "Converted: $f -> $outfile"
+      ' _
     }
 
     function pdf2svg() {
-      local dir="''${1:-.}"
-      ${pkgs.findutils}/bin/find "$dir" -type f -iname '*.pdf' | while read -r pdf; do
-        local outfile="''${pdf%.pdf}.svg"
-        ${pkgs.poppler-utils}/bin/pdftocairo -svg "$pdf" "$outfile"
-        echo "Converted: $pdf -> $outfile"
-      done
-    }
-
-    function video2av1() {
-      local height="''${1:-720}"
-      local dir="''${2:-.}"
-      for f in "$dir"/**/(#i)*.(mp4|mkv|avi); do
-        if [[ -f "$f" ]]; then
-          local outfile="./transcode/''${f%.*}.mkv"
-          ${pkgs.coreutils}/bin/mkdir -p "$(${pkgs.coreutils}/bin/dirname "$outfile")"
-          ${pkgs.ffmpeg}/bin/ffmpeg -i "$f" \
-            -c:v libsvtav1 -crf 30 -preset 6 \
-            -vf "scale=-2:'min($height,ih)'" \
-            -c:a copy \
-            "$outfile"
+      if [[ $# -lt 2 ]]; then
+        echo "Usage: pdf2svg <source> <dest>" >&2
+        return 1
+      fi
+      local src="''${1%/}"
+      local dst="$2"
+      local base
+      if [[ -f "$src" ]]; then
+        base="''${src:h}"
+      elif [[ -d "$src" ]]; then
+        base="$src"
+      else
+        echo "Source not found: $src" >&2
+        return 1
+      fi
+      ${pkgs.coreutils}/bin/mkdir -p "$dst"
+      {
+        if [[ -f "$src" ]]; then
+          printf '%s\0' "$src"
+        else
+          ${pkgs.findutils}/bin/find "$src" -type f -iname '*.pdf' -print0
         fi
-      done
+      } | _BASE="$base" _DST="$dst" ${pkgs.findutils}/bin/xargs -0 -P4 -n1 sh -c '
+        f="$1"
+        rel="''${f#$_BASE/}"
+        bn="''${rel##*/}"
+        stem="''${bn%.*}"
+        case "$rel" in
+          */*) outdir="$_DST/''${rel%/*}" ;;
+          *) outdir="$_DST" ;;
+        esac
+        outfile="$outdir/$stem.svg"
+        ${pkgs.coreutils}/bin/mkdir -p "$outdir"
+        ${pkgs.poppler-utils}/bin/pdftocairo -svg "$f" "$outfile" >/dev/null
+        echo "Converted: $f -> $outfile"
+      ' _
     }
 
     function extract() {
