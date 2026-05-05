@@ -31,7 +31,7 @@
     nixpkgs-bleed.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, nixvim, firefox-addons, nix-casks, nix-homebrew, disko, nixpkgs-bleed }:
+  outputs = inputs@{ nixpkgs, nix-darwin, home-manager, ... }:
   {
     darwinConfigurations."macbook" = nix-darwin.lib.darwinSystem {
       modules = [ ./hosts/darwin/macbook/system.nix ];
