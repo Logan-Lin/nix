@@ -258,45 +258,6 @@
       ' _
     }
 
-    function pdf2svg() {
-      if [[ $# -lt 2 ]]; then
-        echo "Usage: pdf2svg <source> <dest>" >&2
-        return 1
-      fi
-      local src="''${1%/}"
-      local dst="$2"
-      local base
-      if [[ -f "$src" ]]; then
-        base="''${src:h}"
-      elif [[ -d "$src" ]]; then
-        base="$src"
-      else
-        echo "Source not found: $src" >&2
-        return 1
-      fi
-      ${pkgs.coreutils}/bin/mkdir -p "$dst"
-      {
-        if [[ -f "$src" ]]; then
-          printf '%s\0' "$src"
-        else
-          ${pkgs.findutils}/bin/find "$src" -type f -iname '*.pdf' -print0
-        fi
-      } | _BASE="$base" _DST="$dst" ${pkgs.findutils}/bin/xargs -0 -P4 -n1 sh -c '
-        f="$1"
-        rel="''${f#$_BASE/}"
-        bn="''${rel##*/}"
-        stem="''${bn%.*}"
-        case "$rel" in
-          */*) outdir="$_DST/''${rel%/*}" ;;
-          *) outdir="$_DST" ;;
-        esac
-        outfile="$outdir/$stem.svg"
-        ${pkgs.coreutils}/bin/mkdir -p "$outdir"
-        ${pkgs.poppler-utils}/bin/pdftocairo -svg "$f" "$outfile" >/dev/null
-        echo "Converted: $f -> $outfile"
-      ' _
-    }
-
     function extract() {
       if [[ $# -eq 0 ]]; then
         echo "Usage: extract <archive> [dest_dir]" >&2
