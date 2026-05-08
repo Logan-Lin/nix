@@ -147,18 +147,7 @@
             float = {
               enable = true;
               open_win_config.__raw = ''
-                function()
-                  local width = 76
-                  local height = math.floor(vim.o.lines * 0.85)
-                  return {
-                    relative = "editor",
-                    border = "rounded",
-                    width = width,
-                    height = height,
-                    row = math.floor((vim.o.lines - height) / 2) - 1,
-                    col = math.floor((vim.o.columns - width) / 2),
-                  }
-                end
+                function() return _G.nvim_tree_float_config() end
               '';
             };
           };
@@ -295,6 +284,30 @@
           },
         }
       ''}
+
+      function _G.nvim_tree_float_config()
+        local width = 76
+        local height = math.floor(vim.o.lines * 0.85)
+        return {
+          relative = "editor",
+          border = "rounded",
+          width = width,
+          height = height,
+          row = math.floor((vim.o.lines - height) / 2) - 1,
+          col = math.floor((vim.o.columns - width) / 2),
+        }
+      end
+
+      vim.api.nvim_create_autocmd("VimResized", {
+        callback = function()
+          for _, winid in ipairs(vim.api.nvim_list_wins()) do
+            local bufnr = vim.api.nvim_win_get_buf(winid)
+            if vim.bo[bufnr].filetype == "NvimTree" then
+              vim.api.nvim_win_set_config(winid, _G.nvim_tree_float_config())
+            end
+          end
+        end,
+      })
 
       function close_current_buffer()
         local current_buf = vim.api.nvim_get_current_buf()
