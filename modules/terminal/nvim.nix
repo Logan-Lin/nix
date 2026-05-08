@@ -255,7 +255,7 @@
       {
         mode = "n";
         key = "<leader>x";
-        action = ":bp|bd #<CR>";
+        action = ":lua close_current_buffer()<CR>";
         options = { desc = "Close current buffer"; };
       }
       {
@@ -295,6 +295,20 @@
           },
         }
       ''}
+
+      function close_current_buffer()
+        local current_buf = vim.api.nvim_get_current_buf()
+        local listed_bufs = vim.tbl_filter(function(buf)
+          return vim.api.nvim_buf_is_valid(buf) and vim.bo[buf].buflisted
+        end, vim.api.nvim_list_bufs())
+
+        if #listed_bufs > 1 then
+          vim.cmd("bprevious")
+        else
+          vim.cmd("enew")
+        end
+        vim.api.nvim_buf_delete(current_buf, { force = false })
+      end
 
       function close_other_buffers()
         local current_buf = vim.api.nvim_get_current_buf()
