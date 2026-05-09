@@ -39,11 +39,7 @@ in
 {
   options.syncthing-custom = {
     folders = {
-      Credentials = mkFolderOptions "Credentials" {};
-      Documents = mkFolderOptions "Documents" { devices = pcDevices ++ serverDevices; };
-      Media = mkFolderOptions "Media" { devices = pcDevices ++ serverDevices; };
-      Archive = mkFolderOptions "Archive" {};
-      Share = mkFolderOptions "Share" {};
+      Documents = mkFolderOptions "Documents" {};
     };
     enableGui = lib.mkOption {
       type = lib.types.bool;

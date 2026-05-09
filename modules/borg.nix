@@ -146,7 +146,7 @@ in
         if [[ "${cfg.repositoryUrl}" == ssh://* ]]; then
           mkdir -p /root/.ssh && chmod 700 /root/.ssh
           [ -f /home/yanlin/.ssh/config ] && cp /home/yanlin/.ssh/config /root/.ssh/config && chmod 600 /root/.ssh/config
-          [ -d /home/yanlin/Credentials/ssh_keys ] && mkdir -p /root/Credentials && cp -r /home/yanlin/Credentials/ssh_keys /root/Credentials/ && chmod -R 600 /root/Credentials/ssh_keys
+          [ -d /home/yanlin/.ssh/keys ] && cp -r /home/yanlin/.ssh/keys /root/.ssh/keys && chmod -R 600 /root/.ssh/keys
           [ -f /home/yanlin/.ssh/known_hosts ] && cp /home/yanlin/.ssh/known_hosts /root/.ssh/known_hosts && chmod 600 /root/.ssh/known_hosts
         fi
 
@@ -217,7 +217,7 @@ in
         if [[ "${cfg.repositoryUrl}" == ssh://* ]]; then
           mkdir -p /root/.ssh && chmod 700 /root/.ssh
           [ -f /home/yanlin/.ssh/config ] && cp /home/yanlin/.ssh/config /root/.ssh/config && chmod 600 /root/.ssh/config
-          [ -d /home/yanlin/Credentials/ssh_keys ] && mkdir -p /root/Credentials && cp -r /home/yanlin/Credentials/ssh_keys /root/Credentials/ && chmod -R 600 /root/Credentials/ssh_keys
+          [ -d /home/yanlin/.ssh/keys ] && cp -r /home/yanlin/.ssh/keys /root/.ssh/keys && chmod -R 600 /root/.ssh/keys
           [ -f /home/yanlin/.ssh/known_hosts ] && cp /home/yanlin/.ssh/known_hosts /root/.ssh/known_hosts && chmod 600 /root/.ssh/known_hosts
         fi
 

@@ -59,11 +59,7 @@ in
   ];
 
   syncthing-custom.folders = {
-    Credentials.enable = true;
     Documents.enable = true;
-    Media.enable = true;
-    Archive.enable = true;
-    Share.enable = true;
   };
 
   nixpkgs.config.allowUnfree = true;

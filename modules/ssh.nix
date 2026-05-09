@@ -1,7 +1,7 @@
 { config, pkgs, lib, ... }:
 
 let
-  keyDir = "~/Credentials/ssh_keys";
+  keyDir = "~/.ssh/keys";
 in
 {
   home.packages = [ pkgs.openssh ];

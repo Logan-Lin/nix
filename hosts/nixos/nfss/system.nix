@@ -142,11 +142,9 @@
     enable = true;
     repositoryUrl = "ssh://helsinki-box/./nfss";
     backupPaths = [
-      "/home/yanlin/Archive"
-      "/home/yanlin/Credentials"
       "/home/yanlin/Documents"
-      "/home/yanlin/Media"
       "/home/yanlin/.config/"
+      "/home/yanlin/.ssh/"
     ];
     backupFrequency = "*-*-* 01:00:00";
     checkFrequency = "Sun *-*-* 13:00:00";

@@ -98,6 +98,7 @@
     backupPaths = [
       "/var/lib/mongodb"
       "/home/yanlin/.config/"
+      "/home/yanlin/.ssh/"
     ];
     backupFrequency = "*-*-* 03:00:00";
     checkFrequency = "Sun *-*-* 11:00:00";
