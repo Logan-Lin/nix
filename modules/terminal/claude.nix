@@ -115,8 +115,9 @@ in
         2. Projects may use flake + direnv for project-specific runtimes
 
         ## Writing Style
-        1. Do not over-abuse comments in code, especially for self-explanatory blocks
+        1. Do not over-abuse comments in code, especially for self-explanatory blocks. When comments are necessary, keep them concise and in plain text, avoiding fancy formatting
         2. For text-heavy content, keep writing straightforward
+          - Use plain and direct phrasing. For example, write "use" instead of "utilize", "to" instead of "in order to", or "many" instead of "a myriad of". Avoid needlessly fancy, idiomatic, or indirect vocabulary/slang/syntax/constructions, or unnecessary terms and concepts, unless the user's prompt explicitly calls for them
           - Avoid using em dashes and en dashes to connect sentences
           - Do not abuse punctuation like semicolons/colons/parentheses to join or compress sentences, or formatting like bold/italic/itemize/enumeration (LaTeX or Markdown). Use them only when they genuinely help
         3. In prose-heavy files (Markdown, LaTeX, etc.) where linebreaks do not affect rendering, break lines between sentences at natural pauses to make diffs and editing easier. Never break in the middle of a sentence
