@@ -61,7 +61,7 @@ in
       set -g status-left-length 40
       set -g status-right-length 50
       set -g status-left '#{?client_prefix,#[bg=#fb4934],#[bg=#a89984]}#[fg=#282828] #S #[bg=#282828] '
-      set -g status-right '#(${continuumSaveScript})#{?SSH_CLIENT,#[bg=#fabd2f],#[bg=#a89984]}#[fg=#282828]#{?pane_in_mode, [COPY],}#{?window_zoomed_flag, [Z],} #H | %H:%M '
+      set -g status-right '#(${continuumSaveScript})#{?SSH_CONNECTION,#[bg=#fabd2f],#[bg=#a89984]}#[fg=#282828]#{?pane_in_mode, [COPY],}#{?window_zoomed_flag, [Z],} #H | %H:%M '
       set -g window-status-format ' #I:#W '
       set -g window-status-current-format ' #I:#W '
 
