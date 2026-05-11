@@ -23,9 +23,9 @@
     description = "Backup files on aicloud";
     interval = "*-*-* *:10:00";
     commands = [
-      "rsync -avhP aicloud.lan:~/xrd-cond-glass-gen /mnt/storage/run/"
-      "rsync -avhP aicloud.lan:~/charge-bal /mnt/storage/run/"
-      "rsync -avhP aicloud.lan:~/sr-gen-traj /mnt/storage/run/"
+      "rsync -avhP aicloud.lan:~/xrd-cond-glass-gen /mnt/storage/backup/"
+      "rsync -avhP aicloud.lan:~/charge-bal /mnt/storage/backup/"
+      "rsync -avhP aicloud.lan:~/sr-gen-traj /mnt/storage/backup/"
     ];
   };
 
