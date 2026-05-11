@@ -106,6 +106,7 @@ in
       set -g display-panes-time 3000
       set -s extended-keys on
       set -as terminal-features 'xterm*:extkeys'
+      set -as terminal-features '*:clipboard'
       set -s escape-time 0
       set -g renumber-windows on
       set -g detach-on-destroy off

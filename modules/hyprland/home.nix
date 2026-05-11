@@ -1,0 +1,456 @@
+{ config, pkgs, lib, ... }:
+
+let
+  windowSwitcher = pkgs.writeShellScript "hypr-window-switcher" ''
+    ${pkgs.hyprland}/bin/hyprctl clients -j \
+      | ${pkgs.jq}/bin/jq -r '.[] | select(.workspace.id > 0) | "\(.address)|\(.class): \(.title)"' \
+      | ${pkgs.wofi}/bin/wofi --dmenu --prompt "window" \
+      | ${pkgs.coreutils}/bin/cut -d'|' -f1 \
+      | ${pkgs.findutils}/bin/xargs -r -I{} ${pkgs.hyprland}/bin/hyprctl dispatch focuswindow address:{}
+  '';
+
+  bookmarkPicker = pkgs.writeShellScript "hypr-bookmarks" ''
+    ${pkgs.yq-go}/bin/yq -r '[.[] | {"line": (.name + (.tags | select(. != null) | " [" + join(", ") + "]") + " | " + .url), "sort": ((.tags // [] | join(",")) + "|" + .name)}] | sort_by(.sort) | .[].line' "$HOME/Documents/app-state/bookmarks.yaml" \
+      | ${pkgs.wofi}/bin/wofi --dmenu --prompt "bookmark" \
+      | ${pkgs.coreutils}/bin/cut -d'|' -f2 \
+      | ${pkgs.findutils}/bin/xargs -r ${pkgs.firefox}/bin/firefox
+  '';
+in
+
+{
+  services.gnome-keyring = {
+    enable = true;
+    components = [ "secrets" "ssh" ];
+  };
+
+  home.activation.ensureHyprMonitorsConf = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    mkdir -p "$HOME/.config/hypr"
+    [ -e "$HOME/.config/hypr/monitors.conf" ] || touch "$HOME/.config/hypr/monitors.conf"
+  '';
+
+  wayland.windowManager.hyprland = {
+    enable = true;
+    xwayland.enable = true;
+
+    extraConfig = ''
+      source = ~/.config/hypr/monitors.conf
+    '';
+
+    settings = {
+      env = [
+        "GTK_THEME,Adwaita:dark"
+        "XCURSOR_SIZE,24"
+        "XCURSOR_THEME,Bibata-Modern-Ice"
+        "MOZ_ENABLE_WAYLAND,1"
+        "NIXOS_OZONE_WL,1"
+      ];
+
+      exec-once = [
+        "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP HYPRLAND_INSTANCE_SIGNATURE XDG_SESSION_TYPE"
+        "systemctl --user start hyprpolkitagent"
+        "gnome-keyring-daemon --start --components=secrets,ssh"
+        "swaync"
+        "waybar"
+        "nm-applet --indicator"
+        "blueman-applet"
+        "mkdir -p ~/Pictures/Screenshots"
+        "wl-paste --watch cliphist store"
+      ];
+
+      input = {
+        kb_layout = "us";
+        follow_mouse = 1;
+        touchpad = {
+          natural_scroll = true;
+          tap-to-click = false;
+          disable_while_typing = true;
+        };
+      };
+
+      windowrule = [
+        "float 1, match:class .*"
+      ];
+
+      general = {
+        gaps_in = 0;
+        gaps_out = 0;
+        border_size = 2;
+        "col.active_border" = "rgba(fabd2fee) rgba(fe8019ee) 45deg";
+        "col.inactive_border" = "rgba(928374aa)";
+        layout = "dwindle";
+      };
+
+      decoration = {
+        rounding = 0;
+        blur.enabled = false;
+        shadow.enabled = false;
+      };
+
+      animations = {
+        enabled = true;
+        bezier = "myBezier, 0.05, 0.9, 0.1, 1.05";
+        animation = [
+          "windows, 1, 3, myBezier"
+          "windowsOut, 1, 3, default, popin 80%"
+          "border, 1, 5, default"
+          "borderangle, 1, 4, default"
+          "fade, 1, 3, default"
+          "workspaces, 1, 3, default"
+        ];
+      };
+
+      dwindle = {
+        pseudotile = true;
+        preserve_split = true;
+      };
+
+      misc = {
+        force_default_wallpaper = 2;
+        disable_hyprland_logo = true;
+      };
+
+      bind = [
+        "SUPER, Return, togglefloating,"
+        "SUPER, F, fullscreen,"
+        "SUPER, Q, killactive,"
+
+        "SUPER, T, exec, ghostty"
+        "SUPER, Space, exec, wofi --show drun"
+        "SUPER, Tab, exec, ${windowSwitcher}"
+        "SUPER, B, exec, ${bookmarkPicker}"
+        "SUPER, C, exec, cliphist list | wofi --dmenu | cliphist decode | wl-copy"
+        "SUPER SHIFT, L, exec, hyprlock"
+
+        "SUPER, h, movefocus, l"
+        "SUPER, j, movefocus, d"
+        "SUPER, k, movefocus, u"
+        "SUPER, l, movefocus, r"
+
+        "SUPER SHIFT, h, movewindow, l"
+        "SUPER SHIFT, j, movewindow, d"
+        "SUPER SHIFT, k, movewindow, u"
+        "SUPER SHIFT, l, movewindow, r"
+
+        "SUPER, minus, resizeactive, -50 0"
+        "SUPER, equal, resizeactive, 50 0"
+
+        "SUPER, 1, workspace, 1"
+        "SUPER, 2, workspace, 2"
+        "SUPER, 3, workspace, 3"
+        "SUPER, 4, workspace, 4"
+        "SUPER, 5, workspace, 5"
+        "SUPER, 6, workspace, 6"
+        "SUPER, 7, workspace, 7"
+        "SUPER, 8, workspace, 8"
+        "SUPER, 9, workspace, 9"
+        "SUPER, 0, workspace, 10"
+
+        "SUPER SHIFT, 1, movetoworkspace, 1"
+        "SUPER SHIFT, 2, movetoworkspace, 2"
+        "SUPER SHIFT, 3, movetoworkspace, 3"
+        "SUPER SHIFT, 4, movetoworkspace, 4"
+        "SUPER SHIFT, 5, movetoworkspace, 5"
+        "SUPER SHIFT, 6, movetoworkspace, 6"
+        "SUPER SHIFT, 7, movetoworkspace, 7"
+        "SUPER SHIFT, 8, movetoworkspace, 8"
+        "SUPER SHIFT, 9, movetoworkspace, 9"
+        "SUPER SHIFT, 0, movetoworkspace, 10"
+
+        "SUPER, left, workspace, r-1"
+        "SUPER, right, workspace, r+1"
+
+        "SUPER, comma, focusmonitor, -1"
+        "SUPER, period, focusmonitor, +1"
+        "SUPER SHIFT, comma, movewindow, mon:-1"
+        "SUPER SHIFT, period, movewindow, mon:+1"
+
+        ", XF86MonBrightnessUp, exec, brightnessctl set +5%"
+        ", XF86MonBrightnessDown, exec, brightnessctl set 5%-"
+
+        ", XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"
+        ", XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
+        ", XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+        ", XF86AudioMicMute, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
+
+        ", Print, exec, grimblast copysave area ~/Pictures/Screenshots/$(date +%Y-%m-%d_%H-%M-%S).png"
+        "SHIFT, Print, exec, grimblast copysave screen ~/Pictures/Screenshots/$(date +%Y-%m-%d_%H-%M-%S).png"
+        "CTRL, Print, exec, grimblast copysave active ~/Pictures/Screenshots/$(date +%Y-%m-%d_%H-%M-%S).png"
+      ];
+
+      bindm = [
+        "SUPER, mouse:272, movewindow"
+        "SUPER, mouse:273, resizewindow"
+      ];
+    };
+  };
+
+  services.hypridle = {
+    enable = true;
+    settings = {
+      general = {
+        lock_cmd = "pidof hyprlock || hyprlock";
+        before_sleep_cmd = "loginctl lock-session";
+        after_sleep_cmd = "hyprctl dispatch dpms on";
+      };
+      listener = [
+        {
+          timeout = 540;
+          on-timeout = "${pkgs.brightnessctl}/bin/brightnessctl -s set 5%";
+          on-resume = "${pkgs.brightnessctl}/bin/brightnessctl -r";
+        }
+        { timeout = 600; on-timeout = "loginctl lock-session"; }
+        {
+          timeout = 900;
+          on-timeout = "hyprctl dispatch dpms off";
+          on-resume = "hyprctl dispatch dpms on";
+        }
+        { timeout = 1800; on-timeout = "systemctl suspend"; }
+      ];
+    };
+  };
+
+  programs.hyprlock = {
+    enable = true;
+    settings = {
+      general = {
+        disable_loading_bar = false;
+        hide_cursor = true;
+        grace = 0;
+        no_fade_in = false;
+      };
+
+      background = [{
+        path = "screenshot";
+        blur_passes = 3;
+        blur_size = 8;
+      }];
+
+      input-field = [{
+        size = "200, 50";
+        position = "0, -20";
+        monitor = "";
+        dots_center = true;
+        fade_on_empty = false;
+        font_color = "rgb(202, 211, 245)";
+        inner_color = "rgb(91, 96, 120)";
+        outer_color = "rgb(24, 25, 38)";
+        outline_thickness = 5;
+        placeholder_text = ''<span foreground="##cad3f5">Password...</span>'';
+        shadow_passes = 2;
+      }];
+    };
+  };
+
+  gtk = {
+    enable = true;
+    theme = {
+      name = "Adwaita-dark";
+      package = pkgs.gnome-themes-extra;
+    };
+    iconTheme = {
+      name = "Papirus-Dark";
+      package = pkgs.papirus-icon-theme;
+    };
+    gtk3.extraConfig.gtk-application-prefer-dark-theme = 1;
+    gtk4 = {
+      theme = config.gtk.theme;
+      extraConfig.gtk-application-prefer-dark-theme = 1;
+    };
+  };
+
+  qt = {
+    enable = true;
+    platformTheme.name = "adwaita";
+    style.name = "adwaita-dark";
+  };
+
+  dconf.settings."org/gnome/desktop/interface".color-scheme = "prefer-dark";
+
+  home.packages = with pkgs; [
+    adwaita-qt
+    adwaita-qt6
+    grimblast
+    thunar
+    evince
+    loupe
+    wl-clipboard
+    cliphist
+  ];
+
+  programs.zsh.initContent = ''
+    alias hypr-restart='loginctl terminate-session'
+  '';
+
+  home.pointerCursor = {
+    name = "Bibata-Modern-Ice";
+    package = pkgs.bibata-cursors;
+    size = 24;
+    gtk.enable = true;
+    x11.enable = true;
+  };
+
+  programs.wofi = {
+    enable = true;
+    settings = {
+      key_up = "Ctrl-k";
+      key_down = "Ctrl-j";
+    };
+  };
+
+  programs.waybar = {
+    enable = true;
+    settings.mainBar = {
+      layer = "top";
+      position = "top";
+      height = 30;
+      spacing = 4;
+
+      modules-left = [ "hyprland/workspaces" "hyprland/window" ];
+      modules-center = [ "custom/nixos-logo" "clock" ];
+      modules-right = [ "custom/notification" "pulseaudio" "backlight" "battery" "tray" ];
+
+      "custom/nixos-logo" = {
+        format = "";
+        tooltip = true;
+        tooltip-format = "NixOS";
+      };
+
+      "hyprland/workspaces" = {
+        format = "{name}";
+        on-click = "activate";
+      };
+
+      "hyprland/window" = {
+        format = "{}";
+        max-length = 50;
+      };
+
+      clock = {
+        format = "{:%H:%M %a %d %b}";
+        tooltip-format = "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>";
+      };
+
+      battery = {
+        states = { warning = 30; critical = 15; };
+        format = "{capacity}% {icon}";
+        format-charging = "{capacity}% ";
+        format-plugged = "{capacity}% ";
+        format-icons = ["" "" "" "" ""];
+        tooltip-format = "{capacity}% • {timeTo}";
+      };
+
+      pulseaudio = {
+        format = "{volume}% {icon}";
+        format-bluetooth = "{volume}% {icon}";
+        format-muted = "{volume}X {icon}";
+        format-icons = {
+          headphone = "";
+          hands-free = "";
+          headset = "";
+          phone = "";
+          portable = "";
+          car = "";
+          default = ["" "" ""];
+        };
+        on-click = "pavucontrol";
+        tooltip-format = "Volume: {volume}%";
+      };
+
+      backlight = {
+        format = "{percent}% {icon}";
+        format-icons = ["" ""];
+        on-click = "nwg-displays";
+        tooltip-format = "Brightness: {percent}%";
+      };
+
+      tray.spacing = 10;
+
+      "custom/notification" = {
+        tooltip = false;
+        format = "{} {icon}";
+        format-icons = {
+          notification = "<span foreground='#f38ba8'><sup></sup></span>";
+          none = "";
+          dnd-notification = "<span foreground='#f38ba8'> <sup></sup></span>";
+          dnd-none = "";
+          inhibited-notification = "<span foreground='#f38ba8'> <sup></sup></span>";
+          inhibited-none = "";
+          dnd-inhibited-notification = "<span foreground='#f38ba8'> <sup></sup></span>";
+          dnd-inhibited-none = "";
+        };
+        return-type = "json";
+        exec-if = "which swaync-client";
+        exec = "swaync-client -swb";
+        on-click = "sleep 0.1 && swaync-client -t -sw";
+        on-click-right = "sleep 0.1 && swaync-client -d -sw";
+        escape = true;
+      };
+    };
+
+    style = ''
+      * {
+        border: none;
+        border-radius: 0;
+        font-family: monospace;
+        font-size: 13px;
+      }
+
+      window#waybar {
+        background-color: rgba(43, 48, 59, 0.9);
+        color: #ffffff;
+      }
+
+      #workspaces button {
+        padding: 0 5px;
+        background-color: transparent;
+        color: #ffffff;
+      }
+
+      #workspaces button.active {
+        background-color: #64727D;
+      }
+
+      #workspaces button:hover {
+        background-color: rgba(0, 0, 0, 0.2);
+      }
+
+      #window,
+      #clock,
+      #tray {
+        padding: 0 10px;
+        color: #ffffff;
+      }
+
+      #custom-nixos-logo {
+        padding: 0;
+        margin: 0 5px;
+        color: #5277C3;
+        font-size: 16px;
+      }
+
+      #custom-notification {
+        padding: 0 10px;
+        color: #f38ba8;
+      }
+
+      #pulseaudio {
+        padding: 0 10px;
+        color: #a6e3a1;
+      }
+
+      #backlight {
+        padding: 0 10px;
+        color: #f9e2af;
+      }
+
+      #battery {
+        padding: 0 10px;
+        color: #89b4fa;
+      }
+
+      @keyframes blink {
+        to { opacity: 0.5; }
+      }
+    '';
+  };
+}

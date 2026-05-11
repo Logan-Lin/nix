@@ -272,7 +272,7 @@
           }
         },
       }
-      ${lib.optionalString (!pkgs.stdenv.isDarwin) ''
+      if vim.env.SSH_TTY then
         vim.g.clipboard = {
           name = 'OSC 52',
           copy = {
@@ -284,7 +284,7 @@
             ['*'] = require('vim.ui.clipboard.osc52').paste('*'),
           },
         }
-      ''}
+      end
 
       function _G.nvim_tree_float_config()
         local width = 76
