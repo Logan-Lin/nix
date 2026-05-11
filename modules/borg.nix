@@ -12,6 +12,12 @@ let
   excludePatterns = [
     "**/.stversions/"
     "**/.syncthing.*.tmp"
+    "**/node_modules/"
+    "**/.venv/"
+    "**/.direnv/"
+    "**/__pycache__/"
+    "**/.DS_Store"
+    "**/.localized"
   ];
   excludeArgs = concatMapStrings (pattern: " --exclude '${pattern}'") excludePatterns;
   ntfyUrl = "ntfy.sh/yanlincs-homelab";

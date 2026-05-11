@@ -11,6 +11,13 @@ let
   touchDevices = [ "iphone" ];
   allDevices = pcDevices ++ serverDevices ++ touchDevices;
 
+  ignorePatterns = [ "node_modules" ".venv" ".direnv" "__pycache__" ".DS_Store" ".localized" ];
+
+  shellPath = p:
+    if lib.hasPrefix "~/" p
+    then ''"$HOME"/'' + lib.escapeShellArg (lib.removePrefix "~/" p)
+    else lib.escapeShellArg p;
+
   mkFolderOptions = name: overrides: let
     opts = {
       enable = { type = lib.types.bool; default = false; };
@@ -48,7 +55,9 @@ in
     };
   };
 
-  config = {
+  config = let
+    enabled = lib.filterAttrs (_: f: f.enable) cfg.folders;
+  in {
     services.syncthing = {
       enable = true;
       tray.enable = false;
@@ -73,9 +82,7 @@ in
           };
         };
 
-        folders = let
-          enabled = lib.filterAttrs (_: f: f.enable) cfg.folders;
-        in lib.mapAttrs (_: f: {
+        folders = lib.mapAttrs (_: f: {
           path = f.path;
           devices = f.devices;
         } // mkVersioning f.maxAgeDays) enabled;
@@ -97,5 +104,15 @@ in
       };
     };
 
+    home.activation.syncthingStignore = lib.hm.dag.entryAfter [ "writeBoundary" ] (
+      lib.concatStrings (lib.mapAttrsToList (name: f: ''
+        folder=${shellPath f.path}
+        if [ -d "$folder" ]; then
+          printf '%s\n' ${lib.escapeShellArgs ignorePatterns} > "$folder/.stignore"
+        else
+          echo "syncthing-custom: skipping .stignore for ${name} ($folder does not exist)"
+        fi
+      '') enabled)
+    );
   };
 }
