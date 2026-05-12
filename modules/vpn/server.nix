@@ -31,6 +31,8 @@ in
   config = mkIf cfg.enable {
     environment.systemPackages = [ pkgs.wireguard-tools ];
 
+    boot.kernel.sysctl."net.ipv4.conf.all.forwarding" = lib.mkDefault true;
+
     systemd.tmpfiles.rules = [
       "d /etc/wireguard 0700 root root - -"
       "f /etc/wireguard/private.key 0600 root root - -"
