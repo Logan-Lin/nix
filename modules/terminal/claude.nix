@@ -115,12 +115,13 @@ in
         2. Projects may use flake + direnv for project-specific runtimes
 
         ## Writing Style
-        1. Do not over-abuse comments in code, especially for self-explanatory blocks. When comments are necessary, keep them concise and in plain text, avoiding fancy formatting
-        2. For text-heavy content, keep writing straightforward
-          - Use plain and direct phrasing. For example, write "use" instead of "utilize", "to" instead of "in order to", or "many" instead of "a myriad of". Avoid needlessly fancy, idiomatic, or indirect vocabulary/slang/syntax/constructions, or unnecessary terms and concepts, unless the user's prompt explicitly calls for them
-          - Avoid using em dashes and en dashes to connect sentences
-          - Do not abuse punctuation like semicolons/colons/parentheses to join or compress sentences, or formatting like bold/italic/itemize/enumeration (LaTeX or Markdown). Use them only when they genuinely help
-        3. In prose-heavy files (Markdown, LaTeX, etc.) where linebreaks do not affect rendering, break lines between sentences at natural pauses to make diffs and editing easier. Never break in the middle of a sentence
+        1. Do not write code comments unless the user's prompt explicitly instructs you to. When instructed, keep them concise and in plain text, without fancy formatting
+        2. For text-heavy content, keep writing straightforward, and follow the detailed rules below, unless the user's prompt explicitly instructs otherwise
+          - Use plain and direct phrasing. For example, write "use" instead of "utilize", "to" instead of "in order to", or "many" instead of "a myriad of". Do not use needlessly fancy, idiomatic, or indirect vocabulary/slang/syntax/constructions, or unnecessary terms and concepts
+          - Do not use em dashes or en dashes to connect sentences
+          - Do not use punctuation like semicolons/colons/parentheses to join or compress sentences, or formatting like bold/italic/itemize/enumeration
+          - When referring to the same thing, use the exact same term or concept throughout, to avoid confusion. Only exception is that when the same term/concept is referred repeatedly, shorter references can be used when obvious and self-explanatory from context
+        3. In prose-heavy files, for example Markdown and LaTeX, where linebreaks do not affect rendering, break lines between sentences at natural pauses to make diffs and editing easier. Never break in the middle of a sentence
       '';
 
       commands = {
@@ -247,8 +248,9 @@ in
           # By year range
           curl -s 'https://api.openalex.org/works?search=QUERY&filter=publication_year:2020-2024&per_page=10&select=id,doi,title,authorships,publication_year,cited_by_count&sort=cited_by_count:desc' | yq -P '.'
 
-          # By field
-          curl -s 'https://api.openalex.org/works?search=QUERY&filter=primary_topic.field.display_name.search:Computer%20Science&per_page=10&select=id,doi,title,publication_year,cited_by_count&sort=cited_by_count:desc' | yq -P '.'
+          # By field (use the numeric field id from https://api.openalex.org/fields)
+          # Common ids: Computer Science=17, Mathematics=26, Physics and Astronomy=31, Engineering=22, Medicine=27
+          curl -s 'https://api.openalex.org/works?search=QUERY&filter=primary_topic.field.id:fields/17&per_page=10&select=id,doi,title,publication_year,cited_by_count&sort=cited_by_count:desc' | yq -P '.'
           ```
 
           Filters can be combined with commas: `filter=publication_year:>2020,raw_author_name.search:Vaswani`.
@@ -269,11 +271,7 @@ in
 
           ## Get abstract
 
-          OpenAlex stores abstracts as an inverted index in `abstract_inverted_index`. Reconstruct it, or use Semantic Scholar as a fallback for a plain text abstract:
-
-          ```sh
-          curl -s 'https://api.semanticscholar.org/graph/v1/paper/DOI:10.1234/example?fields=abstract' | yq -P '.abstract'
-          ```
+          OpenAlex stores abstracts as an inverted index in `abstract_inverted_index`. Reconstruct it to get the plain text abstract.
 
           ## Access full text
 
@@ -294,26 +292,36 @@ in
 
           The user's config flake is at `~/.config/nix` with NixOS, nix-darwin, and Home Manager.
 
-          ## Search NixOS options
+          ## NixOS options via Elasticsearch backend
 
-          Query the search.nixos.org Elasticsearch backend. Replace QUERY with the search term.
+          The backend URL is `https://search.nixos.org/backend/latest-<SCHEMA>-nixos-<CHANNEL>` where `<CHANNEL>` is `unstable` or a release like `25.11`, and `<SCHEMA>` is a version integer that drifts over time. Look up the current schema once per session and reuse it:
 
           ```sh
-          curl -s -X POST 'https://search.nixos.org/backend/latest-45-nixos-unstable/_search' \
+          curl -s https://search.nixos.org/bundle.js | grep -oE 'SchemaVersion:parseInt\("[0-9]+"\)' | grep -oE '[0-9]+'
+          ```
+
+          Substitute the result for `<SCHEMA>` in the URLs below.
+
+          ### Search options
+
+          Replace QUERY with the search term:
+
+          ```sh
+          curl -s -X POST 'https://search.nixos.org/backend/latest-<SCHEMA>-nixos-unstable/_search' \
             -u 'aWVSALXpZv:X8gPHnzL52wFEekuxsfQ9cSh' \
             -H 'Content-Type: application/json' \
             -d '{"size":10,"query":{"bool":{"must":[{"term":{"type":"option"}},{"dis_max":{"queries":[{"wildcard":{"option_name":{"value":"*QUERY*"}}},{"match":{"option_description":"QUERY"}}]}}]}},"_source":["option_name","option_type","option_default","option_description","option_source"]}' \
             | yq -P '.hits.hits[]._source | del(.option_description)'
           ```
 
-          Include `option_description` in the yq output when details are needed. For the stable channel, replace `unstable` with `25.11`.
+          Include `option_description` in the yq output when details are needed.
 
-          ## Look up a specific NixOS option
+          ### Look up a specific option
 
           Use an exact term match on `option_name`:
 
           ```sh
-          curl -s -X POST 'https://search.nixos.org/backend/latest-45-nixos-unstable/_search' \
+          curl -s -X POST 'https://search.nixos.org/backend/latest-<SCHEMA>-nixos-unstable/_search' \
             -u 'aWVSALXpZv:X8gPHnzL52wFEekuxsfQ9cSh' \
             -H 'Content-Type: application/json' \
             -d '{"size":1,"query":{"bool":{"must":[{"term":{"type":"option"}},{"term":{"option_name":"OPTION_NAME"}}]}},"_source":["option_name","option_type","option_default","option_example","option_description","option_source"]}' \
@@ -369,7 +377,6 @@ in
           ## Notes
 
           - The ES credentials are public, from the open-source nixos-search frontend
-          - If ES queries return 404, the schema version (45) may have changed. Find the current version: `curl -s https://search.nixos.org/bundle.js | grep -o 'SchemaVersion:parseInt("[0-9]*")'`
         '';
       };
     };

@@ -54,7 +54,6 @@ in
             "Noto Sans CJK SC"
             "Noto Sans CJK TC"
             "Noto Sans CJK JP"
-            "Source Han Sans"
           ];
           font-family-bold = "JetBrainsMono NFM Bold";
           font-family-italic = "JetBrainsMono NFM Italic";

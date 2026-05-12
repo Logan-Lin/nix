@@ -7,12 +7,10 @@
         content = {
           type = "gpt";
           partitions = {
-            # GRUB BIOS boot partition
             boot = {
               size = "1M";
               type = "EF02";
             };
-            # Boot partition
             ESP = {
               size = "1G";
               type = "EF00";
@@ -22,7 +20,6 @@
                 mountpoint = "/boot";
               };
             };
-            # Swap partition
             swap = {
               size = "4G";
               content = {
@@ -30,7 +27,6 @@
                 randomEncryption = false;
               };
             };
-            # Root partition (remaining space)
             root = {
               size = "100%";
               content = {
