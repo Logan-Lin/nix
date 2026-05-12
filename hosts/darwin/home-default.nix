@@ -82,7 +82,7 @@ in
   programs.home-manager.enable = true;
 
   programs.zsh.shellAliases = {
-      oss = "sudo darwin-rebuild switch --flake ~/.config/nix#$(hostname)";
+    oss = "sudo darwin-rebuild switch --flake ~/.config/nix#$(hostname)";
   };
 
   programs.zsh.initContent = ''

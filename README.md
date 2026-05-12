@@ -27,7 +27,6 @@ sudo darwin-rebuild switch --flake .#<host>  # Nix-darwin
 # Home Manager
 home-manager switch --flake .#<user>@<host>
 # or use alias: hms
-# the full switch alias `fs` will perform system rebuild then home manager switch
 
 # Garbage collection
 nix-collect-garbage -d

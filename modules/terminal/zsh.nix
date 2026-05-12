@@ -27,12 +27,7 @@ in
       la = "eza -la --icons --group --git";
       lt = "eza --tree --icons";
 
-      # Nix helpers
-      hm = "home-manager";
       hms = "home-manager switch --flake ~/.config/nix#$(whoami)@$(hostname)";
-      hms-offline = "home-manager switch --flake ~/.config/nix#$(whoami)@$(hostname) --option substitute false";
-      fs = "oss && hms";
-      nix-sync = "cd ~/.config/nix/ && git pull && fs";
     };
     
     initContent = ''
