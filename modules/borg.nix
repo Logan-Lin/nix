@@ -164,7 +164,6 @@ in
         mkdir -p /var/backup/postgresql
         runuser -u postgres -- pg_dumpall | gzip > /var/backup/postgresql/all.sql.gz
         ''}
-        BACKUP_START=$(date +%s)
         borg create \
           --verbose --stats \
           --compression lz4,6 \
@@ -172,13 +171,10 @@ in
           ${excludeArgs} \
           "::backup-$(date +%Y-%m-%d_%H-%M-%S)" \
           ${backupPathsStr}
-        BACKUP_DURATION=$(( $(date +%s) - BACKUP_START ))
 
         set +e
         borg prune --list --prefix 'backup-' --show-rc ${retentionArgs} || true
         borg compact || true
-
-        curl -s -d "Backup OK on ${config.networking.hostName} (''${BACKUP_DURATION}s)" "${ntfyUrl}" || true
       '';
     };
 
@@ -227,11 +223,7 @@ in
           [ -f /home/yanlin/.ssh/known_hosts ] && cp /home/yanlin/.ssh/known_hosts /root/.ssh/known_hosts && chmod 600 /root/.ssh/known_hosts
         fi
 
-        CHECK_START=$(date +%s)
         borg check --verbose --last 7
-        CHECK_DURATION=$(( $(date +%s) - CHECK_START ))
-
-        curl -s -d "Borg check OK on ${config.networking.hostName} (''${CHECK_DURATION}s)" "${ntfyUrl}" || true
       '';
     };
 
