@@ -159,6 +159,22 @@
         "type": "github"
       }
     },
+    "nixos-hardware": {
+      "locked": {
+        "lastModified": 1778593042,
+        "narHash": "sha256-xYGrSg6354UK2K4WSQd4+TfyvfqmvFbSY+ZtGQUXK0c=",
+        "owner": "NixOS",
+        "repo": "nixos-hardware",
+        "rev": "9bd7c80d43e258aaa607d83b43661df11444d808",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "master",
+        "repo": "nixos-hardware",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1778124196,
@@ -221,6 +237,7 @@
         "nix-casks": "nix-casks",
         "nix-darwin": "nix-darwin",
         "nix-homebrew": "nix-homebrew",
+        "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs",
         "nixpkgs-bleed": "nixpkgs-bleed",
         "nixvim": "nixvim"

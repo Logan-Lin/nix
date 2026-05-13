@@ -1,10 +1,11 @@
-{ config, pkgs, ... }: 
+{ config, pkgs, inputs, ... }:
 
 {
   imports = [
     ./hardware-configuration.nix
     ./disk-config.nix
     ../system-default.nix
+    "${inputs.nixos-hardware}/common/cpu/intel/alder-lake"
     ../../../modules/vpn/client.nix
     ../../../modules/borg.nix
     ../../../modules/disk-health.nix
@@ -71,17 +72,7 @@
     ];
   };
 
-  hardware.graphics = {
-    enable = true;
-    extraPackages = with pkgs; [
-      intel-media-driver
-      intel-vaapi-driver
-      libva-vdpau-driver
-      libvdpau-va-gl
-      vpl-gpu-rt
-      intel-compute-runtime
-    ];
-  };
+  hardware.graphics.enable = true;
 
   environment.systemPackages = with pkgs; [
     smartmontools

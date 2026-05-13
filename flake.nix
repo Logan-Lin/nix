@@ -28,6 +28,7 @@
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     nixpkgs-bleed.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
   };
 
