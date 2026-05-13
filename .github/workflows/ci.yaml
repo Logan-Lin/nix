@@ -69,13 +69,3 @@ jobs:
           path: eval.stderr
           if-no-files-found: ignore
           retention-days: 1
-
-  notify:
-    runs-on: ubuntu-latest
-    needs: evaluate
-    if: always()
-    steps:
-      - name: Send notification
-        run: |
-          curl -s -d "Nix config evaluate ${{ needs.evaluate.result }}" \
-            https://ntfy.sh/yanlincs-homelab
