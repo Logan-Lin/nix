@@ -280,7 +280,20 @@
           }
         },
       }
-      if vim.env.SSH_TTY then
+      local function ssh_session_active()
+        if vim.env.SSH_TTY or vim.env.SSH_CONNECTION or vim.env.SSH_CLIENT then
+          return true
+        end
+        if vim.env.TMUX then
+          local out = vim.fn.system({ "tmux", "show-environment", "SSH_CONNECTION" })
+          if vim.v.shell_error == 0 and out:match("^SSH_CONNECTION=") then
+            return true
+          end
+        end
+        return false
+      end
+
+      if ssh_session_active() then
         vim.g.clipboard = {
           name = 'OSC 52',
           copy = {
