@@ -116,12 +116,13 @@ in
 
         ## Writing Style
         1. Do not write code comments unless the user's prompt explicitly instructs you to. When instructed, keep them concise and in plain text, without fancy formatting
-        2. For text-heavy content, keep writing straightforward, and follow the detailed rules below, unless the user's prompt explicitly instructs otherwise
-          - Use plain and direct phrasing. For example, write "use" instead of "utilize", "to" instead of "in order to", or "many" instead of "a myriad of". Do not use needlessly fancy, idiomatic, or indirect vocabulary/slang/syntax/constructions, or unnecessary terms and concepts
+        2. For any natural language text content, such as notes, reports, papers, messages, and code comments/documents, keep writing straightforward, and follow the detailed rules below, unless the user's prompt explicitly instructs otherwise
+          - Use plain and direct phrasing. For example, write "use" instead of "utilize", "to" instead of "in order to", or "many" instead of "a myriad of". Do not use needlessly fancy, idiomatic, or indirect vocabulary, slang, syntax, or constructions
+          - When referring to the same thing, use the exact same term or concept throughout, to avoid confusion. Do not introduce unnecessary terms and concepts. Only exception is that when the same term or concept is referred repeatedly, shorter references can be used when obvious and self-explanatory from context
           - Do not use em dashes or en dashes to connect sentences
-          - Do not use punctuation like semicolons/colons/parentheses to join or compress sentences, or formatting like bold/italic/itemize/enumeration
-          - When referring to the same thing, use the exact same term or concept throughout, to avoid confusion. Only exception is that when the same term/concept is referred repeatedly, shorter references can be used when obvious and self-explanatory from context
-        3. In prose-heavy files, for example Markdown and LaTeX, where linebreaks do not affect rendering, break lines between sentences at natural pauses to make diffs and editing easier. Never break in the middle of a sentence
+          - Do not use punctuation like semicolons, colons, or parentheses to join or compress sentences
+          - Do not use formatting like bold, italic, itemized lists, or enumerated lists
+        3. In prose-heavy scenarios, for example block documentation of code, Markdown, and LaTeX, where linebreaks do not affect rendering, break lines between sentences at natural pauses to make diffs and editing easier. Never break in the middle of a sentence
       '';
 
       commands = {
@@ -141,6 +142,33 @@ in
           - Awkward phrasing
 
           Fix all issues directly in the file using the Edit tool. After editing, provide a brief summary of the changes made. Do not alter meaning, tone, or style. Only correct errors.
+        '';
+
+        polish = ''
+          ---
+          description: Aggressive proofread that fixes errors and enforces writing style rules
+          allowed-tools: Read, Edit
+          argument-hint: <file>
+          ---
+
+          ## Task
+
+          Read the file provided in $ARGUMENTS, then proofread and edit it for both basic errors and writing style.
+
+          Fix the following basic errors:
+          - Grammar errors
+          - Spelling mistakes
+          - Punctuation issues
+          - Awkward phrasing
+
+          And enforce the following writing style rules:
+          - Use plain and direct phrasing. Replace needlessly fancy, idiomatic, or indirect vocabulary, slang, syntax, or constructions with plain alternatives. For example, "use" instead of "utilize", "to" instead of "in order to", or "many" instead of "a myriad of"
+          - Do not use em dashes or en dashes to connect sentences. Split into separate sentences or rephrase
+          - Do not use semicolons, colons, or parentheses to join or compress sentences. Rewrite as flowing prose with separate sentences
+          - When referring to the same thing, use the exact same term throughout. Remove unnecessary terms and concepts. The only exception is that shorter references can be used when the full term has been established and the short form is obvious from context
+          - In prose-heavy files like Markdown and LaTeX, break lines between sentences at natural pauses. Never break in the middle of a sentence
+
+          Fix all issues directly in the file using the Edit tool. After editing, provide a brief summary of the changes made. Do not alter the underlying meaning. Only adjust wording, phrasing, and formatting to meet the rules.
         '';
 
         fact-check = ''
