@@ -39,7 +39,7 @@ brew cleanup --prune=all
 ```bash
 # For NixOS
 sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko -- --mode disko --flake github:Logan-Lin/nix#<host>
-sudo nixos-install --flake .#<host>
+sudo nixos-install --flake github:Logan-Lin/nix#<host> --no-root-passwd
 
 # For nix-darwin
 xcode-select --install

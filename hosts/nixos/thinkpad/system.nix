@@ -5,6 +5,7 @@
     ./hardware-configuration.nix
     ./disk-config.nix
     ../system-default.nix
+    ../../../modules/vpn/client.nix
     "${inputs.nixos-hardware}/lenovo/thinkpad/p14s"
     "${inputs.nixos-hardware}/common/cpu/intel/tiger-lake"
   ];
@@ -112,4 +113,11 @@
     lm_sensors
     smartmontools
   ];
+
+  services.wireguard-client = {
+    enable = true;
+    address = "10.2.2.20/24";
+    serverPublicKey = "46QHjSzAas5g9Hll1SCEu9tbR5owCxXAy6wGOUoPwUM=";
+    serverEndpoint = "91.98.84.215:51820";
+  };
 }

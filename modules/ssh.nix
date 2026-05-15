@@ -61,6 +61,12 @@ in
         identityFile = "${keyDir}/nas";
       };
 
+      "thinkpad" = {
+        hostname = "10.2.2.20";
+        user = "yanlin";
+        identityFile = "${keyDir}/thinkpad";
+      };
+
       "macbook" = {
         hostname = "10.2.2.30";
         user = "yanlin";

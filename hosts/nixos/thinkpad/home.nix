@@ -8,7 +8,12 @@
 
   imports = [
     ../home-default.nix
+    ../../../modules/syncthing.nix
     ../../../modules/media-tool.nix
     ../../../modules/terminal/claude.nix
   ];
+
+  syncthing-custom.folders = {
+    Documents = { enable = true; maxAgeDays = 30; };
+  };
 }
