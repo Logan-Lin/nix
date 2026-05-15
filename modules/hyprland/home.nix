@@ -105,8 +105,13 @@ in
       };
 
       misc = {
-        force_default_wallpaper = 2;
-        disable_hyprland_logo = true;
+        force_default_wallpaper = 0;
+        disable_splash_rendering = true;
+      };
+
+      ecosystem = {
+        no_update_news = true;
+        no_donation_nag = true;
       };
 
       bind = [
@@ -119,7 +124,6 @@ in
         "SUPER, Tab, exec, ${windowSwitcher}"
         "SUPER, B, exec, ${bookmarkPicker}"
         "SUPER, C, exec, cliphist list | wofi --dmenu | cliphist decode | wl-copy"
-        "SUPER SHIFT, L, exec, hyprlock"
 
         "SUPER, h, movefocus, l"
         "SUPER, j, movefocus, d"
@@ -131,8 +135,10 @@ in
         "SUPER SHIFT, k, movewindow, u"
         "SUPER SHIFT, l, movewindow, r"
 
-        "SUPER, minus, resizeactive, -50 0"
-        "SUPER, equal, resizeactive, 50 0"
+        "SUPER, left, resizeactive, -50 0"
+        "SUPER, right, resizeactive, 50 0"
+        "SUPER, up, resizeactive, 0 -50"
+        "SUPER, down, resizeactive, 0 50"
 
         "SUPER, 1, workspace, 1"
         "SUPER, 2, workspace, 2"
@@ -156,9 +162,6 @@ in
         "SUPER SHIFT, 9, movetoworkspace, 9"
         "SUPER SHIFT, 0, movetoworkspace, 10"
 
-        "SUPER, left, workspace, r-1"
-        "SUPER, right, workspace, r+1"
-
         "SUPER, comma, focusmonitor, -1"
         "SUPER, period, focusmonitor, +1"
         "SUPER SHIFT, comma, movewindow, mon:-1"
@@ -181,6 +184,18 @@ in
         "SUPER, mouse:272, movewindow"
         "SUPER, mouse:273, resizewindow"
       ];
+    };
+  };
+
+  services.hyprpaper = {
+    enable = true;
+    settings = {
+      splash = false;
+      preload = [ "${config.home.homeDirectory}/Documents/app-state/nixos-nineish-dark.png" ];
+      wallpaper = [{
+        monitor = "";
+        path = "${config.home.homeDirectory}/Documents/app-state/nixos-nineish-dark.png";
+      }];
     };
   };
 
@@ -294,6 +309,7 @@ in
     settings = {
       key_up = "Ctrl-k";
       key_down = "Ctrl-j";
+      insensitive = true;
     };
   };
 
@@ -310,7 +326,7 @@ in
       modules-right = [ "custom/notification" "pulseaudio" "backlight" "battery" "tray" ];
 
       "custom/nixos-logo" = {
-        format = "";
+        format = "";
         tooltip = true;
         tooltip-format = "NixOS";
       };
@@ -424,8 +440,8 @@ in
       #custom-nixos-logo {
         padding: 0;
         margin: 0 5px;
-        color: #5277C3;
-        font-size: 16px;
+        color: #ffffff;
+        font-size: 14px;
       }
 
       #custom-notification {
