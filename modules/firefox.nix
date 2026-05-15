@@ -231,5 +231,9 @@ in
       /bin/launchctl setenv MOZ_LEGACY_PROFILES 1 || true
     '';
   })
+
+  (mkIf pkgs.stdenv.isLinux {
+    programs.firefox.configPath = ".mozilla/firefox";
+  })
   ]);
 }

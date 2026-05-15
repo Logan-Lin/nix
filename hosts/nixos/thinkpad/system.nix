@@ -6,6 +6,7 @@
     ./disk-config.nix
     ../system-default.nix
     ../../../modules/vpn/client.nix
+    ../../../modules/hyprland/system.nix
     "${inputs.nixos-hardware}/lenovo/thinkpad/p14s"
     "${inputs.nixos-hardware}/common/cpu/intel/tiger-lake"
   ];
@@ -46,16 +47,24 @@
 
   services.power-profiles-daemon.enable = false;
   services.tlp.settings = {
-    CPU_SCALING_GOVERNOR_ON_AC = "performance";
+    CPU_SCALING_GOVERNOR_ON_AC = "powersave";
     CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
-    CPU_ENERGY_PERF_POLICY_ON_AC = "balance_performance";
+    CPU_ENERGY_PERF_POLICY_ON_AC = "balance_power";
     CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
+    CPU_BOOST_ON_AC = 0;
+    CPU_BOOST_ON_BAT = 0;
+    CPU_HWP_DYN_BOOST_ON_AC = 0;
+    CPU_HWP_DYN_BOOST_ON_BAT = 0;
+    CPU_MAX_PERF_ON_AC = 80;
+    CPU_MAX_PERF_ON_BAT = 40;
+    PLATFORM_PROFILE_ON_AC = "balanced";
+    PLATFORM_PROFILE_ON_BAT = "low-power";
     INTEL_GPU_MIN_FREQ_ON_AC = 300;
     INTEL_GPU_MIN_FREQ_ON_BAT = 300;
-    INTEL_GPU_MAX_FREQ_ON_AC = 1100;
-    INTEL_GPU_MAX_FREQ_ON_BAT = 900;
-    INTEL_GPU_BOOST_FREQ_ON_AC = 1100;
-    INTEL_GPU_BOOST_FREQ_ON_BAT = 1100;
+    INTEL_GPU_MAX_FREQ_ON_AC = 800;
+    INTEL_GPU_MAX_FREQ_ON_BAT = 700;
+    INTEL_GPU_BOOST_FREQ_ON_AC = 900;
+    INTEL_GPU_BOOST_FREQ_ON_BAT = 800;
     START_CHARGE_THRESH_BAT0 = 80;
     STOP_CHARGE_THRESH_BAT0 = 100;
     RUNTIME_PM_ON_AC = "auto";
@@ -63,11 +72,11 @@
   };
 
   services.logind.settings.Login = {
-    HandleLidSwitch = "ignore";
-    HandleLidSwitchExternalPower = "ignore";
-    HandleLidSwitchDocked = "ignore";
-    HandlePowerKey = "ignore";
-    HandleSuspendKey = "ignore";
+    HandleLidSwitch = "suspend";
+    HandleLidSwitchExternalPower = "suspend";
+    HandleLidSwitchDocked = "suspend";
+    HandlePowerKey = "suspend";
+    HandleSuspendKey = "suspend";
     HandleHibernateKey = "ignore";
     IdleAction = "ignore";
   };
@@ -77,18 +86,28 @@
   services.thinkfan = {
     enable = true;
     levels = [
-      [0  0   42]
-      [1  40  47]
-      [2  45  52]
-      [3  50  57]
-      [4  55  62]
-      [5  60  72]
-      [7  70  82]
-      [127 80 32767]
+      [0   0   65]
+      [1   60  78]
+      [2   72  85]
+      [3   80  90]
+      [4   86  94]
+      [7   91  97]
+      [127 94  32767]
     ];
   };
 
   services.acpid.enable = true;
+
+  services.keyd = {
+    enable = true;
+    keyboards.default = {
+      ids = [ "*" ];
+      settings.main = {
+        capslock = "leftcontrol";
+        rightcontrol = "capslock";
+      };
+    };
+  };
 
   services.journald.extraConfig = "SystemMaxUse=5G";
 
