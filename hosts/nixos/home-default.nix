@@ -33,6 +33,7 @@
     iputils
     inetutils
     netcat-gnu
+    bandwhich
     ncdu
     fastfetch
     findutils

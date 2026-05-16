@@ -110,12 +110,6 @@
     ];
     backupFrequency = "*-*-* 03:00:00";
     checkFrequency = "Sun *-*-* 11:00:00";
-    retention = {
-      keepDaily = 7;
-      keepWeekly = 4;
-      keepMonthly = 6;
-      keepYearly = 2;
-    };
   };
 
 }

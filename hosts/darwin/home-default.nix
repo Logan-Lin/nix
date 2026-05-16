@@ -101,6 +101,7 @@ in
     bind
     inetutils
     netcat-gnu
+    bandwhich
     curl
     wget
     ncdu

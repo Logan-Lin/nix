@@ -70,7 +70,7 @@ in
           };
           keepMonthly = mkOption {
             type = types.int;
-            default = 6;
+            default = 12;
             description = "Number of monthly backups to keep";
           };
           keepYearly = mkOption {
@@ -169,11 +169,11 @@ in
           --compression lz4,6 \
           --exclude-caches \
           ${excludeArgs} \
-          "::backup-$(date +%Y-%m-%d_%H-%M-%S)" \
+          "::$(date +%Y-%m-%d_%H-%M-%S)" \
           ${backupPathsStr}
 
         set +e
-        borg prune --list --prefix 'backup-' --show-rc ${retentionArgs} || true
+        borg prune --list --show-rc ${retentionArgs} || true
         borg compact || true
       '';
     };
