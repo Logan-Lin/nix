@@ -54,6 +54,7 @@ in
         "waybar"
         "nm-applet --indicator"
         "blueman-applet"
+        "fcitx5 -d --replace"
         "mkdir -p ~/Pictures/Screenshots"
         "wl-paste --watch cliphist store"
       ];

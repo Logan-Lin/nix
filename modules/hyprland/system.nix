@@ -43,6 +43,49 @@ in
 
     programs.dconf.enable = true;
 
+    i18n.inputMethod = {
+      enable = true;
+      type = "fcitx5";
+      fcitx5 = {
+        waylandFrontend = true;
+        addons = with pkgs; [
+          qt6Packages.fcitx5-chinese-addons
+          fcitx5-mozc
+          fcitx5-gtk
+        ];
+        settings = {
+          inputMethod = {
+            GroupOrder."0" = "Default";
+            "Groups/0" = {
+              Name = "Default";
+              "Default Layout" = "us";
+              DefaultIM = "keyboard-us";
+            };
+            "Groups/0/Items/0" = {
+              Name = "keyboard-us";
+              Layout = "";
+            };
+            "Groups/0/Items/1" = {
+              Name = "pinyin";
+              Layout = "";
+            };
+            "Groups/0/Items/2" = {
+              Name = "mozc";
+              Layout = "";
+            };
+          };
+          globalOptions = {
+            Hotkey = {
+              EnumerateWithTriggerKeys = "True";
+            };
+            "Hotkey/TriggerKeys" = {
+              "0" = "Control+space";
+            };
+          };
+        };
+      };
+    };
+
     services.gnome.gnome-keyring.enable = true;
     security.pam.services.greetd.enableGnomeKeyring = mkIf cfg.enableDisplayManager true;
 
