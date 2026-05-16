@@ -36,7 +36,7 @@ gh run download <run-id> --dir "$dir"
 ### 3. Read each report
 
 - `update-output/inputs.md` — list of input bumps
-- `report-linux/linux-report.md` — closure deltas + built derivations for `nixosConfigurations` and Linux home configs
+- `report-linux/linux-report.md` — system-level top 20 by build time and top 20 by output size (separately for `nixosConfigurations` and Linux home configs), per-config wall-clock and closure size summary, plus a system-level diagnostics section
 - `report-darwin/darwin-report.md` — same for `darwinConfigurations` and Darwin home configs
 
 If any job failed, also pull failure logs:
@@ -54,7 +54,8 @@ Triggered by any of:
 - A job in the run failed
 - A host or home config build failed inside `build-linux` or `build-darwin`
 - A documented upstream regression that needs to be waited out
-- Closure jumped in a way that clearly indicates a misconfiguration
+- The diagnostics section reports errors
+- An unexpected derivation shows up high in the system-level top 20 by build time
 
 Draft this for the user (do not run it):
 
@@ -92,7 +93,8 @@ gh pr comment <num> --body-file /tmp/flake-review-<run-id>/assessment.md
 Body content:
 - One-line verdict (accept / accept-with-fix / deny)
 - Inputs that moved (one line each, no full hashes)
-- Closure deltas per config (just the wins/losses, not full tables)
+- Closure sizes per config, flag any large jump versus last week
+- Notable diagnostics, list each distinct warning once
 - Fixes applied locally, if any
 - Anything left for the user to do
 
@@ -110,5 +112,5 @@ Do not run any of those yourself. The user lands them manually.
 ## Notes
 
 - Never amend or force-push the bot's commit on `flake-update`. The workflow regenerates that branch each run.
-- Closure-diff entries with no version annotation (just package names) are usually rebuild-only churn from a deeper input change. Note them but don't worry.
+- nixpkgs module deprecation warnings are usually fixable on master, raw build-phase compiler messages can be ignored.
 - Match the existing repo commit style for any local commits you stage but don't make: lowercase imperative, one short line, no co-author trailers.
