@@ -26,7 +26,7 @@
         showFileTree = true;
         showListFooter = true;
         showRandomTip = false;
-        showCommandLog = true;
+        showCommandLog = false;
         showBottomLine = true;
         showPanelJumps = true;
         commandLogSize = 8;

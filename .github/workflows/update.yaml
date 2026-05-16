@@ -57,15 +57,9 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
-      - name: Save baseline flake.lock
-        run: cp flake.lock /tmp/flake.lock.baseline
-
       - uses: actions/download-artifact@v8
         with:
           name: update-output
-
-      - name: Save new flake.lock
-        run: cp flake.lock /tmp/flake.lock.new
 
       - uses: DeterminateSystems/nix-installer-action@main
 
@@ -73,7 +67,6 @@ jobs:
         run: |
           .github/scripts/build-report.sh \
             x86_64-linux nixosConfigurations \
-            /tmp/flake.lock.baseline /tmp/flake.lock.new \
             linux-report.md
           cat linux-report.md >> "$GITHUB_STEP_SUMMARY"
 
@@ -91,15 +84,9 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
-      - name: Save baseline flake.lock
-        run: cp flake.lock /tmp/flake.lock.baseline
-
       - uses: actions/download-artifact@v8
         with:
           name: update-output
-
-      - name: Save new flake.lock
-        run: cp flake.lock /tmp/flake.lock.new
 
       - uses: DeterminateSystems/nix-installer-action@main
 
@@ -107,7 +94,6 @@ jobs:
         run: |
           .github/scripts/build-report.sh \
             aarch64-darwin darwinConfigurations \
-            /tmp/flake.lock.baseline /tmp/flake.lock.new \
             darwin-report.md
           cat darwin-report.md >> "$GITHUB_STEP_SUMMARY"
 
