@@ -10,12 +10,18 @@
     ../home-default.nix
     ../../../modules/syncthing.nix
     ../../../modules/media-tool.nix
+    ../../../modules/yt-dlp.nix
     ../../../modules/terminal/claude.nix
     ../../../modules/schedule.nix
   ];
 
   syncthing-custom.folders = {
     Documents = { enable = true; maxAgeDays = 30; };
+  };
+
+  programs.yt-dlp-custom = {
+    enable = true;
+    downloadDir = "~/Documents/Music";
   };
 
   services.scheduled-commands.aicloud-backup = {
