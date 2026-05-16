@@ -11,7 +11,6 @@
     inkscape
     picard
     clash-verge-rev
-    mpv
     pdfpc
     (pkgs.symlinkJoin {
       name = "ovito-wrapped";

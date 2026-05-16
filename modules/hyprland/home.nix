@@ -31,6 +31,7 @@ in
   wayland.windowManager.hyprland = {
     enable = true;
     xwayland.enable = true;
+    configType = "hyprlang";
 
     extraConfig = ''
       source = ~/.config/hypr/monitors.conf
@@ -102,7 +103,6 @@ in
       };
 
       dwindle = {
-        pseudotile = true;
         preserve_split = true;
       };
 
@@ -291,6 +291,7 @@ in
     loupe
     wl-clipboard
     cliphist
+    mpv
   ];
 
   programs.zsh.initContent = ''
