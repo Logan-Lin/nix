@@ -42,6 +42,7 @@ in
     };
 
     programs.dconf.enable = true;
+    programs.xfconf.enable = true;
 
     i18n.inputMethod = {
       enable = true;

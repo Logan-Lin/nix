@@ -283,6 +283,12 @@ in
 
   dconf.settings."org/gnome/desktop/interface".color-scheme = "prefer-dark";
 
+  xfconf.settings.thunar = {
+    "default-view" = "ThunarDetailsView";
+    "misc-date-style" = "THUNAR_DATE_STYLE_YYYYMMDD";
+    "last-show-hidden" = false;
+  };
+
   home.packages = with pkgs; [
     adwaita-qt
     adwaita-qt6
