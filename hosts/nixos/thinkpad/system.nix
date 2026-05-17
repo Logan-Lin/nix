@@ -73,14 +73,16 @@
   };
 
   services.logind.settings.Login = {
-    HandleLidSwitch = "suspend";
-    HandleLidSwitchExternalPower = "suspend";
-    HandleLidSwitchDocked = "suspend";
-    HandlePowerKey = "suspend";
-    HandleSuspendKey = "suspend";
+    HandleLidSwitch = "suspend-then-hibernate";
+    HandleLidSwitchExternalPower = "suspend-then-hibernate";
+    HandleLidSwitchDocked = "suspend-then-hibernate";
+    HandlePowerKey = "suspend-then-hibernate";
+    HandleSuspendKey = "suspend-then-hibernate";
     HandleHibernateKey = "ignore";
     IdleAction = "ignore";
   };
+
+  systemd.sleep.settings.Sleep.HibernateDelaySec = "1h";
 
   services.thermald.enable = true;
 
