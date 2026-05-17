@@ -64,4 +64,6 @@
       custom_cpu_name = "";
     };
   };
+
+  programs.zsh.shellAliases.btop = "sudo HOME=$HOME btop";
 }
