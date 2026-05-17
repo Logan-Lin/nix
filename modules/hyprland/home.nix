@@ -167,8 +167,8 @@ in
 
         "SUPER, comma, focusmonitor, -1"
         "SUPER, period, focusmonitor, +1"
-        "SUPER SHIFT, comma, movewindow, mon:-1"
-        "SUPER SHIFT, period, movewindow, mon:+1"
+        "SUPER SHIFT, comma, movecurrentworkspacetomonitor, -1"
+        "SUPER SHIFT, period, movecurrentworkspacetomonitor, +1"
 
         ", XF86MonBrightnessUp, exec, brightnessctl set +5%"
         ", XF86MonBrightnessDown, exec, brightnessctl set 5%-"
