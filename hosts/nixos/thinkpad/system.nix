@@ -101,17 +101,6 @@
 
   services.acpid.enable = true;
 
-  services.keyd = {
-    enable = true;
-    keyboards.default = {
-      ids = [ "*" ];
-      settings.main = {
-        capslock = "leftcontrol";
-        rightcontrol = "capslock";
-      };
-    };
-  };
-
   services.journald.extraConfig = "SystemMaxUse=5G";
 
   services.openssh = {

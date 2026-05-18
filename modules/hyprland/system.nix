@@ -140,6 +140,17 @@ in
       };
     };
 
+    services.keyd = {
+      enable = true;
+      keyboards.default = {
+        ids = [ "*" ];
+        settings.main = {
+          capslock = "leftcontrol";
+          rightcontrol = "capslock";
+        };
+      };
+    };
+
     services.printing = {
       enable = true;
       browsing = true;
