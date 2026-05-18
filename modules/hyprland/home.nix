@@ -333,14 +333,8 @@ in
       spacing = 4;
 
       modules-left = [ "hyprland/workspaces" "hyprland/window" ];
-      modules-center = [ "custom/nixos-logo" "clock" ];
+      modules-center = [ "clock" ];
       modules-right = [ "custom/notification" "pulseaudio" "backlight" "battery" "tray" ];
-
-      "custom/nixos-logo" = {
-        format = "";
-        tooltip = true;
-        tooltip-format = "NixOS";
-      };
 
       "hyprland/workspaces" = {
         format = "{name}";
@@ -446,13 +440,6 @@ in
       #tray {
         padding: 0 10px;
         color: #ffffff;
-      }
-
-      #custom-nixos-logo {
-        padding: 0;
-        margin: 0 5px;
-        color: #ffffff;
-        font-size: 14px;
       }
 
       #custom-notification {
