@@ -42,14 +42,7 @@ let
 in
 {
   imports = [
-    ../../modules/font.nix
-    ../../modules/terminal/zsh.nix
-    ../../modules/terminal/tmux.nix
-    ../../modules/terminal/nvim.nix
-    ../../modules/ssh.nix
-    ../../modules/git.nix
-    ../../modules/terminal/lazygit.nix
-    ../../modules/terminal/btop.nix
+    ../home-default.nix
     ../../modules/terminal/ghostty.nix
     ../../modules/terminal/claude.nix
     ../../modules/firefox.nix
@@ -62,8 +55,6 @@ in
     Documents.enable = true;
   };
 
-  nixpkgs.config.allowUnfree = true;
-
   programs.firefox-custom = {
     enable = true;
     package = pkgs.firefox-bin;
@@ -75,11 +66,7 @@ in
     windowMode = "windowed";
   };
 
-  home.username = "yanlin";
   home.homeDirectory = "/Users/yanlin";
-  home.stateVersion = "24.05";
-
-  programs.home-manager.enable = true;
 
   programs.zsh.shellAliases = {
     oss = "sudo darwin-rebuild switch --flake ~/.config/nix#$(hostname)";
@@ -96,20 +83,6 @@ in
   home.packages = with pkgs; [
     texlive.combined.scheme-full
     httpie
-    gnumake
-    gnused
-    bind
-    inetutils
-    netcat-gnu
-    bandwhich
-    curl
-    wget
-    ncdu
-    fastfetch
-    coreutils
-    rsync
-    yq-go
-    findutils
 
     choose-gui
     keepassxc
