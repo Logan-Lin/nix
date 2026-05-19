@@ -131,7 +131,7 @@
 
   services.borg-custom = {
     enable = true;
-    repositoryUrl = "ssh://helsinki-box/./nfss";
+    repositoryUrl = "ssh://helsinki-box/./nadeshiko";
     backupPaths = [
       "/home/yanlin/Documents"
       "/home/yanlin/.config/"

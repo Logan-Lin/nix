@@ -102,7 +102,7 @@
 
   services.borg-custom = {
     enable = true;
-    repositoryUrl = "ssh://helsinki-box/./vps";
+    repositoryUrl = "ssh://helsinki-box/./hanako";
     backupPaths = [
       "/var/lib/mongodb"
       "/home/yanlin/.config/"
