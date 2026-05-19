@@ -8,7 +8,7 @@ let
 
   pcDevices = [ "misaki" "sakurako" "himawari" ];
   serverDevices = [ "nadeshiko" ];
-  touchDevices = [ "iphone" ];
+  touchDevices = [ "mirai" ];
   allDevices = pcDevices ++ serverDevices ++ touchDevices;
 
   ignorePatterns = [ "node_modules" ".venv" ".direnv" "__pycache__" ".DS_Store" ".localized" ];
@@ -68,7 +68,7 @@ in
 
       settings = {
         devices = {
-          "iphone" = {
+          "mirai" = {
             id = "NMWI5MP-J4FC4A6-SDDXZPD-G66TJCO-2W7KGFD-RJWQ53U-I7GUVWP-WHF4QQO";
           };
           "sakurako" = {
