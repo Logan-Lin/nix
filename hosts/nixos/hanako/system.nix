@@ -32,7 +32,7 @@
   };
 
   networking = {
-    hostName = "vps";
+    hostName = "hanako";
     hostId = "a8c06f42";
     networkmanager.enable = false;
     useDHCP = true;

@@ -42,7 +42,7 @@ in
         identityFile = "${keyDir}/aicloud";
       };
 
-      "vps" = {
+      "hanako" = {
         hostname = "91.98.84.215";
         user = "yanlin";
         identityFile = "${keyDir}/hetzner";

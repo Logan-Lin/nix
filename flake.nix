@@ -44,9 +44,9 @@
       specialArgs = { inherit inputs; };
     };
 
-    nixosConfigurations."vps" = nixpkgs.lib.nixosSystem {
+    nixosConfigurations."hanako" = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
-      modules = [ ./hosts/nixos/vps/system.nix ];
+      modules = [ ./hosts/nixos/hanako/system.nix ];
       specialArgs = { inherit inputs; };
     };
 
@@ -75,9 +75,9 @@
         extraSpecialArgs = { inherit inputs; };
       };
 
-      "yanlin@vps" = home-manager.lib.homeManagerConfiguration {
+      "yanlin@hanako" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux;
-        modules = [ ./hosts/nixos/vps/home.nix ];
+        modules = [ ./hosts/nixos/hanako/home.nix ];
         extraSpecialArgs = { inherit inputs; };
       };
 
