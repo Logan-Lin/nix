@@ -56,9 +56,9 @@
       specialArgs = { inherit inputs; };
     };
 
-    nixosConfigurations."thinkpad" = nixpkgs.lib.nixosSystem {
+    nixosConfigurations."misaki" = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
-      modules = [ ./hosts/nixos/thinkpad/system.nix ];
+      modules = [ ./hosts/nixos/misaki/system.nix ];
       specialArgs = { inherit inputs; };
     };
 
@@ -87,9 +87,9 @@
         extraSpecialArgs = { inherit inputs; };
       };
 
-      "yanlin@thinkpad" = home-manager.lib.homeManagerConfiguration {
+      "yanlin@misaki" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux;
-        modules = [ ./hosts/nixos/thinkpad/home.nix ];
+        modules = [ ./hosts/nixos/misaki/home.nix ];
         extraSpecialArgs = { inherit inputs; };
       };
 

@@ -34,7 +34,7 @@
   hardware.graphics.enable = true;
 
   networking = {
-    hostName = "thinkpad";
+    hostName = "misaki";
     networkmanager = {
       enable = true;
       wifi.powersave = true;

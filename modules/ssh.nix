@@ -61,7 +61,7 @@ in
         identityFile = "${keyDir}/nas";
       };
 
-      "thinkpad" = {
+      "misaki" = {
         hostname = "10.2.2.20";
         user = "yanlin";
         identityFile = "${keyDir}/thinkpad";
