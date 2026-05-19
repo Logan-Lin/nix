@@ -11,6 +11,22 @@
     user = "yanlin";
   };
 
+  homebrew = {
+    enable = true;
+    onActivation = {
+      autoUpdate = true;
+      cleanup = "zap";
+      upgrade = true;
+      extraEnv = {
+        HOMEBREW_NO_ANALYTICS = "1";
+        HOMEBREW_NO_ENV_HINTS = "1";
+      };
+    };
+    casks = [
+      "microsoft-word"
+    ];
+  };
+
   nix.gc = {
     automatic = true;
     interval = { Hour = 3; Minute = 15; };
