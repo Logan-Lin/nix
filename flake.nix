@@ -33,66 +33,44 @@
   };
 
   outputs = inputs@{ nixpkgs, nix-darwin, home-manager, ... }:
+  let
+    lib = nixpkgs.lib;
+
+    hostsIn = dir:
+      builtins.attrNames
+        (lib.filterAttrs (_: type: type == "directory") (builtins.readDir dir));
+
+    darwinHosts = hostsIn ./hosts/darwin;
+    nixosHosts = hostsIn ./hosts/nixos;
+
+    mkDarwin = name: nix-darwin.lib.darwinSystem {
+      modules = [ ./hosts/darwin/${name}/system.nix ];
+      specialArgs = { inherit inputs; };
+    };
+
+    mkNixos = name: nixpkgs.lib.nixosSystem {
+      system = "x86_64-linux";
+      modules = [ ./hosts/nixos/${name}/system.nix ];
+      specialArgs = { inherit inputs; };
+    };
+
+    mkHome = kind: system: name: home-manager.lib.homeManagerConfiguration {
+      pkgs = nixpkgs.legacyPackages.${system};
+      modules = [ ./hosts/${kind}/${name}/home.nix ];
+      extraSpecialArgs = { inherit inputs; };
+    };
+
+    mkHomes = kind: system: hosts:
+      lib.listToAttrs
+        (map (name: lib.nameValuePair "yanlin@${name}" (mkHome kind system name)) hosts);
+  in
   {
-    darwinConfigurations."sakurako" = nix-darwin.lib.darwinSystem {
-      modules = [ ./hosts/darwin/sakurako/system.nix ];
-      specialArgs = { inherit inputs; };
-    };
+    darwinConfigurations = lib.genAttrs darwinHosts mkDarwin;
 
-    darwinConfigurations."himawari" = nix-darwin.lib.darwinSystem {
-      modules = [ ./hosts/darwin/himawari/system.nix ];
-      specialArgs = { inherit inputs; };
-    };
+    nixosConfigurations = lib.genAttrs nixosHosts mkNixos;
 
-    nixosConfigurations."hanako" = nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
-      modules = [ ./hosts/nixos/hanako/system.nix ];
-      specialArgs = { inherit inputs; };
-    };
-
-    nixosConfigurations."nadeshiko" = nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
-      modules = [ ./hosts/nixos/nadeshiko/system.nix ];
-      specialArgs = { inherit inputs; };
-    };
-
-    nixosConfigurations."misaki" = nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
-      modules = [ ./hosts/nixos/misaki/system.nix ];
-      specialArgs = { inherit inputs; };
-    };
-
-    homeConfigurations = {
-      "yanlin@sakurako" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.aarch64-darwin;
-        modules = [ ./hosts/darwin/sakurako/home.nix ];
-        extraSpecialArgs = { inherit inputs; };
-      };
-
-      "yanlin@himawari" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.aarch64-darwin;
-        modules = [ ./hosts/darwin/himawari/home.nix ];
-        extraSpecialArgs = { inherit inputs; };
-      };
-
-      "yanlin@hanako" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.x86_64-linux;
-        modules = [ ./hosts/nixos/hanako/home.nix ];
-        extraSpecialArgs = { inherit inputs; };
-      };
-
-      "yanlin@nadeshiko" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.x86_64-linux;
-        modules = [ ./hosts/nixos/nadeshiko/home.nix ];
-        extraSpecialArgs = { inherit inputs; };
-      };
-
-      "yanlin@misaki" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.x86_64-linux;
-        modules = [ ./hosts/nixos/misaki/home.nix ];
-        extraSpecialArgs = { inherit inputs; };
-      };
-
-    };
+    homeConfigurations =
+      (mkHomes "darwin" "aarch64-darwin" darwinHosts)
+      // (mkHomes "nixos" "x86_64-linux" nixosHosts);
   };
 }
