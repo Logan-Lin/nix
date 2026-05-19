@@ -7,7 +7,7 @@ let
   cfg = config.syncthing-custom;
 
   pcDevices = [ "thinkpad" "macbook" "imac" ];
-  serverDevices = [ "nfss" ];
+  serverDevices = [ "nadeshiko" ];
   touchDevices = [ "iphone" ];
   allDevices = pcDevices ++ serverDevices ++ touchDevices;
 
@@ -77,7 +77,7 @@ in
           "imac" = {
             id = "2ST6EEF-KN3R2E6-PN64WAS-XGJ22NV-BAWAQX6-OCZLYE3-V5IM2SE-S22REAA";
           };
-          "nfss" = {
+          "nadeshiko" = {
             id = "S4QZW76-BOLIOW7-DVP326F-JIGW5DW-3PAD47L-OA456LB-2L6JZW7-YUGJRA6";
           };
           "thinkpad" = {

@@ -40,7 +40,7 @@
   ];
 
   networking = {
-    hostName = "nfss";
+    hostName = "nadeshiko";
     hostId = "8425e349";
     networkmanager.enable = true;
     firewall = { enable = false; };

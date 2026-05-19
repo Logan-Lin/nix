@@ -50,9 +50,9 @@
       specialArgs = { inherit inputs; };
     };
 
-    nixosConfigurations."nfss" = nixpkgs.lib.nixosSystem {
+    nixosConfigurations."nadeshiko" = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
-      modules = [ ./hosts/nixos/nfss/system.nix ];
+      modules = [ ./hosts/nixos/nadeshiko/system.nix ];
       specialArgs = { inherit inputs; };
     };
 
@@ -81,9 +81,9 @@
         extraSpecialArgs = { inherit inputs; };
       };
 
-      "yanlin@nfss" = home-manager.lib.homeManagerConfiguration {
+      "yanlin@nadeshiko" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux;
-        modules = [ ./hosts/nixos/nfss/home.nix ];
+        modules = [ ./hosts/nixos/nadeshiko/home.nix ];
         extraSpecialArgs = { inherit inputs; };
       };
 

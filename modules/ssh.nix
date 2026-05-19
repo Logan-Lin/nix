@@ -33,7 +33,7 @@ in
         hostname = "ai-fe02.srv.aau.dk";
         user = "hb05nk@cs.aau.dk";
         identityFile = "${keyDir}/aicloud";
-        proxyJump = "nfss";
+        proxyJump = "nadeshiko";
       };
 
       "aicloud.lan" = {
@@ -55,7 +55,7 @@ in
         identityFile = "${keyDir}/hetzner";
       };
 
-      "nfss" = {
+      "nadeshiko" = {
         hostname = "10.2.2.10";
         user = "yanlin";
         identityFile = "${keyDir}/nas";
