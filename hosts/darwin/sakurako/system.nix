@@ -1,8 +1,8 @@
 { config, pkgs, ... }:
 
 {
-  networking.computerName = "macbook";
-  networking.hostName = "macbook";
+  networking.computerName = "sakurako";
+  networking.hostName = "sakurako";
 
   imports = [
     ../system-default.nix

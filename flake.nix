@@ -34,8 +34,8 @@
 
   outputs = inputs@{ nixpkgs, nix-darwin, home-manager, ... }:
   {
-    darwinConfigurations."macbook" = nix-darwin.lib.darwinSystem {
-      modules = [ ./hosts/darwin/macbook/system.nix ];
+    darwinConfigurations."sakurako" = nix-darwin.lib.darwinSystem {
+      modules = [ ./hosts/darwin/sakurako/system.nix ];
       specialArgs = { inherit inputs; };
     };
 
@@ -63,9 +63,9 @@
     };
 
     homeConfigurations = {
-      "yanlin@macbook" = home-manager.lib.homeManagerConfiguration {
+      "yanlin@sakurako" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.aarch64-darwin;
-        modules = [ ./hosts/darwin/macbook/home.nix ];
+        modules = [ ./hosts/darwin/sakurako/home.nix ];
         extraSpecialArgs = { inherit inputs; };
       };
 

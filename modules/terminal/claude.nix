@@ -377,20 +377,20 @@ in
 
           ## Search nix-darwin options
 
-          Use `nix eval` on the flake at `~/.config/nix`. Darwin configs are `macbook` and `imac`.
+          Use `nix eval` on the flake at `~/.config/nix`. Replace HOST below with a darwin host attr name.
 
           List suboptions under a path:
 
           ```sh
-          nix eval ~/.config/nix#darwinConfigurations.macbook.options.PATH --apply 'opt: builtins.attrNames opt'
+          nix eval ~/.config/nix#darwinConfigurations.HOST.options.PATH --apply 'opt: builtins.attrNames opt'
           ```
 
           Get details for a specific option:
 
           ```sh
-          nix eval ~/.config/nix#darwinConfigurations.macbook.options.OPTION.type.description
-          nix eval ~/.config/nix#darwinConfigurations.macbook.options.OPTION.default
-          nix eval ~/.config/nix#darwinConfigurations.macbook.options.OPTION.description
+          nix eval ~/.config/nix#darwinConfigurations.HOST.options.OPTION.type.description
+          nix eval ~/.config/nix#darwinConfigurations.HOST.options.OPTION.default
+          nix eval ~/.config/nix#darwinConfigurations.HOST.options.OPTION.description
           ```
 
           ## Home Manager options via nix eval
@@ -398,8 +398,8 @@ in
           Useful for exploring option trees interactively. Home configs use the `"yanlin@HOST"` naming.
 
           ```sh
-          nix eval ~/.config/nix#homeConfigurations.'"yanlin@macbook"'.options.programs.PROGRAM --apply 'opt: builtins.attrNames opt'
-          nix eval ~/.config/nix#homeConfigurations.'"yanlin@macbook"'.options.programs.PROGRAM.enable.description
+          nix eval ~/.config/nix#homeConfigurations.'"yanlin@HOST"'.options.programs.PROGRAM --apply 'opt: builtins.attrNames opt'
+          nix eval ~/.config/nix#homeConfigurations.'"yanlin@HOST"'.options.programs.PROGRAM.enable.description
           ```
 
           ## Notes

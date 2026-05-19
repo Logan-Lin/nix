@@ -6,7 +6,7 @@
 let
   cfg = config.syncthing-custom;
 
-  pcDevices = [ "misaki" "macbook" "imac" ];
+  pcDevices = [ "misaki" "sakurako" "imac" ];
   serverDevices = [ "nadeshiko" ];
   touchDevices = [ "iphone" ];
   allDevices = pcDevices ++ serverDevices ++ touchDevices;
@@ -71,7 +71,7 @@ in
           "iphone" = {
             id = "NMWI5MP-J4FC4A6-SDDXZPD-G66TJCO-2W7KGFD-RJWQ53U-I7GUVWP-WHF4QQO";
           };
-          "macbook" = {
+          "sakurako" = {
             id = "XPAMYJX-D7UZKPI-JBLTAWG-EBPSFYV-NEFV42V-NIUZKQN-KTVTGGP-OOXL5AT";
           };
           "imac" = {

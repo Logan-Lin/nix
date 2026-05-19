@@ -67,7 +67,7 @@ in
         identityFile = "${keyDir}/thinkpad";
       };
 
-      "macbook" = {
+      "sakurako" = {
         hostname = "10.2.2.30";
         user = "yanlin";
         identityFile = "${keyDir}/mac";
