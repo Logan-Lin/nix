@@ -1,8 +1,8 @@
 { config, pkgs, ... }:
 
 {
-  networking.computerName = "imac";
-  networking.hostName = "imac";
+  networking.computerName = "himawari";
+  networking.hostName = "himawari";
 
   imports = [
     ../system-default.nix

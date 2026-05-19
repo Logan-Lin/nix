@@ -73,7 +73,7 @@ in
         identityFile = "${keyDir}/mac";
       };
 
-      "imac" = {
+      "himawari" = {
         hostname = "10.2.2.40";
         user = "yanlin";
         identityFile = "${keyDir}/mac";

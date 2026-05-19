@@ -39,8 +39,8 @@
       specialArgs = { inherit inputs; };
     };
 
-    darwinConfigurations."imac" = nix-darwin.lib.darwinSystem {
-      modules = [ ./hosts/darwin/imac/system.nix ];
+    darwinConfigurations."himawari" = nix-darwin.lib.darwinSystem {
+      modules = [ ./hosts/darwin/himawari/system.nix ];
       specialArgs = { inherit inputs; };
     };
 
@@ -69,9 +69,9 @@
         extraSpecialArgs = { inherit inputs; };
       };
 
-      "yanlin@imac" = home-manager.lib.homeManagerConfiguration {
+      "yanlin@himawari" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.aarch64-darwin;
-        modules = [ ./hosts/darwin/imac/home.nix ];
+        modules = [ ./hosts/darwin/himawari/home.nix ];
         extraSpecialArgs = { inherit inputs; };
       };
 
