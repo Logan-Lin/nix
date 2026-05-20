@@ -60,7 +60,7 @@ in
           font-family-bold-italic = "JetBrainsMono NFM Bold Italic";
           font-size = cfg.fontSize;
 
-          background = "#14191f";
+          theme = "Gruvbox Dark Hard";
           cursor-style-blink = false;
           window-theme = "dark";
           window-padding-balance = true;

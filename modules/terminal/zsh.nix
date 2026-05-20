@@ -141,13 +141,13 @@ in
       };
 
       git_branch = {
-        style = "bold #d3869b";
+        style = "#d3869b";
         symbol = " ";
         format = "[$symbol$branch(:$remote_branch)]($style) ";
       };
 
       git_status = {
-        style = "bold #fb4934";
+        style = "#fb4934";
         modified = "!";
         staged = "+";
         untracked = "?";
@@ -157,10 +157,10 @@ in
         deleted = "󰩹";
       };
 
-      jobs.style = "bold #83a598";
+      jobs.style = "#83a598";
 
       python = {
-        style = "bold #fabd2f";
+        style = "#fabd2f";
         format = "[ $virtualenv]($style) ";
         detect_extensions = [];
         detect_files = [];
@@ -169,7 +169,7 @@ in
 
       direnv = {
         disabled = false;
-        style = "bold #fe8019";
+        style = "#fabd2f";
         format = "[$symbol$allowed]($style) ";
         symbol = " ";
         allowed_msg = "";
@@ -180,20 +180,20 @@ in
       };
 
       nix_shell = {
-        style = "bold #83a598";
+        style = "#83a598";
         symbol = " ";
         format = "[$symbol$state]($style) ";
       };
 
       username = {
         show_always = false;
-        style_user = "bold #fabd2f";
+        style_user = "#8ec07c";
         format = "[$user]($style) ";
       };
 
       hostname = {
         ssh_only = true;
-        style = "bold #8ec07c";
+        style = "#8ec07c";
         ssh_symbol = " ";
         format = "[$ssh_symbol$hostname]($style) ";
       };

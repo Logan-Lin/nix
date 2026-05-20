@@ -24,7 +24,7 @@ in
       {
         plugin = resurrect;
         extraConfig = ''
-          set -g @resurrect-processes 'nvim lazygit claude ssh'
+          set -g @resurrect-processes 'nvim claude'
           set -g @resurrect-hook-post-save-all 'target=$(${pkgs.coreutils}/bin/readlink -f ~/.tmux/resurrect/last); ${pkgs.perl}/bin/perl -i -pe "s|/nix/store/[^/]*/bin/nvim --cmd .*|nvim|g" "$target"'
         '';
       }
@@ -44,7 +44,7 @@ in
       set -ga terminal-overrides ",xterm-256color:Tc,xterm-256color:sitm=\\E[3m:ritm=\\E[23m,xterm-256color:Ss=\\E[%p1%d q:Se=\\E[2 q"
       set -g set-clipboard on
 
-      set -g status-style 'bg=#282828,fg=#ebdbb2'
+      set -g status-style 'bg=#3c3836,fg=#ebdbb2'
       set -g status-left-style 'bg=#a89984,fg=#282828'
       set -g status-right-style 'bg=#a89984,fg=#282828'
       set -g window-status-style 'bg=#3c3836,fg=#a89984'
@@ -59,8 +59,8 @@ in
 
       set -g status-left-length 40
       set -g status-right-length 50
-      set -g status-left '#{?client_prefix,#[bg=#fb4934],#[bg=#a89984]}#[fg=#282828] #S #[bg=#282828] '
-      set -g status-right '#(${continuumSaveScript})#{?SSH_CONNECTION,#[bg=#fabd2f],#[bg=#a89984]}#[fg=#282828]#{?pane_in_mode, [COPY],}#{?window_zoomed_flag, [Z],} #H | %H:%M '
+      set -g status-left '#{?client_prefix,#[bg=#fb4934],#[bg=#a89984]}#[fg=#282828] #S #[bg=#3c3836] '
+      set -g status-right '#(${continuumSaveScript})#{?pane_in_mode,#[bg=#fb4934]#[fg=#282828] COPY ,}#{?window_zoomed_flag,#[bg=#fb4934]#[fg=#282828] Z ,}#{?SSH_CONNECTION,#[bg=#fabd2f],#[bg=#a89984]}#[fg=#282828] #H '
       set -g window-status-format ' #I:#W '
       set -g window-status-current-format ' #I:#W '
 

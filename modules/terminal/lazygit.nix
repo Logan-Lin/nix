@@ -9,13 +9,13 @@
       gui = {
         theme = {
           lightTheme = false;
-          activeBorderColor = ["#458588" "bold"];
+          activeBorderColor = ["#83a598" "bold"];
           inactiveBorderColor = ["#504945"];
           searchingActiveBorderColor = ["#fabd2f" "bold"];
           optionsTextColor = ["#83a598"];
           selectedLineBgColor = ["#3c3836"];
           selectedRangeBgColor = ["#3c3836"];
-          cherryPickedCommitBgColor = ["#458588"];
+          cherryPickedCommitBgColor = ["#83a598"];
           cherryPickedCommitFgColor = ["#ebdbb2"];
           markedBaseCommitBgColor = ["#fabd2f"];
           markedBaseCommitFgColor = ["#282828"];

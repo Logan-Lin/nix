@@ -34,6 +34,7 @@ in
         skipAutoPermissionPrompt = true;
         effortLevel = "xhigh";
         terminalProgressBarEnabled = false;
+        theme = "dark-ansi";
         permissions = {
           allow = [
             "WebSearch"
