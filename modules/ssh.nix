@@ -48,7 +48,7 @@ in
         identityFile = "${keyDir}/hetzner";
       };
 
-      "helsinki-box" = {
+      "oomuroke" = {
         hostname = "u546684.your-storagebox.de";
         user = "u546684";
         port = 23;
