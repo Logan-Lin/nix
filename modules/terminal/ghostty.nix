@@ -22,24 +22,6 @@ in
       default = 14;
       description = "Font size for the terminal";
     };
-
-    windowMode = mkOption {
-      type = types.enum [ "windowed" "maximized" "fullscreen" ];
-      default = "windowed";
-      description = "Window mode: 'windowed' for fixed size, 'maximized' for maximized window, or 'fullscreen' for full screen";
-    };
-
-    windowWidth = mkOption {
-      type = types.int;
-      default = 160;
-      description = "Window width in columns (only used in windowed mode)";
-    };
-
-    windowHeight = mkOption {
-      type = types.int;
-      default = 40;
-      description = "Window height in rows (only used in windowed mode)";
-    };
   };
 
   config = mkIf cfg.enable {
@@ -47,53 +29,41 @@ in
       enable = true;
       package = cfg.package;
 
-      settings = mkMerge [
-        {
-          font-family = [
-            "JetBrainsMono Nerd Font Mono"
-            "Noto Sans CJK SC"
-            "Noto Sans CJK TC"
-            "Noto Sans CJK JP"
-          ];
-          font-family-bold = "JetBrainsMono NFM Bold";
-          font-family-italic = "JetBrainsMono NFM Italic";
-          font-family-bold-italic = "JetBrainsMono NFM Bold Italic";
-          font-size = cfg.fontSize;
+      settings = {
+        font-family = [
+          "JetBrainsMono Nerd Font Mono"
+          "Noto Sans CJK SC"
+          "Noto Sans CJK TC"
+          "Noto Sans CJK JP"
+        ];
+        font-family-bold = "JetBrainsMono NFM Bold";
+        font-family-italic = "JetBrainsMono NFM Italic";
+        font-family-bold-italic = "JetBrainsMono NFM Bold Italic";
+        font-size = cfg.fontSize;
 
-          theme = "Gruvbox Dark Hard";
-          cursor-style-blink = false;
-          window-theme = "dark";
-          window-padding-balance = true;
-          shell-integration = "detect";
-          shell-integration-features = "no-cursor";
-          term = "xterm-256color";
-          mouse-hide-while-typing = true;
-          mouse-shift-capture = false;
-          adjust-cell-height = "10%";
-          minimum-contrast = 1.0;
-          copy-on-select = false;
-          clipboard-read = "allow";
-          clipboard-write = "allow";
-          scrollback-limit = 10000;
-          desktop-notifications = false;
-          confirm-close-surface = false;
-          macos-titlebar-style = "hidden";
-          macos-option-as-alt = "left";
-        }
-
-        (mkIf (cfg.windowMode == "windowed") {
-          window-width = cfg.windowWidth;
-          window-height = cfg.windowHeight;
-        })
-
-        (mkIf (cfg.windowMode == "maximized") {
-          maximize = true;
-        })
-
-        (mkIf (cfg.windowMode == "fullscreen") {
-          fullscreen = true;
-        })
-      ];
+        theme = "Gruvbox Dark Hard";
+        cursor-style-blink = false;
+        window-theme = "dark";
+        window-padding-balance = true;
+        window-width = 160;
+        window-height = 40;
+        shell-integration = "detect";
+        shell-integration-features = "no-cursor";
+        term = "xterm-256color";
+        mouse-hide-while-typing = true;
+        mouse-shift-capture = false;
+        adjust-cell-height = "10%";
+        minimum-contrast = 1.0;
+        copy-on-select = false;
+        clipboard-read = "allow";
+        clipboard-write = "allow";
+        scrollback-limit = 10000;
+        desktop-notifications = false;
+        confirm-close-surface = false;
+        macos-titlebar-style = "hidden";
+        macos-option-as-alt = "left";
+        mouse-reporting = false;
+      };
     };
   };
 }

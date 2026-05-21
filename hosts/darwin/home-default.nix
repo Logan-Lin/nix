@@ -63,7 +63,6 @@ in
   programs.ghostty-custom = {
     enable = true;
     package = pkgs.ghostty-bin;
-    windowMode = "windowed";
   };
 
   home.homeDirectory = "/Users/yanlin";
@@ -149,14 +148,6 @@ in
           button = 2;
           action = "smartZoom";
         }
-        {
-          button = 3;
-          action.run = "${pkgs.aerospace}/bin/aerospace workspace prev --wrap-around --no-stdin";
-        }
-        {
-          button = 4;
-          action.run = "${pkgs.aerospace}/bin/aerospace workspace next --wrap-around --no-stdin";
-        }
       ];
     }];
   };
@@ -201,9 +192,6 @@ in
     alt-8 = 'workspace 8'
     alt-9 = 'workspace 9'
     alt-0 = 'workspace 10'
-
-    alt-left = 'workspace prev --wrap-around'
-    alt-right = 'workspace next --wrap-around'
 
     # Focus monitor
     alt-comma = 'focus-monitor prev'

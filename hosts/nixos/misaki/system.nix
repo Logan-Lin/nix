@@ -5,7 +5,7 @@
     ./hardware-configuration.nix
     ./disk-config.nix
     ../system-default.nix
-    ../../../modules/vpn/client.nix
+    ../../../modules/vpn/nixos-client.nix
     ../../../modules/vpn/nixos-tunnel.nix
     ../../../modules/hyprland/system.nix
     "${inputs.nixos-hardware}/lenovo/thinkpad/p14s"

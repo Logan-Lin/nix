@@ -42,7 +42,6 @@
   programs.ghostty-custom = {
     enable = true;
     package = pkgs.ghostty;
-    windowMode = "maximized";
     fontSize = 11;
   };
 

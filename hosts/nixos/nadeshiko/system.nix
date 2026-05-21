@@ -6,7 +6,7 @@
     ./disk-config.nix
     ../system-default.nix
     "${inputs.nixos-hardware}/common/cpu/intel/alder-lake"
-    ../../../modules/vpn/client.nix
+    ../../../modules/vpn/nixos-client.nix
     ../../../modules/borg.nix
     ../../../modules/disk-health.nix
     ../../../modules/deluge.nix

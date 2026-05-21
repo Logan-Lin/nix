@@ -217,21 +217,6 @@ in
     };
   }
 
-  (mkIf pkgs.stdenv.isDarwin {
-    launchd.agents.firefox-legacy-profiles = {
-      enable = true;
-      config = {
-        Label = "org.mozilla.firefox.legacy-profiles";
-        ProgramArguments = [ "/bin/launchctl" "setenv" "MOZ_LEGACY_PROFILES" "1" ];
-        RunAtLoad = true;
-      };
-    };
-
-    home.activation.firefoxLegacyProfiles = hm.dag.entryAfter [ "writeBoundary" ] ''
-      /bin/launchctl setenv MOZ_LEGACY_PROFILES 1 || true
-    '';
-  })
-
   (mkIf pkgs.stdenv.isLinux {
     programs.firefox.configPath = ".mozilla/firefox";
   })

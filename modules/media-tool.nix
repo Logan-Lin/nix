@@ -2,23 +2,16 @@
 
 {
   home.packages = with pkgs; [
-    coreutils
-    findutils
     gnutar
     gzip
     bzip2
     xz
     ffmpeg
     shntool
-    cuetools
     flac
-    zip
     unzip
     p7zip
     imagemagick
-    poppler-utils
-    exiftool
-    pdftk
   ];
 
   programs.zsh.initContent = ''
