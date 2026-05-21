@@ -6,7 +6,7 @@ let
   resurrectRestoreScript = "${pkgs.tmuxPlugins.resurrect}/share/tmux-plugins/resurrect/scripts/restore.sh";
 in
 {
-  home.packages = [ pkgs.sesh pkgs.perl ];
+  home.packages = [ pkgs.sesh ];
 
   programs.zsh.shellAliases.ts = "sesh connect $(sesh list --icons | fzf --reverse --border --ansi)";
   programs.zsh.shellAliases.tss = "tmux run-shell ${resurrectSaveScript}";
@@ -25,7 +25,6 @@ in
         plugin = resurrect;
         extraConfig = ''
           set -g @resurrect-processes 'nvim claude'
-          set -g @resurrect-hook-post-save-all 'target=$(${pkgs.coreutils}/bin/readlink -f ~/.tmux/resurrect/last); ${pkgs.perl}/bin/perl -i -pe "s|/nix/store/[^/]*/bin/nvim --cmd .*|nvim|g" "$target"'
         '';
       }
       {
