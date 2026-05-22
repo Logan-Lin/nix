@@ -52,13 +52,13 @@
     CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
     CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
     CPU_ENERGY_PERF_POLICY_ON_BAT = "balance_power";
-    CPU_BOOST_ON_AC = 0;
+    CPU_BOOST_ON_AC = 1;
     CPU_BOOST_ON_BAT = 0;
-    CPU_HWP_DYN_BOOST_ON_AC = 0;
+    CPU_HWP_DYN_BOOST_ON_AC = 1;
     CPU_HWP_DYN_BOOST_ON_BAT = 0;
     CPU_MAX_PERF_ON_AC = 100;
     CPU_MAX_PERF_ON_BAT = 100;
-    PLATFORM_PROFILE_ON_AC = "performance";
+    PLATFORM_PROFILE_ON_AC = "balanced";
     PLATFORM_PROFILE_ON_BAT = "balanced";
     INTEL_GPU_MIN_FREQ_ON_AC = 300;
     INTEL_GPU_MIN_FREQ_ON_BAT = 300;
@@ -89,8 +89,8 @@
   services.thinkfan = {
     enable = true;
     levels = [
-      [0   0   65]
-      [1   60  78]
+      [0   0   55]
+      [1   50  78]
       [2   72  85]
       [3   80  90]
       [4   86  94]
