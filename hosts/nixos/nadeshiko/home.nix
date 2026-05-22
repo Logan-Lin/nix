@@ -3,6 +3,8 @@
 {
   home.packages = with pkgs; [
     texlive.combined.scheme-full
+    d2
+    librsvg
     httpie
   ];
 
