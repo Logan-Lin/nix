@@ -167,7 +167,6 @@ in
           - Do not use em dashes or en dashes to connect sentences. Split into separate sentences or rephrase
           - Do not use semicolons, colons, or parentheses to join or compress sentences. Rewrite as flowing prose with separate sentences
           - When referring to the same thing, use the exact same term throughout. Remove unnecessary terms and concepts. The only exception is that shorter references can be used when the full term has been established and the short form is obvious from context
-          - In prose-heavy files like Markdown and LaTeX, break lines between sentences at natural pauses. Never break in the middle of a sentence
 
           Fix all issues directly in the file using the Edit tool. After editing, provide a brief summary of the changes made. Do not alter the underlying meaning. Only adjust wording, phrasing, and formatting to meet the rules.
         '';
