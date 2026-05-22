@@ -167,6 +167,90 @@
 
       todo-comments.enable = true;
 
+      aerial = {
+        enable = true;
+        settings = {
+          backends = [ "treesitter" "markdown" "man" ];
+          attach_mode = "global";
+          close_on_select = true;
+          show_guides = true;
+          keymaps = {
+            "<Esc>" = "actions.close";
+          };
+          layout = {
+            default_direction = "float";
+            placement = "window";
+            win_opts = {
+              winhighlight = "NormalFloat:Normal,SignColumn:Normal,FoldColumn:Normal,EndOfBuffer:Normal";
+              signcolumn = "yes:1";
+            };
+          };
+          float = {
+            border = "rounded";
+            relative = "editor";
+            override.__raw = ''
+              function(conf, _)
+                local width = 76
+                local height = math.floor(vim.o.lines * 0.85)
+                conf.width = width
+                conf.height = height
+                conf.row = math.floor((vim.o.lines - height) / 2) - 1
+                conf.col = math.floor((vim.o.columns - width) / 2)
+                return conf
+              end
+            '';
+          };
+        };
+      };
+
+      blink-cmp-dictionary.enable = true;
+      blink-cmp = {
+        enable = true;
+        settings = {
+          keymap = {
+            preset = "enter";
+            "<C-space>" = [ ];
+            "<C-e>" = [ ];
+            "<Tab>" = [ ];
+            "<S-Tab>" = [ ];
+            "<C-j>" = [ "select_next" "fallback" ];
+            "<C-k>" = [ "select_prev" "fallback" ];
+          };
+          sources = {
+            default = [ "buffer" "path" "dictionary" ];
+            providers.dictionary = {
+              module = "blink-cmp-dictionary";
+              name = "Dict";
+              min_keyword_length = 2;
+              opts = {
+                dictionary_files = [ "${pkgs.scowl}/share/dict/wamerican.50" ];
+              };
+            };
+          };
+          appearance.nerd_font_variant = "normal";
+        };
+      };
+
+      lint = {
+        enable = true;
+        autoInstall = {
+          enable = true;
+          overrides = {
+            lacheck = pkgs.texlivePackages.lacheck;
+          };
+        };
+        lintersByFt = {
+          nix = [ "statix" ];
+          python = [ "ruff" ];
+          sh = [ "shellcheck" ];
+          bash = [ "shellcheck" ];
+          yaml = [ "yamllint" ];
+          json = [ "jq" ];
+          tex = [ "lacheck" ];
+          plaintex = [ "lacheck" ];
+        };
+      };
+
       nvim-tree = {
         enable = true;
         settings = {
@@ -246,6 +330,18 @@
       }
       {
         mode = "n";
+        key = "<leader>o";
+        action = ":AerialToggle<CR>";
+        options = { desc = "Toggle outline"; };
+      }
+      {
+        mode = "n";
+        key = "<leader>O";
+        action = ":Telescope aerial<CR>";
+        options = { desc = "Search symbols via Telescope"; };
+      }
+      {
+        mode = "n";
         key = "<leader>w";
         action = ":w<CR>";
         options = { desc = "Save file"; };
@@ -286,6 +382,18 @@
         action = ":lua close_other_buffers()<CR>";
         options = { desc = "Close all buffers except current"; };
       }
+      {
+        mode = "n";
+        key = "<leader>d";
+        action = ":lua vim.diagnostic.open_float()<CR>";
+        options = { desc = "Show diagnostic on current line"; };
+      }
+      {
+        mode = "n";
+        key = "<leader>D";
+        action = ":Telescope diagnostics<CR>";
+        options = { desc = "List all diagnostics"; };
+      }
 
     ];
 
@@ -304,6 +412,10 @@
           }
         },
       }
+      telescope.load_extension('aerial')
+
+      vim.treesitter.language.register('latex', 'plaintex')
+
       local function ssh_session_active()
         if vim.env.SSH_TTY or vim.env.SSH_CONNECTION or vim.env.SSH_CLIENT then
           return true
