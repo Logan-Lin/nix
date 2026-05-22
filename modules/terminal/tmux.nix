@@ -24,7 +24,7 @@ in
       {
         plugin = resurrect;
         extraConfig = ''
-          set -g @resurrect-processes 'nvim claude'
+          set -g @resurrect-processes 'false'
         '';
       }
       {
@@ -47,21 +47,22 @@ in
       set -g status-left-style 'bg=#a89984,fg=#282828'
       set -g status-right-style 'bg=#a89984,fg=#282828'
       set -g window-status-style 'bg=#3c3836,fg=#a89984'
-      set -g window-status-current-style 'bg=#fabd2f,fg=#282828'
+      set -g window-status-current-style 'bg=#1d2021,fg=#ebdbb2,bold'
       set -g pane-border-style 'fg=#3c3836'
       set -g pane-active-border-style 'fg=#fabd2f'
       set -g message-style 'bg=#fabd2f,fg=#282828'
       set -g message-command-style 'bg=#fabd2f,fg=#282828'
       set -g mode-style 'bg=#fabd2f,fg=#282828'
       set -g copy-mode-match-style 'bg=#fabd2f,fg=#282828'
-      set -g copy-mode-current-match-style 'bg=#fb4934,fg=#282828'
+      set -g copy-mode-current-match-style 'bg=#fe8019,fg=#282828'
 
       set -g status-left-length 40
       set -g status-right-length 50
-      set -g status-left '#{?client_prefix,#[bg=#fb4934],#[bg=#a89984]}#[fg=#282828] #S #[bg=#3c3836] '
-      set -g status-right '#(${continuumSaveScript})#{?pane_in_mode,#[bg=#fb4934]#[fg=#282828] COPY ,}#{?window_zoomed_flag,#[bg=#fb4934]#[fg=#282828] Z ,}#{?SSH_CONNECTION,#[bg=#fabd2f],#[bg=#a89984]}#[fg=#282828] #H '
+      set -g status-left '#{?client_prefix,#[bg=#fe8019],#[bg=#a89984]}#[fg=#282828] #S '
+      set -g status-right '#(${continuumSaveScript})#{?pane_in_mode,#[bg=#fe8019]#[fg=#282828] COPY ,}#{?window_zoomed_flag,#[bg=#fe8019]#[fg=#282828] Z ,}#{?SSH_CONNECTION,#[bg=#fabd2f],#[bg=#a89984]}#[fg=#282828] #H '
       set -g window-status-format ' #I:#W '
       set -g window-status-current-format ' #I:#W '
+      set -g window-status-separator ""
 
       bind | split-window -h -c "#{pane_current_path}"
       bind - split-window -v -c "#{pane_current_path}"

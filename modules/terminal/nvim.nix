@@ -42,6 +42,30 @@
         settings = {
           options = {
             separator_style = [ "" "" ];
+            indicator = { style = "none"; };
+            show_buffer_close_icons = false;
+            show_close_icon = false;
+            modified_icon = "●";
+            always_show_bufferline = true;
+            tab_size = 12;
+          };
+          highlights = {
+            fill               = { bg = "#3c3836"; };
+            background         = { bg = "#3c3836"; fg = "#a89984"; };
+            buffer_visible     = { bg = "#3c3836"; fg = "#a89984"; };
+            buffer_selected    = { bg = "#1d2021"; fg = "#ebdbb2"; bold = true; italic = false; };
+            modified           = { bg = "#3c3836"; fg = "#fe8019"; };
+            modified_visible   = { bg = "#3c3836"; fg = "#fe8019"; };
+            modified_selected  = { bg = "#1d2021"; fg = "#fe8019"; };
+            separator          = { bg = "#3c3836"; fg = "#3c3836"; };
+            separator_visible  = { bg = "#3c3836"; fg = "#3c3836"; };
+            separator_selected = { bg = "#1d2021"; fg = "#1d2021"; };
+            indicator_visible  = { bg = "#3c3836"; fg = "#3c3836"; };
+            indicator_selected = { bg = "#1d2021"; fg = "#1d2021"; };
+            duplicate          = { bg = "#3c3836"; fg = "#a89984"; italic = true; };
+            duplicate_visible  = { bg = "#3c3836"; fg = "#a89984"; italic = true; };
+            duplicate_selected = { bg = "#1d2021"; fg = "#ebdbb2"; italic = true; };
+            trunc_marker       = { bg = "#3c3836"; fg = "#a89984"; };
           };
         };
       };
