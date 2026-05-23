@@ -37,36 +37,21 @@
 
     plugins = {
 
-      bufferline = {
+      mini-tabline = {
         enable = true;
         settings = {
-          options = {
-            separator_style = [ "" "" ];
-            indicator = { style = "none"; };
-            show_buffer_close_icons = false;
-            show_close_icon = false;
-            modified_icon = "●";
-            always_show_bufferline = true;
-            tab_size = 12;
-          };
-          highlights = {
-            fill               = { bg = "#3c3836"; };
-            background         = { bg = "#3c3836"; fg = "#a89984"; };
-            buffer_visible     = { bg = "#3c3836"; fg = "#a89984"; };
-            buffer_selected    = { bg = "#1d2021"; fg = "#ebdbb2"; bold = true; italic = false; };
-            modified           = { bg = "#3c3836"; fg = "#fe8019"; };
-            modified_visible   = { bg = "#3c3836"; fg = "#fe8019"; };
-            modified_selected  = { bg = "#1d2021"; fg = "#fe8019"; };
-            separator          = { bg = "#3c3836"; fg = "#3c3836"; };
-            separator_visible  = { bg = "#3c3836"; fg = "#3c3836"; };
-            separator_selected = { bg = "#1d2021"; fg = "#1d2021"; };
-            indicator_visible  = { bg = "#3c3836"; fg = "#3c3836"; };
-            indicator_selected = { bg = "#1d2021"; fg = "#1d2021"; };
-            duplicate          = { bg = "#3c3836"; fg = "#a89984"; italic = true; };
-            duplicate_visible  = { bg = "#3c3836"; fg = "#a89984"; italic = true; };
-            duplicate_selected = { bg = "#1d2021"; fg = "#ebdbb2"; italic = true; };
-            trunc_marker       = { bg = "#3c3836"; fg = "#a89984"; };
-          };
+          show_icons = false;
+          set_vim_settings = true;
+          tabpage_section = "none";
+          format.__raw = ''
+            function(_, label)
+              local max = 30
+              if vim.fn.strchars(label) > max then
+                label = "…" .. vim.fn.strcharpart(label, vim.fn.strchars(label) - max + 1)
+              end
+              return " " ..  label .. " "
+            end
+          '';
         };
       };
       gitsigns.enable = true;
@@ -325,11 +310,6 @@
       };
     };
 
-    extraPlugins = with pkgs.vimPlugins; [
-      vim-fugitive
-      plenary-nvim
-    ];
-
     keymaps = [
       {
         mode = "n";
@@ -376,13 +356,13 @@
       {
         mode = "n";
         key = "<S-h>";
-        action = ":BufferLineCyclePrev<CR>";
+        action = ":bprevious<CR>";
         options = { desc = "Previous buffer"; };
       }
       {
         mode = "n";
         key = "<S-l>";
-        action = ":BufferLineCycleNext<CR>";
+        action = ":bnext<CR>";
         options = { desc = "Next buffer"; };
       }
       {
@@ -510,6 +490,14 @@
           end
         end
       end
+
+      vim.api.nvim_set_hl(0, "MiniTablineCurrent",         { bg = "#1d2021", fg = "#ebdbb2", bold = true })
+      vim.api.nvim_set_hl(0, "MiniTablineVisible",         { bg = "#3c3836", fg = "#a89984" })
+      vim.api.nvim_set_hl(0, "MiniTablineHidden",          { bg = "#3c3836", fg = "#a89984" })
+      vim.api.nvim_set_hl(0, "MiniTablineModifiedCurrent", { bg = "#1d2021", fg = "#fe8019", bold = true })
+      vim.api.nvim_set_hl(0, "MiniTablineModifiedVisible", { bg = "#3c3836", fg = "#fe8019" })
+      vim.api.nvim_set_hl(0, "MiniTablineModifiedHidden",  { bg = "#3c3836", fg = "#fe8019" })
+      vim.api.nvim_set_hl(0, "MiniTablineFill",            { bg = "#3c3836" })
 
       vim.api.nvim_set_hl(0, "@markup.raw", { italic = false })
       vim.api.nvim_set_hl(0, "@markup.raw.block", { italic = false })

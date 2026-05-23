@@ -104,9 +104,6 @@ in
             "Bash(fdisk:*)"
           ];
 
-          additionalDirectories = [
-            "~/Documents/"
-          ];
         };
       };
 

@@ -56,8 +56,8 @@ in
       set -g copy-mode-match-style 'bg=#fabd2f,fg=#282828'
       set -g copy-mode-current-match-style 'bg=#fe8019,fg=#282828'
 
-      set -g status-left-length 40
-      set -g status-right-length 50
+      set -g status-left-length 50
+      set -g status-right-length 40
       set -g status-left '#{?client_prefix,#[bg=#fe8019],#[bg=#a89984]}#[fg=#282828] #S '
       set -g status-right '#(${continuumSaveScript})#{?pane_in_mode,#[bg=#fe8019]#[fg=#282828] COPY ,}#{?window_zoomed_flag,#[bg=#fe8019]#[fg=#282828] Z ,}#{?SSH_CONNECTION,#[bg=#fabd2f],#[bg=#a89984]}#[fg=#282828] #H '
       set -g window-status-format ' #I:#W '
