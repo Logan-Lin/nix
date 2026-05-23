@@ -105,7 +105,6 @@
     repositoryUrl = "ssh://oomuroke/./hanako";
     backupPaths = [
       "/var/lib/mongodb"
-      "/home/yanlin/.config/"
       "/home/yanlin/.ssh/"
     ];
     backupFrequency = "*-*-* 03:00:00";

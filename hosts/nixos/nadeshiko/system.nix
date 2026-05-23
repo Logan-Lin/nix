@@ -134,7 +134,6 @@
     repositoryUrl = "ssh://oomuroke/./nadeshiko";
     backupPaths = [
       "/home/yanlin/Documents"
-      "/home/yanlin/.config/"
       "/home/yanlin/.ssh/"
     ];
     backupFrequency = "*-*-* 01:00:00";
