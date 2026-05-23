@@ -10,73 +10,73 @@ in
     enable = true;
     enableDefaultConfig = false;
     
-    matchBlocks = {
-      
+    settings = {
+
       "*" = {
-        addKeysToAgent = "yes";
-        identitiesOnly = true;
+        AddKeysToAgent = "yes";
+        IdentitiesOnly = true;
       };
 
       "github.com" = {
-        hostname = "github.com";
-        user = "git";
-        identityFile = "${keyDir}/github";
+        HostName = "github.com";
+        User = "git";
+        IdentityFile = "${keyDir}/github";
       };
 
       "aau-gateway" = {
-        hostname = "sshgw.aau.dk";
-        user = "hb05nk@cs.aau.dk";
-        identityFile = "${keyDir}/aicloud";
+        HostName = "sshgw.aau.dk";
+        User = "hb05nk@cs.aau.dk";
+        IdentityFile = "${keyDir}/aicloud";
       };
 
       "aicloud" = {
-        hostname = "ai-fe02.srv.aau.dk";
-        user = "hb05nk@cs.aau.dk";
-        identityFile = "${keyDir}/aicloud";
-        proxyJump = "nadeshiko";
+        HostName = "ai-fe02.srv.aau.dk";
+        User = "hb05nk@cs.aau.dk";
+        IdentityFile = "${keyDir}/aicloud";
+        ProxyJump = "nadeshiko";
       };
 
       "aicloud.lan" = {
-        hostname = "ai-fe02.srv.aau.dk";
-        user = "hb05nk@cs.aau.dk";
-        identityFile = "${keyDir}/aicloud";
+        HostName = "ai-fe02.srv.aau.dk";
+        User = "hb05nk@cs.aau.dk";
+        IdentityFile = "${keyDir}/aicloud";
       };
 
       "hanako" = {
-        hostname = "91.98.84.215";
-        user = "yanlin";
-        identityFile = "${keyDir}/hetzner";
+        HostName = "91.98.84.215";
+        User = "yanlin";
+        IdentityFile = "${keyDir}/hetzner";
       };
 
       "oomuroke" = {
-        hostname = "u546684.your-storagebox.de";
-        user = "u546684";
-        port = 23;
-        identityFile = "${keyDir}/hetzner";
+        HostName = "u546684.your-storagebox.de";
+        User = "u546684";
+        Port = 23;
+        IdentityFile = "${keyDir}/hetzner";
       };
 
       "nadeshiko" = {
-        hostname = "10.2.2.10";
-        user = "yanlin";
-        identityFile = "${keyDir}/nas";
+        HostName = "10.2.2.10";
+        User = "yanlin";
+        IdentityFile = "${keyDir}/nas";
       };
 
       "misaki" = {
-        hostname = "10.2.2.20";
-        user = "yanlin";
-        identityFile = "${keyDir}/thinkpad";
+        HostName = "10.2.2.20";
+        User = "yanlin";
+        IdentityFile = "${keyDir}/thinkpad";
       };
 
       "sakurako" = {
-        hostname = "10.2.2.30";
-        user = "yanlin";
-        identityFile = "${keyDir}/mac";
+        HostName = "10.2.2.30";
+        User = "yanlin";
+        IdentityFile = "${keyDir}/mac";
       };
 
       "himawari" = {
-        hostname = "10.2.2.40";
-        user = "yanlin";
-        identityFile = "${keyDir}/mac";
+        HostName = "10.2.2.40";
+        User = "yanlin";
+        IdentityFile = "${keyDir}/mac";
       };
 
     };
