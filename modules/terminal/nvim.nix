@@ -96,7 +96,7 @@
           auto_install = false;
         };
         grammarPackages = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
-          bash c cpp css dockerfile go html javascript json lua markdown nix python rust typescript yaml latex
+          bash c cpp css dockerfile go html javascript json lua markdown markdown-inline nix python rust typescript yaml latex
         ];
       };
 
@@ -166,6 +166,14 @@
       };
 
       todo-comments.enable = true;
+
+      render-markdown = {
+        enable = true;
+        settings = {
+          enabled = false;
+          file_types = [ "markdown" ];
+        };
+      };
 
       aerial = {
         enable = true;
@@ -358,6 +366,12 @@
         key = "<leader>r";
         action = ":e<CR>";
         options = { desc = "Refresh"; };
+      }
+      {
+        mode = "n";
+        key = "<leader>m";
+        action = ":RenderMarkdown toggle<CR>";
+        options = { desc = "Toggle markdown rendering"; };
       }
       {
         mode = "n";
