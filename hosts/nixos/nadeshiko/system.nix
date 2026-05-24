@@ -43,14 +43,17 @@
     hostName = "nadeshiko";
     hostId = "8425e349";
     networkmanager.enable = true;
-    firewall = { enable = false; };
+    firewall = {
+      enable = true;
+      allowedTCPPorts = [ 22 22000 25000 ];
+      allowedUDPPorts = [ 22000 25000 ];
+    };
   };
 
   services.openssh = {
     settings = {
       PermitRootLogin = "yes";
     };
-    openFirewall = true;
   };
 
   users.users.root = {
