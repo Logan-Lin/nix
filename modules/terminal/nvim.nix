@@ -22,6 +22,8 @@
       signcolumn = "yes";
       autoread = true;
       clipboard = "unnamedplus";
+      cmdheight = 0;
+      showmode = false;
     };
 
     viAlias = true;
@@ -52,6 +54,68 @@
               return " " ..  label .. " "
             end
           '';
+        };
+      };
+      noice = {
+        enable = true;
+        settings = {
+          cmdline = {
+            view = "cmdline_popup";
+            format = {
+              cmdline = { pattern = "^:"; icon = ":"; lang = "vim"; };
+              search_down = { kind = "search"; pattern = "^/"; icon = "/"; lang = "regex"; };
+              search_up = { kind = "search"; pattern = "^%?"; icon = "?"; lang = "regex"; };
+            };
+          };
+          messages = {
+            enabled = true;
+            view = "mini";
+            view_error = "mini";
+            view_warn = "mini";
+            view_history = "mini";
+            view_search = "mini";
+          };
+          popupmenu.enabled = true;
+          notify = {
+            enabled = true;
+            view = "mini";
+          };
+          lsp = {
+            progress.enabled = false;
+            hover.enabled = false;
+            signature.enabled = false;
+            message.enabled = false;
+          };
+          presets = {
+            bottom_search = false;
+            command_palette = false;
+            long_message_to_split = true;
+            inc_rename = false;
+            lsp_doc_border = false;
+          };
+          routes = [
+            { filter = { event = "msg_showmode"; }; view = "mini"; }
+          ];
+          views = {
+            mini = {
+              timeout = 4000;
+              reverse = false;
+              border.style = "none";
+              size = {
+                max_height = 7;
+                max_width = 80;
+              };
+              win_options = {
+                winblend = 0;
+                wrap = true;
+                linebreak = true;
+                winhighlight = {
+                  Normal = "NormalFloat";
+                  FloatBorder = "FloatBorder";
+                };
+              };
+            };
+          };
         };
       };
       gitsigns.enable = true;
