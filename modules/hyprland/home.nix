@@ -15,6 +15,76 @@ let
       | ${pkgs.coreutils}/bin/cut -d'|' -f2 \
       | ${pkgs.findutils}/bin/xargs -r ${pkgs.firefox}/bin/firefox
   '';
+
+  evinceDesktop = "org.gnome.Evince.desktop";
+  loupeDesktop = "org.gnome.Loupe.desktop";
+  mpvDesktop = "mpv.desktop";
+  nvimDesktop = "nvim-ghostty.desktop";
+
+  textMimeTypes = [
+    "text/plain"
+    "text/markdown"
+    "text/x-python"
+    "application/javascript"
+    "application/typescript"
+    "application/json"
+    "application/yaml"
+    "application/x-yaml"
+    "application/toml"
+    "application/xml"
+    "text/xml"
+    "text/css"
+    "text/csv"
+    "application/x-shellscript"
+    "text/x-shellscript"
+    "text/x-csrc"
+    "text/x-chdr"
+    "text/x-c++src"
+    "text/x-c++hdr"
+    "text/rust"
+    "text/x-go"
+    "text/x-java"
+    "application/x-ruby"
+    "application/x-php"
+    "text/x-lua"
+    "text/x-tex"
+    "text/x-bibtex"
+    "text/x-vim"
+  ];
+
+  imageMimeTypes = [
+    "image/png"
+    "image/jpeg"
+    "image/gif"
+    "image/bmp"
+    "image/tiff"
+    "image/webp"
+    "image/heic"
+    "image/heif"
+    "image/vnd.microsoft.icon"
+    "image/x-icon"
+  ];
+
+  mediaMimeTypes = [
+    "video/mp4"
+    "video/x-matroska"
+    "video/x-msvideo"
+    "video/quicktime"
+    "video/x-ms-wmv"
+    "video/x-flv"
+    "video/webm"
+    "video/x-m4v"
+    "video/mpeg"
+    "audio/mpeg"
+    "audio/mp4"
+    "audio/flac"
+    "audio/x-wav"
+    "audio/wav"
+    "audio/aac"
+    "audio/ogg"
+    "audio/x-opus+ogg"
+    "audio/opus"
+  ];
 in
 
 {
@@ -297,13 +367,32 @@ in
     adwaita-icon-theme
     hicolor-icon-theme
     grimblast
+    wl-clipboard
+    cliphist
+
     thunar
     evince
     loupe
-    wl-clipboard
-    cliphist
     mpv
   ];
+
+  xdg.mimeApps = {
+    enable = true;
+    defaultApplications =
+      (lib.genAttrs [ "application/pdf" ] (_: evinceDesktop)) //
+      (lib.genAttrs imageMimeTypes (_: loupeDesktop)) //
+      (lib.genAttrs mediaMimeTypes (_: mpvDesktop)) //
+      (lib.genAttrs textMimeTypes (_: nvimDesktop));
+  };
+
+  xdg.desktopEntries.nvim-ghostty = {
+    name = "Neovim (Ghostty)";
+    genericName = "Text Editor";
+    exec = "ghostty -e nvim %F";
+    terminal = false;
+    categories = [ "Utility" "TextEditor" ];
+    mimeType = textMimeTypes;
+  };
 
   programs.zsh.initContent = ''
     alias hypr-restart='loginctl terminate-session'

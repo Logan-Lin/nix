@@ -4,11 +4,12 @@
   home.packages = with pkgs; [
     texlive.combined.scheme-full
     httpie
-    keepassxc
-    localsend
+
     obsidian
+    keepassxc
     drawio
     inkscape
+    localsend
     picard
     clash-verge-rev
     pdfpc
