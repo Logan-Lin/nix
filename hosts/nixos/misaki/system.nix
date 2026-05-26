@@ -2,8 +2,8 @@
 
 {
   imports = [
-    ./hardware-configuration.nix
-    ./disk-config.nix
+    ./hardware.nix
+    ./disko.nix
     ../system-default.nix
     ../../../modules/vpn/nixos-client.nix
     ../../../modules/vpn/nixos-tunnel.nix

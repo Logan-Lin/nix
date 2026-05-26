@@ -2,8 +2,8 @@
 
 {
   imports = [
-    ./hardware-configuration.nix
-    ./disk-config.nix
+    ./hardware.nix
+    ./disko.nix
     ../system-default.nix
     "${inputs.nixos-hardware}/common/cpu/intel/alder-lake"
     ../../../modules/vpn/nixos-client.nix
