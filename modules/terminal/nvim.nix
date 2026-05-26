@@ -42,16 +42,23 @@
       mini-tabline = {
         enable = true;
         settings = {
-          show_icons = false;
+          show_icons = true;
           set_vim_settings = true;
           tabpage_section = "none";
           format.__raw = ''
-            function(_, label)
+            function(buf_id, label)
               local max = 30
               if vim.fn.strchars(label) > max then
                 label = "…" .. vim.fn.strcharpart(label, vim.fn.strchars(label) - max + 1)
               end
-              return " " ..  label .. " "
+              local icon = ""
+              local ok, devicons = pcall(require, "nvim-web-devicons")
+              if ok then
+                local name = vim.api.nvim_buf_get_name(buf_id)
+                local ic = devicons.get_icon(name, nil, { default = true })
+                if ic then icon = ic .. " " end
+              end
+              return " " .. icon .. label .. " "
             end
           '';
         };
