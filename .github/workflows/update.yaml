@@ -136,7 +136,7 @@ jobs:
           git config user.email "git.bot@yanlincs.com"
           git checkout -B flake-update
           git add flake.lock
-          git commit -m "update flake inputs"
+          git commit -m "auto: update flake inputs"
           git push -f origin flake-update
 
       - name: Create or update pull request
