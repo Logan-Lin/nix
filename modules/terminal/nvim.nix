@@ -363,11 +363,9 @@
               end, opts("Reveal in Finder"))
 
               vim.keymap.set("n", "o", api.node.run.system, opts("System Open"))
-              vim.keymap.set("n", "i", function()
-                local node = api.tree.get_node_under_cursor()
-                if node then vim.notify(node.absolute_path) end
-              end, opts("Show Path"))
               vim.keymap.set("n", "<esc>", api.tree.close, opts("Close"))
+              vim.keymap.set("n", "y", api.fs.copy.relative_path, opts("Copy Relative Path"))
+              vim.keymap.set("n", "Y", api.fs.copy.absolute_path, opts("Copy Absolute Path"))
             end
           '';
         };
