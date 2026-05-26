@@ -21,51 +21,16 @@ jobs:
 
       - name: Evaluate ${{ matrix.host-attr }}
         run: |
-          {
-            echo "## Evaluated configs (${{ matrix.system }})"
-            echo ""
-            echo "### ${{ matrix.host-attr }}"
-            nix eval ".#${{ matrix.host-attr }}" --apply 'x: builtins.attrNames x' --json | jq -r '.[] | "- " + .'
-          } >> "$GITHUB_STEP_SUMMARY"
           nix eval ".#${{ matrix.host-attr }}" \
             --apply 'builtins.mapAttrs (_: v: v.config.system.build.toplevel.drvPath)' \
-            --json 2>>eval.stderr 1>/dev/null
+            --json > /dev/null
 
       - name: Evaluate matching home configs
         run: |
-          {
-            echo ""
-            echo "### homeConfigurations"
-          } >> "$GITHUB_STEP_SUMMARY"
           for config in $(nix eval .#homeConfigurations --apply 'x: builtins.attrNames x' --json | jq -r '.[]'); do
             sys=$(nix eval ".#homeConfigurations.\"${config}\".activationPackage.system" --raw 2>/dev/null || true)
             if [ "$sys" = "${{ matrix.system }}" ]; then
-              echo "- ${config}" >> "$GITHUB_STEP_SUMMARY"
               echo "Evaluating homeConfigurations.${config}..."
-              nix eval ".#homeConfigurations.\"${config}\".activationPackage.drvPath" --raw 2>>eval.stderr 1>/dev/null
+              nix eval ".#homeConfigurations.\"${config}\".activationPackage.drvPath" --raw > /dev/null
             fi
           done
-
-      - name: Surface eval warnings
-        if: always()
-        run: |
-          if [ -s eval.stderr ]; then
-            echo "::warning::Eval emitted stderr on ${{ matrix.system }}, see step summary"
-            {
-              echo ""
-              echo "### Warnings"
-              echo ""
-              echo '```'
-              cat eval.stderr
-              echo '```'
-            } >> "$GITHUB_STEP_SUMMARY"
-          fi
-
-      - name: Upload eval stderr
-        if: always()
-        uses: actions/upload-artifact@v7
-        with:
-          name: eval-stderr-${{ matrix.system }}
-          path: eval.stderr
-          if-no-files-found: ignore
-          retention-days: 1
