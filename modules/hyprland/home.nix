@@ -125,7 +125,7 @@ in
         "nm-applet --indicator"
         "blueman-applet"
         "fcitx5 -d --replace"
-        "mkdir -p ~/Pictures/Screenshots"
+        "mkdir -p ~/Downloads"
         "wl-paste --watch cliphist store"
       ];
 
@@ -248,9 +248,9 @@ in
         ", XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
         ", XF86AudioMicMute, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
 
-        ", Print, exec, grimblast copysave area ~/Pictures/Screenshots/$(date +%Y-%m-%d_%H-%M-%S).png"
-        "SHIFT, Print, exec, grimblast copysave screen ~/Pictures/Screenshots/$(date +%Y-%m-%d_%H-%M-%S).png"
-        "CTRL, Print, exec, grimblast copysave active ~/Pictures/Screenshots/$(date +%Y-%m-%d_%H-%M-%S).png"
+        ", Print, exec, grimblast copysave area ~/Downloads/Screenshot_$(date +%Y-%m-%d_%H-%M-%S).png"
+        "SHIFT, Print, exec, grimblast copysave screen ~/Downloads/Screenshot_$(date +%Y-%m-%d_%H-%M-%S).png"
+        "CTRL, Print, exec, grimblast copysave active ~/Downloads/Screenshot_$(date +%Y-%m-%d_%H-%M-%S).png"
 
         ", mouse:274, exec, true"
       ];
