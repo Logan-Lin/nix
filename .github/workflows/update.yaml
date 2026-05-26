@@ -15,7 +15,7 @@ jobs:
       - uses: DeterminateSystems/nix-installer-action@main
 
       - name: Update flake inputs
-        run: nix flake update 2>&1 | tee flake-update.log
+        run: nix flake update
 
       - name: Check for changes
         id: check
@@ -28,30 +28,26 @@ jobs:
             echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Write input change report
-        if: steps.check.outputs.changed == 'true'
-        run: |
-          {
-            echo "## Flake input changes"
-            echo ""
-            echo '```'
-            cat flake-update.log
-            echo '```'
-          } > inputs.md
-          cat inputs.md >> "$GITHUB_STEP_SUMMARY"
-
-      - name: Upload flake.lock and input report
+      - name: Upload flake.lock
         if: steps.check.outputs.changed == 'true'
         uses: actions/upload-artifact@v7
         with:
           name: update-output
-          path: |
-            flake.lock
-            inputs.md
+          path: flake.lock
           retention-days: 1
 
-  build-linux:
-    runs-on: ubuntu-latest
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            system: x86_64-linux
+            host-attr: nixosConfigurations
+          - os: macos-latest
+            system: aarch64-darwin
+            host-attr: darwinConfigurations
+    runs-on: ${{ matrix.os }}
     needs: update
     if: needs.update.outputs.changed == 'true'
     steps:
@@ -63,50 +59,24 @@ jobs:
 
       - uses: DeterminateSystems/nix-installer-action@main
 
-      - name: Build and report
+      - name: Build ${{ matrix.host-attr }}
         run: |
-          .github/scripts/build-report.sh \
-            x86_64-linux nixosConfigurations \
-            linux-report.md
-          cat linux-report.md >> "$GITHUB_STEP_SUMMARY"
+          for host in $(nix eval ".#${{ matrix.host-attr }}" --apply 'x: builtins.attrNames x' --json | jq -r '.[]'); do
+            nix build ".#${{ matrix.host-attr }}.${host}.config.system.build.toplevel" --no-link
+          done
 
-      - name: Upload report
-        uses: actions/upload-artifact@v7
-        with:
-          name: report-linux
-          path: linux-report.md
-          retention-days: 1
-
-  build-darwin:
-    runs-on: macos-latest
-    needs: update
-    if: needs.update.outputs.changed == 'true'
-    steps:
-      - uses: actions/checkout@v5
-
-      - uses: actions/download-artifact@v8
-        with:
-          name: update-output
-
-      - uses: DeterminateSystems/nix-installer-action@main
-
-      - name: Build and report
+      - name: Build matching home configs
         run: |
-          .github/scripts/build-report.sh \
-            aarch64-darwin darwinConfigurations \
-            darwin-report.md
-          cat darwin-report.md >> "$GITHUB_STEP_SUMMARY"
-
-      - name: Upload report
-        uses: actions/upload-artifact@v7
-        with:
-          name: report-darwin
-          path: darwin-report.md
-          retention-days: 1
+          for config in $(nix eval .#homeConfigurations --apply 'x: builtins.attrNames x' --json | jq -r '.[]'); do
+            sys=$(nix eval ".#homeConfigurations.\"${config}\".activationPackage.system" --raw 2>/dev/null || true)
+            if [ "$sys" = "${{ matrix.system }}" ]; then
+              nix build ".#homeConfigurations.\"${config}\".activationPackage" --no-link
+            fi
+          done
 
   pr:
     runs-on: ubuntu-latest
-    needs: [update, build-linux, build-darwin]
+    needs: [update, build]
     if: needs.update.outputs.changed == 'true'
     permissions:
       contents: write
@@ -116,19 +86,10 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Download input report
+      - name: Download flake.lock
         uses: actions/download-artifact@v8
         with:
           name: update-output
-
-      - name: Assemble PR body
-        run: |
-          run_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
-          {
-            cat inputs.md
-            echo ""
-            echo "Closure diffs, build summaries, and per-derivation timings: see the [workflow run](${run_url}) step summary."
-          } > pr-body.md
 
       - name: Commit and push
         run: |
@@ -143,10 +104,12 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          run_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+          body="Build results: see the [workflow run](${run_url})."
           existing=$(gh pr list --head flake-update --state open --json number --jq '.[0].number')
           if [ -n "$existing" ]; then
             echo "PR #${existing} already exists, updating body"
-            gh pr edit "$existing" --body-file pr-body.md
+            gh pr edit "$existing" --body "$body"
           else
-            gh pr create --title "Update flake inputs" --body-file pr-body.md --head flake-update --base master
+            gh pr create --title "Update flake inputs" --body "$body" --head flake-update --base master
           fi
