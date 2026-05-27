@@ -302,8 +302,6 @@
           python = [ "ruff" ];
           sh = [ "shellcheck" ];
           bash = [ "shellcheck" ];
-          yaml = [ "yamllint" ];
-          json = [ "jq" ];
           tex = [ "lacheck" ];
           plaintex = [ "lacheck" ];
         };
