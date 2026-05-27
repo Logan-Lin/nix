@@ -47,6 +47,6 @@
   };
 
   syncthing-custom.folders = {
-    Documents = { enable = true; maxAgeDays = 30; };
+    Documents.enable = true;
   };
 }
