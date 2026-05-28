@@ -15,6 +15,7 @@ in
       "*" = {
         AddKeysToAgent = "yes";
         IdentitiesOnly = true;
+        SendEnv = [ "LANG" "LC_*" ];
       };
 
       "github.com" = {
