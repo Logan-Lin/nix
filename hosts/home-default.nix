@@ -3,13 +3,13 @@
 {
   imports = [
     ../modules/font.nix
-    ../modules/terminal/zsh.nix
-    ../modules/terminal/tmux.nix
-    ../modules/terminal/nvim.nix
+    ../modules/zsh.nix
+    ../modules/tmux.nix
+    ../modules/nvim.nix
     ../modules/ssh.nix
     ../modules/git.nix
-    ../modules/terminal/lazygit.nix
-    ../modules/terminal/btop.nix
+    ../modules/lazygit.nix
+    ../modules/btop.nix
   ];
 
   home.username = "yanlin";

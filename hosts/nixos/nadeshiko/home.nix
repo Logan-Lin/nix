@@ -11,7 +11,7 @@
     ../../../modules/syncthing.nix
     ../../../modules/media-tool.nix
     ../../../modules/yt-dlp.nix
-    ../../../modules/terminal/claude.nix
+    ../../../modules/claude.nix
     ../../../modules/schedule.nix
   ];
 

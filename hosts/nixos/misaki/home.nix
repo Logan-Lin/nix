@@ -29,8 +29,8 @@
     ../home-default.nix
     ../../../modules/syncthing.nix
     ../../../modules/media-tool.nix
-    ../../../modules/terminal/claude.nix
-    ../../../modules/terminal/ghostty.nix
+    ../../../modules/claude.nix
+    ../../../modules/ghostty.nix
     ../../../modules/firefox.nix
     ../../../modules/hyprland/home.nix
   ];
