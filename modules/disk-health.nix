@@ -12,9 +12,10 @@ in
     enable = mkEnableOption "disk health monitoring";
 
     frequency = mkOption {
-      type = types.str;
-      default = "Sun *-*-* 06:00:00";
-      description = "Systemd timer frequency (OnCalendar format)";
+      type = types.nullOr types.str;
+      default = null;
+      example = "Sun *-*-* 06:00:00";
+      description = "Systemd timer frequency (OnCalendar format). If null, no timer is created and the service must be triggered manually with `systemctl start disk-health.service`.";
     };
 
     devices = mkOption {
@@ -87,7 +88,7 @@ in
       '';
     };
 
-    systemd.timers.disk-health = {
+    systemd.timers.disk-health = mkIf (cfg.frequency != null) {
       description = "Disk Health Check Timer";
       wantedBy = [ "timers.target" ];
 

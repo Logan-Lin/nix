@@ -8,6 +8,7 @@
     ../../../modules/vpn/nixos-client.nix
     ../../../modules/vpn/nixos-tunnel.nix
     ../../../modules/hyprland/system.nix
+    ../../../modules/disk-health.nix
     "${inputs.nixos-hardware}/lenovo/thinkpad/p14s"
     "${inputs.nixos-hardware}/common/cpu/intel/tiger-lake"
   ];
@@ -131,5 +132,10 @@
     address = "10.2.2.20/24";
     serverPublicKey = "46QHjSzAas5g9Hll1SCEu9tbR5owCxXAy6wGOUoPwUM=";
     serverEndpoint = "91.98.84.215:51820";
+  };
+
+  services.disk-health = {
+    enable = true;
+    devices = [ "/dev/nvme0n1" ];
   };
 }

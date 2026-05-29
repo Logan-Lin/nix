@@ -118,6 +118,7 @@
 
   services.disk-health = {
     enable = true;
+    frequency = "Sun *-*-* 06:00:00";
     devices = [
       "/dev/disk/by-id/ata-ZHITAI_SC001_XT_1000GB_ZTB401TAB244431J4R"
       "/dev/disk/by-id/ata-ZHITAI_SC001_XT_1000GB_ZTB401TAB244431KEG"
