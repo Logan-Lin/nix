@@ -206,14 +206,6 @@
 
       todo-comments.enable = true;
 
-      render-markdown = {
-        enable = true;
-        settings = {
-          enabled = false;
-          file_types = [ "markdown" ];
-        };
-      };
-
       aerial = {
         enable = true;
         settings = {
@@ -247,53 +239,6 @@
               end
             '';
           };
-        };
-      };
-
-      blink-cmp-dictionary.enable = true;
-      blink-cmp = {
-        enable = true;
-        settings = {
-          keymap = {
-            preset = "enter";
-            "<C-space>" = [ ];
-            "<C-e>" = [ ];
-            "<Tab>" = [ ];
-            "<S-Tab>" = [ ];
-            "<C-j>" = [ "select_next" "fallback" ];
-            "<C-k>" = [ "select_prev" "fallback" ];
-          };
-          sources = {
-            default = [ "buffer" "path" "dictionary" ];
-            providers.dictionary = {
-              module = "blink-cmp-dictionary";
-              name = "Dict";
-              min_keyword_length = 2;
-              opts = {
-                dictionary_files = [ "${pkgs.scowl}/share/dict/wamerican.50" ];
-              };
-            };
-          };
-          completion.menu.max_height = 10;
-          appearance.nerd_font_variant = "normal";
-        };
-      };
-
-      lint = {
-        enable = true;
-        autoInstall = {
-          enable = true;
-          overrides = {
-            lacheck = pkgs.texlivePackages.lacheck;
-          };
-        };
-        lintersByFt = {
-          nix = [ "statix" ];
-          python = [ "ruff" ];
-          sh = [ "shellcheck" ];
-          bash = [ "shellcheck" ];
-          tex = [ "lacheck" ];
-          plaintex = [ "lacheck" ];
         };
       };
 
@@ -399,12 +344,6 @@
       }
       {
         mode = "n";
-        key = "<leader>m";
-        action = ":RenderMarkdown toggle<CR>";
-        options = { desc = "Toggle markdown rendering"; };
-      }
-      {
-        mode = "n";
         key = "<S-h>";
         action = ":bprevious<CR>";
         options = { desc = "Previous buffer"; };
@@ -427,19 +366,6 @@
         action = ":lua close_other_buffers()<CR>";
         options = { desc = "Close all buffers except current"; };
       }
-      {
-        mode = "n";
-        key = "<leader>d";
-        action = ":lua vim.diagnostic.open_float()<CR>";
-        options = { desc = "Show diagnostic on current line"; };
-      }
-      {
-        mode = "n";
-        key = "<leader>D";
-        action = ":Telescope diagnostics<CR>";
-        options = { desc = "List all diagnostics"; };
-      }
-
     ];
 
     extraConfigLua = ''
