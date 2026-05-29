@@ -1,16 +1,9 @@
 { pkgs, ... }:
 
-let
-  continuumSaveScript = "${pkgs.tmuxPlugins.continuum}/share/tmux-plugins/continuum/scripts/continuum_save.sh";
-  resurrectSaveScript = "${pkgs.tmuxPlugins.resurrect}/share/tmux-plugins/resurrect/scripts/save.sh";
-  resurrectRestoreScript = "${pkgs.tmuxPlugins.resurrect}/share/tmux-plugins/resurrect/scripts/restore.sh";
-in
 {
   home.packages = [ pkgs.sesh ];
 
   programs.zsh.shellAliases.ts = "sesh connect $(sesh list --icons | fzf --reverse --border --ansi)";
-  programs.zsh.shellAliases.tss = "tmux run-shell ${resurrectSaveScript}";
-  programs.zsh.shellAliases.tsr = "tmux run-shell ${resurrectRestoreScript}";
 
   programs.tmux = {
     enable = true;
@@ -19,24 +12,6 @@ in
     mouse = true;
     keyMode = "vi";
     terminal = "tmux-256color";
-
-    plugins = with pkgs.tmuxPlugins; [
-      {
-        plugin = resurrect;
-        extraConfig = ''
-          set -g @resurrect-processes 'false'
-        '';
-      }
-      {
-        plugin = continuum;
-        extraConfig = ''
-          set -g @continuum-restore 'on'
-          set -g @continuum-save-interval '60'
-          unbind C-s
-          unbind C-r
-        '';
-      }
-    ];
 
     extraConfig = ''
       set -g default-terminal "xterm-256color"
@@ -59,7 +34,7 @@ in
       set -g status-left-length 50
       set -g status-right-length 50
       set -g status-left '#{?client_prefix,#[bg=#fe8019],#[bg=#a89984]}#[fg=#282828] #S '
-      set -g status-right '#(${continuumSaveScript})#{?pane_in_mode,#[bg=#fe8019]#[fg=#282828] COPY ,}#{?window_zoomed_flag,#[bg=#fe8019]#[fg=#282828] ZOOM ,}#{?SSH_CONNECTION,#[bg=#fabd2f],#[bg=#a89984]}#[fg=#282828] #H '
+      set -g status-right '#{?pane_in_mode,#[bg=#fe8019]#[fg=#282828] COPY ,}#{?window_zoomed_flag,#[bg=#fe8019]#[fg=#282828] ZOOM ,}#{?SSH_CONNECTION,#[bg=#fabd2f],#[bg=#a89984]}#[fg=#282828] #H '
       set -g window-status-format ' #I:#W '
       set -g window-status-current-format ' #I:#W '
       set -g window-status-separator ""

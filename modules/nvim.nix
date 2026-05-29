@@ -204,16 +204,6 @@
         };
       };
 
-      auto-session = {
-        enable = true;
-        settings = {
-          purge_after_minutes = 1440;
-          bypass_save_filetypes = [ "NvimTree" "gitcommit" "gitrebase" ];
-          close_unsupported_windows = true;
-          session_lens.load_on_setup = false;
-        };
-      };
-
       todo-comments.enable = true;
 
       render-markdown = {
