@@ -94,19 +94,6 @@ in
     git = true;
   };
 
-  nixpkgs.overlays = [
-    (final: prev: lib.optionalAttrs prev.stdenv.isDarwin {
-      direnv = prev.direnv.overrideAttrs { doCheck = false; };
-    })
-  ];
-
-
-  programs.direnv = {
-    enable = true;
-    nix-direnv.enable = true;
-    silent = true;
-  };
-
   programs.starship = {
     enable = true;
     enableZshIntegration = true;
@@ -119,7 +106,6 @@ in
         "$git_status"
         "$jobs"
         "$python"
-        "$direnv"
         "$nix_shell"
         "$username"
         "$hostname"
@@ -165,18 +151,6 @@ in
         detect_extensions = [];
         detect_files = [];
         detect_folders = [];
-      };
-
-      direnv = {
-        disabled = false;
-        style = "#fe8019";
-        format = "[$symbol$allowed]($style) ";
-        symbol = " ";
-        allowed_msg = "";
-        denied_msg = "!";
-        loaded_msg = "";
-        not_allowed_msg = "!";
-        unloaded_msg = "";
       };
 
       nix_shell = {

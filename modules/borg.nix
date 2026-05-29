@@ -14,7 +14,6 @@ let
     "**/.syncthing.*.tmp"
     "**/node_modules/"
     "**/.venv/"
-    "**/.direnv/"
     "**/__pycache__/"
     "**/.DS_Store"
     "**/.localized"

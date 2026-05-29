@@ -11,7 +11,7 @@ let
   touchDevices = [ "mirai" ];
   allDevices = pcDevices ++ serverDevices ++ touchDevices;
 
-  ignorePatterns = [ "node_modules" ".venv" ".direnv" "__pycache__" ".DS_Store" ".localized" ];
+  ignorePatterns = [ "node_modules" ".venv" "__pycache__" ".DS_Store" ".localized" ];
 
   shellPath = p:
     if lib.hasPrefix "~/" p
