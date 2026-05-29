@@ -6,13 +6,9 @@ Flake-based NixOS/nix-darwin configuration with home-manager.
 
 - `flake.nix`: Entry point, defines inputs and host outputs
 - `flake.lock`: Pinned input versions
-- `.github/`
-  - `workflows/`: CI builds and scheduled flake input updates
-  - `scripts/`: Helper scripts used by workflows
+- `.github/workflows/`: automatic CI workflows for nix evaluation and flake updates
 - `hosts/`: Per-host configurations, organized by platform
-  - `nixos/`: NixOS hosts, with shared `system-default.nix` and `home-default.nix` as common bases
-  - `darwin/`: Nix-darwin hosts, following the same shared-defaults layout
-- `modules/`: Reusable modules shared across hosts, either as single files (e.g. `git.nix`, `nginx.nix`) or grouped subdirectories (e.g. `terminal/`, `vpn/`, `share/`)
+- `modules/`: Reusable modules shared across hosts
 
 ## Commands
 
@@ -37,13 +33,15 @@ brew cleanup --prune=all
 ### New Host Installation
 
 ```bash
-# For NixOS
+# NixOS
 sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko -- --mode disko --flake github:Logan-Lin/nix#<host>
 sudo nixos-install --flake github:Logan-Lin/nix#<host> --no-root-passwd
 
-# For nix-darwin
+# nix-darwin
 xcode-select --install
 sudo nix --extra-experimental-features "nix-command flakes" run nix-darwin -- switch --flake github:Logan-Lin/nix#<host>
+
+# Home Manager
 nix --extra-experimental-features "nix-command flakes" run home-manager/master -- switch --flake github:Logan-Lin/nix#<user>@<host>
 ```
 
