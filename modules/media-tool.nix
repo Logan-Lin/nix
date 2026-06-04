@@ -9,6 +9,7 @@
     ffmpeg
     shntool
     flac
+    zip
     unzip
     p7zip
     imagemagick
