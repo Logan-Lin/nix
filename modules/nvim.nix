@@ -5,6 +5,7 @@
 
   programs.nixvim = {
     enable = true;
+    nixpkgs.source = inputs.nixpkgs;
     defaultEditor = true;
     globals.mapleader = " ";
 
