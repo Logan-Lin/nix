@@ -27,12 +27,13 @@ in
         feedbackSurveyRate = 0;
         env = {
           CLAUDE_CODE_DISABLE_FEEDBACK_SURVEY = "1";
-          CLAUDE_CODE_EFFORT_LEVEL = "max";
         };
         prefersReducedMotion = true;
         promptSuggestionEnabled = false;
         skipAutoPermissionPrompt = true;
         effortLevel = "xhigh";
+        ultracode = true;
+        enableWorkflows = true;
         terminalProgressBarEnabled = false;
         theme = "dark-ansi";
         permissions = {
