@@ -28,6 +28,8 @@ in
       lt = "eza --tree --icons";
 
       hms = "home-manager switch --flake ~/.config/nix#$(whoami)@$(hostname)";
+      nd = "nix develop";
+      ndr = "nix develop ./runtime";
     };
     
     initContent = ''

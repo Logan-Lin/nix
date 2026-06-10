@@ -111,7 +111,7 @@ in
       context = ''
         ## Environment
         1. System is managed with Nix for global development runtime, config repo at `~/.config/nix`
-        2. Projects may use flake development runtime
+        2. Projects may use Nix flake development runtime, activate through `nix develop ./runtime` or alias `ndr`
 
         ## Writing Style
         1. Do not write code comments unless the user's prompt explicitly instructs you to. When instructed, keep them concise and in plain text, without fancy formatting
