@@ -107,11 +107,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1779316084,
-        "narHash": "sha256-WkH9wwkMDff5tg91HvuvFfXlD8jC7uF6hgaQsNbm9rY=",
+        "lastModified": 1781186159,
+        "narHash": "sha256-A7UqQEHDoi9rMdSP4FOq6N/zgUEXvB2IzzM/klrvEmc=",
         "owner": "Logan-Lin",
         "repo": "nix-casks",
-        "rev": "2572bd952e0e4ec6b61326c376b654c54fc96247",
+        "rev": "25244e0c51d7b4fb1440020b27e3f24c9cff6c62",
         "type": "github"
       },
       "original": {

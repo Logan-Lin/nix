@@ -98,6 +98,8 @@ in
     slidepilot
     clash-verge-rev
     linearmouse
+    tencent-meeting
+    wechat
   ]);
 
   launchd.agents.maccy = {
