@@ -111,7 +111,8 @@ in
       context = ''
         ## Environment
         1. System is managed with Nix for global development runtime, config repo at `~/.config/nix`
-        2. Projects may use Nix flake development runtime, activate through `nix develop ./runtime` or alias `ndr`
+        2. Projects may use Nix flake development runtime, activate through `nix develop ./runtime` or alias `ndr`. Check whether the workdir have such runtime before running commands
+        3. Projects may have custom `make` processes. Check whether the workdir have a `Makefile` before running generic compile commands
 
         ## Writing Style
         1. Do not write code comments unless the user's prompt explicitly instructs you to. When instructed, keep them concise and in plain text, without fancy formatting
