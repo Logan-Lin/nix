@@ -20,11 +20,7 @@
     timeout = 3;
   };
 
-  nix.gc = {
-    automatic = true;
-    dates = "monthly";
-    options = "--delete-older-than 30d";
-  };
+  nix.gc.automatic = false;
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
 

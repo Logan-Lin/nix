@@ -21,14 +21,10 @@
     efiSupport = true;
     efiInstallAsRemovable = true;
     zfsSupport = true;
-    configurationLimit = 10;
+    configurationLimit = 50;
   };
 
-  nix.gc = {
-    automatic = true;
-    dates = "monthly";
-    options = "--delete-older-than 30d";
-  };
+  nix.gc.automatic = false;
 
   boot.initrd.systemd.enable = true;
   boot.supportedFilesystems = [ "zfs" ];
