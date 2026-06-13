@@ -114,14 +114,14 @@ in
         4. A personal Obsidian vault at `~/Documents/app-state/obsidian` is the user's project-management vault. It tracks his projects, their programs, his work log, and drafts, and is the authoritative source for facts about him. Read its `CLAUDE.md` for the layout and where specific information is
 
         ## Writing Style
-        1. Do not write code comments unless the user's prompt explicitly instructs you to. When instructed, keep them concise and in plain text, without fancy formatting
-        2. For any natural language text content, such as notes, reports, papers, messages, and code comments/documents, keep writing straightforward, and follow the detailed rules below, unless the user's prompt explicitly instructs otherwise
+        1. Do not write code documents or comments unless explicitly instructed
+        2. For any natural language text content, such as notes, reports, papers, messages, and code comments, follow the detailed rules below
           - Use plain and direct phrasing. For example, write "use" instead of "utilize", "to" instead of "in order to", or "many" instead of "a myriad of". Do not use needlessly fancy, idiomatic, or indirect vocabulary, slang, syntax, or constructions
           - When referring to the same thing, use the exact same term or concept throughout, to avoid confusion. Do not introduce unnecessary terms and concepts. Only exception is that when the same term or concept is referred repeatedly, shorter references can be used when obvious and self-explanatory from context
           - Do not use em dashes or en dashes to connect sentences
           - Do not use punctuation like semicolons, colons, or parentheses to join or compress sentences
-          - Do not use formatting like bold, italic, itemized lists, or enumerated lists
-        3. In prose-heavy scenarios, for example block documentation of code, Markdown, and LaTeX, where linebreaks do not affect rendering, break lines between sentences at natural pauses to make diffs and editing easier. Never break in the middle of a sentence
+          - Do not use formatting like bold, italic, itemized lists, or enumerated lists, unless explicitly instructed
+        3. In prose-heavy scenarios, for example Markdown and LaTeX, where linebreaks do not affect rendering, break lines between sentences at natural pauses to make diffs and editing easier. Never break in the middle of a sentence
       '';
 
       commands = {
