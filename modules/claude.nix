@@ -97,8 +97,6 @@ in
           ];
 
           deny = [
-            "Bash(rm -rf:*)"
-            "Bash(sudo:*)"
             "Bash(su:*)"
             "Bash(dd:*)"
             "Bash(mkfs:*)"
