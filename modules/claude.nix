@@ -111,6 +111,7 @@ in
         1. System is managed with Nix for global development runtime, config repo at `~/.config/nix`
         2. Projects may use Nix flake development runtime, activate through `nix develop ./runtime` or alias `ndr`. Check whether the workdir have such runtime before running commands
         3. Projects may have custom `make` processes. Check whether the workdir have a `Makefile` before running generic compile commands
+        4. A personal Obsidian vault at `~/Documents/app-state/obsidian` is the user's project-management vault. It tracks his projects, their programs, his work log, and drafts, and is the authoritative source for facts about him. Read its `CLAUDE.md` for the layout and where specific information is
 
         ## Writing Style
         1. Do not write code comments unless the user's prompt explicitly instructs you to. When instructed, keep them concise and in plain text, without fancy formatting
