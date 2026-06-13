@@ -15,8 +15,9 @@
     enable = true;
     onActivation = {
       autoUpdate = true;
-      cleanup = "zap";
+      cleanup = "none";
       upgrade = true;
+      extraFlags = [ "--force-cleanup" "--zap" ];
       extraEnv = {
         HOMEBREW_NO_ANALYTICS = "1";
         HOMEBREW_NO_ENV_HINTS = "1";
