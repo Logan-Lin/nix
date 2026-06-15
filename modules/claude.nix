@@ -117,6 +117,7 @@ in
         1. Do not write code documents or comments unless explicitly instructed
         2. For any natural language text content, such as notes, reports, papers, messages, and code comments, follow the detailed rules below
           - Use plain and direct phrasing. For example, write "use" instead of "utilize", "to" instead of "in order to", or "many" instead of "a myriad of". Do not use needlessly fancy, idiomatic, or indirect vocabulary, slang, syntax, or constructions
+          - Do not invent long or uncommon hyphenated compound words. Rephrase them as plain words, for example write "a value smaller than the limit" instead of "a smaller-than-the-limit value". Established compounds already in common use, such as "real-world" or "state-of-the-art", are acceptable
           - When referring to the same thing, use the exact same term or concept throughout, to avoid confusion. Do not introduce unnecessary terms and concepts. Only exception is that when the same term or concept is referred repeatedly, shorter references can be used when obvious and self-explanatory from context
           - Do not use em dashes or en dashes to connect sentences
           - Do not use punctuation like semicolons, colons, or parentheses to join or compress sentences
@@ -162,6 +163,7 @@ in
 
           And enforce the following writing style rules:
           - Use plain and direct phrasing. Replace needlessly fancy, idiomatic, or indirect vocabulary, slang, syntax, or constructions with plain alternatives. For example, "use" instead of "utilize", "to" instead of "in order to", or "many" instead of "a myriad of"
+          - Replace invented long or uncommon hyphenated compound words with plain phrasing, for example "a value smaller than the limit" instead of "a smaller-than-the-limit value". Leave established compounds already in common use, such as "real-world" or "state-of-the-art", unchanged
           - Do not use em dashes or en dashes to connect sentences. Split into separate sentences or rephrase
           - Do not use semicolons, colons, or parentheses to join or compress sentences. Rewrite as flowing prose with separate sentences
           - When referring to the same thing, use the exact same term throughout. Remove unnecessary terms and concepts. The only exception is that shorter references can be used when the full term has been established and the short form is obvious from context
