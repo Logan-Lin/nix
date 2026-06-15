@@ -147,7 +147,7 @@ in
         polish = ''
           ---
           description: Aggressive proofread that fixes errors and enforces writing style rules
-          allowed-tools: Read, Edit
+          allowed-tools: Read, Edit, Workflow
           argument-hint: <file>
           ---
 
@@ -168,13 +168,15 @@ in
           - Do not use semicolons, colons, or parentheses to join or compress sentences. Rewrite as flowing prose with separate sentences
           - When referring to the same thing, use the exact same term throughout. Remove unnecessary terms and concepts. The only exception is that shorter references can be used when the full term has been established and the short form is obvious from context
 
+          For a longer file, prefer a workflow over a single pass. Use several reviewers to find edits, have separate judges check each edit to avoid needless changes, then apply only the ones that pass. 
+
           Fix all issues directly in the file using the Edit tool. After editing, provide a brief summary of the changes made. Do not alter the underlying meaning. Only adjust wording, phrasing, and formatting to meet the rules.
         '';
 
         fact-check = ''
           ---
           description: Check the target file for factual errors against reputable sources
-          allowed-tools: Read, Edit, WebSearch, WebFetch
+          allowed-tools: Read, Edit, WebSearch, WebFetch, Workflow
           argument-hint: <file>
           ---
 
@@ -184,6 +186,8 @@ in
           - Identify concrete factual claims (names, dates, numbers, attributions, definitions, events, technical specifications, etc.)
           - Verify each claim against reputable and relatively recent sources via WebSearch and WebFetch. Prefer primary sources, official documentation, peer-reviewed publications, and well-established outlets. Avoid relying on a single low-quality source
           - Skip opinions, subjective statements, and unverifiable claims
+
+          For a file with many claims, prefer a workflow over a single pass. Have several agents check the claims at the same time, confirm each suspected error against more than one source, then fix only the ones that are truly wrong.
 
           For any confirmed factual error, fix it directly in the file using the Edit tool with the minimal change needed to make the statement correct. Do not rewrite surrounding text, alter style, or restructure prose.
 
