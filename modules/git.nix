@@ -21,6 +21,7 @@
       "node_modules/"
       ".venv/"
       "__pycache__/"
+      "CLAUDE.md"
     ];
 
     settings = {
