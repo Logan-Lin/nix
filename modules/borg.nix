@@ -59,22 +59,22 @@ in
         options = {
           keepDaily = mkOption {
             type = types.int;
-            default = 7;
+            default = 30;
             description = "Number of daily backups to keep";
           };
           keepWeekly = mkOption {
             type = types.int;
-            default = 4;
+            default = 12;
             description = "Number of weekly backups to keep";
           };
           keepMonthly = mkOption {
             type = types.int;
-            default = 12;
+            default = 24;
             description = "Number of monthly backups to keep";
           };
           keepYearly = mkOption {
             type = types.int;
-            default = 2;
+            default = 5;
             description = "Number of yearly backups to keep";
           };
         };
