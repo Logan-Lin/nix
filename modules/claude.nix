@@ -117,6 +117,7 @@ in
         1. Do not write code documents or comments unless explicitly instructed
         2. For any natural language text content, such as notes, reports, papers, messages, and code comments, follow the detailed rules below
           - Use plain and direct phrasing. For example, write "use" instead of "utilize", "to" instead of "in order to", or "many" instead of "a myriad of". Do not use needlessly fancy, idiomatic, or indirect vocabulary, slang, syntax, or constructions
+          - Do not phrase a point as "not A but B", rejecting an alternative before stating the point, which reads indirect. This includes variants like "not A, but rather B", "it is not A, it is B", "B, not A", and "not only A but also B". State the point directly, for example "the bottleneck is the data" instead of "the bottleneck is not the method but the data". Keep the contrast only when the rejected alternative genuinely corrects a likely misreading
           - Do not invent long or uncommon hyphenated compound words. Rephrase them as plain words, for example write "a value smaller than the limit" instead of "a smaller-than-the-limit value". Established compounds already in common use, such as "real-world" or "state-of-the-art", are acceptable
           - When referring to the same thing, use the exact same term or concept throughout, to avoid confusion. Do not introduce unnecessary terms and concepts. Only exception is that when the same term or concept is referred repeatedly, shorter references can be used when obvious and self-explanatory from context
           - Do not use em dashes or en dashes to connect sentences
@@ -163,6 +164,7 @@ in
 
           And enforce the following writing style rules:
           - Use plain and direct phrasing. Replace needlessly fancy, idiomatic, or indirect vocabulary, slang, syntax, or constructions with plain alternatives. For example, "use" instead of "utilize", "to" instead of "in order to", or "many" instead of "a myriad of"
+          - Replace the "not A but B" phrasing, which rejects an alternative before stating the point, plus its variants such as "not A, but rather B", "it is not A, it is B", "B, not A", and "not only A but also B", with a direct statement of the point. For example, "the bottleneck is the data" instead of "the bottleneck is not the method but the data". Keep the contrast only when the rejected alternative corrects a likely misreading
           - Replace invented long or uncommon hyphenated compound words with plain phrasing, for example "a value smaller than the limit" instead of "a smaller-than-the-limit value". Leave established compounds already in common use, such as "real-world" or "state-of-the-art", unchanged
           - Do not use em dashes or en dashes to connect sentences. Split into separate sentences or rephrase
           - Do not use semicolons, colons, or parentheses to join or compress sentences. Rewrite as flowing prose with separate sentences
