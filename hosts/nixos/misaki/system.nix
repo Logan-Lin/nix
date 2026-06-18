@@ -7,7 +7,6 @@
     ../system-default.nix
     ../../../modules/vpn/nixos-client.nix
     ../../../modules/vpn/nixos-tunnel.nix
-    ../../../modules/hyprland/system.nix
     ../../../modules/disk-health.nix
     "${inputs.nixos-hardware}/lenovo/thinkpad/p14s"
     "${inputs.nixos-hardware}/common/cpu/intel/tiger-lake"
