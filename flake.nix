@@ -21,7 +21,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nix-casks = {
-      url = "github:Logan-Lin/nix-casks";
+      url = "github:Logan-Lin/nix-casks/archive";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     disko = {
