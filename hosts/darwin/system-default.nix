@@ -9,6 +9,7 @@
   nix-homebrew = {
     enable = true;
     user = "yanlin";
+    trust.casks = [ "nikitabobko/tap/aerospace" ];
   };
 
   homebrew = {
@@ -23,8 +24,28 @@
         HOMEBREW_NO_ENV_HINTS = "1";
       };
     };
+    taps = [
+      "nikitabobko/tap"
+    ];
     casks = [
+      "nikitabobko/tap/aerospace"
+      "clash-verge-rev"
+      "drawio"
+      "firefox"
+      "ghostty"
+      "iina"
+      "inkscape"
+      "keepassxc"
+      "linearmouse"
+      "localsend"
+      "maccy"
       "microsoft-word"
+      "musicbrainz-picard"
+      "obsidian"
+      "ovito"
+      "slidepilot"
+      "tencent-meeting"
+      "wechat"
     ];
   };
 
