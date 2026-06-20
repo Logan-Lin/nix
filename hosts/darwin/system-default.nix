@@ -9,7 +9,7 @@
   nix-homebrew = {
     enable = true;
     user = "yanlin";
-    trust.casks = [ "nikitabobko/tap/aerospace" ];
+    trust.taps = [ "nikitabobko/tap" ];
   };
 
   homebrew = {
@@ -20,7 +20,6 @@
       upgrade = true;
       extraFlags = [ "--force-cleanup" "--zap" ];
       extraEnv = {
-        HOMEBREW_NO_ANALYTICS = "1";
         HOMEBREW_NO_ENV_HINTS = "1";
       };
     };
