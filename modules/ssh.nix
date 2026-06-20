@@ -62,12 +62,6 @@ in
         IdentityFile = "${keyDir}/nas";
       };
 
-      "misaki" = {
-        HostName = "10.2.2.20";
-        User = "yanlin";
-        IdentityFile = "${keyDir}/thinkpad";
-      };
-
       "sakurako" = {
         HostName = "10.2.2.30";
         User = "yanlin";

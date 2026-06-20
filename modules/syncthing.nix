@@ -1,15 +1,27 @@
 # NOTE: Obtain device id using command `syncthing device-id`
-# Add the device under `config.settings.devices`
+# Add the device under the `deviceIds` binding below
 
 { config, pkgs, lib, ... }:
 
 let
   cfg = config.syncthing-custom;
 
-  pcDevices = [ "misaki" "sakurako" "himawari" ];
-  serverDevices = [ "nadeshiko" ];
-  touchDevices = [ "mirai" ];
-  allDevices = pcDevices ++ serverDevices ++ touchDevices;
+  deviceIds = {
+    "mirai" = {
+      id = "NMWI5MP-J4FC4A6-SDDXZPD-G66TJCO-2W7KGFD-RJWQ53U-I7GUVWP-WHF4QQO";
+    };
+    "sakurako" = {
+      id = "XPAMYJX-D7UZKPI-JBLTAWG-EBPSFYV-NEFV42V-NIUZKQN-KTVTGGP-OOXL5AT";
+    };
+    "himawari" = {
+      id = "2ST6EEF-KN3R2E6-PN64WAS-XGJ22NV-BAWAQX6-OCZLYE3-V5IM2SE-S22REAA";
+    };
+    "nadeshiko" = {
+      id = "S4QZW76-BOLIOW7-DVP326F-JIGW5DW-3PAD47L-OA456LB-2L6JZW7-YUGJRA6";
+    };
+  };
+
+  devices = lib.attrNames deviceIds;
 
   ignorePatterns = [ "node_modules" ".venv" "__pycache__" ".DS_Store" ".localized"
     ".obsidian/workspace.json" ];
@@ -24,7 +36,7 @@ let
       enable = { type = lib.types.bool; default = false; };
       path = { type = lib.types.str; default = "~/${name}"; };
       maxAgeDays = { type = lib.types.int; default = 0; };
-      devices = { type = lib.types.listOf lib.types.str; default = allDevices; };
+      devices = { type = lib.types.listOf lib.types.str; default = devices; };
     };
   in lib.mapAttrs (k: v: lib.mkOption {
     type = v.type;
@@ -68,23 +80,7 @@ in
       guiAddress = lib.mkIf cfg.enableGui "127.0.0.1:8384";
 
       settings = {
-        devices = {
-          "mirai" = {
-            id = "NMWI5MP-J4FC4A6-SDDXZPD-G66TJCO-2W7KGFD-RJWQ53U-I7GUVWP-WHF4QQO";
-          };
-          "sakurako" = {
-            id = "XPAMYJX-D7UZKPI-JBLTAWG-EBPSFYV-NEFV42V-NIUZKQN-KTVTGGP-OOXL5AT";
-          };
-          "himawari" = {
-            id = "2ST6EEF-KN3R2E6-PN64WAS-XGJ22NV-BAWAQX6-OCZLYE3-V5IM2SE-S22REAA";
-          };
-          "nadeshiko" = {
-            id = "S4QZW76-BOLIOW7-DVP326F-JIGW5DW-3PAD47L-OA456LB-2L6JZW7-YUGJRA6";
-          };
-          "misaki" = {
-            id = "D27MBZ3-IZXD5IE-WF5WZJE-4C4XNH3-PTHU5HP-QVEZYBX-UZ5OM2B-HK6LGQC";
-          };
-        };
+        devices = deviceIds;
 
         folders = lib.mapAttrs (_: f: {
           path = f.path;
