@@ -66,10 +66,6 @@
     address = "10.2.2.1/24";
     peers = [
       {
-        publicKey = "DTjKBUIDE0n/fUnTYAlcRwcONkS7IZw8qbxCJOqIuGQ=";
-        allowedIPs = [ "10.2.2.5/32" ];
-      }
-      {
         publicKey = "MCuSF/aFZy7Jq3nI6VpU7jbfZOuEGuMjgpxRWazxtmY=";
         allowedIPs = [ "10.2.2.10/32" ];
       }
