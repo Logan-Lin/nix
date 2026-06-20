@@ -70,14 +70,6 @@ in
     oss = "sudo darwin-rebuild switch --flake ~/.config/nix#$(hostname)";
   };
 
-  programs.zsh.initContent = ''
-    function app() {
-      local app
-      app=$(${pkgs.findutils}/bin/find -L /Applications /System/Applications /System/Library/CoreServices "$HOME/Applications/Home Manager Apps" -maxdepth 2 -name "*.app" 2>/dev/null | ${pkgs.coreutils}/bin/sort | fzf --header="Select app to open" --height 40%)
-      [[ -n "$app" ]] && open "$app"
-    }
-  '';
-
   home.packages = with pkgs; [
     texlive.combined.scheme-full
     httpie
