@@ -47,13 +47,13 @@ in
         fi
       }
 
-      # Function to print path of file/directory selected with fzf
-      function pwdf() {
+      # Function to display a file selected with fzf using bat
+      function batf() {
         local search_dir="''${1:-~}"
         local target
-        target=$(echo "" | fzf --bind "change:reload:fd --follow ${fdExcludes}{q} ''$search_dir 2>/dev/null || true" --header="Type to search, Enter to print path" --preview '([[ -d {} ]] && ls -la {}) || ([[ -f {} ]] && head -20 {})' --height 40% --ansi)
+        target=$(echo "" | fzf --bind "change:reload:fd --follow ${fdExcludes}{q} ''$search_dir 2>/dev/null || true" --header="Type to search, Enter to view with bat" --preview '([[ -d {} ]] && ls -la {}) || ([[ -f {} ]] && head -20 {})' --height 40% --ansi)
         if [[ -n "$target" ]]; then
-          echo "$target"
+          bat "$target"
         fi
       }
 
