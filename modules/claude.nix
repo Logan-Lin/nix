@@ -108,23 +108,29 @@ in
 
       context = ''
         ## Environment
-        1. System is managed with Nix for global development runtime, config repo at `~/.config/nix`
-        2. A workdir may have custom Nix flake development runtime. Check whether the workdir have `./runtime/flake.nix` before running commands. Activate the runtime through `nix develop ./runtime` or alias `ndr`.
-        3. A workdir may also have custom `make` processes. Check whether the workdir have a `Makefile` before running generic compile commands
-        4. A personal Obsidian vault at `~/Documents/app-state/obsidian` is the user's project-management vault. It tracks his projects, their programs, his work log, and drafts, and is the authoritative source for facts about him. Read its `CLAUDE.md` for the layout and where specific information is. A wikilink like `[[Name]]` in a user prompt typically refers to a note in the Obsidian vault.
+
+        - System is managed with Nix for global development runtime, config repo at `~/.config/nix`
+        - A workdir may have custom Nix flake development runtime. Check whether the workdir have `./runtime/flake.nix` before running commands. Activate the runtime through `nix develop ./runtime`
+        - A workdir may also have custom `make` processes. Check whether the workdir have a `Makefile` before running generic compile commands
+        - A personal Obsidian vault at `~/Documents/app-state/obsidian` is the user's project-management vault. It tracks his projects, their programs, his work log, and drafts, and is the authoritative source for facts about him. Read its `CLAUDE.md` for the layout and where specific information is. A wikilink like `[[Name]]` in a user prompt typically refers to a note in the Obsidian vault
 
         ## Writing Style
-        1. Do not write code documents or comments unless explicitly instructed
-        2. For any natural language text content, such as notes, reports, papers, messages, and code comments, follow the detailed rules below
-          - Use plain and direct phrasing. For example, write "use" instead of "utilize", "to" instead of "in order to", or "many" instead of "a myriad of". Do not use needlessly fancy, idiomatic, or indirect vocabulary, slang, syntax, or constructions
-          - Do not assert a point or open a paragraph with a short, abstract sentence that leans on the next sentence to make sense. Give the sentence the specifics it needs to stand on its own, or merge it with the sentence that supplies them. When a sentence marks a transition, state how it connects to what came before and after, instead of only announcing that something changes. For example, write "the rewrite cut the average response time in half" instead of "the rewrite changes everything"
-          - Do not phrase a point as "not A but B", rejecting an alternative before stating the point, which reads indirect. This includes variants like "not A, but rather B", "it is not A, it is B", "B, not A", and "not only A but also B". State the point directly, for example "the bottleneck is the data" instead of "the bottleneck is not the method but the data". Keep the contrast only when the rejected alternative genuinely corrects a likely misreading
-          - Do not use hyphenated compound words, whether they join two words or more. Rephrase them as plain words, for example write "a value smaller than the limit" instead of "a smaller-than-the-limit value". A hyphenated compound word is acceptable only when no plain phrasing can replace it, such as "state-of-the-art", "mother-in-law", and "x-ray"
-          - When referring to the same thing, use the exact same term or concept throughout, to avoid confusion. Do not introduce unnecessary terms and concepts. Only exception is that when the same term or concept is referred repeatedly, shorter references can be used when obvious and self-explanatory from context
-          - Do not use em dashes or en dashes to connect sentences
-          - Do not use punctuation like semicolons, colons, or parentheses to join or compress sentences
-          - Do not use formatting like bold, italic, itemized lists, or enumerated lists, unless explicitly instructed
-        3. In prose-heavy scenarios, for example Markdown and LaTeX, where linebreaks do not affect rendering, break lines between sentences at natural pauses to make diffs and editing easier. Never break in the middle of a sentence
+
+        For any natural language text content, such as notes, reports, papers, messages, and code comments, follow the detailed rules below.
+
+        - Use plain and direct phrasing. For example, write "use" instead of "utilize", "to" instead of "in order to", or "many" instead of "a myriad of". Do not use needlessly fancy, idiomatic, or indirect vocabulary, slang, syntax, or constructions
+        - Do not assert a point or open a paragraph with a short, abstract sentence that leans on the next sentence to make sense. Give the sentence the specifics it needs to stand on its own, or merge it with the sentence that supplies them. When a sentence marks a transition, state how it connects to what came before and after, instead of only announcing that something changes. For example, write "the rewrite cut the average response time in half" instead of "the rewrite changes everything"
+        - Do not phrase a point as "not A but B", rejecting an alternative before stating the point, which reads indirect. This includes variants like "not A, but rather B", "it is not A, it is B", "B, not A", and "not only A but also B". State the point directly, for example "the bottleneck is the data" instead of "the bottleneck is not the method but the data". Keep the contrast only when the rejected alternative genuinely corrects a likely misreading
+        - Do not use hyphenated compound words, whether they join two words or more. Rephrase them as plain words, for example write "a value smaller than the limit" instead of "a smaller-than-the-limit value". A hyphenated compound word is acceptable only when no plain phrasing can replace it, such as "state-of-the-art", "mother-in-law", and "x-ray"
+        - When referring to the same thing, use the exact same term or concept throughout, to avoid confusion. Do not introduce unnecessary terms and concepts. Only exception is that when the same term or concept is referred repeatedly, shorter references can be used when obvious and self-explanatory from context
+        - Do not use em dashes or en dashes to connect sentences
+        - Do not use punctuation like semicolons, colons, or parentheses to join or compress sentences
+
+        ## Formatting
+
+        - For any natural language text content, do not use formatting like bold, italic, itemized lists, or enumerated lists, unless explicitly instructed
+        - When writing code, do not write code documents or comments unless explicitly instructed
+        - For prose-heavy content, for example Markdown and LaTeX, where linebreaks do not affect rendering, break lines between sentences at natural pauses to make diffs and editing easier. Never break in the middle of a sentence
       '';
 
       commands = {
