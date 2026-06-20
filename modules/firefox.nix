@@ -51,7 +51,6 @@ in
               {
                 name = "reference";
                 bookmarks = [
-                  { name = "UtaTen"; url = "https://utaten.com/"; }
                   { name = "Google Translate"; url = "https://translate.google.com/?sl=auto&tl=en&op=translate"; }
                   { name = "Jisho"; url = "https://jisho.org/"; }
                   { name = "コトバンク"; url = "https://kotobank.jp/"; }
@@ -112,7 +111,6 @@ in
                   { name = "Outlook"; url = "https://outlook.cloud.microsoft/mail/"; }
                   { name = "Teams"; url = "https://teams.microsoft.com/v2/"; }
                   { name = "Overleaf"; url = "https://www.overleaf.com/project"; }
-                  { name = "AAU Admin"; url = "https://www.its.aau.dk/systemoversigt"; }
                   { name = "mailbox.org"; url = "https://app.mailbox.org/"; }
                   { name = "Gmail"; url = "https://mail.google.com/"; }
                 ];
@@ -131,8 +129,6 @@ in
                   { name = "Google Maps"; url = "https://www.google.com/maps"; }
                   { name = "Google Flights"; url = "https://www.google.com/travel/flights"; }
                   { name = "AccuWeather"; url = "https://www.accuweather.com/"; }
-                  { name = "DSB"; url = "https://www.dsb.dk/en/"; }
-                  { name = "Airbnb"; url = "https://www.airbnb.com/"; }
                   { name = "World Time Buddy"; url = "https://www.worldtimebuddy.com/"; }
                   { name = "Dateful World Clock"; url = "https://dateful.com/world-clock"; }
                 ];
