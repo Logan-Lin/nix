@@ -2,7 +2,6 @@
 
 let
   fdIgnorePatterns = [
-    "Documents/app-state"
     "Library"
   ];
   fdExcludes = lib.concatMapStrings (p: "-E ${lib.escapeShellArg p} ") fdIgnorePatterns;
