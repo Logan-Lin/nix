@@ -5,6 +5,56 @@ let
     inherit (pkgs.stdenv.hostPlatform) system;
     config.allowUnfree = true;
   };
+
+  ntfyUrl = "ntfy.sh/yanlincs-homelab";
+  notifyThresholdSeconds = 60;
+  notifyDir = ''"''${XDG_RUNTIME_DIR:-''${TMPDIR:-/tmp}}/claude-notify"'';
+
+  notifyStart = pkgs.writeShellScript "claude-notify-start" ''
+    input=$(cat)
+    sid=$(printf '%s' "$input" | ${pkgs.jq}/bin/jq -r '.session_id // "default"')
+    dir=${notifyDir}
+    ${pkgs.coreutils}/bin/mkdir -p "$dir"
+    ${pkgs.coreutils}/bin/date +%s > "$dir/$sid.start"
+    exit 0
+  '';
+
+  notifyStop = pkgs.writeShellScript "claude-notify-stop" ''
+    input=$(cat)
+    dir=${notifyDir}
+    sid=$(printf '%s' "$input" | ${pkgs.jq}/bin/jq -r '.session_id // "default"')
+    startfile="$dir/$sid.start"
+    [ -f "$startfile" ] || exit 0
+    start=$(${pkgs.coreutils}/bin/cat "$startfile" 2>/dev/null || echo 0)
+    ${pkgs.coreutils}/bin/rm -f "$startfile"
+    now=$(${pkgs.coreutils}/bin/date +%s)
+    elapsed=$(( now - start ))
+    [ "$elapsed" -ge ${toString notifyThresholdSeconds} ] || exit 0
+
+    cwd=$(printf '%s' "$input" | ${pkgs.jq}/bin/jq -r '.cwd // ""')
+    transcript=$(printf '%s' "$input" | ${pkgs.jq}/bin/jq -r '.transcript_path // ""')
+    proj=$(${pkgs.coreutils}/bin/basename "$cwd" 2>/dev/null || echo session)
+    mins=$(( elapsed / 60 ))
+
+    summary=""
+    if [ -n "$transcript" ] && [ -f "$transcript" ]; then
+      summary=$(${pkgs.jq}/bin/jq -rs 'map(select(.type == "assistant" and (.isSidechain != true))) | (last // {}) | (.message.content // []) | map(select(.type == "text") | .text) | join(" ")' "$transcript" 2>/dev/null | ${pkgs.coreutils}/bin/tr "\n" " " | ${pkgs.coreutils}/bin/cut -c1-280)
+    fi
+    [ "$summary" = "null" ] && summary=""
+
+    if [ -n "$summary" ]; then
+      body=$(${pkgs.coreutils}/bin/printf 'Finished after %dm in %s\n%s' "$mins" "$cwd" "$summary")
+    else
+      body=$(${pkgs.coreutils}/bin/printf 'Finished after %dm in %s' "$mins" "$cwd")
+    fi
+
+    ${pkgs.curl}/bin/curl -s \
+      -H "Title: Claude Code done: $proj" \
+      -H "Tags: white_check_mark" \
+      -d "$body" \
+      "https://${ntfyUrl}" >/dev/null 2>&1 || true
+    exit 0
+  '';
 in
 {
   config = {
@@ -103,6 +153,31 @@ in
             "Bash(fdisk:*)"
           ];
 
+        };
+
+        hooks = {
+          UserPromptSubmit = [
+            {
+              hooks = [
+                {
+                  type = "command";
+                  command = "${notifyStart}";
+                  timeout = 5;
+                }
+              ];
+            }
+          ];
+          Stop = [
+            {
+              hooks = [
+                {
+                  type = "command";
+                  command = "${notifyStop}";
+                  timeout = 15;
+                }
+              ];
+            }
+          ];
         };
       };
 
