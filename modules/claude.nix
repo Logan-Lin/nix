@@ -34,6 +34,7 @@ let
     cwd=$(printf '%s' "$input" | ${pkgs.jq}/bin/jq -r '.cwd // ""')
     transcript=$(printf '%s' "$input" | ${pkgs.jq}/bin/jq -r '.transcript_path // ""')
     proj=$(${pkgs.coreutils}/bin/basename "$cwd" 2>/dev/null || echo session)
+    host=$(${pkgs.coreutils}/bin/uname -n | ${pkgs.coreutils}/bin/cut -d. -f1)
     mins=$(( elapsed / 60 ))
 
     summary=""
@@ -49,7 +50,7 @@ let
     fi
 
     ${pkgs.curl}/bin/curl -s \
-      -H "Title: Claude Code done: $proj" \
+      -H "Title: claude on $host: $proj" \
       -H "Tags: white_check_mark" \
       -d "$body" \
       "https://${ntfyUrl}" >/dev/null 2>&1 || true
