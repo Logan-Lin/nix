@@ -308,6 +308,7 @@ in
 
           "browser.download.alwaysOpenPanel" = false;
           "full-screen-api.warning.timeout" = 0;
+          "browser.fullscreen.exit_on_escape" = false;
         };
       };
     };
