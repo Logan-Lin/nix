@@ -32,22 +32,11 @@ let
     [ "$elapsed" -ge ${toString notifyThresholdSeconds} ] || exit 0
 
     cwd=$(printf '%s' "$input" | ${pkgs.jq}/bin/jq -r '.cwd // ""')
-    transcript=$(printf '%s' "$input" | ${pkgs.jq}/bin/jq -r '.transcript_path // ""')
     proj=$(${pkgs.coreutils}/bin/basename "$cwd" 2>/dev/null || echo session)
     host=$(${pkgs.coreutils}/bin/uname -n | ${pkgs.coreutils}/bin/cut -d. -f1)
     mins=$(( elapsed / 60 ))
 
-    summary=""
-    if [ -n "$transcript" ] && [ -f "$transcript" ]; then
-      summary=$(${pkgs.jq}/bin/jq -rs 'map(select(.type == "assistant" and (.isSidechain != true))) | (last // {}) | (.message.content // []) | map(select(.type == "text") | .text) | join(" ")' "$transcript" 2>/dev/null | ${pkgs.coreutils}/bin/tr "\n" " " | ${pkgs.coreutils}/bin/cut -c1-280)
-    fi
-    [ "$summary" = "null" ] && summary=""
-
-    if [ -n "$summary" ]; then
-      body=$(${pkgs.coreutils}/bin/printf 'Finished after %dm in %s\n%s' "$mins" "$cwd" "$summary")
-    else
-      body=$(${pkgs.coreutils}/bin/printf 'Finished after %dm in %s' "$mins" "$cwd")
-    fi
+    body=$(${pkgs.coreutils}/bin/printf 'Finished after %dm in %s' "$mins" "$cwd")
 
     ${pkgs.curl}/bin/curl -s \
       -H "Title: claude on $host: $proj" \
