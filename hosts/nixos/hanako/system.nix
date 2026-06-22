@@ -77,6 +77,10 @@
         publicKey = "eufamkZ/LKkIxe8tHzKbtyV7MtWJN4ujCHqgf5m4TjY=";
         allowedIPs = [ "10.2.2.40/32" ];
       }
+      {
+        publicKey = "Kz+OUvWQeuIcFil5tMmX7T1MGExNrlmorw5QrfzxTh0=";
+        allowedIPs = [ "10.2.2.100/32" ];
+      }
     ];
   };
 
