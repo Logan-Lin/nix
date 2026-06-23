@@ -103,7 +103,7 @@
       NSNavPanelExpandedStateForSaveMode = true;
       PMPrintingExpandedStateForPrint = true;
       NSTableViewDefaultSizeMode = 2;
-      AppleShowScrollBars = "Always";
+      AppleShowScrollBars = "WhenScrolling";
       NSScrollAnimationEnabled = true;
       NSWindowResizeTime = 0.2;
       _HIHideMenuBar = false;
