@@ -192,9 +192,6 @@ in
 
     # Window switcher
     alt-tab = "exec-and-forget /opt/homebrew/bin/aerospace list-windows --all --format '%{window-id} | %{app-name}: %{window-title}' | ${pkgs.choose-gui}/bin/choose | ${pkgs.coreutils}/bin/cut -d'|' -f1 | ${pkgs.findutils}/bin/xargs /opt/homebrew/bin/aerospace focus --window-id"
-
-    # Bookmark picker
-    alt-b = "exec-and-forget ${pkgs.yq-go}/bin/yq -r '[.[] | {\"line\": (.name + (.tags | select(. != null) | \" [\" + join(\", \") + \"]\") + \" | \" + .url), \"sort\": ((.tags // [] | join(\",\")) + \"|\" + .name)}] | sort_by(.sort) | .[].line' $HOME/Documents/app-state/bookmarks.yaml | ${pkgs.choose-gui}/bin/choose | ${pkgs.coreutils}/bin/cut -d'|' -f2 | ${pkgs.findutils}/bin/xargs -r open -a /Applications/Firefox.app"
   '';
 
 }
