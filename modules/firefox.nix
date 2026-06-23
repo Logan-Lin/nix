@@ -240,7 +240,7 @@ in
           "browser.tabs.firefox-view" = false;
           "browser.tabs.firefox-view-max-entries" = 0;
           "browser.tabs.firefox-view-next" = false;
-          "browser.firefox-view.feature-tour" = "{\"screen\":\"\",\"complete\":true}";
+          "browser.firefox-view.feature-tour" = builtins.toJSON { screen = ""; complete = true; };
           "browser.firefox-view.view-count" = 0;
           "identity.fxaccounts.enabled" = false;
 

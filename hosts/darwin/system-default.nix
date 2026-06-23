@@ -151,12 +151,22 @@
 
   launchd.user.agents.remap-keys = {
     serviceConfig = {
-      ProgramArguments = [
-        "/usr/bin/hidutil"
-        "property"
-        "--set"
-        ''{"UserKeyMapping":[{"HIDKeyboardModifierMappingSrc":0x700000039,"HIDKeyboardModifierMappingDst":0x7000000E0},{"HIDKeyboardModifierMappingSrc":0x7000000E4,"HIDKeyboardModifierMappingDst":0x700000039}]}''
-      ];
+      ProgramArguments =
+        let
+          capsLock = 30064771129;
+          leftControl = 30064771296;
+          rightControl = 30064771300;
+        in [
+          "/usr/bin/hidutil"
+          "property"
+          "--set"
+          (builtins.toJSON {
+            UserKeyMapping = [
+              { HIDKeyboardModifierMappingSrc = capsLock; HIDKeyboardModifierMappingDst = leftControl; }
+              { HIDKeyboardModifierMappingSrc = rightControl; HIDKeyboardModifierMappingDst = capsLock; }
+            ];
+          })
+        ];
       RunAtLoad = true;
       KeepAlive = false;
       Label = "org.nixos.remap-keys";
