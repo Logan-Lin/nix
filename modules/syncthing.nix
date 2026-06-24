@@ -23,8 +23,10 @@ let
 
   devices = lib.attrNames deviceIds;
 
-  ignorePatterns = [ "node_modules" ".venv" "__pycache__" ".DS_Store" ".localized"
-    ".obsidian/workspace.json" ];
+  ignorePatterns = [
+    "node_modules" ".venv" "__pycache__" ".DS_Store" ".localized"
+    ".obsidian/workspace.json"
+  ];
 
   shellPath = p:
     if lib.hasPrefix "~/" p

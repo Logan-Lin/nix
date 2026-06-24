@@ -15,9 +15,9 @@
     signing.format = null;
 
     ignores = [
-      "**/.claude/settings.local.json"
       ".DS_Store"
       ".env"
+      ".claude/"
       "node_modules/"
       ".venv/"
       "__pycache__/"
