@@ -52,9 +52,9 @@ in
                 name = "reference";
                 bookmarks = [
                   { name = "Google Translate"; url = "https://translate.google.com/?sl=auto&tl=en&op=translate"; }
+                  { name = "Merriam-Webster"; url = "https://www.merriam-webster.com/"; }
                   { name = "Jisho"; url = "https://jisho.org/"; }
                   { name = "コトバンク"; url = "https://kotobank.jp/"; }
-                  { name = "Merriam-Webster"; url = "https://www.merriam-webster.com/"; }
                   { name = "Claude"; url = "https://claude.ai/new"; }
                   { name = "Emojipedia"; url = "https://emojipedia.org/"; }
                 ];
@@ -62,14 +62,15 @@ in
               {
                 name = "dev";
                 bookmarks = [
+                  { name = "GitHub"; url = "https://github.com/Logan-Lin?tab=repositories"; }
                   { name = "Homebrew Formulae"; url = "https://formulae.brew.sh/"; }
                   { name = "NixOS Packages"; url = "https://search.nixos.org/packages?channel=unstable"; }
                   { name = "Home Manager Options"; url = "https://home-manager-options.extranix.com/"; }
-                  { name = "NixOS Discourse"; url = "https://discourse.nixos.org/"; }
                   { name = "Web Check"; url = "https://web-check.xyz/"; }
                   { name = "PageSpeed Insights"; url = "https://pagespeed.web.dev/"; }
                   { name = "Ping.pe"; url = "https://ping.pe/"; }
-                  { name = "GitHub"; url = "https://github.com/Logan-Lin?tab=repositories"; }
+                  { name = "Color Hunt"; url = "https://colorhunt.co/"; }
+                  { name = "Bootstrap Icons"; url = "https://icons.getbootstrap.com/"; }
                 ];
               }
               {
@@ -84,25 +85,15 @@ in
                 ];
               }
               {
-                name = "shopping";
-                bookmarks = [
-                  { name = "楽天Kobo"; url = "https://books.rakuten.co.jp/e-book/"; }
-                  { name = "Qobuz"; url = "https://www.qobuz.com/dk-en/shop"; }
-                ];
-              }
-              {
-                name = "tracker";
-                bookmarks = [
-                  { name = "JPopsuki"; url = "https://jpopsuki.eu/index.php"; }
-                ];
-              }
-              {
                 name = "media";
                 bookmarks = [
                   { name = "MusicBrainz"; url = "https://musicbrainz.org/"; }
                   { name = "Goodreads"; url = "https://www.goodreads.com/"; }
                   { name = "BiliBili"; url = "https://t.bilibili.com/"; }
                   { name = "YouTube"; url = "https://www.youtube.com/feed/subscriptions"; }
+                  { name = "楽天Kobo"; url = "https://books.rakuten.co.jp/e-book/"; }
+                  { name = "Qobuz"; url = "https://www.qobuz.com/dk-en/shop"; }
+                  { name = "JPopsuki"; url = "https://jpopsuki.eu/index.php"; }
                 ];
               }
               {
@@ -113,13 +104,6 @@ in
                   { name = "Overleaf"; url = "https://www.overleaf.com/project"; }
                   { name = "mailbox.org"; url = "https://app.mailbox.org/"; }
                   { name = "Gmail"; url = "https://mail.google.com/"; }
-                ];
-              }
-              {
-                name = "design";
-                bookmarks = [
-                  { name = "Color Hunt"; url = "https://colorhunt.co/"; }
-                  { name = "Bootstrap Icons"; url = "https://icons.getbootstrap.com/"; }
                 ];
               }
               {
