@@ -31,6 +31,7 @@
       "clash-verge-rev"
       "drawio"
       "firefox"
+      "ungoogled-chromium"
       "ghostty"
       "iina"
       "inkscape"
