@@ -15,13 +15,9 @@
     signing.format = null;
 
     ignores = [
-      ".DS_Store"
-      ".env"
-      ".claude/"
-      "node_modules/"
-      ".venv/"
-      "__pycache__/"
-      "CLAUDE.md"
+      ".DS_Store" ".env" ".claude/" ".codex/"
+      "node_modules/" ".venv/" "__pycache__/"
+      "AGENTS.md" "CLAUDE.md"
     ];
 
     settings = {
