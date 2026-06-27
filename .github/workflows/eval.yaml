@@ -1,4 +1,4 @@
-name: Evaluate Nix Configs
+name: evaluate
 on: [push]
 
 jobs:
