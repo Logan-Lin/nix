@@ -35,6 +35,7 @@
       "ghostty"
       "iina"
       "inkscape"
+      "audacity"
       "keepassxc"
       "linearmouse"
       "localsend"
