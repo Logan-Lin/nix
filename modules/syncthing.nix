@@ -1,5 +1,4 @@
 # NOTE: Obtain device id using command `syncthing device-id`
-# Add the device under the `deviceIds` binding below
 
 { config, pkgs, lib, ... }:
 

@@ -37,7 +37,6 @@ in
       zle -N edit-command-line
       bindkey '^G' edit-command-line
 
-      # Function to cd to directory containing a file selected with fzf
       function cdf() {
         local search_dir="''${1:-~}"
         local target
@@ -47,7 +46,6 @@ in
         fi
       }
 
-      # Function to display a file selected with fzf using bat
       function batf() {
         local search_dir="''${1:-~}"
         local target
@@ -57,7 +55,6 @@ in
         fi
       }
 
-      # Function to show current directory in file manager
       function fm() {
         local current_dir="$(pwd)"
         ${if pkgs.stdenv.isDarwin then
@@ -69,7 +66,6 @@ in
     '';
   };
   
-  # Essential packages for enhanced zsh experience
   home.packages = with pkgs; [
     fzf
     fd

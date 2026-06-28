@@ -7,10 +7,8 @@ let
 
   makeCommandScript = name: instanceCfg: pkgs.writeScriptBin "${name}-run" ''
     #!${pkgs.zsh}/bin/zsh
-    # Source user shell to get environment and functions
     source ${config.home.homeDirectory}/.zshrc
 
-    # Execute commands sequentially
     ${concatStringsSep "\n" instanceCfg.commands}
   '';
 
