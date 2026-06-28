@@ -144,9 +144,14 @@ in
         - A workdir may also have custom `make` processes. Check whether the workdir have a `Makefile` before running generic compile commands
         - A personal Obsidian vault at `~/Documents/app-state/obsidian` is the user's project-management vault. It tracks his projects, their programs, his work log, and drafts, and is the authoritative source for facts about him. Read its `CLAUDE.md` for the layout and where specific information is. A wikilink like `[[Name]]` in a user prompt typically refers to a note in the Obsidian vault
 
+        ## Tooling
+
+        - Any tool that is needed but not installed can be used temporarily through `nix-shell`, for example `nix-shell -p <package> --run '<command>'`
+        - Several packages are installed for processing documents and structured data, including `poppler-utils`, `pandoc`, and `yq-go`
+
         ## Writing Style
 
-        For any natural language text content, such as notes, reports, papers, messages, and code comments, follow the detailed rules below.
+        For any natural language text content, such as notes, reports, papers, messages, and code comments, strictly follow the writing rules below.
 
         - Use plain and direct phrasing. For example, write "use" instead of "utilize", "to" instead of "in order to", or "many" instead of "a myriad of". Do not use needlessly fancy, idiomatic, or indirect vocabulary, slang, syntax, or constructions
         - Do not assert a point or open a paragraph with a short, abstract sentence that leans on the next sentence to make sense. Give the sentence the specifics it needs to stand on its own, or merge it with the sentence that supplies them. When a sentence marks a transition, state how it connects to what came before and after, instead of only announcing that something changes. For example, write "the rewrite cut the average response time in half" instead of "the rewrite changes everything"
@@ -232,63 +237,6 @@ in
           For any confirmed factual error, fix it directly in the file using the Edit tool with the minimal change needed to make the statement correct. Do not rewrite surrounding text, alter style, or restructure prose.
 
           After editing, provide a brief summary listing each correction made, with the source used to verify it. If no errors were found, state that explicitly.
-        '';
-      };
-
-      skills = {
-        pdf = ''
-          ---
-          name: pdf
-          description: Read and extract text from PDF files. Use when the user mentions PDFs or when you need to read a PDF file, especially when the Read tool fails on PDFs.
-          ---
-
-          # PDF Processing
-
-          Use `pdftotext` (from poppler-utils) to extract text from PDFs:
-
-          ```sh
-          pdftotext <file> -
-          ```
-
-          This outputs to stdout. Use via Bash tool when the Read tool cannot handle a PDF file.
-        '';
-
-        document-conversion = ''
-          ---
-          name: document-conversion
-          description: Convert between document formats (markdown, HTML, docx, LaTeX, etc.). Use when you need to read non-plain-text documents or convert between formats.
-          ---
-
-          # Document Conversion
-
-          Use `pandoc` for document format conversion:
-
-          ```sh
-          pandoc input.md -o output.pdf
-          pandoc input.docx -t markdown
-          pandoc input.html -o output.docx
-          ```
-
-          Pandoc supports markdown, HTML, LaTeX, docx, PDF, epub, rst, and many more formats.
-        '';
-
-        structured-data = ''
-          ---
-          name: structured-data
-          description: Process YAML, TOML, XML, and JSON files. Use when you need to query, transform, or convert between structured data formats.
-          ---
-
-          # Structured Data Processing
-
-          Use `yq` (yq-go) for YAML/TOML/XML/JSON processing:
-
-          ```sh
-          yq '.key.nested' file.yaml
-          yq -p toml '.section.key' file.toml
-          yq -p xml '.root.element' file.xml
-          yq -o json '.' file.yaml        # convert YAML to JSON
-          yq -p json -o yaml '.' file.json # convert JSON to YAML
-          ```
         '';
       };
     };
