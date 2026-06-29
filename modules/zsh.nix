@@ -21,11 +21,6 @@ in
     };
     
     shellAliases = {
-      ls = "eza";
-      ll = "eza -l --icons --group --git";
-      la = "eza -la --icons --group --git";
-      lt = "eza --tree --icons";
-
       hms = "home-manager switch --flake ~/.config/nix#$(whoami)@$(hostname)";
       nd = "nix develop";
       ndr = "nix develop ./runtime";
@@ -82,12 +77,6 @@ in
   programs.zoxide = {
     enable = true;
     enableZshIntegration = true;
-  };
-
-  programs.eza = {
-    enable = true;
-    icons = "auto";
-    git = true;
   };
 
   programs.starship = {
