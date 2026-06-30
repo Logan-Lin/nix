@@ -48,12 +48,6 @@ let
 in
 {
   config = {
-    home.packages = [
-      pkgs.poppler-utils
-      pkgs.pandoc
-      pkgs.yq-go
-    ];
-
     programs.claude-code = {
       enable = true;
       package = bleed.claude-code;
@@ -142,12 +136,8 @@ in
         - System is managed with Nix for global development runtime, config repo at `~/.config/nix`
         - A workdir may have custom Nix flake development runtime. Check whether the workdir have `./runtime/flake.nix` before running commands. Activate the runtime through `nix develop ./runtime`
         - A workdir may also have custom `make` processes. Check whether the workdir have a `Makefile` before running generic compile commands
-        - A personal Obsidian vault at `~/Documents/app-state/obsidian` is the user's project-management vault. It tracks his projects, their programs, his work log, and drafts, and is the authoritative source for facts about him. Read its `CLAUDE.md` for the layout and where specific information is. A wikilink like `[[Name]]` in a user prompt typically refers to a note in the Obsidian vault
-
-        ## Tooling
-
-        - Any tool that is needed but not installed can be used temporarily through `nix-shell`, for example `nix-shell -p <package> --run '<command>'`
-        - Several packages are installed for processing documents and structured data, including `poppler-utils`, `pandoc`, and `yq-go`
+        - When a CLI tool is needed, first check whether it exists in the host environment. If it does not, run it temporarily through `nix-shell`, for example `nix-shell -p <package> --run '<command>'`
+        - The user's personal Obsidian vault is at `~/Documents/app-state/obsidian`. It tracks his projects, their programs, his work log, and drafts, and is the authoritative source for facts about him. Read its `CLAUDE.md` for the layout and where specific information is. A wikilink like `[[Name]]` in a user prompt typically refers to a note in the Obsidian vault
 
         ## Writing Style
 

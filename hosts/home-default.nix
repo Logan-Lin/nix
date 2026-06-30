@@ -33,5 +33,6 @@
     fastfetch
     findutils
     yq-go
+    python314
   ];
 }
