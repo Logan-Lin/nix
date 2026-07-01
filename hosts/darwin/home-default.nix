@@ -130,10 +130,12 @@ in
   };
 
   home.file.".aerospace.toml".source = (pkgs.formats.toml { }).generate "aerospace.toml" {
+    config-version = 2;
+
     workspace-to-monitor-force-assignment."10" = "secondary";
 
     on-window-detected = [
-      { run = [ "layout floating" ]; }
+      { "if" = "true"; run = [ "layout floating" ]; }
     ];
 
     mode.main.binding = {
