@@ -3,6 +3,7 @@
 {
   home.packages = [
     pkgs.gh
+    pkgs.git-lfs
   ];
 
   programs.git-credential-oauth = {
