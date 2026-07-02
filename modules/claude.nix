@@ -34,9 +34,8 @@ let
     cwd=$(printf '%s' "$input" | ${pkgs.jq}/bin/jq -r '.cwd // ""')
     proj=$(${pkgs.coreutils}/bin/basename "$cwd" 2>/dev/null || echo session)
     host=$(${pkgs.coreutils}/bin/uname -n | ${pkgs.coreutils}/bin/cut -d. -f1)
-    mins=$(( elapsed / 60 ))
 
-    body=$(${pkgs.coreutils}/bin/printf 'Finished after %dm in %s' "$mins" "$cwd")
+    body=$(${pkgs.coreutils}/bin/printf 'Stopped in %s' "$cwd")
 
     ${pkgs.curl}/bin/curl -s \
       -H "Title: claude on $host: $proj" \
@@ -118,6 +117,18 @@ in
           ];
           Stop = [
             {
+              hooks = [
+                {
+                  type = "command";
+                  command = "${notifyStop}";
+                  timeout = 15;
+                }
+              ];
+            }
+          ];
+          Notification = [
+            {
+              matcher = "";
               hooks = [
                 {
                   type = "command";
