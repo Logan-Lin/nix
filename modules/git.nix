@@ -16,8 +16,7 @@
     signing.format = null;
 
     ignores = [
-      ".DS_Store" ".env" ".claude/" ".codex/"
-      "node_modules/" ".venv/" "__pycache__/"
+      ".DS_Store" ".claude/" ".codex/"
       "AGENTS.md" "CLAUDE.md"
     ];
 
