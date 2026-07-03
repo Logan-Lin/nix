@@ -387,6 +387,18 @@
       telescope.load_extension('aerial')
 
       vim.treesitter.language.register('latex', 'plaintex')
+      vim.treesitter.language.register('json', 'jsonl')
+
+      vim.api.nvim_create_autocmd("FileType", {
+        callback = function(args)
+          local max_bytes = 1024 * 1024
+          local ok, stats = pcall(vim.uv.fs_stat, vim.api.nvim_buf_get_name(args.buf))
+          if ok and stats and stats.size > max_bytes then
+            pcall(vim.treesitter.stop, args.buf)
+            vim.bo[args.buf].indentexpr = ""
+          end
+        end,
+      })
 
       local function ssh_session_active()
         if vim.env.SSH_TTY or vim.env.SSH_CONNECTION or vim.env.SSH_CLIENT then
