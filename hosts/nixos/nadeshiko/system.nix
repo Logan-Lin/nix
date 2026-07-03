@@ -14,14 +14,22 @@
 
   boot.loader.grub = {
     enable = true;
-    devices = [
-      "/dev/disk/by-id/ata-ZHITAI_SC001_XT_1000GB_ZTB401TAB244431J4R"
-      "/dev/disk/by-id/ata-ZHITAI_SC001_XT_1000GB_ZTB401TAB244431KEG"
-    ];
     efiSupport = true;
     efiInstallAsRemovable = true;
     zfsSupport = true;
     configurationLimit = 10;
+    mirroredBoots = [
+      {
+        path = "/boot";
+        efiSysMountPoint = "/boot";
+        devices = [ "/dev/disk/by-id/ata-ZHITAI_SC001_XT_1000GB_ZTB401TAB244431J4R" ];
+      }
+      {
+        path = "/boot-alt";
+        efiSysMountPoint = "/boot-alt";
+        devices = [ "/dev/disk/by-id/ata-ZHITAI_SC001_XT_1000GB_ZTB401TAB244431KEG" ];
+      }
+    ];
   };
 
   nix.gc = {

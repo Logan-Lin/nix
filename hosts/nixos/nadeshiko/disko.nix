@@ -48,6 +48,8 @@
               content = {
                 type = "filesystem";
                 format = "vfat";
+                mountpoint = "/boot-alt";
+                mountOptions = [ "umask=0077" ];
               };
             };
             zfs = {
