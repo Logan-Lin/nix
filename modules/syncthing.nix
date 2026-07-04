@@ -6,9 +6,6 @@ let
   cfg = config.syncthing-custom;
 
   deviceIds = {
-    "mirai" = {
-      id = "NMWI5MP-J4FC4A6-SDDXZPD-G66TJCO-2W7KGFD-RJWQ53U-I7GUVWP-WHF4QQO";
-    };
     "sakurako" = {
       id = "XPAMYJX-D7UZKPI-JBLTAWG-EBPSFYV-NEFV42V-NIUZKQN-KTVTGGP-OOXL5AT";
     };
@@ -17,6 +14,12 @@ let
     };
     "nadeshiko" = {
       id = "S4QZW76-BOLIOW7-DVP326F-JIGW5DW-3PAD47L-OA456LB-2L6JZW7-YUGJRA6";
+    };
+    "kokoro" = {
+      id = "CVM4EP7-RIIPI4X-2MHW5Q4-IK75B5L-UQINVBE-SU5NCAJ-QEFRPN4-BG5DDAP";
+    };
+    "mirai" = {
+      id = "NMWI5MP-J4FC4A6-SDDXZPD-G66TJCO-2W7KGFD-RJWQ53U-I7GUVWP-WHF4QQO";
     };
   };
 
