@@ -26,8 +26,8 @@ let
   devices = lib.attrNames deviceIds;
 
   ignorePatterns = [
-    "node_modules" ".venv" "__pycache__" ".DS_Store" ".localized"
-    ".obsidian/workspace.json"
+    "node_modules" ".venv" "__pycache__" ".DS_Store" ".localized" ".thumbnails"
+    ".obsidian/workspace.json" ".obsidian/workspace-mobile.json"
   ];
 
   shellPath = p:
