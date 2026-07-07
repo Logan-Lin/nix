@@ -50,6 +50,7 @@
       "slidepilot"
       "tencent-meeting"
       "wechat"
+      "handbrake-app"
     ];
   };
 
