@@ -65,12 +65,10 @@ in
                   { name = "GitHub"; url = "https://github.com/Logan-Lin?tab=repositories"; }
                   { name = "Homebrew Formulae"; url = "https://formulae.brew.sh/"; }
                   { name = "NixOS Packages"; url = "https://search.nixos.org/packages?channel=unstable"; }
-                  { name = "Home Manager Options"; url = "https://home-manager-options.extranix.com/"; }
                   { name = "Web Check"; url = "https://web-check.xyz/"; }
                   { name = "PageSpeed Insights"; url = "https://pagespeed.web.dev/"; }
                   { name = "Ping.pe"; url = "https://ping.pe/"; }
-                  { name = "Color Hunt"; url = "https://colorhunt.co/"; }
-                  { name = "Bootstrap Icons"; url = "https://icons.getbootstrap.com/"; }
+                  { name = "Claude Platform"; url = "https://platform.claude.com"; }
                 ];
               }
               {
@@ -124,6 +122,7 @@ in
                   { name = "dblp"; url = "https://dblp.org/"; }
                   { name = "arxiv"; url = "https://arxiv.org/user/"; }
                   { name = "OpenReview"; url = "https://openreview.net/"; }
+                  { name = "Microsoft CMT"; url = "https://cmt3.research.microsoft.com"; }
                   { name = "Anonymous GitHub"; url = "https://anonymous.4open.science/dashboard"; }
                 ];
               }
