@@ -44,6 +44,8 @@
       "localsend"
       "maccy"
       "microsoft-word"
+      "microsoft-excel"
+      "microsoft-powerpoint"
       "musicbrainz-picard"
       "obsidian"
       "ovito"
