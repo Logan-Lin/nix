@@ -170,8 +170,8 @@ in
           "privacy.firstparty.isolate" = false;
           "privacy.resistFingerprinting" = false;
 
-          "permissions.default.geo" = 2;
-          "permissions.default.desktop-notification" = 2;
+          "permissions.default.geo" = 0;
+          "permissions.default.desktop-notification" = 0;
 
           "gfx.webrender.all" = true;
           "media.ffmpeg.vaapi.enabled" = true;
