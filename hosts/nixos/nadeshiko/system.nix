@@ -10,6 +10,7 @@
     ../../../modules/borg.nix
     ../../../modules/disk-health.nix
     ../../../modules/deluge.nix
+    ../../../modules/samba.nix
   ];
 
   boot.loader.grub = {
@@ -122,6 +123,12 @@
   services.deluge-custom = {
     enable = true;
     downloadDir = "/mnt/storage/downloads";
+  };
+
+  services.samba-share = {
+    enable = true;
+    hostsAllow = [ "10.2.2." ];
+    shares.storage.path = "/mnt/storage";
   };
 
   services.disk-health = {
