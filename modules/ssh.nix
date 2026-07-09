@@ -34,7 +34,7 @@ in
         HostName = "ai-fe02.srv.aau.dk";
         User = "hb05nk@cs.aau.dk";
         IdentityFile = "${keyDir}/aicloud";
-        ProxyJump = "nadeshiko";
+        ProxyJump = "misaki";
       };
 
       "aicloud.lan" = {
@@ -60,6 +60,12 @@ in
         HostName = "10.2.2.10";
         User = "yanlin";
         IdentityFile = "${keyDir}/nas";
+      };
+
+      "misaki" = {
+        HostName = "10.2.2.20";
+        User = "yanlin";
+        IdentityFile = "${keyDir}/thinkpad";
       };
 
       "sakurako" = {

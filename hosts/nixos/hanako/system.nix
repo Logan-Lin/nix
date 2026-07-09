@@ -70,6 +70,10 @@
         allowedIPs = [ "10.2.2.10/32" ];
       }
       {
+        publicKey = "4oEuNw/eaPy8sxHMt/xzVAJYv6/op9/hl3iZZsj8ZBY=";
+        allowedIPs = [ "10.2.2.20/32" ];
+      }
+      {
         publicKey = "00K2AHKt7lWz91U77SQaG+Vmql2BRVQG53yVFRACqEc=";
         allowedIPs = [ "10.2.2.30/32" ];
       }

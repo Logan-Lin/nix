@@ -9,13 +9,6 @@ let
       | ${pkgs.findutils}/bin/xargs -r -I{} ${pkgs.hyprland}/bin/hyprctl dispatch focuswindow address:{}
   '';
 
-  bookmarkPicker = pkgs.writeShellScript "hypr-bookmarks" ''
-    ${pkgs.yq-go}/bin/yq -r '[.[] | {"line": (.name + (.tags | select(. != null) | " [" + join(", ") + "]") + " | " + .url), "sort": ((.tags // [] | join(",")) + "|" + .name)}] | sort_by(.sort) | .[].line' "$HOME/Documents/app-state/bookmarks.yaml" \
-      | ${pkgs.wofi}/bin/wofi --dmenu --prompt "bookmark" \
-      | ${pkgs.coreutils}/bin/cut -d'|' -f2 \
-      | ${pkgs.findutils}/bin/xargs -r ${pkgs.firefox}/bin/firefox
-  '';
-
   evinceDesktop = "org.gnome.Evince.desktop";
   loupeDesktop = "org.gnome.Loupe.desktop";
   mpvDesktop = "mpv.desktop";
@@ -195,7 +188,6 @@ in
         "SUPER, T, exec, ghostty"
         "SUPER, Space, exec, wofi --show drun"
         "SUPER, Tab, exec, ${windowSwitcher}"
-        "SUPER, B, exec, ${bookmarkPicker}"
         "SUPER, C, exec, cliphist list | wofi --dmenu | cliphist decode | wl-copy"
 
         "SUPER, h, movefocus, l"

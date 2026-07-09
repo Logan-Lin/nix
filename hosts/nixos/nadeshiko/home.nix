@@ -23,10 +23,10 @@
     description = "Backup files on aicloud";
     interval = "*-*-* *:10:00";
     commands = [
-      "rsync -avhP --delete --mkpath aicloud.lan:~/{.zshrc,.gitconfig,.ssh,.config,.local} /mnt/storage/backup/aicloud-home/"
-      "rsync -avhP --delete aicloud.lan:~/inv-am-bench /mnt/storage/backup/"
-      "rsync -avhP --delete aicloud.lan:~/agent-inv-am /mnt/storage/backup/"
-      "rsync -avhP --delete aicloud.lan:~/agent-am-sci /mnt/storage/backup/"
+      "rsync -avhP --delete --mkpath aicloud:~/{.zshrc,.gitconfig,.ssh,.config,.local} /mnt/storage/backup/aicloud-home/"
+      "rsync -avhP --delete aicloud:~/inv-am-bench /mnt/storage/backup/"
+      "rsync -avhP --delete aicloud:~/agent-inv-am /mnt/storage/backup/"
+      "rsync -avhP --delete aicloud:~/agent-am-sci /mnt/storage/backup/"
     ];
   };
 
