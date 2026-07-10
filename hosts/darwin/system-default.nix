@@ -38,6 +38,7 @@
       "ghostty"
       "iina"
       "inkscape"
+      "affinity"
       "audacity"
       "keepassxc"
       "linearmouse"
