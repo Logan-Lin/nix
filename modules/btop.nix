@@ -65,5 +65,4 @@
     };
   };
 
-  programs.zsh.shellAliases.btop = "sudo HOME=$HOME btop";
 }
