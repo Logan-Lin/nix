@@ -7,7 +7,7 @@ let
   };
 
   ntfyUrl = "ntfy.sh/yanlincs-homelab";
-  notifyThresholdSeconds = 60;
+  notifyThresholdSeconds = 15;
   notifyDir = ''"''${XDG_RUNTIME_DIR:-''${TMPDIR:-/tmp}}/claude-notify"'';
 
   notifyStart = pkgs.writeShellScript "claude-notify-start" ''
@@ -39,7 +39,6 @@ let
 
     ${pkgs.curl}/bin/curl -s \
       -H "Title: claude on $host: $proj" \
-      -H "Tags: white_check_mark" \
       -d "$body" \
       "https://${ntfyUrl}" >/dev/null 2>&1 || true
     exit 0
