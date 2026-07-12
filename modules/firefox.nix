@@ -91,7 +91,19 @@ in
                   { name = "YouTube"; url = "https://www.youtube.com/feed/subscriptions"; }
                   { name = "楽天Kobo"; url = "https://books.rakuten.co.jp/e-book/"; }
                   { name = "Qobuz"; url = "https://www.qobuz.com/dk-en/shop"; }
+                ];
+              }
+              {
+                name = "tracker";
+                bookmarks = [
                   { name = "JPopsuki"; url = "https://jpopsuki.eu/index.php"; }
+                  { name = "HDSky"; url = "https://hdsky.me/torrents.php"; }
+                  { name = "OurBits"; url = "https://ourbits.club/torrents.php"; }
+                  { name = "PTerClub"; url = "https://pterclub.net/torrents.php"; }
+                  { name = "U2分享園"; url = "https://u2.dmhy.org/torrents.php"; }
+                  { name = "梓喵"; url = "https://azusa.wiki/torrents.php"; }
+                  { name = "Nyaa"; url = "https://nyaa.si/"; }
+                  { name = "動漫花園資源網"; url = "https://share.dmhy.org/"; }
                 ];
               }
               {
