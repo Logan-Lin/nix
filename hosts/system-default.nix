@@ -16,6 +16,4 @@
     "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw="
   ];
 
-  # NOTE: After deploy, authenticate the node with `sudo tailscale up`.
-  services.tailscale.enable = true;
 }

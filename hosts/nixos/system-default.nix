@@ -26,6 +26,8 @@
 
   security.sudo.wheelNeedsPassword = false;
 
+  # NOTE: After deploy, authenticate the node with `sudo tailscale up`.
+  services.tailscale.enable = true;
   networking.firewall.trustedInterfaces = [ "tailscale0" ];
 
   environment.systemPackages = with pkgs; [

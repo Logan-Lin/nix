@@ -32,6 +32,7 @@
     casks = [
       "nikitabobko/tap/aerospace"
       "clash-verge-rev"
+      "tailscale-app"
       "drawio"
       "firefox"
       "ungoogled-chromium"
