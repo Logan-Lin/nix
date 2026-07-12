@@ -103,6 +103,15 @@ in
     };
   };
 
+  launchd.agents.tailscale = {
+    enable = true;
+    config = {
+      ProgramArguments = [ "/Applications/Tailscale.app/Contents/MacOS/Tailscale" ];
+      RunAtLoad = true;
+      KeepAlive = false;
+    };
+  };
+
   home.activation.setFileAssociations = config.lib.dag.entryAfter ["writeBoundary"] ''
     run /usr/bin/swift ${setFileAssociationsScript}
   '';
