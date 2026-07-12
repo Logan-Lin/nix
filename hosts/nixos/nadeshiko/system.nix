@@ -6,7 +6,6 @@
     ./disko.nix
     ../system-default.nix
     "${inputs.nixos-hardware}/common/cpu/intel/alder-lake"
-    ../../../modules/vpn/nixos-client.nix
     ../../../modules/borg.nix
     ../../../modules/disk-health.nix
     ../../../modules/deluge.nix
@@ -113,13 +112,6 @@
     };
   };
 
-  services.wireguard-client = {
-    enable = true;
-    address = "10.2.2.10/24";
-    serverPublicKey = "46QHjSzAas5g9Hll1SCEu9tbR5owCxXAy6wGOUoPwUM=";
-    serverEndpoint = "91.98.84.215:51820";
-  };
-
   services.deluge-custom = {
     enable = true;
     downloadDir = "/mnt/storage/downloads";
@@ -127,7 +119,7 @@
 
   services.samba-share = {
     enable = true;
-    hostsAllow = [ "10.2.2." "10.1.1." ];
+    hostsAllow = [ "100.64.0.0/10" "10.1.1." ];
     shares.storage.path = "/mnt/storage";
   };
 

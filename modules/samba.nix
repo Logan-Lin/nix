@@ -49,7 +49,7 @@ in
     hostsAllow = lib.mkOption {
       type = lib.types.listOf lib.types.str;
       default = [ ];
-      example = [ "192.168.1." "10.2.2." "127." ];
+      example = [ "192.168.1." "100.64.0.0/10" "127." ];
       description = "If non-empty, restrict access to these hosts or subnet prefixes.";
     };
 

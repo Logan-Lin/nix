@@ -47,7 +47,6 @@ in
     ../../modules/firefox.nix
     ../../modules/syncthing.nix
     ../../modules/media-tool.nix
-    ../../modules/vpn/darwin-tunnel.nix
   ];
 
   syncthing-custom.folders = {

@@ -26,6 +26,8 @@
 
   security.sudo.wheelNeedsPassword = false;
 
+  networking.firewall.trustedInterfaces = [ "tailscale0" ];
+
   environment.systemPackages = with pkgs; [
     vim
     curl

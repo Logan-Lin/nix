@@ -6,7 +6,6 @@
     ./disko.nix
     ./containers.nix
     ../system-default.nix
-    ../../../modules/vpn/server.nix
     ../../../modules/podman.nix
     ../../../modules/nginx.nix
     ../../../modules/borg.nix
@@ -61,44 +60,13 @@
     ];
   };
 
-  services.wireguard-server = {
-    enable = true;
-    address = "10.2.2.1/24";
-    peers = [
-      {
-        publicKey = "MCuSF/aFZy7Jq3nI6VpU7jbfZOuEGuMjgpxRWazxtmY=";
-        allowedIPs = [ "10.2.2.10/32" ];
-      }
-      {
-        publicKey = "4oEuNw/eaPy8sxHMt/xzVAJYv6/op9/hl3iZZsj8ZBY=";
-        allowedIPs = [ "10.2.2.20/32" ];
-      }
-      {
-        publicKey = "00K2AHKt7lWz91U77SQaG+Vmql2BRVQG53yVFRACqEc=";
-        allowedIPs = [ "10.2.2.30/32" ];
-      }
-      {
-        publicKey = "eufamkZ/LKkIxe8tHzKbtyV7MtWJN4ujCHqgf5m4TjY=";
-        allowedIPs = [ "10.2.2.40/32" ];
-      }
-      {
-        publicKey = "Kz+OUvWQeuIcFil5tMmX7T1MGExNrlmorw5QrfzxTh0=";
-        allowedIPs = [ "10.2.2.100/32" ];
-      }
-      {
-        publicKey = "apZDpMlUPQw7BDVUzBaP7DUZBnJcXzEvjB6LH2tBSVA=";
-        allowedIPs = [ "10.2.2.110/32" ];
-      }
-    ];
-  };
-
   services.reverse-proxy = {
     enable = true;
     defaultDomain = "yanlincs.com";
     acmeEmail = "cloudflare@yanlincs.com";
 
     proxies = {
-      deluge.backend = "http://10.2.2.10:8112";
+      deluge.backend = "http://nadeshiko:8112";
     };
   };
 

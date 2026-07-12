@@ -5,8 +5,6 @@
     ./hardware.nix
     ./disko.nix
     ../system-default.nix
-    ../../../modules/vpn/nixos-client.nix
-    ../../../modules/vpn/nixos-tunnel.nix
     ../../../modules/hyprland/system.nix
     ../../../modules/disk-health.nix
     "${inputs.nixos-hardware}/lenovo/thinkpad/p14s"
@@ -126,13 +124,6 @@
     lm_sensors
     smartmontools
   ];
-
-  services.wireguard-client = {
-    enable = true;
-    address = "10.2.2.20/24";
-    serverPublicKey = "46QHjSzAas5g9Hll1SCEu9tbR5owCxXAy6wGOUoPwUM=";
-    serverEndpoint = "91.98.84.215:51820";
-  };
 
   services.disk-health = {
     enable = true;

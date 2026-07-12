@@ -57,25 +57,25 @@ in
       };
 
       "nadeshiko" = {
-        HostName = "10.2.2.10";
+        HostName = "nadeshiko";
         User = "yanlin";
         IdentityFile = "${keyDir}/nas";
       };
 
       "misaki" = {
-        HostName = "10.2.2.20";
+        HostName = "misaki";
         User = "yanlin";
         IdentityFile = "${keyDir}/thinkpad";
       };
 
       "sakurako" = {
-        HostName = "10.2.2.30";
+        HostName = "sakurako";
         User = "yanlin";
         IdentityFile = "${keyDir}/mac";
       };
 
       "himawari" = {
-        HostName = "10.2.2.40";
+        HostName = "himawari";
         User = "yanlin";
         IdentityFile = "${keyDir}/mac";
       };
