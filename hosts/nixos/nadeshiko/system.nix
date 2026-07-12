@@ -127,7 +127,7 @@
 
   services.samba-share = {
     enable = true;
-    hostsAllow = [ "10.2.2." ];
+    hostsAllow = [ "10.2.2." "10.1.1." ];
     shares.storage.path = "/mnt/storage";
   };
 
