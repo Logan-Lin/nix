@@ -68,6 +68,9 @@ in
         enableWorkflows = true;
         terminalProgressBarEnabled = false;
         theme = "dark-ansi";
+        attribution = {
+          commit = "";
+        };
         permissions = {
           allow = [
             "WebSearch"
@@ -166,6 +169,7 @@ in
         - For any natural language text content, do not use formatting like bold, italic, itemized lists, or enumerated lists, unless explicitly instructed
         - When writing code, do not write code documents or comments unless explicitly instructed
         - For prose-heavy content, for example Markdown and LaTeX, where linebreaks do not affect rendering, break lines between sentences at natural pauses to make diffs and editing easier. Never break in the middle of a sentence
+        - When drafting a git commit message, write a single lowercase subject line of the form `<type>: <summary>`. `<type>` is one of `feat`, `fix`, `docs`, `refactor`, or `test`. `<summary>` is a concise description of the change. Do not include a body
       '';
 
       commands = {
@@ -237,6 +241,24 @@ in
           For any confirmed factual error, fix it directly in the file using the Edit tool with the minimal change needed to make the statement correct. Do not rewrite surrounding text, alter style, or restructure prose.
 
           After editing, provide a brief summary listing each correction made, with the source used to verify it. If no errors were found, state that explicitly.
+        '';
+
+        commit = ''
+          ---
+          description: Commit the current change as a single subject line
+          allowed-tools: Read, Bash(git status:*), Bash(git diff:*), Bash(git log:*), Bash(git add:*), Bash(git commit:*)
+          argument-hint: [optional summary hint]
+          ---
+
+          ## Task
+
+          Commit the current working tree change as one commit.
+
+          1. Stage and review the change.
+          2. Write the message as a single lowercase subject line of the form `<type>: <summary>`. `<type>` is one of `feat`, `fix`, `docs`, `refactor`, or `test`. `<summary>` is a concise description of the change
+          3. Commit with the message. Write only the subject line, with no body and no attribution trailer.
+
+          When $ARGUMENTS is given, use it as guidance for the summary. Stay on the current branch and do not push.
         '';
       };
     };
