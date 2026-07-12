@@ -30,6 +30,8 @@
   services.tailscale = {
     enable = true;
     authKeyFile = "/var/lib/tailscale/authkey";
+    useRoutingFeatures = "server";
+    extraSetFlags = [ "--advertise-exit-node" ];
   };
   networking.firewall.trustedInterfaces = [ "tailscale0" ];
 
