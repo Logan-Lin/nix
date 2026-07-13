@@ -70,7 +70,7 @@ in
   };
 
   home.packages = with pkgs; [
-    texlive.combined.scheme-full
+    texliveFull
     httpie
   ];
 
