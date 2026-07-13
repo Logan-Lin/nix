@@ -136,6 +136,7 @@
           confirmInEditor = "<a-enter>";
           remove = "d";
           new = "n";
+          newWorktree = "w";
           edit = "e";
           openFile = "o";
           scrollUpMain = "<c-b>";
@@ -192,10 +193,6 @@
           pushTag = "P";
           setUpstream = "u";
           fetchRemote = "f";
-        };
-
-        worktrees = {
-          viewWorktreeOptions = "w";
         };
 
         commits = {
