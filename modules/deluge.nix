@@ -1,9 +1,13 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, inputs, ... }:
 
 with lib;
 
 let
   cfg = config.services.deluge-custom;
+
+  stable = import inputs.nixpkgs-stable {
+    inherit (pkgs.stdenv.hostPlatform) system;
+  };
 in
 
 {
@@ -25,6 +29,7 @@ in
   config = mkIf cfg.enable {
     services.deluge = {
       enable = true;
+      package = stable.deluge-2_x;
       user = "yanlin";
       group = "users";
       declarative = true;
