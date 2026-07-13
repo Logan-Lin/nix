@@ -72,8 +72,6 @@ in
   home.packages = with pkgs; [
     texlive.combined.scheme-full
     httpie
-
-    choose-gui
   ];
 
   launchd.agents.maccy = {
@@ -191,8 +189,6 @@ in
       alt-shift-8 = [ "move-node-to-workspace 8" "workspace 8" ];
       alt-shift-9 = [ "move-node-to-workspace 9" "workspace 9" ];
       alt-shift-0 = [ "move-node-to-workspace 10" "workspace 10" ];
-
-      alt-tab = "exec-and-forget /opt/homebrew/bin/aerospace list-windows --all --format '%{window-id} | %{app-name}: %{window-title}' | ${pkgs.choose-gui}/bin/choose | ${pkgs.coreutils}/bin/cut -d'|' -f1 | ${pkgs.findutils}/bin/xargs /opt/homebrew/bin/aerospace focus --window-id";
     };
   };
 
