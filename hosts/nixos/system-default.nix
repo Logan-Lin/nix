@@ -26,8 +26,13 @@
 
   security.sudo.wheelNeedsPassword = false;
 
-  # NOTE: After deploy, authenticate the node with `sudo tailscale up`.
-  services.tailscale.enable = true;
+  # NOTE: auth key file at: `/var/lib/tailscale/authkey` with mode 600
+  services.tailscale = {
+    enable = true;
+    authKeyFile = "/var/lib/tailscale/authkey";
+    useRoutingFeatures = "server";
+    extraSetFlags = [ "--advertise-exit-node" ];
+  };
   networking.firewall.trustedInterfaces = [ "tailscale0" ];
 
   environment.systemPackages = with pkgs; [
