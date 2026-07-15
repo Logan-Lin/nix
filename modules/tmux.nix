@@ -13,6 +13,19 @@
     keyMode = "vi";
     terminal = "tmux-256color";
 
+    plugins = [
+      {
+        plugin = pkgs.tmuxPlugins.resurrect;
+        # Restore only panes, not the programs that were running in them.
+        extraConfig = "set -g @resurrect-processes 'false'";
+      }
+      {
+        plugin = pkgs.tmuxPlugins.continuum;
+        # Save the session automatically every hour.
+        extraConfig = "set -g @continuum-save-interval '60'";
+      }
+    ];
+
     extraConfig = ''
       set -g default-terminal "xterm-256color"
       set -ga terminal-overrides ",xterm-256color:Tc,xterm-256color:sitm=\\E[3m:ritm=\\E[23m,xterm-256color:Ss=\\E[%p1%d q:Se=\\E[2 q"
