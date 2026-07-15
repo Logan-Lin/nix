@@ -1,3 +1,5 @@
+# Generated hardware scan for the nadeshiko host, produced by nixos-generate-config.
+
 { config, lib, pkgs, modulesPath, ... }:
 
 {

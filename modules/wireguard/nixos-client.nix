@@ -1,3 +1,7 @@
+# WireGuard VPN client for a NixOS host.
+# A host enables it with services.wireguard-client and sets the interface address, the server public key, and the server endpoint.
+# The private key is generated on the host at first boot, so only the derived public key ever needs to leave the machine.
+
 # NOTE: After deploy, get public key with: `sudo sh -c 'wg pubkey < /etc/wireguard/private.key'`
 
 { config, pkgs, lib, ... }:
@@ -62,6 +66,7 @@ in
         publicKey = cfg.serverPublicKey;
         allowedIPs = cfg.allowedIPs;
         endpoint = cfg.serverEndpoint;
+        # Send a keepalive every 25 seconds so the NAT mapping to the server stays open and the client remains reachable.
         persistentKeepalive = 25;
       }];
     };

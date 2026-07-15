@@ -1,3 +1,6 @@
+# Deluge torrent daemon with its web UI, wrapped behind the services.deluge-custom options interface.
+# A host enables the service and sets downloadDir, and the module configures the upstream services.deluge module in declarative mode.
+
 { config, lib, pkgs, inputs, ... }:
 
 with lib;
@@ -29,10 +32,12 @@ in
   config = mkIf cfg.enable {
     services.deluge = {
       enable = true;
+      # Source Deluge from stable nixpkgs because the unstable package is missing pkg_resources and fails to start.
       package = stable.deluge-2_x;
       user = "yanlin";
       group = "users";
       declarative = true;
+      # Declarative mode cannot generate the daemon auth file at runtime, so provide the local client entry as username, password, and access level.
       authFile = pkgs.writeText "deluge-auth" "localclient:deluge:10";
       openFirewall = false;
 
@@ -42,6 +47,7 @@ in
         daemon_port = 58846;
 
         random_port = false;
+        # The pair is the low and high of the listen port range, so equal values fix the port to 25000.
         listen_ports = [ 25000 25000 ];
         outgoing_ports = [ 0 0 ];
         random_outgoing_ports = true;

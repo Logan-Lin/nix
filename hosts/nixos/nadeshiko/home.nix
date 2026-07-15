@@ -1,3 +1,7 @@
+# Home-manager configuration for nadeshiko.
+# This host acts as a backup target for the remote aicloud server.
+# Every hour it pulls the server's home directory files and several project directories into local storage under /mnt/storage.
+
 { config, pkgs, ... }:
 
 {
@@ -21,6 +25,7 @@
   services.scheduled-commands.aicloud-backup = {
     enable = true;
     description = "Backup files on aicloud";
+    # Runs at ten minutes past every hour.
     interval = "*-*-* *:10:00";
     commands = [
       "rsync -avhP --delete --mkpath aicloud:~/{.zshrc,.gitconfig,.ssh,.config,.local} /mnt/storage/backup/aicloud-home/"

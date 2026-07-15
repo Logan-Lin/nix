@@ -1,3 +1,5 @@
+# Installs a set of desktop fonts through home-manager and enables fontconfig so applications can use them.
+
 { pkgs, ... }:
 
 {

@@ -1,3 +1,7 @@
+# OCI containers for the hanako host.
+# Runs oc-scheduler, a locally built scheduler service, and the MongoDB database that backs it.
+# Both join the shared podman network so the scheduler can reach MongoDB.
+
 { config, pkgs, lib, ... }:
 
 let

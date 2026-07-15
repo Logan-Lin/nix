@@ -1,3 +1,5 @@
+# Home-manager configuration for misaki, a personal NixOS workstation running the Hyprland Wayland desktop.
+
 { config, pkgs, ... }:
 
 {
@@ -13,6 +15,7 @@
     picard
     clash-verge-rev
     pdfpc
+    # Wrap ovito to run natively on Wayland and force Mesa to report OpenGL 3.3, which its renderer needs to start.
     (pkgs.symlinkJoin {
       name = "ovito-wrapped";
       paths = [ pkgs.ovito ];

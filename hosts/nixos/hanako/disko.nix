@@ -1,3 +1,5 @@
+# Disk layout for the hanako host, consumed by disko.
+
 {
   disko.devices = {
     disk = {
@@ -7,6 +9,7 @@
         content = {
           type = "gpt";
           partitions = {
+            # The 1M EF02 partition holds the GRUB boot code for legacy BIOS boot on a GPT disk.
             boot = {
               size = "1M";
               type = "EF02";

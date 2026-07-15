@@ -1,3 +1,8 @@
+# NixOS configuration for nadeshiko, a home file server built on ZFS storage.
+# It shares the storage pool over Samba, runs the Deluge torrent client, and backs up documents to another host with Borg.
+# Named after 大室撫子, the eldest and most mature of the 大室 sisters.
+# Like her, this host is the calm and reliable one, running on a ZFS mirror of enterprise SSDs and quietly keeping the family's files and backups safe.
+
 { config, pkgs, inputs, ... }:
 
 {
@@ -42,6 +47,7 @@
   boot.supportedFilesystems = [ "zfs" ];
   boot.zfs.forceImportRoot = false;
 
+  # Bound the ZFS ARC cache to between 2 GiB and 16 GiB.
   boot.kernelParams = [
     "zfs.zfs_arc_max=17179869184"
     "zfs.zfs_arc_min=2147483648"
@@ -64,6 +70,7 @@
     };
   };
 
+  # Clear every root password field so no layer can set one, leaving the SSH key as the only way to log in as root.
   users.users.root = {
     hashedPassword = null;
     hashedPasswordFile = null;

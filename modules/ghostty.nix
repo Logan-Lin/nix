@@ -1,3 +1,7 @@
+# Home-manager module that configures the Ghostty terminal emulator behind the programs.ghostty-custom option namespace.
+# It applies fixed font, theme, and window settings through the programs.ghostty module that home-manager provides.
+# A host enables it and may override only the package and font size.
+
 { config, pkgs, lib, ... }:
 
 with lib;

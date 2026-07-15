@@ -1,3 +1,8 @@
+# NixOS configuration for misaki, a Lenovo ThinkPad P14s laptop running the Hyprland Wayland desktop.
+# Tunes power, thermal, and fan control for the laptop, and blacklists the NVIDIA and nouveau drivers to run on Intel integrated graphics.
+# Named after 高崎みさき, who calls herself 大室花子's rival and keeps trying to stand out despite rarely winning.
+# Like her, this host is less powerful than it presents, a modest ThinkPad dressed up in a fully custom Hyprland desktop, loud and eager to be noticed yet never giving up.
+
 { config, pkgs, lib, inputs, ... }:
 
 {
@@ -45,6 +50,7 @@
 
   powerManagement.powertop.enable = true;
 
+  # TLP handles power management, so disable power-profiles-daemon to keep the two from conflicting.
   services.power-profiles-daemon.enable = false;
   services.tlp.settings = {
     CPU_SCALING_GOVERNOR_ON_AC = "powersave";

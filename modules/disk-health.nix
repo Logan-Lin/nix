@@ -1,3 +1,7 @@
+# Disk health monitoring for a host through a systemd service that runs smartctl on the configured devices.
+# A host enables it with services.disk-health.enable, lists the devices to check, and optionally sets frequency to run the check on a systemd timer.
+# Each run pushes a report of the SMART status and wear level of every device to the ntfy topic, and a failure raises an urgent notification.
+
 { config, lib, pkgs, ... }:
 
 with lib;
@@ -61,6 +65,8 @@ in
 
           PCT=$(echo "$JSON" | jq -r '.nvme_smart_health_information_log.percentage_used // empty')
           if [ -z "$PCT" ]; then
+            # ATA and SATA disks lack the NVMe wear field, so fall back to SMART attributes 177 and 233, the SSD wear leveling indicators.
+            # Their normalized value counts down from 100 as the disk wears, so 100 minus the value gives the percentage used.
             PCT=$(echo "$JSON" | jq -r '[(.ata_smart_attributes.table // [])[] | select(.id == 177 or .id == 233) | (100 - .value)] | .[0] // empty')
           fi
 

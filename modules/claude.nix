@@ -1,6 +1,11 @@
+# Home-manager module that configures the Claude Code CLI.
+# It sets program options and permissions, defines the global context and custom slash commands, and wires notification hooks that push to an ntfy topic when a session finishes or needs attention.
+# A host opts in by importing this module.
+
 { pkgs, inputs, ... }:
 
 let
+  # Pull the claude-code package from a separate newer nixpkgs input to get releases ahead of the pinned channel.
   bleed = import inputs.nixpkgs-bleed {
     inherit (pkgs.stdenv.hostPlatform) system;
     config.allowUnfree = true;
@@ -10,6 +15,8 @@ let
   notifyThresholdSeconds = 15;
   notifyDir = ''"''${XDG_RUNTIME_DIR:-''${TMPDIR:-/tmp}}/claude-notify"'';
 
+  # notifyStart records a start time for each session when a prompt is submitted.
+  # notifyStop pushes to the ntfy topic when a run finishes, and only when the run lasted at least notifyThresholdSeconds, so quick turns stay silent.
   notifyStart = pkgs.writeShellScript "claude-notify-start" ''
     input=$(cat)
     sid=$(printf '%s' "$input" | ${pkgs.jq}/bin/jq -r '.session_id // "default"')
@@ -128,6 +135,7 @@ in
               ];
             }
           ];
+          # Claude fires a Notification when it waits for input or permission, so reuse notifyStop to push to the ntfy topic and reset the timer.
           Notification = [
             {
               matcher = "";

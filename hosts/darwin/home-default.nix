@@ -1,6 +1,12 @@
+# macOS platform default for the home-manager configuration.
+# Imports the cross-platform home default and layers on the settings specific to macOS.
+# Enables feature modules, launches GUI apps through launchd agents, and sets the default app for each file type.
+
 { config, lib, pkgs, ... }:
 
 let
+  # macOS has no declarative option to set the default app per file extension.
+  # This Swift script sets the associations through the AppKit NSWorkspace API at activation.
   setFileAssociationsScript = pkgs.writeText "set-file-associations.swift" ''
     import AppKit
     import UniformTypeIdentifiers
@@ -53,6 +59,8 @@ in
     Documents.enable = true;
   };
 
+  # Firefox and Ghostty are installed as macOS apps outside Nix.
+  # Setting package to null makes each module manage only its configuration.
   programs.firefox-custom = {
     enable = true;
     package = null;

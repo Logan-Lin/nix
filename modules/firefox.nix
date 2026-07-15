@@ -1,3 +1,6 @@
+# Home-manager module that provides a customized Firefox setup under the programs.firefox-custom option.
+# When enabled it configures a single Firefox profile with about:config settings, a set of bookmarks and search engines, and a fixed list of extensions.
+
 { config, pkgs, lib, ... }@args:
 
 with lib;
@@ -5,6 +8,7 @@ with lib;
 let
   cfg = config.programs.firefox-custom;
 
+  # firefox-addons is an optional flake input, so fall back to null and install no extensions when it is absent.
   firefox-addons = args.inputs.firefox-addons or null;
   system = pkgs.stdenv.hostPlatform.system;
 
@@ -310,6 +314,7 @@ in
     };
   }
 
+  # The Firefox profile directory differs between platforms, so set the Linux location only on Linux and leave the macOS default in place.
   (mkIf pkgs.stdenv.isLinux {
     programs.firefox.configPath = ".mozilla/firefox";
   })

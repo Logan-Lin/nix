@@ -1,6 +1,11 @@
+# Full Hyprland Wayland desktop for a Linux host.
+# A host opts in by importing this module.
+# It starts the compositor with its keybindings and autostart programs, adds idle dimming and screen locking through hypridle and hyprlock, sets the wallpaper through hyprpaper, applies GTK and Qt dark theming, and provides a waybar status bar, a wofi launcher, and default applications for common file types.
+
 { config, pkgs, lib, ... }:
 
 let
+  # Pick a window from all workspaces through a wofi menu and focus it.
   windowSwitcher = pkgs.writeShellScript "hypr-window-switcher" ''
     ${pkgs.hyprland}/bin/hyprctl clients -j \
       | ${pkgs.jq}/bin/jq -r '.[] | select(.workspace.id > 0) | "\(.address)|\(.class): \(.title)"' \
@@ -86,6 +91,8 @@ in
     components = [ "secrets" "ssh" ];
   };
 
+  # monitors.conf is written at runtime by nwg-displays and stays outside home-manager.
+  # Create an empty one when it is missing so the source directive in the Hyprland config below does not fail.
   home.activation.ensureHyprMonitorsConf = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     mkdir -p "$HOME/.config/hypr"
     [ -e "$HOME/.config/hypr/monitors.conf" ] || touch "$HOME/.config/hypr/monitors.conf"
@@ -134,6 +141,7 @@ in
         };
       };
 
+      # Spawn every window floating instead of tiled.
       windowrule = [
         "float 1, match:class .*"
       ];

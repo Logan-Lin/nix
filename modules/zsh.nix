@@ -1,6 +1,11 @@
+# Interactive zsh configuration for home-manager.
+# Enables completion, autosuggestions, and syntax highlighting, adds shell functions that search and open files through fzf, and sets a Gruvbox themed starship prompt.
+
 { config, pkgs, lib, ... }:
 
 let
+  # Build fd exclude flags shared by the fzf file search functions.
+  # The macOS home Library tree is large and slow to walk, so keep it out of the results.
   fdIgnorePatterns = [
     "Library"
   ];
@@ -32,6 +37,8 @@ in
       zle -N edit-command-line
       bindkey '^G' edit-command-line
 
+      # Live file search through fzf.
+      # Seeding fzf with empty input and rerunning fd on each keystroke through the change:reload binding refreshes results as you type.
       function cdf() {
         local search_dir="''${1:-~}"
         local target
@@ -130,6 +137,7 @@ in
 
       jobs.style = "#fb4934";
 
+      # Clear the file based detection so the segment shows only when a virtualenv is active, instead of in every directory that holds python files.
       python = {
         style = "#fe8019";
         format = "[ $virtualenv]($style) ";

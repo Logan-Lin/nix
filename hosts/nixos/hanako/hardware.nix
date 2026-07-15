@@ -1,3 +1,5 @@
+# Generated hardware scan for the hanako host, a virtualized QEMU or Xen guest.
+
 { lib, pkgs, modulesPath, ... }:
 
 {

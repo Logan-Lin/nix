@@ -1,3 +1,6 @@
+# NixOS platform default for the system configuration.
+# Imports the cross-platform system default and disko, then layers on the settings shared by all NixOS hosts, such as SSH access, the primary user, and Tailscale networking.
+
 { config, pkgs, inputs, ... }:
 
 {

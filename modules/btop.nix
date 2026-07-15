@@ -1,3 +1,6 @@
+# btop system monitor configured through home-manager.
+# Sets a Gruvbox dark theme and vi style navigation, and shows CPU, memory, network, process, and GPU panels.
+
 { pkgs, lib, ... }:
 
 {

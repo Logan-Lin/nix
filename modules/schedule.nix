@@ -1,3 +1,6 @@
+# Home-manager module that runs user defined shell command sequences on a systemd timer schedule.
+# A host declares one or more named instances under services.scheduled-commands, each with its commands, an OnCalendar interval, and an optional random delay.
+
 { config, pkgs, lib, ... }:
 
 with lib;
@@ -5,6 +8,7 @@ with lib;
 let
   cfg = config.services.scheduled-commands;
 
+  # Source the user's zshrc first, so the scheduled commands run with the same PATH, aliases, and functions as an interactive shell.
   makeCommandScript = name: instanceCfg: pkgs.writeScriptBin "${name}-run" ''
     #!${pkgs.zsh}/bin/zsh
     source ${config.home.homeDirectory}/.zshrc
@@ -80,6 +84,7 @@ in
             StandardError = "journal";
           };
 
+          # The timer is the only thing that should start this service, so force its target list empty to keep it from being enabled on its own.
           Install = {
             WantedBy = mkForce [];
           };

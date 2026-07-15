@@ -1,3 +1,7 @@
+# Flake entry point for the Nix configuration.
+# Declares the external inputs and discovers hosts automatically by reading the directories under each platform group in hosts/.
+# For each host it produces a system configuration and a matching home-manager configuration, and it passes the flake inputs through to every module.
+
 {
   description = "Default environment";
 

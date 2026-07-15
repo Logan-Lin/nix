@@ -1,3 +1,7 @@
+# Disk layout for the nadeshiko host, consumed by disko.
+# Two SATA SSDs each carry a BIOS boot partition and an EFI system partition, and their remaining space forms the mirrored ZFS root pool rpool with datasets for the system, home, and the Nix store.
+# A separate NVMe drive holds its own ZFS storage pool mounted at /mnt/storage.
+
 {
   disko.devices = {
     disk = {
@@ -42,6 +46,7 @@
               size = "1M";
               type = "EF02";
             };
+            # Second EFI system partition on the mirror partner, kept bootable so the machine survives loss of either disk.
             esp2 = {
               size = "500M";
               type = "EF00";

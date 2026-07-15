@@ -1,3 +1,7 @@
+# Custom Syncthing layer over the home-manager syncthing service.
+# It records the device ids of the user's machines and exposes syncthing-custom.folders, so a host enables a shared folder by setting syncthing-custom.folders.<name>.enable = true.
+# The declarative device and folder lists are authoritative, and a matching .stignore is written into each enabled folder on activation.
+
 # NOTE: Obtain device id using command `syncthing device-id`
 
 { config, pkgs, lib, ... }:
@@ -18,9 +22,13 @@ let
     "misaki" = {
       id = "D27MBZ3-IZXD5IE-WF5WZJE-4C4XNH3-PTHU5HP-QVEZYBX-UZ5OM2B-HK6LGQC";
     };
+    # The Google Pixel, named after 小川こころ, the dreamy and unpredictable oddball of 大室花子's friends who hides surprising ability behind an airy manner.
+    # Like her, this is the quirky odd one out of the fleet, the lone Android among the Apple phone and the Macs.
     "kokoro" = {
       id = "4ZKYD65-5KZUGTO-M5UMCC4-7ZVPUOC-HWXYIKD-XGNH75T-NCUDUGB-V2GT3AZ";
     };
+    # The iPhone, named after 相馬未来, a cheerful and ordinary member of 大室花子's friends who never quite stands out.
+    # Like her, this is a plain everyday phone that does nothing wrong and nothing remarkable.
     "mirai" = {
       id = "NMWI5MP-J4FC4A6-SDDXZPD-G66TJCO-2W7KGFD-RJWQ53U-I7GUVWP-WHF4QQO";
     };
@@ -33,6 +41,7 @@ let
     ".obsidian/workspace.json" ".obsidian/workspace-mobile.json"
   ];
 
+  # A folder path is stored as a literal "~/..." string, so expand it to $HOME at activation time when the .stignore file is written.
   shellPath = p:
     if lib.hasPrefix "~/" p
     then ''"$HOME"/'' + lib.escapeShellArg (lib.removePrefix "~/" p)
@@ -94,6 +103,7 @@ in
           devices = f.devices;
         } // mkVersioning f.maxAgeDays) enabled;
 
+        # The GUI binds to loopback only, so it runs without a password and skips the host check.
         gui = {
           enabled = cfg.enableGui;
           user = "yanlin";
@@ -103,6 +113,7 @@ in
         };
 
         options = {
+          # -1 declines Syncthing usage reporting.
           urAccepted = -1;
           relaysEnabled = true;
           localAnnounceEnabled = true;

@@ -1,3 +1,6 @@
+# NixOS platform default for the home-manager configuration.
+# Imports the cross-platform home default and layers on the settings specific to Linux.
+
 { config, pkgs, inputs, ... }:
 
 {

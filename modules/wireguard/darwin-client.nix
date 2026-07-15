@@ -1,3 +1,7 @@
+# WireGuard VPN client for a nix-darwin host.
+# A host enables it with services.wireguard-client and sets the interface address, the server public key and endpoint, and the routes to send over the tunnel.
+# The private key is generated on the first deploy and its public key is printed so it can be registered on the server.
+
 # NOTE: After deploy, get public key with: `sudo sh -c 'wg pubkey < /etc/wireguard/private.key'`
 
 { config, pkgs, lib, ... }:
@@ -41,6 +45,8 @@ in
       fi
     '';
 
+    # nix-darwin generates the launchd daemon that brings up wg0, and this overrides it to fix the boot order on macOS.
+    # The /nix/store volume can mount after launchd starts the daemon, so wait4path blocks until the store is available before wg-quick starts the tunnel.
     launchd.daemons.wg-quick-wg0.serviceConfig = {
       KeepAlive = lib.mkForce {
         NetworkState = true;

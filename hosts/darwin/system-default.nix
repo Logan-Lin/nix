@@ -1,3 +1,6 @@
+# macOS platform default for the system configuration.
+# Imports the cross-platform system default and layers on the macOS settings every host shares.
+
 { config, pkgs, inputs, ... }:
 
 {
@@ -88,6 +91,7 @@
         "/Users/yanlin/Downloads"
       ];
 
+      # 1 disables the hot corner action, applied to all four corners.
       wvous-tl-corner = 1;
       wvous-tr-corner = 1;
       wvous-bl-corner = 1;

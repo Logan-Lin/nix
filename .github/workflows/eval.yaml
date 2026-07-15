@@ -1,3 +1,5 @@
+# Evaluates every system and home configuration for both platforms on each push.
+# A change that fails to evaluate is caught here before it lands.
 name: evaluate
 on: [push]
 
@@ -21,12 +23,14 @@ jobs:
 
       - name: Evaluate ${{ matrix.host-attr }}
         run: |
+          # Mapping each configuration to its derivation path forces a full evaluation without building it.
           nix eval ".#${{ matrix.host-attr }}" \
             --apply 'builtins.mapAttrs (_: v: v.config.system.build.toplevel.drvPath)' \
             --json > /dev/null
 
       - name: Evaluate matching home configs
         run: |
+          # Each runner evaluates only the home configurations that belong to its own platform.
           for config in $(nix eval .#homeConfigurations --apply 'x: builtins.attrNames x' --json | jq -r '.[]'); do
             sys=$(nix eval ".#homeConfigurations.\"${config}\".activationPackage.system" --raw 2>/dev/null || true)
             if [ "$sys" = "${{ matrix.system }}" ]; then

@@ -1,3 +1,6 @@
+# Neovim configuration built with nixvim for home-manager.
+# A host opts in by importing this module, which sets Neovim as the default editor and configures its options, Gruvbox theme, plugins, and key mappings.
+
 { pkgs, lib, inputs, ... }:
 
 {
@@ -46,6 +49,7 @@
           show_icons = false;
           set_vim_settings = true;
           tabpage_section = "none";
+          # Truncate a tab label longer than 30 characters, keeping its tail and prefixing an ellipsis so the file name end stays visible.
           format.__raw = ''
             function(_, label)
               local max = 30
@@ -142,6 +146,7 @@
           indent = {
             enable = true;
           };
+          # Grammars come from Nix through grammarPackages below, so runtime download and install are disabled.
           ensure_installed = [];
           auto_install = false;
         };
@@ -389,6 +394,7 @@
       vim.treesitter.language.register('latex', 'plaintex')
       vim.treesitter.language.register('json', 'jsonl')
 
+      -- Disable treesitter highlighting and indenting on files larger than one megabyte to keep them responsive.
       vim.api.nvim_create_autocmd("FileType", {
         callback = function(args)
           local max_bytes = 1024 * 1024
@@ -400,6 +406,8 @@
         end,
       })
 
+      -- In an SSH session the local system clipboard is unreachable, so route yanks and pastes through OSC 52 terminal escape sequences.
+      -- Detection also queries tmux because a tmux session started before the SSH connection may not expose the SSH environment variables to Neovim.
       local function ssh_session_active()
         if vim.env.SSH_TTY or vim.env.SSH_CONNECTION or vim.env.SSH_CLIENT then
           return true

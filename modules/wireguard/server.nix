@@ -1,3 +1,7 @@
+# WireGuard VPN server module.
+# A host enables it with services.wireguard-server, sets the interface address, and lists each peer public key with its allowed IPs.
+# The server private key is generated on the host at first boot, so it never needs to be committed to this public repository.
+
 # NOTE: After deploy, get public key with: `sudo sh -c 'wg pubkey < /etc/wireguard/private.key'`
 
 { config, pkgs, lib, ... }:
@@ -31,6 +35,7 @@ in
   config = mkIf cfg.enable {
     environment.systemPackages = [ pkgs.wireguard-tools ];
 
+    # Enable IP forwarding so the server can route traffic on behalf of its peers.
     boot.kernel.sysctl."net.ipv4.conf.all.forwarding" = lib.mkDefault true;
 
     systemd.tmpfiles.rules = [
@@ -38,6 +43,7 @@ in
       "f /etc/wireguard/private.key 0600 root root - -"
     ];
 
+    # Run before wg-quick brings up the interface so the private key file already exists.
     systemd.services.wireguard-keygen = {
       description = "Generate WireGuard private key";
       before = [ "wg-quick-wg0.service" ];

@@ -1,3 +1,5 @@
+# Scheduled workflow that updates the flake inputs and opens a pull request once every configuration still builds.
+# The cron trigger fires daily, but the gate job only proceeds on Saturdays or when the previous run failed, so updates normally land weekly with a retry after a failure.
 name: update-flake
 on:
   schedule:

@@ -1,3 +1,7 @@
+# Media and archive tooling for the interactive shell.
+# Installs codecs and archive utilities and defines zsh functions to batch convert audio, image, and video files and to create, list, and extract archives.
+# A host opts in by importing this module.
+
 { config, pkgs, lib, ... }:
 
 {
@@ -50,6 +54,7 @@
         esac
         outfile="$outdir/$stem.m4a"
         ${pkgs.coreutils}/bin/mkdir -p "$outdir"
+        # -nostdin and the stdin redirect keep ffmpeg from consuming the file list that xargs is piping to the parallel workers.
         ${pkgs.ffmpeg}/bin/ffmpeg -nostdin -loglevel error -nostats -i "$f" -vn -c:a aac -b:a 256k -movflags +faststart "$outfile" >/dev/null </dev/null
         echo "Converted: $f -> $outfile"
       ' _
@@ -96,6 +101,7 @@
           local tmp=$(${pkgs.coreutils}/bin/mktemp)
           local converted=0
           if [[ "$enc" == "unknown-8bit" ]]; then
+            # The cue sheet has no clear encoding, so try common CJK encodings in turn and keep the first that decodes cleanly.
             for try_enc in CP932 Shift_JIS EUC-JP GB18030 BIG5; do
               if iconv -f "$try_enc" -t UTF-8 "$cue" > "$tmp" 2>/dev/null; then
                 ${pkgs.coreutils}/bin/mv "$tmp" "$cue"

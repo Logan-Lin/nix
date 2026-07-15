@@ -1,3 +1,7 @@
+# Scheduled Borg backups for a NixOS host, driven by systemd timers.
+# A host enables services.borg-custom and sets repositoryUrl, and the module backs up backupPaths to that local or ssh:// repository, prunes old archives to the retention policy, and runs an integrity check on its own schedule.
+# Backup or check failures are reported to ntfy.
+
 # NOTE: Passphrase file at: `/etc/borg-passphrase` with mode 600
 # content: `BORG_PASSPHRASE=your-passphrase`
 
@@ -105,6 +109,7 @@ in
       path = [ pkgs.borgbackup pkgs.openssh pkgs.curl ]
         ++ lib.optionals cfg.dumpPostgres [ pkgs.postgresql pkgs.gzip pkgs.util-linux ];
 
+      # borg-backup and borg-check share this lock file so the two never run against the repository at the same time.
       unitConfig = {
         ConditionPathExists = "!/run/borg-backup.lock";
       };
@@ -117,6 +122,7 @@ in
         ExecStopPost = "${pkgs.coreutils}/bin/rm -f /run/borg-backup.lock";
         PrivateTmp = true;
         ProtectSystem = "strict";
+        # An ssh:// repository needs the script to read the user's SSH config and keys under /home, so ProtectHome stays off in that case.
         ProtectHome = mkIf (!(lib.hasPrefix "ssh://" cfg.repositoryUrl)) "read-only";
         ReadWritePaths = [ "/run" ]
           ++ (if (lib.hasPrefix "ssh://" cfg.repositoryUrl) then [] else [ cfg.repositoryUrl ])
@@ -148,6 +154,7 @@ in
           source "${passphraseFile}"
         fi
 
+        # The service runs as root, so copy the user's SSH config and keys into root's home to reach an ssh:// repository.
         if [[ "${cfg.repositoryUrl}" == ssh://* ]]; then
           mkdir -p /root/.ssh && chmod 700 /root/.ssh
           [ -f /home/yanlin/.ssh/config ] && cp /home/yanlin/.ssh/config /root/.ssh/config && chmod 600 /root/.ssh/config
@@ -171,6 +178,7 @@ in
           "::$(date +%Y-%m-%d_%H-%M-%S)" \
           ${backupPathsStr}
 
+        # Prune and compact run after a successful create and are allowed to fail without failing the backup.
         set +e
         borg prune --list --show-rc ${retentionArgs} || true
         borg compact || true

@@ -1,3 +1,6 @@
+# Tmux configuration that sets a Gruvbox status line, vi style pane navigation and copy mode, and automatic session save and restore through the resurrect and continuum plugins.
+# Adds the sesh session manager with a zsh alias and a prefix popup to switch sessions through fzf.
+
 { pkgs, ... }:
 
 {
@@ -28,6 +31,7 @@
 
     extraConfig = ''
       set -g default-terminal "xterm-256color"
+      # Enable true color, italics, and cursor shape changes for the xterm-256color terminal.
       set -ga terminal-overrides ",xterm-256color:Tc,xterm-256color:sitm=\\E[3m:ritm=\\E[23m,xterm-256color:Ss=\\E[%p1%d q:Se=\\E[2 q"
       set -g set-clipboard on
 
