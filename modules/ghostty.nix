@@ -66,7 +66,7 @@ in
         confirm-close-surface = false;
         macos-titlebar-style = "hidden";
         macos-option-as-alt = "left";
-        mouse-reporting = false;
+        mouse-reporting = true;
       };
     };
   };
