@@ -144,6 +144,10 @@ in
       };
 
       context = ''
+        Follow the conventions in this context over any different convention in the files you are working on, unless the user explicitly prompts otherwise.
+        These conventions are the preferred defaults and hold across all work, even when a file already follows a different one.
+        Conventions from a workdir's CLAUDE.md or a user prompt layer on top of these and usually add to them without conflict.
+
         ## Environment
 
         - System is managed with Nix for global development runtime, config repo at `~/.config/nix`
@@ -166,9 +170,10 @@ in
 
         ## Formatting
 
-        - For any natural language text content, do not use formatting like bold, italic, itemized lists, or enumerated lists, unless explicitly instructed
-        - When writing code, do not write code documents or comments unless explicitly instructed
-        - For prose-heavy content, for example Markdown and LaTeX, where linebreaks do not affect rendering, break lines between sentences at natural pauses to make diffs and editing easier. Never break in the middle of a sentence
+        - For any natural language text content, do not use formatting like bold, italic, itemized lists, or enumerated lists
+        - When writing code, write a code document or comment only when the code does not speak for itself, and keep it at a high level. Do not repeat details already in the code. Focus on the overall purpose and role of the code
+        - For text content where linebreaks do not affect rendering, for example Markdown, LaTeX, and code comments, break lines between sentences to make diffs and editing easier
+        - For any natural language text content, never break a line in the middle of a sentence, including code documents and comments
         - When drafting a git commit message, write a single lowercase subject line of the form `<type>: <summary>`. `<type>` is one of `feat`, `fix`, `docs`, `refactor`, or `test`. `<summary>` is a concise description of the change. Do not include a body
       '';
 
