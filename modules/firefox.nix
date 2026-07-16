@@ -55,12 +55,11 @@ in
               {
                 name = "reference";
                 bookmarks = [
-                  { name = "Google Translate"; url = "https://translate.google.com/?sl=auto&tl=en&op=translate"; }
-                  { name = "Merriam-Webster"; url = "https://www.merriam-webster.com/"; }
-                  { name = "Jisho"; url = "https://jisho.org/"; }
-                  { name = "コトバンク"; url = "https://kotobank.jp/"; }
-                  { name = "Claude"; url = "https://claude.ai/new"; }
-                  { name = "Emojipedia"; url = "https://emojipedia.org/"; }
+                  { name = "Google Earth"; url = "https://earth.google.com/web"; }
+                  { name = "Google Maps"; url = "https://www.google.com/maps"; }
+                  { name = "Google Flights"; url = "https://www.google.com/travel/flights"; }
+                  { name = "World Time Buddy"; url = "https://www.worldtimebuddy.com/"; }
+                  { name = "Dateful World Clock"; url = "https://dateful.com/world-clock"; }
                 ];
               }
               {
@@ -69,20 +68,10 @@ in
                   { name = "GitHub"; url = "https://github.com/Logan-Lin?tab=repositories"; }
                   { name = "Homebrew Formulae"; url = "https://formulae.brew.sh/"; }
                   { name = "NixOS Packages"; url = "https://search.nixos.org/packages?channel=unstable"; }
-                  { name = "Web Check"; url = "https://web-check.xyz/"; }
-                  { name = "PageSpeed Insights"; url = "https://pagespeed.web.dev/"; }
-                  { name = "Ping.pe"; url = "https://ping.pe/"; }
-                  { name = "Claude Platform"; url = "https://platform.claude.com"; }
-                ];
-              }
-              {
-                name = "homelab";
-                bookmarks = [
                   { name = "Cloudflare"; url = "https://dash.cloudflare.com"; }
                   { name = "Hetzner"; url = "https://console.hetzner.com"; }
                   { name = "UniFi"; url = "https://unifi.ui.com/"; }
                   { name = "ntfy"; url = "https://ntfy.sh/yanlincs-homelab"; }
-                  { name = "Deluge"; url = "https://deluge.yanlincs.com/"; }
                   { name = "Syncthing"; url = "http://127.0.0.1:8384/"; }
                   { name = "Tailscale"; url = "https://login.tailscale.com/admin/machines"; }
                 ];
@@ -90,17 +79,8 @@ in
               {
                 name = "media";
                 bookmarks = [
-                  { name = "MusicBrainz"; url = "https://musicbrainz.org/"; }
-                  { name = "Goodreads"; url = "https://www.goodreads.com/"; }
-                  { name = "BiliBili"; url = "https://t.bilibili.com/"; }
-                  { name = "YouTube"; url = "https://www.youtube.com/feed/subscriptions"; }
                   { name = "楽天Kobo"; url = "https://books.rakuten.co.jp/e-book/"; }
                   { name = "Qobuz"; url = "https://www.qobuz.com/dk-en/shop"; }
-                ];
-              }
-              {
-                name = "tracker";
-                bookmarks = [
                   { name = "JPopsuki"; url = "https://jpopsuki.eu/index.php"; }
                   { name = "HDSky"; url = "https://hdsky.me/torrents.php"; }
                   { name = "OurBits"; url = "https://ourbits.club/torrents.php"; }
@@ -119,17 +99,6 @@ in
                   { name = "Overleaf"; url = "https://www.overleaf.com/project"; }
                   { name = "mailbox.org"; url = "https://app.mailbox.org/"; }
                   { name = "Gmail"; url = "https://mail.google.com/"; }
-                ];
-              }
-              {
-                name = "travel";
-                bookmarks = [
-                  { name = "Google Earth"; url = "https://earth.google.com/web"; }
-                  { name = "Google Maps"; url = "https://www.google.com/maps"; }
-                  { name = "Google Flights"; url = "https://www.google.com/travel/flights"; }
-                  { name = "AccuWeather"; url = "https://www.accuweather.com/"; }
-                  { name = "World Time Buddy"; url = "https://www.worldtimebuddy.com/"; }
-                  { name = "Dateful World Clock"; url = "https://dateful.com/world-clock"; }
                 ];
               }
               {
