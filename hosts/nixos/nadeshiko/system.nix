@@ -84,14 +84,23 @@
   };
 
   users.users.yanlin = {
-    extraGroups = [ "networkmanager" "wheel" ];
+    # render and video grant access to /dev/dri so Jellyfin, which runs as this user, can reach the iGPU for QuickSync transcoding.
+    extraGroups = [ "networkmanager" "wheel" "render" "video" ];
     hashedPassword = "$6$8NUV0JK33hs3XBYe$osnYKzENDLYHQEpj8Z5F6ECpLdc8Y3RZcVGxQ0bc/6DepTwugAkfX8h6ItI01dJyk8RstiGsWVVCKGwXaL.sN.";
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG35m0DgTrEOAM+1wAlYZ8mvLelNTcx65cFccGPQcxmo yanlin@imac"
     ];
   };
 
-  hardware.graphics.enable = true;
+  hardware.graphics = {
+    enable = true;
+    # QuickSync transcoding on the Alder Lake iGPU: the iHD VAAPI driver, the oneVPL runtime, and the compute runtime for OpenCL tone mapping.
+    extraPackages = with pkgs; [
+      intel-media-driver
+      vpl-gpu-rt
+      intel-compute-runtime
+    ];
+  };
 
   environment.systemPackages = with pkgs; [
     smartmontools
