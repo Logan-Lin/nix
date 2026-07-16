@@ -58,6 +58,7 @@
       "tencent-meeting"
       "wechat"
       "handbrake-app"
+      "adobe-acrobat-reader"
     ];
   };
 
