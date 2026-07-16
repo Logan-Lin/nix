@@ -73,6 +73,9 @@
 
     proxies = {
       deluge.backend = "http://nadeshiko:8112";
+      jellyfin.backend = "http://nadeshiko:8096";
+      sonarr.backend = "http://nadeshiko:8989";
+      radarr.backend = "http://nadeshiko:7878";
     };
   };
 

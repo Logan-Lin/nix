@@ -14,6 +14,7 @@
     ../../../modules/borg.nix
     ../../../modules/disk-health.nix
     ../../../modules/deluge.nix
+    ../../../modules/media-stream.nix
     ../../../modules/samba.nix
   ];
 
@@ -122,6 +123,11 @@
   services.deluge-custom = {
     enable = true;
     downloadDir = "/mnt/storage/downloads";
+  };
+
+  services.media-stream = {
+    enable = true;
+    mediaDir = "/mnt/storage/media";
   };
 
   services.samba-share = {
