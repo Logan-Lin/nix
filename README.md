@@ -7,7 +7,10 @@ Flake-based NixOS/nix-darwin configuration with home-manager.
 - `flake.nix`: Entry point, defines inputs and host outputs
 - `flake.lock`: Pinned input versions
 - `.github/workflows/`: automatic CI workflows for nix evaluation and flake updates
-- `hosts/`: Per-host configurations, organized by platform
+- `hosts/`: Per-host configurations, organized by platform and layered from general to specific
+  - `hosts/{system,home}-default.nix`: defaults shared by every machine
+  - `hosts/<platform>/{system,home}-default.nix`: defaults for each platform, layered onto the root
+  - `hosts/<platform>/<host>/{system,home}.nix`: feature modules and settings for each host, plus hardware and disk layout files on Linux
 - `modules/`: Reusable modules shared across hosts
 
 ## Commands
