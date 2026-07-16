@@ -146,6 +146,7 @@
           acltype = "posix";
           xattr = "sa";
           relatime = "on";
+          "com.sun:auto-snapshot" = "true";
         };
         mountpoint = "/mnt/storage";
       };
