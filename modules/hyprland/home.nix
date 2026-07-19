@@ -141,18 +141,13 @@ in
         };
       };
 
-      # Spawn every window floating instead of tiled.
-      windowrule = [
-        "float 1, match:class .*"
-      ];
-
       general = {
         gaps_in = 0;
         gaps_out = 0;
         border_size = 2;
         "col.active_border" = "rgba(fabd2fee) rgba(fe8019ee) 45deg";
         "col.inactive_border" = "rgba(928374aa)";
-        layout = "dwindle";
+        layout = "master";
       };
 
       decoration = {
@@ -190,6 +185,8 @@ in
 
       bind = [
         "SUPER, Return, togglefloating,"
+        "SUPER, N, exec, hyprctl keyword general:layout master"
+        "SUPER, M, exec, hyprctl keyword general:layout dwindle"
         "SUPER, F, fullscreen,"
         "SUPER, Q, killactive,"
 

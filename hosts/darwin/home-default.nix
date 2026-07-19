@@ -147,13 +147,13 @@ in
     config-version = 2;
 
     workspace-to-monitor-force-assignment."10" = "secondary";
-
-    on-window-detected = [
-      { "if" = "true"; run = [ "layout floating" ]; }
-    ];
+    automatically-unhide-macos-hidden-apps = true;
+    default-root-container-layout = "accordion";
 
     mode.main.binding = {
       alt-enter = "layout floating tiling";
+      alt-n = "layout accordion horizontal vertical";
+      alt-m = "layout tiles horizontal vertical";
       alt-f = "fullscreen";
       alt-q = "close";
 
