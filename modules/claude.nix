@@ -39,13 +39,22 @@ let
     [ "$elapsed" -ge ${toString notifyThresholdSeconds} ] || exit 0
 
     cwd=$(printf '%s' "$input" | ${pkgs.jq}/bin/jq -r '.cwd // ""')
+    event=$(printf '%s' "$input" | ${pkgs.jq}/bin/jq -r '.hook_event_name // ""')
     host=$(${pkgs.coreutils}/bin/uname -n | ${pkgs.coreutils}/bin/cut -d. -f1)
 
-    # Report the tmux session and window when the run is inside tmux, and fall back to the working directory otherwise.
-    if [ -n "$TMUX" ] && [ -n "$TMUX_PANE" ] && where=$(${pkgs.tmux}/bin/tmux display-message -p -t "$TMUX_PANE" '#S/#W' 2>/dev/null) && [ -n "$where" ]; then
-      body="Stopped in $where"
+    # Name the action after the hook that fired, "Notified" for a Notification and "Stopped" otherwise.
+    if [ "$event" = "Notification" ]; then
+      verb="Notified"
     else
-      body="Stopped in $cwd"
+      verb="Stopped"
+    fi
+
+    # Report the tmux session and window when the run is inside tmux, and fall back to the working directory otherwise.
+    # A screen emoji marks a tmux session and a folder emoji marks a working directory.
+    if [ -n "$TMUX" ] && [ -n "$TMUX_PANE" ] && where=$(${pkgs.tmux}/bin/tmux display-message -p -t "$TMUX_PANE" '#S/#W' 2>/dev/null) && [ -n "$where" ]; then
+      body="$verb 🖥️ $where"
+    else
+      body="$verb 📁 $cwd"
     fi
 
     ${pkgs.curl}/bin/curl -s \
