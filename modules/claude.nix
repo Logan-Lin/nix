@@ -39,13 +39,17 @@ let
     [ "$elapsed" -ge ${toString notifyThresholdSeconds} ] || exit 0
 
     cwd=$(printf '%s' "$input" | ${pkgs.jq}/bin/jq -r '.cwd // ""')
-    proj=$(${pkgs.coreutils}/bin/basename "$cwd" 2>/dev/null || echo session)
     host=$(${pkgs.coreutils}/bin/uname -n | ${pkgs.coreutils}/bin/cut -d. -f1)
 
-    body=$(${pkgs.coreutils}/bin/printf 'Stopped in %s' "$cwd")
+    # Report the tmux session and window when the run is inside tmux, and fall back to the working directory otherwise.
+    if [ -n "$TMUX" ] && [ -n "$TMUX_PANE" ] && where=$(${pkgs.tmux}/bin/tmux display-message -p -t "$TMUX_PANE" '#S/#W' 2>/dev/null) && [ -n "$where" ]; then
+      body="Stopped in $where"
+    else
+      body="Stopped in $cwd"
+    fi
 
     ${pkgs.curl}/bin/curl -s \
-      -H "Title: claude on $host: $proj" \
+      -H "Title: claude@$host" \
       -d "$body" \
       "https://${ntfyUrl}" >/dev/null 2>&1 || true
     exit 0
