@@ -92,6 +92,7 @@
       bind-key -T copy-mode-vi r send-keys -X rectangle-toggle
 
       set-option -g allow-rename off
+      set -g automatic-rename-format ""
       set -g history-limit 10000
       set -g display-time 2000
       set -g display-panes-time 3000
