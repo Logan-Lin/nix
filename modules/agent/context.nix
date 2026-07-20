@@ -1,7 +1,11 @@
-''
+# Shared context for the agent CLIs, written to the global memory file each CLI reads.
+{
+  # memoryFile is the name each CLI expects for its global memory file.
+  memoryFile,
+}: ''
   Follow the conventions in this context over any different convention in the files you are working on, unless the user explicitly prompts otherwise.
   These conventions are the preferred defaults and hold across all work, even when a file already follows a different one.
-  Conventions from a workdir's CLAUDE.md or a user prompt layer on top of these and usually add to them without conflict.
+  Conventions from a workdir's ${memoryFile} or a user prompt layer on top of these and usually add to them without conflict.
 
   ## Environment
 
@@ -9,7 +13,7 @@
   - If a workdir has a Nix flake development runtime defined in `./runtime/flake.nix`, run commands and scripts that depend on it through `nix develop ./runtime`. Do not directly invoking the binaries the runtime generates, for example `.venv/bin/python`
   - If a workdir has a `Makefile`, use `make` to compile and extend the `Makefile` when needed, instead of running generic compile commands
   - When a CLI tool is needed, first check whether it exists in the host environment. If it does not, run it temporarily through `nix-shell`, for example `nix-shell -p <package> --run '<command>'`
-  - The user's personal Obsidian vault is at `~/Documents/app-state/obsidian`. It tracks his projects, their programs, his work log, and drafts, and is the authoritative source for facts about him. Whenever working with the vault, always read its `CLAUDE.md` first for the vault's layout and conventions. A wikilink like `[[Name]]` in a user prompt typically refers to a note in the Obsidian vault
+  - The user's personal Obsidian vault is at `~/Documents/app-state/obsidian`. It tracks his projects, their programs, his work log, and drafts, and is the authoritative source for facts about him. Whenever working with the vault, always read its `${memoryFile}` first for the vault's layout and conventions. A wikilink like `[[Name]]` in a user prompt typically refers to a note in the Obsidian vault
 
   ## Writing Style
 

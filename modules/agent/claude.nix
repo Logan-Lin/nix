@@ -164,7 +164,7 @@ in
         };
       };
 
-      context = import ./context.nix;
+      context = import ./context.nix { memoryFile = "CLAUDE.md"; };
 
       commands = {
         proofread = ''

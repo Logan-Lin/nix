@@ -90,7 +90,7 @@ in
       enable = true;
       package = bleed.codex;
 
-      context = import ./context.nix;
+      context = import ./context.nix { memoryFile = "AGENTS.md"; };
 
       # UserPromptSubmit marks the turn start, Stop marks the turn end, and PermissionRequest fires when Codex pauses to ask for approval.
       hooks = {
