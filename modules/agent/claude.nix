@@ -11,58 +11,8 @@ let
     config.allowUnfree = true;
   };
 
-  ntfyUrl = "ntfy.sh/yanlincs-homelab";
-  notifyThresholdSeconds = 15;
-  notifyDir = ''"''${XDG_RUNTIME_DIR:-''${TMPDIR:-/tmp}}/claude-notify"'';
-
-  # notifyStart records a start time for each session when a prompt is submitted.
-  # notifyStop pushes to the ntfy topic when a run finishes, and only when the run lasted at least notifyThresholdSeconds, so quick turns stay silent.
-  notifyStart = pkgs.writeShellScript "claude-notify-start" ''
-    input=$(cat)
-    sid=$(printf '%s' "$input" | ${pkgs.jq}/bin/jq -r '.session_id // "default"')
-    dir=${notifyDir}
-    ${pkgs.coreutils}/bin/mkdir -p "$dir"
-    ${pkgs.coreutils}/bin/date +%s > "$dir/$sid.start"
-    exit 0
-  '';
-
-  notifyStop = pkgs.writeShellScript "claude-notify-stop" ''
-    input=$(cat)
-    dir=${notifyDir}
-    sid=$(printf '%s' "$input" | ${pkgs.jq}/bin/jq -r '.session_id // "default"')
-    startfile="$dir/$sid.start"
-    [ -f "$startfile" ] || exit 0
-    start=$(${pkgs.coreutils}/bin/cat "$startfile" 2>/dev/null || echo 0)
-    ${pkgs.coreutils}/bin/rm -f "$startfile"
-    now=$(${pkgs.coreutils}/bin/date +%s)
-    elapsed=$(( now - start ))
-    [ "$elapsed" -ge ${toString notifyThresholdSeconds} ] || exit 0
-
-    cwd=$(printf '%s' "$input" | ${pkgs.jq}/bin/jq -r '.cwd // ""')
-    event=$(printf '%s' "$input" | ${pkgs.jq}/bin/jq -r '.hook_event_name // ""')
-    host=$(${pkgs.coreutils}/bin/uname -n | ${pkgs.coreutils}/bin/cut -d. -f1)
-
-    # Name the action after the hook that fired, "Notified" for a Notification and "Stopped" otherwise.
-    if [ "$event" = "Notification" ]; then
-      verb="Notified"
-    else
-      verb="Stopped"
-    fi
-
-    # Report the tmux session and window when the run is inside tmux, and fall back to the working directory otherwise.
-    # A screen emoji marks a tmux session and a folder emoji marks a working directory.
-    if [ -n "$TMUX" ] && [ -n "$TMUX_PANE" ] && where=$(${pkgs.tmux}/bin/tmux display-message -p -t "$TMUX_PANE" '#S/#W' 2>/dev/null) && [ -n "$where" ]; then
-      body="$verb 🖥️ $where"
-    else
-      body="$verb 📁 $cwd"
-    fi
-
-    ${pkgs.curl}/bin/curl -s \
-      -H "Title: claude@$host" \
-      -d "$body" \
-      "https://${ntfyUrl}" >/dev/null 2>&1 || true
-    exit 0
-  '';
+  # Claude fires a Notification when it waits for input or permission, so treat that event as needing attention.
+  inherit (import ./hook.nix { inherit pkgs; agent = "claude"; attentionEvent = "Notification"; }) notifyStart notifyStop;
 in
 {
   config = {
