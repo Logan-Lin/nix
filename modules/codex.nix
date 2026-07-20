@@ -1,8 +1,8 @@
 # Home-manager module that configures the OpenAI Codex CLI.
-# It sets program options and permission rules, defines the global context and custom prompts, and wires notification hooks that push to an ntfy topic when a session finishes or needs attention.
+# It sets program options and permission rules, defines the global context, and wires notification hooks that push to an ntfy topic when a session finishes or needs attention.
 # A host opts in by importing this module.
 
-{ config, pkgs, inputs, ... }:
+{ config, lib, pkgs, inputs, ... }:
 
 let
   # Pull the codex package from a separate newer nixpkgs input to get releases ahead of the pinned channel.
@@ -16,8 +16,7 @@ let
   notifyDir = ''"''${XDG_RUNTIME_DIR:-''${TMPDIR:-/tmp}}/codex-notify"'';
 
   # notifyStart records a start time for each session when a prompt is submitted.
-  # notifyStop pushes to the ntfy topic when a run finishes, and only when the run lasted at least notifyThresholdSeconds, so quick turns stay silent.
-  # Each hook receives the session id, working directory, and event name as JSON on stdin.
+  # notifyStop pushes to the ntfy topic when a run finishes or waits for approval, and only when the run lasted at least notifyThresholdSeconds, so quick turns stay silent.
   notifyStart = pkgs.writeShellScript "codex-notify-start" ''
     input=$(cat)
     sid=$(printf '%s' "$input" | ${pkgs.jq}/bin/jq -r '.session_id // "default"')
@@ -64,6 +63,26 @@ let
       "https://${ntfyUrl}" >/dev/null 2>&1 || true
     exit 0
   '';
+
+  # Codex settings for ~/.codex/config.toml. features.hooks must be true or Codex ignores hooks.json.
+  codexSettings = {
+    model_reasoning_effort = "high";
+    approval_policy = "on-request";
+    sandbox_mode = "workspace-write";
+    sandbox_workspace_write = {
+      network_access = true;
+      writable_roots = [ "${config.home.homeDirectory}/Documents" ];
+    };
+    web_search = "live";
+    tools.view_image = true;
+    features.hooks = true;
+    tui = {
+      animations = false;
+      show_tooltips = false;
+      theme = "ansi";
+    };
+  };
+  codexConfig = (pkgs.formats.toml { }).generate "codex-config.toml" codexSettings;
 in
 {
   config = {
@@ -71,93 +90,6 @@ in
       enable = true;
       package = bleed.codex;
 
-      # Written to ~/.codex/config.toml.
-      # features.hooks is required because Codex ignores hooks.json unless it is enabled.
-      settings = {
-        model_reasoning_effort = "high";
-        approval_policy = "on-request";
-        sandbox_mode = "workspace-write";
-        # Widen the workspace-write sandbox.
-        # network_access lets sandboxed commands reach the network, so Nix and git fetches run without an approval prompt each time.
-        # writable_roots adds paths Codex may write to outside the current project, here the Documents tree that holds the Obsidian vault.
-        sandbox_workspace_write = {
-          network_access = true;
-          writable_roots = [ "${config.home.homeDirectory}/Documents" ];
-        };
-        # web_search "live" fetches real external sources instead of the cached index, which the fact-check prompt relies on.
-        web_search = "live";
-        # view_image lets Codex open local image files as attachments.
-        tools.view_image = true;
-        features.hooks = true;
-        tui = {
-          animations = false;
-          show_tooltips = false;
-        };
-      };
-
-      # Written to ~/.codex/hooks.json under a top-level hooks key.
-      # UserPromptSubmit marks the turn start, Stop marks the turn end, and PermissionRequest fires when Codex pauses to ask for approval.
-      hooks = {
-        UserPromptSubmit = [
-          {
-            hooks = [
-              {
-                type = "command";
-                command = "${notifyStart}";
-                timeout = 5;
-              }
-            ];
-          }
-        ];
-        Stop = [
-          {
-            hooks = [
-              {
-                type = "command";
-                command = "${notifyStop}";
-                timeout = 15;
-              }
-            ];
-          }
-        ];
-        PermissionRequest = [
-          {
-            matcher = "";
-            hooks = [
-              {
-                type = "command";
-                command = "${notifyStop}";
-                timeout = 15;
-              }
-            ];
-          }
-        ];
-      };
-
-      # Command permissions live in execpolicy rules written to ~/.codex/rules/baseline.rules.
-      # Read-only inspection commands run without a prompt, dangerous commands are blocked outright, and everything else follows approval_policy.
-      # The file is named baseline rather than default so Codex keeps default.rules free for the rules it writes when approvals are accepted interactively.
-      rules = {
-        baseline = ''
-          prefix_rule(
-            pattern = ["git", ["status", "log", "diff", "show"]],
-            decision = "allow",
-            justification = "Inspecting git state is safe",
-          )
-          prefix_rule(
-            pattern = [["ls", "cat", "head", "tail", "find", "grep", "wc", "file", "which", "pwd"]],
-            decision = "allow",
-            justification = "These commands only inspect the system and are safe",
-          )
-          prefix_rule(
-            pattern = [["su", "dd", "mkfs", "fdisk"]],
-            decision = "forbidden",
-            justification = "Privilege escalation and raw disk tools are not permitted",
-          )
-        '';
-      };
-
-      # Written to ~/.codex/AGENTS.md.
       context = ''
         Follow the conventions in this context over any different convention in the files you are working on, unless the user explicitly prompts otherwise.
         These conventions are the preferred defaults and hold across all work, even when a file already follows a different one.
@@ -191,91 +123,48 @@ in
         - For any natural language text content, never break a line in the middle of a sentence, including code documents and comments
         - When drafting a git commit message, write a single lowercase subject line of the form `<type>: <summary>`. `<type>` is one of `feat`, `fix`, `docs`, `refactor`, or `test`. `<summary>` is a concise description of the change. Do not include a body
       '';
+
+      # UserPromptSubmit marks the turn start, Stop marks the turn end, and PermissionRequest fires when Codex pauses to ask for approval.
+      hooks = {
+        UserPromptSubmit = [
+          { hooks = [ { type = "command"; command = "${notifyStart}"; timeout = 5; } ]; }
+        ];
+        Stop = [
+          { hooks = [ { type = "command"; command = "${notifyStop}"; timeout = 15; } ]; }
+        ];
+        PermissionRequest = [
+          { matcher = ""; hooks = [ { type = "command"; command = "${notifyStop}"; timeout = 15; } ]; }
+        ];
+      };
+
+      # Command permissions as execpolicy rules in ~/.codex/rules/baseline.rules, paired with approval_policy.
+      rules = {
+        baseline = ''
+          prefix_rule(
+            pattern = ["git", ["status", "log", "diff", "show"]],
+            decision = "allow",
+            justification = "Inspecting git state is safe",
+          )
+          prefix_rule(
+            pattern = [["ls", "cat", "head", "tail", "find", "grep", "wc", "file", "which", "pwd"]],
+            decision = "allow",
+            justification = "These commands only inspect the system and are safe",
+          )
+          prefix_rule(
+            pattern = [["su", "dd", "mkfs", "fdisk"]],
+            decision = "forbidden",
+            justification = "Privilege escalation and raw disk tools are not permitted",
+          )
+        '';
+      };
     };
 
-    # Custom prompts live under ~/.codex/prompts and surface as /prompts:<name> in the Codex slash menu.
-    # The programs.codex module has no option for them, so they are written directly.
-    # Custom prompts are deprecated upstream in favor of skills, but they still work.
-    home.file = {
-      ".codex/prompts/proofread.md".text = ''
-        ---
-        description: Proofread text for grammar and spelling issues
-        argument-hint: <file>
-        ---
+    # Codex records per-directory trust into config.toml at runtime and has no global trust setting, so it needs a writable file rather than a read-only store symlink.
+    # The copy is reinstalled on each switch, keeping nix authoritative for settings while Codex owns the trust entries it writes between switches.
+    home.activation.codexConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+      $DRY_RUN_CMD ${pkgs.coreutils}/bin/rm -f "$HOME/.codex/config.toml"
+      $DRY_RUN_CMD ${pkgs.coreutils}/bin/install -Dm0644 ${codexConfig} "$HOME/.codex/config.toml"
+    '';
 
-        ## Task
-
-        Read the file provided in $ARGUMENTS and proofread it for:
-        - Grammar errors
-        - Spelling mistakes
-        - Punctuation issues
-        - Awkward phrasing
-
-        Fix all issues directly in the file. After editing, provide a brief summary of the changes made. Do not alter meaning, tone, or style. Only correct errors.
-      '';
-
-      ".codex/prompts/polish.md".text = ''
-        ---
-        description: Aggressive proofread that fixes errors and enforces writing style rules
-        argument-hint: <file>
-        ---
-
-        ## Task
-
-        Read the file provided in $ARGUMENTS, then proofread and edit it for both basic errors and writing style.
-
-        Fix the following basic errors:
-        - Grammar errors
-        - Spelling mistakes
-        - Punctuation issues
-        - Awkward phrasing
-
-        And enforce the following writing style rules:
-        - Use plain and direct phrasing. Replace needlessly fancy, idiomatic, or indirect vocabulary, slang, syntax, or constructions with plain alternatives. For example, "use" instead of "utilize", "to" instead of "in order to", or "many" instead of "a myriad of"
-        - Expand or merge a short, abstract sentence that asserts a point or opens a paragraph and leans on the next sentence to make sense. Give the sentence the specifics it needs to stand on its own, or merge it with the sentence that supplies them. When a sentence marks a transition, state how it connects to what came before and after, instead of only announcing that something changes. For example, "the rewrite cut the average response time in half" instead of "the rewrite changes everything"
-        - Replace the "not A but B" phrasing, which rejects an alternative before stating the point, plus its variants such as "not A, but rather B", "it is not A, it is B", "B, not A", and "not only A but also B", with a direct statement of the point. For example, "the bottleneck is the data" instead of "the bottleneck is not the method but the data"
-        - Replace hyphenated compound words, whether they join two words or more, with plain phrasing, for example "a value smaller than the limit" instead of "a smaller-than-the-limit value". Leave a hyphenated compound unchanged only when no plain phrasing can replace it, such as "state-of-the-art", "mother-in-law", and "x-ray"
-        - Do not use em dashes or en dashes to connect sentences. Split into separate sentences or rephrase
-        - Do not use semicolons, colons, or parentheses to join or compress sentences. Rewrite as flowing prose with separate sentences
-        - When referring to the same thing, use the exact same term throughout. Remove unnecessary terms and concepts. The only exception is that shorter references can be used when the full term has been established and the short form is obvious from context
-
-        Fix all issues directly in the file. After editing, provide a brief summary of the changes made. Do not alter the underlying meaning. Only adjust wording, phrasing, and formatting to meet the rules.
-      '';
-
-      ".codex/prompts/fact-check.md".text = ''
-        ---
-        description: Check the target file for factual errors against reputable sources
-        argument-hint: <file>
-        ---
-
-        ## Task
-
-        Read the file provided in $ARGUMENTS and check it for factual errors:
-        - Identify concrete factual claims (names, dates, numbers, attributions, definitions, events, technical specifications, etc.)
-        - Verify each claim against reputable and relatively recent sources by searching the web. Prefer primary sources, official documentation, peer-reviewed publications, and well-established outlets. Avoid relying on a single low-quality source
-        - Skip opinions, subjective statements, and unverifiable claims
-
-        For any confirmed factual error, fix it directly in the file with the minimal change needed to make the statement correct. Do not rewrite surrounding text, alter style, or restructure prose.
-
-        After editing, provide a brief summary listing each correction made, with the source used to verify it. If no errors were found, state that explicitly.
-      '';
-
-      ".codex/prompts/commit.md".text = ''
-        ---
-        description: Commit the current change as a single subject line
-        argument-hint: [optional summary hint]
-        ---
-
-        ## Task
-
-        Commit the current working tree change as one commit.
-
-        1. Stage and review the change.
-        2. Write the message as a single lowercase subject line of the form `<type>: <summary>`. `<type>` is one of `feat`, `fix`, `docs`, `refactor`, or `test`. `<summary>` is a concise description of the change
-        3. Commit with the message. Write only the subject line, with no body and no attribution trailer.
-
-        When $ARGUMENTS is given, use it as guidance for the summary. Stay on the current branch and do not push.
-      '';
-    };
   };
 }
