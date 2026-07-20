@@ -49,7 +49,7 @@ in
   imports = [
     ../home-default.nix
     ../../modules/ghostty.nix
-    ../../modules/claude.nix
+    ../../modules/agent/claude.nix
     ../../modules/firefox.nix
     ../../modules/syncthing.nix
     ../../modules/media-tool.nix

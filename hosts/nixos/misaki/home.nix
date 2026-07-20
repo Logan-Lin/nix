@@ -32,7 +32,7 @@
     ../home-default.nix
     ../../../modules/syncthing.nix
     ../../../modules/media-tool.nix
-    ../../../modules/claude.nix
+    ../../../modules/agent/claude.nix
     ../../../modules/ghostty.nix
     ../../../modules/firefox.nix
     ../../../modules/hyprland/home.nix
