@@ -58,6 +58,8 @@ in
                   { name = "Google Earth"; url = "https://earth.google.com/web"; }
                   { name = "Google Maps"; url = "https://www.google.com/maps"; }
                   { name = "Google Flights"; url = "https://www.google.com/travel/flights"; }
+                  { name = "Claude"; url = "https://claude.ai/new"; }
+                  { name = "ChatGPT"; url = "https://chatgpt.com/"; }
                   { name = "World Time Buddy"; url = "https://www.worldtimebuddy.com/"; }
                   { name = "Dateful World Clock"; url = "https://dateful.com/world-clock"; }
                 ];
@@ -74,6 +76,13 @@ in
                   { name = "ntfy"; url = "https://ntfy.sh/yanlincs-homelab"; }
                   { name = "Syncthing"; url = "http://127.0.0.1:8384/"; }
                   { name = "Tailscale"; url = "https://login.tailscale.com/admin/machines"; }
+                  {
+                    name = "ai platforms";
+                    bookmarks = [
+                      { name = "OpenAI Platform"; url = "https://platform.openai.com/home"; }
+                      { name = "Claude Platform"; url = "https://platform.claude.com/dashboard"; }
+                    ];
+                  }
                 ];
               }
               {
@@ -81,11 +90,9 @@ in
                 bookmarks = [
                   { name = "楽天Kobo"; url = "https://books.rakuten.co.jp/e-book/"; }
                   { name = "Qobuz"; url = "https://www.qobuz.com/dk-en/shop"; }
+                  { name = "MusicBrainz"; url = "https://musicbrainz.org/"; }
                   { name = "BiliBili"; url = "https://t.bilibili.com/"; }
                   { name = "YouTube"; url = "https://www.youtube.com/feed/subscriptions"; }
-                  { name = "Jellyfin"; url = "https://jellyfin.yanlincs.com/"; }
-                  { name = "Sonarr"; url = "https://sonarr.yanlincs.com/"; }
-                  { name = "Radarr"; url = "https://radarr.yanlincs.com/"; }
                   { name = "Deluge"; url = "https://deluge.yanlincs.com/"; }
                   {
                     name = "private tracker";
