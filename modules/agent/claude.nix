@@ -34,7 +34,7 @@ in
         promptSuggestionEnabled = false;
         skipAutoPermissionPrompt = true;
         effortLevel = "xhigh";
-        ultracode = true;
+        ultracode = false;
         enableWorkflows = true;
         terminalProgressBarEnabled = false;
         theme = "dark-ansi";
