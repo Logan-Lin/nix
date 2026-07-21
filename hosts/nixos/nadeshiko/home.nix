@@ -15,6 +15,7 @@
     ../../../modules/syncthing.nix
     ../../../modules/media-tool.nix
     ../../../modules/agent/claude.nix
+    ../../../modules/agent/codex.nix
     ../../../modules/schedule.nix
   ];
 
