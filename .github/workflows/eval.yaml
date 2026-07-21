@@ -1,10 +1,25 @@
-# Evaluates every system and home configuration for both platforms on each push.
+# Evaluates every module, system configuration, and home configuration on each push.
 # A change that fails to evaluate is caught here before it lands.
 name: evaluate
 on: [push]
 
 jobs:
-  evaluate:
+  evaluate-modules:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: DeterminateSystems/nix-installer-action@main
+
+      - name: Evaluate all modules
+        run: |
+          # Discover modules directly so this check includes files that no host imports.
+          while IFS= read -r -d '' module; do
+            echo "Evaluating ${module}..."
+            nix-instantiate --eval --strict "${module}" > /dev/null
+          done < <(find modules -type f -name '*.nix' -print0 | sort -z)
+
+  evaluate-hosts:
     strategy:
       fail-fast: false
       matrix:
