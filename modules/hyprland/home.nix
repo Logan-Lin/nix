@@ -102,6 +102,7 @@ in
     enable = true;
     xwayland.enable = true;
     configType = "hyprlang";
+    plugins = [ pkgs.hyprlandPlugins.hy3 ];
 
     extraConfig = ''
       source = ~/.config/hypr/monitors.conf
@@ -147,7 +148,19 @@ in
         border_size = 2;
         "col.active_border" = "rgba(fabd2fee) rgba(fe8019ee) 45deg";
         "col.inactive_border" = "rgba(928374aa)";
-        layout = "master";
+        layout = "hy3";
+      };
+
+      plugin.hy3 = {
+        tab_first_window = true;
+
+        tabs = {
+          height = 30;
+          padding = 6;
+          radius = 0;
+          border_width = 2;
+          blur = false;
+        };
       };
 
       decoration = {
@@ -185,8 +198,8 @@ in
 
       bind = [
         "SUPER, Return, togglefloating,"
-        "SUPER, N, exec, hyprctl keyword general:layout master"
-        "SUPER, M, exec, hyprctl keyword general:layout dwindle"
+        "SUPER, N, hy3:changegroup, tab"
+        "SUPER, M, hy3:changegroup, untab"
         "SUPER, F, fullscreen,"
         "SUPER, Q, killactive,"
 
@@ -195,15 +208,15 @@ in
         "SUPER, Tab, exec, ${windowSwitcher}"
         "SUPER, C, exec, cliphist list | wofi --dmenu | cliphist decode | wl-copy"
 
-        "SUPER, h, movefocus, l"
-        "SUPER, j, movefocus, d"
-        "SUPER, k, movefocus, u"
-        "SUPER, l, movefocus, r"
+        "SUPER, h, hy3:movefocus, l"
+        "SUPER, j, hy3:movefocus, d"
+        "SUPER, k, hy3:movefocus, u"
+        "SUPER, l, hy3:movefocus, r"
 
-        "SUPER SHIFT, h, movewindow, l"
-        "SUPER SHIFT, j, movewindow, d"
-        "SUPER SHIFT, k, movewindow, u"
-        "SUPER SHIFT, l, movewindow, r"
+        "SUPER SHIFT, h, hy3:movewindow, l"
+        "SUPER SHIFT, j, hy3:movewindow, d"
+        "SUPER SHIFT, k, hy3:movewindow, u"
+        "SUPER SHIFT, l, hy3:movewindow, r"
 
         "SUPER, left, resizeactive, -50 0"
         "SUPER, right, resizeactive, 50 0"
