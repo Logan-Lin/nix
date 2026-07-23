@@ -121,7 +121,8 @@ in
           ## Additional Instructions
 
           When writing any natural language text content, use a direct and straightforward style.
-          Express ideas clearly and concisely, and keep the writing focused and coherent without unnecessary framing, transitions, or repetition.
+          Express ideas clearly and concisely, using only the framing, transitions, and repetition needed for coherence.
+          Keep the writing centered on its core ideas, and add supporting context only when it improves understanding, accuracy, or completeness.
         '';
       };
 
