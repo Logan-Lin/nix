@@ -2,6 +2,7 @@
 {
   # memoryFile is the name each CLI expects for its global memory file.
   memoryFile,
+  additionalContext ? "",
 }: ''
   Follow the conventions in this context over any different convention in the files you are working on, unless the user explicitly prompts otherwise.
   These conventions are the preferred defaults and hold across all work, even when a file already follows a different one.
@@ -35,3 +36,4 @@
   - For any natural language text content, never break a line in the middle of a sentence, including code documents and comments
   - When drafting a git commit message, write a single lowercase subject line of the form `<type>: <summary>`. `<type>` is one of `feat`, `fix`, `docs`, `refactor`, or `test`. `<summary>` is a concise description of the change. Do not include a body
 ''
++ additionalContext

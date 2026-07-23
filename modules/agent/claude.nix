@@ -114,7 +114,16 @@ in
         };
       };
 
-      context = import ./context.nix { memoryFile = "CLAUDE.md"; };
+      context = import ./context.nix {
+        memoryFile = "CLAUDE.md";
+        additionalContext = ''
+
+          ## Additional Instructions
+
+          When writing any natural language text content, use a direct and straightforward style.
+          Express ideas clearly and concisely, and keep the writing focused and coherent without unnecessary framing, transitions, or repetition.
+        '';
+      };
 
       commands = {
         proofread = ''
