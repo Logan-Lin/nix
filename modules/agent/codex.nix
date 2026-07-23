@@ -16,7 +16,7 @@ let
 
   # Codex settings for ~/.codex/config.toml. features.hooks must be true or Codex ignores hooks.json.
   codexSettings = {
-    model_reasoning_effort = "high";
+    model_reasoning_effort = "xhigh";
     approval_policy = "on-request";
     sandbox_mode = "workspace-write";
     sandbox_workspace_write = {
