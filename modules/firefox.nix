@@ -19,6 +19,7 @@ let
         vimium
         darkreader
         cookies-txt
+        sponsorblock
       ]
     else [];
 in
