@@ -1,5 +1,5 @@
 # NixOS configuration for hanako, a headless home server.
-# It runs podman containers including a MongoDB database, publishes internal services under yanlincs.com through an nginx reverse proxy with ACME certificates, and backs its data up to a remote Borg repository.
+# It runs podman containers including a MongoDB database and backs its data up to a remote Borg repository.
 # Named after 大室花子, the youngest of the three 大室 sisters and the family's composed honor student.
 # This host has the most modest hardware in the fleet, a small virtual machine, yet it stays always available and every other host relies on it, the way the family relies on Hanako.
 
@@ -12,7 +12,6 @@
     ./containers.nix
     ../system-default.nix
     ../../../modules/podman.nix
-    ../../../modules/nginx.nix
     ../../../modules/borg.nix
   ];
 
@@ -43,7 +42,7 @@
     firewall = {
       enable = true;
       # Port 27017 exposes the MongoDB container to remote clients.
-      allowedTCPPorts = [ 22 80 443 27017 ];
+      allowedTCPPorts = [ 22 27017 ];
     };
   };
 
@@ -64,16 +63,6 @@
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGVvviqbwBEGDIbAUnmgHQJi+N5Qfvo5u49biWl6R7oC yanlin@MacBook-Air"
     ];
-  };
-
-  services.reverse-proxy = {
-    enable = true;
-    defaultDomain = "yanlincs.com";
-    acmeEmail = "cloudflare@yanlincs.com";
-
-    proxies = {
-      deluge.backend = "http://nadeshiko:8112";
-    };
   };
 
   services.journald.extraConfig = "SystemMaxUse=1G";
