@@ -1,0 +1,115 @@
+# Manual workflow that updates only the nixpkgs-bleed input and opens a pull request once every configuration still builds.
+# It runs solely on demand through workflow_dispatch, with no schedule or gate.
+name: update-bleed
+on:
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    outputs:
+      changed: ${{ steps.check.outputs.changed }}
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: DeterminateSystems/nix-installer-action@main
+
+      - name: Update nixpkgs-bleed input
+        run: nix flake update nixpkgs-bleed
+
+      - name: Check for changes
+        id: check
+        run: |
+          if git diff --quiet flake.lock; then
+            echo "No changes to flake.lock"
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "flake.lock updated"
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Upload flake.lock
+        if: steps.check.outputs.changed == 'true'
+        uses: actions/upload-artifact@v7
+        with:
+          name: update-bleed-output
+          path: flake.lock
+          retention-days: 1
+
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            system: x86_64-linux
+            host-attr: nixosConfigurations
+          - os: macos-latest
+            system: aarch64-darwin
+            host-attr: darwinConfigurations
+    runs-on: ${{ matrix.os }}
+    needs: update
+    if: needs.update.outputs.changed == 'true'
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/download-artifact@v8
+        with:
+          name: update-bleed-output
+
+      - uses: DeterminateSystems/nix-installer-action@main
+
+      - name: Build ${{ matrix.host-attr }}
+        run: |
+          for host in $(nix eval ".#${{ matrix.host-attr }}" --apply 'x: builtins.attrNames x' --json | jq -r '.[]'); do
+            nix build ".#${{ matrix.host-attr }}.${host}.config.system.build.toplevel" --no-link
+          done
+
+      - name: Build matching home configs
+        run: |
+          for config in $(nix eval .#homeConfigurations --apply 'x: builtins.attrNames x' --json | jq -r '.[]'); do
+            sys=$(nix eval ".#homeConfigurations.\"${config}\".activationPackage.system" --raw 2>/dev/null || true)
+            if [ "$sys" = "${{ matrix.system }}" ]; then
+              nix build ".#homeConfigurations.\"${config}\".activationPackage" --no-link
+            fi
+          done
+
+  pr:
+    runs-on: ubuntu-latest
+    needs: [update, build]
+    if: needs.update.outputs.changed == 'true'
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Download flake.lock
+        uses: actions/download-artifact@v8
+        with:
+          name: update-bleed-output
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "git.bot@yanlincs.com"
+          git checkout -B flake-update-bleed
+          git add flake.lock
+          git commit -m "auto: update nixpkgs-bleed input"
+          git push -f origin flake-update-bleed
+
+      - name: Create or update pull request
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          run_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+          body="Build results: see the [workflow run](${run_url})."
+          existing=$(gh pr list --head flake-update-bleed --state open --json number --jq '.[0].number')
+          if [ -n "$existing" ]; then
+            echo "PR #${existing} already exists, updating body"
+            gh pr edit "$existing" --body "$body"
+          else
+            gh pr create --title "Update nixpkgs-bleed input" --body "$body" --head flake-update-bleed --base master
+          fi
