@@ -12,7 +12,7 @@ let
   };
 
   # Claude fires a Notification when it waits for input or permission, so treat that event as needing attention.
-  inherit (import ./hook.nix { inherit pkgs; agent = "claude"; attentionEvent = "Notification"; }) notifyStart notifyStop;
+  inherit (import ./hook.nix { inherit pkgs; agent = "claude"; attentionEvent = "Notification"; }) notifyStop;
 in
 {
   config = {
@@ -43,17 +43,6 @@ in
         };
 
         hooks = {
-          UserPromptSubmit = [
-            {
-              hooks = [
-                {
-                  type = "command";
-                  command = "${notifyStart}";
-                  timeout = 5;
-                }
-              ];
-            }
-          ];
           Stop = [
             {
               hooks = [
@@ -65,7 +54,7 @@ in
               ];
             }
           ];
-          # Claude fires a Notification when it waits for input or permission, so reuse notifyStop to push to the ntfy topic and reset the timer.
+          # Claude fires a Notification when it waits for input or permission, so reuse notifyStop to push to the ntfy topic.
           Notification = [
             {
               matcher = "";

@@ -12,7 +12,7 @@ let
   };
 
   # Codex fires a PermissionRequest when it pauses to ask for approval, so treat that event as needing attention.
-  inherit (import ./hook.nix { inherit pkgs; agent = "codex"; attentionEvent = "PermissionRequest"; }) notifyStart notifyStop;
+  inherit (import ./hook.nix { inherit pkgs; agent = "codex"; attentionEvent = "PermissionRequest"; }) notifyStop;
 
   # Codex settings for ~/.codex/config.toml. features.hooks must be true or Codex ignores hooks.json.
   codexSettings = {
@@ -42,11 +42,8 @@ in
 
       context = import ./context.nix { memoryFile = "AGENTS.md"; };
 
-      # UserPromptSubmit marks the turn start, Stop marks the turn end, and PermissionRequest fires when Codex pauses to ask for approval.
+      # Stop marks the turn end, and PermissionRequest fires when Codex pauses to ask for approval.
       hooks = {
-        UserPromptSubmit = [
-          { hooks = [ { type = "command"; command = "${notifyStart}"; timeout = 5; } ]; }
-        ];
         Stop = [
           { hooks = [ { type = "command"; command = "${notifyStop}"; timeout = 15; } ]; }
         ];
