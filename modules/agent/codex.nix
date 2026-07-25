@@ -55,26 +55,7 @@ in
         ];
       };
 
-      # Command permissions as execpolicy rules in ~/.codex/rules/baseline.rules, paired with approval_policy.
-      rules = {
-        baseline = ''
-          prefix_rule(
-            pattern = ["git", ["status", "log", "diff", "show"]],
-            decision = "allow",
-            justification = "Inspecting git state is safe",
-          )
-          prefix_rule(
-            pattern = [["ls", "cat", "head", "tail", "find", "grep", "wc", "file", "which", "pwd"]],
-            decision = "allow",
-            justification = "These commands only inspect the system and are safe",
-          )
-          prefix_rule(
-            pattern = [["su", "dd", "mkfs", "fdisk"]],
-            decision = "forbidden",
-            justification = "Privilege escalation and raw disk tools are not permitted",
-          )
-        '';
-      };
+      # Forbidden command prefixes live in ~/.codex/rules/baseline.rules.
     };
 
     # Codex records per-directory trust into config.toml at runtime and has no global trust setting, so it needs a writable file rather than a read-only store symlink.

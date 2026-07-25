@@ -20,7 +20,7 @@
 
     # Global ignores so macOS metadata and local AI assistant config never get committed to any repository.
     ignores = [
-      ".DS_Store" ".claude/" ".codex/"
+      ".DS_Store" ".claude/" ".codex/" ".opencode/"
       "AGENTS.md" "CLAUDE.md"
     ];
 

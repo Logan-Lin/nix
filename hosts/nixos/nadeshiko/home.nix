@@ -16,6 +16,7 @@
     ../../../modules/media-tool.nix
     ../../../modules/agent/claude.nix
     ../../../modules/agent/codex.nix
+    ../../../modules/agent/opencode.nix
     ../../../modules/schedule.nix
   ];
 

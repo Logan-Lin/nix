@@ -34,6 +34,7 @@
     ../../../modules/media-tool.nix
     ../../../modules/agent/claude.nix
     ../../../modules/agent/codex.nix
+    ../../../modules/agent/opencode.nix
     ../../../modules/ghostty.nix
     ../../../modules/firefox.nix
     ../../../modules/hyprland/home.nix
