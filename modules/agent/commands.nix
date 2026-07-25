@@ -3,6 +3,7 @@
   proofread = ''
     ---
     description: Proofread text for grammar and spelling issues
+    argument-hint: <file>
     ---
 
     ## Task
@@ -19,6 +20,7 @@
   polish = ''
     ---
     description: Aggressive proofread that fixes errors and enforces writing style rules
+    argument-hint: <file>
     ---
 
     ## Task
@@ -46,6 +48,7 @@
   fact-check = ''
     ---
     description: Check the target file for factual errors against reputable sources
+    argument-hint: <file>
     ---
 
     ## Task
@@ -63,6 +66,7 @@
   commit = ''
     ---
     description: Commit the current change as a single subject line
+    argument-hint: [optional summary hint]
     ---
 
     ## Task
