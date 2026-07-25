@@ -31,10 +31,11 @@ in
     startfile="$dir/$sid.start"
     [ -f "$startfile" ] || exit 0
     start=$(${pkgs.coreutils}/bin/cat "$startfile" 2>/dev/null || echo 0)
-    ${pkgs.coreutils}/bin/rm -f "$startfile"
     now=$(${pkgs.coreutils}/bin/date +%s)
     elapsed=$(( now - start ))
+    # Keep the start marker when the run was too quick to notify, so a later event in the same turn can still reach the threshold instead of being silenced by an early event that consumed the marker.
     [ "$elapsed" -ge ${toString notifyThresholdSeconds} ] || exit 0
+    ${pkgs.coreutils}/bin/rm -f "$startfile"
 
     cwd=$(printf '%s' "$input" | ${pkgs.jq}/bin/jq -r '.cwd // ""')
     event=$(printf '%s' "$input" | ${pkgs.jq}/bin/jq -r '.hook_event_name // ""')

@@ -1,5 +1,5 @@
 # Home Manager module that configures the OpenCode CLI.
-# It sets program options and permissions, defines the global context and custom commands, and sends ntfy notifications when a session finishes or needs attention.
+# It sets program options and permissions, defines the global context and custom commands, and sends ntfy notifications when a root session finishes or reports an error.
 # A host opts in by importing this module.
 
 {
@@ -16,7 +16,9 @@ let
     config.allowUnfree = true;
   };
 
-  # OpenCode reports waiting states through events, so the plugin adapts those events to the shared notification scripts.
+  # The plugin maps opencode session events to the shared notification scripts.
+  # It notifies when a root session goes idle or reports an error, and reuses "Notification" for an error so the shared script labels it as needing attention.
+  # It ignores permission and question events on purpose, because opencode's auto mode auto-approves a permission but still emits the event, so notifying on it would fire for a prompt that never blocks the user.
   inherit
     (import ./hook.nix {
       inherit pkgs;
@@ -29,36 +31,48 @@ let
 
   notifyPlugin = pkgs.writeText "opencode-notify.js" ''
     const runHook = (command, sessionID, hookEventName, directory) => {
-      const process = Bun.spawn([command], {
+      const proc = Bun.spawn([command], {
         stdin: "pipe",
         stdout: "ignore",
         stderr: "ignore",
       })
-      process.stdin.write(JSON.stringify({
+      proc.stdin.write(JSON.stringify({
         session_id: sessionID,
         cwd: directory,
         hook_event_name: hookEventName,
       }))
-      process.stdin.end()
+      proc.stdin.end()
     }
 
-    export const NotificationPlugin = async ({ directory }) => ({
-      "chat.message": async ({ sessionID }) => {
-        runHook("${notifyStart}", sessionID, "UserPromptSubmit", directory)
-      },
-      event: async ({ event }) => {
-        if (event.type === "session.idle") {
-          runHook("${notifyStop}", event.properties.sessionID, "Stop", directory)
+    export const NotificationPlugin = async ({ directory, client }) => {
+      // A sub-agent runs in a child session, so only a root session with no parent marks a turn the user is waiting on.
+      const isRootSession = async (sessionID) => {
+        try {
+          const { data } = await client.session.get({ path: { id: sessionID } })
+          return !data?.parentID
+        } catch {
+          return true
         }
-        if (
-          event.type === "permission.asked" ||
-          event.type === "question.asked" ||
-          (event.type === "session.error" && event.properties.sessionID)
-        ) {
-          runHook("${notifyStop}", event.properties.sessionID, "Notification", directory)
-        }
-      },
-    })
+      }
+
+      return {
+        "chat.message": async ({ sessionID }, { parts }) => {
+          // Skip a fully synthetic message, which opencode injects to continue a turn rather than to start a new one, so the start time still measures the whole turn.
+          if (parts?.length && parts.every((part) => part.synthetic === true)) return
+          if (!(await isRootSession(sessionID))) return
+          runHook("${notifyStart}", sessionID, "UserPromptSubmit", directory)
+        },
+        // Only a root session records a start time, so a child session's idle or error finds no timer and stays silent.
+        event: async ({ event }) => {
+          if (event.type === "session.idle") {
+            runHook("${notifyStop}", event.properties.sessionID, "Stop", directory)
+          }
+          if (event.type === "session.error" && event.properties.sessionID) {
+            runHook("${notifyStop}", event.properties.sessionID, "Notification", directory)
+          }
+        },
+      }
+    }
   '';
 in
 {
