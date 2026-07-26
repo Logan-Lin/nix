@@ -21,6 +21,7 @@ in
       package = bleed.claude-code;
 
       settings = {
+        model = "fable";
         spinnerTipsEnabled = false;
         todoEnabled = true;
         autoCompactEnabled = true;
