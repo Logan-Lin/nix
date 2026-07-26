@@ -145,7 +145,7 @@ in
           "--keep-yearly ${toString keepYearly}"
         ];
       in ''
-        trap 'curl -s -d "Borg backup FAILED on ${config.networking.hostName} (exit $? at line $LINENO)" "${ntfyUrl}" || true; exit 1' ERR
+        trap 'curl -s -H "Title: Borg backup@${config.networking.hostName}" -d "FAILED (exit $? at line $LINENO)" "${ntfyUrl}" || true; exit 1' ERR
         set -e
 
         export BORG_RSH="${sshCommand}"
@@ -214,7 +214,7 @@ in
       };
 
       script = ''
-        trap 'curl -s -d "Borg check FAILED on ${config.networking.hostName} (exit $? at line $LINENO)" "${ntfyUrl}" || true; exit 1' ERR
+        trap 'curl -s -H "Title: Borg check@${config.networking.hostName}" -d "FAILED (exit $? at line $LINENO)" "${ntfyUrl}" || true; exit 1' ERR
         set -e
 
         export BORG_RSH="${sshCommand}"

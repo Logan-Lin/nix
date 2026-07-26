@@ -44,11 +44,11 @@ in
       script = let
         devicesStr = concatStringsSep " " (map (d: "'${d}'") cfg.devices);
       in ''
-        trap 'curl -s -d "Disk health check FAILED on ${config.networking.hostName}" "${ntfyUrl}" || true; exit 1' ERR
+        trap 'curl -s -H "Title: Disk health@${config.networking.hostName}" -d "FAILED" "${ntfyUrl}" || true; exit 1' ERR
         set -e
 
         FAILED=0
-        REPORT="Disk health on ${config.networking.hostName}"
+        REPORT=""
 
         for dev in ${devicesStr}; do
           JSON=$(smartctl --json=c -a "$dev") || true
@@ -87,9 +87,9 @@ in
         done
 
         if [ "$FAILED" -eq 1 ]; then
-          curl -s -H "Priority: urgent" -H "Tags: warning" -d "$REPORT" "${ntfyUrl}" || true
+          curl -s -H "Title: Disk health@${config.networking.hostName}" -H "Priority: urgent" -H "Tags: warning" -d "$REPORT" "${ntfyUrl}" || true
         else
-          curl -s -d "$REPORT" "${ntfyUrl}" || true
+          curl -s -H "Title: Disk health@${config.networking.hostName}" -d "$REPORT" "${ntfyUrl}" || true
         fi
       '';
     };
