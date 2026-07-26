@@ -15,7 +15,7 @@
     ../../../modules/disk-health.nix
     ../../../modules/deluge.nix
     ../../../modules/samba.nix
-    ../../../modules/cloudflared.nix
+    ../../../modules/cloudflare/tunnel.nix
   ];
 
   boot.loader.grub = {
