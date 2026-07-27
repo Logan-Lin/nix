@@ -59,6 +59,7 @@
       "wechat"
       "handbrake-app"
       "adobe-acrobat-reader"
+      "keycastr"
     ];
   };
 
