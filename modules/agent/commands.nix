@@ -83,6 +83,21 @@
     The user decides whether each TODO is fully solved.
   '';
 
+  revise = ''
+    ---
+    description: Revise an Obsidian vault note based on its comments
+    argument-hint: <optional [[note]]>
+    ---
+
+    ## Task
+
+    Revise the target Obsidian vault note according to the user's comments in standard blockquotes, in other words, blockquotes without a `> [!type]` callout marker on their first line.
+
+    Use the optional wikilink $ARGUMENTS to identify the target note.
+    If no wikilink was provided, infer the target note from the current session context.
+    Remove the user's comments after applying all requested revisions.
+  '';
+
   commit = ''
     ---
     description: Commit the current change as a single subject line
