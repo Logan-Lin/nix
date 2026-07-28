@@ -76,6 +76,8 @@ in
 
           ## Additional Instructions
 
+          When requested, orchestrate and launch a dynamic workflow for the task at hand, choosing optimally between Opus and Fable for the agents.
+
           When writing any natural language text content, use a direct and straightforward style.
           Express ideas clearly and concisely, using only the framing, transitions, and repetition needed for coherence.
           Keep the writing centered on its core ideas, and add supporting context only when it improves understanding, accuracy, or completeness.
