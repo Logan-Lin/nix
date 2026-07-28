@@ -18,8 +18,16 @@
 
     plugins = [
       {
-        plugin = pkgs.tmuxPlugins.resurrect;
-        # Restore only panes, not the programs that were running in them.
+        # Resurrect records process commands even when process restoration is disabled.
+        plugin = pkgs.tmuxPlugins.resurrect.overrideAttrs (oldAttrs: {
+          postPatch = (oldAttrs.postPatch or "") + ''
+            substituteInPlace scripts/save.sh \
+              --replace-fail \
+                'full_command="$(pane_full_command $pane_pid)"' \
+                'full_command=""; pane_command=""'
+          '';
+        });
+        # Restore the tmux layout without processes.
         extraConfig = "set -g @resurrect-processes 'false'";
       }
       {
