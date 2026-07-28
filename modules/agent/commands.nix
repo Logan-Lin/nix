@@ -8,7 +8,7 @@
 
     ## Task
 
-    Read the file provided in $ARGUMENTS and proofread it for:
+    Read the file(s) specified in $ARGUMENTS and proofread it for:
     - Grammar errors
     - Spelling mistakes
     - Punctuation issues
@@ -25,7 +25,7 @@
 
     ## Task
 
-    Read the file provided in $ARGUMENTS, then proofread and edit it for both basic errors and writing style.
+    Read the file(s) specified in $ARGUMENTS, then proofread and edit it for both basic errors and writing style.
 
     Fix the following basic errors:
     - Grammar errors
@@ -53,7 +53,7 @@
 
     ## Task
 
-    Read the file provided in $ARGUMENTS and check it for factual errors:
+    Read the file(s) specified in $ARGUMENTS and check it for factual errors:
     - Identify concrete factual claims (names, dates, numbers, attributions, definitions, events, technical specifications, etc.)
     - Verify each claim against reputable and relatively recent sources via WebSearch and WebFetch. Prefer primary sources, official documentation, peer-reviewed publications, and well-established outlets. Avoid relying on a single low-quality source
     - Skip opinions, subjective statements, and unverifiable claims
@@ -65,29 +65,27 @@
 
   gtd = ''
     ---
-    description: Act on an Obsidian TODO while preserving its source
+    description: Act on Obsidian vault TODOs
     argument-hint: <[[note]]> [TODO specification]
     ---
 
     ## Task
 
-    Act on the Obsidian TODOs identified by $ARGUMENTS.
+    Act on the Obsidian vault TODOs identified by $ARGUMENTS.
 
-    Treat $ARGUMENTS as a reference to one or more source TODOs.
     Use the first wikilink to identify the note that contains them.
-    Interpret the rest of the arguments as an optional specification that can identify TODOs in any form, including one or more checkbox lines or other contextual details.
-    If a specification is present, locate and act on every TODO it identifies, treating each associated `[!todo]` callout as detailed requirements.
+    Interpret the rest of the arguments as an optional specification that can identify one or more TODOs, such as a checkbox line or other contextual details.
+    If a specification is present, locate and act on the TODOs it identifies, treating each associated `[!todo]` callout as detailed requirements.
     If the arguments only identify a note, locate and act on every `[!todo]` callout in that note.
 
-    Keep every source TODO checkbox line and `[!todo]` callout exactly intact.
-    Do not remove or change the status of any source TODO after completing the work.
+    Keep every TODO checkbox line and `[!todo]` callout exactly intact.
+    Do not remove them or change their status after completing the work.
     The user decides whether each TODO is fully solved.
   '';
 
   commit = ''
     ---
     description: Commit the current change as a single subject line
-    argument-hint: [optional summary hint]
     ---
 
     ## Task
@@ -98,6 +96,6 @@
     2. Write the message as a single lowercase subject line of the form `<type>: <summary>`. `<type>` is one of `feat`, `fix`, `docs`, `refactor`, or `test`. `<summary>` is a concise description of the change
     3. Commit with the message. Write only the subject line, with no body and no attribution trailer.
 
-    When $ARGUMENTS is given, use it as guidance for the summary. Stay on the current branch and do not push.
+    Stay on the current branch and do not push.
   '';
 }
