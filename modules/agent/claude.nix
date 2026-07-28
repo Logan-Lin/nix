@@ -11,7 +11,7 @@ let
     config.allowUnfree = true;
   };
 
-  # Claude fires a Notification when it waits for input or permission, so treat that event as needing attention.
+  # Selected Notification types mean Claude needs input or permission, so treat that event as needing attention.
   inherit (import ./hook.nix { inherit pkgs; agent = "claude"; attentionEvent = "Notification"; }) notifyStop;
 in
 {
@@ -54,10 +54,10 @@ in
               ];
             }
           ];
-          # Claude fires a Notification when it waits for input or permission, so reuse notifyStop to push to the ntfy topic.
+          # Match only notifications that mean Claude is blocked on user input.
           Notification = [
             {
-              matcher = "";
+              matcher = "permission_prompt|elicitation_dialog|elicitation_url_dialog|agent_needs_input|worker_permission_prompt";
               hooks = [
                 {
                   type = "command";
