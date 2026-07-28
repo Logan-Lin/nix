@@ -63,6 +63,27 @@
     After editing, provide a brief summary listing each correction made, with the source used to verify it. If no errors were found, state that explicitly.
   '';
 
+  gtd = ''
+    ---
+    description: Act on an Obsidian TODO while preserving its source
+    argument-hint: <[[note]]> [TODO specification]
+    ---
+
+    ## Task
+
+    Act on the Obsidian TODOs identified by $ARGUMENTS.
+
+    Treat $ARGUMENTS as a reference to one or more source TODOs.
+    Use the first wikilink to identify the note that contains them.
+    Interpret the rest of the arguments as an optional specification that can identify TODOs in any form, including one or more checkbox lines or other contextual details.
+    If a specification is present, locate and act on every TODO it identifies, treating each associated `[!todo]` callout as detailed requirements.
+    If the arguments only identify a note, locate and act on every `[!todo]` callout in that note.
+
+    Keep every source TODO checkbox line and `[!todo]` callout exactly intact.
+    Do not remove or change the status of any source TODO after completing the work.
+    The user decides whether each TODO is fully solved.
+  '';
+
   commit = ''
     ---
     description: Commit the current change as a single subject line
