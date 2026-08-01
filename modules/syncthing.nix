@@ -36,7 +36,7 @@ let
 
   devices = lib.attrNames deviceIds;
 
-  ignorePatterns = [
+  globalIgnore = [
     "node_modules" ".venv" "__pycache__" ".DS_Store" ".localized" ".thumbnails"
     ".obsidian/workspace.json" ".obsidian/workspace-mobile.json"
   ];
@@ -53,6 +53,7 @@ let
       path = { type = lib.types.str; default = "~/${name}"; };
       maxAgeDays = { type = lib.types.int; default = 0; };
       devices = { type = lib.types.listOf lib.types.str; default = devices; };
+      ignore = { type = lib.types.listOf lib.types.str; default = []; };
     };
   in lib.mapAttrs (k: v: lib.mkOption {
     type = v.type;
@@ -126,7 +127,7 @@ in
       lib.concatStrings (lib.mapAttrsToList (name: f: ''
         folder=${shellPath f.path}
         if [ -d "$folder" ]; then
-          printf '%s\n' ${lib.escapeShellArgs ignorePatterns} > "$folder/.stignore"
+          printf '%s\n' ${lib.escapeShellArgs (globalIgnore ++ f.ignore)} > "$folder/.stignore"
         else
           echo "syncthing-custom: skipping .stignore for ${name} ($folder does not exist)"
         fi
