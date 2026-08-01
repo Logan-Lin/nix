@@ -42,8 +42,6 @@
       "ghostty"
       "iina"
       "inkscape"
-      "affinity"
-      "audacity"
       "keepassxc"
       "linearmouse"
       "localsend"
@@ -57,7 +55,6 @@
       "slidepilot"
       "tencent-meeting"
       "wechat"
-      "handbrake-app"
       "adobe-acrobat-reader"
       "keycastr"
     ];
