@@ -57,6 +57,7 @@
       "wechat"
       "adobe-acrobat-reader"
       "keycastr"
+      "calibre"
     ];
   };
 
