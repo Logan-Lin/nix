@@ -21,6 +21,7 @@ in
       package = bleed.claude-code;
 
       settings = {
+        model = "fable";
         spinnerTipsEnabled = false;
         todoEnabled = true;
         autoCompactEnabled = true;
@@ -76,7 +77,7 @@ in
 
           ## Additional Instructions
 
-          When requested, orchestrate and launch a dynamic workflow for the task at hand, choosing optimally between Opus and Fable for the agents.
+          When launching a workflow, choosing optimally between the `opus` and `fable` models for the agents.
 
           When writing any natural language text content, use a direct and straightforward style.
           Express ideas clearly and concisely, using only the framing, transitions, and repetition needed for coherence.
