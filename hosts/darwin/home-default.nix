@@ -58,7 +58,10 @@ in
   ];
 
   syncthing-custom.folders = {
-    Documents.enable = true;
+    Documents = {
+      enable = true;
+      ignore = [ "/Music" "/Books" ];
+    };
   };
 
   # Firefox and Ghostty are installed as macOS apps outside Nix.

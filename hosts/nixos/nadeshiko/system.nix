@@ -136,6 +136,7 @@
   services.samba-share = {
     enable = true;
     hostsAllow = [ "100.64.0.0/10" "10.1.1." ];
+    shares.Documents.path = "/home/yanlin/Documents";
     shares.storage.path = "/mnt/storage";
   };
 
