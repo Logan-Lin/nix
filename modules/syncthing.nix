@@ -25,7 +25,7 @@ let
     # The Google Pixel, named after 小川こころ, the dreamy and unpredictable oddball of 大室花子's friends who hides surprising ability behind an airy manner.
     # Like her, this is the quirky odd one out of the fleet, the lone Android among the Apple phone and the Macs.
     "kokoro" = {
-      id = "4ZKYD65-5KZUGTO-M5UMCC4-7ZVPUOC-HWXYIKD-XGNH75T-NCUDUGB-V2GT3AZ";
+      id = "I24VDHZ-YVFU5LI-U2TNU3J-BTWSL2S-SGFFHGB-FWLXDXV-5HL77P6-QZIPXQY";
     };
     # The iPhone, named after 相馬未来, a cheerful and ordinary member of 大室花子's friends who never quite stands out.
     # Like her, this is a plain everyday phone that does nothing wrong and nothing remarkable.
