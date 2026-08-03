@@ -30,7 +30,7 @@ let
     # The iPhone, named after 相馬未来, a cheerful and ordinary member of 大室花子's friends who never quite stands out.
     # Like her, this is a plain everyday phone that does nothing wrong and nothing remarkable.
     "mirai" = {
-      id = "NMWI5MP-J4FC4A6-SDDXZPD-G66TJCO-2W7KGFD-RJWQ53U-I7GUVWP-WHF4QQO";
+      id = "ZHPBZI7-7HUH52V-SM6U4N2-HLEEVHI-7BJV6YS-AZCY7KM-KWQB5JA-ITWTIAV";
     };
   };
 
