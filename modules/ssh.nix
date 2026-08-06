@@ -51,6 +51,12 @@ in
         IdentityFile = "${keyDir}/aicloud";
       };
 
+      "lumi" = {
+        HostName = "lumi-uan01.csc.fi";
+        User = "linyan";
+        IdentityFile = "${keyDir}/lumi";
+      };
+
       "hanako" = {
         HostName = "91.98.84.215";
         User = "yanlin";
