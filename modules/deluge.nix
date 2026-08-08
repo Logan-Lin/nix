@@ -1,6 +1,10 @@
 # Deluge torrent daemon with its web UI, wrapped behind the services.deluge-custom options interface.
 # A host enables the service and sets downloadDir, and the module configures the upstream services.deluge module in declarative mode.
 
+# NOTE: auth file at: `/var/lib/deluge/auth` with owner `yanlin:users` and mode 600
+# content:
+#   localclient:<password>:10
+
 { config, lib, pkgs, inputs, ... }:
 
 with lib;
@@ -37,13 +41,12 @@ in
       user = "yanlin";
       group = "users";
       declarative = true;
-      # Declarative mode cannot generate the daemon auth file at runtime, so provide the local client entry as username, password, and access level.
-      authFile = pkgs.writeText "deluge-auth" "localclient:deluge:10";
+      authFile = "/var/lib/deluge/auth";
       openFirewall = false;
 
       config = {
         download_location = cfg.downloadDir;
-        allow_remote = false;
+        allow_remote = true;
         daemon_port = 58846;
 
         random_port = false;
