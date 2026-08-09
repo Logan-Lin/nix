@@ -133,6 +133,7 @@
     };
 
     CustomUserPreferences = {
+      "com.apple.Spotlight".PasteboardHistoryEnabled = false;
       NSGlobalDomain.NSGlassDiffusionSetting = 1;
     };
 
