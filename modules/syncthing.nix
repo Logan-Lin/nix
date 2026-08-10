@@ -32,6 +32,11 @@ let
     "mirai" = {
       id = "ZHPBZI7-7HUH52V-SM6U4N2-HLEEVHI-7BJV6YS-AZCY7KM-KWQB5JA-ITWTIAV";
     };
+    # The iPad, named after 園川めぐみ, the gentle and easily teased member of 大室撫子's friends who quietly works hard at a cake shop and dreams of opening her own.
+    # Like her, this is the underdog of the fleet, a tablet joked about as redundant next to the phones and the computers while it steadily carries its share of the work.
+    "megumi" = {
+      id = "RJEBY6E-UKVUPIG-6I5DQYM-YDYAWPB-PLH7IS7-347MKOJ-E24AFRZ-VJXBTA7";
+    };
   };
 
   devices = lib.attrNames deviceIds;
