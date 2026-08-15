@@ -15,7 +15,6 @@
     ../../../modules/disk-health.nix
     ../../../modules/deluge.nix
     ../../../modules/samba.nix
-    ../../../modules/cloudflare/tunnel.nix
   ];
 
   boot.loader.grub = {
@@ -123,14 +122,6 @@
   services.deluge-custom = {
     enable = true;
     downloadDir = "/mnt/storage/downloads";
-  };
-
-  services.cloudflare-tunnel = {
-    enable = true;
-    tunnelId = "82881189-50be-4fc8-906e-64dcb5aeff66";
-    ingress = {
-      "deluge.yanlincs.com" = "http://localhost:8112";
-    };
   };
 
   services.samba-share = {
