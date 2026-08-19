@@ -18,8 +18,6 @@ let
         ublock-origin
         vimium
         darkreader
-        cookies-txt
-        sponsorblock
       ]
     else [];
 in
@@ -54,16 +52,6 @@ in
             toolbar = true;
             bookmarks = [
               {
-                name = "reference";
-                bookmarks = [
-                  { name = "Google Earth"; url = "https://earth.google.com/web"; }
-                  { name = "Google Maps"; url = "https://www.google.com/maps"; }
-                  { name = "Google Flights"; url = "https://www.google.com/travel/flights"; }
-                  { name = "World Time Buddy"; url = "https://www.worldtimebuddy.com/"; }
-                  { name = "Dateful World Clock"; url = "https://dateful.com/world-clock"; }
-                ];
-              }
-              {
                 name = "dev";
                 bookmarks = [
                   { name = "GitHub"; url = "https://github.com/Logan-Lin?tab=repositories"; }
@@ -71,37 +59,9 @@ in
                   { name = "NixOS Packages"; url = "https://search.nixos.org/packages?channel=unstable"; }
                   { name = "Cloudflare"; url = "https://dash.cloudflare.com"; }
                   { name = "Hetzner"; url = "https://console.hetzner.com"; }
-                  { name = "UniFi"; url = "https://unifi.ui.com/"; }
                   { name = "ntfy"; url = "https://ntfy.sh/yanlincs-homelab"; }
                   { name = "Syncthing"; url = "http://127.0.0.1:8384/"; }
                   { name = "Tailscale"; url = "https://login.tailscale.com/admin/machines"; }
-                ];
-              }
-              {
-                name = "media";
-                bookmarks = [
-                  { name = "楽天Kobo"; url = "https://books.rakuten.co.jp/e-book/"; }
-                  { name = "Qobuz"; url = "https://www.qobuz.com/dk-en/shop"; }
-                  { name = "MusicBrainz"; url = "https://musicbrainz.org/"; }
-                  { name = "Deluge"; url = "https://deluge.yanlincs.com/"; }
-                  {
-                    name = "private tracker";
-                    bookmarks = [
-                      { name = "JPopsuki"; url = "https://jpopsuki.eu/index.php"; }
-                      { name = "HDSky"; url = "https://hdsky.me/torrents.php"; }
-                      { name = "OurBits"; url = "https://ourbits.club/torrents.php"; }
-                      { name = "PTerClub"; url = "https://pterclub.net/torrents.php"; }
-                      { name = "U2分享園"; url = "https://u2.dmhy.org/torrents.php"; }
-                      { name = "梓喵"; url = "https://azusa.wiki/torrents.php"; }
-                    ];
-                  }
-                  {
-                    name = "public tracker";
-                    bookmarks = [
-                      { name = "Nyaa"; url = "https://nyaa.si/"; }
-                      { name = "動漫花園資源網"; url = "https://share.dmhy.org/"; }
-                    ];
-                  }
                 ];
               }
               {
