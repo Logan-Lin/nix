@@ -18,8 +18,6 @@ let
         ublock-origin
         vimium
         darkreader
-        cookies-txt
-        sponsorblock
       ]
     else [];
 in
@@ -71,7 +69,6 @@ in
                   { name = "NixOS Packages"; url = "https://search.nixos.org/packages?channel=unstable"; }
                   { name = "Cloudflare"; url = "https://dash.cloudflare.com"; }
                   { name = "Hetzner"; url = "https://console.hetzner.com"; }
-                  { name = "UniFi"; url = "https://unifi.ui.com/"; }
                   { name = "ntfy"; url = "https://ntfy.sh/yanlincs-homelab"; }
                   { name = "Syncthing"; url = "http://127.0.0.1:8384/"; }
                   { name = "Tailscale"; url = "https://login.tailscale.com/admin/machines"; }
