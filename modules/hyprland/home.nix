@@ -1,6 +1,5 @@
 # Full Hyprland Wayland desktop for a Linux host.
 # A host opts in by importing this module.
-# It starts the compositor with its keybindings and autostart programs, adds idle dimming and screen locking through hypridle and hyprlock, sets the wallpaper through hyprpaper, applies GTK and Qt dark theming, and provides a waybar status bar, a wofi launcher, and default applications for common file types.
 
 { config, pkgs, lib, ... }:
 
@@ -126,6 +125,7 @@ in
         "nm-applet --indicator"
         "blueman-applet"
         "fcitx5 -d --replace"
+        "${pkgs.swaybg}/bin/swaybg -c '#000000'"
         "mkdir -p ~/Downloads"
         "wl-paste --watch cliphist store"
       ];
@@ -269,18 +269,6 @@ in
         "SUPER, mouse:272, movewindow"
         "SUPER, mouse:273, resizewindow"
       ];
-    };
-  };
-
-  services.hyprpaper = {
-    enable = true;
-    settings = {
-      splash = false;
-      preload = [ "${config.home.homeDirectory}/Documents/app-state/nixos-nineish-dark.png" ];
-      wallpaper = [{
-        monitor = "";
-        path = "${config.home.homeDirectory}/Documents/app-state/nixos-nineish-dark.png";
-      }];
     };
   };
 

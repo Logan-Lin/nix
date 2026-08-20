@@ -1,6 +1,4 @@
 # NixOS system module for a Hyprland Wayland desktop.
-# A host imports the module to get the Hyprland compositor, the greetd display manager with tuigreet, xdg portals, PipeWire audio, the fcitx5 input method with Chinese and Japanese support, printing, Bluetooth, and the supporting desktop packages.
-# Set hyprland-system-custom.enableDisplayManager to false on a host that provides its own display manager.
 
 { config, pkgs, lib, ... }:
 
