@@ -42,7 +42,7 @@ let
   devices = lib.attrNames deviceIds;
 
   globalIgnore = [
-    "node_modules" ".venv" "__pycache__" ".DS_Store" ".localized" ".thumbnails"
+    "(?d)node_modules" "(?d).venv" "(?d)__pycache__" "(?d).DS_Store" "(?d).localized" "(?d).thumbnails"
     ".obsidian/workspace.json" ".obsidian/workspace-mobile.json"
   ];
 
