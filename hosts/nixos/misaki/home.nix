@@ -16,9 +16,10 @@
     clash-verge-rev
     pdfpc
     # Wrap ovito to run natively on Wayland and force Mesa to report OpenGL 3.3, which its renderer needs to start.
+    # Build it against ffmpeg 7 because its video encoder does not compile against newer ffmpeg APIs yet.
     (pkgs.symlinkJoin {
       name = "ovito-wrapped";
-      paths = [ pkgs.ovito ];
+      paths = [ (pkgs.ovito.override { ffmpeg = pkgs.ffmpeg_7; }) ];
       buildInputs = [ pkgs.makeWrapper ];
       postBuild = ''
         wrapProgram $out/bin/ovito \
