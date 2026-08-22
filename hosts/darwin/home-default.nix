@@ -60,7 +60,7 @@ in
   syncthing-custom.folders = {
     Documents = {
       enable = true;
-      ignore = [ "/Music" "/Books" ];
+      ignore = [ "/Music" ];
     };
   };
 
