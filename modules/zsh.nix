@@ -59,7 +59,7 @@ in
 
       function fm() {
         local current_dir="$(pwd)"
-        ${if pkgs.stdenv.isDarwin then
+        ${if pkgs.stdenv.hostPlatform.isDarwin then
           "open -R \"$current_dir\""
         else
           "thunar \"$current_dir\" &"}

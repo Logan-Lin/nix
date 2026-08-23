@@ -254,8 +254,8 @@
       };
 
       os = {
-        open = if pkgs.stdenv.isDarwin then "open {{filename}}" else "xdg-open {{filename}}";
-        openLink = if pkgs.stdenv.isDarwin then "open {{link}}" else "xdg-open {{link}}";
+        open = if pkgs.stdenv.hostPlatform.isDarwin then "open {{filename}}" else "xdg-open {{filename}}";
+        openLink = if pkgs.stdenv.hostPlatform.isDarwin then "open {{link}}" else "xdg-open {{link}}";
       };
 
       disableStartupPopups = false;

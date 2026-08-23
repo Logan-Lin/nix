@@ -294,7 +294,7 @@ in
   }
 
   # The Firefox profile directory differs between platforms, so set the Linux location only on Linux and leave the macOS default in place.
-  (mkIf pkgs.stdenv.isLinux {
+  (mkIf pkgs.stdenv.hostPlatform.isLinux {
     programs.firefox.configPath = ".mozilla/firefox";
   })
   ]);

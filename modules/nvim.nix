@@ -296,7 +296,7 @@
               vim.keymap.set("n", "f", function()
                 local node = api.tree.get_node_under_cursor()
                 if not node then return end
-                ${if pkgs.stdenv.isDarwin
+                ${if pkgs.stdenv.hostPlatform.isDarwin
                   then ''vim.fn.jobstart({ "open", "-R", node.absolute_path }, { detach = true })''
                   else ''vim.fn.jobstart({ "xdg-open", vim.fn.fnamemodify(node.absolute_path, ":h") }, { detach = true })''}
               end, opts("Reveal in Finder"))
