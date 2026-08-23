@@ -52,16 +52,6 @@ in
             toolbar = true;
             bookmarks = [
               {
-                name = "reference";
-                bookmarks = [
-                  { name = "Google Earth"; url = "https://earth.google.com/web"; }
-                  { name = "Google Maps"; url = "https://www.google.com/maps"; }
-                  { name = "Google Flights"; url = "https://www.google.com/travel/flights"; }
-                  { name = "World Time Buddy"; url = "https://www.worldtimebuddy.com/"; }
-                  { name = "Dateful World Clock"; url = "https://dateful.com/world-clock"; }
-                ];
-              }
-              {
                 name = "dev";
                 bookmarks = [
                   { name = "GitHub"; url = "https://github.com/Logan-Lin?tab=repositories"; }
@@ -75,12 +65,29 @@ in
                 ];
               }
               {
+                name = "work";
+                bookmarks = [
+                  { name = "Outlook"; url = "https://outlook.cloud.microsoft/mail/"; }
+                  { name = "Teams"; url = "https://teams.microsoft.com/v2/"; }
+                  { name = "Overleaf"; url = "https://www.overleaf.com/project"; }
+                  { name = "mailbox.org"; url = "https://app.mailbox.org/"; }
+                  { name = "Gmail"; url = "https://mail.google.com/"; }
+                ];
+              }
+              {
+                name = "research";
+                bookmarks = [
+                  { name = "Google Scholar"; url = "https://scholar.google.com/"; }
+                  { name = "arxiv"; url = "https://arxiv.org/user/"; }
+                  { name = "OpenReview"; url = "https://openreview.net/"; }
+                  { name = "Microsoft CMT"; url = "https://cmt3.research.microsoft.com"; }
+                  { name = "Anonymous GitHub"; url = "https://anonymous.4open.science/dashboard"; }
+                ];
+              }
+              {
                 name = "media";
                 bookmarks = [
-                  { name = "楽天Kobo"; url = "https://books.rakuten.co.jp/e-book/"; }
-                  { name = "Qobuz"; url = "https://www.qobuz.com/dk-en/shop"; }
                   { name = "MusicBrainz"; url = "https://musicbrainz.org/"; }
-                  { name = "Deluge"; url = "https://deluge.yanlincs.com/"; }
                   {
                     name = "private tracker";
                     bookmarks = [
@@ -99,27 +106,6 @@ in
                       { name = "動漫花園資源網"; url = "https://share.dmhy.org/"; }
                     ];
                   }
-                ];
-              }
-              {
-                name = "work";
-                bookmarks = [
-                  { name = "Outlook"; url = "https://outlook.cloud.microsoft/mail/"; }
-                  { name = "Teams"; url = "https://teams.microsoft.com/v2/"; }
-                  { name = "Overleaf"; url = "https://www.overleaf.com/project"; }
-                  { name = "mailbox.org"; url = "https://app.mailbox.org/"; }
-                  { name = "Gmail"; url = "https://mail.google.com/"; }
-                ];
-              }
-              {
-                name = "research";
-                bookmarks = [
-                  { name = "Google Scholar"; url = "https://scholar.google.com/"; }
-                  { name = "dblp"; url = "https://dblp.org/"; }
-                  { name = "arxiv"; url = "https://arxiv.org/user/"; }
-                  { name = "OpenReview"; url = "https://openreview.net/"; }
-                  { name = "Microsoft CMT"; url = "https://cmt3.research.microsoft.com"; }
-                  { name = "Anonymous GitHub"; url = "https://anonymous.4open.science/dashboard"; }
                 ];
               }
             ];
