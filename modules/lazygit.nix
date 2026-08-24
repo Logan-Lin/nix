@@ -5,7 +5,7 @@
 { config, pkgs, lib, ... }:
 
 {
-  # delta backs the diff pager configured under git.pagers below.
+  # delta backs the diff renderer configured under git.diffRenderers below.
   home.packages = [ pkgs.delta ];
 
   programs.lazygit = {
@@ -55,10 +55,10 @@
       };
 
       git = {
-        pagers = [
+        diffRenderers = [
           {
             colorArg = "always";
-            pager = "delta --dark --paging=never";
+            command = "delta --dark --paging=never";
           }
         ];
 
