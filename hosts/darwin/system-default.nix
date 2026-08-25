@@ -132,11 +132,6 @@
       AppleScrollerPagingBehavior = true;
     };
 
-    CustomUserPreferences = {
-      "com.apple.Spotlight".PasteboardHistoryEnabled = false;
-      NSGlobalDomain.NSGlassDiffusionSetting = 1;
-    };
-
     screencapture = {
       disable-shadow = true;
       location = "~/Downloads";
