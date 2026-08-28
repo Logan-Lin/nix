@@ -13,7 +13,7 @@ let
 
     let associations: [(bundleId: String, extensions: [String])] = [
       ("com.apple.TextEdit", [
-        "txt", "md", "markdown", "nix", "sh", "bash", "zsh", "fish",
+        "txt", "nix", "sh", "bash", "zsh", "fish",
         "py", "js", "ts", "jsx", "tsx", "json", "yaml", "yml", "toml",
         "xml", "css", "log", "csv", "conf", "config", "ini", "env",
         "c", "cpp", "h", "hpp", "rs", "go", "java", "rb", "php",
@@ -23,6 +23,7 @@ let
         "pdf", "png", "jpg", "jpeg", "gif", "bmp", "tiff", "tif",
         "webp", "heic", "heif", "ico"
       ]),
+      ("abnerworks.Typora", ["md", "markdown"]),
       ("org.inkscape.Inkscape", ["svg"]),
       ("com.jgraph.drawio.desktop", ["drawio"]),
       ("com.colliderli.iina", [

@@ -58,6 +58,7 @@
       "adobe-acrobat-reader"
       "keycastr"
       "calibre"
+      "typora"
     ];
   };
 
