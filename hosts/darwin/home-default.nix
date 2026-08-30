@@ -51,8 +51,6 @@ in
     ../home-default.nix
     ../../modules/ghostty.nix
     ../../modules/agent/claude.nix
-    ../../modules/agent/codex.nix
-    ../../modules/agent/opencode.nix
     ../../modules/firefox.nix
     ../../modules/syncthing.nix
     ../../modules/media-tool.nix

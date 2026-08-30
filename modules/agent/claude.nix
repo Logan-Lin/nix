@@ -21,7 +21,6 @@ in
       package = bleed.claude-code;
 
       settings = {
-        model = "fable";
         spinnerTipsEnabled = false;
         todoEnabled = true;
         autoCompactEnabled = true;
@@ -75,13 +74,9 @@ in
         memoryFile = "CLAUDE.md";
         additionalContext = ''
 
-          ## Additional Instructions
+          ## Workflow Orchestration 
 
           When launching a workflow, choosing optimally between the `opus` and `fable` models for the agents.
-
-          When writing any natural language text content, use a direct and straightforward style.
-          Express ideas clearly and concisely, using only the framing, transitions, and repetition needed for coherence.
-          Keep the writing centered on its core ideas, and add supporting context only when it improves understanding, accuracy, or completeness.
         '';
       };
 
