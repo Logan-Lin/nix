@@ -11,29 +11,29 @@
   ## Environment
 
   - System is managed with Nix for global development runtime, config repo at `~/.config/nix`
-  - If a workdir has a Nix flake development runtime defined in `./runtime/flake.nix`, run commands and scripts that depend on it through `nix develop ./runtime`. Do not directly invoking the binaries the runtime generates, for example `.venv/bin/python`
+  - If a workdir has a Nix flake development runtime defined in `./runtime/flake.nix`, run commands and scripts that depend on it through `nix develop ./runtime`. Do not directly invoke the binaries the runtime generates, for example `.venv/bin/python`
   - If a workdir has a `Makefile`, use `make` to compile and extend the `Makefile` when needed, instead of running generic compile commands
   - When a CLI tool is needed, first check whether it exists in the host environment. If it does not, run it temporarily through `nix-shell`, for example `nix-shell -p <package> --run '<command>'`
-  - The user's Obsidian vault is at `~/Documents/Obsidian`. It tracks his projects, their programs, his work log, and drafts, and is the authoritative source for facts about him. Whenever working with the vault, always read its `${memoryFile}` first for the vault's layout and conventions. A wikilink like `[[Name]]` in a user prompt typically refers to a note in the Obsidian vault
+  - The user's Obsidian vault is at `~/Documents/Obsidian`. It tracks his projects, his work log, and drafts
+    - Whenever working with the vault, always read its `${memoryFile}` first for the vault's layout and conventions
+    - A wikilink like `[[Name]]` in a user prompt typically refers to a note in the vault
 
   ## Writing Style
 
-  For any natural language text content, such as notes, reports, papers, messages, and code comments, strictly follow the writing rules below.
+  For any natural language text content (notes, reports, papers, messages, code comments, etc.), write plainly, clearly, and directly.
+  More specifically, follow the rules:
 
-  - Use plain and direct phrasing. For example, write "use" instead of "utilize", "to" instead of "in order to", or "many" instead of "a myriad of". Do not use needlessly fancy, idiomatic, or indirect vocabulary, slang, syntax, or constructions
-  - Do not assert a point or open a paragraph with a short, abstract sentence that leans on the next sentence to make sense. Give the sentence the specifics it needs to stand on its own, or merge it with the sentence that supplies them. When a sentence marks a transition, state how it connects to what came before and after, instead of only announcing that something changes. For example, write "the rewrite cut the average response time in half" instead of "the rewrite changes everything"
-  - Do not phrase a point as "not A but B", rejecting an alternative before stating the point, which reads indirect. This includes but not limited to variants like "not A, but rather B", "it is not A, it is B", "B, not A", and "not only A but also B". State the point directly, for example "the bottleneck is the data" instead of "the bottleneck is not the method but the data"
-  - Do not use hyphenated compound words, whether they join two words or more. Rephrase them as plain words, for example write "a value smaller than the limit" instead of "a smaller-than-the-limit value". A hyphenated compound word is acceptable only when no plain phrasing can replace it, such as "state-of-the-art", "mother-in-law", and "x-ray"
-  - When referring to the same thing, use the exact same term or concept throughout, to avoid confusion. Do not introduce unnecessary terms and concepts. Only exception is that when the same term or concept is referred repeatedly, shorter references can be used when obvious and self-explanatory from context
-  - Do not use em dashes or en dashes to connect sentences
-  - Do not use punctuation like semicolons, colons, or parentheses to join or compress sentences
+  - Use plain and direct wording and sentence structure, for example write "use" instead of "utilize", "to" instead of "in order to", "many" instead of "a myriad of", and "start" instead of "kick off". Do not use needlessly fancy or indirect wording, idioms, or slang
+  - Do not state a point or open a paragraph with a short, abstract sentence that depends on the next sentence to make sense. Put the missing specifics in that sentence, or merge it with the next one. A transition sentence should state how the point connects to what came before and after, instead of only announcing that something changed. For example, write "the rewrite cut the average response time in half" instead of "the rewrite changes everything"
+  - Do not state a point by first rejecting an alternative. This is the "not A but B" pattern, with variants such as "not A, but rather B", "it is not A, it is B", "B, not A", and "not only A but also B". State the point directly, for example write "the bottleneck is the data" instead of "the bottleneck is not the method but the data"
+  - Refer to a thing by the same term every time, and do not give it a second term, for example keep writing "the database" instead of switching to "the store" or "the backend". A shorter form is fine after the full term has appeared and context leaves no doubt, for example "the database" for "the user database"
 
   ## Formatting
 
-  - For any natural language text content, do not use formatting like bold, italic, itemized lists, or enumerated lists
-  - When writing code, write a code document or comment only when the code does not speak for itself, and keep it at a high level. Do not repeat details already in the code. Focus on the overall purpose and role of the code
-  - For text content where linebreaks do not affect rendering, for example Markdown, LaTeX, and code comments, break lines between sentences to make diffs and editing easier
-  - For any natural language text content, never break a line in the middle of a sentence, including code documents and comments
-  - When drafting a git commit message, write a single lowercase subject line of the form `<type>: <summary>`. `<type>` is one of `feat`, `fix`, `docs`, `refactor`, or `test`. `<summary>` is a concise description of the change. Do not include a body
+  - Do not use em dashes or en dashes to connect sentences
+  - Code document or comment should only be used when the code does not speak for itself. Do not repeat details already in the code
+    - Code document should be high level, i.e., focus on the overall purpose and role of the code
+  - For text content where linebreaks do not affect rendering (Markdown, LaTeX, code comments, etc.), break lines between sentences
+    - Never break a line in the middle of a sentence
 ''
 + additionalContext
