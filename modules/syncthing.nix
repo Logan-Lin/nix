@@ -22,18 +22,12 @@ let
     "misaki" = {
       id = "D27MBZ3-IZXD5IE-WF5WZJE-4C4XNH3-PTHU5HP-QVEZYBX-UZ5OM2B-HK6LGQC";
     };
-    # The Google Pixel, named after 小川こころ, the dreamy and unpredictable oddball of 大室花子's friends who hides surprising ability behind an airy manner.
-    # Like her, this is the quirky odd one out of the fleet, the lone Android among the Apple phone and the Macs.
     "kokoro" = {
       id = "I24VDHZ-YVFU5LI-U2TNU3J-BTWSL2S-SGFFHGB-FWLXDXV-5HL77P6-QZIPXQY";
     };
-    # The iPhone, named after 相馬未来, a cheerful and ordinary member of 大室花子's friends who never quite stands out.
-    # Like her, this is a plain everyday phone that does nothing wrong and nothing remarkable.
     "mirai" = {
       id = "ZHPBZI7-7HUH52V-SM6U4N2-HLEEVHI-7BJV6YS-AZCY7KM-KWQB5JA-ITWTIAV";
     };
-    # The iPad, named after 園川めぐみ, the gentle and easily teased member of 大室撫子's friends who quietly works hard at a cake shop and dreams of opening her own.
-    # Like her, this is the underdog of the fleet, a tablet joked about as redundant next to the phones and the computers while it steadily carries its share of the work.
     "megumi" = {
       id = "RJEBY6E-UKVUPIG-6I5DQYM-YDYAWPB-PLH7IS7-347MKOJ-E24AFRZ-VJXBTA7";
     };

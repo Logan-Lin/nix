@@ -63,8 +63,6 @@ in
         IdentityFile = "${keyDir}/hetzner";
       };
 
-      # The Hetzner Storage Box that receives the Borg backups, named 大室家 after the Oomuro family home itself.
-      # It holds the backups of every host, the way the family home holds all the sisters.
       "oomuroke" = {
         HostName = "u546684.your-storagebox.de";
         User = "u546684";

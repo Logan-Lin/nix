@@ -1,7 +1,5 @@
 # NixOS configuration for hanako, a headless home server.
 # It runs podman containers including a MongoDB database and backs its data up to a remote Borg repository.
-# Named after 大室花子, the youngest of the three 大室 sisters and the family's composed honor student.
-# This host has the most modest hardware in the fleet, a small virtual machine, yet it stays always available and every other host relies on it, the way the family relies on Hanako.
 
 { config, pkgs, ... }:
 
