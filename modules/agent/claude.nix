@@ -32,10 +32,12 @@ in
         };
         prefersReducedMotion = true;
         promptSuggestionEnabled = false;
+        awaySummaryEnabled = false;
         skipAutoPermissionPrompt = true;
         effortLevel = "xhigh";
         ultracode = false;
         enableWorkflows = true;
+        workflowSizeGuideline = "large";
         terminalProgressBarEnabled = false;
         theme = "dark-ansi";
         attribution = {
