@@ -54,7 +54,6 @@
       "tencent-meeting"
       "adobe-acrobat-reader"
       "calibre"
-      "typora"
     ];
   };
 
