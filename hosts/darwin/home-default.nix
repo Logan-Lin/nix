@@ -86,15 +86,6 @@ in
     httpie
   ];
 
-  launchd.agents.maccy = {
-    enable = true;
-    config = {
-      ProgramArguments = [ "/Applications/Maccy.app/Contents/MacOS/Maccy" ];
-      RunAtLoad = true;
-      KeepAlive = false;
-    };
-  };
-
   launchd.agents.aerospace = {
     enable = true;
     config = {

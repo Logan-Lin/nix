@@ -44,7 +44,6 @@
       "inkscape"
       "keepassxc"
       "localsend"
-      "maccy"
       "microsoft-word"
       "microsoft-excel"
       "microsoft-powerpoint"
@@ -53,9 +52,7 @@
       "ovito"
       "slidepilot"
       "tencent-meeting"
-      "wechat"
       "adobe-acrobat-reader"
-      "keycastr"
       "calibre"
       "typora"
     ];
