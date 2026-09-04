@@ -52,7 +52,6 @@
       "ovito"
       "slidepilot"
       "tencent-meeting"
-      "adobe-acrobat-reader"
       "calibre"
     ];
   };
