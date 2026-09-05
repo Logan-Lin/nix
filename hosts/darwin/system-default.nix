@@ -150,8 +150,6 @@
   system.activationScripts.extraActivation.text = ''
     sudo -u yanlin defaults -currentHost write -globalDomain NSStatusItemSpacing -int 10
     /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
-
-    chflags hidden /Users/yanlin/{Desktop,Applications,Movies,Music,Pictures,Public}
   '';
 
   launchd.user.agents.remap-keys = {
