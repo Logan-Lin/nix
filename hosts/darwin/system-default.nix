@@ -52,7 +52,6 @@
       "ovito"
       "slidepilot"
       "tencent-meeting"
-      "calibre"
     ];
   };
 
