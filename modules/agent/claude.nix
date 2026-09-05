@@ -44,6 +44,10 @@ in
           commit = "";
         };
 
+        remoteControlAtStartup = true;
+        inputNeededNotifEnabled = true;
+        agentPushNotifEnabled = true;
+
         hooks = {
           Stop = [
             {
