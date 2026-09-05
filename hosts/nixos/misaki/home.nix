@@ -4,7 +4,6 @@
 
 {
   home.packages = with pkgs; [
-    texliveFull
     httpie
 
     obsidian
@@ -36,6 +35,7 @@
     ../../../modules/ghostty.nix
     ../../../modules/firefox.nix
     ../../../modules/hyprland/home.nix
+    ../../../modules/texlive.nix
   ];
 
   programs.firefox-custom = {

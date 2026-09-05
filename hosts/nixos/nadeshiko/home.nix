@@ -6,7 +6,6 @@
 
 {
   home.packages = with pkgs; [
-    texliveFull
     httpie
   ];
 
@@ -16,6 +15,7 @@
     ../../../modules/media-tool.nix
     ../../../modules/agent/claude.nix
     ../../../modules/schedule.nix
+    ../../../modules/texlive.nix
   ];
 
   syncthing-custom.folders = {

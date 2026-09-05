@@ -53,6 +53,7 @@ in
     ../../modules/firefox.nix
     ../../modules/syncthing.nix
     ../../modules/media-tool.nix
+    ../../modules/texlive.nix
   ];
 
   syncthing-custom.folders = {
@@ -81,7 +82,6 @@ in
   };
 
   home.packages = with pkgs; [
-    texliveFull
     httpie
   ];
 
