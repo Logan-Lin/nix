@@ -11,6 +11,7 @@
     ../system-default.nix
     ../../../modules/podman.nix
     ../../../modules/borg.nix
+    ../../../modules/deluge.nix
   ];
 
   boot.loader.grub = {
@@ -80,6 +81,11 @@
       "noauto"
       "x-systemd.automount"
     ];
+  };
+
+  services.deluge-custom = {
+    enable = true;
+    downloadDir = "/mnt/storage/downloads";
   };
 
   services.borg-custom = {
