@@ -2,9 +2,13 @@
 # Imports the cross-platform home default and layers on the settings specific to macOS.
 # Enables feature modules, launches GUI apps through launchd agents, and sets the default app for each file type.
 
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, inputs, ... }:
 
 let
+  stable = import inputs.nixpkgs-stable {
+    inherit (pkgs.stdenv.hostPlatform) system;
+  };
+
   # macOS has no declarative option to set the default app per file extension.
   # This Swift script sets the associations through the AppKit NSWorkspace API at activation.
   setFileAssociationsScript = pkgs.writeText "set-file-associations.swift" ''
@@ -53,7 +57,6 @@ in
     ../../modules/firefox.nix
     ../../modules/syncthing.nix
     ../../modules/media-tool.nix
-    ../../modules/texlive.nix
   ];
 
   syncthing-custom.folders = {
@@ -80,6 +83,7 @@ in
 
   home.packages = with pkgs; [
     httpie
+    stable.texliveFull
   ];
 
   launchd.agents.aerospace = {
