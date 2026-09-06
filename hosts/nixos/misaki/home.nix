@@ -11,20 +11,8 @@
     drawio
     inkscape
     localsend
-    picard
     clash-verge-rev
     pdfpc
-    # Wrap ovito to run natively on Wayland and force Mesa to report OpenGL 3.3, which its renderer needs to start.
-    (pkgs.symlinkJoin {
-      name = "ovito-wrapped";
-      paths = [ pkgs.ovito ];
-      buildInputs = [ pkgs.makeWrapper ];
-      postBuild = ''
-        wrapProgram $out/bin/ovito \
-          --set QT_QPA_PLATFORM wayland \
-          --set MESA_GL_VERSION_OVERRIDE 3.3
-      '';
-    })
   ];
 
   imports = [
