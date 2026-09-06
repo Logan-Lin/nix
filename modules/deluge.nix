@@ -26,6 +26,12 @@ in
       description = "Directory for downloaded files";
     };
 
+    listenPort = mkOption {
+      type = types.port;
+      default = 25000;
+      description = "Port for incoming peer connections";
+    };
+
     webPort = mkOption {
       type = types.port;
       default = 8112;
@@ -42,16 +48,15 @@ in
       group = "users";
       declarative = true;
       authFile = "/var/lib/deluge/auth";
-      openFirewall = false;
+      openFirewall = true;
 
       config = {
         download_location = cfg.downloadDir;
-        allow_remote = true;
+        allow_remote = false;
         daemon_port = 58846;
 
         random_port = false;
-        # The pair is the low and high of the listen port range, so equal values fix the port to 25000.
-        listen_ports = [ 25000 25000 ];
+        listen_ports = [ cfg.listenPort cfg.listenPort ];
         outgoing_ports = [ 0 0 ];
         random_outgoing_ports = true;
         upnp = true;
