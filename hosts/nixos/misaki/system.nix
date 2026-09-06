@@ -105,7 +105,7 @@
 
   services.acpid.enable = true;
 
-  services.journald.extraConfig = "SystemMaxUse=5G";
+  services.journald.settings.Journal.SystemMaxUse = "5G";
 
   services.openssh = {
     settings = {

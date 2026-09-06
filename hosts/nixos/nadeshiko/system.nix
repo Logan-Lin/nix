@@ -143,7 +143,7 @@
     "d /mnt/storage 0755 yanlin users -"
   ];
 
-  services.journald.extraConfig = "SystemMaxUse=5G";
+  services.journald.settings.Journal.SystemMaxUse = "5G";
 
   services.borg-custom = {
     enable = true;
