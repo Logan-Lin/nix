@@ -1,4 +1,4 @@
-# NixOS configuration for misaki, a Lenovo ThinkPad P14s laptop running the Hyprland Wayland desktop.
+# NixOS configuration for misaki, a Lenovo ThinkPad P14s laptop that runs headless with the lid closed and is reached over SSH and Tailscale.
 # Tunes power, thermal, and fan control for the laptop, and blacklists the NVIDIA and nouveau drivers to run on Intel integrated graphics.
 
 { config, pkgs, lib, inputs, ... }:
@@ -8,7 +8,6 @@
     ./hardware.nix
     ./disko.nix
     ../system-default.nix
-    ../../../modules/hyprland/system.nix
     ../../../modules/disk-health.nix
     "${inputs.nixos-hardware}/lenovo/thinkpad/p14s"
     "${inputs.nixos-hardware}/common/cpu/intel/tiger-lake"
@@ -114,7 +113,7 @@
   };
 
   users.users.yanlin = {
-    extraGroups = [ "networkmanager" "wheel" "video" "audio" "input" ];
+    extraGroups = [ "networkmanager" "wheel" ];
     hashedPassword = "$6$4tNeZ9/B3SSapStU$vX1pco.IuMMu/AcLeGvZoOGxSNNlorVdnRGSVFIWou5ybcpwxrJHAFqvKpJiObejHe2sy7CnJ8fiMACaTwDN5/";
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICp2goZiuSfwMA02GsHhYzUZHrQPPBgP5sWSNP9kQR3e yanlin@imac"
@@ -132,11 +131,5 @@
   services.disk-health = {
     enable = true;
     devices = [ "/dev/nvme0n1" ];
-  };
-
-  services.pipewire.wireplumber.extraConfig."51-bluez-roles" = {
-    "monitor.bluez.properties" = {
-      "bluez5.roles" = [ "a2dp_source" "bap_source" "hfp_hf" ];
-    };
   };
 }
