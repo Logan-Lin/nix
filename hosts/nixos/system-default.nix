@@ -25,6 +25,7 @@
     isNormalUser = true;
     description = "yanlin";
     shell = pkgs.zsh;
+    linger = true;
   };
 
   security.sudo.wheelNeedsPassword = false;
