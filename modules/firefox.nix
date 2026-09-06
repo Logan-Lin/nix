@@ -16,8 +16,6 @@ let
     if firefox-addons != null then
       with firefox-addons.packages.${system}; [
         ublock-origin
-        vimium
-        darkreader
       ]
     else [];
 in
