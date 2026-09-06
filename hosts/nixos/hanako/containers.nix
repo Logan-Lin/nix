@@ -34,4 +34,7 @@ in
     };
 
   };
+
+  # Port 27017 exposes the MongoDB container to remote clients.
+  networking.firewall.allowedTCPPorts = [ 27017 ];
 }

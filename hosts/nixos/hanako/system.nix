@@ -40,8 +40,7 @@
     useDHCP = true;
     firewall = {
       enable = true;
-      # Port 27017 exposes the MongoDB container to remote clients.
-      allowedTCPPorts = [ 22 27017 ];
+      allowedTCPPorts = [ 22 ];
     };
   };
 
