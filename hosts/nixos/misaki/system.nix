@@ -9,6 +9,7 @@
     ./disko.nix
     ../system-default.nix
     ../../../modules/disk-health.nix
+    ../../../modules/borg.nix
     "${inputs.nixos-hardware}/lenovo/thinkpad/p14s"
     "${inputs.nixos-hardware}/common/cpu/intel/tiger-lake"
   ];
@@ -130,6 +131,17 @@
 
   services.disk-health = {
     enable = true;
+    frequency = "Sun *-*-* 06:00:00";
     devices = [ "/dev/nvme0n1" ];
+  };
+
+  services.borg-custom = {
+    enable = true;
+    repositoryUrl = "ssh://oomuroke/./misaki";
+    backupPaths = [
+      "/home/yanlin/Documents"
+    ];
+    backupFrequency = "*-*-* 01:00:00";
+    checkFrequency = "Sun *-*-* 13:00:00";
   };
 }
