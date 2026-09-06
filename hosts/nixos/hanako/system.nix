@@ -65,6 +65,23 @@
 
   services.journald.settings.Journal.SystemMaxUse = "1G";
 
+  # NOTE: credentials file at: `/etc/falkenstein-box-password` with mode 600
+  # content: `password=your-password`
+  fileSystems."/mnt/storage" = {
+    device = "//u664260.your-storagebox.de/backup";
+    fsType = "cifs";
+    options = [
+      "username=u664260"
+      "credentials=/etc/falkenstein-box-password"
+      "uid=yanlin"
+      "gid=users"
+      "seal"
+      "_netdev"
+      "noauto"
+      "x-systemd.automount"
+    ];
+  };
+
   services.borg-custom = {
     enable = true;
     repositoryUrl = "ssh://oomuroke/./hanako";
