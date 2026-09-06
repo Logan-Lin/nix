@@ -1,5 +1,5 @@
 # Home-manager module that configures the Claude Code CLI.
-# It sets program options and permissions, defines the global context and custom slash commands, and wires notification hooks that push to an ntfy topic when a session finishes or needs attention.
+# It sets program options and permissions, and defines the global context and custom slash commands.
 # A host opts in by importing this module.
 
 { pkgs, inputs, ... }:
@@ -10,9 +10,6 @@ let
     inherit (pkgs.stdenv.hostPlatform) system;
     config.allowUnfree = true;
   };
-
-  # Selected Notification types mean Claude needs input or permission, so treat that event as needing attention.
-  inherit (import ./hook.nix { inherit pkgs; agent = "claude"; attentionEvent = "Notification"; }) notifyStop;
 in
 {
   config = {
@@ -47,33 +44,6 @@ in
         remoteControlAtStartup = true;
         inputNeededNotifEnabled = true;
         agentPushNotifEnabled = true;
-
-        hooks = {
-          Stop = [
-            {
-              hooks = [
-                {
-                  type = "command";
-                  command = "${notifyStop}";
-                  timeout = 15;
-                }
-              ];
-            }
-          ];
-          # Match only notifications that mean Claude is blocked on user input.
-          Notification = [
-            {
-              matcher = "permission_prompt|elicitation_dialog|elicitation_url_dialog|agent_needs_input|worker_permission_prompt";
-              hooks = [
-                {
-                  type = "command";
-                  command = "${notifyStop}";
-                  timeout = 15;
-                }
-              ];
-            }
-          ];
-        };
       };
 
       context = import ./context.nix {
