@@ -40,8 +40,6 @@ in
         HostName = "ai-fe02.srv.aau.dk";
         User = "hb05nk@cs.aau.dk";
         IdentityFile = "${keyDir}/aicloud";
-        # Reach this host through the misaki jump host from outside the network.
-        # The aicloud.lan entry below is the direct route from inside.
         ProxyJump = "misaki";
       };
 
@@ -49,12 +47,6 @@ in
         HostName = "ai-fe02.srv.aau.dk";
         User = "hb05nk@cs.aau.dk";
         IdentityFile = "${keyDir}/aicloud";
-      };
-
-      "lumi" = {
-        HostName = "lumi-uan01.csc.fi";
-        User = "linyan";
-        IdentityFile = "${keyDir}/lumi";
       };
 
       "hanako" = {
@@ -68,12 +60,6 @@ in
         User = "u546684";
         Port = 23;
         IdentityFile = "${keyDir}/hetzner";
-      };
-
-      "nadeshiko" = {
-        HostName = "nadeshiko";
-        User = "yanlin";
-        IdentityFile = "${keyDir}/nas";
       };
 
       "misaki" = {
