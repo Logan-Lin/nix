@@ -59,7 +59,7 @@ in
                   { name = "Hetzner"; url = "https://console.hetzner.com"; }
                   { name = "ntfy"; url = "https://ntfy.sh/yanlincs-homelab"; }
                   { name = "Syncthing"; url = "http://127.0.0.1:8384/"; }
-                  { name = "Tailscale"; url = "https://login.tailscale.com/admin/machines"; }
+                  { name = "Tailscale"; url = "https://console.tailscale.com/admin/machines"; }
                 ];
               }
               {
