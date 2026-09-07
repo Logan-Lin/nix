@@ -41,7 +41,12 @@
       enable = true;
       wifi.powersave = true;
     };
-    firewall.enable = false;
+    firewall = {
+      enable = true;
+      # 22000 and 21027 for Syncthing.
+      allowedTCPPorts = [ 22000 ];
+      allowedUDPPorts = [ 21027 22000 ];
+    };
   };
 
   systemd.services.NetworkManager-wait-online.enable = false;

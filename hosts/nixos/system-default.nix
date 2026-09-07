@@ -36,6 +36,8 @@
     authKeyFile = "/var/lib/tailscale/authkey";
     useRoutingFeatures = "server";
     extraSetFlags = [ "--advertise-exit-node" ];
+    # Open the tunnel port so peers reach the host directly instead of falling back to a relay.
+    openFirewall = true;
   };
   networking.firewall.trustedInterfaces = [ "tailscale0" ];
 

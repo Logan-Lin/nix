@@ -38,10 +38,7 @@
     hostId = "a8c06f42";
     networkmanager.enable = false;
     useDHCP = true;
-    firewall = {
-      enable = true;
-      allowedTCPPorts = [ 22 ];
-    };
+    firewall.enable = true;
   };
 
   services.openssh = {
