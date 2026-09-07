@@ -34,7 +34,6 @@ in
         effortLevel = "xhigh";
         ultracode = false;
         enableWorkflows = true;
-        workflowSizeGuideline = "large";
         terminalProgressBarEnabled = false;
         theme = "dark-ansi";
         attribution = {
@@ -46,15 +45,7 @@ in
         agentPushNotifEnabled = true;
       };
 
-      context = import ./context.nix {
-        memoryFile = "CLAUDE.md";
-        additionalContext = ''
-
-          ## Workflow Orchestration 
-
-          When launching a workflow, choosing optimally between the `opus` and `fable` models for the agents.
-        '';
-      };
+      context = import ./context.nix { memoryFile = "CLAUDE.md"; };
 
       commands = import ./commands.nix;
     };
