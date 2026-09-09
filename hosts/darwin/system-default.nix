@@ -45,8 +45,6 @@
       "keepassxc"
       "localsend"
       "microsoft-word"
-      "microsoft-excel"
-      "microsoft-powerpoint"
       "musicbrainz-picard"
       "obsidian"
       "ovito"
