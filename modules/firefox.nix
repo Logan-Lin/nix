@@ -216,10 +216,11 @@ in
 
           "browser.urlbar.suggest.clipboard" = false;
           "browser.urlbar.suggest.topsites" = false;
+          "browser.urlbar.suggest.openpage" = false;
           "browser.urlbar.speculativeConnect.enabled" = false;
 
-          "browser.urlbar.suggest.history" = true;
-          "browser.urlbar.maxHistoricalSearchSuggestions" = 3;
+          "browser.urlbar.suggest.history" = false;
+          "browser.urlbar.maxHistoricalSearchSuggestions" = 0;
 
           "sidebar.revamp" = true;
           "sidebar.verticalTabs" = true;
