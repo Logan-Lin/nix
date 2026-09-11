@@ -86,6 +86,8 @@ in
                 name = "media";
                 bookmarks = [
                   { name = "MusicBrainz"; url = "https://musicbrainz.org/"; }
+                  { name = "楽天Kobo"; url = "https://books.rakuten.co.jp/e-book/"; }
+                  { name = "Qobuz"; url = "https://www.qobuz.com/us-en/shop"; }
                   {
                     name = "private tracker";
                     bookmarks = [
