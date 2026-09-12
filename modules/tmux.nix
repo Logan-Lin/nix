@@ -1,4 +1,4 @@
-# Tmux configuration that sets a Gruvbox status line, vi style pane navigation and copy mode, and automatic session save and restore through the resurrect and continuum plugins.
+# Tmux configuration that sets a Gruvbox status line, and vi style pane navigation and copy mode.
 # Adds the sesh session manager with a zsh alias and a prefix popup to switch sessions through fzf.
 
 { pkgs, ... }:
@@ -15,27 +15,6 @@
     mouse = true;
     keyMode = "vi";
     terminal = "tmux-256color";
-
-    plugins = [
-      {
-        # Resurrect records process commands even when process restoration is disabled.
-        plugin = pkgs.tmuxPlugins.resurrect.overrideAttrs (oldAttrs: {
-          postPatch = (oldAttrs.postPatch or "") + ''
-            substituteInPlace scripts/save.sh \
-              --replace-fail \
-                'full_command="$(pane_full_command $pane_pid)"' \
-                'full_command=""; pane_command=""'
-          '';
-        });
-        # Restore the tmux layout without processes.
-        extraConfig = "set -g @resurrect-processes 'false'";
-      }
-      {
-        plugin = pkgs.tmuxPlugins.continuum;
-        # Save the session automatically every hour.
-        extraConfig = "set -g @continuum-save-interval '60'";
-      }
-    ];
 
     extraConfig = ''
       set -g default-terminal "xterm-256color"
