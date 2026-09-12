@@ -12,6 +12,7 @@
     ../../../modules/podman.nix
     ../../../modules/borg.nix
     ../../../modules/deluge.nix
+    ../../../modules/samba.nix
   ];
 
   boot.loader.grub = {
@@ -82,6 +83,12 @@
   services.deluge-custom = {
     enable = true;
     downloadDir = "/mnt/storage/downloads";
+  };
+
+  services.samba-share = {
+    enable = true;
+    hostsAllow = [ "100.64.0.0/10" "127." ];
+    shares.storage.path = "/mnt/storage";
   };
 
   services.borg-custom = {
