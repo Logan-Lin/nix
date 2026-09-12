@@ -145,11 +145,6 @@
 
   };
 
-  system.activationScripts.extraActivation.text = ''
-    sudo -u yanlin defaults -currentHost write -globalDomain NSStatusItemSpacing -int 10
-    /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
-  '';
-
   launchd.user.agents.remap-keys = {
     serviceConfig = {
       ProgramArguments =
