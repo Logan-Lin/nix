@@ -26,6 +26,8 @@
     wget
     gnumake
     gnused
+    gnugrep
+    gawk
     rsync
     bind
     inetutils
