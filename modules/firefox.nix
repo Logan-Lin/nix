@@ -1,5 +1,5 @@
 # Home-manager module that provides a customized Firefox setup under the programs.firefox-custom option.
-# When enabled it configures a single Firefox profile with about:config settings, a set of bookmarks and search engines, and a fixed list of extensions.
+# When enabled it configures a single Firefox profile with about:config settings, search engines, and a fixed list of extensions.
 
 { config, pkgs, lib, ... }@args:
 
@@ -43,73 +43,6 @@ in
         name = "yanlin";
 
         extensions.packages = extensions;
-
-        bookmarks = {
-          force = true;
-          settings = [{
-            name = "Toolbar";
-            toolbar = true;
-            bookmarks = [
-              {
-                name = "dev";
-                bookmarks = [
-                  { name = "GitHub"; url = "https://github.com/Logan-Lin?tab=repositories"; }
-                  { name = "Homebrew Formulae"; url = "https://formulae.brew.sh/"; }
-                  { name = "NixOS Packages"; url = "https://search.nixos.org/packages?channel=unstable"; }
-                  { name = "Cloudflare"; url = "https://dash.cloudflare.com"; }
-                  { name = "Hetzner"; url = "https://console.hetzner.com"; }
-                  { name = "ntfy"; url = "https://ntfy.sh/yanlincs-homelab"; }
-                  { name = "Syncthing"; url = "http://127.0.0.1:8384/"; }
-                  { name = "Tailscale"; url = "https://console.tailscale.com/admin/machines"; }
-                ];
-              }
-              {
-                name = "work";
-                bookmarks = [
-                  { name = "Outlook"; url = "https://outlook.cloud.microsoft/mail/"; }
-                  { name = "Teams"; url = "https://teams.microsoft.com/v2/"; }
-                  { name = "Overleaf"; url = "https://www.overleaf.com/project"; }
-                  { name = "mailbox.org"; url = "https://app.mailbox.org/"; }
-                  { name = "Gmail"; url = "https://mail.google.com/"; }
-                ];
-              }
-              {
-                name = "research";
-                bookmarks = [
-                  { name = "Google Scholar"; url = "https://scholar.google.com/"; }
-                  { name = "arxiv"; url = "https://arxiv.org/user/"; }
-                  { name = "OpenReview"; url = "https://openreview.net/"; }
-                  { name = "Microsoft CMT"; url = "https://cmt3.research.microsoft.com"; }
-                  { name = "Anonymous GitHub"; url = "https://anonymous.4open.science/dashboard"; }
-                ];
-              }
-              {
-                name = "media";
-                bookmarks = [
-                  { name = "MusicBrainz"; url = "https://musicbrainz.org/"; }
-                  {
-                    name = "private tracker";
-                    bookmarks = [
-                      { name = "JPopsuki"; url = "https://jpopsuki.eu/index.php"; }
-                      { name = "HDSky"; url = "https://hdsky.me/torrents.php"; }
-                      { name = "OurBits"; url = "https://ourbits.club/torrents.php"; }
-                      { name = "PTerClub"; url = "https://pterclub.net/torrents.php"; }
-                      { name = "U2分享園"; url = "https://u2.dmhy.org/torrents.php"; }
-                      { name = "梓喵"; url = "https://azusa.wiki/torrents.php"; }
-                    ];
-                  }
-                  {
-                    name = "public tracker";
-                    bookmarks = [
-                      { name = "Nyaa"; url = "https://nyaa.si/"; }
-                      { name = "動漫花園資源網"; url = "https://share.dmhy.org/"; }
-                    ];
-                  }
-                ];
-              }
-            ];
-          }];
-        };
 
         search = {
           force = true;
