@@ -13,6 +13,7 @@
     shortcut = "a";
     baseIndex = 1;
     mouse = true;
+    focusEvents = true;
     keyMode = "vi";
     terminal = "tmux-256color";
 
