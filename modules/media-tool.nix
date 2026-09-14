@@ -171,6 +171,46 @@
       ' _
     }
 
+    function image2jpeg() {
+      if [[ $# -lt 2 ]]; then
+        echo "Usage: image2jpeg <source> <dest>" >&2
+        return 1
+      fi
+      local src="''${1%/}"
+      local dst="$2"
+      local base
+      if [[ -f "$src" ]]; then
+        base="''${src:h}"
+      elif [[ -d "$src" ]]; then
+        base="$src"
+      else
+        echo "Source not found: $src" >&2
+        return 1
+      fi
+      ${pkgs.coreutils}/bin/mkdir -p "$dst"
+      {
+        if [[ -f "$src" ]]; then
+          printf '%s\0' "$src"
+        else
+          ${pkgs.findutils}/bin/find "$src" -type f \( -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.gif' -o -iname '*.heic' -o -iname '*.heif' -o -iname '*.webp' \) -print0
+        fi
+      } | _BASE="$base" _DST="$dst" ${pkgs.findutils}/bin/xargs -0 -P4 -n1 sh -c '
+        f="$1"
+        rel="''${f#$_BASE/}"
+        bn="''${rel##*/}"
+        stem="''${bn%.*}"
+        case "$rel" in
+          */*) outdir="$_DST/''${rel%/*}" ;;
+          *) outdir="$_DST" ;;
+        esac
+        outfile="$outdir/$stem.jpg"
+        ${pkgs.coreutils}/bin/mkdir -p "$outdir"
+        # JPEG has no alpha channel or animation, so take the first frame and flatten transparency onto white.
+        ${pkgs.imagemagick}/bin/magick "''${f}[0]" -resize "1800x1800>" -background white -alpha remove -alpha off -quality 82 "$outfile" >/dev/null
+        echo "Converted: $f -> $outfile"
+      ' _
+    }
+
     function webp2png() {
       if [[ $# -lt 2 ]]; then
         echo "Usage: webp2png <source> <dest>" >&2
