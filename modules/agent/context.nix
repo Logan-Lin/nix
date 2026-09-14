@@ -34,7 +34,5 @@
   - Do not use em dashes or en dashes to connect sentences
   - Code document or comment should only be used when the code does not speak for itself. Do not repeat details already in the code
     - Code document should be high level, i.e., focus on the overall purpose and role of the code
-  - For text content where linebreaks do not affect rendering (Markdown, LaTeX, code comments, etc.), break lines between sentences
-    - Never break a line in the middle of a sentence
 ''
 + additionalContext
