@@ -131,5 +131,7 @@ in
 
     # Add nginx to the acme group so it can read the certificate files.
     users.users.nginx.extraGroups = [ "acme" ];
+
+    networking.firewall.allowedTCPPorts = [ 80 443 ];
   };
 }

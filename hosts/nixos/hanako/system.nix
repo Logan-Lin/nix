@@ -1,5 +1,4 @@
-# NixOS configuration for hanako, a headless home server.
-# It runs podman containers including a MongoDB database and backs its data up to a remote Borg repository.
+# NixOS configuration for hanako, a headless cloud server.
 
 { config, pkgs, ... }:
 
@@ -10,6 +9,7 @@
     ./containers.nix
     ../system-default.nix
     ../../../modules/podman.nix
+    ../../../modules/nginx.nix
     ../../../modules/borg.nix
     ../../../modules/deluge.nix
     ../../../modules/samba.nix
@@ -83,6 +83,15 @@
   services.deluge-custom = {
     enable = true;
     downloadDir = "/mnt/storage/downloads";
+  };
+
+  services.reverse-proxy = {
+    enable = true;
+    defaultDomain = "yanlincs.com";
+    acmeEmail = "cloudflare@yanlincs.com";
+    proxies = {
+      deluge.backend = "http://127.0.0.1:${toString config.services.deluge-custom.webPort}";
+    };
   };
 
   services.samba-share = {
