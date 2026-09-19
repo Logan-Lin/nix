@@ -86,6 +86,15 @@ in
     stable.texliveFull
   ];
 
+  launchd.agents.linearmouse = {
+    enable = true;
+    config = {
+      ProgramArguments = [ "/Applications/LinearMouse.app/Contents/MacOS/LinearMouse" ];
+      RunAtLoad = true;
+      KeepAlive = false;
+    };
+  };
+
   launchd.agents.aerospace = {
     enable = true;
     config = {
@@ -107,6 +116,21 @@ in
   home.activation.setFileAssociations = config.lib.dag.entryAfter ["writeBoundary"] ''
     run /usr/bin/swift ${setFileAssociationsScript}
   '';
+
+  home.file.".config/linearmouse/linearmouse.json".text = builtins.toJSON {
+    schemes = [{
+      "if".device.category = "mouse";
+      scrolling.distance = "128px";
+      scrolling.reverse = {
+        vertical = true;
+        horizontal = false;
+      };
+      pointer = {
+        acceleration = 0;
+        speed = 0.65;
+      };
+    }];
+  };
 
   home.file.".aerospace.toml".source = (pkgs.formats.toml { }).generate "aerospace.toml" {
     config-version = 2;

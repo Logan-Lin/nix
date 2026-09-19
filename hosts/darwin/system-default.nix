@@ -43,6 +43,7 @@
       "iina"
       "inkscape"
       "keepassxc"
+      "linearmouse"
       "localsend"
       "microsoft-word"
       "microsoft-excel"
