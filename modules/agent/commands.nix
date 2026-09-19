@@ -118,7 +118,7 @@
 
   commit = ''
     ---
-    description: Commit the current change as a single subject line
+    description: Commit the current change with a subject line and an optional body
     ---
 
     ## Task
@@ -126,8 +126,9 @@
     Commit the current working tree change as one commit.
 
     1. Stage and review the change.
-    2. Write the message as a single lowercase subject line of the form `<type>: <summary>`. `<type>` is one of `feat`, `fix`, `docs`, `refactor`, or `test`. `<summary>` is a concise description of the change.
-    3. Commit with the message. Write only the subject line, with no body and no attribution trailer.
+    2. Write a lowercase subject line of the form `<type>: <summary>`. `<type>` is one of `feat`, `fix`, `docs`, `refactor`, or `test`. `<summary>` is a concise description of the change.
+    3. Write a body if the change calls for one.
+    4. Commit with the message, with no attribution trailer.
 
     Stay on the current branch and do not push.
   '';
