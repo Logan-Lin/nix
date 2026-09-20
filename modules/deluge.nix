@@ -85,7 +85,7 @@ in
         max_active_seeding = -1;
         dont_count_slow_torrents = false;
         auto_manage_prefer_seeds = false;
-        stop_seed_at_ratio = false;
+        stop_seed_at_ratio = true;
         stop_seed_ratio = 2.0;
         remove_seed_at_ratio = false;
         share_ratio_limit = (-1.0);
