@@ -45,6 +45,7 @@
       "keepassxc"
       "linearmouse"
       "localsend"
+      "maccy"
       "microsoft-word"
       "microsoft-excel"
       "microsoft-powerpoint"
