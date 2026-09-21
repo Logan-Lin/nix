@@ -58,10 +58,12 @@ in
         };
 
         settings = {
+          # Session restore and start page
           "browser.startup.homepage" = "about:home";
           "browser.startup.page" = 3;
           "browser.newtabpage.enabled" = true;
 
+          # New tab page content
           "browser.newtabpage.activity-stream.feeds.topsites" = false;
           "browser.newtabpage.activity-stream.feeds.section.highlights" = false;
           "browser.newtabpage.activity-stream.feeds.section.topstories" = false;
@@ -71,6 +73,59 @@ in
           "browser.newtabpage.activity-stream.showSponsoredTopSites" = false;
           "browser.newtabpage.activity-stream.showWeather" = false;
 
+          # Tab and window layout
+          "browser.tabs.loadInBackground" = true;
+          "browser.toolbars.bookmarks.visibility" = "never";
+          "sidebar.revamp" = true;
+          "sidebar.verticalTabs" = true;
+          "sidebar.visibility" = "always-show";
+          "sidebar.main.tools" = "";
+          "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
+
+          # Address bar suggestions
+          "browser.urlbar.suggest.searches" = true;
+          "browser.urlbar.suggest.engines" = false;
+          "browser.urlbar.suggest.clipboard" = false;
+          "browser.urlbar.suggest.topsites" = false;
+          "browser.urlbar.quicksuggest.enabled" = false;
+          "browser.urlbar.quicksuggest.dataCollection.enabled" = false;
+          "browser.search.suggest.enabled" = true;
+          "browser.urlbar.speculativeConnect.enabled" = false;
+          "browser.urlbar.suggest.history" = true;
+          "browser.urlbar.maxHistoricalSearchSuggestions" = 3;
+
+          # Downloads
+          "browser.download.useDownloadDir" = true;
+          "browser.download.always_ask_before_handling_new_types" = false;
+          "browser.download.open_pdf_attachments_inline" = false;
+          "browser.download.alwaysOpenPanel" = false;
+          "browser.helperApps.deleteTempFileOnExit" = true;
+
+          # Default site permissions
+          "permissions.default.geo" = 0;
+          "permissions.default.desktop-notification" = 0;
+
+          # Hardware acceleration
+          "gfx.webrender.all" = true;
+          "media.hardware-video-decoding.force-enabled" = true;
+
+          # Full screen
+          "full-screen-api.warning.timeout" = 0;
+          "browser.fullscreen.exit_on_escape" = false;
+
+          # Web MIDI
+          "dom.webmidi.enabled" = true;
+          "dom.webmidi.gated" = false;
+
+          # Languages and translation
+          "intl.accept_languages" = "en-US,en,zh-CN,zh-TW,zh-HK,zh";
+          "browser.translations.automaticallyPopup" = false;
+
+          # HTTPS-only mode
+          "dom.security.https_only_mode" = false;
+          "dom.security.https_only_mode_ever_enabled" = false;
+
+          # Tracking protection, cookies, and fingerprinting defenses
           "privacy.trackingprotection.enabled" = false;
           "privacy.trackingprotection.socialtracking.enabled" = false;
           "privacy.trackingprotection.pbmode.enabled" = false;
@@ -83,26 +138,49 @@ in
           "privacy.firstparty.isolate" = false;
           "privacy.resistFingerprinting" = false;
 
-          "permissions.default.geo" = 0;
-          "permissions.default.desktop-notification" = 0;
+          # Password and form autofill
+          "signon.rememberSignons" = false;
+          "signon.autofillForms" = false;
+          "browser.formfill.enable" = false;
+          "extensions.formautofill.addresses.enabled" = false;
+          "extensions.formautofill.creditCards.enabled" = false;
 
-          "gfx.webrender.all" = true;
-          "media.ffmpeg.vaapi.enabled" = true;
-          "media.hardware-video-decoding.force-enabled" = true;
+          # Mozilla account and Monitor integration
+          "identity.fxaccounts.enabled" = false;
+          "signon.management.page.breach-alerts.enabled" = false;
+          "browser.contentblocking.report.monitor.enabled" = false;
 
-          "browser.tabs.loadInBackground" = true;
-          "browser.ctrlTab.recentlyUsedOrder" = true;
+          # Built-in AI features
+          "browser.ml.enable" = false;
+          "browser.ml.chat.enabled" = false;
+          "browser.ml.chat.shortcuts" = false;
 
-          "browser.toolbars.bookmarks.visibility" = "never";
+          # External protocol handlers
+          "browser.mailto.dualPrompt" = false;
+          "network.protocol-handler.external.mailto" = false;
+          "network.protocol-handler.external.webcal" = false;
+          "network.protocol-handler.external.tel" = false;
 
-          "browser.download.useDownloadDir" = true;
-          "browser.download.always_ask_before_handling_new_types" = false;
-          "browser.download.open_pdf_attachments_inline" = false;
-          "browser.helperApps.deleteTempFileOnExit" = true;
+          # In-product messages and promotions
+          "browser.aboutwelcome.enabled" = false;
+          "browser.startup.homepage_override.mstone" = "ignore";
+          "browser.firefox-view.feature-tour" = builtins.toJSON { screen = ""; complete = true; };
+          "browser.shell.checkDefaultBrowser" = false;
+          "browser.newtabpage.activity-stream.asrouter.userprefs.cfr.addons" = false;
+          "browser.newtabpage.activity-stream.asrouter.userprefs.cfr.features" = false;
+          "browser.vpn_promo.enabled" = false;
+          "browser.promo.pin.enabled" = false;
 
-          "dom.security.https_only_mode" = false;
-          "dom.security.https_only_mode_ever_enabled" = false;
+          # Add-on recommendations
+          "browser.discovery.enabled" = false;
+          "extensions.htmlaboutaddons.recommendations.enabled" = false;
+          "extensions.getAddons.showPane" = false;
 
+          # Normandy remote configuration
+          "app.normandy.enabled" = false;
+          "app.normandy.api_url" = "";
+
+          # Telemetry and data reporting
           "datareporting.healthreport.uploadEnabled" = false;
           "datareporting.policy.dataSubmissionEnabled" = false;
           "toolkit.telemetry.unified" = false;
@@ -115,97 +193,9 @@ in
           "toolkit.telemetry.bhrPing.enabled" = false;
           "toolkit.telemetry.firstShutdownPing.enabled" = false;
 
-          "experiments.activeExperiment" = false;
-          "experiments.enabled" = false;
-          "experiments.supported" = false;
-          "network.allow-experiments" = false;
-
-          "extensions.pocket.enabled" = false;
-          "browser.newtabpage.activity-stream.section.highlights.includePocket" = false;
-
-          "signon.rememberSignons" = false;
-          "signon.autofillForms" = false;
-          "signon.prefillForms" = false;
-
-          "browser.formfill.enable" = false;
-          "browser.formfill.saveHttpsForms" = false;
-
-          "extensions.formautofill.addresses.enabled" = false;
-          "extensions.formautofill.creditCards.enabled" = false;
-          "extensions.formautofill.heuristics.enabled" = false;
-
-          "browser.tabs.firefox-view" = false;
-          "browser.tabs.firefox-view-max-entries" = 0;
-          "browser.tabs.firefox-view-next" = false;
-          "browser.firefox-view.feature-tour" = builtins.toJSON { screen = ""; complete = true; };
-          "browser.firefox-view.view-count" = 0;
-          "identity.fxaccounts.enabled" = false;
-
-          "browser.urlbar.suggest.searches" = false;
-          "browser.urlbar.suggest.engines" = false;
-          "browser.urlbar.quicksuggest.enabled" = false;
-          "browser.urlbar.quicksuggest.sponsored" = false;
-          "browser.urlbar.quicksuggest.dataCollection.enabled" = false;
-          "browser.search.suggest.enabled" = false;
-
-          "browser.urlbar.suggest.clipboard" = false;
-          "browser.urlbar.suggest.topsites" = false;
-          "browser.urlbar.speculativeConnect.enabled" = false;
-
-          "browser.urlbar.suggest.history" = true;
-          "browser.urlbar.maxHistoricalSearchSuggestions" = 3;
-
-          "sidebar.revamp" = true;
-          "sidebar.verticalTabs" = true;
-          "sidebar.visibility" = "always-show";
-          "sidebar.main.tools" = "";
-
-          "intl.accept_languages" = "en-US,en,zh-CN,zh-TW,zh-HK,zh";
-          "browser.translations.automaticallyPopup" = false;
-
-          "dom.webmidi.enabled" = true;
-          "dom.webmidi.gated" = false;
-
-          "browser.ml.enable" = false;
-          "browser.ml.chat.enabled" = false;
-          "browser.ml.chat.shortcuts" = false;
-
-          "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
-
-          "browser.mailto.dualPrompt" = false;
-          "network.protocol-handler.external.mailto" = false;
-          "network.protocol-handler.external.webcal" = false;
-          "network.protocol-handler.external.tel" = false;
-
-          "browser.shell.checkDefaultBrowser" = false;
-
-          "browser.newtabpage.activity-stream.asrouter.userprefs.cfr.addons" = false;
-          "browser.newtabpage.activity-stream.asrouter.userprefs.cfr.features" = false;
-
-          "signon.management.page.breach-alerts.enabled" = false;
-          "browser.contentblocking.report.monitor.enabled" = false;
-
-          "browser.messaging-system.whatsNewPanel.enabled" = false;
-          "browser.aboutwelcome.enabled" = false;
-          "browser.startup.homepage_override.mstone" = "ignore";
-
-          "browser.vpn_promo.enabled" = false;
-          "browser.promo.focus.enabled" = false;
-          "browser.promo.pin.enabled" = false;
-
-          "app.normandy.enabled" = false;
-          "app.normandy.api_url" = "";
-
-          "browser.discovery.enabled" = false;
-          "extensions.htmlaboutaddons.recommendations.enabled" = false;
-          "extensions.getAddons.showPane" = false;
-
+          # Crash reports
           "browser.tabs.crashReporting.sendReport" = false;
           "browser.crashReports.unsubmittedCheck.enabled" = false;
-
-          "browser.download.alwaysOpenPanel" = false;
-          "full-screen-api.warning.timeout" = 0;
-          "browser.fullscreen.exit_on_escape" = false;
         };
       };
     };
