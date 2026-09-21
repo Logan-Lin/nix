@@ -85,12 +85,22 @@
     downloadDir = "/mnt/storage/downloads";
   };
 
+  services.jellyfin = { enable = true; user = "yanlin"; group = "users"; };
+  services.sonarr = { enable = true; user = "yanlin"; group = "users"; };
+  services.radarr = { enable = true; user = "yanlin"; group = "users"; };
+
   services.reverse-proxy = {
     enable = true;
     defaultDomain = "yanlincs.com";
     acmeEmail = "cloudflare@yanlincs.com";
     proxies = {
       deluge.backend = "http://127.0.0.1:${toString config.services.deluge-custom.webPort}";
+      jellyfin = {
+        backend = "http://127.0.0.1:8096";
+        extraConfig = "proxy_buffering off;";
+      };
+      sonarr.backend = "http://127.0.0.1:${toString config.services.sonarr.settings.server.port}";
+      radarr.backend = "http://127.0.0.1:${toString config.services.radarr.settings.server.port}";
     };
   };
 
