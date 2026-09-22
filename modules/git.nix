@@ -1,5 +1,4 @@
 # Home-manager module that configures Git and its command line tooling.
-# Installs the GitHub CLI and Git LFS, routes credentials through OAuth helpers, and sets global Git defaults and ignore patterns.
 
 { config, pkgs, ... }:
 
@@ -69,4 +68,23 @@
       };
     };
   };
+
+  programs.zsh.initContent = ''
+    function git-snap() {
+      if ! ${config.programs.git.package}/bin/git rev-parse --git-dir > /dev/null 2>&1; then
+        echo "Not a git repository" >&2
+        return 1
+      fi
+
+      ${config.programs.git.package}/bin/git add -A
+      if ${config.programs.git.package}/bin/git diff --cached --quiet; then
+        echo "Nothing to snapshot"
+        return 0
+      fi
+
+      local ts=$(${pkgs.coreutils}/bin/date +%Y-%m-%dT%H:%M:%S%z)
+      GIT_AUTHOR_DATE="$ts" GIT_COMMITTER_DATE="$ts" ${config.programs.git.package}/bin/git commit -q -m "chore: snapshot $ts"
+      echo "Snapshot: $ts"
+    }
+  '';
 }
