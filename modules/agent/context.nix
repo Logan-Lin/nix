@@ -28,6 +28,7 @@
   - Do not state a point or open a paragraph with a short, abstract sentence that depends on the next sentence to make sense. Put the missing specifics in that sentence, or merge it with the next one. A transition sentence should state how the point connects to what came before and after, instead of only announcing that something changed. For example, write "the rewrite cut the average response time in half" instead of "the rewrite changes everything"
   - Do not state a point by first rejecting an alternative. This is the "not A but B" pattern, with variants such as "not A, but rather B", "it is not A, it is B", "B, not A", and "not only A but also B". State the point directly, for example write "the bottleneck is the data" instead of "the bottleneck is not the method but the data"
   - Refer to a thing by the same term every time, and do not give it a second term, for example keep writing "the database" instead of switching to "the store" or "the backend". A shorter form is fine after the full term has appeared and context leaves no doubt, for example "the database" for "the user database"
+  - Write content that stands on its own, so a reader who sees only the content can follow it. Keep in mind that the reader won't have any of the following context: chat history between the agent and the user, intermediate steps leading to the content, reasoning behind the content, and sources that the content does not name
 
   ## Formatting
 
