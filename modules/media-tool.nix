@@ -1,21 +1,10 @@
-# Media and archive tooling for the interactive shell.
-# Installs codecs and archive utilities and defines zsh functions to batch convert audio, image, and video files and to create, list, and extract archives.
-# A host opts in by importing this module.
+# Media tooling for the interactive shell.
 
 { config, pkgs, lib, ... }:
 
 {
   home.packages = with pkgs; [
-    gnutar
-    gzip
-    bzip2
-    xz
     ffmpeg
-    shntool
-    flac
-    zip
-    unzip
-    p7zip
     imagemagick
   ];
 
@@ -58,78 +47,6 @@
         ${pkgs.ffmpeg}/bin/ffmpeg -nostdin -loglevel error -nostats -i "$f" -vn -c:a aac -b:a 256k -movflags +faststart "$outfile" >/dev/null </dev/null
         echo "Converted: $f -> $outfile"
       ' _
-    }
-
-    function cuesplit() {
-      if [[ $# -lt 2 ]]; then
-        echo "Usage: cuesplit <source> <dest>" >&2
-        return 1
-      fi
-      local src="''${1%/}"
-      local tgt="$2"
-      local base
-      if [[ -f "$src" ]]; then
-        base="''${src:h}"
-      elif [[ -d "$src" ]]; then
-        base="$src"
-      else
-        echo "Source not found: $src" >&2
-        return 1
-      fi
-      ${pkgs.coreutils}/bin/mkdir -p "$tgt"
-      {
-        if [[ -f "$src" ]]; then
-          printf '%s\n' "$src"
-        else
-          ${pkgs.findutils}/bin/find "$src" -type f -iname '*.cue'
-        fi
-      } | while IFS= read -r cue; do
-        local audio_stem="''${cue%.*}"
-        local audio=""
-        for ext in wav flac ape tta; do
-          if [[ -f "$audio_stem.$ext" ]]; then
-            audio="$audio_stem.$ext"
-            break
-          fi
-        done
-        if [[ -z "$audio" ]]; then
-          echo "No matching audio for: $cue" >&2
-          continue
-        fi
-        local enc=$(${pkgs.file}/bin/file --brief --mime-encoding "$cue")
-        if [[ "$enc" != "utf-8" && "$enc" != "us-ascii" ]]; then
-          local tmp=$(${pkgs.coreutils}/bin/mktemp)
-          local converted=0
-          if [[ "$enc" == "unknown-8bit" ]]; then
-            # The cue sheet has no clear encoding, so try common CJK encodings in turn and keep the first that decodes cleanly.
-            for try_enc in CP932 Shift_JIS EUC-JP GB18030 BIG5; do
-              if iconv -f "$try_enc" -t UTF-8 "$cue" > "$tmp" 2>/dev/null; then
-                ${pkgs.coreutils}/bin/mv "$tmp" "$cue"
-                converted=1
-                break
-              fi
-            done
-            if (( ! converted )); then
-              echo "Could not detect encoding for: $cue" >&2
-              ${pkgs.coreutils}/bin/rm -f "$tmp"
-              continue
-            fi
-          else
-            iconv -f "$enc" -t UTF-8 "$cue" > "$tmp" && ${pkgs.coreutils}/bin/mv "$tmp" "$cue"
-          fi
-        fi
-        local rel="''${cue#$base/}"
-        local cue_bn="''${rel##*/}"
-        local cue_stem="''${cue_bn%.*}"
-        local outdir
-        case "$rel" in
-          */*) outdir="$tgt/''${rel%/*}/$cue_stem" ;;
-          *) outdir="$tgt/$cue_stem" ;;
-        esac
-        local afmt="''${audio##*.}"
-        ${pkgs.coreutils}/bin/mkdir -p "$outdir"
-        ${pkgs.shntool}/bin/shnsplit -f "$cue" -t "%n - %t" -o "''${afmt:l}" -d "$outdir" "$audio"
-      done
     }
 
     function image2webp() {
@@ -296,78 +213,6 @@
         ${pkgs.ffmpeg}/bin/ffmpeg -nostdin -loglevel error -nostats -i "$f" -vf "$_VF" -quality 75 -compression_level 4 -loop 0 "$outfile" >/dev/null </dev/null
         echo "Converted: $f -> $outfile"
       ' _
-    }
-
-    function extract() {
-      if [[ $# -eq 0 ]]; then
-        echo "Usage: extract <archive> [dest_dir]" >&2
-        return 1
-      fi
-
-      local file="$1"
-      local dest="''${2:-.}"
-
-      if [[ ! -f "$file" ]]; then
-        echo "File not found: $file" >&2
-        return 1
-      fi
-
-      ${pkgs.coreutils}/bin/mkdir -p "$dest"
-
-      case "''${file:l}" in
-        *.tar.gz|*.tgz)     ${pkgs.gnutar}/bin/tar -xzf "$file" -C "$dest" ;;
-        *.tar.bz2|*.tbz2)   ${pkgs.gnutar}/bin/tar -xjf "$file" -C "$dest" ;;
-        *.tar.xz|*.txz)     ${pkgs.gnutar}/bin/tar -xJf "$file" -C "$dest" ;;
-        *.tar.zst|*.tzst)   ${pkgs.gnutar}/bin/tar --zstd -xf "$file" -C "$dest" ;;
-        *.tar)              ${pkgs.gnutar}/bin/tar -xf "$file" -C "$dest" ;;
-        *.gz)               ${pkgs.gzip}/bin/gunzip -k "$file" ;;
-        *.bz2)              ${pkgs.bzip2}/bin/bunzip2 -k "$file" ;;
-        *.xz)               ${pkgs.xz}/bin/unxz -k "$file" ;;
-        *.zip|*.cbz)        ${pkgs.unzip}/bin/unzip -q "$file" -d "$dest" ;;
-        *.7z)               ${pkgs.p7zip}/bin/7z x "$file" -o"$dest" ;;
-        *.rar)              ${pkgs.p7zip}/bin/7z x "$file" -o"$dest" ;;
-        *)
-          echo "Unknown archive format: $file" >&2
-          return 1
-          ;;
-      esac
-    }
-
-    function mktar() {
-      if [[ $# -lt 2 ]]; then
-        echo "Usage: mktar <format> <name> <files...>  (format: gz, bz2, xz, zst)" >&2
-        return 1
-      fi
-
-      local fmt="$1"
-      shift
-      local name="$1"
-      shift
-
-      case "$fmt" in
-        gz)   ${pkgs.gnutar}/bin/tar -czf "''${name}.tar.gz" "$@" ;;
-        bz2)  ${pkgs.gnutar}/bin/tar -cjf "''${name}.tar.bz2" "$@" ;;
-        xz)   ${pkgs.gnutar}/bin/tar -cJf "''${name}.tar.xz" "$@" ;;
-        zst)  ${pkgs.gnutar}/bin/tar --zstd -cf "''${name}.tar.zst" "$@" ;;
-        *)    echo "Unknown format: $fmt (use gz, bz2, xz, zst)" >&2; return 1 ;;
-      esac
-    }
-
-    function lsarchive() {
-      if [[ $# -eq 0 ]]; then
-        echo "Usage: lsarchive <archive>" >&2
-        return 1
-      fi
-
-      local file="$1"
-      case "''${file:l}" in
-        *.tar.gz|*.tgz|*.tar.bz2|*.tbz2|*.tar.xz|*.txz|*.tar.zst|*.tzst|*.tar)
-          ${pkgs.gnutar}/bin/tar -tf "$file" ;;
-        *.zip|*.cbz)    ${pkgs.unzip}/bin/unzip -l "$file" ;;
-        *.7z)     ${pkgs.p7zip}/bin/7z l "$file" ;;
-        *.rar)    ${pkgs.p7zip}/bin/7z l "$file" ;;
-        *)        echo "Unknown archive format: $file" >&2; return 1 ;;
-      esac
     }
 
   '';
