@@ -80,32 +80,12 @@
 
     Act on the target Obsidian vault TODOs.
 
-    Use the first wikilink to identify the note that contains them.
-    Interpret the rest of the target as an optional specification that can identify one or more TODOs, such as a checkbox line or other contextual details.
-    If a specification is present, locate and act on the TODOs it identifies, treating each associated `[!todo]` callout as its detailed requirements.
-    Otherwise, locate and act on every `[!todo]` callout in the note.
+    Use the first wikilink to identify the note or note section that contains them.
+    Interpret the rest of the target as an optional specification that can identify one or more TODOs, such as a checkbox line and/or a `> [!todo]` callout.
+    If a specification is present, locate and act on the TODOs it identifies.
+    Otherwise, locate and act on every checkbox line and `> [!todo]` callout in the note.
 
-    Keep every TODO checkbox line and `[!todo]` callout exactly intact.
-    Do not remove them or change their status after completing the work.
-    The user decides whether each TODO is fully solved.
-  '';
-
-  revise = ''
-    ---
-    description: Revise an Obsidian vault note based on its comments
-    argument-hint: <optional [[note]]>
-    ---
-
-    ## Target
-
-    $ARGUMENTS
-
-    ## Task
-
-    Revise the target Obsidian vault note according to the user's comments in standard blockquotes, in other words, blockquotes without a `> [!type]` callout marker on their first line.
-
-    If no target is provided, infer the target note from the current session context.
-    Remove the user's comments after applying all requested revisions.
+    Keep every TODO checkbox line and `> [!todo]` callout exactly intact. Do not remove them or change their status after completing the work.
   '';
 
   commit = ''
