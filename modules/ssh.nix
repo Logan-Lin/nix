@@ -1,7 +1,3 @@
-# SSH client configuration for home-manager.
-# It defines a global default block and a block for each host.
-# A host opts in by importing this module.
-
 { config, pkgs, lib, ... }:
 
 let

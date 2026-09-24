@@ -1,6 +1,3 @@
-# macOS platform default for the system configuration.
-# Imports the cross-platform system default and layers on the macOS settings every host shares.
-
 { config, pkgs, inputs, ... }:
 
 {

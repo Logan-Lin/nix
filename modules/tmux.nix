@@ -1,6 +1,3 @@
-# Tmux configuration that sets a Gruvbox status line, and vi style pane navigation and copy mode.
-# Adds the sesh session manager with a zsh alias and a prefix popup to switch sessions through fzf.
-
 { pkgs, ... }:
 
 {

@@ -1,6 +1,4 @@
-# OCI containers for the hanako host.
-# Runs oc-scheduler, a locally built scheduler service, and the MongoDB database that backs it.
-# Both join the shared podman network so the scheduler can reach MongoDB.
+# The containers join the shared podman network so the scheduler can reach MongoDB.
 
 { config, pkgs, lib, ... }:
 
@@ -35,6 +33,5 @@ in
 
   };
 
-  # Port 27017 exposes the MongoDB container to remote clients.
   networking.firewall.allowedTCPPorts = [ 27017 ];
 }

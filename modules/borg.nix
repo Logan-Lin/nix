@@ -1,6 +1,4 @@
 # Scheduled Borg backups for a NixOS host, driven by systemd timers.
-# A host enables services.borg-custom and sets repositoryUrl, and the module backs up backupPaths to that local or ssh:// repository, prunes old archives to the retention policy, and runs an integrity check on its own schedule.
-# Backup or check failures are reported to ntfy.
 
 # NOTE: Passphrase file at: `/etc/borg-passphrase` with mode 600
 # content: `BORG_PASSPHRASE=your-passphrase`
@@ -178,7 +176,7 @@ in
           "::$(date +%Y-%m-%d_%H-%M-%S)" \
           ${backupPathsStr}
 
-        # Prune and compact run after a successful create and are allowed to fail without failing the backup.
+        # Prune and compact are allowed to fail without failing the backup.
         set +e
         borg prune --list --show-rc ${retentionArgs} || true
         borg compact || true

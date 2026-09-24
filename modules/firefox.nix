@@ -1,6 +1,3 @@
-# Home-manager module that provides a customized Firefox setup under the programs.firefox-custom option.
-# When enabled it configures a single Firefox profile with about:config settings, search engines, and a fixed list of extensions.
-
 { config, pkgs, lib, ... }@args:
 
 with lib;
@@ -8,7 +5,7 @@ with lib;
 let
   cfg = config.programs.firefox-custom;
 
-  # firefox-addons is an optional flake input, so fall back to null and install no extensions when it is absent.
+  # firefox-addons is an optional flake input, so install no extensions when it is absent.
   firefox-addons = args.inputs.firefox-addons or null;
   system = pkgs.stdenv.hostPlatform.system;
 
@@ -58,12 +55,10 @@ in
         };
 
         settings = {
-          # Session restore and start page
           "browser.startup.homepage" = "about:home";
           "browser.startup.page" = 3;
           "browser.newtabpage.enabled" = true;
 
-          # New tab page content
           "browser.newtabpage.activity-stream.feeds.topsites" = false;
           "browser.newtabpage.activity-stream.feeds.section.highlights" = false;
           "browser.newtabpage.activity-stream.feeds.section.topstories" = false;
@@ -73,7 +68,6 @@ in
           "browser.newtabpage.activity-stream.showSponsoredTopSites" = false;
           "browser.newtabpage.activity-stream.showWeather" = false;
 
-          # Tab and window layout
           "browser.tabs.loadInBackground" = true;
           "browser.toolbars.bookmarks.visibility" = "never";
           "sidebar.revamp" = true;
@@ -82,7 +76,6 @@ in
           "sidebar.main.tools" = "";
           "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
 
-          # Address bar suggestions
           "browser.urlbar.suggest.searches" = true;
           "browser.urlbar.suggest.engines" = false;
           "browser.urlbar.suggest.clipboard" = false;
@@ -94,38 +87,30 @@ in
           "browser.urlbar.suggest.history" = true;
           "browser.urlbar.maxHistoricalSearchSuggestions" = 3;
 
-          # Downloads
           "browser.download.useDownloadDir" = true;
           "browser.download.always_ask_before_handling_new_types" = false;
           "browser.download.open_pdf_attachments_inline" = false;
           "browser.download.alwaysOpenPanel" = false;
           "browser.helperApps.deleteTempFileOnExit" = true;
 
-          # Default site permissions
           "permissions.default.geo" = 0;
           "permissions.default.desktop-notification" = 0;
 
-          # Hardware acceleration
           "gfx.webrender.all" = true;
           "media.hardware-video-decoding.force-enabled" = true;
 
-          # Full screen
           "full-screen-api.warning.timeout" = 0;
           "browser.fullscreen.exit_on_escape" = false;
 
-          # Web MIDI
           "dom.webmidi.enabled" = true;
           "dom.webmidi.gated" = false;
 
-          # Languages and translation
           "intl.accept_languages" = "en-US,en,zh-CN,zh-TW,zh-HK,zh";
           "browser.translations.automaticallyPopup" = false;
 
-          # HTTPS-only mode
           "dom.security.https_only_mode" = false;
           "dom.security.https_only_mode_ever_enabled" = false;
 
-          # Tracking protection, cookies, and fingerprinting defenses
           "privacy.trackingprotection.enabled" = false;
           "privacy.trackingprotection.socialtracking.enabled" = false;
           "privacy.trackingprotection.pbmode.enabled" = false;
@@ -138,30 +123,25 @@ in
           "privacy.firstparty.isolate" = false;
           "privacy.resistFingerprinting" = false;
 
-          # Password and form autofill
           "signon.rememberSignons" = false;
           "signon.autofillForms" = false;
           "browser.formfill.enable" = false;
           "extensions.formautofill.addresses.enabled" = false;
           "extensions.formautofill.creditCards.enabled" = false;
 
-          # Mozilla account and Monitor integration
           "identity.fxaccounts.enabled" = false;
           "signon.management.page.breach-alerts.enabled" = false;
           "browser.contentblocking.report.monitor.enabled" = false;
 
-          # Built-in AI features
           "browser.ml.enable" = false;
           "browser.ml.chat.enabled" = false;
           "browser.ml.chat.shortcuts" = false;
 
-          # External protocol handlers
           "browser.mailto.dualPrompt" = false;
           "network.protocol-handler.external.mailto" = false;
           "network.protocol-handler.external.webcal" = false;
           "network.protocol-handler.external.tel" = false;
 
-          # In-product messages and promotions
           "browser.aboutwelcome.enabled" = false;
           "browser.startup.homepage_override.mstone" = "ignore";
           "browser.firefox-view.feature-tour" = builtins.toJSON { screen = ""; complete = true; };
@@ -171,16 +151,13 @@ in
           "browser.vpn_promo.enabled" = false;
           "browser.promo.pin.enabled" = false;
 
-          # Add-on recommendations
           "browser.discovery.enabled" = false;
           "extensions.htmlaboutaddons.recommendations.enabled" = false;
           "extensions.getAddons.showPane" = false;
 
-          # Normandy remote configuration
           "app.normandy.enabled" = false;
           "app.normandy.api_url" = "";
 
-          # Telemetry and data reporting
           "datareporting.healthreport.uploadEnabled" = false;
           "datareporting.policy.dataSubmissionEnabled" = false;
           "toolkit.telemetry.unified" = false;
@@ -193,7 +170,6 @@ in
           "toolkit.telemetry.bhrPing.enabled" = false;
           "toolkit.telemetry.firstShutdownPing.enabled" = false;
 
-          # Crash reports
           "browser.tabs.crashReporting.sendReport" = false;
           "browser.crashReports.unsubmittedCheck.enabled" = false;
         };
@@ -201,7 +177,7 @@ in
     };
   }
 
-  # The Firefox profile directory differs between platforms, so set the Linux location only on Linux and leave the macOS default in place.
+  # The Firefox profile directory differs between platforms, so set it only on Linux.
   (mkIf pkgs.stdenv.hostPlatform.isLinux {
     programs.firefox.configPath = ".mozilla/firefox";
   })

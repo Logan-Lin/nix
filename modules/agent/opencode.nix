@@ -1,7 +1,3 @@
-# Home Manager module that configures the OpenCode CLI.
-# It sets program options and permissions, and defines the global context and custom commands.
-# A host opts in by importing this module.
-
 {
   pkgs,
   inputs,

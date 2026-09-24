@@ -1,6 +1,4 @@
 # Nginx reverse proxy module with automatic TLS through ACME.
-# A host enables services.reverse-proxy and lists proxies, each mapping a subdomain to a backend, with optional per proxy rate limiting and robots.txt blocking.
-# Each domain gets a wildcard certificate issued through the Cloudflare DNS-01 challenge, which reads the API credentials from the environment file below.
 
 # NOTE: environment file at: `/etc/acme-env` with mode 600
 # content (for Cloudflare API):
@@ -129,7 +127,7 @@ in
       ) cfg.proxies;
     };
 
-    # Add nginx to the acme group so it can read the certificate files.
+    # Lets nginx read the certificate files.
     users.users.nginx.extraGroups = [ "acme" ];
 
     networking.firewall.allowedTCPPorts = [ 80 443 ];

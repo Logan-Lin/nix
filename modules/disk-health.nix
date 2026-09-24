@@ -1,6 +1,4 @@
-# Disk health monitoring for a host through a systemd service that runs smartctl on the configured devices.
-# A host enables it with services.disk-health.enable, lists the devices to check, and optionally sets frequency to run the check on a systemd timer.
-# Each run pushes a report of the SMART status and wear level of every device to the ntfy topic, and a failure raises an urgent notification.
+# Disk health monitoring through a systemd service that runs smartctl on the configured devices.
 
 { config, lib, pkgs, ... }:
 

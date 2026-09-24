@@ -1,5 +1,3 @@
-# Samba file server for a personal homelab, wrapping the NixOS services.samba module behind a smaller options interface.
-# A host turns it on with services.samba-share.enable and defines exported directories under services.samba-share.shares, each keyed by name with a path and an optional list of allowed users.
 # The firewall ports stay closed and NetBIOS and network discovery are off, so clients reach the server by host name through a trusted interface such as tailscale0.
 
 # NOTE: After deployment, set the password with the command:
@@ -76,12 +74,11 @@ in
           "map to guest" = "never";
           "server min protocol" = "SMB2";
           "disable netbios" = "yes";
-          # Disable printer sharing since this server exports files only.
           "load printers" = "no";
           "printing" = "bsd";
           "printcap name" = "/dev/null";
           "disable spoolss" = "yes";
-          # macOS Finder interoperability, mapping illegal characters and storing Apple metadata and resource forks in xattr streams.
+          # macOS Finder interoperability.
           "vfs objects" = "catia fruit streams_xattr";
           "fruit:metadata" = "stream";
           "fruit:resource" = "stream";

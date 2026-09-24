@@ -1,6 +1,3 @@
-# Disk layout for the misaki host, consumed by disko.
-# The swap partition also serves as the hibernation resume device.
-
 {
   disko.devices = {
     disk = {

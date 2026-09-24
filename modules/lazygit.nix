@@ -1,7 +1,3 @@
-# Home-manager module that configures lazygit, the terminal UI for git.
-# Sets a Gruvbox dark theme, vi style navigation keybindings, and delta as the diff pager.
-# A host opts in by importing this module.
-
 { config, pkgs, lib, ... }:
 
 {

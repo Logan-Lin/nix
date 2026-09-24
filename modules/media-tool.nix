@@ -1,5 +1,3 @@
-# Media tooling for the interactive shell.
-
 { config, pkgs, lib, ... }:
 
 {

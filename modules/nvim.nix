@@ -1,6 +1,3 @@
-# Neovim configuration built with nixvim for home-manager.
-# A host opts in by importing this module, which sets Neovim as the default editor and configures its options, Gruvbox theme, plugins, and key mappings.
-
 { pkgs, lib, inputs, ... }:
 
 {
@@ -49,7 +46,7 @@
           show_icons = false;
           set_vim_settings = true;
           tabpage_section = "none";
-          # Truncate a tab label longer than 30 characters, keeping its tail and prefixing an ellipsis so the file name end stays visible.
+          # Keep the tail of a long tab label so the file name end stays visible.
           format.__raw = ''
             function(_, label)
               local max = 30
@@ -345,7 +342,7 @@
       vim.treesitter.language.register('latex', 'plaintex')
       vim.treesitter.language.register('json', 'jsonl')
 
-      -- Disable treesitter highlighting and indenting on files larger than one megabyte to keep them responsive.
+      -- Disable treesitter on large files to keep them responsive.
       vim.api.nvim_create_autocmd("FileType", {
         callback = function(args)
           local max_bytes = 1024 * 1024

@@ -1,5 +1,3 @@
-# Cross-platform home default imported by every host on Linux and macOS.
-
 { config, pkgs, inputs, ... }:
 
 {

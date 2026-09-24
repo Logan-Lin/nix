@@ -1,5 +1,3 @@
-# Manual workflow that updates only the nixpkgs-bleed input and opens a pull request once every configuration still builds.
-# It runs solely on demand through workflow_dispatch, with no schedule or gate.
 name: update-bleed
 on:
   workflow_dispatch:

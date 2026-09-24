@@ -1,7 +1,3 @@
-# Home-manager module that configures the Claude Code CLI.
-# It sets program options and permissions, and defines the global context and custom slash commands.
-# A host opts in by importing this module.
-
 { pkgs, inputs, ... }:
 
 let

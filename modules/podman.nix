@@ -1,6 +1,3 @@
-# Podman container runtime for a host that opts into it by importing this module.
-# It enables commands compatible with Docker and name resolution between containers on the default network.
-
 { pkgs, inputs, ... }:
 
 let

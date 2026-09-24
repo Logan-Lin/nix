@@ -1,6 +1,5 @@
 # Shared context for the agent CLIs, written to the global memory file each CLI reads.
 {
-  # memoryFile is the name each CLI expects for its global memory file.
   memoryFile,
   additionalContext ? "",
 }: ''

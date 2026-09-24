@@ -1,7 +1,3 @@
-# Custom Syncthing layer over the home-manager syncthing service.
-# It records the device ids of the user's machines and exposes syncthing-custom.folders, so a host enables a shared folder by setting syncthing-custom.folders.<name>.enable = true.
-# The declarative device and folder lists are authoritative, and a matching .stignore is written into each enabled folder on activation.
-
 # NOTE: Obtain device id using command `syncthing device-id`
 
 { config, pkgs, lib, ... }:
@@ -37,7 +33,7 @@ let
     ".obsidian/workspace.json" ".obsidian/workspace-mobile.json"
   ];
 
-  # A folder path is stored as a literal "~/..." string, so expand it to $HOME at activation time when the .stignore file is written.
+  # A folder path is stored as a literal "~/..." string, so expand it to $HOME at activation time.
   shellPath = p:
     if lib.hasPrefix "~/" p
     then ''"$HOME"/'' + lib.escapeShellArg (lib.removePrefix "~/" p)

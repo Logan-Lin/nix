@@ -1,4 +1,4 @@
-# Generated hardware scan for the misaki host, produced by nixos-generate-config.
+# Generated hardware scan.
 
 { config, lib, pkgs, modulesPath, ... }:
 

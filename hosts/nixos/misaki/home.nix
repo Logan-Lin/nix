@@ -1,6 +1,3 @@
-# Home-manager configuration for misaki, a headless NixOS host.
-# It keeps the Documents folder in sync with the user's other machines and carries the tooling used over an SSH session.
-
 { config, pkgs, inputs, ... }:
 
 let

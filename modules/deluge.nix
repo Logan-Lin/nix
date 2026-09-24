@@ -1,6 +1,3 @@
-# Deluge torrent daemon with its web UI, wrapped behind the services.deluge-custom options interface.
-# A host enables the service and sets downloadDir, and the module configures the upstream services.deluge module in declarative mode.
-
 # NOTE: auth file at: `/var/lib/deluge/auth` with owner `yanlin:users` and mode 600
 # content:
 #   localclient:<password>:10

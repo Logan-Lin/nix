@@ -1,5 +1,4 @@
-# NixOS configuration for misaki, a Lenovo ThinkPad P14s laptop that runs headless with the lid closed and is reached over SSH and Tailscale.
-# Tunes power, thermal, and fan control for the laptop, and blacklists the NVIDIA and nouveau drivers to run on Intel integrated graphics.
+# misaki is a Lenovo ThinkPad P14s laptop that runs headless with the lid closed and is reached over SSH and Tailscale.
 
 { config, pkgs, lib, inputs, ... }:
 

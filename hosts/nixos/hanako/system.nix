@@ -1,4 +1,4 @@
-# NixOS configuration for hanako, a headless cloud server.
+# hanako is a headless cloud server.
 
 { config, pkgs, ... }:
 

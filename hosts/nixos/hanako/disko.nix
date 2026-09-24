@@ -1,5 +1,3 @@
-# Disk layout for the hanako host, consumed by disko.
-
 {
   disko.devices = {
     disk = {
