@@ -16,8 +16,7 @@
     signing.format = null;
 
     ignores = [
-      ".DS_Store" ".claude/" ".codex/" ".opencode/"
-      "AGENTS.md" "CLAUDE.md"
+      ".DS_Store"
     ];
 
     settings = {
