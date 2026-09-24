@@ -51,7 +51,7 @@ in
     ../../modules/agent/claude.nix
     ../../modules/firefox.nix
     ../../modules/syncthing.nix
-    ../../modules/media-tool.nix
+    ../../modules/convert.nix
   ];
 
   syncthing-custom.folders = {

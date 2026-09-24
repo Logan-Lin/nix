@@ -14,7 +14,7 @@ in
   imports = [
     ../home-default.nix
     ../../../modules/syncthing.nix
-    ../../../modules/media-tool.nix
+    ../../../modules/convert.nix
     ../../../modules/agent/claude.nix
   ];
 
