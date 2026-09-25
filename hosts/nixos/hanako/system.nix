@@ -11,6 +11,7 @@
     ../../../modules/podman.nix
     ../../../modules/nginx.nix
     ../../../modules/borg.nix
+    ../../../modules/cifs.nix
     ../../../modules/deluge.nix
     ../../../modules/samba.nix
   ];
@@ -63,21 +64,13 @@
 
   services.journald.settings.Journal.SystemMaxUse = "1G";
 
-  # NOTE: credentials file at: `/etc/falkenstein-box-password` with mode 600
-  # content: `password=your-password`
-  fileSystems."/mnt/storage" = {
-    device = "//u664260.your-storagebox.de/backup";
-    fsType = "cifs";
-    options = [
-      "username=u664260"
-      "credentials=/etc/falkenstein-box-password"
-      "uid=yanlin"
-      "gid=users"
-      "seal"
-      "_netdev"
-      "noauto"
-      "x-systemd.automount"
-    ];
+  services.cifs-mount = {
+    enable = true;
+    mounts."/mnt/storage" = {
+      device = "//u664260.your-storagebox.de/backup";
+      username = "u664260";
+      credentialsFile = "/etc/falkenstein-box-password";
+    };
   };
 
   services.deluge-custom = {
