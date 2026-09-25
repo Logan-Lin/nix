@@ -78,6 +78,8 @@ in
   home.packages = with pkgs; [
     httpie
     stable.texliveFull
+
+    choose-gui
   ];
 
   launchd.agents.linearmouse = {
@@ -189,6 +191,12 @@ in
       alt-shift-8 = [ "move-node-to-workspace 8" "workspace 8" ];
       alt-shift-9 = [ "move-node-to-workspace 9" "workspace 9" ];
       alt-shift-0 = [ "move-node-to-workspace 10" "workspace 10" ];
+
+      # App launcher
+      alt-space = "exec-and-forget ${pkgs.findutils}/bin/find -L /Applications /System/Applications /System/Library/CoreServices $HOME/Applications/Home\\ Manager\\ Apps -maxdepth 2 -name '*.app' | ${pkgs.coreutils}/bin/sort | ${pkgs.choose-gui}/bin/choose | ${pkgs.findutils}/bin/xargs -I{} open {}";
+
+      # Window switcher
+      alt-tab = "exec-and-forget /opt/homebrew/bin/aerospace list-windows --all --format '%{window-id} | %{app-name}: %{window-title}' | ${pkgs.choose-gui}/bin/choose | ${pkgs.coreutils}/bin/cut -d'|' -f1 | ${pkgs.findutils}/bin/xargs /opt/homebrew/bin/aerospace focus --window-id";
     };
   };
 
