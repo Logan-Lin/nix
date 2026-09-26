@@ -82,5 +82,29 @@
       GIT_AUTHOR_DATE="$ts" GIT_COMMITTER_DATE="$ts" ${config.programs.git.package}/bin/git commit -q -m "chore: snapshot $ts"
       echo "Snapshot: $ts"
     }
+
+    function git-tag-date() {
+      if ! ${config.programs.git.package}/bin/git rev-parse --git-dir > /dev/null 2>&1; then
+        echo "Not a git repository" >&2
+        return 1
+      fi
+
+      local existing=$(${config.programs.git.package}/bin/git tag --points-at HEAD | ${pkgs.coreutils}/bin/head -n 1)
+      if [[ -n "$existing" ]]; then
+        echo "Already tagged: $existing"
+        return 0
+      fi
+
+      local base="v$(${pkgs.coreutils}/bin/date +%Y.%m.%d)"
+      local tag="$base"
+      local n=2
+      while ${config.programs.git.package}/bin/git rev-parse -q --verify "refs/tags/$tag" > /dev/null; do
+        tag="$base-$n"
+        n=$((n + 1))
+      done
+
+      ${config.programs.git.package}/bin/git tag "$tag" || return 1
+      echo "Tagged: $tag"
+    }
   '';
 }
