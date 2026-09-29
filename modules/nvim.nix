@@ -1,5 +1,13 @@
 { pkgs, lib, inputs, ... }:
 
+let
+  # US and UK English word lists from SCOWL, merged into one UTF-8 file for dictionary completion.
+  englishWords = pkgs.runCommand "english-words.txt" { nativeBuildInputs = [ pkgs.iconv ]; } ''
+    iconv -f ISO-8859-1 -t UTF-8 \
+      ${pkgs.scowl}/share/dict/wamerican.txt ${pkgs.scowl}/share/dict/wbritish.txt \
+      | grep -v "'" | sort -u > $out
+  '';
+in
 {
   imports = [ inputs.nixvim.homeModules.nixvim ];
 
@@ -208,6 +216,28 @@
       };
 
       todo-comments.enable = true;
+
+      blink-cmp = {
+        enable = true;
+        settings = {
+          cmdline.enabled = false;
+          sources = {
+            default = [ "buffer" "path" "dictionary" ];
+            providers = {
+              buffer.opts.get_bufnrs.__raw = ''
+                function() return { vim.api.nvim_get_current_buf() } end
+              '';
+              dictionary = {
+                module = "blink-cmp-dictionary";
+                name = "Dict";
+                min_keyword_length = 3;
+                opts.dictionary_files = [ "${englishWords}" ];
+              };
+            };
+          };
+        };
+      };
+      blink-cmp-dictionary.enable = true;
 
       nvim-tree = {
         enable = true;
