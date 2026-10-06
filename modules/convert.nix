@@ -101,7 +101,7 @@
         esac
         outfile="$outdir/$stem.webp"
         ${pkgs.coreutils}/bin/mkdir -p "$outdir"
-        if ! ${pkgs.imagemagick}/bin/magick "$f" -resize "1800x1800>" -quality 82 "$outfile" >/dev/null; then
+        if ! ${pkgs.imagemagick}/bin/magick "$f" -resize "1800x1800>" -quality 85 "$outfile" >/dev/null; then
           echo "Failed: $f" >&2
           exit 1
         fi
@@ -154,7 +154,7 @@
         outfile="$outdir/$stem.jpg"
         ${pkgs.coreutils}/bin/mkdir -p "$outdir"
         # JPEG has no alpha channel or animation, so take the first frame and flatten transparency onto white.
-        if ! ${pkgs.imagemagick}/bin/magick "''${f}[0]" -resize "1800x1800>" -background white -alpha remove -alpha off -quality 82 "$outfile" >/dev/null; then
+        if ! ${pkgs.imagemagick}/bin/magick "''${f}[0]" -resize "1800x1800>" -background white -alpha remove -alpha off -quality 90 "$outfile" >/dev/null; then
           echo "Failed: $f" >&2
           exit 1
         fi
