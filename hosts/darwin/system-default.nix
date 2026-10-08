@@ -51,7 +51,6 @@
       "ovito"
       "slidepilot"
       "tencent-meeting"
-      "nvidia-geforce-now"
       "wechat"
       "transmission"
     ];
