@@ -9,12 +9,13 @@ in
   home.packages = with pkgs; [
     httpie
     stable.texliveFull
+    ffmpeg
+    imagemagick
   ];
 
   imports = [
     ../home-default.nix
     ../../../modules/syncthing.nix
-    ../../../modules/convert.nix
     ../../../modules/agent/claude.nix
   ];
 

@@ -51,7 +51,6 @@ in
     ../../modules/agent/claude.nix
     ../../modules/firefox.nix
     ../../modules/syncthing.nix
-    ../../modules/convert.nix
   ];
 
   syncthing-custom.folders = {
@@ -78,6 +77,8 @@ in
   home.packages = with pkgs; [
     httpie
     stable.texliveFull
+    ffmpeg
+    imagemagick
 
     choose-gui
   ];
