@@ -7,7 +7,6 @@
     ./hardware.nix
     ./disko.nix
     ../system-default.nix
-    ../../../modules/disk-health.nix
     ../../../modules/borg.nix
     "${inputs.nixos-hardware}/lenovo/thinkpad/p14s"
     "${inputs.nixos-hardware}/common/cpu/intel/tiger-lake"
@@ -130,14 +129,7 @@
     usbutils
     intel-gpu-tools
     lm_sensors
-    smartmontools
   ];
-
-  services.disk-health = {
-    enable = true;
-    frequency = "Sun *-*-* 06:00:00";
-    devices = [ "/dev/nvme0n1" ];
-  };
 
   services.borg-custom = {
     enable = true;
