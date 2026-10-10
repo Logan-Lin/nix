@@ -221,6 +221,12 @@ in
         enable = true;
         settings = {
           cmdline.enabled = false;
+          keymap = {
+            preset = "none";
+            "<C-j>" = [ "select_next" "fallback" ];
+            "<C-k>" = [ "select_prev" "fallback" ];
+            "<CR>" = [ "accept" "fallback" ];
+          };
           sources = {
             default = [ "buffer" "path" "dictionary" ];
             providers = {
@@ -230,7 +236,6 @@ in
               dictionary = {
                 module = "blink-cmp-dictionary";
                 name = "Dict";
-                min_keyword_length = 3;
                 opts.dictionary_files = [ "${englishWords}" ];
               };
             };
