@@ -7,13 +7,14 @@ let
 
   # firefox-addons is an optional flake input, so install no extensions when it is absent.
   firefox-addons = args.inputs.firefox-addons or null;
-  system = pkgs.stdenv.hostPlatform.system;
 
+  # Build the addons from this pkgs so its allowUnfree setting covers unfree addons.
   extensions =
     if firefox-addons != null then
-      with firefox-addons.packages.${system}; [
+      with (firefox-addons.overlays.default pkgs pkgs).firefox-addons; [
         ublock-origin
         vimium
+        instapaper-official
       ]
     else [];
 in
