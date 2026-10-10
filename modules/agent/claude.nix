@@ -1,4 +1,4 @@
-{ pkgs, inputs, ... }:
+{ config, lib, pkgs, inputs, ... }:
 
 let
   # Pull the claude-code package from a separate newer nixpkgs input to get releases ahead of the pinned channel.
@@ -44,6 +44,8 @@ in
       context = import ./context.nix { memoryFile = "CLAUDE.md"; };
 
       commands = import ./commands.nix;
+
+      mcpServers = import ./integrations.nix { inherit config lib pkgs; };
     };
   };
 }
