@@ -53,6 +53,9 @@
       "tencent-meeting"
       "wechat"
       "transmission"
+      "freac"
+      "xnconvert"
+      "handbrake-app"
     ];
   };
 
