@@ -32,9 +32,5 @@
   ## Formatting
 
   - Do not use em dashes or en dashes to connect sentences
-  - Write no code document or comment by default. Add one only when the code does not speak for itself
-    - Keep it concise. State only the overall purpose and role of the code
-    - Keep it high-level. Do not list the steps or components of the code
-    - Do not extend an existing document or comment beyond its current level of detail
 ''
 + additionalContext
