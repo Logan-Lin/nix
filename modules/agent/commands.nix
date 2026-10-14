@@ -20,30 +20,6 @@
     After editing, provide a brief summary of the changes made. Do not alter meaning, tone, or style. Only correct errors.
   '';
 
-  polish = ''
-    ---
-    description: Aggressive proofread that fixes errors and enforces writing style rules
-    argument-hint: <file>
-    ---
-
-    ## Target
-
-    $ARGUMENTS
-
-    ## Task
-
-    Proofread and edit the target file(s) for both basic errors and writing style.
-
-    Fix the following basic errors:
-    - Grammar errors
-    - Spelling mistakes
-    - Punctuation issues
-
-    And enforce every rule in the "Writing Style" section of the global context.
-
-    After editing, provide a brief summary of the changes made. Do not alter the underlying meaning. Only adjust wording, phrasing, and formatting to meet the rules.
-  '';
-
   fact-check = ''
     ---
     description: Check the target file for factual errors against reputable sources
