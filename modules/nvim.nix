@@ -228,11 +228,15 @@ in
             "<CR>" = [ "accept" "fallback" ];
           };
           sources = {
-            default = [ "buffer" "path" "dictionary" ];
+            default = [ "snippets" "buffer" "path" "dictionary" ];
             providers = {
               buffer.opts.get_bufnrs.__raw = ''
                 function() return { vim.api.nvim_get_current_buf() } end
               '';
+              snippets.opts = {
+                search_paths = [ "~/Documents/app-state/snippet.json" ];
+                global_snippets = [ "snippet" ];
+              };
               dictionary = {
                 module = "blink-cmp-dictionary";
                 name = "Dict";
