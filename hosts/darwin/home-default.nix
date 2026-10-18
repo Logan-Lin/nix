@@ -16,8 +16,9 @@ let
         "py", "js", "ts", "jsx", "tsx", "json", "yaml", "yml", "toml",
         "xml", "css", "log", "csv", "conf", "config", "ini", "env",
         "c", "cpp", "h", "hpp", "rs", "go", "java", "rb", "php",
-        "lua", "vim", "tex", "bib", "md", "markdown"
+        "lua", "vim", "tex", "bib"
       ]),
+      ("md.obsidian", ["md", "markdown"]),
       ("com.apple.Preview", [
         "pdf", "png", "jpg", "jpeg", "gif", "bmp", "tiff", "tif",
         "webp", "heic", "heif", "ico"
