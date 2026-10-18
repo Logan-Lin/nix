@@ -89,6 +89,9 @@
       expose-animation-duration = 0.5;
       dashboard-in-overlay = false;
       persistent-apps = [
+        "/Applications/Firefox.app"
+        "/Applications/Ghostty.app"
+        "/Applications/Obsidian.app"
       ];
       persistent-others = [
         "/Users/yanlin/Downloads"
