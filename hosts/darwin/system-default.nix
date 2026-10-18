@@ -38,6 +38,7 @@
       "thunderbird"
       "ungoogled-chromium"
       "ghostty"
+      "claude"
       "iina"
       "inkscape"
       "keepassxc"
