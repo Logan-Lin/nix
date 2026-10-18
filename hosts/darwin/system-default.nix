@@ -35,6 +35,7 @@
       "tailscale-app"
       "drawio"
       "firefox"
+      "thunderbird"
       "ungoogled-chromium"
       "ghostty"
       "iina"
