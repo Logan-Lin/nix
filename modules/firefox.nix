@@ -68,6 +68,7 @@ in
           "browser.newtabpage.activity-stream.showSponsored" = false;
           "browser.newtabpage.activity-stream.showSponsoredTopSites" = false;
           "browser.newtabpage.activity-stream.showWeather" = false;
+          "browser.newtabpage.activity-stream.widgets.enabled" = false;
 
           "browser.tabs.loadInBackground" = true;
           "browser.toolbars.bookmarks.visibility" = "never";
