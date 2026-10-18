@@ -75,7 +75,7 @@
 
     1. Stage and review the change.
     2. Write a lowercase subject line of the form `<type>: <summary>`. `<type>` is one of `feat`, `fix`, `docs`, `refactor`, or `test`. `<summary>` concisely states the intent of the change.
-    3. Write a body that lists the changes, one short point per logical change.
+    3. Write a body that lists the changes, one short point per logical change. Separate the body from the subject line with a blank line, otherwise git merges them into one subject.
     4. Commit with the message, with no attribution trailer.
 
     Stay on the current branch and do not push.
