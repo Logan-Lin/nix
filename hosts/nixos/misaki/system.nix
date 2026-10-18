@@ -6,7 +6,9 @@
   imports = [
     ./hardware.nix
     ./disko.nix
+    ./containers.nix
     ../system-default.nix
+    ../../../modules/podman.nix
     ../../../modules/borg.nix
     "${inputs.nixos-hardware}/lenovo/thinkpad/p14s"
     "${inputs.nixos-hardware}/common/cpu/intel/tiger-lake"
