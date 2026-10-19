@@ -33,6 +33,7 @@ in
       clipboard = "unnamedplus";
       cmdheight = 0;
       showmode = false;
+      showcmdloc = "statusline";
     };
 
     viAlias = true;
@@ -170,6 +171,7 @@ in
           };
           sections = {
             lualine_c = [{ __unkeyed-1 = "filename"; path = 1; }];
+            lualine_x = [ "%S" "encoding" "fileformat" "filetype" ];
           };
         };
       };
