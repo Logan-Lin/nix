@@ -39,7 +39,40 @@
     hostName = "misaki";
     networkmanager = {
       enable = true;
-      wifi.powersave = true;
+      wifi.powersave = false;
+      # NOTE: environment file at: `/etc/eduroam-env` with mode 600, defining `EDUROAM_IDENTITY` and `EDUROAM_PASSWORD`
+      # NOTE: CA certificate at: `/etc/eduroam-ca.pem`, taken from the university's profile on cat.eduroam.org
+      ensureProfiles = {
+        environmentFiles = [ "/etc/eduroam-env" ];
+        profiles.eduroam = {
+          connection = {
+            id = "eduroam";
+            type = "wifi";
+          };
+          wifi = {
+            ssid = "eduroam";
+            mode = "infrastructure";
+          };
+          wifi-security.key-mgmt = "wpa-eap";
+          "802-1x" = {
+            eap = "peap";
+            phase2-auth = "mschapv2";
+            identity = "$EDUROAM_IDENTITY";
+            password = "$EDUROAM_PASSWORD";
+            ca-cert = "/etc/eduroam-ca.pem";
+            domain-suffix-match = "wifi.aau.dk";
+          };
+          # Below the wired link's default metric of 100, so eduroam carries the default route and the wired link is the backup.
+          ipv4 = {
+            method = "auto";
+            route-metric = 50;
+          };
+          ipv6 = {
+            method = "auto";
+            route-metric = 50;
+          };
+        };
+      };
     };
     firewall = {
       enable = true;
@@ -51,7 +84,11 @@
 
   systemd.services.NetworkManager-wait-online.enable = false;
 
-  powerManagement.powertop.enable = true;
+  powerManagement.powertop = {
+    enable = true;
+    # Auto-tune turns Wi-Fi power saving back on, so turn it off again afterwards.
+    postStart = "${pkgs.iw}/bin/iw dev wlp9s0 set power_save off";
+  };
 
   # TLP handles power management, so disable power-profiles-daemon to keep the two from conflicting.
   services.power-profiles-daemon.enable = false;
@@ -78,6 +115,8 @@
     STOP_CHARGE_THRESH_BAT0 = 100;
     RUNTIME_PM_ON_AC = "auto";
     RUNTIME_PM_ON_BAT = "auto";
+    WIFI_PWR_ON_AC = "off";
+    WIFI_PWR_ON_BAT = "off";
   };
 
   services.logind.settings.Login = {
