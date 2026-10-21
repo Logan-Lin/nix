@@ -4,6 +4,24 @@
   lib,
   pkgs,
 }:
+let
+  # TODO: Remove the patch once the nixpkgs version catches up.
+  firefox-devtools-mcp = pkgs.firefox-devtools-mcp.overrideAttrs (finalAttrs: old: {
+    version = "0.10.6";
+    src = pkgs.fetchFromGitHub {
+      owner = "mozilla";
+      repo = "firefox-devtools-mcp";
+      tag = "v${finalAttrs.version}";
+      hash = "sha256-Z3cxGgJia1QrYewLGjmVR1f6daZNI+K4qGFg3vYIN6M=";
+    };
+    npmDeps = pkgs.fetchNpmDeps {
+      name = "${old.pname}-${finalAttrs.version}-npm-deps";
+      inherit (finalAttrs) src;
+      hash = "sha256-x6MnmMZPDQtBC2p7oL5p9yWlI9CkvvzoPB323OMCzv0=";
+    };
+    postPatch = "";
+  });
+in
 {
   notion = {
     type = "http";
@@ -19,7 +37,10 @@
 // lib.optionalAttrs config.programs.firefox.enable {
   # Mozilla's server opens a separate Firefox window with its own persistent profile under this path.
   firefox = {
-    command = lib.getExe pkgs.firefox-devtools-mcp;
-    args = [ "--profile-path" "${config.home.homeDirectory}/.firefox-devtools-mcp" ];
+    command = lib.getExe firefox-devtools-mcp;
+    args = [
+      "--profile-path" "${config.home.homeDirectory}/.firefox-devtools-mcp"
+      "--tool-preset" "developer"
+    ];
   };
 }
