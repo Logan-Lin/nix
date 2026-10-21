@@ -14,27 +14,15 @@ in
       package = bleed.claude-code;
 
       settings = {
-        spinnerTipsEnabled = false;
-        todoEnabled = true;
-        autoCompactEnabled = true;
         autoMemoryEnabled = false;
-        alwaysThinkingEnabled = true;
         feedbackSurveyRate = 0;
         env = {
           CLAUDE_CODE_DISABLE_FEEDBACK_SURVEY = "1";
           CLAUDE_CODE_EFFORT_LEVEL = "xhigh";
         };
         prefersReducedMotion = true;
-        promptSuggestionEnabled = false;
-        awaySummaryEnabled = false;
-        skipAutoPermissionPrompt = true;
-        ultracode = false;
         enableWorkflows = true;
-        terminalProgressBarEnabled = false;
         theme = "dark-ansi";
-        attribution = {
-          commit = "";
-        };
 
         remoteControlAtStartup = true;
         inputNeededNotifEnabled = true;
