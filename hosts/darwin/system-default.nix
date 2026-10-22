@@ -46,7 +46,6 @@
       "transmission"
       # Productivity
       "ghostty"
-      "claude"
       "obsidian"
       "microsoft-word"
       "microsoft-excel"
