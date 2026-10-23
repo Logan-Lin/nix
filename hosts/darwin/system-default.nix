@@ -50,6 +50,7 @@
       "microsoft-word"
       "microsoft-excel"
       "microsoft-powerpoint"
+      "wechat"
       "slidepilot"
       "drawio"
       "inkscape"
