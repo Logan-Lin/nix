@@ -11,7 +11,7 @@ let
     import UniformTypeIdentifiers
 
     let associations: [(bundleId: String, extensions: [String])] = [
-      ("com.apple.TextEdit", [
+      ("com.vscodium", [
         "txt", "nix", "sh", "bash", "zsh", "fish",
         "py", "js", "ts", "jsx", "tsx", "json", "yaml", "yml", "toml",
         "xml", "css", "log", "csv", "conf", "config", "ini", "env",
@@ -58,7 +58,6 @@ in
     Documents = { enable = true; };
   };
 
-  # Firefox and Ghostty are installed as macOS apps outside Nix, so setting package to null makes each module manage only its configuration.
   programs.firefox-custom = {
     enable = true;
     package = null;
@@ -67,6 +66,35 @@ in
   programs.ghostty-custom = {
     enable = true;
     package = null;
+  };
+
+  programs.vscodium = {
+    enable = true;
+    package = null;
+    profiles.default = {
+      extensions = with pkgs.vscode-extensions; [
+        jdinhlife.gruvbox
+        vscodevim.vim
+      ];
+      userSettings = {
+        "editor.fontFamily" = "'JetBrainsMono Nerd Font Mono', 'Noto Sans CJK SC', 'Noto Sans CJK TC', 'Noto Sans CJK JP'";
+        "editor.fontSize" = 14;
+        "editor.tabSize" = 2;
+        "editor.wordWrap" = "on";
+        "workbench.colorTheme" = "Gruvbox Dark Hard";
+      };
+    };
+  };
+
+  # With package set to null, the vscodium module skips its hook that rebuilds VSCodium's extension list, so run it against the Homebrew CLI whenever the declared extensions change.
+  home.file.".vscode-oss/extensions/.extensions-immutable.json" = {
+    text = pkgs.vscode-utils.toExtensionJson config.programs.vscodium.profiles.default.extensions;
+    onChange = ''
+      if [ -x /opt/homebrew/bin/codium ]; then
+        run rm $VERBOSE_ARG -f .vscode-oss/extensions/{extensions.json,.init-default-profile-extensions,.obsolete}
+        run /opt/homebrew/bin/codium --list-extensions > /dev/null
+      fi
+    '';
   };
 
   home.homeDirectory = "/Users/yanlin";

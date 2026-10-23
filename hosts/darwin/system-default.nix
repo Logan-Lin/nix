@@ -46,6 +46,7 @@
       "transmission"
       # Productivity
       "ghostty"
+      "vscodium"
       "obsidian"
       "microsoft-word"
       "microsoft-excel"
