@@ -81,6 +81,7 @@ in
         "editor.fontSize" = 14;
         "editor.tabSize" = 2;
         "editor.wordWrap" = "on";
+        "vim.useSystemClipboard" = true;
         "workbench.colorTheme" = "Gruvbox Dark Hard";
       };
     };
