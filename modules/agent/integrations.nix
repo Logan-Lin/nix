@@ -35,12 +35,9 @@ in
   };
 }
 // lib.optionalAttrs config.programs.firefox.enable {
-  # Mozilla's server opens a separate Firefox window with its own persistent profile under this path.
+  # Mozilla's server opens a separate Firefox window on a temporary profile, so multiple agents can each run their own.
   firefox = {
     command = lib.getExe firefox-devtools-mcp;
-    args = [
-      "--profile-path" "${config.home.homeDirectory}/.firefox-devtools-mcp"
-      "--tool-preset" "developer"
-    ];
+    args = [ "--tool-preset" "developer" ];
   };
 }
