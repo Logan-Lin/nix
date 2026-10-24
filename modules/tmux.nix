@@ -30,6 +30,8 @@
       set -g message-style 'bg=#fabd2f,fg=#282828,fill=#fabd2f'
       set -g message-command-style 'bg=#fabd2f,fg=#282828,fill=#fabd2f'
       set -g mode-style 'bg=#504945'
+      set -g popup-style 'default'
+      set -g popup-border-style 'fg=#3c3836'
       set -g copy-mode-match-style 'bg=#fabd2f,fg=#282828'
       set -g copy-mode-current-match-style 'bg=#fe8019,fg=#282828'
 
