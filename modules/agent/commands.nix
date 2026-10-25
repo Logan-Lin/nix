@@ -2,7 +2,7 @@
 {
   proofread = ''
     ---
-    description: Proofread text for grammar and spelling issues
+    description: Proofread text for grammar, spelling, and punctuation errors
     argument-hint: <file>
     ---
 
@@ -12,12 +12,12 @@
 
     ## Task
 
-    Proofread the target file(s) for grammar errors, spelling mistakes, and punctuation issues. Do not alter meaning, tone, or style. Only correct errors.
+    Proofread the target file(s). Fix only basic errors, including grammar, spelling, and punctuation errors.
   '';
 
   polish = ''
     ---
-    description: Aggressive proofread that fixes errors and enforces writing style rules
+    description: Proofread text for basic errors and enforce writing style rules
     argument-hint: <file>
     ---
 
@@ -27,19 +27,16 @@
 
     ## Task
 
-    Proofread and edit the target file(s) for both basic errors and writing style.
+    Proofread and edit the target file(s). Fix basic errors, including grammar, spelling, and punctuation errors. Also enforce the following writing style rules:
 
-    Fix basic errors, including grammar errors, spelling mistakes, and punctuation issues. And enforce the following writing style.
-
-    1. Write plainly, clearly, and directly.
-    2. Use plain and direct wording and sentence structure. Do not use needlessly fancy or indirect wording, idioms, or slang.
-    3. Keep the terminology consistent when referring to the same thing.
-    4. Write content that stands on its own, so a reader who sees only the content can follow it.
+    1. Use plain and direct wording and sentence structure. Do not use needlessly fancy or indirect wording, idioms, or slang.
+    2. Use the same term every time you refer to the same thing.
+    3. Make the content self-contained, so a reader who sees only the content can follow it.
   '';
 
   fact-check = ''
     ---
-    description: Check the target file for factual errors against reputable sources
+    description: Check text for factual errors against reputable sources
     argument-hint: <file>
     ---
 
@@ -50,13 +47,12 @@
     ## Task
 
     Check the target file(s) for factual errors:
-    - Identify concrete factual claims (names, dates, numbers, attributions, definitions, events, technical specifications, etc.)
-    - Verify each claim against reputable and relatively recent sources via WebSearch and WebFetch. Prefer primary sources, official documentation, peer-reviewed publications, and well-established outlets. Avoid relying on a single low-quality source
-    - Skip opinions, subjective statements, and unverifiable claims
 
-    For any confirmed factual error, fix it directly in the file using the Edit tool with the minimal change needed to make the statement correct. Do not rewrite surrounding text, alter style, or restructure prose.
+    1. Identify concrete factual claims, such as names, dates, numbers, attributions, definitions, events, and technical specifications.
+    2. Verify each claim against reputable and relatively recent sources. Prefer primary sources, official documentation, peer-reviewed publications, and well-established news outlets. Do not rely on a single low-quality source.
+    3. Skip opinions, subjective statements, and unverifiable claims.
 
-    After editing, provide a brief summary listing each correction made, with the source used to verify it. If no errors were found, state that explicitly.
+    For any confirmed factual error, fix it with the minimal change needed to make the claim correct.
   '';
 
   gtd = ''
@@ -73,10 +69,10 @@
 
     Act on the target Obsidian vault TODOs.
 
-    Use the first wikilink to identify the note or note section that contains them.
-    Interpret the rest of the target as an optional specification that can identify one or more TODOs, such as a checkbox line and/or a `> [!todo]` callout.
-    If a specification is present, locate and act on the TODOs it identifies.
-    Otherwise, locate and act on every checkbox line and `> [!todo]` callout in the note.
+    1. Use the first wikilink to identify the note or note section that contains the TODOs.
+    2. Interpret the rest of the target as an optional specification that can identify one or more TODOs, such as a checkbox line or a `> [!todo]` callout.
+       - If a specification is present, locate and act on the TODOs it identifies.
+       - Otherwise, locate and act on every checkbox line and `> [!todo]` callout in the note or note section.
 
     Keep every TODO checkbox line and `> [!todo]` callout exactly intact. Do not remove them or change their status after completing the work.
   '';
@@ -92,8 +88,8 @@
 
     1. Stage and review the change.
     2. Write a lowercase subject line of the form `<type>: <summary>`. `<type>` is one of `feat`, `fix`, `docs`, `refactor`, or `test`. `<summary>` concisely states the intent of the change.
-    3. Write a body that lists the changes, one short point per logical change. Separate the body from the subject line with a blank line, otherwise git merges them into one subject.
-    4. Commit with the message, with no attribution trailer.
+    3. Write a body that lists the changes, one short point per logical change. Separate the body from the subject line with a blank line; otherwise, git merges them into one subject line.
+    4. Commit with the message. Do not add an attribution trailer.
 
     Stay on the current branch and do not push.
   '';
