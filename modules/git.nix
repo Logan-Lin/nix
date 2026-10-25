@@ -3,7 +3,6 @@
 {
   home.packages = [
     pkgs.gh
-    pkgs.git-lfs
   ];
 
   programs.git-credential-oauth = {
@@ -14,6 +13,8 @@
     enable = true;
 
     signing.format = null;
+
+    lfs.enable = true;
 
     ignores = [
       ".DS_Store"
