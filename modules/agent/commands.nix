@@ -12,12 +12,29 @@
 
     ## Task
 
-    Proofread the target file(s) for:
-    - Grammar errors
-    - Spelling mistakes
-    - Punctuation issues
+    Proofread the target file(s) for grammar errors, spelling mistakes, and punctuation issues. Do not alter meaning, tone, or style. Only correct errors.
+  '';
 
-    After editing, provide a brief summary of the changes made. Do not alter meaning, tone, or style. Only correct errors.
+  polish = ''
+    ---
+    description: Aggressive proofread that fixes errors and enforces writing style rules
+    argument-hint: <file>
+    ---
+
+    ## Target
+
+    $ARGUMENTS
+
+    ## Task
+
+    Proofread and edit the target file(s) for both basic errors and writing style.
+
+    Fix basic errors, including grammar errors, spelling mistakes, and punctuation issues. And enforce the following writing style.
+
+    1. Write plainly, clearly, and directly.
+    2. Use plain and direct wording and sentence structure. Do not use needlessly fancy or indirect wording, idioms, or slang.
+    3. Keep the terminology consistent when referring to the same thing.
+    4. Write content that stands on its own, so a reader who sees only the content can follow it.
   '';
 
   fact-check = ''
