@@ -51,6 +51,12 @@ in
         IdentityFile = "${keyDir}/hetzner";
       };
 
+      "miho" = {
+        HostName = "130.225.39.165";
+        User = "root";
+        IdentityFile = "${keyDir}/aicloud";
+      };
+
       "oomuroke" = {
         HostName = "u546684.your-storagebox.de";
         User = "u546684";
