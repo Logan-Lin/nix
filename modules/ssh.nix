@@ -53,7 +53,7 @@ in
 
       "miho" = {
         HostName = "130.225.39.165";
-        User = "root";
+        User = "yanlin";
         IdentityFile = "${keyDir}/aicloud";
       };
 
