@@ -77,6 +77,30 @@
     Keep every TODO checkbox line and `> [!todo]` callout exactly intact. Do not remove them or change their status after completing the work.
   '';
 
+  publish = ''
+    ---
+    description: Publish a Markdown note to Notion
+    argument-hint: <source> [Notion page URL]
+    ---
+
+    ## Input
+
+    $ARGUMENTS
+
+    ## Task
+
+    Publish the source note to the user's Notion workspace through the `notion` integration.
+
+    Use the first part of the input to identify the source note, which is either an Obsidian vault note (wikilink) or a Markdown file (path).
+
+    Interpret the rest of the input as an optional Notion page URL or ID.
+
+    - If it is absent, create a new Notion page, specifically, a private page at the user's workspace.
+    - If it is present, the note was published to that page before, so update the page to match the note.
+
+    The note is the source of truth. Publish its content verbatim. The only changes allowed are the technical conversions from the note's Markdown flavor, such as standard Markdown or Obsidian Markdown, to Notion-flavored Markdown.
+  '';
+
   commit = ''
     ---
     description: Commit the current change with a subject line and a body
