@@ -33,11 +33,15 @@ in
   thunderbird = {
     command = lib.getExe pkgs.thunderbird-mcp;
   };
-}
-// lib.optionalAttrs config.programs.firefox.enable {
-  # Mozilla's server opens a separate Firefox window on a temporary profile, so multiple agents can each run their own.
+
+  # Mozilla's server opens a separate Firefox instance on a temporary profile, so multiple agents can each run their own.
   firefox = {
     command = lib.getExe firefox-devtools-mcp;
-    args = [ "--tool-preset" "developer" ];
+    args = [ "--tool-preset" "developer" ]
+      # Hosts without a Firefox installation run a bundled one in headless mode.
+      ++ lib.optionals (!config.programs.firefox.enable) [
+        "--headless"
+        "--firefoxPath" (lib.getExe pkgs.firefox)
+      ];
   };
 }
