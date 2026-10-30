@@ -72,6 +72,7 @@ in
   options.syncthing-custom = {
     folders = {
       Documents = mkFolderOptions "Documents" {};
+      Downloads = mkFolderOptions "Downloads" {};
     };
     enableGui = lib.mkOption {
       type = lib.types.bool;

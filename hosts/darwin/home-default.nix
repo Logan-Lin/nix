@@ -56,6 +56,7 @@ in
 
   syncthing-custom.folders = {
     Documents = { enable = true; };
+    Downloads = { enable = true; };
   };
 
   programs.firefox-custom = {
