@@ -15,6 +15,7 @@ let
         ublock-origin
         vimium
         instapaper-official
+        cookies-txt
       ]
     else [];
 in
