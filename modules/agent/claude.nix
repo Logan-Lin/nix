@@ -22,6 +22,7 @@ in
         };
         prefersReducedMotion = true;
         enableWorkflows = true;
+        permissions.allow = [ "Workflow" ];
         theme = "dark-ansi";
 
         remoteControlAtStartup = true;
