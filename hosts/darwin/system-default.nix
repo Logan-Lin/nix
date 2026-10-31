@@ -55,13 +55,8 @@
       "slidepilot"
       "drawio"
       "inkscape"
-      "ovito"
       # Media
       "iina"
-      "handbrake-app"
-      "freac"
-      "musicbrainz-picard"
-      "xnconvert"
     ];
   };
 
