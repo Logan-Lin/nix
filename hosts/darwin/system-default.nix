@@ -43,7 +43,6 @@
       "clash-verge-rev"
       "tailscale-app"
       "localsend"
-      "transmission"
       # Productivity
       "ghostty"
       "vscodium"
@@ -55,13 +54,8 @@
       "slidepilot"
       "drawio"
       "inkscape"
-      "ovito"
       # Media
       "iina"
-      "handbrake-app"
-      "freac"
-      "musicbrainz-picard"
-      "xnconvert"
     ];
   };
 
