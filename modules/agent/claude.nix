@@ -34,7 +34,7 @@ in
 
       commands = import ./commands.nix;
 
-      mcpServers = import ./integrations.nix { inherit config lib pkgs; };
+      mcpServers = import ./integrations.nix { inherit lib pkgs; };
     };
   };
 }
