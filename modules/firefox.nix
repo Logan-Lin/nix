@@ -14,7 +14,7 @@ let
       with (firefox-addons.overlays.default pkgs pkgs).firefox-addons; [
         ublock-origin
         vimium
-        instapaper-official
+        raindropio
         cookies-txt
       ]
     else [];
