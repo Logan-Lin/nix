@@ -18,6 +18,7 @@
 
     ignores = [
       ".DS_Store"
+      ".claude/worktrees/"
     ];
 
     settings = {
