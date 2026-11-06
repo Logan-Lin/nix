@@ -12,6 +12,10 @@
   - If a workdir has a `Makefile`, use `make` to compile and extend the `Makefile` when needed, instead of running generic compile commands
   - When a CLI tool is needed, first check whether it exists in the host environment; if it does not, run it temporarily through `nix-shell`, for example `nix-shell -p <package> --run '<command>'`
 
+  ## Git
+
+  - When committing changes to a git repository, use the `/commit` command
+
   ## Obsidian vault
 
   The user's Obsidian vault is at `~/Documents/Obsidian`.
