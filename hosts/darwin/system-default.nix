@@ -53,6 +53,7 @@
       "microsoft-powerpoint"
       "wechat"
       "slidepilot"
+      "keycastr"
       "drawio"
       "inkscape"
       # Media
