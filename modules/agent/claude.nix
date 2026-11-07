@@ -34,6 +34,8 @@ in
 
       commands = import ./commands.nix;
 
+      skills = import ./skills.nix;
+
       mcpServers = import ./integrations.nix { inherit lib pkgs; };
     };
   };
