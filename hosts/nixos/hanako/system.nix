@@ -9,6 +9,7 @@
     ./containers.nix
     ../system-default.nix
     ../../../modules/podman.nix
+    ../../../modules/nginx.nix
     ../../../modules/borg.nix
   ];
 
@@ -59,6 +60,16 @@
   };
 
   services.journald.settings.Journal.SystemMaxUse = "1G";
+
+  services.reverse-proxy = {
+    enable = true;
+    defaultDomain = "yanlincs.com";
+    acmeEmail = "cloudflare@yanlincs.com";
+    proxies = {
+      # Deluge runs on misaki and is reached through its Tailscale address.
+      deluge.backend = "http://100.107.246.21:8112";
+    };
+  };
 
   services.borg-custom = {
     enable = true;

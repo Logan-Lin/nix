@@ -10,6 +10,8 @@
     ../system-default.nix
     ../../../modules/docker.nix
     ../../../modules/borg.nix
+    ../../../modules/deluge.nix
+    ../../../modules/samba.nix
     "${inputs.nixos-hardware}/lenovo/thinkpad/p14s"
     "${inputs.nixos-hardware}/common/cpu/intel/tiger-lake"
   ];
@@ -171,6 +173,17 @@
     intel-gpu-tools
     lm_sensors
   ];
+
+  services.deluge-custom = {
+    enable = true;
+    downloadDir = "/home/yanlin/torrent";
+  };
+
+  services.samba-share = {
+    enable = true;
+    hostsAllow = [ "100.64.0.0/10" "127." ];
+    shares.torrent.path = config.services.deluge-custom.downloadDir;
+  };
 
   services.borg-custom = {
     enable = true;
