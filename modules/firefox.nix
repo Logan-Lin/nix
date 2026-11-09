@@ -43,6 +43,15 @@ in
 
         extensions.packages = extensions;
 
+        # Paint the window frame with the terminal's background (Ghostty's Gruvbox Dark Hard) instead of the default theme's gradient.
+        userChrome = ''
+          :root {
+            --toolbox-background-color: #1d2021 !important;
+            --toolbox-background-color-inactive: #1d2021 !important;
+            --toolbox-background-gradient: none !important;
+          }
+        '';
+
         search = {
           force = true;
           default = "ddg";
