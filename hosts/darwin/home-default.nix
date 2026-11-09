@@ -50,7 +50,7 @@ in
     ../home-default.nix
     ../../modules/ghostty.nix
     ../../modules/agent/claude.nix
-    ../../modules/firefox.nix
+    ../../modules/librewolf.nix
     ../../modules/syncthing.nix
   ];
 
@@ -59,7 +59,7 @@ in
     Downloads = { enable = true; };
   };
 
-  programs.firefox-custom = {
+  programs.librewolf-custom = {
     enable = true;
     package = null;
   };

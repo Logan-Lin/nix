@@ -1,0 +1,88 @@
+{ config, pkgs, lib, ... }@args:
+
+with lib;
+
+let
+  cfg = config.programs.librewolf-custom;
+
+  # firefox-addons is an optional flake input, so install no extensions when it is absent.
+  firefox-addons = args.inputs.firefox-addons or null;
+
+  # Build the addons from this pkgs so its allowUnfree setting covers unfree addons.
+  extensions =
+    if firefox-addons != null then
+      with (firefox-addons.overlays.default pkgs pkgs).firefox-addons; [
+        vimium
+        raindropio
+        cookies-txt
+      ]
+    else [];
+in
+
+{
+  options.programs.librewolf-custom = {
+    enable = mkEnableOption "LibreWolf browser configuration";
+
+    package = mkOption {
+      type = types.nullOr types.package;
+      default = null;
+      example = "pkgs.librewolf";
+    };
+  };
+
+  config = mkIf cfg.enable {
+    programs.librewolf = {
+      enable = true;
+      package = cfg.package;
+
+      profiles.yanlin = {
+        id = 0;
+        isDefault = true;
+        name = "yanlin";
+
+        extensions.packages = extensions;
+
+        # Paint the window frame with the terminal's background (Ghostty's Gruvbox Dark Hard) instead of the default theme's gradient.
+        userChrome = ''
+          :root {
+            --toolbox-background-color: #1d2021 !important;
+            --toolbox-background-color-inactive: #1d2021 !important;
+            --toolbox-background-gradient: none !important;
+          }
+        '';
+
+        settings = {
+          "privacy.sanitize.sanitizeOnShutdown" = false;
+
+          "browser.toolbars.bookmarks.visibility" = "never";
+          "sidebar.revamp" = true;
+          "sidebar.verticalTabs" = true;
+          "sidebar.visibility" = "always-show";
+          "sidebar.main.tools" = "";
+
+          "browser.download.useDownloadDir" = true;
+
+          "gfx.webrender.all" = true;
+          "media.hardware-video-decoding.force-enabled" = true;
+
+          "full-screen-api.warning.timeout" = 0;
+          "browser.fullscreen.exit_on_escape" = false;
+
+          "intl.accept_languages" = "en-US,en,zh-CN,zh-TW,zh-HK,zh";
+          "browser.translations.automaticallyPopup" = false;
+
+          "privacy.resistFingerprinting" = false;
+          "dom.security.https_only_mode.upgrade_local" = false;
+
+          "signon.management.page.breach-alerts.enabled" = false;
+
+          "network.protocol-handler.external.mailto" = false;
+          "network.protocol-handler.external.webcal" = false;
+          "network.protocol-handler.external.tel" = false;
+
+          "extensions.autoDisableScopes" = 0;
+        };
+      };
+    };
+  };
+}
