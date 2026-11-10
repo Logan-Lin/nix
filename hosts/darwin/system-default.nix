@@ -43,7 +43,6 @@
       "clash-verge-rev"
       "tailscale-app"
       "localsend"
-      "transmission"
       # Productivity
       "ghostty"
       "vscodium"
@@ -51,9 +50,7 @@
       "microsoft-word"
       "microsoft-excel"
       "microsoft-powerpoint"
-      "wechat"
       "slidepilot"
-      "keycastr"
       "drawio"
       "inkscape"
       # Media
