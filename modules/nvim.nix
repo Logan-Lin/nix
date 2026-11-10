@@ -306,7 +306,14 @@ in
               vim.keymap.set("n", "o", api.node.run.system, opts("System Open"))
               vim.keymap.set("n", "<esc>", api.tree.close, opts("Close"))
               vim.keymap.set("n", "y", api.fs.copy.relative_path, opts("Copy Relative Path"))
-              vim.keymap.set("n", "Y", api.fs.copy.absolute_path, opts("Copy Absolute Path"))
+              vim.keymap.set("n", "Y", function()
+                local node = api.tree.get_node_under_cursor()
+                if not node then return end
+                local path = vim.fn.fnamemodify(node.absolute_path, ":~")
+                vim.fn.setreg("+", path)
+                vim.fn.setreg('"', path)
+                vim.notify("Copied " .. path .. " to system clipboard!")
+              end, opts("Copy Absolute Path"))
             end
           '';
         };
