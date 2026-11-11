@@ -13,6 +13,7 @@ let
     if firefox-addons != null then
       with (firefox-addons.overlays.default pkgs pkgs).firefox-addons; [
         vimium
+        sidebery
         raindropio
         cookies-txt
       ]
@@ -42,12 +43,22 @@ in
 
         extensions.packages = extensions;
 
-        # Paint the window frame with the terminal's background (Ghostty's Gruvbox Dark Hard) instead of the default theme's gradient.
         userChrome = ''
           :root {
             --toolbox-background-color: #1d2021 !important;
             --toolbox-background-color-inactive: #1d2021 !important;
             --toolbox-background-gradient: none !important;
+          }
+
+          #sidebar-container,
+          #sidebar-launcher-splitter,
+          #sidebar-panel-header {
+            display: none !important;
+          }
+
+          #sidebar-box:not([sidebar-positionend]) {
+            --sidebar-box-start-start-radius: 0 !important;
+            border-inline-start: none !important;
           }
         '';
 
