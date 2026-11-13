@@ -23,7 +23,8 @@
 
   MCP-based integrations connecting to other programs and services. Note that some of them might be unavailable depending on the host configuration, or when the program they connect to is not running.
 
-  - `firefox`: Controls a separate Firefox instance with a fresh temporary profile in each session. Useful when a real browser is needed.
+  - `camoufox`: Controls a headless Camoufox browser with a fresh temporary profile in each session. Used for automated fetching of web content.
+  - `librewolf`: Controls a LibreWolf GUI browser with a fresh temporary profile in each session. Used only when the user asks for it.
   - `notion`: Connects to the user's Notion workspace. Used for publishing notes that need collaborative viewing and editing.
   - `thunderbird`: Controls the Thunderbird desktop client through its MCP add-on. Used to access the user's email accounts.
 ''

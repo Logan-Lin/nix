@@ -36,7 +36,7 @@ in
 
       skills = import ./skills.nix;
 
-      mcpServers = import ./integrations.nix { inherit lib pkgs; };
+      mcpServers = import ./integrations.nix { inherit config lib pkgs; };
     };
   };
 }
