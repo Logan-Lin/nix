@@ -1,5 +1,6 @@
 # Integrations that connect the agent CLIs to other programs and services.
 {
+  config,
   lib,
   pkgs,
 }:
@@ -96,6 +97,20 @@ let
         platforms = builtins.attrNames releases;
       };
     });
+
+  librewolf =
+    let
+      cfg = config.programs.librewolf;
+    in
+    if !cfg.enable then null
+    else if cfg.finalPackage != null then lib.getExe cfg.finalPackage
+    else if pkgs.stdenv.hostPlatform.isDarwin then "/Applications/LibreWolf.app/Contents/MacOS/librewolf"
+    else null;
+
+  browserServer = executable: extraArgs: {
+    command = lib.getExe firefox-devtools-mcp;
+    args = [ "--tool-preset" "developer" "--firefoxPath" executable ] ++ extraArgs;
+  };
 in
 {
   notion = {
@@ -109,19 +124,8 @@ in
     command = lib.getExe pkgs.thunderbird-mcp;
   };
 
-  # Mozilla's server opens a separate Camoufox instance on a temporary profile, so multiple agents can each run their own.
-  firefox = {
-    command =
-      if pkgs.stdenv.hostPlatform.isLinux then
-        # Run the browser headless when the agent runs outside a graphical session, such as on a server or over SSH.
-        toString (pkgs.writeShellScript "firefox-devtools-mcp" ''
-          if [ -z "$WAYLAND_DISPLAY" ] && [ -z "$DISPLAY" ]; then
-            set -- "$@" --headless
-          fi
-          exec ${lib.getExe firefox-devtools-mcp} "$@"
-        '')
-      else
-        lib.getExe firefox-devtools-mcp;
-    args = [ "--tool-preset" "developer" "--firefoxPath" camoufox.executable ];
-  };
+  camoufox = browserServer camoufox.executable [ "--headless" ];
+}
+// lib.optionalAttrs (librewolf != null) {
+  librewolf = browserServer librewolf [ ];
 }
