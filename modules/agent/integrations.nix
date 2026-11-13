@@ -111,9 +111,17 @@ in
 
   # Mozilla's server opens a separate Camoufox instance on a temporary profile, so multiple agents can each run their own.
   firefox = {
-    command = lib.getExe firefox-devtools-mcp;
-    args = [ "--tool-preset" "developer" "--firefoxPath" camoufox.executable ]
-      # The Linux hosts are servers without a display, so run the browser headless there.
-      ++ lib.optionals pkgs.stdenv.hostPlatform.isLinux [ "--headless" ];
+    command =
+      if pkgs.stdenv.hostPlatform.isLinux then
+        # Run the browser headless when the agent runs outside a graphical session, such as on a server or over SSH.
+        toString (pkgs.writeShellScript "firefox-devtools-mcp" ''
+          if [ -z "$WAYLAND_DISPLAY" ] && [ -z "$DISPLAY" ]; then
+            set -- "$@" --headless
+          fi
+          exec ${lib.getExe firefox-devtools-mcp} "$@"
+        '')
+      else
+        lib.getExe firefox-devtools-mcp;
+    args = [ "--tool-preset" "developer" "--firefoxPath" camoufox.executable ];
   };
 }

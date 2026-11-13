@@ -70,6 +70,12 @@ in
         IdentityFile = "${keyDir}/thinkpad";
       };
 
+      "nadeshiko" = {
+        HostName = "nadeshiko";
+        User = "yanlin";
+        IdentityFile = "${keyDir}/framework";
+      };
+
       "sakurako" = {
         HostName = "sakurako";
         User = "yanlin";
