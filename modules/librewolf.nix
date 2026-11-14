@@ -5,10 +5,8 @@ with lib;
 let
   cfg = config.programs.librewolf-custom;
 
-  # firefox-addons is an optional flake input, so install no extensions when it is absent.
   firefox-addons = args.inputs.firefox-addons or null;
 
-  # Build the addons from this pkgs so its allowUnfree setting covers unfree addons.
   extensions =
     if firefox-addons != null then
       with (firefox-addons.overlays.default pkgs pkgs).firefox-addons; [
@@ -16,6 +14,7 @@ let
         sidebery
         linkding-extension
         cookies-txt
+        darkreader
       ]
     else [];
 in
