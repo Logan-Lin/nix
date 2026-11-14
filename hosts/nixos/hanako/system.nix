@@ -61,6 +61,12 @@
 
   services.journald.settings.Journal.SystemMaxUse = "1G";
 
+  # NOTE: Create the first user after deploy with `sudo linkding-manage createsuperuser`.
+  services.linkding = {
+    enable = true;
+    settings.LD_CSRF_TRUSTED_ORIGINS = "https://link.yanlincs.com";
+  };
+
   services.reverse-proxy = {
     enable = true;
     defaultDomain = "yanlincs.com";
@@ -68,6 +74,7 @@
     proxies = {
       # Deluge runs on misaki and is reached through its Tailscale address.
       deluge.backend = "http://100.107.246.21:8112";
+      link.backend = "http://127.0.0.1:${toString config.services.linkding.port}";
     };
   };
 
@@ -76,6 +83,7 @@
     repositoryUrl = "ssh://oomuroke/./hanako";
     backupPaths = [
       "/var/lib/mongodb"
+      "/var/lib/linkding"
       "/home/yanlin/.ssh"
     ];
     backupFrequency = "*-*-* 03:00:00";
