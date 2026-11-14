@@ -24,6 +24,7 @@ in
         enableWorkflows = true;
         permissions.allow = [ "Workflow" ];
         theme = "dark-ansi";
+        tui = "fullscreen";
 
         remoteControlAtStartup = true;
         inputNeededNotifEnabled = true;
