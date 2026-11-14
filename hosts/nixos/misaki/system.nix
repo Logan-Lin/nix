@@ -183,6 +183,7 @@
     enable = true;
     hostsAllow = [ "100.64.0.0/10" "127." ];
     shares.torrent.path = config.services.deluge-custom.downloadDir;
+    shares.nsfw.path = "/home/yanlin/nsfw";
   };
 
   services.borg-custom = {
