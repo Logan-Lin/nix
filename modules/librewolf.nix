@@ -14,7 +14,7 @@ let
       with (firefox-addons.overlays.default pkgs pkgs).firefox-addons; [
         vimium
         sidebery
-        raindropio
+        linkding-extension
         cookies-txt
       ]
     else [];
