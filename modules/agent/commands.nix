@@ -100,21 +100,4 @@
 
     The note is the source of truth. Publish its content verbatim. The only changes allowed are the technical conversions from the note's Markdown flavor, such as standard Markdown or Obsidian Markdown, to Notion-flavored Markdown.
   '';
-
-  commit = ''
-    ---
-    description: Commit the current change with a subject line and a body
-    ---
-
-    ## Task
-
-    Commit the current working tree change as one commit.
-
-    1. Stage and review the change.
-    2. Write a lowercase subject line of the form `<type>: <summary>`. `<type>` is one of `feat`, `fix`, `docs`, `refactor`, or `test`. `<summary>` concisely states the intent of the change.
-    3. Write a body that lists the changes, one short point per logical change. Separate the body from the subject line with a blank line; otherwise, git merges them into one subject line.
-    4. Commit with the message. Do not add an attribution trailer.
-
-    Stay on the current branch and do not push.
-  '';
 }
