@@ -10,10 +10,8 @@ let
   extensions =
     if firefox-addons != null then
       with (firefox-addons.overlays.default pkgs pkgs).firefox-addons; [
-        vimium
         sidebery
         linkding-extension
-        cookies-txt
         darkreader
       ]
     else [];
