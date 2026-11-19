@@ -68,6 +68,22 @@ in
           "sidebar.visibility" = "always-show";
           "sidebar.main.tools" = "";
 
+          "browser.urlbar.autoFill" = false;
+          "browser.urlbar.suggest.history" = false;
+          "browser.urlbar.suggest.bookmark" = false;
+          "browser.urlbar.suggest.openpage" = false;
+          "browser.urlbar.suggest.remotetab" = false;
+          "browser.urlbar.suggest.topsites" = false;
+          "browser.urlbar.suggest.engines" = false;
+          "browser.urlbar.suggest.recentsearches" = false;
+          "browser.urlbar.suggest.quickactions" = false;
+          "browser.urlbar.suggest.clipboard" = false;
+          "browser.urlbar.suggest.calculator" = false;
+          "browser.urlbar.unitConversion.enabled" = false;
+          "browser.urlbar.shortcuts.bookmarks" = false;
+          "browser.urlbar.shortcuts.tabs" = false;
+          "browser.urlbar.shortcuts.history" = false;
+
           "browser.download.useDownloadDir" = true;
 
           "gfx.webrender.all" = true;
