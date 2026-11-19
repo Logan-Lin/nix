@@ -94,21 +94,40 @@ let
     command = lib.getExe pkgs.firefox-devtools-mcp;
     args = [ "--tool-preset" "developer" "--firefoxPath" executable ] ++ extraArgs;
   };
+
+  integrations = {
+    notion = {
+      description = "Connects to the user's Notion workspace. Used for publishing notes that need collaborative viewing and editing.";
+      type = "http";
+      url = "https://mcp.notion.com/mcp";
+    };
+
+    # NOTE: This server only bridges to the Thunderbird MCP add-on installed by hand.
+    # Get the add-on from https://github.com/TKasperczyk/thunderbird-mcp
+    thunderbird = {
+      description = "Controls the Thunderbird desktop client through its MCP add-on. Used to access the user's email accounts.";
+      command = lib.getExe pkgs.thunderbird-mcp;
+    };
+
+    camoufox = {
+      description = "Controls a headless Camoufox browser with a fresh temporary profile in each session. Used for automated fetching of web content.";
+    } // browserServer camoufox.executable [ "--headless" ];
+  }
+  // lib.optionalAttrs (librewolf != null) {
+    librewolf = {
+      description = "Controls a LibreWolf GUI browser with a fresh temporary profile in each session. Used only when the user asks for it.";
+    } // browserServer librewolf [ ];
+  };
 in
 {
-  notion = {
-    type = "http";
-    url = "https://mcp.notion.com/mcp";
-  };
+  mcpServers = lib.mapAttrs (_: integration: removeAttrs integration [ "description" ]) integrations;
 
-  # NOTE: This server only bridges to the Thunderbird MCP add-on installed by hand.
-  # Get the add-on from https://github.com/TKasperczyk/thunderbird-mcp
-  thunderbird = {
-    command = lib.getExe pkgs.thunderbird-mcp;
-  };
+  context = ''
 
-  camoufox = browserServer camoufox.executable [ "--headless" ];
-}
-// lib.optionalAttrs (librewolf != null) {
-  librewolf = browserServer librewolf [ ];
+    ## Integrations
+
+    MCP-based integrations connecting to other programs and services. Note that some of them might be unavailable when the program they connect to is not running.
+
+    ${lib.concatStringsSep "\n" (lib.mapAttrsToList (name: integration: "- `${name}`: ${integration.description}") integrations)}
+  '';
 }

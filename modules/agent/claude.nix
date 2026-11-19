@@ -6,6 +6,8 @@ let
     inherit (pkgs.stdenv.hostPlatform) system;
     config.allowUnfree = true;
   };
+
+  integrations = import ./integrations.nix { inherit config lib pkgs; };
 in
 {
   config = {
@@ -31,13 +33,16 @@ in
         agentPushNotifEnabled = true;
       };
 
-      context = import ./context.nix { memoryFile = "CLAUDE.md"; };
+      context = import ./context.nix {
+        memoryFile = "CLAUDE.md";
+        additionalContext = integrations.context;
+      };
 
       commands = import ./commands.nix;
 
       skills = import ./skills.nix;
 
-      mcpServers = import ./integrations.nix { inherit config lib pkgs; };
+      mcpServers = integrations.mcpServers;
     };
   };
 }

@@ -18,14 +18,5 @@
 
   - Whenever working with the vault, always read its `${memoryFile}` first for the vault's layout and conventions
   - A wikilink like `[[Name]]` in a user prompt typically refers to a note in the vault
-
-  ## Integrations
-
-  MCP-based integrations connecting to other programs and services. Note that some of them might be unavailable depending on the host configuration, or when the program they connect to is not running.
-
-  - `camoufox`: Controls a headless Camoufox browser with a fresh temporary profile in each session. Used for automated fetching of web content.
-  - `librewolf`: Controls a LibreWolf GUI browser with a fresh temporary profile in each session. Used only when the user asks for it.
-  - `notion`: Connects to the user's Notion workspace. Used for publishing notes that need collaborative viewing and editing.
-  - `thunderbird`: Controls the Thunderbird desktop client through its MCP add-on. Used to access the user's email accounts.
 ''
 + additionalContext
