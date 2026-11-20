@@ -86,6 +86,8 @@ in
 
           "browser.download.useDownloadDir" = true;
 
+          "permissions.default.shortcuts" = 2;
+
           "gfx.webrender.all" = true;
           "media.hardware-video-decoding.force-enabled" = true;
 
