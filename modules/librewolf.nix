@@ -68,7 +68,9 @@ in
           "sidebar.visibility" = "always-show";
           "sidebar.main.tools" = "";
 
+          "browser.search.suggest.enabled" = false;
           "browser.urlbar.autoFill" = false;
+          "browser.urlbar.suggest.searches" = false;
           "browser.urlbar.suggest.history" = false;
           "browser.urlbar.suggest.bookmark" = false;
           "browser.urlbar.suggest.openpage" = false;
