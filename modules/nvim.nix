@@ -230,11 +230,8 @@ in
             "<CR>" = [ "accept" "fallback" ];
           };
           sources = {
-            default = [ "snippets" "buffer" "path" "dictionary" ];
+            default = [ "snippets" "path" "dictionary" ];
             providers = {
-              buffer.opts.get_bufnrs.__raw = ''
-                function() return { vim.api.nvim_get_current_buf() } end
-              '';
               snippets.opts = {
                 search_paths = [ "~/Documents/app-state/snippet.json" ];
                 global_snippets = [ "snippet" ];
